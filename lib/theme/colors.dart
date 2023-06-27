@@ -11,6 +11,11 @@ Color kSecondaryColor = HexColor(
 Color kAccentColor = Color(
   0xFFEC2623,
 );
+
+Color KLoadingColor = Color(
+  0xFFFFA927,
+);
+
 const Color kGreyColor1 = Color(
   0xFFA5A5A5,
 );
@@ -30,7 +35,7 @@ const Color kErrorColor = Color(
   0xFFE74C3C,
 );
 const Color kSuccessColor = Color(
-  0xFF4CAF50,
+  0xFF00D220,
 );
 
 const Color kTransparentColor = Color(
