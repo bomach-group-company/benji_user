@@ -1,4 +1,4 @@
-package com.example.alpha_logistics
+package com.example.benji
 
 import io.flutter.embedding.android.FlutterActivity
 
