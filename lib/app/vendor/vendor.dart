@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../modules/category button section.dart';
-import '../../modules/home search field.dart';
 import '../../modules/vendors food card.dart';
+import '../../reusable widgets/search field.dart';
 import '../../theme/colors.dart';
 import '../food/food detail screen.dart';
 
@@ -16,7 +16,7 @@ class Vendor extends StatefulWidget {
 }
 
 class _VendorState extends State<Vendor> {
-  //===================================================\\
+  //=================================== ALL VARIABLES ====================================\\
 
   //TextEditingController
   TextEditingController searchController = TextEditingController();
@@ -120,6 +120,7 @@ class _VendorState extends State<Vendor> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SearchField(
+                          hintText: "Search your food",
                           searchController: searchController,
                         ),
                         kHalfSizedBox,

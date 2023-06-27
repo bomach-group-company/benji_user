@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import '../../reusable widgets/my appbar.dart';
 import '../../reusable widgets/my outlined elevatedbutton.dart';
 import '../../screens/payment successful screen.dart';
-import '../address/address.dart';
+import '../address/deliver to.dart';
 
 class Cart extends StatefulWidget {
   const Cart({super.key});
@@ -19,7 +19,7 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  //===================================================\\
+  //====================== ALL VARIABLES =====================================\\
 
   //===================== GlobalKeys =======================\\
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -78,33 +78,6 @@ class _CartState extends State<Cart> {
       SnackBarBehavior.floating,
       MediaQuery.of(context).size.height - 100,
     );
-    // final snackBar = SnackBar(
-    //   content: Text(
-    //     'Copied to clipboard',
-    //   ),
-    //   duration: Duration(
-    //     seconds: 3,
-    //   ),
-    //   margin: EdgeInsets.only(
-    //     left: kDefaultPadding * 2,
-    //     right: kDefaultPadding * 2,
-    //     bottom: MediaQuery.of(context).size.height - 100,
-    //   ),
-    //   behavior: SnackBarBehavior.floating,
-    //   backgroundColor: kAccentColor,
-    //   shape: RoundedRectangleBorder(
-    //     borderRadius: BorderRadius.vertical(
-    //       top: Radius.circular(
-    //         10.0,
-    //       ),
-    //       bottom: Radius.circular(
-    //         10.0,
-    //       ),
-    //     ),
-    //   ),
-    // );
-
-    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   //===================== SHOWMODALBOTTOMSHEET =======================\\
@@ -144,7 +117,7 @@ class _CartState extends State<Cart> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => Address(),
+                    builder: (context) => DeliverTo(),
                   ),
                 );
               },

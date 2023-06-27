@@ -8,7 +8,7 @@ import '../../modules/appBar delivery location.dart';
 import '../../modules/category button section.dart';
 import '../../modules/home hot deals.dart';
 import '../../modules/home popular vendors card.dart';
-import '../../modules/home search field.dart';
+import '../../reusable widgets/search field.dart';
 import '../../modules/homepage vendors.dart';
 
 class Home extends StatefulWidget {
@@ -201,6 +201,7 @@ class _HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SearchField(
+                  hintText: "Search your food",
                   searchController: searchController,
                 ),
                 kSizedBox,

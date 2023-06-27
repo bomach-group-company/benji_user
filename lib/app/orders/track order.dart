@@ -3,6 +3,8 @@ import 'package:alpha_logistics/theme/colors.dart';
 import 'package:alpha_logistics/theme/constants.dart';
 import 'package:flutter/material.dart';
 
+import 'orders.dart';
+
 class TrackOrder extends StatefulWidget {
   const TrackOrder({super.key});
 
@@ -32,6 +34,9 @@ class _TrackOrderState extends State<TrackOrder> {
             Container(
               width: 415,
               height: 103,
+              padding: EdgeInsets.all(
+                kDefaultPadding / 2,
+              ),
               decoration: ShapeDecoration(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -50,6 +55,180 @@ class _TrackOrderState extends State<TrackOrder> {
                       4,
                     ),
                     spreadRadius: 0,
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Received',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        'Dispatched',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        'Delivered',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        'Completed',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: kDefaultPadding / 2,
+                      right: kDefaultPadding,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 24,
+                          height: 24,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: ShapeDecoration(
+                            color: kAccentColor,
+                            shape: OvalBorder(),
+                          ),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 2,
+                                bottom: 2,
+                                left: 2,
+                                child: Container(
+                                  child: Icon(
+                                    Icons.check_rounded,
+                                    color: kPrimaryColor,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Container(
+                            height: 4,
+                            color: kAccentColor,
+                          ),
+                        ),
+                        Container(
+                          width: 26,
+                          height: 26,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 4,
+                                top: 4,
+                                child: Container(
+                                  width: 18,
+                                  height: 18,
+                                  decoration: ShapeDecoration(
+                                    color: Color(
+                                      0xFFEC2623,
+                                    ),
+                                    shape: OvalBorder(),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 26,
+                                  height: 26,
+                                  decoration: ShapeDecoration(
+                                    shape: OvalBorder(
+                                      side: BorderSide(
+                                        width: 0.50,
+                                        color: Color(
+                                          0xFFEC2623,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Container(
+                            height: 1,
+                            color: Color(
+                              0xFFC4C4C4,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 18,
+                          height: 18,
+                          decoration: ShapeDecoration(
+                            shape: OvalBorder(
+                              side: BorderSide(
+                                width: 0.50,
+                                color: Color(
+                                  0xFFC4C4C4,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Container(
+                            height: 1,
+                            color: Color(
+                              0xFFC4C4C4,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 18,
+                          height: 18,
+                          decoration: ShapeDecoration(
+                            shape: OvalBorder(
+                              side: BorderSide(
+                                width: 0.50,
+                                color: Color(
+                                  0xFFC4C4C4,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -395,7 +574,13 @@ class _TrackOrderState extends State<TrackOrder> {
                     ),
                     kSizedBox,
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => MyOrders(),
+                          ),
+                        );
+                      },
                       child: Container(
                         width: 324,
                         height: 49,
