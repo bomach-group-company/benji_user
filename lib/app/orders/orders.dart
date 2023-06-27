@@ -2,6 +2,7 @@ import 'package:alpha_logistics/reusable%20widgets/my%20appbar.dart';
 import 'package:flutter/material.dart';
 
 import '../../reusable widgets/search field.dart';
+import '../../theme/colors.dart';
 
 class MyOrders extends StatefulWidget {
   const MyOrders({super.key});
@@ -19,6 +20,7 @@ class _MyOrdersState extends State<MyOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
         title: "My Orders ",
       ),

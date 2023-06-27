@@ -18,7 +18,9 @@ void main() async {
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
-  runApp(const MyApp());
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -49,4 +51,4 @@ class MyApp extends StatelessWidget {
       routes: routes,
     );
   }
-} 
+}
