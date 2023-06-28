@@ -1,19 +1,19 @@
-import 'package:alpha_logistics/reusable%20widgets/my%20appbar.dart';
 import 'package:flutter/material.dart';
 
 import '../../modules/track order details container.dart';
+import '../../reusable widgets/my appbar.dart';
 import '../../reusable widgets/search field.dart';
 import '../../theme/colors.dart';
 import '../../theme/constants.dart';
 
-class MyOrders extends StatefulWidget {
-  const MyOrders({super.key});
+class OrdersHistory extends StatefulWidget {
+  const OrdersHistory({super.key});
 
   @override
-  State<MyOrders> createState() => _MyOrdersState();
+  State<OrdersHistory> createState() => _OrdersHistoryState();
 }
 
-class _MyOrdersState extends State<MyOrders> {
+class _OrdersHistoryState extends State<OrdersHistory> {
   //=================================== ALL VARIABLES ====================================\\
 
   //=================================== CONTROLLERS ====================================\\
@@ -26,6 +26,7 @@ class _MyOrdersState extends State<MyOrders> {
       child: Scaffold(
         backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
+          elevation: 0.0,
           title: "My Orders ",
         ),
         body: SafeArea(
