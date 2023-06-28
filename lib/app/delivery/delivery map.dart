@@ -52,6 +52,7 @@ class _DeliveryMapState extends State<DeliveryMap> {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
+        elevation: 0.0,
         title: "Track Order ",
       ),
       body: Stack(

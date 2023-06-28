@@ -1,15 +1,21 @@
-import 'package:alpha_logistics/app/cart/cart.dart';
-import 'package:alpha_logistics/reusable%20widgets/see%20all%20container.dart';
-import 'package:alpha_logistics/theme/colors.dart';
-import 'package:alpha_logistics/theme/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../modules/appBar delivery location.dart';
 import '../../modules/category button section.dart';
 import '../../modules/home hot deals.dart';
 import '../../modules/home popular vendors card.dart';
-import '../../reusable widgets/search field.dart';
 import '../../modules/homepage vendors.dart';
+import '../../modules/my floating snackbar.dart';
+import '../../reusable widgets/search field.dart';
+import '../../reusable widgets/see all container.dart';
+import '../../screens/login.dart';
+import '../../theme/colors.dart';
+import '../../theme/constants.dart';
+import '../address/address.dart';
+import '../cart/cart.dart';
+import '../orders/order history.dart';
+import 'home drawer.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -19,7 +25,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  //===================================================\\
+  //============================= ALL VARIABLES =====================================\\
 
   //===================== TEXTEDITING CONTROLLER =======================\\
   TextEditingController searchController = TextEditingController();
@@ -135,13 +141,60 @@ class _HomeState extends State<Home> {
     "500+",
   ];
 
+  //===================== COPY TO CLIPBOARD =======================\\
+  final String userID = 'ID: 337890-AZQ';
+  void _copyToClipboard(BuildContext context) {
+    Clipboard.setData(
+      ClipboardData(
+        text: userID,
+      ),
+    );
+
+    //===================== SNACK BAR =======================\\
+
+    mySnackBar(
+      context,
+      "Copied to clipboard",
+      kAccentColor,
+      SnackBarBehavior.floating,
+      MediaQuery.of(context).size.height * 0.9,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
-        drawer: Drawer(
-          backgroundColor: kPrimaryColor,
+        drawer: HomeDrawer(
+          userID: userID,
+          copyUserIdToClipBoard: () {
+            _copyToClipboard(
+              context,
+            );
+          },
+          toAddressesPage: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => Addresses(),
+              ),
+            );
+          },
+          toOrdersPage: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => OrdersHistory(),
+              ),
+            );
+          },
+          toInvitesPage: () {},
+          logOut: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => Login(),
+              ),
+            );
+          },
         ),
         appBar: AppBar(
           backgroundColor: kPrimaryColor,

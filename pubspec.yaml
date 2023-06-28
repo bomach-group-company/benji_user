@@ -50,6 +50,7 @@ flutter:
     - assets/images/food/
     - assets/images/icons/
     - assets/images/rider/
+    - assets/images/profile/
     - assets/animations/splash screen/
     - assets/animations/successful/
 

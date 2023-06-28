@@ -14,7 +14,7 @@ class DeliverTo extends StatefulWidget {
 }
 
 class _DeliverToState extends State<DeliverTo> {
-  //===================================================\\
+  //=================================== ALL VARIABLES =====================================\\
 
   //===================== RADIO LIST TILE =======================\\
 
@@ -72,6 +72,7 @@ class _DeliverToState extends State<DeliverTo> {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
+        elevation: 0.0,
         title: "Deliver to ",
       ),
       body: Container(
@@ -148,7 +149,6 @@ class _DeliverToState extends State<DeliverTo> {
                                     style: TextStyle(
                                       color: kAccentColor,
                                       fontSize: 12,
-                                      fontFamily: 'Sen',
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),

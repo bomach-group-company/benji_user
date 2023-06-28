@@ -5,12 +5,14 @@ import '../theme/constants.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final double elevation;
   Size get preferredSize => Size.fromHeight(
         80,
       );
   const MyAppBar({
     super.key,
     required this.title,
+    required this.elevation,
   });
 
   @override
@@ -18,7 +20,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       toolbarHeight: 80,
       automaticallyImplyLeading: false,
-      elevation: 0.0,
+      elevation: elevation,
       backgroundColor: kPrimaryColor,
       title: Row(
         children: [

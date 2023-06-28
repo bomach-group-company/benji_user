@@ -1,10 +1,10 @@
-import 'package:alpha_logistics/app/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'routes/routes.dart';
 // import 'splash screens/startup splash screen.dart';
+import 'app/home/home.dart';
+import 'routes/routes.dart';
 import 'theme/colors.dart';
 
 void main() async {

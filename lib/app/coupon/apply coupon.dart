@@ -32,6 +32,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
       child: Scaffold(
         backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
+          elevation: 0.0,
           title: "Apply Coupon",
         ),
         body: Container(
@@ -64,8 +65,10 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        MyTextField(
+                        MyTextFormField(
+                          hintText: "Enter a coupon code",
                           controller: textController,
+                          textInputType: TextInputType.text,
                           textInputAction: TextInputAction.done,
                           focusNode: textFocusNode,
                           validator: (value) {

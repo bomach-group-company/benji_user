@@ -3,8 +3,6 @@ import 'package:alpha_logistics/theme/colors.dart';
 import 'package:alpha_logistics/theme/constants.dart';
 import 'package:flutter/material.dart';
 
-import 'orders.dart';
-
 class TrackOrder extends StatefulWidget {
   const TrackOrder({super.key});
 
@@ -19,6 +17,7 @@ class _TrackOrderState extends State<TrackOrder> {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
+        elevation: 0.0,
         title: "Track Order ",
       ),
       body: Container(
@@ -574,13 +573,7 @@ class _TrackOrderState extends State<TrackOrder> {
                     ),
                     kSizedBox,
                     GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => MyOrders(),
-                          ),
-                        );
-                      },
+                      onTap: () {},
                       child: Container(
                         width: 324,
                         height: 49,

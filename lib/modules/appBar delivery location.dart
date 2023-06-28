@@ -18,22 +18,27 @@ class AppBarDeliveryLocation extends StatelessWidget {
           Text(
             'Deliver to',
             style: TextStyle(
-              color: Color(0xFFEC2623),
+              color: Color(
+                0xFFEC2623,
+              ),
               fontSize: 12,
               fontWeight: FontWeight.w700,
             ),
           ),
           Row(
             children: [
-              Text(
-                deliveryLocation,
-                style: TextStyle(
-                  color: Color(
-                    0xFF676767,
+              Container(
+                width: 130,
+                child: Text(
+                  deliveryLocation,
+                  overflow: TextOverflow.fade,
+                  style: TextStyle(
+                    color: Color(
+                      0xFF676767,
+                    ),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
                   ),
-                  fontSize: 12,
-                  fontFamily: 'Sen',
-                  fontWeight: FontWeight.w400,
                 ),
               ),
               Icon(

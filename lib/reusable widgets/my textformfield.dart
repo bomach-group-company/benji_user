@@ -2,26 +2,29 @@ import 'package:flutter/material.dart';
 
 import '../theme/colors.dart';
 
-class MyTextField extends StatelessWidget {
+class MyTextFormField extends StatelessWidget {
+  final String hintText;
+  final TextInputType textInputType;
   final TextEditingController controller;
   final FormFieldValidator validator;
   final dynamic onSaved;
   final TextInputAction textInputAction;
   final FocusNode focusNode;
 
-  const MyTextField({
+  const MyTextFormField({
     super.key,
     required this.controller,
     required this.validator,
     this.onSaved,
     required this.textInputAction,
     required this.focusNode,
+    required this.hintText,
+    required this.textInputType,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      // onTap: onTap,
       focusNode: focusNode,
       controller: controller,
       validator: validator,
@@ -31,7 +34,7 @@ class MyTextField extends StatelessWidget {
       cursorColor: kSecondaryColor,
       autocorrect: true,
       enableSuggestions: true,
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: textInputType,
       maxLines: 1,
       style: TextStyle(
         color: kSecondaryColor,
@@ -39,7 +42,7 @@ class MyTextField extends StatelessWidget {
         fontWeight: FontWeight.w400,
       ),
       decoration: InputDecoration(
-        hintText: "Enter a coupoun code",
+        hintText: hintText,
         errorStyle: TextStyle(
           color: kErrorColor,
         ),

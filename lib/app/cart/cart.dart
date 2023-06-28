@@ -87,6 +87,7 @@ class _CartState extends State<Cart> {
       key: _scaffoldKey,
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
+        elevation: 0.0,
         title: "Cart",
       ),
       body: Container(
@@ -294,6 +295,7 @@ class _CartState extends State<Cart> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 GestureDetector(
+                                  onTap: () {},
                                   child: Container(
                                     height: 20,
                                     width: 20,
