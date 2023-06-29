@@ -34,6 +34,8 @@ class _ApplyCouponState extends State<ApplyCoupon> {
         appBar: MyAppBar(
           elevation: 0.0,
           title: "Apply Coupon",
+          backgroundColor: kPrimaryColor,
+          actions: [],
         ),
         body: Container(
           margin: EdgeInsets.only(

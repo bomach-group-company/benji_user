@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// import 'splash screens/startup splash screen.dart';
 import 'app/home/home.dart';
 import 'routes/routes.dart';
+// import 'splash screens/startup splash screen.dart';
 import 'theme/colors.dart';
 
 void main() async {

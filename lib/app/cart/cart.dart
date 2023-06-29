@@ -88,7 +88,9 @@ class _CartState extends State<Cart> {
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
         elevation: 0.0,
+        backgroundColor: kPrimaryColor,
         title: "Cart",
+        actions: [],
       ),
       body: Container(
         margin: EdgeInsets.only(
@@ -203,7 +205,7 @@ class _CartState extends State<Cart> {
             ),
             kSizedBox,
             Container(
-              width: 382,
+              width: MediaQuery.of(context).size.width,
               height: 101,
               padding: EdgeInsets.all(
                 8.0,
@@ -235,8 +237,8 @@ class _CartState extends State<Cart> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height: 30,
-                      width: 40,
+                      height: 20,
+                      width: 20,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
@@ -385,8 +387,8 @@ class _CartState extends State<Cart> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height: 30,
-                      width: 40,
+                      height: 20,
+                      width: 20,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
@@ -992,12 +994,12 @@ class _CartState extends State<Cart> {
                                   8,
                                 ),
                                 child: Text(
-                                  'Hey! share this link with your friends to \nhave them pay for your order',
+                                  'Hey! share this link with your friends to have them pay for your order',
                                   style: TextStyle(
                                     color: Color(
                                       0xFF333333,
                                     ),
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -1014,7 +1016,6 @@ class _CartState extends State<Cart> {
                                   right: 17,
                                   bottom: 18,
                                 ),
-                                clipBehavior: Clip.antiAlias,
                                 decoration: ShapeDecoration(
                                   color: Color(
                                     0xFFFEF8F8,
@@ -1031,48 +1032,41 @@ class _CartState extends State<Cart> {
                                     ),
                                   ),
                                 ),
-                                child: Container(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      SizedBox(
-                                        width: 279,
-                                        child: Text(
-                                          text,
-                                          style: TextStyle(
-                                            color: kBlackColor,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400,
-                                          ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      text,
+                                      style: TextStyle(
+                                        color: kBlackColor,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                        left: kDefaultPadding * 4,
+                                      ),
+                                      width: 2,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        color: Color(
+                                          0xFFA39B9B,
                                         ),
                                       ),
-                                      Container(
-                                        width: 2,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                          color: Color(
-                                            0xFFA39B9B,
-                                          ),
-                                        ),
+                                    ),
+                                    kHalfWidthSizedBox,
+                                    IconButton(
+                                      onPressed: () =>
+                                          _copyToClipboard(context),
+                                      icon: Icon(
+                                        Icons.content_copy_rounded,
+                                        color: kAccentColor,
+                                        size: 14,
                                       ),
-                                      kHalfWidthSizedBox,
-                                      GestureDetector(
-                                        onTap: () => _copyToClipboard(context),
-                                        child: Container(
-                                          height: 20,
-                                          width: 20,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: AssetImage(
-                                                "assets/images/icons/copy-icon.png",
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               kSizedBox,
@@ -1085,8 +1079,8 @@ class _CartState extends State<Cart> {
                                           child: Column(
                                             children: [
                                               Container(
-                                                height: 90,
-                                                width: 90,
+                                                height: 80,
+                                                width: 80,
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
                                                     image: AssetImage(
@@ -1113,8 +1107,8 @@ class _CartState extends State<Cart> {
                                           child: Column(
                                             children: [
                                               Container(
-                                                height: 90,
-                                                width: 90,
+                                                height: 80,
+                                                width: 80,
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
                                                     image: AssetImage(
@@ -1141,8 +1135,8 @@ class _CartState extends State<Cart> {
                                           child: Column(
                                             children: [
                                               Container(
-                                                height: 90,
-                                                width: 90,
+                                                height: 80,
+                                                width: 80,
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
                                                     image: AssetImage(
@@ -1169,8 +1163,8 @@ class _CartState extends State<Cart> {
                                           child: Column(
                                             children: [
                                               Container(
-                                                height: 90,
-                                                width: 90,
+                                                height: 80,
+                                                width: 80,
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
                                                     image: AssetImage(
@@ -1204,8 +1198,8 @@ class _CartState extends State<Cart> {
                                             child: Column(
                                               children: [
                                                 Container(
-                                                  height: 90,
-                                                  width: 90,
+                                                  height: 80,
+                                                  width: 80,
                                                   decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                       image: AssetImage(
@@ -1235,8 +1229,8 @@ class _CartState extends State<Cart> {
                                             child: Column(
                                               children: [
                                                 Container(
-                                                  height: 90,
-                                                  width: 90,
+                                                  height: 80,
+                                                  width: 80,
                                                   decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                       image: AssetImage(
@@ -1266,8 +1260,8 @@ class _CartState extends State<Cart> {
                                             child: Column(
                                               children: [
                                                 Container(
-                                                  height: 90,
-                                                  width: 90,
+                                                  height: 80,
+                                                  width: 80,
                                                   decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                       image: AssetImage(

@@ -115,7 +115,6 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
       appBar: AppBar(
         toolbarHeight: 0,
         backgroundColor: Colors.white.withOpacity(
@@ -123,7 +122,6 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
         ),
         elevation: 0.0,
       ),
-      extendBodyBehindAppBar: true,
       body: Container(
         child: Stack(
           children: [
@@ -134,11 +132,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
               child: Container(
                 height: 320,
                 decoration: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      24,
-                    ),
-                  ),
+                  shape: RoundedRectangleBorder(),
                   image: DecorationImage(
                     fit: BoxFit.fill,
                     image: AssetImage(
@@ -149,7 +143,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
               ),
             ),
             Positioned(
-              top: 60,
+              top: MediaQuery.of(context).size.height * 0.04,
               left: kDefaultPadding,
               right: kDefaultPadding,
               child: Container(
@@ -162,8 +156,8 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                         Navigator.of(context).pop(context);
                       },
                       child: Container(
-                        width: 56,
-                        height: 56,
+                        width: 48,
+                        height: 48,
                         decoration: ShapeDecoration(
                           color: Color(
                             0xFFFAFAFA,
@@ -175,16 +169,16 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                           ),
                         ),
                         child: Icon(
-                          Icons.arrow_back_rounded,
-                          size: 18,
+                          Icons.arrow_back_ios_new_rounded,
+                          size: 16,
                         ),
                       ),
                     ),
                     GestureDetector(
                       onTap: () {},
                       child: Container(
-                        width: 56,
-                        height: 56,
+                        width: 48,
+                        height: 48,
                         decoration: ShapeDecoration(
                           color: Color(
                             0xFFFAFAFA,
@@ -196,8 +190,9 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                           ),
                         ),
                         child: Icon(
-                          Icons.favorite_border_rounded,
+                          Icons.favorite_outline_rounded,
                           color: kAccentColor,
+                          size: 16,
                         ),
                       ),
                     ),
@@ -210,20 +205,66 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
               left: kDefaultPadding,
               right: kDefaultPadding,
               child: Container(
+                height: MediaQuery.of(context).size.height - 400,
                 width: MediaQuery.of(context).size.width,
                 // color: kAccentColor,
                 padding: EdgeInsets.all(
                   5.0,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Smokey Jollof Rice",
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Smokey Jollof Rice",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(
+                                0xFF302F3C,
+                              ),
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Text(
+                            "₦ 850",
+                            style: TextStyle(
+                              color: Color(
+                                0xFF333333,
+                              ),
+                              fontSize: 22,
+                              fontFamily: 'sen',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                      kSizedBox,
+                      Container(
+                        child: Text(
+                          "This is a short description about the food you mentoned which is a restaurant food in this case.",
+                          style: TextStyle(
+                            color: Color(
+                              0xFF676565,
+                            ),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: kDefaultPadding,
+                          bottom: kDefaultPadding / 2,
+                        ),
+                        child: Text(
+                          "Protein",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color(
@@ -233,103 +274,65 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        Text(
-                          "₦ 850",
+                      ),
+                      CategoryButtonSection(
+                        category: _proteinCategoryButtonText,
+                        categorybgColor: _proteinCategoryButtonBgColor,
+                        categoryFontColor: _proteincategoryButtonFontColor,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: kDefaultPadding,
+                          bottom: kDefaultPadding / 2,
+                        ),
+                        child: Text(
+                          "Stew Type",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color(
-                              0xFF333333,
+                              0xFF302F3C,
                             ),
-                            fontSize: 22,
-                            fontFamily: 'sen',
-                            fontWeight: FontWeight.w400,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
-                      ],
-                    ),
-                    kSizedBox,
-                    Container(
-                      child: Text(
-                        "This is a short description about the food you mentoned which is a restaurant food in this case.",
-                        style: TextStyle(
-                          color: Color(
-                            0xFF676565,
+                      ),
+                      CategoryButtonSection(
+                        category: _stewTypeCategoryButtonText,
+                        categorybgColor: _stewTypeCategoryButtonBgColor,
+                        categoryFontColor: _stewTypeCategoryButtonFontColor,
+                      ),
+                      kSizedBox,
+                      Center(
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            bottom: kDefaultPadding * 2,
                           ),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                        top: kDefaultPadding,
-                        bottom: kDefaultPadding / 2,
-                      ),
-                      child: Text(
-                        "Protein",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(
-                            0xFF302F3C,
+                          child: MyElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => Cart(),
+                                ),
+                              );
+                            },
+                            title: "Add to Cart (N20,000)",
                           ),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
                         ),
-                      ),
-                    ),
-                    CategoryButtonSection(
-                      category: _proteinCategoryButtonText,
-                      categorybgColor: _proteinCategoryButtonBgColor,
-                      categoryFontColor: _proteincategoryButtonFontColor,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                        top: kDefaultPadding,
-                        bottom: kDefaultPadding / 2,
-                      ),
-                      child: Text(
-                        "Stew Type",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(
-                            0xFF302F3C,
-                          ),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                    CategoryButtonSection(
-                      category: _stewTypeCategoryButtonText,
-                      categorybgColor: _stewTypeCategoryButtonBgColor,
-                      categoryFontColor: _stewTypeCategoryButtonFontColor,
-                    ),
-                    SizedBox(
-                      height: kDefaultPadding * 2,
-                    ),
-                    Center(
-                      child: Container(
-                        child: MyElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => Cart(),
-                              ),
-                            );
-                          },
-                          title: "Add to Cart (N20,000)",
-                        ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
             Positioned(
               top: 285,
               left: MediaQuery.of(context).size.width /
-                  2.9, // right: kDefaultPadding,
+                  5, // right: kDefaultPadding,
+              right: MediaQuery.of(context).size.width /
+                  5, // right: kDefaultPadding,
               child: Container(
-                width: 158,
+                width: MediaQuery.of(context).size.width,
                 height: 70,
                 decoration: ShapeDecoration(
                   color: Color(

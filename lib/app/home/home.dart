@@ -180,6 +180,7 @@ class _HomeState extends State<Home> {
               ),
             );
           },
+          toFavoritesPage: () {},
           toOrdersPage: () {
             Navigator.of(context).push(
               MaterialPageRoute(

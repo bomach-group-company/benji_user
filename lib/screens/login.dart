@@ -85,7 +85,7 @@ class _LoginState extends State<Login> {
                   ),
                   child: Padding(
                     padding: EdgeInsets.only(
-                      left: kDefaultPadding,
+                      left: kDefaultPadding / 2,
                       top: kDefaultPadding,
                       right: kDefaultPadding,
                     ),
@@ -129,6 +129,7 @@ class _LoginState extends State<Login> {
                                       emailFocusNode.requestFocus();
                                       return "Enter your email address";
                                     } else if (!emailPattern.hasMatch(value)) {
+                                      emailFocusNode.requestFocus();
                                       return "Please enter a valid email address";
                                     }
                                     return null;

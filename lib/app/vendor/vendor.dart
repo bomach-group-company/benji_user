@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../modules/category button section.dart';
-import '../../modules/vendors food card.dart';
+import '../../modules/vendors food container.dart';
 import '../../reusable widgets/search field.dart';
 import '../../theme/colors.dart';
 import '../food/food detail screen.dart';
@@ -93,7 +93,7 @@ class _VendorState extends State<Vendor> {
                 left: 0,
                 right: 0,
                 child: Container(
-                  height: 250,
+                  height: MediaQuery.of(context).size.height * 0.3,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.fill,
@@ -105,14 +105,14 @@ class _VendorState extends State<Vendor> {
                 ),
               ),
               Positioned(
-                top: 360,
+                top: MediaQuery.of(context).size.height * 0.47,
                 left: kDefaultPadding,
                 right: kDefaultPadding,
                 child: Container(
                   height: MediaQuery.of(context).size.height - 360,
                   child: SingleChildScrollView(
                     padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).size.height / 10,
+                      bottom: kDefaultPadding * 2,
                     ),
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.vertical,
@@ -140,7 +140,7 @@ class _VendorState extends State<Vendor> {
                           ),
                         ),
                         for (int i = 0; i < foodListView.length; i++,)
-                          VendorFoodCard(
+                          VendorFoodContainer(
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
@@ -155,7 +155,7 @@ class _VendorState extends State<Vendor> {
                 ),
               ),
               Positioned(
-                top: 60,
+                top: MediaQuery.of(context).size.height * 0.08,
                 left: kDefaultPadding,
                 right: kDefaultPadding,
                 child: Container(
@@ -168,8 +168,8 @@ class _VendorState extends State<Vendor> {
                           Navigator.of(context).pop(context);
                         },
                         child: Container(
-                          width: 56,
-                          height: 56,
+                          width: 48,
+                          height: 48,
                           decoration: ShapeDecoration(
                             color: Color(
                               0xFFFAFAFA,
@@ -181,16 +181,16 @@ class _VendorState extends State<Vendor> {
                             ),
                           ),
                           child: Icon(
-                            Icons.arrow_back_rounded,
-                            size: 18,
+                            Icons.arrow_back_ios_new_rounded,
+                            size: 16,
                           ),
                         ),
                       ),
                       GestureDetector(
                         onTap: () {},
                         child: Container(
-                          width: 56,
-                          height: 56,
+                          width: 48,
+                          height: 48,
                           decoration: ShapeDecoration(
                             color: Color(
                               0xFFFAFAFA,
@@ -201,8 +201,9 @@ class _VendorState extends State<Vendor> {
                               ),
                             ),
                           ),
-                          child: Image.asset(
-                            "assets/images/icons/bag-icon.png",
+                          child: Icon(
+                            Icons.shopping_bag_rounded,
+                            size: 16,
                           ),
                         ),
                       ),
@@ -211,7 +212,7 @@ class _VendorState extends State<Vendor> {
                 ),
               ),
               Positioned(
-                top: 160,
+                top: MediaQuery.of(context).size.height * 0.19,
                 left: kDefaultPadding,
                 right: kDefaultPadding,
                 child: Container(
@@ -375,7 +376,7 @@ class _VendorState extends State<Vendor> {
                 ),
               ),
               Positioned(
-                top: 120,
+                top: MediaQuery.of(context).size.height * 0.12,
                 left: MediaQuery.of(context).size.width / 2.7,
                 child: Container(
                   width: 107,

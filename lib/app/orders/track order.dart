@@ -1,3 +1,4 @@
+import 'package:alpha_logistics/app/delivery/delivery%20map.dart';
 import 'package:alpha_logistics/reusable%20widgets/my%20appbar.dart';
 import 'package:alpha_logistics/theme/colors.dart';
 import 'package:alpha_logistics/theme/constants.dart';
@@ -19,6 +20,8 @@ class _TrackOrderState extends State<TrackOrder> {
       appBar: MyAppBar(
         elevation: 0.0,
         title: "Track Order ",
+        backgroundColor: kPrimaryColor,
+        actions: [],
       ),
       body: Container(
         margin: EdgeInsets.only(
@@ -280,13 +283,23 @@ class _TrackOrderState extends State<TrackOrder> {
                     ),
                     SizedBox(
                       width: 264,
-                      child: Text(
-                        'Order received by vendor',
-                        style: TextStyle(
-                          color: kTextBlackColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                        ),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Order received by vendor',
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          kWidthSizedBox,
+                          Icon(
+                            Icons.check_circle_rounded,
+                            size: 14,
+                            color: kAccentColor,
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -295,7 +308,7 @@ class _TrackOrderState extends State<TrackOrder> {
             ),
             kSizedBox,
             Container(
-              height: MediaQuery.of(context).size.height / 1.5,
+              height: MediaQuery.of(context).size.height / 1.8,
               width: MediaQuery.of(context).size.width,
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -344,7 +357,6 @@ class _TrackOrderState extends State<TrackOrder> {
                             top: 0,
                             child: Container(
                               width: 342,
-                              height: 85,
                               decoration: ShapeDecoration(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
@@ -358,7 +370,7 @@ class _TrackOrderState extends State<TrackOrder> {
                             left: 111,
                             top: 18,
                             child: Container(
-                              width: 231,
+                              width: 200,
                               height: 62,
                               child: Stack(
                                 children: [
@@ -366,15 +378,16 @@ class _TrackOrderState extends State<TrackOrder> {
                                     left: 0,
                                     top: 0,
                                     child: SizedBox(
-                                      width: 184,
+                                      width: 120,
                                       height: 29,
                                       child: Text(
-                                        'Chizzy’s Food',
+                                        "Chizzy\'s Food",
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           color: Color(
                                             0xFF222222,
                                           ),
-                                          fontSize: 18,
+                                          fontSize: 16,
                                           fontWeight: FontWeight.w700,
                                         ),
                                       ),
@@ -399,20 +412,16 @@ class _TrackOrderState extends State<TrackOrder> {
                                     ),
                                   ),
                                   Positioned(
-                                    left: 167,
+                                    left: 100,
                                     top: 33,
-                                    child: SizedBox(
-                                      width: 64,
-                                      height: 29,
-                                      child: Text(
-                                        'Waiting',
-                                        style: TextStyle(
-                                          color: Color(
-                                            0xFF808080,
-                                          ),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w700,
+                                    child: Text(
+                                      'Waiting',
+                                      style: TextStyle(
+                                        color: Color(
+                                          0xFF808080,
                                         ),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
                                   ),
@@ -424,7 +433,7 @@ class _TrackOrderState extends State<TrackOrder> {
                             left: 0,
                             top: -6,
                             child: Container(
-                              width: 96,
+                              width: 80,
                               height: 96,
                               decoration: ShapeDecoration(
                                 image: DecorationImage(
@@ -520,7 +529,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                     ),
                                   ),
                                   Positioned(
-                                    left: 215,
+                                    left: 160,
                                     top: 8,
                                     child: Container(
                                       width: 40,
@@ -573,7 +582,13 @@ class _TrackOrderState extends State<TrackOrder> {
                     ),
                     kSizedBox,
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => DeliveryMap(),
+                          ),
+                        );
+                      },
                       child: Container(
                         width: 324,
                         height: 49,

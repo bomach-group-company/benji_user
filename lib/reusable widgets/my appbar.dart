@@ -6,6 +6,8 @@ import '../theme/constants.dart';
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final double elevation;
+  final Color backgroundColor;
+  final List<Widget> actions;
   Size get preferredSize => Size.fromHeight(
         80,
       );
@@ -13,6 +15,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     required this.title,
     required this.elevation,
+    required this.actions,
+    required this.backgroundColor,
   });
 
   @override
@@ -21,7 +25,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: 80,
       automaticallyImplyLeading: false,
       elevation: elevation,
-      backgroundColor: kPrimaryColor,
+      backgroundColor: backgroundColor,
+      actions: actions,
       title: Row(
         children: [
           GestureDetector(

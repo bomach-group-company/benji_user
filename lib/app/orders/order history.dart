@@ -28,6 +28,8 @@ class _OrdersHistoryState extends State<OrdersHistory> {
         appBar: MyAppBar(
           elevation: 0.0,
           title: "My Orders ",
+          backgroundColor: kPrimaryColor,
+          actions: [],
         ),
         body: SafeArea(
           child: Container(

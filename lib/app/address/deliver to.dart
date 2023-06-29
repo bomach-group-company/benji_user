@@ -74,6 +74,9 @@ class _DeliverToState extends State<DeliverTo> {
       appBar: MyAppBar(
         elevation: 0.0,
         title: "Deliver to ",
+                backgroundColor: kPrimaryColor,
+
+        actions: [],
       ),
       body: Container(
         margin: EdgeInsets.only(
@@ -187,13 +190,16 @@ class _DeliverToState extends State<DeliverTo> {
               onPressed: () {},
             ),
             SizedBox(
-              height: kDefaultPadding * 2,
+              height: kDefaultPadding,
             ),
             MyElevatedButton(
               title: "Apply",
               onPressed: () {
                 Navigator.of(context).pop(context);
               },
+            ),
+            SizedBox(
+              height: kDefaultPadding * 2,
             ),
           ],
         ),

@@ -9,14 +9,14 @@ import '../../reusable widgets/my textformfield.dart';
 import '../../theme/colors.dart';
 import '../../theme/constants.dart';
 
-class AddNewAddress extends StatefulWidget {
-  const AddNewAddress({super.key});
+class AddressDetails extends StatefulWidget {
+  const AddressDetails({super.key});
 
   @override
-  State<AddNewAddress> createState() => _AddNewAddressState();
+  State<AddressDetails> createState() => _AddressDetailsState();
 }
 
-class _AddNewAddressState extends State<AddNewAddress> {
+class _AddressDetailsState extends State<AddressDetails> {
   //=================================== ALL VARIABLES =====================================\\
 
   //===================== KEYS =======================\\
@@ -25,7 +25,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
 
   //===================== CONTROLLERS =======================\\
   TextEditingController addressTitleController = TextEditingController();
-  TextEditingController recipientNameController = TextEditingController();
   TextEditingController streetAddressController = TextEditingController();
   TextEditingController apartmentDetailsController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
@@ -35,7 +34,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
 
   //===================== FOCUS NODES =======================\\
   FocusNode addressTitleFocusNode = FocusNode();
-  FocusNode recipientNameFocusNode = FocusNode();
   FocusNode streetAddressFocusNode = FocusNode();
   FocusNode apartmentDetailsFocusNode = FocusNode();
   FocusNode phoneNumberFocusNode = FocusNode();
@@ -47,10 +45,25 @@ class _AddNewAddressState extends State<AddNewAddress> {
       child: Scaffold(
         backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
-          elevation: 2.0,
-          title: "New Address ",
+          elevation: 0.0,
+          title: "Edit Address ",
           backgroundColor: kPrimaryColor,
-          actions: [],
+          actions: [
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: kDefaultPadding,
+              ),
+              height: 25,
+              width: 25,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    "assets/images/icons/edit-icon.png",
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
         body: Container(
           margin: EdgeInsets.only(
@@ -82,8 +95,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                             ),
                             kHalfSizedBox,
                             MyTextFormField(
-                              hintText:
-                                  "Enter address name tag e.g my work, my home....",
+                              hintText: "30 Crescent Lane, Lagos",
                               controller: addressTitleController,
                               textInputAction: TextInputAction.next,
                               textInputType: TextInputType.name,
@@ -118,48 +130,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Recipient Name',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            kHalfSizedBox,
-                            MyTextFormField(
-                              hintText: "Enter recipient name",
-                              controller: recipientNameController,
-                              textInputAction: TextInputAction.next,
-                              textInputType: TextInputType.name,
-                              focusNode: recipientNameFocusNode,
-                              validator: (value) {
-                                //username pattern
-                                //Min. of 3 characters
-                                RegExp userNamePattern = RegExp(
-                                  r'^.{3,}$',
-                                );
-                                if (value == null || value!.isEmpty) {
-                                  recipientNameFocusNode.requestFocus();
-                                  return "Enter your name";
-                                } else if (!userNamePattern.hasMatch(value)) {
-                                  recipientNameFocusNode.requestFocus();
-                                  return "Please enter a valid name";
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                recipientNameController.text = value!;
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      kSizedBox,
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
                               'Street Address',
                               style: TextStyle(
                                 color: kTextBlackColor,
@@ -169,7 +139,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                             ),
                             kHalfSizedBox,
                             MyTextFormField(
-                              hintText: "E.g 123 Main Street",
+                              hintText: "Crescent Lane, Surrulere,  Lagos",
                               controller: streetAddressController,
                               textInputAction: TextInputAction.next,
                               textInputType: TextInputType.streetAddress,
@@ -182,8 +152,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                 if (value == null || value!.isEmpty) {
                                   streetAddressFocusNode.requestFocus();
                                   return "Enter your street address";
-                                } else if (!streetAddressPattern
-                                    .hasMatch(value)) {
+                                }
+                                if (!streetAddressPattern.hasMatch(value)) {
                                   streetAddressFocusNode.requestFocus();
                                   return "Please enter a valid street address";
                                 }
@@ -211,7 +181,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                             ),
                             kHalfSizedBox,
                             MyTextFormField(
-                              hintText: "E.g Suite B3",
+                              hintText: "Flat 4",
                               controller: apartmentDetailsController,
                               textInputAction: TextInputAction.next,
                               textInputType: TextInputType.text,
@@ -245,7 +215,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                             ),
                             kHalfSizedBox,
                             MyTextFormField(
-                              hintText: "+234",
+                              hintText: "+2347025479571",
                               controller: phoneNumberController,
                               textInputAction: TextInputAction.done,
                               textInputType: TextInputType.name,
@@ -258,7 +228,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                 if (value == null || value!.isEmpty) {
                                   phoneNumberFocusNode.requestFocus();
                                   return "Enter your phone number";
-                                } else if (!nigeriaPhoneNumberPattern
+                                }
+                                if (!nigeriaPhoneNumberPattern
                                     .hasMatch(phoneNumber)) {
                                   phoneNumberFocusNode.requestFocus();
                                   return "Please enter a valid phone number";
@@ -292,6 +263,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                               countryDropdownLabel: "Select country",
                               stateDropdownLabel: "Select state",
                               cityDropdownLabel: "Select city",
+                              currentCountry: "Nigeria",
                               onCountryChanged: (country) {
                                 country = country;
                               },
@@ -330,13 +302,13 @@ class _AddNewAddressState extends State<AddNewAddress> {
               ),
               kSizedBox,
               MyElevatedButton(
-                title: "Save New Address",
+                title: "Save changes",
                 onPressed: (() async {
                   if (_formKey.currentState!.validate()) {
                     Navigator.of(context).pop(context);
                     mySnackBar(
                       context,
-                      "Address saved",
+                      "Changes saved",
                       kAccentColor,
                       SnackBarBehavior.floating,
                       kDefaultPadding,

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../theme/colors.dart';
 import '../../theme/constants.dart';
+import 'address details.dart';
 
 class Addresses extends StatefulWidget {
   const Addresses({super.key});
@@ -74,6 +75,9 @@ class _AddressesState extends State<Addresses> {
       appBar: MyAppBar(
         elevation: 0.0,
         title: "Addresses ",
+                backgroundColor: kPrimaryColor,
+
+        actions: [],
       ),
       body: Container(
         margin: EdgeInsets.only(
@@ -93,7 +97,13 @@ class _AddressesState extends State<Addresses> {
                       vertical: kDefaultPadding / 2,
                     ),
                     child: ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AddressDetails(),
+                          ),
+                        );
+                      },
                       enableFeedback: true,
                       trailing: Icon(
                         Icons.arrow_forward_ios_rounded,
