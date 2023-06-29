@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'app/home/home.dart';
+// import 'app/home/home.dart';
 import 'routes/routes.dart';
-// import 'splash screens/startup splash screen.dart';
+import 'splash screens/startup splash screen.dart';
 import 'theme/colors.dart';
 
 void main() async {
@@ -46,8 +46,8 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme, // Use the default theme
         ),
       ),
-      // initialRoute: StartupSplashscreen.routeName,
-      home: Home(),
+      initialRoute: StartupSplashscreen.routeName,
+      // home: Home(),
       routes: routes,
     );
   }
