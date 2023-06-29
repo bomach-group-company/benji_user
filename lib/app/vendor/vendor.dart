@@ -202,7 +202,8 @@ class _VendorState extends State<Vendor> {
                             ),
                           ),
                           child: Icon(
-                            Icons.shopping_bag_rounded,
+                            Icons.star_outline_rounded,
+                            color: kAccentColor,
                             size: 16,
                           ),
                         ),

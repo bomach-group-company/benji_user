@@ -31,231 +31,229 @@ class HomeDrawer extends StatefulWidget {
 class _HomeDrawerState extends State<HomeDrawer> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Drawer(
-        backgroundColor: kPrimaryColor,
-        elevation: 10.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-            5.0,
-          ),
+    return Drawer(
+      backgroundColor: kPrimaryColor,
+      elevation: 10.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          5.0,
         ),
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: ListView(
-          children: [
-            MyAppBar(
-              elevation: 0.0,
-              title: "Profile",
-              backgroundColor: kPrimaryColor,
-              actions: [],
+      ),
+      width: MediaQuery.of(context).size.width * 0.8,
+      child: ListView(
+        children: [
+          MyAppBar(
+            elevation: 0.0,
+            title: "Profile",
+            backgroundColor: kPrimaryColor,
+            actions: [],
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              radius: 30,
+              backgroundImage: AssetImage(
+                "assets/images/profile/super-maria.png",
+              ),
             ),
-            ListTile(
-              leading: CircleAvatar(
-                radius: 30,
-                backgroundImage: AssetImage(
-                  "assets/images/profile/super-maria.png",
+            title: Text(
+              'Super Maria',
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                color: Color(
+                  0xFF4C4C4C,
                 ),
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
               ),
-              title: Text(
-                'Super Maria',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  color: Color(
-                    0xFF4C4C4C,
-                  ),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              subtitle: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'supermaria@gmail.com',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(
-                          0xFF4C4C4C,
-                        ),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
+            ),
+            subtitle: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'supermaria@gmail.com',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(
+                        0xFF4C4C4C,
                       ),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          widget.userID,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(
-                              0xFF4C4C4C,
-                            ),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        widget.userID,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(
+                            0xFF4C4C4C,
                           ),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
                         ),
-                        kWidthSizedBox,
-                        IconButton(
-                          onPressed: widget.copyUserIdToClipBoard,
-                          icon: Icon(
-                            Icons.content_copy_rounded,
-                            size: 14,
-                            color: kAccentColor,
-                          ),
+                      ),
+                      kWidthSizedBox,
+                      IconButton(
+                        onPressed: widget.copyUserIdToClipBoard,
+                        icon: Icon(
+                          Icons.content_copy_rounded,
+                          size: 14,
+                          color: kAccentColor,
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            kHalfSizedBox,
-            Divider(
+          ),
+          kHalfSizedBox,
+          Divider(
+            color: Color(
+              0xFF4C4C4C,
+            ),
+          ),
+          kHalfSizedBox,
+          ListTile(
+            leading: Icon(
+              Icons.person_rounded,
+              color: kAccentColor,
+            ),
+            title: Text(
+              'Profile Settings',
+              style: TextStyle(
+                color: Color(
+                  0xFF334A66,
+                ),
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+          ListTile(
+            onTap: widget.toAddressesPage,
+            leading: Icon(
+              Icons.location_on_rounded,
+              color: kAccentColor,
+            ),
+            title: Text(
+              'Addresses',
+              style: TextStyle(
+                color: Color(
+                  0xFF334A66,
+                ),
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
               color: Color(
                 0xFF4C4C4C,
               ),
             ),
-            kHalfSizedBox,
-            ListTile(
-              leading: Icon(
-                Icons.person_rounded,
-                color: kAccentColor,
-              ),
-              title: Text(
-                'Profile Settings',
-                style: TextStyle(
-                  color: Color(
-                    0xFF334A66,
-                  ),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
+          ),
+          ListTile(
+            onTap: widget.toFavoritesPage,
+            leading: Icon(
+              Icons.favorite_rounded,
+              color: kAccentColor,
             ),
-            ListTile(
-              onTap: widget.toAddressesPage,
-              leading: Icon(
-                Icons.location_on_rounded,
-                color: kAccentColor,
-              ),
-              title: Text(
-                'Addresses',
-                style: TextStyle(
-                  color: Color(
-                    0xFF334A66,
-                  ),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              trailing: Icon(
-                Icons.arrow_forward_ios_rounded,
-                size: 16,
+            title: Text(
+              'Favorites',
+              style: TextStyle(
                 color: Color(
-                  0xFF4C4C4C,
+                  0xFF334A66,
                 ),
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
               ),
             ),
-            ListTile(
-              onTap: widget.toFavoritesPage,
-              leading: Icon(
-                Icons.favorite_rounded,
-                color: kAccentColor,
+            trailing: Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+              color: Color(
+                0xFF4C4C4C,
               ),
-              title: Text(
-                'Favorites',
-                style: TextStyle(
-                  color: Color(
-                    0xFF334A66,
-                  ),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              trailing: Icon(
-                Icons.arrow_forward_ios_rounded,
-                size: 16,
+            ),
+          ),
+          ListTile(
+            onTap: widget.toOrdersPage,
+            leading: Icon(
+              Icons.local_shipping_rounded,
+              color: kAccentColor,
+            ),
+            title: Text(
+              'Orders',
+              style: TextStyle(
                 color: Color(
-                  0xFF4C4C4C,
+                  0xFF334A66,
                 ),
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
               ),
             ),
-            ListTile(
-              onTap: widget.toOrdersPage,
-              leading: Icon(
-                Icons.local_shipping_rounded,
-                color: kAccentColor,
+            trailing: Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+              color: Color(
+                0xFF4C4C4C,
               ),
-              title: Text(
-                'Orders',
-                style: TextStyle(
-                  color: Color(
-                    0xFF334A66,
-                  ),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              trailing: Icon(
-                Icons.arrow_forward_ios_rounded,
-                size: 16,
+            ),
+          ),
+          ListTile(
+            onTap: widget.toInvitesPage,
+            leading: Icon(
+              Icons.person_add_alt_1_rounded,
+              color: kAccentColor,
+            ),
+            title: Text(
+              'Invites',
+              style: TextStyle(
                 color: Color(
-                  0xFF4C4C4C,
+                  0xFF334A66,
                 ),
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
               ),
             ),
-            ListTile(
-              onTap: widget.toInvitesPage,
-              leading: Icon(
-                Icons.person_add_alt_1_rounded,
-                color: kAccentColor,
+            trailing: Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+              color: Color(
+                0xFF4C4C4C,
               ),
-              title: Text(
-                'Invites',
-                style: TextStyle(
-                  color: Color(
-                    0xFF334A66,
-                  ),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              trailing: Icon(
-                Icons.arrow_forward_ios_rounded,
-                size: 16,
+            ),
+          ),
+          ListTile(
+            onTap: widget.logOut,
+            leading: Icon(
+              Icons.logout_rounded,
+              color: kAccentColor,
+            ),
+            title: Text(
+              'Logout',
+              style: TextStyle(
                 color: Color(
-                  0xFF4C4C4C,
+                  0xFF334A66,
                 ),
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
               ),
             ),
-            ListTile(
-              onTap: widget.logOut,
-              leading: Icon(
-                Icons.logout_rounded,
-                color: kAccentColor,
-              ),
-              title: Text(
-                'Logout',
-                style: TextStyle(
-                  color: Color(
-                    0xFF334A66,
-                  ),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              trailing: Icon(
-                Icons.arrow_forward_ios_rounded,
-                size: 16,
-                color: Color(
-                  0xFF4C4C4C,
-                ),
+            trailing: Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+              color: Color(
+                0xFF4C4C4C,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

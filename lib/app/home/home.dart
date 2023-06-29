@@ -237,9 +237,7 @@ class _HomeState extends State<Home> {
               splashRadius: 20,
               icon: Icon(
                 Icons.shopping_cart_outlined,
-                color: Color(
-                  0xFF676767,
-                ),
+                color: kAccentColor,
               ),
             ),
           ],

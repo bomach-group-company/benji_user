@@ -47,7 +47,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
       child: Scaffold(
         backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
-          elevation: 2.0,
+          elevation: 0.0,
           title: "New Address ",
           backgroundColor: kPrimaryColor,
           actions: [],
