@@ -1,6 +1,7 @@
 # Benji App
 
-` Built with ❤️ and 🧑‍💻 by ` [Chukwuoma Gideon Chimemerie](https://github.com/egideons) `for` [BOMACH GROUP, ENUGU](https://bomachgroup.com)
+` Built with ❤️ and 🧑‍💻 by ` [Chukwuoma Gideon Chimemerie](https://github.com/egideons) and [Emmanuel Nwaegunwa](https://github.com/maxzeno)
+ `for` [BOMACH GROUP, ENUGU](https://bomachgroup.com)
 
 ---
 
