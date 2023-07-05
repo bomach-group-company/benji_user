@@ -12,7 +12,7 @@ Color kAccentColor = Color(
   0xFFEC2623,
 );
 
-Color KLoadingColor = Color(
+Color kLoadingColor = Color(
   0xFFFFA927,
 );
 

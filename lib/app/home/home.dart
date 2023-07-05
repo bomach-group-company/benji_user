@@ -243,6 +243,7 @@ class _HomeState extends State<Home> {
           ],
         ),
         body: SafeArea(
+          maintainBottomViewPadding: true,
           child: Container(
             color: kPrimaryColor,
             width: MediaQuery.of(context).size.width,

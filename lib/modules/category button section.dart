@@ -28,7 +28,7 @@ class CategoryButtonSection extends StatelessWidget {
           padding: const EdgeInsets.all(
             8.0,
           ),
-          child: categoryButton(
+          child: CategoryButton(
             onPressed: () {},
             title: _category[index],
             bgColor: _categorybgColor[index],

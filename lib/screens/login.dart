@@ -61,6 +61,7 @@ class _LoginState extends State<Login> {
         backgroundColor: kSecondaryColor,
         resizeToAvoidBottomInset: true,
         body: SafeArea(
+          maintainBottomViewPadding: true,
           child: Column(
             children: [
               ReusableAuthenticationFirstHalf(

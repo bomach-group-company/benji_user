@@ -14,6 +14,7 @@ class PaymentSuccessful extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
+        maintainBottomViewPadding: true,
         child: Container(
           margin: EdgeInsets.only(
             top: kDefaultPadding,

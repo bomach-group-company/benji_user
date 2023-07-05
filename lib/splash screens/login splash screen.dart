@@ -18,6 +18,7 @@ class LoginSplashScreen extends StatelessWidget {
     });
 
     return SafeArea(
+      maintainBottomViewPadding: true,
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Column(

@@ -32,6 +32,7 @@ class _OrdersHistoryState extends State<OrdersHistory> {
           actions: [],
         ),
         body: SafeArea(
+          maintainBottomViewPadding: true,
           child: Container(
             margin: EdgeInsets.only(
               top: kDefaultPadding,
@@ -97,9 +98,9 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                       kHalfSizedBox,
                       TrackOrderDetailsContainer(
                         shipIconDetail: Icons.error_rounded,
-                        shipIconDetailColor: KLoadingColor,
+                        shipIconDetailColor: kLoadingColor,
                         shipDetailText: "Closed",
-                        shipDetailTextColor: KLoadingColor,
+                        shipDetailTextColor: kLoadingColor,
                       ),
                       kHalfSizedBox,
                       TrackOrderDetailsContainer(
@@ -122,9 +123,9 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                       kSizedBox,
                       TrackOrderDetailsContainer(
                         shipIconDetail: Icons.error_rounded,
-                        shipIconDetailColor: KLoadingColor,
+                        shipIconDetailColor: kLoadingColor,
                         shipDetailText: "Closed",
-                        shipDetailTextColor: KLoadingColor,
+                        shipDetailTextColor: kLoadingColor,
                       ),
                       SizedBox(
                         height: kDefaultPadding * 3,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class categoryButton extends StatelessWidget {
+class CategoryButton extends StatelessWidget {
   final Function() onPressed;
   final String title;
   final Color bgColor;
   final Color categoryFontColor;
-  const categoryButton({
+  const CategoryButton({
     super.key,
     required this.onPressed,
     required this.title,
