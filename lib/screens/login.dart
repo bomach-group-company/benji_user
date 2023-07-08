@@ -1,12 +1,16 @@
-import 'package:alpha_logistics/theme/colors.dart';
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 
-import '../modules/my floating snackbar.dart';
+import '../providers/constants.dart';
 import '../reusable widgets/email textformfield.dart';
+import '../reusable widgets/my floating snackbar.dart';
 import '../reusable widgets/password textformfield.dart';
 import '../reusable widgets/reusable authentication first half.dart';
 import '../splash screens/login splash screen.dart';
-import '../providers/constants.dart';
+import '../theme/colors.dart';
+import 'forgot password.dart';
+import 'signup.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -16,41 +20,37 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  //===============================================================\\
+  //=========================== ALL VARIABBLES ====================================\\
 
-//Strings
-//   String errorMessage = "";
+  //=========================== CONTROLLERS ====================================\\
 
-//TextEditingControllers
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-//Formkey
+  //=========================== KEYS ====================================\\
+
   final _formKey = GlobalKey<FormState>();
 
-//Bool Values
+  //=========================== BOOL VALUES ====================================\\
+
   bool isChecked = false;
   var isObscured;
+
+  //=========================== STYLE ====================================\\
 
   TextStyle myAccentFontStyle = TextStyle(
     color: kAccentColor,
   );
 
-  //FocusNode
+  //=========================== FOCUS NODES ====================================\\
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
 
+  //=========================== INITIAL STATE ====================================\\
   @override
   void initState() {
     super.initState();
     isObscured = true;
-  }
-
-  @override
-  void dispose() {
-    emailFocusNode.dispose();
-    passwordFocusNode.dispose();
-    super.dispose();
   }
 
   @override
@@ -65,33 +65,42 @@ class _LoginState extends State<Login> {
           child: Column(
             children: [
               ReusableAuthenticationFirstHalf(
-                image: "assets/images/login/avatar-image.png",
                 title: "Log In",
-                subtitle: "Please sign in to your existing account",
+                subtitle: "Please log in to your existing account",
+                decoration: ShapeDecoration(
+                  image: const DecorationImage(
+                    image: AssetImage(
+                      "assets/images/login/avatar-image.png",
+                    ),
+                    fit: BoxFit.cover,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      43.50,
+                    ),
+                  ),
+                ),
+                imageContainerHeight: 88,
               ),
               kSizedBox,
               Expanded(
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(
-                        24,
-                      ),
-                      topRight: Radius.circular(
-                        24,
-                      ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
                     ),
                     color: kPrimaryColor,
                   ),
                   child: Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       left: kDefaultPadding / 2,
                       top: kDefaultPadding,
                       right: kDefaultPadding,
                     ),
                     child: ListView(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       children: [
                         Padding(
@@ -103,8 +112,7 @@ class _LoginState extends State<Login> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(
-                                  width: 38.31,
+                                const SizedBox(
                                   child: Text(
                                     'Email',
                                     textAlign: TextAlign.center,
@@ -130,7 +138,6 @@ class _LoginState extends State<Login> {
                                       emailFocusNode.requestFocus();
                                       return "Enter your email address";
                                     } else if (!emailPattern.hasMatch(value)) {
-                                      emailFocusNode.requestFocus();
                                       return "Please enter a valid email address";
                                     }
                                     return null;
@@ -140,8 +147,7 @@ class _LoginState extends State<Login> {
                                   },
                                 ),
                                 kSizedBox,
-                                SizedBox(
-                                  width: 61.72,
+                                const SizedBox(
                                   child: Text(
                                     'Password',
                                     style: TextStyle(
@@ -183,7 +189,7 @@ class _LoginState extends State<Login> {
                                       });
                                     },
                                     icon: isObscured
-                                        ? Icon(
+                                        ? const Icon(
                                             Icons.visibility,
                                           )
                                         : Icon(
@@ -216,16 +222,22 @@ class _LoginState extends State<Login> {
                                             });
                                           },
                                         ),
-                                        Text(
-                                          "Remember me",
-                                          style: TextStyle(
-                                            color: kTextGreyColor,
-                                          ),
-                                        )
+                                        const Text("Remember me ",
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,
+                                            )),
                                       ],
                                     ),
                                     TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ForgotPassword(),
+                                          ),
+                                        );
+                                      },
                                       child: Text(
                                         "Forgot Password",
                                         style: myAccentFontStyle,
@@ -247,14 +259,11 @@ class _LoginState extends State<Login> {
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              LoginSplashScreen(),
+                                              const LoginSplashScreen(),
                                         ),
                                       );
                                     }
                                   }),
-                                  child: Text(
-                                    "Log in".toUpperCase(),
-                                  ),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: kAccentColor,
                                     maximumSize: Size(
@@ -277,12 +286,15 @@ class _LoginState extends State<Login> {
                                     elevation: 10,
                                     shadowColor: kDarkGreyColor,
                                   ),
+                                  child: Text(
+                                    "Log in".toUpperCase(),
+                                  ),
                                 ),
                                 kHalfSizedBox,
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Don't have an account? ",
                                       style: TextStyle(
                                         color: Color(
@@ -291,7 +303,14 @@ class _LoginState extends State<Login> {
                                       ),
                                     ),
                                     TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SignUp(),
+                                          ),
+                                        );
+                                      },
                                       child: Text(
                                         "Sign up",
                                         style: myAccentFontStyle,
@@ -303,8 +322,8 @@ class _LoginState extends State<Login> {
                                 Center(
                                   child: Column(
                                     children: [
-                                      Text(
-                                        "Or sign up with ",
+                                      const Text(
+                                        "Or log in with ",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: Color(
@@ -313,8 +332,8 @@ class _LoginState extends State<Login> {
                                         ),
                                       ),
                                       kSizedBox,
-                                      GestureDetector(
-                                        onLongPress: () => null,
+                                      InkWell(
+                                        borderRadius: BorderRadius.circular(10),
                                         onTap: () {},
                                         child: Container(
                                           width: MediaQuery.of(context)
@@ -337,7 +356,7 @@ class _LoginState extends State<Login> {
                                               Container(
                                                 height: 50,
                                                 width: 50,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   image: DecorationImage(
                                                     image: AssetImage(
                                                       "assets/images/icons/google-signup-icon.png",
@@ -345,7 +364,7 @@ class _LoginState extends State<Login> {
                                                   ),
                                                 ),
                                               ),
-                                              Text(
+                                              const Text(
                                                 "Google",
                                                 style: TextStyle(
                                                   color: kTextBlackColor,
