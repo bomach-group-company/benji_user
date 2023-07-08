@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import '../../modules/my floating snackbar.dart';
 import '../../reusable widgets/my textformfield.dart';
 import '../../theme/colors.dart';
-import '../../theme/constants.dart';
+import '../../providers/constants.dart';
 
 class AddNewAddress extends StatefulWidget {
   const AddNewAddress({super.key});

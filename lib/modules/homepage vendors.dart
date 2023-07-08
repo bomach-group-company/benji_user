@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../app/vendor/vendor.dart';
 import '../theme/colors.dart';
-import '../theme/constants.dart';
+import '../providers/constants.dart';
 
 class HomePageVendorsCard extends StatelessWidget {
   const HomePageVendorsCard({

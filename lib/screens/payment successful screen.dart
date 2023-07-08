@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../app/orders/track order.dart';
 import '../reusable widgets/my elevatedbutton.dart';
-import '../theme/constants.dart';
+import '../providers/constants.dart';
 
 class PaymentSuccessful extends StatelessWidget {
   const PaymentSuccessful({super.key});
@@ -68,7 +68,6 @@ class PaymentSuccessful extends StatelessWidget {
                       0xFF676565,
                     ),
                     fontSize: 18,
-                    fontFamily: 'Sen',
                     fontWeight: FontWeight.w400,
                     letterSpacing: -0.36,
                   ),

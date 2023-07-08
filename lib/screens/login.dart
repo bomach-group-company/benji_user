@@ -6,7 +6,7 @@ import '../reusable widgets/email textformfield.dart';
 import '../reusable widgets/password textformfield.dart';
 import '../reusable widgets/reusable authentication first half.dart';
 import '../splash screens/login splash screen.dart';
-import '../theme/constants.dart';
+import '../providers/constants.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});

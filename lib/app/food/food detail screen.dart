@@ -3,7 +3,7 @@ import 'package:alpha_logistics/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../reusable widgets/my elevatedbutton.dart';
-import '../../theme/constants.dart';
+import '../../providers/constants.dart';
 import '../cart/cart.dart';
 
 class FoodDetailScreen extends StatefulWidget {

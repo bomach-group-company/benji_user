@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/constants.dart';
+import '../providers/constants.dart';
 
 class HomeHotDeals extends StatelessWidget {
   const HomeHotDeals({

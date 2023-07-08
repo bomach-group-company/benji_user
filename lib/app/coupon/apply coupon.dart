@@ -5,7 +5,7 @@ import '../../modules/my floating snackbar.dart';
 import '../../reusable widgets/my appbar.dart';
 import '../../reusable widgets/my elevatedbutton.dart';
 import '../../theme/colors.dart';
-import '../../theme/constants.dart';
+import '../../providers/constants.dart';
 
 class ApplyCoupon extends StatefulWidget {
   const ApplyCoupon({super.key});

@@ -4,7 +4,7 @@ import 'package:alpha_logistics/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../theme/constants.dart';
+import '../../providers/constants.dart';
 
 class DeliveryMap extends StatefulWidget {
   const DeliveryMap({super.key});
@@ -384,6 +384,16 @@ class _DeliveryMapState extends State<DeliveryMap> {
                                                       16,
                                                     ),
                                                   ),
+                                                  shadows: [
+                                                    BoxShadow(
+                                                      blurRadius: 4,
+                                                      spreadRadius: 0.7,
+                                                      color: kBlackColor
+                                                          .withOpacity(0.4),
+                                                      offset:
+                                                          const Offset(0, 4),
+                                                    )
+                                                  ],
                                                 ),
                                                 child: IconButton(
                                                   onPressed: () {},

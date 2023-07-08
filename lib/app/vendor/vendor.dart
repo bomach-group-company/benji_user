@@ -1,4 +1,4 @@
-import 'package:alpha_logistics/theme/constants.dart';
+import 'package:alpha_logistics/providers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 

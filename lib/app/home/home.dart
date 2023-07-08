@@ -11,7 +11,7 @@ import '../../reusable widgets/search field.dart';
 import '../../reusable widgets/see all container.dart';
 import '../../screens/login.dart';
 import '../../theme/colors.dart';
-import '../../theme/constants.dart';
+import '../../providers/constants.dart';
 import '../address/address.dart';
 import '../cart/cart.dart';
 import '../orders/order history.dart';

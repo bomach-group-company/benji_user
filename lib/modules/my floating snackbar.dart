@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/constants.dart';
+import '../providers/constants.dart';
 
 void mySnackBar(BuildContext context, String text, Color bgColor,
     SnackBarBehavior snackbarBehavior, double bottomHeight) {

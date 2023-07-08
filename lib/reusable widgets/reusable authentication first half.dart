@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/colors.dart';
-import '../theme/constants.dart';
+import '../providers/constants.dart';
 
 class ReusableAuthenticationFirstHalf extends StatelessWidget {
   final String image;

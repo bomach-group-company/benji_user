@@ -1,6 +1,6 @@
 // ignore_for_file: camel_case_types
 
-import 'package:alpha_logistics/theme/constants.dart';
+import 'package:alpha_logistics/providers/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../modules/onboarding screens.dart';
