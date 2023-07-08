@@ -222,11 +222,13 @@ class _LoginState extends State<Login> {
                                             });
                                           },
                                         ),
-                                        const Text("Remember me ",
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400,
-                                            )),
+                                        const Text(
+                                          "Remember me ",
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     TextButton(
