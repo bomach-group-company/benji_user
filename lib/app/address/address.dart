@@ -3,8 +3,8 @@ import 'package:alpha_logistics/reusable%20widgets/my%20appbar.dart';
 import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
 import 'package:flutter/material.dart';
 
-import '../../theme/colors.dart';
 import '../../providers/constants.dart';
+import '../../theme/colors.dart';
 import 'address details.dart';
 
 class Addresses extends StatefulWidget {
@@ -75,6 +75,7 @@ class _AddressesState extends State<Addresses> {
       appBar: MyAppBar(
         elevation: 0.0,
         title: "Addresses ",
+        toolbarHeight: 80,
         backgroundColor: kPrimaryColor,
         actions: [],
       ),

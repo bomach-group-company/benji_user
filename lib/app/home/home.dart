@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../modules/appBar delivery location.dart';
-import '../../modules/category button section.dart';
-import '../../modules/home hot deals.dart';
-import '../../modules/home popular vendors card.dart';
-import '../../modules/homepage vendors.dart';
-import '../../modules/my floating snackbar.dart';
+import '../../widgets/appBar delivery location.dart';
+import '../../widgets/category button section.dart';
+import '../../widgets/home hot deals.dart';
+import '../../widgets/home popular vendors card.dart';
+import '../../widgets/homepage vendors.dart';
+import '../../reusable widgets/my floating snackbar.dart';
 import '../../reusable widgets/search field.dart';
 import '../../reusable widgets/see all container.dart';
 import '../../screens/login.dart';

@@ -1,4 +1,4 @@
-import 'package:alpha_logistics/modules/category%20button%20section.dart';
+import 'package:alpha_logistics/widgets/category%20button%20section.dart';
 import 'package:alpha_logistics/theme/colors.dart';
 import 'package:flutter/material.dart';
 

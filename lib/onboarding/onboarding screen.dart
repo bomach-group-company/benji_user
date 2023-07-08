@@ -3,7 +3,7 @@
 import 'package:alpha_logistics/providers/constants.dart';
 import 'package:flutter/material.dart';
 
-import '../modules/onboarding screens.dart';
+import '../widgets/onboarding screens.dart';
 import '../screens/login.dart';
 import '../theme/colors.dart';
 

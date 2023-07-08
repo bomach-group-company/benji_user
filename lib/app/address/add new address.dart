@@ -4,7 +4,7 @@ import 'package:alpha_logistics/reusable%20widgets/my%20outlined%20elevatedbutto
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 
-import '../../modules/my floating snackbar.dart';
+import '../../reusable widgets/my floating snackbar.dart';
 import '../../reusable widgets/my textformfield.dart';
 import '../../theme/colors.dart';
 import '../../providers/constants.dart';
@@ -49,6 +49,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
         appBar: MyAppBar(
           elevation: 0.0,
           title: "New Address ",
+          toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
           actions: [],
         ),

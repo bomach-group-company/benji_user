@@ -1,17 +1,21 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
-import '../theme/colors.dart';
 import '../providers/constants.dart';
+import '../theme/colors.dart';
 
 class ReusableAuthenticationFirstHalf extends StatelessWidget {
-  final String image;
   final String title;
   final String subtitle;
+  final Decoration decoration;
+  final double imageContainerHeight;
   const ReusableAuthenticationFirstHalf({
     super.key,
-    required this.image,
     required this.title,
     required this.subtitle,
+    required this.decoration,
+    required this.imageContainerHeight,
   });
 
   @override
@@ -25,25 +29,13 @@ class ReusableAuthenticationFirstHalf extends StatelessWidget {
           ),
           child: Container(
             width: 88,
-            height: 87,
-            decoration: ShapeDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  image,
-                ),
-                fit: BoxFit.cover,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                  43.50,
-                ),
-              ),
-            ),
+            height: imageContainerHeight,
+            decoration: decoration,
           ),
         ),
         Container(
           width: MediaQuery.of(context).size.width,
-          height: 100,
+          height: 140,
           color: kSecondaryColor,
           child: Column(
             children: <Widget>[
@@ -56,12 +48,16 @@ class ReusableAuthenticationFirstHalf extends StatelessWidget {
                 ),
               ),
               kSizedBox,
-              Text(
-                subtitle,
-                style: TextStyle(
-                  color: kPrimaryColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
+              Padding(
+                padding: const EdgeInsets.all(kDefaultPadding / 2),
+                child: Text(
+                  subtitle,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: kPrimaryColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ],

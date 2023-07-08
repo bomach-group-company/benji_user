@@ -1,5 +1,5 @@
 import 'package:alpha_logistics/app/coupon/apply%20coupon.dart';
-import 'package:alpha_logistics/modules/my%20floating%20snackbar.dart';
+import 'package:alpha_logistics/reusable%20widgets/my%20floating%20snackbar.dart';
 import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
 import 'package:alpha_logistics/theme/colors.dart';
 import 'package:alpha_logistics/providers/constants.dart';
@@ -87,6 +87,7 @@ class _CartState extends State<Cart> {
       key: _scaffoldKey,
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
+        toolbarHeight: 80,
         elevation: 0.0,
         backgroundColor: kPrimaryColor,
         title: "Cart",

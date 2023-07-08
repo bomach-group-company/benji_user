@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 import '../theme/colors.dart';
@@ -40,7 +42,7 @@ class EmailTextFormField extends StatelessWidget {
       ),
       decoration: InputDecoration(
         hintText: "example@gmail.com",
-        errorStyle: TextStyle(
+        errorStyle: const TextStyle(
           color: kErrorColor,
         ),
         filled: true,

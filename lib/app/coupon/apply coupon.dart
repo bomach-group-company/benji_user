@@ -1,7 +1,7 @@
 import 'package:alpha_logistics/reusable%20widgets/my%20textformfield.dart';
 import 'package:flutter/material.dart';
 
-import '../../modules/my floating snackbar.dart';
+import '../../reusable widgets/my floating snackbar.dart';
 import '../../reusable widgets/my appbar.dart';
 import '../../reusable widgets/my elevatedbutton.dart';
 import '../../theme/colors.dart';
@@ -35,6 +35,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
           elevation: 0.0,
           title: "Apply Coupon",
           backgroundColor: kPrimaryColor,
+          toolbarHeight: 80,
           actions: [],
         ),
         body: Container(

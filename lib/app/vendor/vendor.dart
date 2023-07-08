@@ -2,8 +2,8 @@ import 'package:alpha_logistics/providers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../../modules/category button section.dart';
-import '../../modules/vendors food container.dart';
+import '../../widgets/category button section.dart';
+import '../../widgets/vendors food container.dart';
 import '../../reusable widgets/search field.dart';
 import '../../theme/colors.dart';
 import '../food/food detail screen.dart';

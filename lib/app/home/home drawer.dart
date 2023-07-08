@@ -45,6 +45,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
           MyAppBar(
             elevation: 0.0,
             title: "Profile",
+            toolbarHeight: 80,
             backgroundColor: kPrimaryColor,
             actions: [],
           ),

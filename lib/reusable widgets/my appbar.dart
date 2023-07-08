@@ -1,14 +1,18 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
-import '../theme/colors.dart';
 import '../providers/constants.dart';
+import '../theme/colors.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final double elevation;
   final Color backgroundColor;
   final List<Widget> actions;
-  Size get preferredSize => Size.fromHeight(
+  final double toolbarHeight;
+  @override
+  Size get preferredSize => const Size.fromHeight(
         80,
       );
   const MyAppBar({
@@ -17,19 +21,21 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.elevation,
     required this.actions,
     required this.backgroundColor,
+    required this.toolbarHeight,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: 80,
+      toolbarHeight: toolbarHeight,
       automaticallyImplyLeading: false,
       elevation: elevation,
       backgroundColor: backgroundColor,
       actions: actions,
       title: Row(
         children: [
-          GestureDetector(
+          InkWell(
+            borderRadius: BorderRadius.circular(24),
             onTap: () {
               Navigator.of(context).pop(context);
             },
@@ -37,7 +43,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               padding: const EdgeInsets.all(
                 8.0,
               ),
-              child: Container(
+              child: SizedBox(
                 width: 48,
                 height: 48,
                 child: Stack(
@@ -49,11 +55,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                         width: 48,
                         height: 48,
                         decoration: ShapeDecoration(
-                          color: Color(
+                          color: const Color(
                             0xFFFEF8F8,
                           ),
                           shape: RoundedRectangleBorder(
-                            side: BorderSide(
+                            side: const BorderSide(
                               width: 0.50,
                               color: Color(
                                 0xFFFDEDED,
@@ -78,7 +84,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           kWidthSizedBox,
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color(
                 0xFF151515,
               ),
