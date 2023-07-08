@@ -1,7 +1,7 @@
 // ignore_for_file: camel_case_types, file_names
 
+import 'package:alpha_logistics/providers/constants.dart';
 import 'package:alpha_logistics/theme/colors.dart';
-import 'package:alpha_logistics/theme/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -29,30 +29,45 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
       );
     });
     return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height / 4,
-              width: MediaQuery.of(context).size.width / 2,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    "assets/images/splash screen/frame-1.png",
+      body: ListView(
+        padding: const EdgeInsets.all(kDefaultPadding / 2),
+        physics: const BouncingScrollPhysics(),
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height / 4,
+                  width: MediaQuery.of(context).size.width / 2,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        "assets/images/splash screen/frame-1.png",
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                kSizedBox,
+                const Center(
+                  child: Text(
+                    "User App",
+                    style: TextStyle(
+                      color: kTextBlackColor,
+                    ),
+                  ),
+                ),
+                kSizedBox,
+                SpinKitThreeInOut(
+                  color: kSecondaryColor,
+                  size: 20,
+                ),
+              ],
             ),
-            kSizedBox,
-            SpinKitThreeInOut(
-              color: kSecondaryColor,
-              size: 20,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
