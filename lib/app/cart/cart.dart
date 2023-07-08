@@ -2,7 +2,7 @@ import 'package:alpha_logistics/app/coupon/apply%20coupon.dart';
 import 'package:alpha_logistics/modules/my%20floating%20snackbar.dart';
 import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
 import 'package:alpha_logistics/theme/colors.dart';
-import 'package:alpha_logistics/theme/constants.dart';
+import 'package:alpha_logistics/providers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

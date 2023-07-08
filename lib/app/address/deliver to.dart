@@ -4,7 +4,7 @@ import 'package:alpha_logistics/reusable%20widgets/my%20outlined%20elevatedbutto
 import 'package:flutter/material.dart';
 
 import '../../theme/colors.dart';
-import '../../theme/constants.dart';
+import '../../providers/constants.dart';
 
 class DeliverTo extends StatefulWidget {
   const DeliverTo({super.key});
@@ -74,8 +74,7 @@ class _DeliverToState extends State<DeliverTo> {
       appBar: MyAppBar(
         elevation: 0.0,
         title: "Deliver to ",
-                backgroundColor: kPrimaryColor,
-
+        backgroundColor: kPrimaryColor,
         actions: [],
       ),
       body: Container(
