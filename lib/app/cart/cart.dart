@@ -1,8 +1,8 @@
 import 'package:alpha_logistics/app/coupon/apply%20coupon.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20floating%20snackbar.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
-import 'package:alpha_logistics/theme/colors.dart';
 import 'package:alpha_logistics/providers/constants.dart';
+import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
+import 'package:alpha_logistics/reusable%20widgets/my%20floating%20snackbar.dart';
+import 'package:alpha_logistics/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -19,7 +19,23 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  //====================== ALL VARIABLES =====================================\\
+  //=================================== ALL VARIABLES ==========================================\\
+
+  int quantity = 1;
+  double price = 4200.0;
+  final double itemPrice = 4200.0;
+
+  double deliveryFee = 700.00;
+  double serviceFee = 0.00;
+  double insuranceFee = 0.00;
+  double discountFee = 0.00;
+  double calculateTotalPrice() {
+    return (itemPrice * quantity) +
+        deliveryFee +
+        serviceFee +
+        insuranceFee +
+        discountFee;
+  }
 
   //===================== GlobalKeys =======================\\
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -27,12 +43,11 @@ class _CartState extends State<Cart> {
   ScrollController scrollController = ScrollController();
 
   //===================== INCREMENT VARIABLES =======================\\
-  int quantity = 1;
-  int newQuantity = 1;
 
   void incrementQuantity() {
     setState(() {
       quantity++;
+      price = quantity * itemPrice;
     });
   }
 
@@ -40,23 +55,8 @@ class _CartState extends State<Cart> {
     setState(() {
       if (quantity > 1) {
         quantity--;
+        price = quantity * itemPrice;
       }
-      ;
-    });
-  }
-
-  void newIncrementQuantity() {
-    setState(() {
-      newQuantity++;
-    });
-  }
-
-  void newDecrementQuantity() {
-    setState(() {
-      if (newQuantity > 1) {
-        newQuantity--;
-      }
-      ;
     });
   }
 
@@ -83,6 +83,10 @@ class _CartState extends State<Cart> {
   //===================== SHOWMODALBOTTOMSHEET =======================\\
   @override
   Widget build(BuildContext context) {
+    var mediaWidth = MediaQuery.of(context).size.width;
+    var mediaHeight = MediaQuery.of(context).size.height;
+    double totalPrice = calculateTotalPrice();
+
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: kPrimaryColor,
@@ -93,41 +97,417 @@ class _CartState extends State<Cart> {
         title: "Cart",
         actions: [],
       ),
-      body: Container(
-        margin: EdgeInsets.only(
-          top: kDefaultPadding,
-          left: kDefaultPadding,
-          right: kDefaultPadding,
-        ),
-        child: ListView(
-          controller: scrollController,
-          scrollDirection: Axis.vertical,
-          physics: BouncingScrollPhysics(),
-          children: [
-            Container(
-              child: Text(
-                'Deliver to',
-                style: TextStyle(
-                  color: Color(
-                    0xFF202020,
+      body: SafeArea(
+        maintainBottomViewPadding: true,
+        child: Container(
+          margin: EdgeInsets.only(
+            top: kDefaultPadding,
+            left: kDefaultPadding,
+            right: kDefaultPadding,
+          ),
+          child: ListView(
+            controller: scrollController,
+            scrollDirection: Axis.vertical,
+            physics: BouncingScrollPhysics(),
+            children: [
+              Container(
+                child: Text(
+                  'Deliver to',
+                  style: TextStyle(
+                    color: Color(
+                      0xFF202020,
+                    ),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
                   ),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
                 ),
               ),
-            ),
-            kSizedBox,
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => DeliverTo(),
+              kSizedBox,
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => DeliverTo(),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: mediaWidth,
+                  padding: const EdgeInsets.all(kDefaultPadding / 2),
+                  decoration: ShapeDecoration(
+                    color: kPrimaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        10,
+                      ),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(
+                          0x0F000000,
+                        ),
+                        blurRadius: 24,
+                        offset: Offset(
+                          0,
+                          4,
+                        ),
+                        spreadRadius: 0,
+                      ),
+                    ],
                   ),
-                );
-              },
-              child: Container(
-                width: 382,
-                height: 74,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'School',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              color: Color(
+                                0xFF151515,
+                              ),
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          kSizedBox,
+                          Text(
+                            'No 2 Chime Avenue New Haven Enugu.',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: Color(
+                                0xFF4C4C4C,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: kAccentColor,
+                        size: 15,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: kDefaultPadding * 2,
+              ),
+              Container(
+                child: Text(
+                  'Product Summary',
+                  style: TextStyle(
+                    color: Color(
+                      0xFF151515,
+                    ),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              kSizedBox,
+              Container(
+                width: mediaWidth,
+                padding: EdgeInsets.all(kDefaultPadding),
+                decoration: ShapeDecoration(
+                  color: kPrimaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      10,
+                    ),
+                  ),
+                  shadows: [
+                    BoxShadow(
+                      color: Color(
+                        0x0F000000,
+                      ),
+                      blurRadius: 24,
+                      offset: Offset(
+                        0,
+                        4,
+                      ),
+                      spreadRadius: 0,
+                    ),
+                  ],
+                ),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Smokey Jollof Rice',
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  color: Color(
+                                    0xFF333333,
+                                  ),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              kHalfSizedBox,
+                              Text(
+                                '2x  Stewed Fried Chicken',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  color: Color(
+                                    0xFF676565,
+                                  ),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              kHalfSizedBox,
+                              Text(
+                                '2x Grilled 1/4 Chicken',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  color: Color(
+                                    0xFF676565,
+                                  ),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                          InkWell(
+                            onTap: () {},
+                            child: Icon(
+                              Icons.delete,
+                              color: kAccentColor,
+                              size: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                      kSizedBox,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '₦${price.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              color: Color(
+                                0xCC4C4C4C,
+                              ),
+                              fontSize: 16,
+                              fontFamily: 'Sen',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Container(
+                            width: 100,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    decrementQuantity();
+                                  },
+                                  child: Icon(
+                                    Icons.remove_circle_rounded,
+                                    color: kAccentColor,
+                                  ),
+                                ),
+                                Text(
+                                  '$quantity',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    incrementQuantity();
+                                  },
+                                  child: Icon(
+                                    Icons.add_circle_rounded,
+                                    color: kAccentColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              kSizedBox,
+              Container(
+                width: mediaWidth,
+                padding: EdgeInsets.all(
+                  kDefaultPadding,
+                ),
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  shadows: [
+                    BoxShadow(
+                      color: Color(
+                        0x0F000000,
+                      ),
+                      blurRadius: 24,
+                      offset: Offset(
+                        0,
+                        4,
+                      ),
+                      spreadRadius: 0,
+                    ),
+                  ],
+                ),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Coupon',
+                        style: TextStyle(
+                          color: Color(
+                            0xFF151515,
+                          ),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      kHalfSizedBox,
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              width: 0.50,
+                              strokeAlign: BorderSide.strokeAlignCenter,
+                              color: Color(
+                                0xFFEAEAEA,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      kHalfSizedBox,
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ApplyCoupon(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          // color: kSecondaryColor,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Add Coupon',
+                                style: TextStyle(
+                                  color: Color(
+                                    0xFF151515,
+                                  ),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 24,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 4,
+                                      ),
+                                      decoration: ShapeDecoration(
+                                        color: kAccentColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'ADB1897',
+                                            style: TextStyle(
+                                              color: kPrimaryColor,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 8,
+                                          ),
+                                          Text(
+                                            'x',
+                                            style: TextStyle(
+                                              color: kPrimaryColor,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      color: kAccentColor,
+                                      size: 16,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              kSizedBox,
+              Container(
+                width: mediaWidth,
+                padding: EdgeInsets.all(
+                  kDefaultPadding,
+                ),
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
@@ -149,803 +529,255 @@ class _CartState extends State<Cart> {
                     ),
                   ],
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'School',
-                          style: TextStyle(
-                            color: Color(
-                              0xFF151515,
-                            ),
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Text(
-                          'No 2 Chime Avenue New Haven Enugu.',
-                          style: TextStyle(
-                            color: Color(
-                              0xFF4C4C4C,
-                            ),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      color: kAccentColor,
-                      size: 15,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: kDefaultPadding * 2,
-            ),
-            Container(
-              width: 167,
-              height: 21,
-              child: Text(
-                'Product Summary',
-                style: TextStyle(
-                  color: Color(
-                    0xFF151515,
-                  ),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            kSizedBox,
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 101,
-              padding: EdgeInsets.all(
-                8.0,
-              ),
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    10,
-                  ),
-                ),
-                shadows: [
-                  BoxShadow(
-                    color: Color(
-                      0x0F000000,
-                    ),
-                    blurRadius: 24,
-                    offset: Offset(
-                      0,
-                      4,
-                    ),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 20,
-                      width: 20,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                            "assets/images/icons/edit-icon.png",
-                          ),
-                        ),
-                      ),
-                    ),
-                    kWidthSizedBox,
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Smokey Jollof Rice',
-                            style: TextStyle(
-                              color: Color(
-                                0xFF333333,
-                              ),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          SizedBox(
-                            height: kDefaultPadding * 1.5,
-                          ),
-                          Text(
-                            '₦1,700.00',
-                            style: TextStyle(
-                              color: Color(
-                                0xCC4C4C4C,
-                              ),
-                              fontSize: 16,
-                              fontFamily: 'Sen',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: kDefaultPadding * 1.2,
-                    ),
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(
-                              right: 10,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                    height: 20,
-                                    width: 20,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          "assets/images/icons/delete-icon.png",
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    decrementQuantity();
-                                  },
-                                  icon: Icon(
-                                    Icons.remove_circle_rounded,
-                                    color: kAccentColor,
-                                  ),
-                                ),
-                                Text(
-                                  '$quantity',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    incrementQuantity();
-                                  },
-                                  icon: Icon(
-                                    Icons.add_circle_rounded,
-                                    color: kAccentColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            kHalfSizedBox,
-            Container(
-              width: 382,
-              height: 154,
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    10,
-                  ),
-                ),
-                shadows: [
-                  BoxShadow(
-                    color: Color(
-                      0x0F000000,
-                    ),
-                    blurRadius: 24,
-                    offset: Offset(
-                      0,
-                      4,
-                    ),
-                    spreadRadius: 0,
-                  ),
-                ],
-              ),
-              child: Container(
-                padding: EdgeInsets.only(
-                  top: 10,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 20,
-                      width: 20,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                            "assets/images/icons/edit-icon.png",
-                          ),
-                        ),
-                      ),
-                    ),
-                    kWidthSizedBox,
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Smokey Jollof Rice',
-                            style: TextStyle(
-                              color: Color(
-                                0xFF333333,
-                              ),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          kHalfSizedBox,
-                          Text(
-                            '2x  Stewed Fried Chicken',
-                            style: TextStyle(
-                              color: Color(
-                                0xFF676565,
-                              ),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          kHalfSizedBox,
-                          Text(
-                            '2x Grilled 1/4 Chicken',
-                            style: TextStyle(
-                              color: Color(
-                                0xFF676565,
-                              ),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          SizedBox(
-                            height: kDefaultPadding * 2,
-                          ),
-                          Text(
-                            '₦1,700.00',
-                            style: TextStyle(
-                              color: Color(
-                                0xCC4C4C4C,
-                              ),
-                              fontSize: 16,
-                              fontFamily: 'Sen',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: kDefaultPadding,
-                    ),
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(
-                              right: 10,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                GestureDetector(
-                                  child: Container(
-                                    height: 20,
-                                    width: 20,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          "assets/images/icons/delete-icon.png",
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    newDecrementQuantity();
-                                  },
-                                  icon: Icon(
-                                    Icons.remove_circle_rounded,
-                                    color: kAccentColor,
-                                  ),
-                                ),
-                                Text(
-                                  '$newQuantity',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    newIncrementQuantity();
-                                  },
-                                  icon: Icon(
-                                    Icons.add_circle_rounded,
-                                    color: kAccentColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            kSizedBox,
-            Container(
-              width: 382,
-              height: 106,
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                shadows: [
-                  BoxShadow(
-                    color: Color(
-                      0x0F000000,
-                    ),
-                    blurRadius: 24,
-                    offset: Offset(
-                      0,
-                      4,
-                    ),
-                    spreadRadius: 0,
-                  ),
-                ],
-              ),
-              child: Container(
-                padding: EdgeInsets.all(
-                  kDefaultPadding / 2,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Coupon',
-                      style: TextStyle(
-                        color: Color(
-                          0xFF151515,
-                        ),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 0.50,
-                            strokeAlign: BorderSide.strokeAlignCenter,
-                            color: Color(
-                              0xFFEAEAEA,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => ApplyCoupon(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        // color: kSecondaryColor,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 50,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              'Add Coupon',
+                              'Payment Summary',
                               style: TextStyle(
                                 color: Color(
                                   0xFF151515,
                                 ),
                                 fontSize: 18,
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
                             Container(
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 84,
-                                    height: 24,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
-                                    ),
-                                    decoration: ShapeDecoration(
-                                      color: kAccentColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                          8,
-                                        ),
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'ADB1897',
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        Text(
-                                          'x',
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                            color: Color(
-                                              0xFFE4E4F3,
-                                            ),
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ],
+                              width: MediaQuery.of(context).size.width,
+                              decoration: ShapeDecoration(
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    width: 0.50,
+                                    strokeAlign: BorderSide.strokeAlignCenter,
+                                    color: Color(
+                                      0xFFEAEAEA,
                                     ),
                                   ),
-                                  Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    color: kAccentColor,
-                                    size: 16,
-                                  ),
-                                ],
+                                ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            kSizedBox,
-            Container(
-              width: 382,
-              height: 322,
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    10,
-                  ),
-                ),
-                shadows: [
-                  BoxShadow(
-                    color: Color(
-                      0x0F000000,
-                    ),
-                    blurRadius: 24,
-                    offset: Offset(
-                      0,
-                      4,
-                    ),
-                    spreadRadius: 0,
-                  ),
-                ],
-              ),
-              child: Container(
-                padding: EdgeInsets.all(
-                  kDefaultPadding / 2,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 50,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            'Payment Summary',
-                            style: TextStyle(
+                      Container(
+                        child: Column(
+                          children: [
+                            Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Subtotal',
+                                    style: TextStyle(
+                                      color: Color(
+                                        0xFF151515,
+                                      ),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    '₦${price.toStringAsFixed(2)}',
+                                    style: TextStyle(
+                                      color: Color(
+                                        0xCC4C4C4C,
+                                      ),
+                                      fontSize: 16,
+                                      fontFamily: 'Sen',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            kSizedBox,
+                            Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Delivery Fee',
+                                    style: TextStyle(
+                                      color: Color(
+                                        0xFF151515,
+                                      ),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    '₦${deliveryFee.toStringAsFixed(2)}',
+                                    style: TextStyle(
+                                      color: Color(
+                                        0xCC4C4C4C,
+                                      ),
+                                      fontSize: 16,
+                                      fontFamily: 'Sen',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            kSizedBox,
+                            Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Service Fee',
+                                    style: TextStyle(
+                                      color: Color(
+                                        0xFF151515,
+                                      ),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    '₦${serviceFee.toStringAsFixed(2)}',
+                                    style: TextStyle(
+                                      color: Color(
+                                        0xCC4C4C4C,
+                                      ),
+                                      fontSize: 16,
+                                      fontFamily: 'Sen',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            kSizedBox,
+                            Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Insurance Fee',
+                                    style: TextStyle(
+                                      color: Color(
+                                        0xFF151515,
+                                      ),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    '₦${insuranceFee.toStringAsFixed(2)}',
+                                    style: TextStyle(
+                                      color: Color(
+                                        0xCC4C4C4C,
+                                      ),
+                                      fontSize: 16,
+                                      fontFamily: 'Sen',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            kSizedBox,
+                            Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Discount',
+                                    style: TextStyle(
+                                      color: Color(
+                                        0xFF151515,
+                                      ),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    '₦${discountFee.toStringAsFixed(2)}',
+                                    style: TextStyle(
+                                      color: Color(
+                                        0xCC4C4C4C,
+                                      ),
+                                      fontSize: 16,
+                                      fontFamily: 'Sen',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      kHalfSizedBox,
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              width: 0.50,
+                              strokeAlign: BorderSide.strokeAlignCenter,
                               color: Color(
-                                0xFF151515,
+                                0xFFEAEAEA,
                               ),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  width: 0.50,
-                                  strokeAlign: BorderSide.strokeAlignCenter,
-                                  color: Color(
-                                    0xFFEAEAEA,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Subtotal',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xFF151515,
-                                    ),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                Text(
-                                  '₦1,700.00',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xCC4C4C4C,
-                                    ),
-                                    fontSize: 16,
-                                    fontFamily: 'Sen',
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          kSizedBox,
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Delivery Fee',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xFF151515,
-                                    ),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                Text(
-                                  '₦700.00',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xCC4C4C4C,
-                                    ),
-                                    fontSize: 16,
-                                    fontFamily: 'Sen',
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          kSizedBox,
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Service Fee',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xFF151515,
-                                    ),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                Text(
-                                  '₦0.00',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xCC4C4C4C,
-                                    ),
-                                    fontSize: 16,
-                                    fontFamily: 'Sen',
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          kSizedBox,
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Insurance Fee',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xFF151515,
-                                    ),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                Text(
-                                  '₦0.00',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xCC4C4C4C,
-                                    ),
-                                    fontSize: 16,
-                                    fontFamily: 'Sen',
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          kSizedBox,
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Discount',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xFF151515,
-                                    ),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                Text(
-                                  '₦0.00',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xCC4C4C4C,
-                                    ),
-                                    fontSize: 16,
-                                    fontFamily: 'Sen',
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 0.50,
-                            strokeAlign: BorderSide.strokeAlignCenter,
-                            color: Color(
-                              0xFFEAEAEA,
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Total',
-                            style: TextStyle(
-                              color: Color(
-                                0xFF151515,
+                      kHalfSizedBox,
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Total',
+                              style: TextStyle(
+                                color: Color(
+                                  0xFF151515,
+                                ),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
                               ),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
                             ),
-                          ),
-                          Text(
-                            '₦2,400.00',
-                            style: TextStyle(
-                              color: Color(
-                                0xCC4C4C4C,
+                            Text(
+                              '₦${totalPrice.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                color: Color(
+                                  0xCC4C4C4C,
+                                ),
+                                fontSize: 16,
+                                fontFamily: 'Sen',
+                                fontWeight: FontWeight.w700,
                               ),
-                              fontSize: 16,
-                              fontFamily: 'Sen',
-                              fontWeight: FontWeight.w700,
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: kDefaultPadding * 2,
-            ),
-            Container(
-              height: 160,
-              padding: const EdgeInsets.only(
-                bottom: kDefaultPadding,
+              SizedBox(
+                height: kDefaultPadding * 2,
               ),
-              color: kPrimaryColor,
-              child: Column(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   MyElevatedButton(
-                    title: "Place Order - ₦2,400.00",
+                    title: "Place Order - ₦${totalPrice.toStringAsFixed(2)}",
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -954,8 +786,9 @@ class _CartState extends State<Cart> {
                       );
                     },
                   ),
+                  kSizedBox,
                   MyOutlinedElevatedButton(
-                    title: "Pay For Me - ₦2,400.00",
+                    title: "Pay For Me - ₦${totalPrice.toStringAsFixed(2)}",
                     onPressed: () {
                       showModalBottomSheet(
                         context: context,
@@ -1009,7 +842,6 @@ class _CartState extends State<Cart> {
                                 height: kDefaultPadding,
                               ),
                               Container(
-                                width: 379,
                                 height: 64,
                                 padding: const EdgeInsets.only(
                                   top: 16,
@@ -1075,6 +907,8 @@ class _CartState extends State<Cart> {
                                 child: Column(
                                   children: [
                                     Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
                                           child: Column(
@@ -1192,8 +1026,10 @@ class _CartState extends State<Cart> {
                                     ),
                                     kHalfSizedBox,
                                     Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        GestureDetector(
+                                        InkWell(
                                           onTap: () {},
                                           child: Container(
                                             child: Column(
@@ -1224,7 +1060,7 @@ class _CartState extends State<Cart> {
                                             ),
                                           ),
                                         ),
-                                        GestureDetector(
+                                        InkWell(
                                           onTap: () {},
                                           child: Container(
                                             child: Column(
@@ -1255,7 +1091,7 @@ class _CartState extends State<Cart> {
                                             ),
                                           ),
                                         ),
-                                        GestureDetector(
+                                        InkWell(
                                           onTap: () {},
                                           child: Container(
                                             child: Column(
@@ -1273,6 +1109,37 @@ class _CartState extends State<Cart> {
                                                 ),
                                                 Text(
                                                   'Telegram',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Color(
+                                                      0xFF3C3E56,
+                                                    ),
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        InkWell(
+                                          onTap: () {},
+                                          child: Container(
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  height: 80,
+                                                  width: 80,
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                        "assets/images/icons/linkedin-icon.png",
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'LinkedIn',
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     color: Color(
@@ -1306,10 +1173,11 @@ class _CartState extends State<Cart> {
                       );
                     },
                   ),
+                  kSizedBox,
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

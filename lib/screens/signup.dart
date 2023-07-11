@@ -68,6 +68,9 @@ class _SignUpState extends State<SignUp> {
       context,
       "Signup Successful".toUpperCase(),
       kSuccessColor,
+      Duration(
+        seconds: 2,
+      ),
     );
 
     // Navigate to the new page
@@ -323,6 +326,9 @@ class _SignUpState extends State<SignUp> {
                             context,
                             "Password matches requirement",
                             kSuccessColor,
+                            Duration(
+                              seconds: 1,
+                            ),
                           );
                         },
                         onFail: () {

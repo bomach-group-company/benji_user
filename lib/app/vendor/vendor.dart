@@ -2,10 +2,10 @@ import 'package:alpha_logistics/providers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../../widgets/category button section.dart';
-import '../../widgets/vendors food container.dart';
 import '../../reusable widgets/search field.dart';
 import '../../theme/colors.dart';
+import '../../widgets/category button section.dart';
+import '../../widgets/vendors food container.dart';
 import '../food/food detail screen.dart';
 
 class Vendor extends StatefulWidget {
@@ -21,13 +21,15 @@ class _VendorState extends State<Vendor> {
   //TextEditingController
   TextEditingController searchController = TextEditingController();
 
+//===================== BOOL VALUES =======================\\
+
 //===================== CATEGORY BUTTONS =======================\\
   final List _categoryButtonText = [
     "Pasta",
     "Burgers",
     "Rice Dishes",
     "Chicken",
-    "Snacks",
+    "Snacks"
   ];
 
   final List<Color> _categoryButtonBgColor = [
@@ -43,7 +45,7 @@ class _VendorState extends State<Vendor> {
     ),
     Color(
       0xFFF2F2F2,
-    ),
+    )
   ];
   final List<Color> _categoryButtonFontColor = [
     kPrimaryColor,
@@ -58,18 +60,15 @@ class _VendorState extends State<Vendor> {
     ),
     Color(
       0xFF828282,
-    ),
+    )
   ];
 
 //===================== VENDORS LIST VIEW INDEX =======================\\
-  List<int> foodListView = [
-    0,
-    1,
-    3,
-    4,
-    5,
-    6,
-  ];
+  List<int> foodListView = [0, 1, 3, 4, 5, 6];
+
+//===================== STATES =======================\\
+
+//===================== FUNCTIONS =======================\\
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +185,7 @@ class _VendorState extends State<Vendor> {
                           ),
                         ),
                       ),
-                      GestureDetector(
+                      InkWell(
                         onTap: () {},
                         child: Container(
                           width: 48,

@@ -52,6 +52,9 @@ class _ResetPasswordState extends State<ResetPassword> {
       context,
       "Password Reset successful",
       kSecondaryColor,
+      Duration(
+        seconds: 2,
+      ),
     );
 
     // Navigate to the new page
@@ -184,6 +187,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                                   context,
                                   "Password matches requirement",
                                   kSuccessColor,
+                                  Duration(
+                                    seconds: 1,
+                                  ),
                                 );
                               },
                               onFail: () {

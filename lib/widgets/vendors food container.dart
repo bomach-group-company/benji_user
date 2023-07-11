@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../theme/colors.dart';
 import '../providers/constants.dart';
+import '../theme/colors.dart';
 
 class VendorFoodContainer extends StatelessWidget {
   final Function() onTap;
@@ -18,7 +18,7 @@ class VendorFoodContainer extends StatelessWidget {
         margin: EdgeInsets.symmetric(
           vertical: kDefaultPadding / 2.5,
         ),
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery.of(context).size.width,
         height: 88,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
@@ -42,7 +42,7 @@ class VendorFoodContainer extends StatelessWidget {
           ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               width: 90,
@@ -83,7 +83,6 @@ class VendorFoodContainer extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: 200,
                     child: Text(
                       'Short description about the food here',
                       style: TextStyle(
@@ -99,7 +98,7 @@ class VendorFoodContainer extends StatelessWidget {
                   SizedBox(
                     width: 200,
                     child: Text(
-                      '₦ 850',
+                      '₦1200.00',
                       style: TextStyle(
                         color: Color(
                           0xFF333333,

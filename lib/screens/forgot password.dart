@@ -47,6 +47,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       context,
       "An OTP code has been sent to your email".toUpperCase(),
       kSecondaryColor,
+      Duration(
+        seconds: 2,
+      ),
     );
 
     // Navigate to the new page

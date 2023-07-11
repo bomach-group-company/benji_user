@@ -1,9 +1,10 @@
-import 'package:alpha_logistics/widgets/category%20button%20section.dart';
 import 'package:alpha_logistics/theme/colors.dart';
+import 'package:alpha_logistics/widgets/category%20button%20section.dart';
 import 'package:flutter/material.dart';
 
-import '../../reusable widgets/my elevatedbutton.dart';
 import '../../providers/constants.dart';
+import '../../reusable widgets/my elevatedbutton.dart';
+import '../../reusable widgets/my fixed snackBar.dart';
 import '../cart/cart.dart';
 
 class FoodDetailScreen extends StatefulWidget {
@@ -14,15 +15,19 @@ class FoodDetailScreen extends StatefulWidget {
 }
 
 class _FoodDetailScreenState extends State<FoodDetailScreen> {
-  //===================================================\\
-
-  //===================== ALL VARIABLES =======================\\
+  //=================================== ALL VARIABLES ==========================================\\
 
   int quantity = 1; // Add a variable to hold the quantity
+  double price = 1200.0;
+  final double itemPrice = 1200.0;
+//===================== BOOL VALUES =======================\\
+  var addedFavorite;
 
+  //======================================= FUNCTIONS ==========================================\\
   void incrementQuantity() {
     setState(() {
       quantity++; // Increment the quantity by 1
+      price = quantity * itemPrice;
     });
   }
 
@@ -30,8 +35,23 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
     setState(() {
       if (quantity > 1) {
         quantity--; // Decrement the quantity by 1, but ensure it doesn't go below 1
+        price = quantity * itemPrice;
       }
     });
+  }
+
+  void favorite() {
+    setState(() {
+      addedFavorite = !addedFavorite;
+    });
+    myFixedSnackBar(
+      context,
+      addedFavorite ? "Added to Favorites" : "Removed from Favorites",
+      kAccentColor,
+      Duration(
+        seconds: 1,
+      ),
+    );
   }
 
   //===================== CATEGORY BUTTONS =======================\\
@@ -56,7 +76,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
     ),
     Color(
       0xFFF2F2F2,
-    ),
+    )
   ];
   final List<Color> _proteincategoryButtonFontColor = [
     kPrimaryColor,
@@ -71,7 +91,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
     ),
     Color(
       0xFF828282,
-    ),
+    )
   ];
   final List _stewTypeCategoryButtonText = [
     "Tomato (+N250)",
@@ -111,6 +131,13 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
       0xFF828282,
     ),
   ];
+
+//===================== STATES =======================\\
+  @override
+  void initState() {
+    super.initState();
+    addedFavorite = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -174,8 +201,10 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {},
+                    InkWell(
+                      onTap: () {
+                        favorite();
+                      },
                       child: Container(
                         width: 48,
                         height: 48,
@@ -190,7 +219,9 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                           ),
                         ),
                         child: Icon(
-                          Icons.favorite_outline_rounded,
+                          addedFavorite
+                              ? Icons.favorite_rounded
+                              : Icons.favorite_outline_rounded,
                           color: kAccentColor,
                           size: 16,
                         ),
@@ -233,7 +264,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                             ),
                           ),
                           Text(
-                            "₦ 850",
+                            "₦ ${itemPrice.toStringAsFixed(2)}",
                             style: TextStyle(
                               color: Color(
                                 0xFF333333,
@@ -316,7 +347,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                                 ),
                               );
                             },
-                            title: "Add to Cart (N20,000)",
+                            title: "Add to Cart (₦${price.toStringAsFixed(2)})",
                           ),
                         ),
                       )

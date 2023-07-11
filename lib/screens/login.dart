@@ -61,6 +61,9 @@ class _LoginState extends State<Login> {
       context,
       "Login Successful".toUpperCase(),
       kSuccessColor,
+      Duration(
+        seconds: 2,
+      ),
     );
 
     // Navigate to the new page
