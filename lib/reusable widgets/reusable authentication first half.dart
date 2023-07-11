@@ -24,7 +24,7 @@ class ReusableAuthenticationFirstHalf extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(
-            top: kDefaultPadding * 1.2,
+            top: kDefaultPadding / 2,
             bottom: kDefaultPadding,
           ),
           child: Container(
@@ -35,7 +35,7 @@ class ReusableAuthenticationFirstHalf extends StatelessWidget {
         ),
         Container(
           width: MediaQuery.of(context).size.width,
-          height: 140,
+          height: 100,
           color: kSecondaryColor,
           child: Column(
             children: <Widget>[
@@ -43,19 +43,18 @@ class ReusableAuthenticationFirstHalf extends StatelessWidget {
                 title,
                 style: TextStyle(
                   color: kPrimaryColor,
-                  fontSize: 30,
+                  fontSize: 28,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              kSizedBox,
-              Padding(
-                padding: const EdgeInsets.all(kDefaultPadding / 2),
+              Container(
+                padding: const EdgeInsets.all(kDefaultPadding / 3),
                 child: Text(
                   subtitle,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: kPrimaryColor,
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
