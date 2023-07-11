@@ -84,7 +84,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               const ReusableAuthenticationFirstHalf(
                 title: "Forgot Password",
                 subtitle:
-                    "Forgot your password? Don't panic, enter your email below and we will send you a code via which you need to recover your password",
+                    "Forgot your password? Enter your email below and we will send you a code via which you need to recover your password",
                 decoration: BoxDecoration(),
                 imageContainerHeight: 0,
               ),
@@ -92,6 +92,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               Expanded(
                 child: Container(
                   width: media.size.width,
+                  padding: const EdgeInsets.only(
+                    top: kDefaultPadding / 2,
+                    left: kDefaultPadding,
+                    right: kDefaultPadding,
+                  ),
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -99,101 +104,87 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       topRight: Radius.circular(24),
                     ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: kDefaultPadding / 2,
-                      top: kDefaultPadding,
-                      right: kDefaultPadding,
-                    ),
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      physics: const BouncingScrollPhysics(),
-                      // crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: kDefaultPadding,
-                          ),
-                          child: Form(
-                            key: _formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(
-                                  child: Text(
-                                    'Email',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(
-                                        0xFF31343D,
+                  child: ListView(
+                    scrollDirection: Axis.vertical,
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              child: Text(
+                                'Email',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(
+                                    0xFF31343D,
+                                  ),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            kHalfSizedBox,
+                            EmailTextFormField(
+                              controller: emailController,
+                              emailFocusNode: emailFocusNode,
+                              textInputAction: TextInputAction.done,
+                              validator: (value) {
+                                RegExp emailPattern = RegExp(
+                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+                                );
+                                if (value == null || value!.isEmpty) {
+                                  emailFocusNode.requestFocus();
+                                  return "Enter your email address";
+                                } else if (!emailPattern.hasMatch(value)) {
+                                  return "Please enter a valid email address";
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                emailController.text = value;
+                              },
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            isLoading
+                                ? Center(
+                                    child: SpinKitChasingDots(
+                                      color: kAccentColor,
+                                      duration: const Duration(seconds: 2),
+                                    ),
+                                  )
+                                : ElevatedButton(
+                                    onPressed: (() async {
+                                      if (_formKey.currentState!.validate()) {
+                                        loadData();
+                                      }
+                                    }),
+                                    style: ElevatedButton.styleFrom(
+                                      elevation: 10,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      backgroundColor: kAccentColor,
+                                      fixedSize: Size(media.size.width, 50),
+                                    ),
+                                    child: Text(
+                                      'Send Code'.toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
                                       ),
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                ),
-                                kHalfSizedBox,
-                                EmailTextFormField(
-                                  controller: emailController,
-                                  emailFocusNode: emailFocusNode,
-                                  textInputAction: TextInputAction.done,
-                                  validator: (value) {
-                                    RegExp emailPattern = RegExp(
-                                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
-                                    );
-                                    if (value == null || value!.isEmpty) {
-                                      emailFocusNode.requestFocus();
-                                      return "Enter your email address";
-                                    } else if (!emailPattern.hasMatch(value)) {
-                                      return "Please enter a valid email address";
-                                    }
-                                    return null;
-                                  },
-                                  onSaved: (value) {
-                                    emailController.text = value;
-                                  },
-                                ),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                isLoading
-                                    ? Center(
-                                        child: SpinKitChasingDots(
-                                          color: kAccentColor,
-                                          duration: const Duration(seconds: 2),
-                                        ),
-                                      )
-                                    : ElevatedButton(
-                                        onPressed: (() async {
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            loadData();
-                                          }
-                                        }),
-                                        style: ElevatedButton.styleFrom(
-                                          elevation: 10,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          backgroundColor: kAccentColor,
-                                          fixedSize: Size(media.size.width, 50),
-                                        ),
-                                        child: Text(
-                                          'Send Code'.toUpperCase(),
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                              ],
-                            ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

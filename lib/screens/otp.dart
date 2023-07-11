@@ -52,7 +52,7 @@ class _SendOTPState extends State<SendOTP> {
     myFixedSnackBar(
       context,
       "OTP Verified".toUpperCase(),
-      kSuccessColor,
+      kSecondaryColor,
     );
 
     // Navigate to the new page
@@ -88,8 +88,7 @@ class _SendOTPState extends State<SendOTP> {
             children: [
               const ReusableAuthenticationFirstHalf(
                 title: "Verification",
-                subtitle:
-                    "example@gmail.com\nWe have sent a code to your email",
+                subtitle: "We have sent a code to your email",
                 decoration: BoxDecoration(),
                 imageContainerHeight: 0,
               ),
@@ -97,6 +96,11 @@ class _SendOTPState extends State<SendOTP> {
               Expanded(
                 child: Container(
                   width: media.size.width,
+                  padding: const EdgeInsets.only(
+                    top: kDefaultPadding / 2,
+                    left: kDefaultPadding,
+                    right: kDefaultPadding,
+                  ),
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -104,178 +108,188 @@ class _SendOTPState extends State<SendOTP> {
                       topRight: Radius.circular(24),
                     ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: kDefaultPadding / 2,
-                      top: kDefaultPadding,
-                      right: kDefaultPadding,
-                    ),
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      physics: const BouncingScrollPhysics(),
-                      padding: const EdgeInsets.only(
-                        left: kDefaultPadding,
+                  child: ListView(
+                    scrollDirection: Axis.vertical,
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      Container(
+                        width: media.size.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Code'.toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color(
+                                  0xFF31343D,
+                                ),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    "Resend",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: kTextBlackColor,
+                                      fontWeight: FontWeight.w600,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "in",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: kTextBlackColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                Text(
+                                  "1:00",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: kTextBlackColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                      children: [
-                        Container(
-                          width: media.size.width,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Code'.toUpperCase(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color(
-                                    0xFF31343D,
-                                  ),
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      "Resend",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        color: kTextBlackColor,
-                                        fontWeight: FontWeight.w600,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    "in",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: kTextBlackColor,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    "1:00",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: kTextBlackColor,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        Form(
-                          key: _formKey,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 90,
-                                width: 68,
-                                child: MyOTPTextFormField(
-                                  textInputAction: TextInputAction.next,
-                                  onSaved: (pin1) {
-                                    pin1EC.text = pin1!;
-                                  },
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      pin1FN.requestFocus();
-                                      return "";
-                                    }
-                                  },
-                                ),
-                              ),
-                              SizedBox(
-                                height: 90,
-                                width: 68,
-                                child: MyOTPTextFormField(
-                                  textInputAction: TextInputAction.next,
-                                  onSaved: (pin2) {
-                                    pin2EC.text = pin2!;
-                                  },
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      pin2FN.requestFocus();
-                                      return "";
-                                    }
-                                  },
-                                ),
-                              ),
-                              SizedBox(
-                                height: 90,
-                                width: 70,
-                                child: MyOTPTextFormField(
-                                  textInputAction: TextInputAction.next,
-                                  onSaved: (pin3) {
-                                    pin3EC.text = pin3!;
-                                  },
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      pin3FN.requestFocus();
-                                      return "";
-                                    }
-                                  },
-                                ),
-                              ),
-                              SizedBox(
-                                height: 90,
-                                width: 68,
-                                child: MyOTPTextFormField(
-                                  textInputAction: TextInputAction.next,
-                                  onSaved: (pin4) {
-                                    pin4EC.text = pin4!;
-                                  },
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      pin4FN.requestFocus();
-                                      return "";
-                                    }
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: kDefaultPadding * 4,
-                        ),
-                        isLoading
-                            ? Center(
-                                child: SpinKitChasingDots(
-                                  color: kAccentColor,
-                                  duration: const Duration(seconds: 2),
-                                ),
-                              )
-                            : ElevatedButton(
-                                onPressed: (() async {
-                                  if (_formKey.currentState!.validate()) {
-                                    loadData();
+                      Form(
+                        key: _formKey,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 90,
+                              width: 68,
+                              child: MyOTPTextFormField(
+                                textInputAction: TextInputAction.next,
+                                onSaved: (pin1) {
+                                  pin1EC.text = pin1!;
+                                },
+                                onChanged: (value) {
+                                  if (value.length == 1) {
+                                    FocusScope.of(context).nextFocus();
                                   }
-                                }),
-                                style: ElevatedButton.styleFrom(
-                                  elevation: 10,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  backgroundColor: kAccentColor,
-                                  fixedSize: Size(media.size.width, 50),
-                                ),
-                                child: Text(
-                                  'Verify'.toUpperCase(),
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    pin1FN.requestFocus();
+                                    return "";
+                                  }
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 90,
+                              width: 68,
+                              child: MyOTPTextFormField(
+                                textInputAction: TextInputAction.next,
+                                onSaved: (pin2) {
+                                  pin2EC.text = pin2!;
+                                },
+                                onChanged: (value) {
+                                  if (value.length == 1) {
+                                    FocusScope.of(context).nextFocus();
+                                  }
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    pin2FN.requestFocus();
+                                    return "";
+                                  }
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 90,
+                              width: 70,
+                              child: MyOTPTextFormField(
+                                textInputAction: TextInputAction.next,
+                                onSaved: (pin3) {
+                                  pin3EC.text = pin3!;
+                                },
+                                onChanged: (value) {
+                                  if (value.length == 1) {
+                                    FocusScope.of(context).nextFocus();
+                                  }
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    pin3FN.requestFocus();
+                                    return "";
+                                  }
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 90,
+                              width: 68,
+                              child: MyOTPTextFormField(
+                                textInputAction: TextInputAction.done,
+                                onSaved: (pin4) {
+                                  pin4EC.text = pin4!;
+                                },
+                                onChanged: (value) {
+                                  if (value.length == 1) {
+                                    FocusScope.of(context).nearestScope;
+                                  }
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    pin4FN.requestFocus();
+                                    return "";
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: kDefaultPadding * 2,
+                      ),
+                      isLoading
+                          ? Center(
+                              child: SpinKitChasingDots(
+                                color: kAccentColor,
+                                duration: const Duration(seconds: 2),
+                              ),
+                            )
+                          : ElevatedButton(
+                              onPressed: (() async {
+                                if (_formKey.currentState!.validate()) {
+                                  loadData();
+                                }
+                              }),
+                              style: ElevatedButton.styleFrom(
+                                elevation: 10,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                backgroundColor: kAccentColor,
+                                fixedSize: Size(media.size.width, 50),
+                              ),
+                              child: Text(
+                                'Verify'.toUpperCase(),
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
-                      ],
-                    ),
+                            ),
+                    ],
                   ),
                 ),
               ),
