@@ -7,11 +7,13 @@ class MyOTPTextFormField extends StatelessWidget {
   final TextInputAction textInputAction;
   final dynamic onSaved;
   final dynamic validator;
+  final dynamic onChanged;
   const MyOTPTextFormField({
     super.key,
     required this.textInputAction,
     required this.onSaved,
     required this.validator,
+    this.onChanged,
   });
 
   @override
@@ -25,11 +27,7 @@ class MyOTPTextFormField extends StatelessWidget {
         LengthLimitingTextInputFormatter(1),
         FilteringTextInputFormatter.digitsOnly,
       ],
-      onChanged: (value) {
-        if (value.length == 1) {
-          FocusScope.of(context).nextFocus();
-        }
-      },
+      onChanged: onChanged,
       validator: validator,
       decoration: InputDecoration(
         hintText: "0",
