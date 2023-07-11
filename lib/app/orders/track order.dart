@@ -156,9 +156,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                   width: 18,
                                   height: 18,
                                   decoration: ShapeDecoration(
-                                    color: Color(
-                                      0xFFEC2623,
-                                    ),
+                                    color: kAccentColor,
                                     shape: OvalBorder(),
                                   ),
                                 ),
@@ -173,9 +171,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                     shape: OvalBorder(
                                       side: BorderSide(
                                         width: 0.50,
-                                        color: Color(
-                                          0xFFEC2623,
-                                        ),
+                                        color: kAccentColor,
                                       ),
                                     ),
                                   ),
