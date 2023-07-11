@@ -242,7 +242,7 @@ class _SendOTPState extends State<SendOTP> {
                           ),
                         ),
                         SizedBox(
-                          height: media.size.height * 0.26,
+                          height: kDefaultPadding * 4,
                         ),
                         isLoading
                             ? Center(
