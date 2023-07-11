@@ -53,6 +53,9 @@ class _SendOTPState extends State<SendOTP> {
       context,
       "OTP Verified".toUpperCase(),
       kSecondaryColor,
+        Duration(
+        seconds: 2,
+      ),
     );
 
     // Navigate to the new page
