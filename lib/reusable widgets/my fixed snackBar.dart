@@ -4,6 +4,7 @@ void myFixedSnackBar(
   BuildContext context,
   String text,
   Color bgColor,
+  Duration duration,
 ) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -14,9 +15,7 @@ void myFixedSnackBar(
           fontWeight: FontWeight.w700,
         ),
       ),
-      duration: Duration(
-        seconds: 3,
-      ),
+      duration: duration,
       behavior: SnackBarBehavior.fixed,
       backgroundColor: bgColor,
     ),

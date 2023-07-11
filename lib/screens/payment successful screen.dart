@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 
 import '../app/orders/track order.dart';
-import '../reusable widgets/my elevatedbutton.dart';
 import '../providers/constants.dart';
+import '../reusable widgets/my elevatedbutton.dart';
 
 class PaymentSuccessful extends StatelessWidget {
   const PaymentSuccessful({super.key});
@@ -74,7 +74,7 @@ class PaymentSuccessful extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.2,
               ),
               MyElevatedButton(
                 title: "Done",
@@ -86,6 +86,7 @@ class PaymentSuccessful extends StatelessWidget {
                   );
                 },
               ),
+              kSizedBox,
             ],
           ),
         ),

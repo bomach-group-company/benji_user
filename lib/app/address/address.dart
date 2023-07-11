@@ -79,122 +79,126 @@ class _AddressesState extends State<Addresses> {
         backgroundColor: kPrimaryColor,
         actions: [],
       ),
-      body: Container(
-        margin: EdgeInsets.only(
-          top: kDefaultPadding,
-          left: kDefaultPadding,
-          right: kDefaultPadding,
-        ),
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          physics: const BouncingScrollPhysics(),
-          children: [
-            Column(
-              children: [
-                for (int i = 0; i < listTitleTitles.length; i++)
-                  Container(
-                    padding: EdgeInsetsDirectional.symmetric(
-                      vertical: kDefaultPadding / 2,
-                    ),
-                    child: ListTile(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => AddressDetails(),
-                          ),
-                        );
-                      },
-                      enableFeedback: true,
-                      trailing: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 16,
-                        color: kAccentColor,
+      body: SafeArea(
+        maintainBottomViewPadding: true,
+        child: Container(
+          margin: EdgeInsets.only(
+            top: kDefaultPadding,
+            left: kDefaultPadding,
+            right: kDefaultPadding,
+          ),
+          child: ListView(
+            scrollDirection: Axis.vertical,
+            physics: const BouncingScrollPhysics(),
+            children: [
+              Column(
+                children: [
+                  for (int i = 0; i < listTitleTitles.length; i++)
+                    Container(
+                      padding: EdgeInsetsDirectional.symmetric(
+                        vertical: kDefaultPadding / 2,
                       ),
-                      title: Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              listTitleTitles[i],
-                              style: TextStyle(
-                                color: Color(
-                                  0xFF151515,
-                                ),
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => AddressDetails(),
                             ),
-                            kWidthSizedBox,
-                            Container(
-                              width: 58,
-                              height: 24,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              decoration: ShapeDecoration(
-                                color: ListTileDefaultColor[i],
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    8,
+                          );
+                        },
+                        enableFeedback: true,
+                        trailing: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 16,
+                          color: kAccentColor,
+                        ),
+                        title: Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                listTitleTitles[i],
+                                style: TextStyle(
+                                  color: Color(
+                                    0xFF151515,
                                   ),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    listTileDefaultTitle[i],
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                      color: kAccentColor,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
+                              kWidthSizedBox,
+                              Container(
+                                width: 58,
+                                height: 24,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
+                                decoration: ShapeDecoration(
+                                  color: ListTileDefaultColor[i],
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      8,
                                     ),
                                   ),
-                                ],
-                              ),
-                            )
-                          ],
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      listTileDefaultTitle[i],
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                        color: kAccentColor,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(
-                          top: kDefaultPadding / 2,
-                        ),
-                        child: Container(
-                          child: Text(
-                            listTileSubtitles[1],
-                            style: TextStyle(
-                              color: Color(
-                                0xFF4C4C4C,
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(
+                            top: kDefaultPadding / 2,
+                          ),
+                          child: Container(
+                            child: Text(
+                              listTileSubtitles[1],
+                              style: TextStyle(
+                                color: Color(
+                                  0xFF4C4C4C,
+                                ),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
                               ),
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
                             ),
                           ),
                         ),
                       ),
                     ),
+                  SizedBox(
+                    height: kDefaultPadding * 3,
                   ),
-                SizedBox(
-                  height: kDefaultPadding * 5,
-                ),
-              ],
-            ),
-            MyElevatedButton(
-              title: "Add New Address",
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => AddNewAddress(),
-                  ),
-                );
-              },
-            ),
-          ],
+                ],
+              ),
+              MyElevatedButton(
+                title: "Add New Address",
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AddNewAddress(),
+                    ),
+                  );
+                },
+              ),
+              kSizedBox,
+            ],
+          ),
         ),
       ),
     );
