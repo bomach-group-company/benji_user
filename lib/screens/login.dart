@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
+import 'package:alpha_logistics/reusable%20widgets/my%20fixed%20snackBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../providers/constants.dart';
 import '../reusable widgets/email textformfield.dart';
-import '../reusable widgets/my floating snackbar.dart';
 import '../reusable widgets/password textformfield.dart';
 import '../reusable widgets/reusable authentication first half.dart';
 import '../splash screens/login splash screen.dart';
@@ -32,7 +33,7 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
 
   //=========================== BOOL VALUES ====================================\\
-
+  bool isLoading = false;
   bool isChecked = false;
   var isObscured;
 
@@ -45,6 +46,34 @@ class _LoginState extends State<Login> {
   //=========================== FOCUS NODES ====================================\\
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
+
+  //=========================== FUNCTIONS ====================================\\
+  Future<void> loadData() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    // Simulating a delay of 3 seconds
+    await Future.delayed(Duration(seconds: 2));
+
+    //Display snackBar
+    myFixedSnackBar(
+      context,
+      "Login Successful".toUpperCase(),
+      kSuccessColor,
+    );
+
+    // Navigate to the new page
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const LoginSplashScreen(),
+      ),
+    );
+
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   //=========================== INITIAL STATE ====================================\\
   @override
@@ -248,56 +277,48 @@ class _LoginState extends State<Login> {
                                   ],
                                 ),
                                 kSizedBox,
-                                ElevatedButton(
-                                  onPressed: (() async {
-                                    if (_formKey.currentState!.validate()) {
-                                      mySnackBar(
-                                        context,
-                                        "Login Successful",
-                                        kSuccessColor,
-                                        SnackBarBehavior.floating,
-                                        kDefaultPadding,
-                                      );
-                                      Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginSplashScreen(),
+                                isLoading
+                                    ? Center(
+                                        child: SpinKitChasingDots(
+                                          color: kAccentColor,
+                                          duration: const Duration(seconds: 2),
                                         ),
-                                      );
-                                    }
-                                  }),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: kAccentColor,
-                                    maximumSize: Size(
-                                      MediaQuery.of(context).size.width,
-                                      62,
-                                    ),
-                                    minimumSize: Size(
-                                      MediaQuery.of(context).size.width,
-                                      60,
-                                    ),
-                                    // fixedSize: Size(
-                                    //   MediaQuery.of(context).size.width,
-                                    //   62,
-                                    // ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                        16,
+                                      )
+                                    : ElevatedButton(
+                                        onPressed: (() async {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            loadData();
+                                          }
+                                        }),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: kAccentColor,
+                                          maximumSize: Size(
+                                            MediaQuery.of(context).size.width,
+                                            62,
+                                          ),
+                                          minimumSize: Size(
+                                            MediaQuery.of(context).size.width,
+                                            60,
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              16,
+                                            ),
+                                          ),
+                                          elevation: 10,
+                                          shadowColor: kDarkGreyColor,
+                                        ),
+                                        child: Text(
+                                          "Log in".toUpperCase(),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    elevation: 10,
-                                    shadowColor: kDarkGreyColor,
-                                  ),
-                                  child: Text(
-                                    "Log in".toUpperCase(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: kPrimaryColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
                                 kHalfSizedBox,
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
