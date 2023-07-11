@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'package:alpha_logistics/reusable%20widgets/my%20appbar.dart';
 import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
 import 'package:alpha_logistics/theme/colors.dart';

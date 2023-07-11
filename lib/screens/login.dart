@@ -290,6 +290,12 @@ class _LoginState extends State<Login> {
                                   ),
                                   child: Text(
                                     "Log in".toUpperCase(),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: kPrimaryColor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
                                 ),
                                 kHalfSizedBox,

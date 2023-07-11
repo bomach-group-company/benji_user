@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../theme/colors.dart';
 import '../providers/constants.dart';
+import '../theme/colors.dart';
 
 class PopularVendorsCard extends StatelessWidget {
   final Function() onTap;
@@ -28,7 +28,7 @@ class PopularVendorsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       child: Container(
         width: 355,
@@ -172,7 +172,6 @@ class PopularVendorsCard extends StatelessWidget {
                           style: TextStyle(
                             color: Color(0x662F2E3C),
                             fontSize: 14,
-                            fontFamily: 'Sen',
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -208,7 +207,6 @@ class PopularVendorsCard extends StatelessWidget {
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
-                              fontFamily: 'Sen',
                               fontWeight: FontWeight.w400,
                               letterSpacing: -0.24,
                             ),

@@ -43,7 +43,7 @@ class PasswordTextFormField extends StatelessWidget {
       textAlign: TextAlign.start,
       obscuringCharacter: "*",
       maxLength: 32,
-      maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+      maxLengthEnforcement: MaxLengthEnforcement.enforced,
       style: TextStyle(
         color: kSecondaryColor,
         fontSize: 14,

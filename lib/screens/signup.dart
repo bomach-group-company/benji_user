@@ -461,6 +461,12 @@ class _SignUpState extends State<SignUp> {
                                   ),
                                   child: Text(
                                     "Sign up".toUpperCase(),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: kPrimaryColor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
                                 ),
                                 kHalfSizedBox,

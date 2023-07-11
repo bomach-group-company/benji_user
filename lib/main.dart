@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Benji",
+      color: kPrimaryColor,
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light().copyWith(
         scrollbarTheme: ScrollbarThemeData(

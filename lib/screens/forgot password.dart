@@ -153,8 +153,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       color: Colors.white,
-                                      fontSize: 15.46,
-                                      fontFamily: 'Sen',
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),

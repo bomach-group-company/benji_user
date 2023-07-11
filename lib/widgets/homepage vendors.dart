@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../app/vendor/vendor.dart';
-import '../theme/colors.dart';
 import '../providers/constants.dart';
+import '../theme/colors.dart';
 
 class HomePageVendorsCard extends StatelessWidget {
   const HomePageVendorsCard({
@@ -18,7 +18,7 @@ class HomePageVendorsCard extends StatelessWidget {
         itemCount: 5,
         scrollDirection: Axis.horizontal,
         physics: BouncingScrollPhysics(),
-        itemBuilder: (context, index) => GestureDetector(
+        itemBuilder: (context, index) => InkWell(
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(

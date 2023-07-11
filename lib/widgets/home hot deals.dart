@@ -9,7 +9,7 @@ class HomeHotDeals extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {},
       child: Container(
         width: 349.82,
@@ -43,7 +43,6 @@ class HomeHotDeals extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              width: 340,
               height: 186.64,
               decoration: ShapeDecoration(
                 shape: RoundedRectangleBorder(
@@ -70,7 +69,6 @@ class HomeHotDeals extends StatelessWidget {
                 left: 8.0,
               ),
               child: Container(
-                width: 255,
                 height: 57.06,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -87,7 +85,6 @@ class HomeHotDeals extends StatelessWidget {
                             0xFF333333,
                           ),
                           fontSize: 20,
-                          fontFamily: 'Sen',
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -105,7 +102,6 @@ class HomeHotDeals extends StatelessWidget {
                             0xFF707070,
                           ),
                           fontSize: 16,
-                          fontFamily: 'Sen',
                           fontWeight: FontWeight.w400,
                           letterSpacing: -0.43,
                         ),
@@ -123,12 +119,13 @@ class HomeHotDeals extends StatelessWidget {
               child: SizedBox(
                 width: 159,
                 child: Text(
-                  'N40,000',
+                  '₦40,000',
                   style: TextStyle(
                     color: Color(
                       0xFF333333,
                     ),
                     fontSize: 20,
+                    fontFamily: 'Sen',
                     fontWeight: FontWeight.w700,
                   ),
                 ),

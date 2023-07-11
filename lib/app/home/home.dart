@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../widgets/appBar delivery location.dart';
-import '../../widgets/category button section.dart';
-import '../../widgets/home hot deals.dart';
-import '../../widgets/home popular vendors card.dart';
-import '../../widgets/homepage vendors.dart';
+import '../../providers/constants.dart';
 import '../../reusable widgets/my floating snackbar.dart';
 import '../../reusable widgets/search field.dart';
 import '../../reusable widgets/see all container.dart';
 import '../../screens/login.dart';
 import '../../theme/colors.dart';
-import '../../providers/constants.dart';
+import '../../widgets/appBar delivery location.dart';
+import '../../widgets/category button section.dart';
+import '../../widgets/home hot deals.dart';
+import '../../widgets/home popular vendors card.dart';
+import '../../widgets/homepage vendors.dart';
 import '../address/address.dart';
 import '../cart/cart.dart';
 import '../orders/order history.dart';
@@ -134,11 +134,11 @@ class _HomeState extends State<Home> {
     "3.6",
   ];
   final List<String> popularVendorNoOfUsersRating = [
-    "500+",
-    "500+",
-    "500+",
-    "500+",
-    "500+",
+    "500",
+    "500",
+    "500",
+    "500",
+    "500",
   ];
 
   //===================== COPY TO CLIPBOARD =======================\\
