@@ -15,6 +15,7 @@ import '../../widgets/homepage vendors.dart';
 import '../address/address.dart';
 import '../cart/cart.dart';
 import '../orders/order history.dart';
+import '../profile/edit profile.dart';
 import 'home drawer.dart';
 
 class Home extends StatefulWidget {
@@ -168,6 +169,13 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         drawer: HomeDrawer(
           userID: userID,
+          toEditProfilePage: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => EditProfile(),
+              ),
+            );
+          },
           copyUserIdToClipBoard: () {
             _copyToClipboard(
               context,
