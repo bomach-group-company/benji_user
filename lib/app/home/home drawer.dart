@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../providers/constants.dart';
 import '../../reusable widgets/my appbar.dart';
 import '../../theme/colors.dart';
-import '../../providers/constants.dart';
 
 class HomeDrawer extends StatefulWidget {
+  final Function() toEditProfilePage;
   final Function() copyUserIdToClipBoard;
   final Function() toInvitesPage;
   final Function() toFavoritesPage;
@@ -22,6 +23,7 @@ class HomeDrawer extends StatefulWidget {
     required this.toAddressesPage,
     required this.logOut,
     required this.toFavoritesPage,
+    required this.toEditProfilePage,
   });
 
   @override
@@ -119,6 +121,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ),
           kHalfSizedBox,
           ListTile(
+            onTap: widget.toEditProfilePage,
             leading: Icon(
               Icons.person_rounded,
               color: kAccentColor,
@@ -131,6 +134,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 ),
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
+              ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+              color: Color(
+                0xFF4C4C4C,
               ),
             ),
           ),
@@ -185,7 +195,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ListTile(
             onTap: widget.toOrdersPage,
             leading: Icon(
-              Icons.local_shipping_rounded,
+              Icons.shopping_cart_rounded,
               color: kAccentColor,
             ),
             title: Text(
