@@ -108,7 +108,7 @@ class _VendorState extends State<Vendor> {
                 left: kDefaultPadding,
                 right: kDefaultPadding,
                 child: Container(
-                  height: MediaQuery.of(context).size.height - 360,
+                  height: MediaQuery.of(context).size.height - 500,
                   child: SingleChildScrollView(
                     padding: EdgeInsets.only(
                       bottom: kDefaultPadding * 2,
@@ -148,6 +148,9 @@ class _VendorState extends State<Vendor> {
                               );
                             },
                           ),
+                        SizedBox(
+                          height: kDefaultPadding * 4,
+                        )
                       ],
                     ),
                   ),

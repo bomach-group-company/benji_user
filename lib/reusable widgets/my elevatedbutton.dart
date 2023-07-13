@@ -38,12 +38,12 @@ class MyElevatedButton extends StatelessWidget {
       ),
       child: SizedBox(
         child: Text(
-          title,
+          title.toUpperCase(),
           textAlign: TextAlign.center,
           style: TextStyle(
             color: kPrimaryColor,
             fontSize: 18,
-            fontFamily: 'Sen',
+            fontFamily: "Sen",
             fontWeight: FontWeight.w700,
           ),
         ),

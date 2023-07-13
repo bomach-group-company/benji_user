@@ -295,6 +295,7 @@ class _HomeState extends State<Home> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             for (int i = 0;
                                 i < popularVendorsIndex.length;
@@ -328,6 +329,7 @@ class _HomeState extends State<Home> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             for (int i = 0; i < 5; i++,) HomeHotDeals(),
                           ],

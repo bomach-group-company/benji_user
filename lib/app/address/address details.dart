@@ -3,11 +3,13 @@ import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
 import 'package:alpha_logistics/reusable%20widgets/my%20outlined%20elevatedbutton.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../../providers/constants.dart';
 import '../../reusable widgets/my floating snackbar.dart';
+import '../../reusable widgets/my intl phonefield.dart';
 import '../../reusable widgets/my textformfield.dart';
 import '../../theme/colors.dart';
-import '../../providers/constants.dart';
 
 class AddressDetails extends StatefulWidget {
   const AddressDetails({super.key});
@@ -50,20 +52,23 @@ class _AddressDetailsState extends State<AddressDetails> {
           toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
           actions: [
-            Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: kDefaultPadding,
+            Padding(
+              padding: const EdgeInsets.only(
+                right: kDefaultPadding,
               ),
-              height: 25,
-              width: 25,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    "assets/images/icons/edit-icon.png",
-                  ),
+              child: InkWell(
+                radius: 17,
+                borderRadius: BorderRadius.all(Radius.circular(100)),
+                onTap: () {
+                  addressTitleFocusNode.requestFocus();
+                },
+                child: Icon(
+                  Icons.edit_rounded,
+                  color: kAccentColor,
+                  size: 17,
                 ),
               ),
-            )
+            ),
           ],
         ),
         body: Container(
@@ -215,25 +220,23 @@ class _AddressDetailsState extends State<AddressDetails> {
                               ),
                             ),
                             kHalfSizedBox,
-                            MyTextFormField(
-                              hintText: "+2347025479571",
+                            MyIntlPhoneField(
+                              initialCountryCode: "NG",
+                              invalidNumberMessage: "Invalid phone number",
+                              dropdownIconPosition: IconPosition.trailing,
+                              showCountryFlag: true,
+                              showDropdownIcon: true,
+                              dropdownIcon: Icon(
+                                Icons.arrow_drop_down_rounded,
+                                color: kAccentColor,
+                              ),
                               controller: phoneNumberController,
-                              textInputAction: TextInputAction.done,
-                              textInputType: TextInputType.name,
+                              textInputAction: TextInputAction.next,
                               focusNode: phoneNumberFocusNode,
                               validator: (value) {
-                                RegExp nigeriaPhoneNumberPattern = RegExp(
-                                  r'^\+?[0-9\s-]+$',
-                                );
-                                String phoneNumber = '+1 123-456-7890';
-                                if (value == null || value!.isEmpty) {
+                                if (value == null || value.isEmpty) {
                                   phoneNumberFocusNode.requestFocus();
                                   return "Enter your phone number";
-                                }
-                                if (!nigeriaPhoneNumberPattern
-                                    .hasMatch(phoneNumber)) {
-                                  phoneNumberFocusNode.requestFocus();
-                                  return "Please enter a valid phone number";
                                 }
                                 return null;
                               },

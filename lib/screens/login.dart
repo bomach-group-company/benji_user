@@ -67,10 +67,9 @@ class _LoginState extends State<Login> {
     );
 
     // Navigate to the new page
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const LoginSplashScreen(),
-      ),
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => LoginSplashScreen()),
+      (route) => false,
     );
 
     setState(() {

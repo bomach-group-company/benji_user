@@ -58,10 +58,9 @@ class _ResetPasswordState extends State<ResetPassword> {
     );
 
     // Navigate to the new page
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (ctx) => Login(),
-      ),
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => Login()),
+      (route) => false,
     );
 
     setState(() {

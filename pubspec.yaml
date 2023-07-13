@@ -20,6 +20,8 @@ dependencies:
   geolocator: ^9.0.2
   permission_handler: ^10.3.0
   flutter_pw_validator: ^1.6.0
+  intl_phone_field: ^3.2.0
+  image_picker: ^1.0.1
 
 dev_dependencies:
   flutter_test:

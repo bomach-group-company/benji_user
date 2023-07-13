@@ -3,11 +3,13 @@ import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
 import 'package:alpha_logistics/reusable%20widgets/my%20outlined%20elevatedbutton.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../../providers/constants.dart';
 import '../../reusable widgets/my floating snackbar.dart';
+import '../../reusable widgets/my intl phonefield.dart';
 import '../../reusable widgets/my textformfield.dart';
 import '../../theme/colors.dart';
-import '../../providers/constants.dart';
 
 class AddNewAddress extends StatefulWidget {
   const AddNewAddress({super.key});
@@ -245,24 +247,23 @@ class _AddNewAddressState extends State<AddNewAddress> {
                               ),
                             ),
                             kHalfSizedBox,
-                            MyTextFormField(
-                              hintText: "+234",
+                            MyIntlPhoneField(
+                              initialCountryCode: "NG",
+                              invalidNumberMessage: "Invalid phone number",
+                              dropdownIconPosition: IconPosition.trailing,
+                              showCountryFlag: true,
+                              showDropdownIcon: true,
+                              dropdownIcon: Icon(
+                                Icons.arrow_drop_down_rounded,
+                                color: kAccentColor,
+                              ),
                               controller: phoneNumberController,
-                              textInputAction: TextInputAction.done,
-                              textInputType: TextInputType.name,
+                              textInputAction: TextInputAction.next,
                               focusNode: phoneNumberFocusNode,
                               validator: (value) {
-                                RegExp nigeriaPhoneNumberPattern = RegExp(
-                                  r'^\+?[0-9\s-]+$',
-                                );
-                                String phoneNumber = '+1 123-456-7890';
-                                if (value == null || value!.isEmpty) {
+                                if (value == null || value.isEmpty) {
                                   phoneNumberFocusNode.requestFocus();
                                   return "Enter your phone number";
-                                } else if (!nigeriaPhoneNumberPattern
-                                    .hasMatch(phoneNumber)) {
-                                  phoneNumberFocusNode.requestFocus();
-                                  return "Please enter a valid phone number";
                                 }
                                 return null;
                               },

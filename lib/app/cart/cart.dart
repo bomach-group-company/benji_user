@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:alpha_logistics/app/coupon/apply%20coupon.dart';
 import 'package:alpha_logistics/providers/constants.dart';
 import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
