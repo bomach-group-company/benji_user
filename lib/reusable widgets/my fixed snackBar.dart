@@ -1,3 +1,4 @@
+import 'package:alpha_logistics/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 void myFixedSnackBar(
@@ -16,6 +17,9 @@ void myFixedSnackBar(
         ),
       ),
       duration: duration,
+      showCloseIcon: true,
+      elevation: 50.0,
+      closeIconColor: kPrimaryColor,
       behavior: SnackBarBehavior.fixed,
       backgroundColor: bgColor,
     ),
