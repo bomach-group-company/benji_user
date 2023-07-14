@@ -7,7 +7,7 @@ import '../../theme/colors.dart';
 class HomeDrawer extends StatefulWidget {
   final Function() toEditProfilePage;
   final Function() copyUserIdToClipBoard;
-  final Function() toInvitesPage;
+  // final Function() toInvitesPage;
   final Function() toFavoritesPage;
   final Function() toOrdersPage;
   final Function() toAddressesPage;
@@ -19,7 +19,7 @@ class HomeDrawer extends StatefulWidget {
     required this.copyUserIdToClipBoard,
     required this.userID,
     required this.toOrdersPage,
-    required this.toInvitesPage,
+    // required this.toInvitesPage,
     required this.toAddressesPage,
     required this.logOut,
     required this.toFavoritesPage,
@@ -217,13 +217,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
           ),
           ListTile(
-            onTap: widget.toInvitesPage,
+            onTap: null,
             leading: Icon(
               Icons.person_add_alt_1_rounded,
               color: kAccentColor,
             ),
             title: Text(
-              'Invites',
+              'Invites (Coming Soon)',
               style: TextStyle(
                 color: Color(
                   0xFF334A66,
