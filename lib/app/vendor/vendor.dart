@@ -1,5 +1,8 @@
 import 'package:alpha_logistics/app/vendor/vendor%20location.dart';
 import 'package:alpha_logistics/providers/constants.dart';
+import 'package:alpha_logistics/reusable%20widgets/message%20textformfield.dart';
+import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
+import 'package:alpha_logistics/reusable%20widgets/my%20floating%20snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -19,13 +22,21 @@ class Vendor extends StatefulWidget {
 
 class _VendorState extends State<Vendor> {
   //=================================== ALL VARIABLES ====================================\\
+  int selectedRating = 0;
 
   //TextEditingController
   TextEditingController searchController = TextEditingController();
+  TextEditingController rateVendorEC = TextEditingController();
+
+//===================== KEYS =======================\\
+  final _formKey = GlobalKey<FormState>();
+
+//===================== FOCUS NODES =======================\\
+  FocusNode rateVendorFN = FocusNode();
 
 //===================== BOOL VALUES =======================\\
   bool isLoading = false;
-
+  bool isValidating = false;
 //===================== CATEGORY BUTTONS =======================\\
   final List _categoryButtonText = [
     "Pasta",
@@ -69,7 +80,17 @@ class _VendorState extends State<Vendor> {
 //===================== VENDORS LIST VIEW INDEX =======================\\
   List<int> foodListView = [0, 1, 3, 4, 5, 6];
 
-//===================== VENDORS LIST VIEW INDEX =======================\\
+//===================== FUNCTIONS =======================\\
+  void validate() {
+    mySnackBar(
+      context,
+      "Success!",
+      "Thank you for your feedback!",
+      Duration(seconds: 1),
+    );
+
+    Navigator.of(context).pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +218,51 @@ class _VendorState extends State<Vendor> {
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          rating(
+                            (() async {
+                              if (_formKey.currentState!.validate()) {
+                                validate();
+                              }
+                            }),
+                            "Rate Vendor",
+                            context,
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                for (int i = 1; i <= 5; i++)
+                                  InkWell(
+                                    radius: 10,
+                                    splashColor: Colors.amber,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(100)),
+                                    onTap: () {
+                                      setState(() {
+                                        selectedRating = i;
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.star_rounded,
+                                      size: 30,
+                                      color: i <= selectedRating
+                                          ? Colors.yellow
+                                          : Colors.grey,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            rateVendorEC,
+                            (value) {
+                              if (value == null || value.isEmpty) {
+                                rateVendorFN.requestFocus();
+                                return "Enter a review";
+                              }
+                              return null;
+                            },
+                            rateVendorFN,
+                            _formKey,
+                          );
+                        },
                         child: Container(
                           width: 48,
                           height: 48,
@@ -463,4 +528,78 @@ class _VendorState extends State<Vendor> {
       ),
     );
   }
+}
+
+void setState(Null Function() param0) {}
+
+rating(
+  Function() onPressed,
+  String title,
+  BuildContext context,
+  Widget rowWidget,
+  TextEditingController controller,
+  FormFieldValidator validator,
+  FocusNode focusNode,
+  GlobalKey formKey,
+) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setStateForDialog) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(kDefaultPadding)),
+            ),
+            scrollable: true,
+            shadowColor: kBlackColor.withOpacity(0.9),
+            title: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop(context);
+                },
+                splashRadius: 20,
+                icon: Icon(
+                  Icons.close_rounded,
+                  color: kAccentColor,
+                ),
+              ),
+            ],
+            contentPadding: EdgeInsets.all(kDefaultPadding),
+            content: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  rowWidget,
+                  kSizedBox,
+                  MyMessageTextFormField(
+                    controller: controller,
+                    validator: validator,
+                    textInputAction: TextInputAction.newline,
+                    focusNode: focusNode,
+                    hintText: "Enter your review",
+                    maxLines: 5,
+                    keyboardType: TextInputType.multiline,
+                  ),
+                  kSizedBox,
+                  MyElevatedButton(
+                    title: "Send",
+                    onPressed: onPressed,
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    },
+  );
 }
