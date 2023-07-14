@@ -20,32 +20,20 @@ class MyElevatedButton extends StatelessWidget {
         backgroundColor: kAccentColor,
         elevation: 20.0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-            20,
-          ),
+          borderRadius: BorderRadius.circular(20),
         ),
-        shadowColor: kBlackColor.withOpacity(
-          0.4,
-        ),
-        minimumSize: Size(
-          MediaQuery.of(context).size.width,
-          60,
-        ),
-        maximumSize: Size(
-          MediaQuery.of(context).size.width,
-          60,
-        ),
+        shadowColor: kBlackColor.withOpacity(0.4),
+        minimumSize: Size(MediaQuery.of(context).size.width, 60),
+        maximumSize: Size(MediaQuery.of(context).size.width, 60),
       ),
-      child: SizedBox(
-        child: Text(
-          title.toUpperCase(),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: kPrimaryColor,
-            fontSize: 18,
-            fontFamily: "Sen",
-            fontWeight: FontWeight.w700,
-          ),
+      child: Text(
+        title.toUpperCase(),
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: kPrimaryColor,
+          fontSize: 18,
+          fontFamily: "Sen",
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
