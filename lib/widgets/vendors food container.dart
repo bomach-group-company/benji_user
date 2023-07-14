@@ -1,9 +1,10 @@
+import 'package:alpha_logistics/reusable%20widgets/my%20floating%20snackbar.dart';
 import 'package:flutter/material.dart';
 
 import '../providers/constants.dart';
 import '../theme/colors.dart';
 
-class VendorFoodContainer extends StatelessWidget {
+class VendorFoodContainer extends StatefulWidget {
   final Function() onTap;
   const VendorFoodContainer({
     super.key,
@@ -11,15 +12,60 @@ class VendorFoodContainer extends StatelessWidget {
   });
 
   @override
+  State<VendorFoodContainer> createState() => _VendorFoodContainerState();
+}
+
+class _VendorFoodContainerState extends State<VendorFoodContainer> {
+  //======================================= ALL VARIABLES ==========================================\\
+
+  int quantity = 1;
+
+  //======================================= FUNCTIONS ==========================================\\
+
+  void incrementQuantity() {
+    setState(() {
+      quantity++; // Increment the quantity by 1
+    });
+  }
+
+  void decrementQuantity() {
+    setState(() {
+      if (quantity > 1) {
+        quantity--; // Decrement the quantity by 1, but ensure it doesn't go below 1
+      } else {
+        cartFunction();
+      }
+    });
+  }
+
+  bool isAddedToCart = false;
+
+  void cartFunction() {
+    setState(() {
+      isAddedToCart = !isAddedToCart;
+    });
+
+    mySnackBar(
+      context,
+      "Success!",
+      isAddedToCart ? "Item has been added to cart." : "Item has been removed.",
+      Duration(
+        seconds: 1,
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    double mediaWidth = MediaQuery.of(context).size.width;
+    // double mediaHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
         margin: EdgeInsets.symmetric(
           vertical: kDefaultPadding / 2.5,
         ),
         width: MediaQuery.of(context).size.width,
-        height: 88,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
@@ -67,12 +113,12 @@ class VendorFoodContainer extends StatelessWidget {
               ),
             ),
             kHalfWidthSizedBox,
-            Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  child: Text(
                     'Smokey Jollof Pasta',
                     style: TextStyle(
                       color: Color(
@@ -82,36 +128,79 @@ class VendorFoodContainer extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  SizedBox(
-                    child: Text(
-                      'Short description about the food here',
-                      style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        color: Color(
-                          0xFF676565,
-                        ),
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
+                ),
+                kHalfSizedBox,
+                Container(
+                  width: mediaWidth / 2,
+                  child: Text(
+                    'Short description about the food here',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Color(
+                        0xFF676565,
                       ),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                  SizedBox(
-                    width: 200,
-                    child: Text(
-                      '₦1200.00',
-                      style: TextStyle(
-                        color: Color(
-                          0xFF333333,
-                        ),
-                        fontSize: 14,
-                        fontFamily: 'Sen',
-                        fontWeight: FontWeight.w400,
+                ),
+                kHalfSizedBox,
+                Container(
+                  child: Text(
+                    '₦1200.00',
+                    style: TextStyle(
+                      color: Color(
+                        0xFF333333,
                       ),
+                      fontSize: 14,
+                      fontFamily: 'Sen',
+                      fontWeight: FontWeight.w400,
                     ),
-                  )
-                ],
-              ),
+                  ),
+                ),
+              ],
             ),
+            isAddedToCart
+                ? Column(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          decrementQuantity();
+                        },
+                        icon: Icon(
+                          Icons.remove_circle,
+                          color: kAccentColor,
+                          size: 30,
+                        ),
+                      ),
+                      Text(
+                        "$quantity",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          incrementQuantity();
+                        },
+                        icon: Icon(
+                          Icons.add_circle_rounded,
+                          color: kAccentColor,
+                          size: 30,
+                        ),
+                      ),
+                    ],
+                  )
+                : IconButton(
+                    onPressed: () {
+                      cartFunction();
+                    },
+                    icon: Icon(
+                      Icons.add_circle_rounded,
+                      color: kAccentColor,
+                      size: 30,
+                    ),
+                  ),
           ],
         ),
       ),
