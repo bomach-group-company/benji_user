@@ -10,6 +10,7 @@ class MyMessageTextFormField extends StatelessWidget {
   final TextInputAction textInputAction;
   final FocusNode focusNode;
   final int maxLines;
+  final TextInputType keyboardType;
 
   const MyMessageTextFormField({
     super.key,
@@ -20,6 +21,7 @@ class MyMessageTextFormField extends StatelessWidget {
     required this.focusNode,
     required this.hintText,
     required this.maxLines,
+    required this.keyboardType,
   });
 
   @override
@@ -34,7 +36,7 @@ class MyMessageTextFormField extends StatelessWidget {
       autocorrect: true,
       maxLines: maxLines,
       enableSuggestions: true,
-      keyboardType: TextInputType.text,
+      keyboardType: keyboardType,
       scrollPhysics: BouncingScrollPhysics(),
       textCapitalization: TextCapitalization.sentences,
       style: TextStyle(

@@ -462,10 +462,11 @@ class _EditProfileState extends State<EditProfile> {
                     kHalfSizedBox,
                     MyMessageTextFormField(
                       controller: bioEC,
-                      textInputAction: TextInputAction.done,
+                      textInputAction: TextInputAction.newline,
                       focusNode: messageFN,
                       hintText: "Enter your bio",
                       maxLines: 5,
+                      keyboardType: TextInputType.multiline,
                       validator: (value) {
                         if (value == null || value!.isEmpty) {
                           messageFN.requestFocus();

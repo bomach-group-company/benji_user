@@ -20,7 +20,7 @@ class MyElevatedButton extends StatelessWidget {
         backgroundColor: kAccentColor,
         elevation: 20.0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
         ),
         shadowColor: kBlackColor.withOpacity(0.4),
         minimumSize: Size(MediaQuery.of(context).size.width, 60),

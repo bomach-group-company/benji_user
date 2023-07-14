@@ -198,7 +198,6 @@ class _HomeState extends State<Home> {
               ),
             );
           },
-          toInvitesPage: () {},
           logOut: () {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -236,19 +235,47 @@ class _HomeState extends State<Home> {
             ],
           ),
           actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => Cart(),
+            Stack(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => Cart(),
+                      ),
+                    );
+                  },
+                  splashRadius: 20,
+                  icon: Icon(
+                    Icons.shopping_cart_outlined,
+                    color: kAccentColor,
                   ),
-                );
-              },
-              splashRadius: 20,
-              icon: Icon(
-                Icons.shopping_cart_outlined,
-                color: kAccentColor,
-              ),
+                ),
+                Positioned(
+                  top: 2,
+                  right: 10,
+                  child: Container(
+                    height: 20,
+                    width: 20,
+                    decoration: ShapeDecoration(
+                      color: kAccentColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "9+",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 9,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
           ],
         ),
@@ -273,13 +300,13 @@ class _HomeState extends State<Home> {
                     );
                   },
                 ),
-                kSizedBox,
+                kHalfSizedBox,
                 CategoryButtonSection(
                   category: _categoryButton,
                   categorybgColor: _categoryButtonBgColor,
                   categoryFontColor: _categoryButtonFontColor,
                 ),
-                kHalfSizedBox,
+                SizedBox(height: 8),
                 Flexible(
                   fit: FlexFit.loose,
                   child: ListView(

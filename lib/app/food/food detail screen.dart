@@ -70,7 +70,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
     );
   }
 
-  Future<void> addToCart() async {
+  Future<void> cartFunction() async {
     setState(() {
       addedToCart = !addedToCart;
       isLoading = true;
@@ -83,9 +83,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
     mySnackBar(
       context,
       "Success!",
-      addedToCart
-          ? "Item has been added to cart successfully."
-          : "Item has been removed successfully.",
+      addedToCart ? "Item has been added to cart." : "Item has been removed.",
       Duration(
         seconds: 1,
       ),
@@ -396,7 +394,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                                         children: [
                                           ElevatedButton(
                                             onPressed: () {
-                                              addToCart();
+                                              cartFunction();
                                             },
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor: kAccentColor,
@@ -460,7 +458,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                                       )
                                     : MyElevatedButton(
                                         onPressed: () {
-                                          addToCart();
+                                          cartFunction();
                                         },
                                         title:
                                             "Add to Cart (₦${price.toStringAsFixed(2)})",

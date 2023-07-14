@@ -332,10 +332,10 @@ class _CartState extends State<Cart> {
                               ),
                             ],
                           ),
-                          InkWell(
-                            onTap: () {},
-                            child: Icon(
-                              Icons.delete,
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.remove_shopping_cart_rounded,
                               color: kAccentColor,
                               size: 18,
                             ),
