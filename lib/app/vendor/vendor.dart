@@ -1,7 +1,9 @@
+import 'package:alpha_logistics/app/vendor/vendor%20location.dart';
 import 'package:alpha_logistics/providers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../reusable widgets/custom showSearch.dart';
 import '../../reusable widgets/search field.dart';
 import '../../theme/colors.dart';
 import '../../widgets/category button section.dart';
@@ -22,6 +24,7 @@ class _VendorState extends State<Vendor> {
   TextEditingController searchController = TextEditingController();
 
 //===================== BOOL VALUES =======================\\
+  bool isLoading = false;
 
 //===================== CATEGORY BUTTONS =======================\\
   final List _categoryButtonText = [
@@ -66,12 +69,11 @@ class _VendorState extends State<Vendor> {
 //===================== VENDORS LIST VIEW INDEX =======================\\
   List<int> foodListView = [0, 1, 3, 4, 5, 6];
 
-//===================== STATES =======================\\
-
-//===================== FUNCTIONS =======================\\
+//===================== VENDORS LIST VIEW INDEX =======================\\
 
   @override
   Widget build(BuildContext context) {
+    double mediaWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -108,7 +110,7 @@ class _VendorState extends State<Vendor> {
                 left: kDefaultPadding,
                 right: kDefaultPadding,
                 child: Container(
-                  height: MediaQuery.of(context).size.height - 500,
+                  height: MediaQuery.of(context).size.height - 300,
                   child: SingleChildScrollView(
                     padding: EdgeInsets.only(
                       bottom: kDefaultPadding * 2,
@@ -119,7 +121,13 @@ class _VendorState extends State<Vendor> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SearchField(
-                          hintText: "Search your food",
+                          hintText: "Search here",
+                          onTap: () {
+                            showSearch(
+                              context: context,
+                              delegate: CustomSearchDelegate(),
+                            );
+                          },
                           searchController: searchController,
                         ),
                         kHalfSizedBox,
@@ -157,7 +165,7 @@ class _VendorState extends State<Vendor> {
                 ),
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height * 0.08,
+                top: MediaQuery.of(context).size.height * 0.04,
                 left: kDefaultPadding,
                 right: kDefaultPadding,
                 child: Container(
@@ -215,12 +223,12 @@ class _VendorState extends State<Vendor> {
                 ),
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height * 0.19,
+                top: MediaQuery.of(context).size.height * 0.14,
                 left: kDefaultPadding,
                 right: kDefaultPadding,
                 child: Container(
                   width: 200,
-                  height: 181,
+                  padding: EdgeInsets.all(kDefaultPadding / 2),
                   decoration: ShapeDecoration(
                     shadows: [
                       BoxShadow(
@@ -249,7 +257,7 @@ class _VendorState extends State<Vendor> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(
-                      top: kDefaultPadding * 3.5,
+                      top: kDefaultPadding * 2.6,
                     ),
                     child: Column(
                       children: [
@@ -262,6 +270,55 @@ class _VendorState extends State<Vendor> {
                             ),
                             fontSize: 24,
                             fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        kHalfSizedBox,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.location_pin,
+                              color: kAccentColor,
+                              size: 15,
+                            ),
+                            kHalfWidthSizedBox,
+                            Text(
+                              "23 Liza street, GRA",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                        kHalfSizedBox,
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => VendorLocation(),
+                              ),
+                            );
+                          },
+                          borderRadius: BorderRadius.circular(10),
+                          child: Container(
+                            width: mediaWidth / 4,
+                            padding: EdgeInsets.all(kDefaultPadding / 4),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: kAccentColor,
+                                width: 1,
+                              ),
+                            ),
+                            child: Text(
+                              "Show on map",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
                           ),
                         ),
                         kHalfSizedBox,
@@ -365,8 +422,9 @@ class _VendorState extends State<Vendor> {
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  Image.asset(
-                                    "assets/images/icons/vendor-accessibility-info-icon.png",
+                                  Icon(
+                                    Icons.info_outline,
+                                    color: kAccentColor,
                                   ),
                                 ],
                               ),
@@ -379,7 +437,7 @@ class _VendorState extends State<Vendor> {
                 ),
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height * 0.12,
+                top: MediaQuery.of(context).size.height * 0.08,
                 left: MediaQuery.of(context).size.width / 2.7,
                 child: Container(
                   width: 107,

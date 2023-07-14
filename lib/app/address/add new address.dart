@@ -3,6 +3,7 @@ import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
 import 'package:alpha_logistics/reusable%20widgets/my%20outlined%20elevatedbutton.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../providers/constants.dart';
@@ -41,6 +42,70 @@ class _AddNewAddressState extends State<AddNewAddress> {
   FocusNode streetAddressFocusNode = FocusNode();
   FocusNode apartmentDetailsFocusNode = FocusNode();
   FocusNode phoneNumberFocusNode = FocusNode();
+
+  //===================== BOOL VALUES =======================\\
+  bool isLoading = false;
+  bool isLoading2 = false;
+
+  //===================== FUNCTIONS =======================\\
+  //SET DEFAULT ADDRESS
+  Future<void> setDefaultAddress() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    // Simulating a delay
+    await Future.delayed(Duration(seconds: 1));
+
+    //Display snackBar\
+    mySnackBar(
+      context,
+      "Success!",
+      "Set As Default Address",
+      Duration(seconds: 2),
+    );
+
+    // Future.delayed(
+    //     const Duration(
+    //       seconds: 1,
+    //     ), () {
+    //   // Navigate to the new page
+    //   Navigator.of(context).pop(context);
+    // });
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  //SAVE NEW ADDRESS
+  Future<void> saveNewAddress() async {
+    setState(() {
+      isLoading2 = true;
+    });
+
+    // Simulating a delay
+    await Future.delayed(Duration(seconds: 1));
+
+    //Display snackBar\
+    mySnackBar(
+      context,
+      "Success!",
+      "Address saved",
+      Duration(seconds: 2),
+    );
+    Future.delayed(
+        const Duration(
+          seconds: 1,
+        ), () {
+      // Navigate to the new page
+      Navigator.of(context).pop(context);
+    });
+
+    setState(() {
+      isLoading2 = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -315,37 +380,37 @@ class _AddNewAddressState extends State<AddNewAddress> {
               SizedBox(
                 height: kDefaultPadding * 2,
               ),
-              MyOutlinedElevatedButton(
-                title: "Set As Default Address",
-                onPressed: (() async {
-                  if (_formKey.currentState!.validate()) {
-                    Navigator.of(context).pop(context);
-                    mySnackBar(
-                      context,
-                      "Set As Default Address",
-                      kAccentColor,
-                      SnackBarBehavior.floating,
-                      kDefaultPadding,
-                    );
-                  }
-                }),
-              ),
+              isLoading
+                  ? Center(
+                      child: SpinKitChasingDots(
+                        color: kAccentColor,
+                        duration: const Duration(seconds: 1),
+                      ),
+                    )
+                  : MyOutlinedElevatedButton(
+                      title: "Set As Default Address",
+                      onPressed: (() async {
+                        if (_formKey.currentState!.validate()) {
+                          setDefaultAddress();
+                        }
+                      }),
+                    ),
               kSizedBox,
-              MyElevatedButton(
-                title: "Save New Address",
-                onPressed: (() async {
-                  if (_formKey.currentState!.validate()) {
-                    Navigator.of(context).pop(context);
-                    mySnackBar(
-                      context,
-                      "Address saved",
-                      kAccentColor,
-                      SnackBarBehavior.floating,
-                      kDefaultPadding,
-                    );
-                  }
-                }),
-              ),
+              isLoading2
+                  ? Center(
+                      child: SpinKitChasingDots(
+                        color: kAccentColor,
+                        duration: const Duration(seconds: 1),
+                      ),
+                    )
+                  : MyElevatedButton(
+                      title: "Save New Address",
+                      onPressed: (() async {
+                        if (_formKey.currentState!.validate()) {
+                          saveNewAddress();
+                        }
+                      }),
+                    ),
               SizedBox(
                 height: kDefaultPadding * 2,
               ),

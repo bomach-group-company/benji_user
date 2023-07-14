@@ -195,7 +195,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ListTile(
             onTap: widget.toOrdersPage,
             leading: Icon(
-              Icons.shopping_cart_rounded,
+              Icons.receipt_long,
               color: kAccentColor,
             ),
             title: Text(

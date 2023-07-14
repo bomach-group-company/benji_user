@@ -45,6 +45,9 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                 SearchField(
                   hintText: "Search your orders",
                   searchController: searchController,
+                  onTap: () {
+                    SearchBar();
+                  },
                 ),
                 kSizedBox,
                 Flexible(

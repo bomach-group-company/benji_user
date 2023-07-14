@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../providers/constants.dart';
+import '../../reusable widgets/custom showSearch.dart';
 import '../../reusable widgets/my floating snackbar.dart';
 import '../../reusable widgets/search field.dart';
 import '../../reusable widgets/see all container.dart';
@@ -155,10 +156,11 @@ class _HomeState extends State<Home> {
 
     mySnackBar(
       context,
+      "Success!",
       "Copied to clipboard",
-      kAccentColor,
-      SnackBarBehavior.floating,
-      MediaQuery.of(context).size.height * 0.9,
+      Duration(
+        seconds: 2,
+      ),
     );
   }
 
@@ -262,8 +264,14 @@ class _HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SearchField(
-                  hintText: "Search your food",
+                  hintText: "Search here",
                   searchController: searchController,
+                  onTap: () {
+                    showSearch(
+                      context: context,
+                      delegate: CustomSearchDelegate(),
+                    );
+                  },
                 ),
                 kSizedBox,
                 CategoryButtonSection(

@@ -1,11 +1,11 @@
 import 'package:alpha_logistics/reusable%20widgets/my%20textformfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../reusable widgets/my floating snackbar.dart';
+import '../../providers/constants.dart';
 import '../../reusable widgets/my appbar.dart';
 import '../../reusable widgets/my elevatedbutton.dart';
 import '../../theme/colors.dart';
-import '../../providers/constants.dart';
 
 class ApplyCoupon extends StatefulWidget {
   const ApplyCoupon({super.key});
@@ -25,8 +25,38 @@ class _ApplyCouponState extends State<ApplyCoupon> {
 
   //===================== FOCUS NODES =======================\\
   FocusNode textFocusNode = FocusNode();
+
+  //===================== BOOL VALUES =======================\\
+  bool isLoading = false;
+  bool isLoaded = false;
+
+  //===================== FUNCTIONS =======================\\
+  Future<void> applyCoupon() async {
+    setState(() {
+      isLoading = true;
+      isLoaded = false;
+    });
+
+    // Simulating a delay of 3 seconds
+    await Future.delayed(Duration(seconds: 2));
+
+    Future.delayed(
+        const Duration(
+          seconds: 2,
+        ), () {
+      // Navigate to the new page
+      Navigator.of(context).pop(context);
+    });
+
+    setState(() {
+      isLoading = false;
+      isLoaded = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    double mediaWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -66,47 +96,72 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                   kSizedBox,
                   Form(
                     key: _formKey,
-                    child: Column(
-                      children: [
-                        MyTextFormField(
-                          hintText: "Enter a coupon code",
-                          controller: textController,
-                          textInputType: TextInputType.text,
-                          textInputAction: TextInputAction.done,
-                          focusNode: textFocusNode,
-                          validator: (value) {
-                            if (value == null || value!.isEmpty) {
-                              textFocusNode.requestFocus();
-                              return "Enter a coupon code";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            textController.text = value;
-                          },
+                    child: MyTextFormField(
+                      hintText: "Enter a coupon code",
+                      controller: textController,
+                      textInputType: TextInputType.text,
+                      textInputAction: TextInputAction.done,
+                      focusNode: textFocusNode,
+                      validator: (value) {
+                        if (value == null || value!.isEmpty) {
+                          textFocusNode.requestFocus();
+                          return "Enter a coupon code";
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        textController.text = value;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: kDefaultPadding * 4,
+              ),
+              isLoaded
+                  ? Center(
+                      child: Container(
+                        height: 60,
+                        width: mediaWidth,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              color: kAccentColor,
+                              width: 1,
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                              style: BorderStyle.solid,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
-                        SizedBox(
-                          height: kDefaultPadding * 4,
+                        child: Center(
+                          child: Text(
+                            "Coupon applied successfully",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
-                        MyElevatedButton(
+                      ),
+                    )
+                  : isLoading
+                      ? Center(
+                          child: SpinKitChasingDots(
+                            color: kAccentColor,
+                            duration: const Duration(seconds: 1),
+                          ),
+                        )
+                      : MyElevatedButton(
                           title: "Apply Coupon",
                           onPressed: (() async {
                             if (_formKey.currentState!.validate()) {
-                              mySnackBar(
-                                context,
-                                "Coupon code applied",
-                                kAccentColor,
-                                SnackBarBehavior.floating,
-                                kDefaultPadding,
-                              );
+                              applyCoupon();
                             }
                           }),
                         ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
             ],
           ),
         ),

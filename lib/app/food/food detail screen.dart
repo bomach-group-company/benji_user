@@ -1,11 +1,13 @@
+import 'package:alpha_logistics/app/cart/cart.dart';
+import 'package:alpha_logistics/reusable%20widgets/my%20floating%20snackbar.dart';
 import 'package:alpha_logistics/theme/colors.dart';
 import 'package:alpha_logistics/widgets/category%20button%20section.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../providers/constants.dart';
 import '../../reusable widgets/my elevatedbutton.dart';
 import '../../reusable widgets/my fixed snackBar.dart';
-import '../cart/cart.dart';
 
 class FoodDetailScreen extends StatefulWidget {
   const FoodDetailScreen({super.key});
@@ -20,8 +22,19 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
   int quantity = 1; // Add a variable to hold the quantity
   double price = 1200.0;
   final double itemPrice = 1200.0;
+
+  //===================== STATES =======================\\
+  @override
+  void initState() {
+    super.initState();
+    addedFavorite = false;
+    addedToCart = false;
+  }
+
 //===================== BOOL VALUES =======================\\
   var addedFavorite;
+  var addedToCart;
+  bool isLoading = false;
 
   //======================================= FUNCTIONS ==========================================\\
   void incrementQuantity() {
@@ -44,14 +57,42 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
     setState(() {
       addedFavorite = !addedFavorite;
     });
+
     myFixedSnackBar(
       context,
-      addedFavorite ? "Added to Favorites" : "Removed from Favorites",
+      addedFavorite
+          ? "Added to Favorites".toUpperCase()
+          : "Removed from Favorites".toUpperCase(),
       kAccentColor,
       Duration(
         seconds: 1,
       ),
     );
+  }
+
+  Future<void> addToCart() async {
+    setState(() {
+      addedToCart = !addedToCart;
+      isLoading = true;
+    });
+
+    // Simulating a delay of 3 seconds
+    await Future.delayed(Duration(seconds: 1));
+
+    //Display snackBar
+    mySnackBar(
+      context,
+      "Success!",
+      addedToCart
+          ? "Item has been added to cart successfully."
+          : "Item has been removed successfully.",
+      Duration(
+        seconds: 1,
+      ),
+    );
+    setState(() {
+      isLoading = false;
+    });
   }
 
   //===================== CATEGORY BUTTONS =======================\\
@@ -132,15 +173,10 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
     ),
   ];
 
-//===================== STATES =======================\\
-  @override
-  void initState() {
-    super.initState();
-    addedFavorite = false;
-  }
-
   @override
   Widget build(BuildContext context) {
+    double mediaHeight = MediaQuery.of(context).size.height;
+    double mediaWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
@@ -149,6 +185,8 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
         ),
         elevation: 0.0,
       ),
+      extendBodyBehindAppBar: true,
+      backgroundColor: kPrimaryColor,
       body: Container(
         child: Stack(
           children: [
@@ -157,7 +195,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
               left: 0,
               right: 0,
               child: Container(
-                height: 320,
+                height: mediaHeight * 0.3,
                 decoration: ShapeDecoration(
                   shape: RoundedRectangleBorder(),
                   image: DecorationImage(
@@ -170,11 +208,11 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
               ),
             ),
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.04,
+              top: mediaHeight * 0.04,
               left: kDefaultPadding,
               right: kDefaultPadding,
               child: Container(
-                width: MediaQuery.of(context).size.width,
+                width: mediaWidth,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -232,12 +270,12 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
               ),
             ),
             Positioned(
-              top: 380,
+              top: mediaHeight * 0.35,
               left: kDefaultPadding,
               right: kDefaultPadding,
               child: Container(
-                height: MediaQuery.of(context).size.height - 400,
-                width: MediaQuery.of(context).size.width,
+                height: mediaHeight - 220,
+                width: mediaWidth,
                 // color: kAccentColor,
                 padding: EdgeInsets.all(
                   5.0,
@@ -334,36 +372,115 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                         categoryFontColor: _stewTypeCategoryButtonFontColor,
                       ),
                       kSizedBox,
-                      Center(
-                        child: Container(
-                          margin: EdgeInsets.only(
-                            bottom: kDefaultPadding * 2,
-                          ),
-                          child: MyElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => Cart(),
+                      isLoading
+                          ? Column(
+                              children: [
+                                Center(
+                                  child: SpinKitChasingDots(
+                                    color: kAccentColor,
+                                    duration: const Duration(seconds: 1),
+                                  ),
                                 ),
-                              );
-                            },
-                            title: "Add to Cart (₦${price.toStringAsFixed(2)})",
-                          ),
-                        ),
-                      )
+                                kSizedBox,
+                              ],
+                            )
+                          : Center(
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                  bottom: kDefaultPadding * 2,
+                                ),
+                                child: addedToCart
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              addToCart();
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: kAccentColor,
+                                              elevation: 20.0,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              shadowColor:
+                                                  kBlackColor.withOpacity(0.4),
+                                              minimumSize: Size(60, 60),
+                                              maximumSize: Size(60, 60),
+                                            ),
+                                            child: Icon(
+                                              Icons
+                                                  .remove_shopping_cart_rounded,
+                                              color: kPrimaryColor,
+                                            ),
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) => Cart(),
+                                                ),
+                                              );
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: kAccentColor,
+                                              elevation: 20.0,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              shadowColor:
+                                                  kBlackColor.withOpacity(0.4),
+                                              minimumSize: Size(
+                                                  MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      1.5,
+                                                  60),
+                                              maximumSize: Size(
+                                                  MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      1.5,
+                                                  60),
+                                            ),
+                                            child: Text(
+                                              "Go to cart".toUpperCase(),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: kPrimaryColor,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : MyElevatedButton(
+                                        onPressed: () {
+                                          addToCart();
+                                        },
+                                        title:
+                                            "Add to Cart (₦${price.toStringAsFixed(2)})",
+                                      ),
+                              ),
+                            ),
+                      SizedBox(
+                        height: kDefaultPadding * 3,
+                      ),
                     ],
                   ),
                 ),
               ),
             ),
             Positioned(
-              top: 285,
-              left: MediaQuery.of(context).size.width /
-                  5, // right: kDefaultPadding,
-              right: MediaQuery.of(context).size.width /
-                  5, // right: kDefaultPadding,
+              top: mediaHeight * 0.25,
+              left: mediaWidth / 5, // right: kDefaultPadding,
+              right: mediaWidth / 5, // right: kDefaultPadding,
               child: Container(
-                width: MediaQuery.of(context).size.width,
+                width: mediaWidth,
                 height: 70,
                 decoration: ShapeDecoration(
                   color: Color(
@@ -399,8 +516,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                       ),
                     ),
                     Container(
-                      width: 56,
-                      height: 56,
+                      height: 50,
                       decoration: ShapeDecoration(
                         color: Colors.white,
                         shape: OvalBorder(),
@@ -409,15 +525,17 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                         padding: const EdgeInsets.all(
                           8.0,
                         ),
-                        child: Text(
-                          '$quantity',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(
-                              0xFF302F3C,
+                        child: Center(
+                          child: Text(
+                            '$quantity',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(
+                                0xFF302F3C,
+                              ),
+                              fontSize: 31.98,
+                              fontWeight: FontWeight.w400,
                             ),
-                            fontSize: 31.98,
-                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),

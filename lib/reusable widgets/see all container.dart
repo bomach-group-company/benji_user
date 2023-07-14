@@ -1,3 +1,4 @@
+import 'package:alpha_logistics/providers/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/colors.dart';
@@ -29,36 +30,41 @@ class SeeAllContainer extends StatelessWidget {
               letterSpacing: -0.40,
             ),
           ),
-          ElevatedButton(
-            onPressed: onPressed,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: kPrimaryColor,
-              elevation: .5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                  20,
-                ),
-              ),
+          InkWell(
+            onTap: onPressed,
+            borderRadius: BorderRadius.circular(
+              20,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'See all',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: kAccentColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: -0.28,
+            enableFeedback: true,
+            child: Container(
+              padding: EdgeInsets.all(kDefaultPadding / 2),
+              decoration: BoxDecoration(
+                color: const Color(
+                  0xFFFEF8F8,
+                ),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'See all',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: kAccentColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: -0.28,
+                    ),
                   ),
-                ),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 14,
-                  color: kAccentColor,
-                ),
-              ],
+                  SizedBox(width: 8),
+                  Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 14,
+                    color: kAccentColor,
+                  ),
+                ],
+              ),
             ),
           ),
         ],

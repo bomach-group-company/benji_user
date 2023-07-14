@@ -7,6 +7,7 @@ import 'package:alpha_logistics/reusable%20widgets/my%20floating%20snackbar.dart
 import 'package:alpha_logistics/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../reusable widgets/my appbar.dart';
 import '../../reusable widgets/my outlined elevatedbutton.dart';
@@ -40,11 +41,17 @@ class _CartState extends State<Cart> {
   }
 
   //===================== GlobalKeys =======================\\
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   //===================== CONTROLLERS =======================\\
+
   ScrollController scrollController = ScrollController();
 
-  //===================== INCREMENT VARIABLES =======================\\
+  //===================== BOOL VALUES =======================\\
+  bool isLoading = false;
+
+  //===================== FUNCTIONS =======================\\
 
   void incrementQuantity() {
     setState(() {
@@ -62,7 +69,7 @@ class _CartState extends State<Cart> {
     });
   }
 
-  //===================== COPY TO CLIPBOARD =======================\\
+  // COPY TO CLIPBOARD
   final String text = 'Generated Link code here';
   void _copyToClipboard(BuildContext context) {
     Clipboard.setData(
@@ -71,18 +78,53 @@ class _CartState extends State<Cart> {
       ),
     );
 
-    //===================== SNACK BAR =======================\\
+    //SNACK BAR
 
     mySnackBar(
       context,
+      "Success!",
       "Copied to clipboard",
-      kAccentColor,
-      SnackBarBehavior.floating,
-      MediaQuery.of(context).size.height - 100,
+      Duration(seconds: 2),
     );
   }
 
-  //===================== SHOWMODALBOTTOMSHEET =======================\\
+  //PLACE ORDER
+
+  Future<void> placeOrder() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    // Simulating a delay
+    await Future.delayed(Duration(seconds: 1));
+
+    //Display snackBar
+    mySnackBar(
+      context,
+      "Succcess!",
+      "Order placed successfully",
+      Duration(
+        seconds: 2,
+      ),
+    );
+
+    Future.delayed(
+        const Duration(
+          seconds: 1,
+        ), () {
+      // Navigate to the new page
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => PaymentSuccessful(),
+        ),
+      );
+    });
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var mediaWidth = MediaQuery.of(context).size.width;
@@ -139,20 +181,13 @@ class _CartState extends State<Cart> {
                   decoration: ShapeDecoration(
                     color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        10,
-                      ),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     shadows: [
                       BoxShadow(
-                        color: Color(
-                          0x0F000000,
-                        ),
+                        color: Color(0x0F000000),
                         blurRadius: 24,
-                        offset: Offset(
-                          0,
-                          4,
-                        ),
+                        offset: Offset(0, 4),
                         spreadRadius: 0,
                       ),
                     ],
@@ -778,16 +813,20 @@ class _CartState extends State<Cart> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  MyElevatedButton(
-                    title: "Place Order - ₦${totalPrice.toStringAsFixed(2)}",
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => PaymentSuccessful(),
+                  isLoading
+                      ? Center(
+                          child: SpinKitChasingDots(
+                            color: kAccentColor,
+                            duration: const Duration(seconds: 1),
+                          ),
+                        )
+                      : MyElevatedButton(
+                          title:
+                              "Place Order - ₦${totalPrice.toStringAsFixed(2)}",
+                          onPressed: () {
+                            placeOrder();
+                          },
                         ),
-                      );
-                    },
-                  ),
                   kSizedBox,
                   MyOutlinedElevatedButton(
                     title: "Pay For Me - ₦${totalPrice.toStringAsFixed(2)}",
