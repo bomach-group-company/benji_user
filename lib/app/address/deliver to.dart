@@ -1,7 +1,10 @@
+import 'package:alpha_logistics/app/address/add%20new%20address.dart';
 import 'package:alpha_logistics/reusable%20widgets/my%20appbar.dart';
 import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
+import 'package:alpha_logistics/reusable%20widgets/my%20floating%20snackbar.dart';
 import 'package:alpha_logistics/reusable%20widgets/my%20outlined%20elevatedbutton.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../providers/constants.dart';
 import '../../theme/colors.dart';
@@ -15,6 +18,9 @@ class DeliverTo extends StatefulWidget {
 
 class _DeliverToState extends State<DeliverTo> {
   //=================================== ALL VARIABLES =====================================\\
+
+  //=========================== BOOL VALUES ====================================\\
+  bool isLoading = false;
 
   //===================== RADIO LIST TILE =======================\\
 
@@ -34,12 +40,6 @@ class _DeliverToState extends State<DeliverTo> {
   ];
 
   String? currentOption;
-
-  @override
-  void initState() {
-    super.initState();
-    currentOption = radioListTitles[0];
-  }
 
   List<String> radioListTileDefaultTitle = [
     "Default",
@@ -66,6 +66,47 @@ class _DeliverToState extends State<DeliverTo> {
       0x00000000,
     ),
   ];
+
+  //===================== STATES =======================\\
+
+  @override
+  void initState() {
+    super.initState();
+    currentOption = radioListTitles[0];
+  }
+
+  //===================== FUNCTIONS =======================\\
+
+  Future<void> applyDeliveryAddress() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    // Simulating a delay
+    await Future.delayed(Duration(seconds: 1));
+
+    //Display snackBar
+    mySnackBar(
+      context,
+      "Succcess!",
+      "Delivery address updated",
+      Duration(
+        seconds: 2,
+      ),
+    );
+
+    Future.delayed(
+        const Duration(
+          seconds: 1,
+        ), () {
+      // Navigate to the new page
+      Navigator.of(context).pop(context);
+    });
+
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -187,17 +228,30 @@ class _DeliverToState extends State<DeliverTo> {
             ),
             MyOutlinedElevatedButton(
               title: "Add New Address",
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => AddNewAddress(),
+                  ),
+                );
+              },
             ),
             SizedBox(
               height: kDefaultPadding,
             ),
-            MyElevatedButton(
-              title: "Apply",
-              onPressed: () {
-                Navigator.of(context).pop(context);
-              },
-            ),
+            isLoading
+                ? Center(
+                    child: SpinKitChasingDots(
+                      color: kAccentColor,
+                      duration: const Duration(seconds: 1),
+                    ),
+                  )
+                : MyElevatedButton(
+                    title: "Apply",
+                    onPressed: () {
+                      applyDeliveryAddress();
+                    },
+                  ),
             SizedBox(
               height: kDefaultPadding * 2,
             ),

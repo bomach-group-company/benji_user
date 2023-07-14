@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import '../theme/colors.dart';
 
 class SearchField extends StatelessWidget {
+  final Function() onTap;
   const SearchField({
     super.key,
     required this.searchController,
     required this.hintText,
+    required this.onTap,
   });
 
   final String hintText;
@@ -14,15 +16,16 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       // onSubmitted: ,
+      onTap: onTap,
       controller: searchController,
       textAlign: TextAlign.start,
       textInputAction: TextInputAction.search,
       keyboardType: TextInputType.text,
       enableSuggestions: true,
       autocorrect: true,
-      canRequestFocus: true,
+
       cursorColor: kSecondaryColor,
       decoration: InputDecoration(
         hintText: hintText,
@@ -42,8 +45,9 @@ class SearchField extends StatelessWidget {
         ),
         suffixIcon: IconButton(
           onPressed: () {},
-          icon: Image.asset(
-            "assets/images/icons/search-filter-icon.png",
+          icon: Icon(
+            Icons.filter_list,
+            color: kAccentColor,
           ),
         ),
         border: OutlineInputBorder(

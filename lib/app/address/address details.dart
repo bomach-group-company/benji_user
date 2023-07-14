@@ -296,10 +296,9 @@ class _AddressDetailsState extends State<AddressDetails> {
                     Navigator.of(context).pop(context);
                     mySnackBar(
                       context,
+                      "Success!",
                       "Set As Default Address",
-                      kAccentColor,
-                      SnackBarBehavior.floating,
-                      kDefaultPadding,
+                      Duration(seconds: 2),
                     );
                   }
                 }),
@@ -312,10 +311,9 @@ class _AddressDetailsState extends State<AddressDetails> {
                     Navigator.of(context).pop(context);
                     mySnackBar(
                       context,
+                      "Success!",
                       "Changes saved",
-                      kAccentColor,
-                      SnackBarBehavior.floating,
-                      kDefaultPadding,
+                      Duration(seconds: 2),
                     );
                   }
                 }),
