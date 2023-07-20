@@ -7,10 +7,11 @@ import '../../theme/colors.dart';
 class HomeDrawer extends StatefulWidget {
   final Function() toEditProfilePage;
   final Function() copyUserIdToClipBoard;
-  // final Function() toInvitesPage;
+  final Function() toInvitesPage;
   final Function() toFavoritesPage;
   final Function() toOrdersPage;
   final Function() toAddressesPage;
+  final Function() toSendPackagePage;
   final Function() logOut;
 
   final String userID;
@@ -19,8 +20,9 @@ class HomeDrawer extends StatefulWidget {
     required this.copyUserIdToClipBoard,
     required this.userID,
     required this.toOrdersPage,
-    // required this.toInvitesPage,
+    required this.toInvitesPage,
     required this.toAddressesPage,
+    required this.toSendPackagePage,
     required this.logOut,
     required this.toFavoritesPage,
     required this.toEditProfilePage,
@@ -169,6 +171,30 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
           ),
           ListTile(
+            onTap: widget.toSendPackagePage,
+            leading: Icon(
+              Icons.delivery_dining_rounded,
+              color: kAccentColor,
+            ),
+            title: Text(
+              'Send Package',
+              style: TextStyle(
+                color: Color(
+                  0xFF334A66,
+                ),
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+              color: Color(
+                0xFF4C4C4C,
+              ),
+            ),
+          ),
+          ListTile(
             onTap: widget.toFavoritesPage,
             leading: Icon(
               Icons.favorite_rounded,
@@ -217,13 +243,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
           ),
           ListTile(
-            onTap: null,
+            onTap: widget.toInvitesPage,
             leading: Icon(
               Icons.person_add_alt_1_rounded,
               color: kAccentColor,
             ),
             title: Text(
-              'Invites (Coming Soon)',
+              'Invites',
               style: TextStyle(
                 color: Color(
                   0xFF334A66,

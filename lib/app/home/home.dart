@@ -1,10 +1,10 @@
+import 'package:alpha_logistics/app/send%20package/send%20package.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../providers/constants.dart';
 import '../../reusable widgets/custom showSearch.dart';
 import '../../reusable widgets/my floating snackbar.dart';
-import '../../reusable widgets/search field.dart';
 import '../../reusable widgets/see all container.dart';
 import '../../screens/login.dart';
 import '../../theme/colors.dart';
@@ -190,7 +190,15 @@ class _HomeState extends State<Home> {
               ),
             );
           },
+          toSendPackagePage: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => SendPackage(),
+              ),
+            );
+          },
           toFavoritesPage: () {},
+          toInvitesPage: () {},
           toOrdersPage: () {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -235,6 +243,18 @@ class _HomeState extends State<Home> {
             ],
           ),
           actions: [
+            IconButton(
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: CustomSearchDelegate(),
+                );
+              },
+              icon: Icon(
+                Icons.search_rounded,
+                color: kAccentColor,
+              ),
+            ),
             Stack(
               children: [
                 IconButton(
@@ -265,7 +285,7 @@ class _HomeState extends State<Home> {
                     ),
                     child: Center(
                       child: Text(
-                        "9+",
+                        "10+",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 9,
@@ -290,16 +310,6 @@ class _HomeState extends State<Home> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SearchField(
-                  hintText: "Search here",
-                  searchController: searchController,
-                  onTap: () {
-                    showSearch(
-                      context: context,
-                      delegate: CustomSearchDelegate(),
-                    );
-                  },
-                ),
                 kHalfSizedBox,
                 CategoryButtonSection(
                   category: _categoryButton,

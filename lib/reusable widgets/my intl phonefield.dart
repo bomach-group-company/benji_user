@@ -57,7 +57,7 @@ class MyIntlPhoneField extends StatelessWidget {
         print('Country changed to: ' + country.name);
       },
       decoration: InputDecoration(
-        // hintText: "Phone Number",
+        hintText: "Enter phone Number",
         errorStyle: const TextStyle(
           color: kErrorColor,
         ),

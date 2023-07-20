@@ -253,7 +253,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                 } else if (!streetAddressPattern
                                     .hasMatch(value)) {
                                   streetAddressFocusNode.requestFocus();
-                                  return "Please enter a valid street address";
+                                  return "Please enter a valid street address (Must have a number)";
                                 }
                                 return null;
                               },

@@ -1,13 +1,10 @@
-import 'package:alpha_logistics/app/vendor/vendor%20location.dart';
 import 'package:alpha_logistics/providers/constants.dart';
-import 'package:alpha_logistics/reusable%20widgets/message%20textformfield.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
 import 'package:alpha_logistics/reusable%20widgets/my%20floating%20snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import '../../reusable widgets/custom showSearch.dart';
-import '../../reusable widgets/search field.dart';
+import '../../providers/rating view.dart';
 import '../../theme/colors.dart';
 import '../../widgets/category button section.dart';
 import '../../widgets/vendors food container.dart';
@@ -24,12 +21,13 @@ class _VendorState extends State<Vendor> {
   //=================================== ALL VARIABLES ====================================\\
   int selectedRating = 0;
 
-  //TextEditingController
+  //=================================== CONTROLLERS ====================================\\
+
   TextEditingController searchController = TextEditingController();
   TextEditingController rateVendorEC = TextEditingController();
 
 //===================== KEYS =======================\\
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
 
 //===================== FOCUS NODES =======================\\
   FocusNode rateVendorFN = FocusNode();
@@ -141,16 +139,6 @@ class _VendorState extends State<Vendor> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SearchField(
-                          hintText: "Search here",
-                          onTap: () {
-                            showSearch(
-                              context: context,
-                              delegate: CustomSearchDelegate(),
-                            );
-                          },
-                          searchController: searchController,
-                        ),
                         kHalfSizedBox,
                         CategoryButtonSection(
                           category: _categoryButtonText,
@@ -219,49 +207,7 @@ class _VendorState extends State<Vendor> {
                       ),
                       InkWell(
                         onTap: () {
-                          rating(
-                            (() async {
-                              if (_formKey.currentState!.validate()) {
-                                validate();
-                              }
-                            }),
-                            "Rate Vendor",
-                            context,
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                for (int i = 1; i <= 5; i++)
-                                  InkWell(
-                                    radius: 10,
-                                    splashColor: Colors.amber,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(100)),
-                                    onTap: () {
-                                      setState(() {
-                                        selectedRating = i;
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.star_rounded,
-                                      size: 30,
-                                      color: i <= selectedRating
-                                          ? Colors.yellow
-                                          : Colors.grey,
-                                    ),
-                                  ),
-                              ],
-                            ),
-                            rateVendorEC,
-                            (value) {
-                              if (value == null || value.isEmpty) {
-                                rateVendorFN.requestFocus();
-                                return "Enter a review";
-                              }
-                              return null;
-                            },
-                            rateVendorFN,
-                            _formKey,
-                          );
+                          openRatingDialog(context);
                         },
                         child: Container(
                           width: 48,
@@ -347,24 +293,36 @@ class _VendorState extends State<Vendor> {
                               size: 15,
                             ),
                             kHalfWidthSizedBox,
-                            Text(
-                              "23 Liza street, GRA",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
+                            SizedBox(
+                              width: 300,
+                              child: Text(
+                                "Old Abakaliki Rd, Thinkers Corner 400103, Enugusdsudhosud",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
                             ),
                           ],
                         ),
                         kHalfSizedBox,
                         InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => VendorLocation(),
-                              ),
+                          onTap: (() async {
+                            final websiteurl = Uri.parse(
+                              "https://goo.gl/maps/8pKoBVCsew5oqjU49",
                             );
-                          },
+                            if (await canLaunchUrl(
+                              websiteurl,
+                            )) {
+                              launchUrl(
+                                websiteurl,
+                                mode: LaunchMode.externalApplication,
+                              );
+                            } else {
+                              throw "An unexpected error occured and $websiteurl cannot be loaded";
+                            }
+                          }),
                           borderRadius: BorderRadius.circular(10),
                           child: Container(
                             width: mediaWidth / 4,
@@ -530,75 +488,12 @@ class _VendorState extends State<Vendor> {
   }
 }
 
-void setState(Null Function() param0) {}
-
-rating(
-  Function() onPressed,
-  String title,
-  BuildContext context,
-  Widget rowWidget,
-  TextEditingController controller,
-  FormFieldValidator validator,
-  FocusNode focusNode,
-  GlobalKey formKey,
-) {
+openRatingDialog(BuildContext context) {
   showDialog(
     context: context,
     builder: (context) {
-      return StatefulBuilder(
-        builder: (context, setStateForDialog) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(kDefaultPadding)),
-            ),
-            scrollable: true,
-            shadowColor: kBlackColor.withOpacity(0.9),
-            title: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop(context);
-                },
-                splashRadius: 20,
-                icon: Icon(
-                  Icons.close_rounded,
-                  color: kAccentColor,
-                ),
-              ),
-            ],
-            contentPadding: EdgeInsets.all(kDefaultPadding),
-            content: Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  rowWidget,
-                  kSizedBox,
-                  MyMessageTextFormField(
-                    controller: controller,
-                    validator: validator,
-                    textInputAction: TextInputAction.newline,
-                    focusNode: focusNode,
-                    hintText: "Enter your review",
-                    maxLines: 5,
-                    keyboardType: TextInputType.multiline,
-                  ),
-                  kSizedBox,
-                  MyElevatedButton(
-                    title: "Send",
-                    onPressed: onPressed,
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
+      return Dialog(
+        child: RatingView(),
       );
     },
   );
