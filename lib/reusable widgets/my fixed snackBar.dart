@@ -1,5 +1,6 @@
-import 'package:alpha_logistics/theme/colors.dart';
 import 'package:flutter/material.dart';
+
+import '../theme/colors.dart';
 
 void myFixedSnackBar(
   BuildContext context,
