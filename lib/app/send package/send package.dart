@@ -1,3 +1,4 @@
+import 'package:alpha_logistics/app/send%20package/choose%20rider.dart';
 import 'package:alpha_logistics/providers/constants.dart';
 import 'package:alpha_logistics/reusable%20widgets/my%20appbar.dart';
 import 'package:alpha_logistics/reusable%20widgets/my%20textformfield.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../reusable widgets/my intl phonefield.dart';
+import 'itemCategoryDropDownMenu.dart';
 
 class SendPackage extends StatefulWidget {
   const SendPackage({super.key});
@@ -33,6 +35,8 @@ class _SendPackageState extends State<SendPackage> {
   var receiverNameEC = TextEditingController();
   var receiverPhoneEC = TextEditingController();
   var itemNameEC = TextEditingController();
+  var itemCategoryEC = TextEditingController();
+  var itemWeightEC = TextEditingController();
   var itemQuantityEC = TextEditingController();
   var itemValueEC = TextEditingController();
 
@@ -112,7 +116,13 @@ class _SendPackageState extends State<SendPackage> {
             ? Row(
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ChooseRider(),
+                        ),
+                      );
+                    },
                     child: Text("Continue"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: kAccentColor,
@@ -464,70 +474,140 @@ class _SendPackageState extends State<SendPackage> {
                 ),
               ),
               kHalfSizedBox,
-              DropdownMenu(
-                enableFilter: true,
-                enableSearch: true,
-                width: mediaWidth,
-                label: Text(
-                  "choose category",
-                  style: TextStyle(
-                    fontSize: 14.5,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                inputDecorationTheme: InputDecorationTheme(
-                  errorStyle: const TextStyle(
-                    color: kErrorColor,
-                  ),
-                  filled: true,
-                  fillColor: Colors.blue.shade50,
-                  focusColor: Colors.blue.shade50,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      10.0,
-                    ),
-                    borderSide: BorderSide(
-                      color: Colors.blue.shade50,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      10.0,
-                    ),
-                    borderSide: BorderSide(
-                      color: Colors.blue.shade50,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      10.0,
-                    ),
-                    borderSide: BorderSide(
-                      color: Colors.blue.shade50,
-                    ),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      10.0,
-                    ),
-                    borderSide: const BorderSide(
-                      color: kErrorBorderColor,
-                      width: 2.0,
-                    ),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      10.0,
-                    ),
-                    borderSide: const BorderSide(
-                      color: kErrorBorderColor,
-                      width: 2.0,
-                    ),
-                  ),
-                ),
-                dropdownMenuEntries: <DropdownMenuEntry<String>>[
+              ItemDropDownMenu(
+                itemEC: itemCategoryEC,
+                mediaWidth: mediaWidth,
+                hintText: "Choose category",
+                dropdownMenuEntries2: <DropdownMenuEntry<String>>[
+                  DropdownMenuEntry(value: "Clothes", label: "Furnitures"),
+                  DropdownMenuEntry(value: "Drinks", label: "Drinks"),
+                  DropdownMenuEntry(value: "Electronics", label: "Electronics"),
+                  DropdownMenuEntry(value: "Fabrics", label: "Fabrics"),
                   DropdownMenuEntry(value: "Food", label: "Food"),
+                  DropdownMenuEntry(value: "Furnitures", label: "Furnitures"),
+                  DropdownMenuEntry(value: "Groceries", label: "Groceries"),
                 ],
+              ),
+              kSizedBox,
+              Text(
+                "Item Weight",
+                style: TextStyle(
+                  fontSize: 17.6,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              kHalfSizedBox,
+              ItemDropDownMenu(
+                itemEC: itemWeightEC,
+                mediaWidth: mediaWidth,
+                hintText: "Choose weight",
+                dropdownMenuEntries2: <DropdownMenuEntry<String>>[
+                  DropdownMenuEntry(value: "1", label: "Less than 1 KG"),
+                  DropdownMenuEntry(value: "2", label: "Less than 2 KG"),
+                  DropdownMenuEntry(value: "3", label: "Less than 3 KG"),
+                  DropdownMenuEntry(value: "4", label: "Less than 4 KG"),
+                  DropdownMenuEntry(value: "5", label: "Less than 5 KG"),
+                ],
+              ),
+              kSizedBox,
+              Text(
+                "Item Quantity",
+                style: TextStyle(
+                  fontSize: 17.6,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              kHalfSizedBox,
+              MyTextFormField(
+                controller: itemQuantityEC,
+                validator: (value) {
+                  if (value == null || value!.isEmpty) {
+                    itemQuantityFN.requestFocus();
+                    return "Enter the item's quantity";
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  itemQuantityEC.text = value;
+                },
+                textInputAction: TextInputAction.next,
+                focusNode: itemQuantityFN,
+                hintText: "Enter the quantity ",
+                textInputType: TextInputType.number,
+              ),
+              kSizedBox,
+              Text(
+                "Item Value",
+                style: TextStyle(
+                  fontSize: 17.6,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              kHalfSizedBox,
+              MyTextFormField(
+                controller: itemValueEC,
+                validator: (value) {
+                  if (value == null || value!.isEmpty) {
+                    itemValueFN.requestFocus();
+                    return "Enter the item's value";
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  itemValueEC.text = value;
+                },
+                textInputAction: TextInputAction.done,
+                focusNode: itemValueFN,
+                hintText: "Enter the value",
+                textInputType: TextInputType.number,
+              ),
+              kSizedBox,
+              InkWell(
+                borderRadius: BorderRadius.circular(16),
+                splashColor: Colors.blue.shade50,
+                focusColor: Colors.blue.shade50,
+                highlightColor: Colors.blue.shade50,
+                onTap: () {},
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 144,
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                        width: 1,
+                        style: BorderStyle.solid,
+                        strokeAlign: BorderSide.strokeAlignOutside,
+                        color: Color(
+                          0xFFE6E6E6,
+                        ),
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.cloud_upload),
+                        // Image.asset(
+                        //   "assets/images/icons/image-upload.png",
+                        // ),
+                        kHalfSizedBox,
+                        const Text(
+                          'Upload an image of the item',
+                          style: TextStyle(
+                            color: Color(
+                              0xFF808080,
+                            ),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
               kSizedBox,
             ],
@@ -556,7 +636,9 @@ class _SendPackageState extends State<SendPackage> {
               child: Stepper(
                 physics: BouncingScrollPhysics(),
                 margin: EdgeInsets.only(
-                    left: kDefaultPadding, right: kDefaultPadding),
+                  left: kDefaultPadding,
+                  right: kDefaultPadding,
+                ),
                 currentStep: _currentStep,
                 onStepContinue: continueStep,
                 onStepCancel: cancelStep,
