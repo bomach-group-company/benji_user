@@ -10,7 +10,6 @@ import '../../reusable widgets/password textformfield.dart';
 import '../../reusable widgets/reusable authentication first half.dart';
 import '../../splash screens/login splash screen.dart';
 import '../../theme/colors.dart';
-
 import 'forgot password.dart';
 import 'signup.dart';
 
@@ -216,10 +215,10 @@ class _LoginState extends State<Login> {
                                 },
                                 icon: isObscured
                                     ? const Icon(
-                                        Icons.visibility,
+                                        Icons.visibility_off_rounded,
                                       )
                                     : Icon(
-                                        Icons.visibility_off_rounded,
+                                        Icons.visibility,
                                         color: kSecondaryColor,
                                       ),
                               ),
