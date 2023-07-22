@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../providers/constants.dart';
-import '../reusable widgets/email textformfield.dart';
-import '../reusable widgets/my appbar.dart';
-import '../reusable widgets/my fixed snackBar.dart';
-import '../reusable widgets/name textformfield.dart';
-import '../reusable widgets/password textformfield.dart';
-import '../reusable widgets/reusable authentication first half.dart';
-import '../splash screens/signup splash screen.dart';
-import '../theme/colors.dart';
+import '../../providers/constants.dart';
+import '../../reusable widgets/email textformfield.dart';
+import '../../reusable widgets/my appbar.dart';
+import '../../reusable widgets/my fixed snackBar.dart';
+import '../../reusable widgets/name textformfield.dart';
+import '../../reusable widgets/password textformfield.dart';
+import '../../reusable widgets/reusable authentication first half.dart';
+import '../../splash screens/signup splash screen.dart';
+import '../../theme/colors.dart';
+
 import 'login.dart';
 
 class SignUp extends StatefulWidget {

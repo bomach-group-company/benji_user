@@ -6,7 +6,6 @@ import '../../providers/constants.dart';
 import '../../reusable widgets/custom showSearch.dart';
 import '../../reusable widgets/my floating snackbar.dart';
 import '../../reusable widgets/see all container.dart';
-import '../../screens/login.dart';
 import '../../theme/colors.dart';
 import '../../widgets/appBar delivery location.dart';
 import '../../widgets/category button section.dart';
@@ -17,6 +16,7 @@ import '../address/address.dart';
 import '../cart/cart.dart';
 import '../orders/order history.dart';
 import '../profile/edit profile.dart';
+import '../screens/login.dart';
 import 'home drawer.dart';
 
 class Home extends StatefulWidget {

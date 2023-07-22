@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../providers/constants.dart';
-import '../reusable widgets/my appbar.dart';
-import '../reusable widgets/my fixed snackBar.dart';
-import '../reusable widgets/otp textFormField.dart';
-import '../reusable widgets/reusable authentication first half.dart';
-import '../theme/colors.dart';
+import '../../providers/constants.dart';
+import '../../reusable widgets/my appbar.dart';
+import '../../reusable widgets/my fixed snackBar.dart';
+import '../../reusable widgets/otp textFormField.dart';
+import '../../reusable widgets/reusable authentication first half.dart';
+import '../../theme/colors.dart';
 import 'reset password.dart';
 
 class SendOTP extends StatefulWidget {
@@ -53,7 +53,7 @@ class _SendOTPState extends State<SendOTP> {
       context,
       "OTP Verified".toUpperCase(),
       kSecondaryColor,
-        Duration(
+      Duration(
         seconds: 2,
       ),
     );

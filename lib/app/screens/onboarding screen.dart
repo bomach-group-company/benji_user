@@ -1,11 +1,11 @@
 // ignore_for_file: camel_case_types
 
-import 'package:alpha_logistics/providers/constants.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/onboarding screens.dart';
-import '../screens/login.dart';
-import '../theme/colors.dart';
+import '../../providers/constants.dart';
+import '../../widgets/onboarding screens.dart';
+import '../../theme/colors.dart';
+import 'login.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static String routeName = "Onboarding Screen";

@@ -1,11 +1,11 @@
 // ignore_for_file: camel_case_types, file_names
 
-import 'package:alpha_logistics/providers/constants.dart';
-import 'package:alpha_logistics/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../onboarding/onboarding screen.dart';
+import '../app/screens/login.dart';
+import '../providers/constants.dart';
+import '../theme/colors.dart';
 
 class StartupSplashscreen extends StatefulWidget {
   static String routeName = "Startup Splash Screen";
@@ -24,7 +24,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
         ), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (ctx) => OnboardingScreen(),
+          builder: (ctx) => const Login(),
         ),
       );
     });
@@ -33,7 +33,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
         padding: const EdgeInsets.all(kDefaultPadding / 2),
         physics: const BouncingScrollPhysics(),
         children: [
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Column(
