@@ -37,7 +37,6 @@ class _RatingViewState extends State<RatingView> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
       ),
-      clipBehavior: Clip.antiAlias,
       child: Stack(
         children: [
           Container(
@@ -63,7 +62,9 @@ class _RatingViewState extends State<RatingView> {
             left: 0,
             right: 0,
             child: Container(
-              color: kAccentColor,
+              decoration: BoxDecoration(
+                color: kAccentColor,
+              ),
               child: _pageChanged == false
                   ? MaterialButton(
                       enableFeedback: true,

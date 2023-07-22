@@ -238,7 +238,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               AppBarDeliveryLocation(
-                deliveryLocation: 'Achara Layout, Enugu',
+                deliveryLocation: 'Independence Layout, Enugu',
               ),
             ],
           ),

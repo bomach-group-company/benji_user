@@ -1,3 +1,5 @@
+import 'package:alpha_logistics/app/address/deliver%20to.dart';
+import 'package:alpha_logistics/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class AppBarDeliveryLocation extends StatelessWidget {
@@ -9,8 +11,15 @@ class AppBarDeliveryLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
+    return InkWell(
+      borderRadius: BorderRadius.circular(24),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => DeliverTo(),
+          ),
+        );
+      },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,10 +37,11 @@ class AppBarDeliveryLocation extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 130,
+                width: 150,
                 child: Text(
                   deliveryLocation,
-                  overflow: TextOverflow.fade,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                   style: TextStyle(
                     color: Color(
                       0xFF676767,
@@ -42,10 +52,8 @@ class AppBarDeliveryLocation extends StatelessWidget {
                 ),
               ),
               Icon(
-                Icons.arrow_drop_down,
-                color: Color(
-                  0xFF828282,
-                ),
+                Icons.chevron_right_rounded,
+                color: kAccentColor,
               ),
             ],
           ),
