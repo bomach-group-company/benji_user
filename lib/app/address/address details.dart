@@ -1,13 +1,13 @@
-import 'package:alpha_logistics/reusable%20widgets/my%20appbar.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20outlined%20elevatedbutton.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../providers/constants.dart';
+import '../../reusable widgets/my appbar.dart';
+import '../../reusable widgets/my elevatedbutton.dart';
 import '../../reusable widgets/my floating snackbar.dart';
 import '../../reusable widgets/my intl phonefield.dart';
+import '../../reusable widgets/my outlined elevatedbutton.dart';
 import '../../reusable widgets/my textformfield.dart';
 import '../../theme/colors.dart';
 

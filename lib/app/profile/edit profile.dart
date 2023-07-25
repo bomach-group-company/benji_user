@@ -2,7 +2,6 @@
 
 import 'dart:io';
 
-import 'package:alpha_logistics/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,6 +15,7 @@ import '../../reusable widgets/my elevatedbutton.dart';
 import '../../reusable widgets/my fixed snackBar.dart';
 import '../../reusable widgets/my intl phonefield.dart';
 import '../../reusable widgets/name textformfield.dart';
+import '../../theme/colors.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});

@@ -1,10 +1,10 @@
-import 'package:alpha_logistics/providers/constants.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20floating%20snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../providers/constants.dart';
 import '../../providers/rating view.dart';
+import '../../reusable widgets/my floating snackbar.dart';
 import '../../theme/colors.dart';
 import '../../widgets/category button section.dart';
 import '../../widgets/vendors food container.dart';

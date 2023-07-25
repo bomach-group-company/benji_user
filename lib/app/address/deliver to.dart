@@ -1,13 +1,13 @@
-import 'package:alpha_logistics/app/address/add%20new%20address.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20appbar.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20floating%20snackbar.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20outlined%20elevatedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../providers/constants.dart';
+import '../../reusable widgets/my appbar.dart';
+import '../../reusable widgets/my elevatedbutton.dart';
+import '../../reusable widgets/my floating snackbar.dart';
+import '../../reusable widgets/my outlined elevatedbutton.dart';
 import '../../theme/colors.dart';
+import 'add new address.dart';
 
 class DeliverTo extends StatefulWidget {
   const DeliverTo({super.key});

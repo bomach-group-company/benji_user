@@ -1,12 +1,12 @@
-import 'package:alpha_logistics/app/send%20package/choose%20rider.dart';
-import 'package:alpha_logistics/providers/constants.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20appbar.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20textformfield.dart';
-import 'package:alpha_logistics/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../../providers/constants.dart';
+import '../../reusable widgets/my appbar.dart';
 import '../../reusable widgets/my intl phonefield.dart';
+import '../../reusable widgets/my textformfield.dart';
+import '../../theme/colors.dart';
+import 'choose rider.dart';
 import 'itemCategoryDropDownMenu.dart';
 
 class SendPackage extends StatefulWidget {

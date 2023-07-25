@@ -1,13 +1,13 @@
-import 'package:alpha_logistics/app/cart/cart.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20floating%20snackbar.dart';
-import 'package:alpha_logistics/theme/colors.dart';
-import 'package:alpha_logistics/widgets/category%20button%20section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../providers/constants.dart';
 import '../../reusable widgets/my elevatedbutton.dart';
 import '../../reusable widgets/my fixed snackBar.dart';
+import '../../reusable widgets/my floating snackbar.dart';
+import '../../theme/colors.dart';
+import '../../widgets/category button section.dart';
+import '../cart/cart.dart';
 
 class FoodDetailScreen extends StatefulWidget {
   const FoodDetailScreen({super.key});

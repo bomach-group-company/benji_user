@@ -1,7 +1,7 @@
-import 'package:alpha_logistics/reusable%20widgets/my%20floating%20snackbar.dart';
 import 'package:flutter/material.dart';
 
 import '../providers/constants.dart';
+import '../reusable widgets/my floating snackbar.dart';
 import '../theme/colors.dart';
 
 class VendorFoodContainer extends StatefulWidget {

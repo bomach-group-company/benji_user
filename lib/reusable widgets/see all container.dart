@@ -1,6 +1,6 @@
-import 'package:alpha_logistics/providers/constants.dart';
 import 'package:flutter/material.dart';
 
+import '../providers/constants.dart';
 import '../theme/colors.dart';
 
 class SeeAllContainer extends StatelessWidget {

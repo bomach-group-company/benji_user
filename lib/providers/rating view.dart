@@ -1,10 +1,10 @@
 import 'dart:math';
 
-import 'package:alpha_logistics/providers/constants.dart';
-import 'package:alpha_logistics/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 import '../reusable widgets/message textformfield.dart';
+import '../theme/colors.dart';
+import 'constants.dart';
 
 class RatingView extends StatefulWidget {
   const RatingView({super.key});

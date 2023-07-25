@@ -1,6 +1,7 @@
-import 'package:alpha_logistics/app/address/deliver%20to.dart';
-import 'package:alpha_logistics/theme/colors.dart';
 import 'package:flutter/material.dart';
+
+import '../app/address/deliver to.dart';
+import '../theme/colors.dart';
 
 class AppBarDeliveryLocation extends StatelessWidget {
   final String deliveryLocation;

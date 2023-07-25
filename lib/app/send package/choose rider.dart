@@ -1,7 +1,10 @@
-import 'package:alpha_logistics/reusable%20widgets/my%20appbar.dart';
-import 'package:alpha_logistics/theme/colors.dart';
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../../reusable widgets/my appbar.dart';
+import '../../theme/colors.dart';
 
 class ChooseRider extends StatefulWidget {
   const ChooseRider({super.key});

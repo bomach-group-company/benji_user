@@ -1,8 +1,9 @@
-import 'package:alpha_logistics/app/delivery/delivery%20map.dart';
-import 'package:alpha_logistics/providers/constants.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20appbar.dart';
-import 'package:alpha_logistics/theme/colors.dart';
 import 'package:flutter/material.dart';
+
+import '../../providers/constants.dart';
+import '../../reusable widgets/my appbar.dart';
+import '../../theme/colors.dart';
+import '../delivery/delivery map.dart';
 
 class TrackOrder extends StatefulWidget {
   const TrackOrder({super.key});

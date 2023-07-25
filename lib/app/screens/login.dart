@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
-import 'package:alpha_logistics/reusable%20widgets/my%20fixed%20snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../providers/constants.dart';
 import '../../reusable widgets/email textformfield.dart';
+import '../../reusable widgets/my fixed snackBar.dart';
 import '../../reusable widgets/password textformfield.dart';
 import '../../reusable widgets/reusable authentication first half.dart';
 import '../../splash screens/login splash screen.dart';
