@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../providers/constants.dart';
-import '../reusable widgets/my floating snackbar.dart';
 import '../../theme/colors.dart';
+import '../providers/constants.dart';
+import 'my floating snackbar.dart';
 
 class VendorFoodContainer extends StatefulWidget {
   final Function() onTap;

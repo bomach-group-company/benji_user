@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../src/reusable widgets/my appbar.dart';
+import '../../src/common_widgets/my appbar.dart';
 import '../../theme/colors.dart';
 
 class ChooseRider extends StatefulWidget {

@@ -3,10 +3,10 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../src/providers/constants.dart';
-import '../../src/reusable widgets/rating view.dart';
-import '../../src/reusable widgets/category button section.dart';
-import '../../src/reusable widgets/my floating snackbar.dart';
-import '../../src/reusable widgets/vendors food container.dart';
+import '../../src/common_widgets/rating view.dart';
+import '../../src/common_widgets/category button section.dart';
+import '../../src/common_widgets/my floating snackbar.dart';
+import '../../src/common_widgets/vendors food container.dart';
 import '../../theme/colors.dart';
 import '../food/food detail screen.dart';
 

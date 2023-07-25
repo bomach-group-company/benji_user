@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../src/providers/constants.dart';
-import '../../src/reusable widgets/my appbar.dart';
-import '../../src/reusable widgets/my fixed snackBar.dart';
-import '../../src/reusable widgets/otp textFormField.dart';
-import '../../src/reusable widgets/reusable authentication first half.dart';
+import '../../src/common_widgets/my appbar.dart';
+import '../../src/common_widgets/my fixed snackBar.dart';
+import '../../src/common_widgets/otp textFormField.dart';
+import '../../src/common_widgets/reusable authentication first half.dart';
 import '../../theme/colors.dart';
 import 'reset password.dart';
 

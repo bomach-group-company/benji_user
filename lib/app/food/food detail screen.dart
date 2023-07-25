@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../src/providers/constants.dart';
-import '../../src/reusable widgets/category button section.dart';
-import '../../src/reusable widgets/my elevatedbutton.dart';
-import '../../src/reusable widgets/my fixed snackBar.dart';
-import '../../src/reusable widgets/my floating snackbar.dart';
+import '../../src/common_widgets/category button section.dart';
+import '../../src/common_widgets/my elevatedbutton.dart';
+import '../../src/common_widgets/my fixed snackBar.dart';
+import '../../src/common_widgets/my floating snackbar.dart';
 import '../../theme/colors.dart';
 import '../cart/cart.dart';
 

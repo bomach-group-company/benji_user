@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
-import 'package:benji_user/src/reusable%20widgets/my%20intl%20phonefield.dart';
+import 'package:benji_user/src/common_widgets/my%20intl%20phonefield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -10,12 +10,12 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/providers/constants.dart';
 import '../../src/providers/signup controller.dart';
-import '../../src/reusable widgets/email textformfield.dart';
-import '../../src/reusable widgets/my appbar.dart';
-import '../../src/reusable widgets/my fixed snackBar.dart';
-import '../../src/reusable widgets/name textformfield.dart';
-import '../../src/reusable widgets/password textformfield.dart';
-import '../../src/reusable widgets/reusable authentication first half.dart';
+import '../../src/common_widgets/email textformfield.dart';
+import '../../src/common_widgets/my appbar.dart';
+import '../../src/common_widgets/my fixed snackBar.dart';
+import '../../src/common_widgets/name textformfield.dart';
+import '../../src/common_widgets/password textformfield.dart';
+import '../../src/common_widgets/reusable authentication first half.dart';
 import '../../src/splash screens/signup splash screen.dart';
 import '../../theme/colors.dart';
 import 'login.dart';
@@ -250,7 +250,6 @@ class _SignUpState extends State<SignUp> {
                                 controller.userEmailEC.text = value;
                               },
                             ),
-                            kSizedBox,
                             kSizedBox,
                             const SizedBox(
                               child: Text(

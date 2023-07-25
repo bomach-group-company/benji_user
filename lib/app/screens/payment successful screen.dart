@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../../src/providers/constants.dart';
-import '../../src/reusable widgets/my elevatedbutton.dart';
+import '../../src/common_widgets/my elevatedbutton.dart';
 import '../orders/track order.dart';
 
 class PaymentSuccessful extends StatelessWidget {

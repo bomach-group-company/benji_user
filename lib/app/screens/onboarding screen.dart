@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../../src/providers/constants.dart';
-import '../../src/reusable widgets/onboarding screens.dart';
+import '../../src/common_widgets/onboarding screens.dart';
 import '../../theme/colors.dart';
 import 'login.dart';
 

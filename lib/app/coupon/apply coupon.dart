@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../src/providers/constants.dart';
-import '../../src/reusable widgets/my appbar.dart';
-import '../../src/reusable widgets/my elevatedbutton.dart';
-import '../../src/reusable widgets/my textformfield.dart';
+import '../../src/common_widgets/my appbar.dart';
+import '../../src/common_widgets/my elevatedbutton.dart';
+import '../../src/common_widgets/my textformfield.dart';
 import '../../theme/colors.dart';
 
 class ApplyCoupon extends StatefulWidget {

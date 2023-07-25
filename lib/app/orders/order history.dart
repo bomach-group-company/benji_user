@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../src/providers/constants.dart';
-import '../../src/reusable widgets/my appbar.dart';
-import '../../src/reusable widgets/search field.dart';
-import '../../src/reusable widgets/track order details container.dart';
+import '../../src/common_widgets/my appbar.dart';
+import '../../src/common_widgets/search field.dart';
+import '../../src/common_widgets/track order details container.dart';
 import '../../theme/colors.dart';
 
 class OrdersHistory extends StatefulWidget {
