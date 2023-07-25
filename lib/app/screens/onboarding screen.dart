@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../../providers/constants.dart';
-import '../../widgets/onboarding screens.dart';
+import '../../src/providers/constants.dart';
+import '../../src/reusable widgets/onboarding screens.dart';
 import '../../theme/colors.dart';
 import 'login.dart';
 

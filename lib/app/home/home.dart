@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../providers/constants.dart';
-import '../../reusable widgets/custom showSearch.dart';
-import '../../reusable widgets/my floating snackbar.dart';
-import '../../reusable widgets/see all container.dart';
+import '../../src/providers/constants.dart';
+import '../../src/reusable widgets/appBar delivery location.dart';
+import '../../src/reusable widgets/category button section.dart';
+import '../../src/reusable widgets/custom showSearch.dart';
+import '../../src/reusable widgets/home hot deals.dart';
+import '../../src/reusable widgets/home popular vendors card.dart';
+import '../../src/reusable widgets/homepage vendors.dart';
+import '../../src/reusable widgets/my floating snackbar.dart';
+import '../../src/reusable widgets/see all container.dart';
 import '../../theme/colors.dart';
-import '../../widgets/appBar delivery location.dart';
-import '../../widgets/category button section.dart';
-import '../../widgets/home hot deals.dart';
-import '../../widgets/home popular vendors card.dart';
-import '../../widgets/homepage vendors.dart';
 import '../address/address.dart';
 import '../cart/cart.dart';
 import '../orders/order history.dart';

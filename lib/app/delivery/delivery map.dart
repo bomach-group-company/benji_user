@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../providers/constants.dart';
-import '../../reusable widgets/my appbar.dart';
-import '../../reusable widgets/my elevatedbutton.dart';
+import '../../src/providers/constants.dart';
+import '../../src/reusable widgets/my appbar.dart';
+import '../../src/reusable widgets/my elevatedbutton.dart';
 import '../../theme/colors.dart';
 
 class DeliveryMap extends StatefulWidget {

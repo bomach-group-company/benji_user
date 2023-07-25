@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../providers/constants.dart';
-import '../../reusable widgets/my appbar.dart';
-import '../../reusable widgets/my elevatedbutton.dart';
-import '../../reusable widgets/my floating snackbar.dart';
-import '../../reusable widgets/my outlined elevatedbutton.dart';
+import '../../src/providers/constants.dart';
+import '../../src/reusable widgets/my appbar.dart';
+import '../../src/reusable widgets/my elevatedbutton.dart';
+import '../../src/reusable widgets/my floating snackbar.dart';
+import '../../src/reusable widgets/my outlined elevatedbutton.dart';
 import '../../theme/colors.dart';
 import '../address/deliver to.dart';
 import '../coupon/apply coupon.dart';

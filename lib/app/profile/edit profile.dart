@@ -7,14 +7,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../providers/constants.dart';
-import '../../reusable widgets/email textformfield.dart';
-import '../../reusable widgets/message textformfield.dart';
-import '../../reusable widgets/my appbar.dart';
-import '../../reusable widgets/my elevatedbutton.dart';
-import '../../reusable widgets/my fixed snackBar.dart';
-import '../../reusable widgets/my intl phonefield.dart';
-import '../../reusable widgets/name textformfield.dart';
+import '../../src/providers/constants.dart';
+import '../../src/reusable widgets/email textformfield.dart';
+import '../../src/reusable widgets/message textformfield.dart';
+import '../../src/reusable widgets/my appbar.dart';
+import '../../src/reusable widgets/my elevatedbutton.dart';
+import '../../src/reusable widgets/my fixed snackBar.dart';
+import '../../src/reusable widgets/my intl phonefield.dart';
+import '../../src/reusable widgets/name textformfield.dart';
 import '../../theme/colors.dart';
 
 class EditProfile extends StatefulWidget {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../providers/constants.dart';
-import '../../reusable widgets/my appbar.dart';
-import '../../reusable widgets/my intl phonefield.dart';
-import '../../reusable widgets/my textformfield.dart';
+import '../../src/providers/constants.dart';
+import '../../src/reusable widgets/my appbar.dart';
+import '../../src/reusable widgets/my intl phonefield.dart';
+import '../../src/reusable widgets/my textformfield.dart';
 import '../../theme/colors.dart';
 import 'choose rider.dart';
 import 'itemCategoryDropDownMenu.dart';

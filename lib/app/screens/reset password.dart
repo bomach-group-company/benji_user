@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../providers/constants.dart';
-import '../../reusable widgets/my appbar.dart';
-import '../../reusable widgets/my fixed snackBar.dart';
-import '../../reusable widgets/password textformfield.dart';
-import '../../reusable widgets/reusable authentication first half.dart';
+import '../../src/providers/constants.dart';
+import '../../src/reusable widgets/my appbar.dart';
+import '../../src/reusable widgets/my fixed snackBar.dart';
+import '../../src/reusable widgets/password textformfield.dart';
+import '../../src/reusable widgets/reusable authentication first half.dart';
 import '../../theme/colors.dart';
 
 import 'login.dart';

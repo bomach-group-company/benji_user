@@ -3,12 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../providers/constants.dart';
-import '../../reusable widgets/email textformfield.dart';
-import '../../reusable widgets/my fixed snackBar.dart';
-import '../../reusable widgets/password textformfield.dart';
-import '../../reusable widgets/reusable authentication first half.dart';
-import '../../splash screens/login splash screen.dart';
+import '../../src/providers/constants.dart';
+import '../../src/reusable widgets/email textformfield.dart';
+import '../../src/reusable widgets/my fixed snackBar.dart';
+import '../../src/reusable widgets/password textformfield.dart';
+import '../../src/reusable widgets/reusable authentication first half.dart';
+import '../../src/splash screens/login splash screen.dart';
 import '../../theme/colors.dart';
 import 'forgot password.dart';
 import 'signup.dart';

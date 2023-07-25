@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../providers/constants.dart';
-import '../../reusable widgets/my elevatedbutton.dart';
-import '../../reusable widgets/my fixed snackBar.dart';
-import '../../reusable widgets/my floating snackbar.dart';
+import '../../src/providers/constants.dart';
+import '../../src/reusable widgets/category button section.dart';
+import '../../src/reusable widgets/my elevatedbutton.dart';
+import '../../src/reusable widgets/my fixed snackBar.dart';
+import '../../src/reusable widgets/my floating snackbar.dart';
 import '../../theme/colors.dart';
-import '../../widgets/category button section.dart';
 import '../cart/cart.dart';
 
 class FoodDetailScreen extends StatefulWidget {
