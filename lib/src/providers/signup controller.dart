@@ -1,3 +1,4 @@
+import 'package:benji_user/src/services/repos/authentication_repo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
@@ -13,5 +14,8 @@ class SignupController extends GetxController {
   final userPhoneNumberEC = TextEditingController();
   final userPasswordEC = TextEditingController();
 
-  void registerUser(String userEmail, String userPassword) {}
+  void registerUser(String userEmailEC, String userPasswordEC) {
+    AuthenticationRepo.instance
+        .createUserWithEmailAndPassword(userEmailEC, userPasswordEC);
+  }
 }

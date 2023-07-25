@@ -1,11 +1,11 @@
 // ignore_for_file: camel_case_types, file_names
 
+import 'package:benji_user/app/screens/onboarding%20screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../app/screens/login.dart';
-import '../providers/constants.dart';
 import '../../theme/colors.dart';
+import '../providers/constants.dart';
 
 class StartupSplashscreen extends StatefulWidget {
   static String routeName = "Startup Splash Screen";
@@ -18,13 +18,10 @@ class StartupSplashscreen extends StatefulWidget {
 class _StartupSplashscreenState extends State<StartupSplashscreen> {
   @override
   Widget build(BuildContext context) {
-    Future.delayed(
-        const Duration(
-          seconds: 4,
-        ), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (ctx) => const Login(),
+          builder: (ctx) => const OnboardingScreen(),
         ),
       );
     });

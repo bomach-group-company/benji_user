@@ -67,9 +67,7 @@ class _SignUpState extends State<SignUp> {
       context,
       "Signup Successful".toUpperCase(),
       kSuccessColor,
-      Duration(
-        seconds: 2,
-      ),
+      Duration(seconds: 2),
     );
 
     // Navigate to the new page
