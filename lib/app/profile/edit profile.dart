@@ -7,7 +7,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../src/providers/constants.dart';
 import '../../src/common_widgets/email textformfield.dart';
 import '../../src/common_widgets/message textformfield.dart';
 import '../../src/common_widgets/my appbar.dart';
@@ -15,6 +14,7 @@ import '../../src/common_widgets/my elevatedbutton.dart';
 import '../../src/common_widgets/my fixed snackBar.dart';
 import '../../src/common_widgets/my intl phonefield.dart';
 import '../../src/common_widgets/name textformfield.dart';
+import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
 class EditProfile extends StatefulWidget {
@@ -296,7 +296,7 @@ class _EditProfileState extends State<EditProfile> {
                                   ),
                                 ),
                                 enableDrag: true,
-                                builder: ((builder) => profilePicBottomSheet()),
+                                builder: (builder) => profilePicBottomSheet(),
                               );
                             },
                             borderRadius: BorderRadius.circular(100),
