@@ -1,10 +1,10 @@
-import 'package:alpha_logistics/app/address/add%20new%20address.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20appbar.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
 import 'package:flutter/material.dart';
 
-import '../../providers/constants.dart';
+import '../../src/providers/constants.dart';
+import '../../src/common_widgets/my appbar.dart';
+import '../../src/common_widgets/my elevatedbutton.dart';
 import '../../theme/colors.dart';
+import 'add new address.dart';
 import 'address details.dart';
 
 class Addresses extends StatefulWidget {

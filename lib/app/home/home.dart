@@ -1,22 +1,22 @@
-import 'package:alpha_logistics/app/send%20package/send%20package.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../providers/constants.dart';
-import '../../reusable widgets/custom showSearch.dart';
-import '../../reusable widgets/my floating snackbar.dart';
-import '../../reusable widgets/see all container.dart';
-import '../../screens/login.dart';
+import '../../src/providers/constants.dart';
+import '../../src/common_widgets/appBar delivery location.dart';
+import '../../src/common_widgets/category button section.dart';
+import '../../src/common_widgets/custom showSearch.dart';
+import '../../src/common_widgets/home hot deals.dart';
+import '../../src/common_widgets/home popular vendors card.dart';
+import '../../src/common_widgets/homepage vendors.dart';
+import '../../src/common_widgets/my floating snackbar.dart';
+import '../../src/common_widgets/see all container.dart';
 import '../../theme/colors.dart';
-import '../../widgets/appBar delivery location.dart';
-import '../../widgets/category button section.dart';
-import '../../widgets/home hot deals.dart';
-import '../../widgets/home popular vendors card.dart';
-import '../../widgets/homepage vendors.dart';
 import '../address/address.dart';
 import '../cart/cart.dart';
 import '../orders/order history.dart';
 import '../profile/edit profile.dart';
+import '../screens/login.dart';
+import '../send package/send package.dart';
 import 'home drawer.dart';
 
 class Home extends StatefulWidget {
@@ -238,7 +238,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               AppBarDeliveryLocation(
-                deliveryLocation: 'Achara Layout, Enugu',
+                deliveryLocation: 'Independence Layout, Enugu',
               ),
             ],
           ),

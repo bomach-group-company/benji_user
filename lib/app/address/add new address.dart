@@ -1,15 +1,15 @@
-import 'package:alpha_logistics/reusable%20widgets/my%20appbar.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20outlined%20elevatedbutton.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../providers/constants.dart';
-import '../../reusable widgets/my floating snackbar.dart';
-import '../../reusable widgets/my intl phonefield.dart';
-import '../../reusable widgets/my textformfield.dart';
+import '../../src/providers/constants.dart';
+import '../../src/common_widgets/my appbar.dart';
+import '../../src/common_widgets/my elevatedbutton.dart';
+import '../../src/common_widgets/my floating snackbar.dart';
+import '../../src/common_widgets/my intl phonefield.dart';
+import '../../src/common_widgets/my outlined elevatedbutton.dart';
+import '../../src/common_widgets/my textformfield.dart';
 import '../../theme/colors.dart';
 
 class AddNewAddress extends StatefulWidget {
@@ -27,21 +27,18 @@ class _AddNewAddressState extends State<AddNewAddress> {
   final _cscPickerKey = GlobalKey<CSCPickerState>();
 
   //===================== CONTROLLERS =======================\\
-  TextEditingController addressTitleController = TextEditingController();
-  TextEditingController recipientNameController = TextEditingController();
-  TextEditingController streetAddressController = TextEditingController();
-  TextEditingController apartmentDetailsController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController countryController = TextEditingController();
-  TextEditingController stateController = TextEditingController();
-  TextEditingController cityController = TextEditingController();
+  TextEditingController addressTitleEC = TextEditingController();
+  TextEditingController recipientNameEC = TextEditingController();
+  TextEditingController streetAddressEC = TextEditingController();
+  TextEditingController apartmentDetailsEC = TextEditingController();
+  TextEditingController phoneNumberEC = TextEditingController();
 
   //===================== FOCUS NODES =======================\\
-  FocusNode addressTitleFocusNode = FocusNode();
-  FocusNode recipientNameFocusNode = FocusNode();
-  FocusNode streetAddressFocusNode = FocusNode();
-  FocusNode apartmentDetailsFocusNode = FocusNode();
-  FocusNode phoneNumberFocusNode = FocusNode();
+  FocusNode addressTitleFN = FocusNode();
+  FocusNode recipientNameFN = FocusNode();
+  FocusNode streetAddressFN = FocusNode();
+  FocusNode apartmentDetailsFN = FocusNode();
+  FocusNode phoneNumberFN = FocusNode();
 
   //===================== BOOL VALUES =======================\\
   bool isLoading = false;
@@ -152,19 +149,19 @@ class _AddNewAddressState extends State<AddNewAddress> {
                             MyTextFormField(
                               hintText:
                                   "Enter address name tag e.g my work, my home....",
-                              controller: addressTitleController,
+                              controller: addressTitleEC,
                               textInputAction: TextInputAction.next,
                               textInputType: TextInputType.name,
-                              focusNode: addressTitleFocusNode,
+                              focusNode: addressTitleFN,
                               validator: (value) {
                                 if (value == null || value!.isEmpty) {
-                                  addressTitleFocusNode.requestFocus();
+                                  addressTitleFN.requestFocus();
                                   return "Enter a title";
                                 }
                                 return null;
                               },
                               onSaved: (value) {
-                                addressTitleController.text = value!;
+                                addressTitleEC.text = value!;
                               },
                             ),
                             kHalfSizedBox,
@@ -196,10 +193,10 @@ class _AddNewAddressState extends State<AddNewAddress> {
                             kHalfSizedBox,
                             MyTextFormField(
                               hintText: "Enter recipient name",
-                              controller: recipientNameController,
+                              controller: recipientNameEC,
                               textInputAction: TextInputAction.next,
                               textInputType: TextInputType.name,
-                              focusNode: recipientNameFocusNode,
+                              focusNode: recipientNameFN,
                               validator: (value) {
                                 //username pattern
                                 //Min. of 3 characters
@@ -207,16 +204,16 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   r'^.{3,}$',
                                 );
                                 if (value == null || value!.isEmpty) {
-                                  recipientNameFocusNode.requestFocus();
+                                  recipientNameFN.requestFocus();
                                   return "Enter your name";
                                 } else if (!userNamePattern.hasMatch(value)) {
-                                  recipientNameFocusNode.requestFocus();
+                                  recipientNameFN.requestFocus();
                                   return "Please enter a valid name";
                                 }
                                 return null;
                               },
                               onSaved: (value) {
-                                recipientNameController.text = value!;
+                                recipientNameEC.text = value!;
                               },
                             ),
                           ],
@@ -238,27 +235,27 @@ class _AddNewAddressState extends State<AddNewAddress> {
                             kHalfSizedBox,
                             MyTextFormField(
                               hintText: "E.g 123 Main Street",
-                              controller: streetAddressController,
+                              controller: streetAddressEC,
                               textInputAction: TextInputAction.next,
                               textInputType: TextInputType.streetAddress,
-                              focusNode: streetAddressFocusNode,
+                              focusNode: streetAddressFN,
                               validator: (value) {
                                 RegExp streetAddressPattern = RegExp(
                                   r'^\d+\s+[a-zA-Z0-9\s.-]+$',
                                 );
                                 ;
                                 if (value == null || value!.isEmpty) {
-                                  streetAddressFocusNode.requestFocus();
+                                  streetAddressFN.requestFocus();
                                   return "Enter your street address";
                                 } else if (!streetAddressPattern
                                     .hasMatch(value)) {
-                                  streetAddressFocusNode.requestFocus();
+                                  streetAddressFN.requestFocus();
                                   return "Please enter a valid street address (Must have a number)";
                                 }
                                 return null;
                               },
                               onSaved: (value) {
-                                streetAddressController.text = value!;
+                                streetAddressEC.text = value!;
                               },
                             ),
                           ],
@@ -280,19 +277,19 @@ class _AddNewAddressState extends State<AddNewAddress> {
                             kHalfSizedBox,
                             MyTextFormField(
                               hintText: "E.g Suite B3",
-                              controller: apartmentDetailsController,
+                              controller: apartmentDetailsEC,
                               textInputAction: TextInputAction.next,
                               textInputType: TextInputType.text,
-                              focusNode: apartmentDetailsFocusNode,
+                              focusNode: apartmentDetailsFN,
                               validator: (value) {
                                 if (value == null || value!.isEmpty) {
-                                  apartmentDetailsFocusNode.requestFocus();
+                                  apartmentDetailsFN.requestFocus();
                                   return "Enter your apartment detail";
                                 }
                                 return null;
                               },
                               onSaved: (value) {
-                                apartmentDetailsController.text = value!;
+                                apartmentDetailsEC.text = value!;
                               },
                             ),
                           ],
@@ -322,18 +319,18 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                 Icons.arrow_drop_down_rounded,
                                 color: kAccentColor,
                               ),
-                              controller: phoneNumberController,
+                              controller: phoneNumberEC,
                               textInputAction: TextInputAction.next,
-                              focusNode: phoneNumberFocusNode,
+                              focusNode: phoneNumberFN,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  phoneNumberFocusNode.requestFocus();
+                                  phoneNumberFN.requestFocus();
                                   return "Enter your phone number";
                                 }
                                 return null;
                               },
                               onSaved: (value) {
-                                phoneNumberController.text = value;
+                                phoneNumberEC.text = value;
                               },
                             ),
                           ],

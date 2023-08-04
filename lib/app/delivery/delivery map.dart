@@ -1,12 +1,12 @@
 // ignore_for_file: unused_field
 
-import 'package:alpha_logistics/reusable%20widgets/my%20appbar.dart';
-import 'package:alpha_logistics/reusable%20widgets/my%20elevatedbutton.dart';
-import 'package:alpha_logistics/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../providers/constants.dart';
+import '../../src/providers/constants.dart';
+import '../../src/common_widgets/my appbar.dart';
+import '../../src/common_widgets/my elevatedbutton.dart';
+import '../../theme/colors.dart';
 
 class DeliveryMap extends StatefulWidget {
   const DeliveryMap({super.key});

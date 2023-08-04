@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.benji">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -56,6 +56,6 @@
             android:value="2" />
             <meta-data
                 android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyAtbHOL3DbQD613UEmh0WYd68y0pY5h03E" />
+                android:value="AIzaSyAtbHOL3DbQD613UEmh0WYd68y0pY5h03E" />   
     </application>
 </manifest>

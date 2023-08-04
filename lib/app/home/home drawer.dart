@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../providers/constants.dart';
-import '../../reusable widgets/my appbar.dart';
+import '../../src/providers/constants.dart';
+import '../../src/common_widgets/my appbar.dart';
 import '../../theme/colors.dart';
 
 class HomeDrawer extends StatefulWidget {
