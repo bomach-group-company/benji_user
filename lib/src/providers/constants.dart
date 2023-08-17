@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/colors.dart';
+import 'package:intl/intl.dart';
 
 const kDefaultPadding = 20.0;
 
@@ -42,3 +43,30 @@ const String streetAddressPattern = r'^\d+\s+[a-zA-Z0-9\s.-]+$';
 //validation for email
 const String emailPattern =
     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+String formatDateAndTime(DateTime dateTime) {
+  // Format the date as '23 Feb 2020'
+  String formattedDate = DateFormat('dd MMM y').format(dateTime);
+
+  // Format the time as '1:20PM'
+  String formattedTime = DateFormat.jm().format(dateTime);
+
+  // Combine the formatted date and time
+  String formattedDateTime = '$formattedDate • $formattedTime';
+
+  return formattedDateTime;
+}
+
+String format12HrTime(DateTime time) {
+  // Format the time as '1:20PM'
+  String formattedTime = DateFormat.jm().format(time);
+
+  return formattedTime;
+}
+
+String formatDate(DateTime date) {
+  // Format the date as '23 Feb 2020'
+  String formattedDate = DateFormat('dd MMM y').format(date);
+
+  return formattedDate;
+}

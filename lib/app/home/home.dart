@@ -1,3 +1,4 @@
+import 'package:benji_user/app/favorite/favorite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -27,7 +28,23 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  //============================= ALL VARIABLES =====================================\\
+//============================================== ALL VARIABLES =================================================\\
+  bool _vendorStatus = true;
+
+  //Online Vendors
+  final String _onlineVendorsName = "Ntachi Osa";
+  final String _onlineVendorsImage = "ntachi-osa";
+  final double _onlineVendorsRating = 4.6;
+
+  final String _vendorActive = "Online";
+  final String _vendorInactive = "Offline";
+  final Color _vendorActiveColor = kSuccessColor;
+  final Color _vendorInactiveColor = kAccentColor;
+
+  //Offline Vendors
+  final String _offlineVendorsName = "Best Choice Restaurant";
+  final String _offlineVendorsImage = "best-choice-restaurant";
+  final double _offlineVendorsRating = 4.0;
 
   //===================== TEXTEDITING CONTROLLER =======================\\
   TextEditingController searchController = TextEditingController();
@@ -197,7 +214,26 @@ class _HomeState extends State<Home> {
               ),
             );
           },
-          toFavoritesPage: () {},
+          toFavoritesPage: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => Favorite(
+                  vendorCoverImage: _vendorStatus
+                      ? _onlineVendorsImage
+                      : _offlineVendorsImage,
+                  vendorName:
+                      _vendorStatus ? _onlineVendorsName : _offlineVendorsName,
+                  vendorRating: _vendorStatus
+                      ? _onlineVendorsRating
+                      : _offlineVendorsRating,
+                  vendorActiveStatus:
+                      _vendorStatus ? _vendorActive : _vendorInactive,
+                  vendorActiveStatusColor:
+                      _vendorStatus ? _vendorActiveColor : _vendorInactiveColor,
+                ),
+              ),
+            );
+          },
           toInvitesPage: () {},
           toOrdersPage: () {
             Navigator.of(context).push(

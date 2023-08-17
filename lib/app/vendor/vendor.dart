@@ -294,7 +294,7 @@ class _VendorState extends State<Vendor> {
                             ),
                             kHalfWidthSizedBox,
                             SizedBox(
-                              width: 300,
+                              width: 250,
                               child: Text(
                                 "Old Abakaliki Rd, Thinkers Corner 400103, Enugusdsudhosud",
                                 overflow: TextOverflow.ellipsis,

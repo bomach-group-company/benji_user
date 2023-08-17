@@ -70,3 +70,8 @@ const Color kBorderLightColor = Color(
 const Color kErrorBorderColor = Color(
   0xFFE74C3C,
 );
+
+Color kStarColor = const Color(0xFFFF6838);
+Color kPageSkeletonColor = kBlackColor.withOpacity(0.35);
+
+const Color kDefaultCategoryBackgroundColor = Color(0xFFF2F2F2);

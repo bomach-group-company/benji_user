@@ -27,6 +27,7 @@ dependencies:
   firebase_auth: ^4.7.1
   firebase_database: ^10.2.4
   get: ^4.6.5
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +58,7 @@ flutter:
     - assets/images/icons/
     - assets/images/rider/
     - assets/images/profile/
+    - assets/images/products/
     - assets/animations/splash screen/
     - assets/animations/successful/
 
