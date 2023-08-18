@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 
 import 'app/favorite/favorite.dart';
 import 'app/orders/track order.dart';
+import 'app/vendor/popular_vendors.dart';
+import 'app/vendor/vendors_near_you.dart';
 
 // import 'app/home/home.dart';
 
