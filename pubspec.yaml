@@ -23,9 +23,7 @@ dependencies:
   intl_phone_field: ^3.2.0
   image_picker: ^1.0.1
   url_launcher: ^6.1.12
-  firebase_core: ^2.15.0
-  firebase_auth: ^4.7.1
-  firebase_database: ^10.2.4
+
   get: ^4.6.5
   intl: ^0.18.1
 
@@ -33,12 +31,19 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.3.2
 
-flutter_icons:
+flutter_native_splash:
+  image: assets/images/splash_screen/frame_1.png
+  color: "#f9f9f9"
+  image_dark: assets/images/splash_screen/frame_1.png
+  color_dark: "#000000"
+
+flutter_launcher_icons:
   android: "launcher_icon"
+  remove_alpha_ios: true
   ios: true
-  image_path: "assets/images/logo/logo-icon.png"
-
+  image_path: "assets/images/logo/benji_blue_logo_icon.jpg"
   flutter_lints: ^2.0.0
 
 # The following section is specific to Flutter packages.
