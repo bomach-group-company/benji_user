@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'app/favorite/favorite.dart';
+import 'app/orders/track order.dart';
 
 // import 'app/home/home.dart';
 
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       home: StartupSplashscreen(),
       // home: Home(),
+      // home: TrackOrder(),
       // home: Favorite(
       //   vendorCoverImage:
       //       _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,

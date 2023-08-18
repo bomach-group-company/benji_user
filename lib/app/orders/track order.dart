@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../src/providers/constants.dart';
 import '../../src/common_widgets/my appbar.dart';
 import '../../theme/colors.dart';
+import '../call/call_screen.dart';
 import '../delivery/delivery map.dart';
 
 class TrackOrder extends StatefulWidget {
@@ -306,7 +307,6 @@ class _TrackOrderState extends State<TrackOrder> {
             ),
             kSizedBox,
             Container(
-              height: MediaQuery.of(context).size.height / 1.8,
               width: MediaQuery.of(context).size.width,
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -468,120 +468,94 @@ class _TrackOrderState extends State<TrackOrder> {
                       ),
                     ),
                     kHalfSizedBox,
-                    Container(
-                      width: 380,
-                      height: 85,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 60,
-                            top: 18,
-                            child: Container(
-                              width: 290,
-                              height: 62,
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    left: 0,
-                                    top: 0,
-                                    child: SizedBox(
-                                      width: 184,
-                                      height: 20,
-                                      child: Text(
-                                        'Martins Okafor',
-                                        style: TextStyle(
-                                          color: kTextBlackColor,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: 0,
-                                    top: 24,
-                                    child: SizedBox(
-                                      width: 100,
-                                      height: 29,
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.location_on_outlined,
-                                            size: 14,
-                                            color: Color(
-                                              0xFF575757,
-                                            ),
-                                          ),
-                                          Text(
-                                            '3.2km away',
-                                            style: TextStyle(
-                                              color: Color(
-                                                0xFF575757,
-                                              ),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: 160,
-                                    top: 8,
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: ShapeDecoration(
-                                        color: kAccentColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            16,
-                                          ),
-                                        ),
-                                        shadows: [
-                                          BoxShadow(
-                                            blurRadius: 4,
-                                            spreadRadius: 0.7,
-                                            color: kBlackColor.withOpacity(0.4),
-                                            offset: const Offset(0, 4),
-                                          )
-                                        ],
-                                      ),
-                                      child: IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(
-                                          Icons.phone_rounded,
-                                          color: kPrimaryColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                    ListTile(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                      onTap: null,
+                      leading: Container(
+                        width: 48,
+                        height: 49,
+                        decoration: ShapeDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              "assets/images/rider/martins-okafor.png",
+                            ),
+                            fit: BoxFit.fill,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              6,
                             ),
                           ),
-                          Positioned(
-                              left: 0,
-                              top: 20,
-                              child: Container(
-                                width: 48,
-                                height: 49,
-                                decoration: ShapeDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                      "assets/images/rider/martins-okafor.png",
-                                    ),
-                                    fit: BoxFit.fill,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      6,
-                                    ),
-                                  ),
+                        ),
+                      ),
+                      title: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Martins Okafor',
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          kHalfSizedBox,
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.location_on_outlined,
+                                size: 14,
+                                color: Color(
+                                  0xFF575757,
                                 ),
-                              )),
+                              ),
+                              Text(
+                                '3.2km away',
+                                style: TextStyle(
+                                  color: Color(
+                                    0xFF575757,
+                                  ),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              )
+                            ],
+                          )
                         ],
+                      ),
+                      trailing: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: ShapeDecoration(
+                          color: kAccentColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              16,
+                            ),
+                          ),
+                          shadows: [
+                            BoxShadow(
+                              blurRadius: 4,
+                              spreadRadius: 0.7,
+                              color: kBlackColor.withOpacity(0.4),
+                              offset: const Offset(0, 4),
+                            )
+                          ],
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => CallPage(),
+                              ),
+                            );
+                          },
+                          icon: Icon(
+                            Icons.phone_rounded,
+                            color: kPrimaryColor,
+                          ),
+                        ),
                       ),
                     ),
                     kSizedBox,
