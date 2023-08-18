@@ -96,7 +96,7 @@ class _LoginState extends State<Login> {
       int userId = jsonDecode(someUserData.body)['id'];
 
       final userData = await http.get(
-          Uri.parse('$baseURL/drivers/getDriver/$userId'),
+          Uri.parse('$baseURL/clients/getClient/$userId'),
           headers: await authHeader(token));
 
       await saveUser(userData.body, token);

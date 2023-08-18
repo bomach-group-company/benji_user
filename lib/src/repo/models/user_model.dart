@@ -9,9 +9,9 @@ class User {
   final String username;
   final String created;
   final String firstName;
-  final String lastName;
-  final String gender;
+  final bool isOnline;
   final String address;
+  final String image;
   final String token;
 
   const User({
@@ -23,9 +23,9 @@ class User {
     required this.username,
     required this.created,
     required this.firstName,
-    required this.lastName,
-    required this.gender,
+    required this.isOnline,
     required this.address,
+    required this.image,
     required this.token,
   });
 
@@ -39,9 +39,9 @@ class User {
       username: json['username'],
       created: json['created'],
       firstName: json['first_name'],
-      lastName: json['last_name'],
-      gender: json['gender'],
+      isOnline: json['isOnline'],
       address: json['address'],
+      image: json['image'],
       token: json['token'],
     );
   }
