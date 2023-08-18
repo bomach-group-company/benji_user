@@ -3,16 +3,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/route_manager.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../src/common_widgets/category_button_section_tab.dart';
-import '../../src/common_widgets/custom showSearch.dart';
 import '../../src/common_widgets/home popular vendors card.dart';
-import '../../src/common_widgets/my appbar.dart';
 import '../../src/common_widgets/vendors food container.dart';
-import '../../src/common_widgets/vendors_order_container.dart';
-import '../../src/common_widgets/vendors_product_container.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../cart/cart.dart';

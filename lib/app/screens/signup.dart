@@ -4,8 +4,6 @@ import 'package:benji_user/src/common_widgets/my%20intl%20phonefield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/providers/constants.dart';
