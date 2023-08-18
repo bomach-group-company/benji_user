@@ -1,11 +1,12 @@
 // ignore_for_file: camel_case_types
 
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 import '../../src/providers/constants.dart';
-import '../../src/common_widgets/onboarding_screens.dart';
 import '../../theme/colors.dart';
-import 'login.dart';
+import '../auth/login.dart';
+import 'onboarding_screens.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static String routeName = "Onboarding Screen";
@@ -165,10 +166,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ElevatedButton(
                   onPressed: () async {
                     if (index == screens.length - 1) {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => Login(),
-                        ),
+                      Get.off(
+                        () => const Login(),
+                        routeName: 'Login',
+                        duration: const Duration(milliseconds: 300),
+                        fullscreenDialog: true,
+                        curve: Curves.easeIn,
+                        popGesture: true,
+                        preventDuplicates: true,
+                        transition: Transition.rightToLeft,
                       );
                     }
                     _pageController.nextPage(
@@ -180,18 +186,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: kAccentColor,
-                    maximumSize: Size(
-                      354,
-                      56,
-                    ),
-                    minimumSize: Size(
-                      354,
-                      56,
-                    ),
+                    maximumSize: Size(354, 56),
+                    minimumSize: Size(354, 56),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        16,
-                      ),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     elevation: 10,
                     shadowColor: kDarkGreyColor,

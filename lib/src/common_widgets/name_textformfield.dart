@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../theme/colors.dart';
+import '../../../theme/colors.dart';
 
 class NameTextFormField extends StatelessWidget {
   final TextEditingController controller;

@@ -23,9 +23,13 @@ dependencies:
   intl_phone_field: ^3.2.0
   image_picker: ^1.0.1
   url_launcher: ^6.1.12
-
+  liquid_pull_to_refresh: ^3.0.1
+  shared_preferences: ^2.2.0
+  font_awesome_flutter: ^10.5.0
   get: ^4.6.5
   intl: ^0.18.1
+  flutter_layout_grid: ^2.0.4
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -54,9 +58,8 @@ flutter:
   assets:
     - assets/images/logo/
     - assets/images/vendors/
-    - assets/images/splash screen/
-    - assets/images/onboarding screen/
-    - assets/images/login/
+    - assets/images/splash_screen/
+    - assets/images/onboarding_screen/
     - assets/images/home/
     - assets/images/vendors/
     - assets/images/food/

@@ -477,6 +477,7 @@ class _EditProfileState extends State<EditProfile> {
                       onSaved: (value) {
                         bioEC.text = value;
                       },
+                      maxLength: 6000,
                     ),
                   ],
                 ),
