@@ -77,7 +77,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           },
           itemBuilder: (context, index) {
             return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
                   height: MediaQuery.of(context).size.height / 3.0,
@@ -90,9 +90,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: kDefaultPadding * 3,
-                ),
+                // SizedBox(
+                //   height: kDefaultPadding * 3,
+                // ),
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -106,9 +106,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: kDefaultPadding * 1.5,
-                ),
+                // SizedBox(
+                //   height: kDefaultPadding * 1.5,
+                // ),
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -121,9 +121,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: kDefaultPadding * 2,
-                ),
+                // SizedBox(
+                //   height: kDefaultPadding * 2,
+                // ),
                 Container(
                   height: 10.0,
                   child: ListView.builder(
@@ -159,9 +159,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     },
                   ),
                 ),
-                SizedBox(
-                  height: kDefaultPadding * 4,
-                ),
+                // SizedBox(
+                //   height: kDefaultPadding * 4,
+                // ),
                 ElevatedButton(
                   onPressed: () async {
                     if (index == screens.length - 1) {

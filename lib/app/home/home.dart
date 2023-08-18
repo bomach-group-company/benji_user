@@ -293,23 +293,26 @@ class _HomeState extends State<Home> {
             ),
             Stack(
               children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => Cart(),
-                      ),
-                    );
-                  },
-                  splashRadius: 20,
-                  icon: Icon(
-                    Icons.shopping_cart_outlined,
-                    color: kAccentColor,
+                Container(
+                  alignment: Alignment.center,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => Cart(),
+                        ),
+                      );
+                    },
+                    splashRadius: 20,
+                    icon: Icon(
+                      Icons.shopping_cart_outlined,
+                      color: kAccentColor,
+                    ),
                   ),
                 ),
                 Positioned(
-                  top: 2,
-                  right: 10,
+                  top: 5,
+                  right: 5,
                   child: Container(
                     height: 20,
                     width: 20,

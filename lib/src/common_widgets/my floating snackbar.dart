@@ -50,7 +50,7 @@ void mySnackBar(
                     ),
                     kHalfSizedBox,
                     Container(
-                      width: MediaQuery.of(context).size.width / 1.7,
+                      width: MediaQuery.of(context).size.width / 2,
                       child: Text(
                         message.toUpperCase(),
                         // overflow: TextOverflow.ellipsis,

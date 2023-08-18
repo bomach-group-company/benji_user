@@ -9,7 +9,6 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/providers/constants.dart';
-import '../../src/providers/signup controller.dart';
 import '../../src/common_widgets/email textformfield.dart';
 import '../../src/common_widgets/my appbar.dart';
 import '../../src/common_widgets/my fixed snackBar.dart';
@@ -31,7 +30,12 @@ class _SignUpState extends State<SignUp> {
   //=========================== ALL VARIABBLES ====================================\\
 
   //=========================== CONTROLLER ====================================\\
-  final controller = Get.put(SignupController());
+
+  TextEditingController userFirstNameEC = TextEditingController();
+  TextEditingController userLastNameEC = TextEditingController();
+  TextEditingController userEmailEC = TextEditingController();
+  TextEditingController userPhoneNumberEC = TextEditingController();
+  TextEditingController userPasswordEC = TextEditingController();
 
   //=========================== KEYS ====================================\\
   final _formKey = GlobalKey<FormState>();
@@ -58,10 +62,6 @@ class _SignUpState extends State<SignUp> {
     // Simulating a delay of 3 seconds
     Future.delayed(Duration(seconds: 2));
 
-    SignupController.instance.registerUser(
-      controller.userEmailEC.text.trim(),
-      controller.userPasswordEC.text.trim(),
-    );
     //Display snackBar
     myFixedSnackBar(
       context,
@@ -156,7 +156,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             kHalfSizedBox,
                             NameTextFormField(
-                              controller: controller.userFirstNameEC,
+                              controller: userFirstNameEC,
                               validator: (value) {
                                 RegExp userNamePattern = RegExp(
                                   r'^.{3,}$', //Min. of 3 characters
@@ -171,7 +171,7 @@ class _SignUpState extends State<SignUp> {
                                 return null;
                               },
                               onSaved: (value) {
-                                controller.userFirstNameEC.text = value;
+                                userFirstNameEC.text = value;
                               },
                               textInputAction: TextInputAction.next,
                               nameFocusNode: userFirstNameFN,
@@ -193,7 +193,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             kHalfSizedBox,
                             NameTextFormField(
-                              controller: controller.userLastNameEC,
+                              controller: userLastNameEC,
                               validator: (value) {
                                 RegExp userNamePattern = RegExp(
                                   r'^.{3,}$', //Min. of 3 characters
@@ -208,7 +208,7 @@ class _SignUpState extends State<SignUp> {
                                 return null;
                               },
                               onSaved: (value) {
-                                controller.userLastNameEC.text = value;
+                                userLastNameEC.text = value;
                               },
                               textInputAction: TextInputAction.next,
                               nameFocusNode: userLastNameFN,
@@ -230,7 +230,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             kHalfSizedBox,
                             EmailTextFormField(
-                              controller: controller.userEmailEC,
+                              controller: userEmailEC,
                               emailFocusNode: userEmailFN,
                               textInputAction: TextInputAction.next,
                               validator: (value) {
@@ -247,7 +247,7 @@ class _SignUpState extends State<SignUp> {
                                 return null;
                               },
                               onSaved: (value) {
-                                controller.userEmailEC.text = value;
+                                userEmailEC.text = value;
                               },
                             ),
                             kSizedBox,
@@ -266,7 +266,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             kHalfSizedBox,
                             MyIntlPhoneField(
-                              controller: controller.userPhoneNumberEC,
+                              controller: userPhoneNumberEC,
                               initialCountryCode: "NG",
                               invalidNumberMessage: "Invalid Phone Number",
                               dropdownIconPosition: IconPosition.trailing,
@@ -282,7 +282,7 @@ class _SignUpState extends State<SignUp> {
                                 }
                               },
                               onSaved: (value) {
-                                controller.userPhoneNumberEC.text = value!;
+                                userPhoneNumberEC.text = value!;
                               },
                               textInputAction: TextInputAction.next,
                               focusNode: userPhoneNumberFN,
@@ -302,7 +302,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             kHalfSizedBox,
                             PasswordTextFormField(
-                              controller: controller.userPasswordEC,
+                              controller: userPasswordEC,
                               passwordFocusNode: userPasswordFN,
                               keyboardType: TextInputType.visiblePassword,
                               obscureText: isObscured,
@@ -321,7 +321,7 @@ class _SignUpState extends State<SignUp> {
                                 return null;
                               },
                               onSaved: (value) {
-                                controller.userPasswordEC.text = value;
+                                userPasswordEC.text = value;
                               },
                               suffixIcon: IconButton(
                                 onPressed: () {
@@ -347,7 +347,7 @@ class _SignUpState extends State<SignUp> {
                         uppercaseCharCount: 1,
                         lowercaseCharCount: 1,
                         numericCharCount: 1,
-                        controller: controller.userPasswordEC,
+                        controller: userPasswordEC,
                         width: 400,
                         height: 150,
                         minLength: 8,
