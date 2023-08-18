@@ -1,4 +1,4 @@
-# benji_user
+# Benji
 
 A new Flutter project.
 
