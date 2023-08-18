@@ -1,8 +1,10 @@
+// ignore_for_file:   avoid_print, prefer_interpolation_to_compose_strings
+
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../../../theme/colors.dart';
 import '../providers/constants.dart';
-import '../../theme/colors.dart';
 
 class MyIntlPhoneField extends StatelessWidget {
   final TextEditingController controller;
@@ -46,9 +48,7 @@ class MyIntlPhoneField extends StatelessWidget {
       focusNode: focusNode,
       validator: validator,
       onSaved: onSaved,
-      flagsButtonPadding: EdgeInsets.all(
-        kDefaultPadding / 2,
-      ),
+      flagsButtonPadding: const EdgeInsets.all(kDefaultPadding / 2),
       cursorColor: kSecondaryColor,
       onChanged: (phone) {
         print(phone.completeNumber);

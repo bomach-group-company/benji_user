@@ -1,11 +1,11 @@
-// ignore_for_file: camel_case_types, file_names
-
-import 'package:benji_user/app/auth_screens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/route_manager.dart';
 
-import '../../theme/colors.dart';
 import '../../src/providers/constants.dart';
+import '../../theme/colors.dart';
+import '../auth/onboarding_screen.dart';
+import '../user_auth/userAuth.dart';
 
 class StartupSplashscreen extends StatefulWidget {
   static String routeName = "Startup Splash Screen";
@@ -19,12 +19,18 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (ctx) => const OnboardingScreen(),
-        ),
+      Get.offAll(
+        () => const UserSnapshot(),
+        duration: const Duration(seconds: 3),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "UserSnapshot",
+        predicate: (route) => false,
+        popGesture: true,
+        transition: Transition.fadeIn,
       );
     });
+
     return Scaffold(
       body: ListView(
         padding: const EdgeInsets.all(kDefaultPadding / 2),
@@ -42,20 +48,20 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                        "assets/images/splash screen/frame-1.png",
+                        "assets/images/splash_screen/frame_1.png",
                       ),
                     ),
                   ),
                 ),
-                kSizedBox,
-                const Center(
-                  child: Text(
-                    "User App",
-                    style: TextStyle(
-                      color: kTextBlackColor,
-                    ),
-                  ),
-                ),
+                // kSizedBox,
+                // const Center(
+                //   child: Text(
+                //     "User App",
+                //     style: TextStyle(
+                //       color: kTextBlackColor,
+                //     ),
+                //   ),
+                // ),
                 kSizedBox,
                 SpinKitThreeInOut(
                   color: kSecondaryColor,

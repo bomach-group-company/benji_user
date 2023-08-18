@@ -16,7 +16,7 @@ import '../address/address.dart';
 import '../cart/cart.dart';
 import '../orders/order_history.dart';
 import '../profile/edit_profile.dart';
-import '../auth_screens/login.dart';
+import '../auth/login.dart';
 import '../send_package/send_package.dart';
 import '../vendors/popular_vendors.dart';
 import '../vendors/vendors_near_you.dart';

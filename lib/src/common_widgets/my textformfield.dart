@@ -1,6 +1,8 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
-import '../../theme/colors.dart';
+import '../../../theme/colors.dart';
 
 class MyTextFormField extends StatelessWidget {
   final String hintText;
@@ -43,12 +45,23 @@ class MyTextFormField extends StatelessWidget {
       ),
       decoration: InputDecoration(
         hintText: hintText,
+        filled: true,
+        fillColor: const Color(
+          0xFFF6F6F7,
+        ),
+        focusColor: const Color(
+          0xFFF6F6F7,
+        ),
+        hintStyle: const TextStyle(
+          color: Color(
+            0xFF979797,
+          ),
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+        ),
         errorStyle: const TextStyle(
           color: kErrorColor,
         ),
-        filled: true,
-        fillColor: Colors.blue.shade50,
-        focusColor: Colors.blue.shade50,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(
             10.0,
@@ -71,24 +84,6 @@ class MyTextFormField extends StatelessWidget {
           ),
           borderSide: BorderSide(
             color: Colors.blue.shade50,
-          ),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
-          borderSide: const BorderSide(
-            color: kErrorBorderColor,
-            width: 2.0,
-          ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
-          borderSide: const BorderSide(
-            color: kErrorBorderColor,
-            width: 2.0,
           ),
         ),
       ),

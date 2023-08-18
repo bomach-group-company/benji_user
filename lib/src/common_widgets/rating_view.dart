@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'message_textformfield.dart';
 import '../../theme/colors.dart';
 import '../providers/constants.dart';
+import 'message_textformfield.dart';
 
 class RatingView extends StatefulWidget {
   const RatingView({super.key});
@@ -171,6 +171,7 @@ _causeOfRating(
               hintText: "Enter your review (Optional)",
               maxLines: 5,
               keyboardType: TextInputType.multiline,
+              maxLength: 6000,
             ),
           ],
         ),

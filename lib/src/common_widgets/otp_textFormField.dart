@@ -1,7 +1,9 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../theme/colors.dart';
+import '../../../theme/colors.dart';
 
 class MyOTPTextFormField extends StatelessWidget {
   final TextInputAction textInputAction;
@@ -31,7 +33,7 @@ class MyOTPTextFormField extends StatelessWidget {
       validator: validator,
       decoration: InputDecoration(
         hintText: "0",
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
           fontSize: 17,
           fontWeight: FontWeight.w700,
         ),

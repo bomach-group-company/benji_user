@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../theme/colors.dart';
+import '../../../theme/colors.dart';
 
 class EmailTextFormField extends StatelessWidget {
   final TextEditingController controller;
@@ -31,6 +31,10 @@ class EmailTextFormField extends StatelessWidget {
       textInputAction: textInputAction,
       textAlign: TextAlign.start,
       cursorColor: kSecondaryColor,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      mouseCursor: SystemMouseCursors.click,
+      enableIMEPersonalizedLearning: true,
+      enableInteractiveSelection: true,
       autocorrect: true,
       enableSuggestions: true,
       keyboardType: TextInputType.emailAddress,
