@@ -4,7 +4,6 @@ import 'package:get/route_manager.dart';
 
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../auth/onboarding_screen.dart';
 import '../user_auth/userAuth.dart';
 
 class StartupSplashscreen extends StatefulWidget {
@@ -47,9 +46,8 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
                   width: MediaQuery.of(context).size.width / 2,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(
-                        "assets/images/splash_screen/frame_1.png",
-                      ),
+                      image:
+                          AssetImage("assets/images/splash_screen/frame_1.png"),
                     ),
                   ),
                 ),

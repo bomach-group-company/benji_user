@@ -1,8 +1,8 @@
-import 'package:benji_user/app/favorite/favorite.dart';
+import 'package:benji_user/app/favorites/favorites.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/route_manager.dart';
 
-import '../../src/providers/constants.dart';
 import '../../src/common_widgets/appBar_delivery_location.dart';
 import '../../src/common_widgets/category_button_section.dart';
 import '../../src/common_widgets/custom_showSearch.dart';
@@ -11,12 +11,13 @@ import '../../src/common_widgets/home_popular_vendors_card.dart';
 import '../../src/common_widgets/homepage_vendors.dart';
 import '../../src/common_widgets/my_floating_snackbar.dart';
 import '../../src/common_widgets/see_all_container.dart';
+import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../address/address.dart';
+import '../auth/login.dart';
 import '../cart/cart.dart';
 import '../orders/order_history.dart';
 import '../profile/edit_profile.dart';
-import '../auth/login.dart';
 import '../send_package/send_package.dart';
 import '../vendors/popular_vendors.dart';
 import '../vendors/vendors_near_you.dart';
@@ -62,43 +63,21 @@ class _HomeState extends State<Home> {
 
   final List<Color> _categoryButtonBgColor = [
     kAccentColor,
-    Color(
-      0xFFF2F2F2,
-    ),
-    Color(
-      0xFFF2F2F2,
-    ),
-    Color(
-      0xFFF2F2F2,
-    ),
-    Color(
-      0xFFF2F2F2,
-    ),
+    Color(0xFFF2F2F2),
+    Color(0xFFF2F2F2),
+    Color(0xFFF2F2F2),
+    Color(0xFFF2F2F2),
   ];
   final List<Color> _categoryButtonFontColor = [
     kPrimaryColor,
-    Color(
-      0xFF828282,
-    ),
-    Color(
-      0xFF828282,
-    ),
-    Color(
-      0xFF828282,
-    ),
-    Color(
-      0xFF828282,
-    ),
+    Color(0xFF828282),
+    Color(0xFF828282),
+    Color(0xFF828282),
+    Color(0xFF828282),
   ];
 
 //===================== POPULAR VENDORS =======================\\
-  final List<int> popularVendorsIndex = [
-    0,
-    1,
-    2,
-    3,
-    4,
-  ];
+  final List<int> popularVendorsIndex = [0, 1, 2, 3, 4];
 
   final List<String> popularVendorImage = [
     "best-choice-restaurant.png",
@@ -109,9 +88,7 @@ class _HomeState extends State<Home> {
   ];
   final List<dynamic> popularVendorBannerColor = [
     kAccentColor,
-    Color(
-      0x00000000,
-    ),
+    Color(0x00000000),
     kAccentColor,
     kAccentColor,
     kAccentColor,
@@ -183,6 +160,18 @@ class _HomeState extends State<Home> {
     );
   }
 
+  //==================================================== FUNCTIONS ===========================================================\\
+  void _logOut() => Get.offAll(
+        () => const Login(logout: true),
+        predicate: (route) => false,
+        routeName: 'Login',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -219,7 +208,7 @@ class _HomeState extends State<Home> {
           toFavoritesPage: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => Favorite(
+                builder: (context) => Favorites(
                   vendorCoverImage: _vendorStatus
                       ? _onlineVendorsImage
                       : _offlineVendorsImage,
@@ -244,13 +233,7 @@ class _HomeState extends State<Home> {
               ),
             );
           },
-          logOut: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => Login(),
-              ),
-            );
-          },
+          logOut: _logOut,
         ),
         appBar: AppBar(
           backgroundColor: kPrimaryColor,

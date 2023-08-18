@@ -2,8 +2,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
@@ -436,18 +436,12 @@ class _LoginState extends State<Login> {
                             }),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: kAccentColor,
-                              maximumSize: Size(
-                                MediaQuery.of(context).size.width,
-                                62,
-                              ),
-                              minimumSize: Size(
-                                MediaQuery.of(context).size.width,
-                                60,
-                              ),
+                              maximumSize:
+                                  Size(MediaQuery.of(context).size.width, 62),
+                              minimumSize:
+                                  Size(MediaQuery.of(context).size.width, 60),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  16,
-                                ),
+                                borderRadius: BorderRadius.circular(16),
                               ),
                               elevation: 10,
                               shadowColor: kDarkGreyColor,

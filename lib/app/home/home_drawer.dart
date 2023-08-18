@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../src/providers/constants.dart';
 import '../../src/common_widgets/my_appbar.dart';
+import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
 class HomeDrawer extends StatefulWidget {
@@ -64,9 +64,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
               'Super Maria',
               textAlign: TextAlign.start,
               style: TextStyle(
-                color: Color(
-                  0xFF4C4C4C,
-                ),
+                color: Color(0xFF4C4C4C),
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               ),
@@ -80,9 +78,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     'supermaria@gmail.com',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(
-                        0xFF4C4C4C,
-                      ),
+                      color: Color(0xFF4C4C4C),
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                     ),
@@ -93,9 +89,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         widget.userID,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Color(
-                            0xFF4C4C4C,
-                          ),
+                          color: Color(0xFF4C4C4C),
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),
@@ -117,9 +111,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ),
           kHalfSizedBox,
           Divider(
-            color: Color(
-              0xFF4C4C4C,
-            ),
+            color: Color(0xFF4C4C4C),
           ),
           kHalfSizedBox,
           ListTile(
@@ -131,9 +123,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             title: Text(
               'Profile Settings',
               style: TextStyle(
-                color: Color(
-                  0xFF334A66,
-                ),
+                color: Color(0xFF334A66),
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
@@ -141,9 +131,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             trailing: Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
-              color: Color(
-                0xFF4C4C4C,
-              ),
+              color: Color(0xFF4C4C4C),
             ),
           ),
           ListTile(
@@ -155,9 +143,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             title: Text(
               'Addresses',
               style: TextStyle(
-                color: Color(
-                  0xFF334A66,
-                ),
+                color: Color(0xFF334A66),
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
@@ -165,9 +151,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             trailing: Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
-              color: Color(
-                0xFF4C4C4C,
-              ),
+              color: Color(0xFF4C4C4C),
             ),
           ),
           ListTile(
@@ -179,9 +163,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             title: Text(
               'Send Package',
               style: TextStyle(
-                color: Color(
-                  0xFF334A66,
-                ),
+                color: Color(0xFF334A66),
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
@@ -189,9 +171,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             trailing: Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
-              color: Color(
-                0xFF4C4C4C,
-              ),
+              color: Color(0xFF4C4C4C),
             ),
           ),
           ListTile(
@@ -203,9 +183,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             title: Text(
               'Favorites',
               style: TextStyle(
-                color: Color(
-                  0xFF334A66,
-                ),
+                color: Color(0xFF334A66),
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
@@ -213,9 +191,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             trailing: Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
-              color: Color(
-                0xFF4C4C4C,
-              ),
+              color: Color(0xFF4C4C4C),
             ),
           ),
           ListTile(
@@ -227,9 +203,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             title: Text(
               'Orders',
               style: TextStyle(
-                color: Color(
-                  0xFF334A66,
-                ),
+                color: Color(0xFF334A66),
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
@@ -237,9 +211,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             trailing: Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
-              color: Color(
-                0xFF4C4C4C,
-              ),
+              color: Color(0xFF4C4C4C),
             ),
           ),
           ListTile(
@@ -251,9 +223,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             title: Text(
               'Invites',
               style: TextStyle(
-                color: Color(
-                  0xFF334A66,
-                ),
+                color: Color(0xFF334A66),
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
@@ -261,9 +231,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             trailing: Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
-              color: Color(
-                0xFF4C4C4C,
-              ),
+              color: Color(0xFF4C4C4C),
             ),
           ),
           ListTile(
@@ -275,9 +243,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             title: Text(
               'Logout',
               style: TextStyle(
-                color: Color(
-                  0xFF334A66,
-                ),
+                color: Color(0xFF334A66),
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
@@ -285,9 +251,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             trailing: Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
-              color: Color(
-                0xFF4C4C4C,
-              ),
+              color: Color(0xFF4C4C4C),
             ),
           ),
         ],

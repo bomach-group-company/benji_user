@@ -1,9 +1,9 @@
+import 'package:benji_user/app/onboarding/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../src/repo/models/user_model.dart';
 import '../../src/repo/utils/helpers.dart';
-import '../auth/login.dart';
 import '../home/home.dart';
 
 class UserSnapshot extends StatelessWidget {
@@ -27,7 +27,7 @@ class UserSnapshot extends StatelessWidget {
             if (snapshot.hasData && snapshot.data != null) {
               return const Home();
             } else {
-              return const Login();
+              return const OnboardingScreen();
             }
           },
         ),
