@@ -18,6 +18,8 @@ import '../orders/order history.dart';
 import '../profile/edit profile.dart';
 import '../screens/login.dart';
 import '../send package/send package.dart';
+import '../vendor/popular_vendors.dart';
+import '../vendor/vendors_near_you.dart';
 import 'home drawer.dart';
 
 class Home extends StatefulWidget {
@@ -364,7 +366,13 @@ class _HomeState extends State<Home> {
                     children: [
                       SeeAllContainer(
                         title: "Vendors Near you",
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => VendorsNearYou(),
+                            ),
+                          );
+                        },
                       ),
                       kSizedBox,
                       HomePageVendorsCard(),
@@ -373,7 +381,13 @@ class _HomeState extends State<Home> {
                       ),
                       SeeAllContainer(
                         title: "Popular Vendors",
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => PopularVendors(),
+                            ),
+                          );
+                        },
                       ),
                       kSizedBox,
                       SizedBox(
