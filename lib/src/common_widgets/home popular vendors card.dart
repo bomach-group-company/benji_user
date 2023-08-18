@@ -11,9 +11,9 @@ class PopularVendorsCard extends StatelessWidget {
       category,
       rating,
       noOfUsersRated,
-      bannerText;
+      bannerText,
+      distance;
   final Color bannerColor;
-  final String distance;
   const PopularVendorsCard({
     super.key,
     required this.onTap,
