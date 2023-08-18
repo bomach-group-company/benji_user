@@ -4,7 +4,7 @@ import 'package:get/route_manager.dart';
 
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../user_auth/userAuth.dart';
+import '../user_auth/user_auth.dart';
 
 class StartupSplashscreen extends StatefulWidget {
   static String routeName = "Startup Splash Screen";

@@ -1,9 +1,10 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
-import '../providers/constants.dart';
 import '../../theme/colors.dart';
+import '../providers/constants.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -12,9 +13,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> actions;
   final double toolbarHeight;
   @override
-  Size get preferredSize => const Size.fromHeight(
-        80,
-      );
+  Size get preferredSize => const Size.fromHeight(40);
   const MyAppBar({
     super.key,
     required this.title,
@@ -23,6 +22,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.backgroundColor,
     required this.toolbarHeight,
   });
+//========================================= FUNCTIONS ============================================\\
+
+//========================================= Navigation ============================================\\
+  void _popContext() => Get.back();
 
   @override
   Widget build(BuildContext context) {
@@ -36,61 +39,37 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           InkWell(
             borderRadius: BorderRadius.circular(24),
-            onTap: () {
-              Navigator.of(context).pop(context);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(
-                8.0,
-              ),
-              child: SizedBox(
-                width: 48,
-                height: 48,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: Container(
-                        width: 48,
-                        height: 48,
-                        decoration: ShapeDecoration(
-                          color: const Color(
-                            0xFFFEF8F8,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                              width: 0.50,
-                              color: Color(
-                                0xFFFDEDED,
-                              ),
-                            ),
-                            borderRadius: BorderRadius.circular(
-                              24,
-                            ),
-                          ),
-                        ),
-                        child: Icon(
-                          Icons.arrow_back_ios_new_rounded,
-                          color: kAccentColor,
-                        ),
-                      ),
-                    ),
-                  ],
+            onTap: _popContext,
+            mouseCursor: SystemMouseCursors.click,
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: ShapeDecoration(
+                color: const Color(0xFFFEF8F8),
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                    width: 0.50,
+                    color: Color(0xFFFDEDED),
+                  ),
+                  borderRadius: BorderRadius.circular(24),
                 ),
+              ),
+              child: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: kAccentColor,
               ),
             ),
           ),
           kWidthSizedBox,
-          Text(
-            title,
-            style: const TextStyle(
-              color: Color(
-                0xFF151515,
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: Color(0xFF151515),
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                letterSpacing: -0.40,
               ),
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              letterSpacing: -0.40,
             ),
           ),
         ],

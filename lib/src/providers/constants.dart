@@ -1,25 +1,17 @@
 //default value
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../theme/colors.dart';
-import 'package:intl/intl.dart';
 
 const kDefaultPadding = 20.0;
 
-const kSizedBox = SizedBox(
-  height: kDefaultPadding,
-);
-const kWidthSizedBox = SizedBox(
-  width: kDefaultPadding,
-);
+const kSizedBox = SizedBox(height: kDefaultPadding);
+const kWidthSizedBox = SizedBox(width: kDefaultPadding);
 
-const kHalfSizedBox = SizedBox(
-  height: kDefaultPadding / 2,
-);
+const kHalfSizedBox = SizedBox(height: kDefaultPadding / 2);
 
-const kHalfWidthSizedBox = SizedBox(
-  width: kDefaultPadding / 2,
-);
+const kHalfWidthSizedBox = SizedBox(width: kDefaultPadding / 2);
 
 //Default BLue Link Heading
 var defaultLinkTextStyle = const TextStyle(
@@ -55,18 +47,4 @@ String formatDateAndTime(DateTime dateTime) {
   String formattedDateTime = '$formattedDate • $formattedTime';
 
   return formattedDateTime;
-}
-
-String format12HrTime(DateTime time) {
-  // Format the time as '1:20PM'
-  String formattedTime = DateFormat.jm().format(time);
-
-  return formattedTime;
-}
-
-String formatDate(DateTime date) {
-  // Format the date as '23 Feb 2020'
-  String formattedDate = DateFormat('dd MMM y').format(date);
-
-  return formattedDate;
 }
