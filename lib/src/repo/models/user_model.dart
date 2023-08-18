@@ -39,7 +39,7 @@ class User {
       username: json['username'],
       created: json['created'],
       firstName: json['first_name'],
-      isOnline: json['isOnline'],
+      isOnline: json['is_online'],
       address: json['address'],
       image: json['image'],
       token: json['token'],
