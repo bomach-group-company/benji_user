@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../src/common_widgets/category_button_section_tab.dart';
-import '../../src/common_widgets/home popular vendors card.dart';
-import '../../src/common_widgets/vendors food container.dart';
+import '../../src/common_widgets/home_popular_vendors_card.dart';
+import '../../src/common_widgets/vendors_food_container.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../cart/cart.dart';
-import '../food/food detail screen.dart';
+import '../product/product_detail_screen.dart';
 import 'favorite_products.dart';
 import 'favorite_vendors.dart';
 
@@ -454,7 +454,7 @@ class _FavoriteState extends State<Favorite>
                                                     Navigator.of(context).push(
                                                       MaterialPageRoute(
                                                         builder: (context) =>
-                                                            FoodDetailScreen(),
+                                                            ProductDetailScreen(),
                                                       ),
                                                     );
                                                   },
