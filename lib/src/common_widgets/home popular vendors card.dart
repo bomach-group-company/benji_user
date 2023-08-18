@@ -11,7 +11,8 @@ class PopularVendorsCard extends StatelessWidget {
       category,
       rating,
       noOfUsersRated,
-      bannerText;
+      bannerText,
+      distance;
   final Color bannerColor;
   const PopularVendorsCard({
     super.key,
@@ -24,6 +25,7 @@ class PopularVendorsCard extends StatelessWidget {
     required this.cardImage,
     required this.bannerColor,
     required this.bannerText,
+    this.distance = '',
   });
 
   @override
@@ -180,38 +182,56 @@ class PopularVendorsCard extends StatelessWidget {
                   ),
                   kSizedBox,
                   Container(
+                    padding: EdgeInsets.only(
+                      top: 4,
+                    ),
                     child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: 24,
-                          height: 24,
-                          child: Icon(
-                            Icons.star_rounded,
-                            color: kAccentColor,
-                          ),
-                        ),
-                        SizedBox(
-                          width: kDefaultPadding / 2,
-                        ),
-                        Container(
-                          width: 81,
-                          height: 19,
-                          padding: EdgeInsets.only(
-                            top: 4,
-                          ),
-                          child: Text(
-                            "$rating ($noOfUsersRated+)",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              letterSpacing: -0.24,
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star_rounded,
+                              color: kAccentColor,
                             ),
-                          ),
+                            SizedBox(
+                              width: kDefaultPadding / 10,
+                            ),
+                            Text(
+                              "$rating ($noOfUsersRated+)",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: -0.24,
+                              ),
+                            ),
+                          ],
                         ),
+                        kHalfWidthSizedBox,
+                        distance != ''
+                            ? Row(
+                                children: [
+                                  Icon(
+                                    Icons.watch_later_outlined,
+                                    color: kAccentColor,
+                                  ),
+                                  SizedBox(
+                                    width: kDefaultPadding / 10,
+                                  ),
+                                  Text(
+                                    '30 mins',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontFamily: 'Sen',
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: -0.28,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : SizedBox(),
                       ],
                     ),
                   ),
