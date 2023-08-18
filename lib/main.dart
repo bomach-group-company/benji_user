@@ -49,8 +49,8 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      // home: StartupSplashscreen(),
-      home: Home(),
+      home: StartupSplashscreen(),
+      // home: Home(),
       // home: Favorite(
       //   vendorCoverImage:
       //       _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,

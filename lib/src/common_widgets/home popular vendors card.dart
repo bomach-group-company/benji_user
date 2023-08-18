@@ -186,8 +186,8 @@ class PopularVendorsCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: 20,
-                          height: 20,
+                          width: 24,
+                          height: 24,
                           child: Icon(
                             Icons.star_rounded,
                             color: kAccentColor,

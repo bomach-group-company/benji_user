@@ -143,15 +143,15 @@ class _FavoriteState extends State<Favorite>
   }
 
   void _clickOnTabBarOption() async {
-    setState(() {
-      _loadingTabBarContent = true;
-    });
+    // setState(() {
+    //   _loadingTabBarContent = true;
+    // });
 
-    await Future.delayed(const Duration(seconds: 3));
+    // await Future.delayed(const Duration(seconds: 3));
 
-    setState(() {
-      _loadingTabBarContent = false;
-    });
+    // setState(() {
+    //   _loadingTabBarContent = false;
+    // });
   }
 
   //=================================== Show Popup Menu =====================================\\
@@ -272,23 +272,26 @@ class _FavoriteState extends State<Favorite>
         actions: [
           Stack(
             children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => Cart(),
-                    ),
-                  );
-                },
-                splashRadius: 20,
-                icon: Icon(
-                  Icons.shopping_cart_outlined,
-                  color: kAccentColor,
+              Container(
+                alignment: Alignment.center,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => Cart(),
+                      ),
+                    );
+                  },
+                  splashRadius: 20,
+                  icon: Icon(
+                    Icons.shopping_cart_outlined,
+                    color: kAccentColor,
+                  ),
                 ),
               ),
               Positioned(
-                top: 2,
-                right: 10,
+                top: 5,
+                right: 5,
                 child: Container(
                   height: 20,
                   width: 20,
@@ -382,7 +385,7 @@ class _FavoriteState extends State<Favorite>
                                   ),
                                   tabs: const [
                                     Tab(text: "Products"),
-                                    Tab(text: "Orders"),
+                                    Tab(text: "Vendors"),
                                   ],
                                 ),
                               ),
