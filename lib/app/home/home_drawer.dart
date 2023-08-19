@@ -7,7 +7,7 @@ import '../../theme/colors.dart';
 class HomeDrawer extends StatefulWidget {
   final Function() toEditProfilePage;
   final Function() copyUserIdToClipBoard;
-  final Function() toInvitesPage;
+  // final Function() toInvitesPage;
   final Function() toFavoritesPage;
   final Function() toOrdersPage;
   final Function() toAddressesPage;
@@ -20,7 +20,7 @@ class HomeDrawer extends StatefulWidget {
     required this.copyUserIdToClipBoard,
     required this.userID,
     required this.toOrdersPage,
-    required this.toInvitesPage,
+    // required this.toInvitesPage,
     required this.toAddressesPage,
     required this.toSendPackagePage,
     required this.logOut,
@@ -39,9 +39,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
       backgroundColor: kPrimaryColor,
       elevation: 10.0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(
-          5.0,
-        ),
+        borderRadius: BorderRadius.circular(5.0),
       ),
       width: MediaQuery.of(context).size.width * 0.8,
       child: ListView(

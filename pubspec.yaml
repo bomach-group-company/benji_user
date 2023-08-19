@@ -67,6 +67,7 @@ flutter:
     - assets/images/rider/
     - assets/images/profile/
     - assets/images/products/
+    - assets/images/customers/
     - assets/animations/splash screen/
     - assets/animations/successful/
 
