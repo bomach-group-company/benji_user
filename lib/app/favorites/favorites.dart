@@ -360,6 +360,7 @@ class _FavoritesState extends State<Favorites>
                               ),
                             ),
                           ),
+
                           kSizedBox,
                           Container(
                             padding: EdgeInsets.symmetric(
@@ -400,6 +401,7 @@ class _FavoritesState extends State<Favorites>
                                                           vertical:
                                                               kDefaultPadding *
                                                                   0.5,
+
                                                         ),
                                                         alignment: Alignment
                                                             .centerRight,
@@ -436,6 +438,7 @@ class _FavoritesState extends State<Favorites>
                                                 ],
                                               ),
                                             ),
+
                                       _loadingTabBarContent
                                           ? const Center(
                                               child: Text('Loading...'),
@@ -463,6 +466,7 @@ class _FavoritesState extends State<Favorites>
                                                     ),
                                                 ],
                                               ),
+
                                             ),
                                     ],
                                   ),

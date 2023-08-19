@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+
 import '../../src/common_widgets/rating_view/customer_review_card.dart';
 import '../../src/common_widgets/rating_view/star_row.dart';
 import '../../src/providers/constants.dart';
+
 
 class AboutVendor extends StatefulWidget {
   final String vendorName;
@@ -34,6 +36,7 @@ class _AboutVendorState extends State<AboutVendor> {
   @override
   void initState() {
     super.initState();
+
   }
 
 //============================================= FUNCTIONS  ===================================================\\
