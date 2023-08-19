@@ -1,10 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
-
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../src/common_widgets/category_button_section.dart';
@@ -67,8 +65,6 @@ class _VendorState extends State<Vendor> with SingleTickerProviderStateMixin {
 //===================== BOOL VALUES =======================\\
   late bool _loadingScreen;
   bool _loadingTabBarContent = false;
-  bool _isAddedToFavorites = false;
-
 
 //===================== CATEGORY BUTTONS =======================\\
   final List _categoryButtonText = [
@@ -106,23 +102,6 @@ class _VendorState extends State<Vendor> with SingleTickerProviderStateMixin {
     Get.back();
   }
 
-  void _addToFavorites() {
-    setState(() {
-      _isAddedToFavorites = !_isAddedToFavorites;
-    });
-
-    mySnackBar(
-      context,
-      "Success!",
-      _isAddedToFavorites
-          ? "Vendor has been added to favorites."
-          : "Vendor has been removed from favorites.",
-      Duration(
-        seconds: 1,
-      ),
-    );
-  }
-
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
@@ -146,7 +125,6 @@ class _VendorState extends State<Vendor> with SingleTickerProviderStateMixin {
     setState(() {
       _loadingTabBarContent = false;
     });
-
   }
 
 //=================================== Show Popup Menu =====================================\\
@@ -187,7 +165,6 @@ class _VendorState extends State<Vendor> with SingleTickerProviderStateMixin {
         );
       },
     );
-
   }
 
   @override
@@ -197,14 +174,11 @@ class _VendorState extends State<Vendor> with SingleTickerProviderStateMixin {
 
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
-
       child: Scaffold(
         extendBody: true,
         appBar: MyAppBar(
           title: "Vendor Details",
-
           elevation: 0.0,
-
           backgroundColor: kPrimaryColor,
           toolbarHeight: 40,
           actions: [
@@ -212,7 +186,6 @@ class _VendorState extends State<Vendor> with SingleTickerProviderStateMixin {
               onPressed: () {
                 showSearch(context: context, delegate: CustomSearchDelegate());
               },
-
               icon: FaIcon(
                 FontAwesomeIcons.magnifyingGlass,
                 color: kAccentColor,
@@ -224,13 +197,11 @@ class _VendorState extends State<Vendor> with SingleTickerProviderStateMixin {
               },
               icon: FaIcon(
                 FontAwesomeIcons.heart,
-
                 color: kAccentColor,
               ),
             ),
             IconButton(
               onPressed: () => showPopupMenu(context),
-
               icon: FaIcon(
                 FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,
@@ -725,7 +696,6 @@ class _VendorState extends State<Vendor> with SingleTickerProviderStateMixin {
                         ),
                       );
               }),
-
         ),
       ),
     );

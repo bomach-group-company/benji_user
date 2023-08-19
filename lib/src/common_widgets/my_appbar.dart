@@ -1,9 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'package:get/route_manager.dart';
 
 import '../../theme/colors.dart';
@@ -55,19 +53,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     color: Color(0xFFFDEDED),
                   ),
                   borderRadius: BorderRadius.circular(24),
-
                 ),
               ),
               child: Center(
                 child: FaIcon(
                   FontAwesomeIcons.circleArrowLeft,
                   color: kAccentColor,
-
                 ),
-              ),
-              child: Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color: kAccentColor,
               ),
             ),
           ),

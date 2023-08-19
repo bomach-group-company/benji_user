@@ -1,13 +1,9 @@
-
-
 import 'package:benji_user/theme/app%20theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'app/home/home.dart';
-import 'app/payment/payment_method.dart';
-import 'app/splash_screens/startup_splash_screen.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(

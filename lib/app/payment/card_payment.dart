@@ -1,6 +1,5 @@
-import 'package:benji_user/src/common_widgets/textformfield/flex_textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:benji_user/src/common_widgets/textformfield/flex_textfield.dart';
 
 import '../../src/common_widgets/my_elevatedbutton.dart';
 import '../../src/common_widgets/my_outlined_elevatedbutton.dart';
@@ -34,12 +33,10 @@ class _CardPaymentState extends State<CardPayment> {
   //=========================== Var ====================================\\
 
   int? _selectedOption = 0;
-  bool _save_card = true;
 
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
 
     return Container(
       padding: const EdgeInsets.all(kDefaultPadding),
