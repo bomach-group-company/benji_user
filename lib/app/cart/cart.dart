@@ -2,19 +2,16 @@
 
 import 'package:benji_user/app/payment/payment_method.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/providers/constants.dart';
 import '../../src/common_widgets/my_appbar.dart';
 import '../../src/common_widgets/my_elevatedbutton.dart';
-import '../../src/common_widgets/my_floating_snackbar.dart';
 import '../../src/common_widgets/my_outlined_elevatedbutton.dart';
+import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../address/deliver_to.dart';
 import '../coupon/apply_coupon.dart';
-import '../splash_screens/payment_successful_screen.dart';
 
 class Cart extends StatefulWidget {
   const Cart({super.key});
@@ -73,22 +70,6 @@ class _CartState extends State<Cart> {
 
   // COPY TO CLIPBOARD
   final String text = 'Generated Link code here';
-  void _copyToClipboard(BuildContext context) {
-    Clipboard.setData(
-      ClipboardData(
-        text: text,
-      ),
-    );
-
-    //SNACK BAR
-
-    mySnackBar(
-      context,
-      "Success!",
-      "Copied to clipboard",
-      Duration(seconds: 2),
-    );
-  }
 
   //PLACE ORDER
 

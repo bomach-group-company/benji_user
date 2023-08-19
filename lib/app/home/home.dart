@@ -20,7 +20,6 @@ import '../address/deliver_to.dart';
 import '../auth/login.dart';
 import '../cart/cart.dart';
 import '../orders/order_history.dart';
-import '../product/hot_deals.dart';
 import '../profile/edit_profile.dart';
 import '../send_package/send_package.dart';
 import '../vendors/popular_vendors.dart';
@@ -433,7 +432,6 @@ class _HomeState extends State<Home> {
                         categorybgColor: _categoryButtonBgColor,
                         categoryFontColor: _categoryButtonFontColor,
                       ),
-
                 SizedBox(height: 8),
                 _loadingScreen
                     ? SpinKitChasingDots(color: kAccentColor)
@@ -525,7 +523,6 @@ class _HomeState extends State<Home> {
                               ],
                             ),
                           ),
-
                         ),
                       ),
               ],

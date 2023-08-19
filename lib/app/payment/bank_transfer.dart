@@ -235,6 +235,5 @@ class _BankTransferState extends State<BankTransfer> {
         ],
       ),
     );
-    ;
   }
 }
