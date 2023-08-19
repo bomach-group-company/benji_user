@@ -1,11 +1,19 @@
+import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-import '../providers/constants.dart';
+import '../../providers/constants.dart';
 
-class HomeHotDeals extends StatelessWidget {
-  const HomeHotDeals({
+class HotDealsCard extends StatelessWidget {
+  const HotDealsCard({
     super.key,
   });
+
+//===================== Number format ==========================\\
+  String formattedText(double value) {
+    final numberFormat = NumberFormat('#,##0');
+    return numberFormat.format(value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,23 +26,16 @@ class HomeHotDeals extends StatelessWidget {
           bottom: 10,
         ),
         decoration: ShapeDecoration(
-          color: Colors.white,
+          color: kPrimaryColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              14.19,
-            ),
+            borderRadius: BorderRadius.circular(14.19),
           ),
           shadows: [
             BoxShadow(
-              color: Color(
-                0x19616161,
-              ),
-              blurRadius: 23.46,
-              offset: Offset(
-                0,
-                0,
-              ),
-              spreadRadius: 6.40,
+              color: Color(0x19616161),
+              blurRadius: 24,
+              offset: Offset(0, 0),
+              spreadRadius: 7,
             )
           ],
         ),
@@ -47,12 +48,8 @@ class HomeHotDeals extends StatelessWidget {
               decoration: ShapeDecoration(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(
-                      20,
-                    ),
-                    topRight: Radius.circular(
-                      20,
-                    ),
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
                 ),
                 image: DecorationImage(
@@ -65,9 +62,7 @@ class HomeHotDeals extends StatelessWidget {
             ),
             kSizedBox,
             Padding(
-              padding: const EdgeInsets.only(
-                left: 8.0,
-              ),
+              padding: const EdgeInsets.only(left: 8.0),
               child: Container(
                 height: 57.06,
                 child: Column(
@@ -77,30 +72,22 @@ class HomeHotDeals extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: 313,
-                      height: 23,
                       child: Text(
                         'Okra Soup and swallow',
                         style: TextStyle(
-                          color: Color(
-                            0xFF333333,
-                          ),
+                          color: kTextBlackColor,
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 17,
-                    ),
+                    kHalfSizedBox,
                     SizedBox(
-                      width: 195.17,
-                      height: 17.06,
+                      width: 313,
                       child: Text(
                         'Ntachi Osa Food',
                         style: TextStyle(
-                          color: Color(
-                            0xFF707070,
-                          ),
+                          color: kTextGreyColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
                           letterSpacing: -0.43,
@@ -113,17 +100,13 @@ class HomeHotDeals extends StatelessWidget {
             ),
             kSizedBox,
             Padding(
-              padding: const EdgeInsets.only(
-                left: 8.0,
-              ),
+              padding: const EdgeInsets.only(left: 8.0),
               child: SizedBox(
-                width: 159,
+                width: 313,
                 child: Text(
-                  '₦40,000',
+                  '₦${formattedText(40000)}',
                   style: TextStyle(
-                    color: Color(
-                      0xFF333333,
-                    ),
+                    color: kTextBlackColor,
                     fontSize: 20,
                     fontFamily: 'Sen',
                     fontWeight: FontWeight.w700,

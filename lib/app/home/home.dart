@@ -6,13 +6,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/appBar_delivery_location.dart';
-import '../../src/common_widgets/home_hot_deals.dart';
-import '../../src/common_widgets/home_popular_vendors_card.dart';
-import '../../src/common_widgets/homepage_vendors.dart';
-import '../../src/common_widgets/my_floating_snackbar.dart';
+import '../../src/common_widgets/vendor/home_popular_vendors_card.dart';
+import '../../src/common_widgets/product/hot_deals_card.dart';
+import '../../src/common_widgets/vendor/homepage_vendors.dart';
 import '../../src/common_widgets/section/category_button_section.dart';
 import '../../src/common_widgets/section/custom_showSearch.dart';
-import '../../src/common_widgets/see_all_container.dart';
+import '../../src/common_widgets/section/see_all_container.dart';
+import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../address/address.dart';
@@ -20,9 +20,11 @@ import '../address/deliver_to.dart';
 import '../auth/login.dart';
 import '../cart/cart.dart';
 import '../orders/order_history.dart';
+import '../product/hot_deals_page.dart';
 import '../profile/edit_profile.dart';
 import '../send_package/send_package.dart';
 import '../vendors/popular_vendors.dart';
+import '../vendors/vendor.dart';
 import '../vendors/vendors_near_you.dart';
 import 'home_drawer.dart';
 
@@ -83,17 +85,17 @@ class _HomeState extends State<Home> {
 
   final List<Color> _categoryButtonBgColor = [
     kAccentColor,
-    Color(0xFFF2F2F2),
-    Color(0xFFF2F2F2),
-    Color(0xFFF2F2F2),
-    Color(0xFFF2F2F2),
+    kDefaultCategoryBackgroundColor,
+    kDefaultCategoryBackgroundColor,
+    kDefaultCategoryBackgroundColor,
+    kDefaultCategoryBackgroundColor,
   ];
   final List<Color> _categoryButtonFontColor = [
     kPrimaryColor,
-    Color(0xFF828282),
-    Color(0xFF828282),
-    Color(0xFF828282),
-    Color(0xFF828282),
+    kTextGreyColor,
+    kTextGreyColor,
+    kTextGreyColor,
+    kTextGreyColor,
   ];
 
 //===================== POPULAR VENDORS =======================\\
@@ -105,20 +107,6 @@ class _HomeState extends State<Home> {
     "best-choice-restaurant.png",
     "best-choice-restaurant.png",
     "best-choice-restaurant.png",
-  ];
-  final List<dynamic> popularVendorBannerColor = [
-    kAccentColor,
-    Color(0x00000000),
-    kAccentColor,
-    kAccentColor,
-    kAccentColor,
-  ];
-  final List<dynamic> popularVendorBannerText = [
-    "Free Delivery",
-    "",
-    "Free Delivery",
-    "Free Delivery",
-    "Free Delivery",
   ];
 
   final List<String> popularVendorName = [
@@ -309,6 +297,27 @@ class _HomeState extends State<Home> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
+  void _toVendorPage() => Get.to(
+        () => const VendorDetails(),
+        routeName: 'VendorDetails',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+  void _toSeeAllHotDeals() => Get.to(
+        () => const HotDealsPage(),
+        routeName: 'HotDeals',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -426,7 +435,7 @@ class _HomeState extends State<Home> {
               children: [
                 kHalfSizedBox,
                 _loadingScreen
-                    ? kSizedBox
+                    ? SizedBox()
                     : CategoryButtonSection(
                         category: _categoryButton,
                         categorybgColor: _categoryButtonBgColor,
@@ -458,51 +467,40 @@ class _HomeState extends State<Home> {
                                   onPressed: _toSeeAllVendorsNearYou,
                                 ),
                                 kSizedBox,
-                                HomePageVendorsCard(),
+                                HomePageVendorsNearYou(
+                                  onTap: _toVendorPage,
+                                ),
                                 kHalfSizedBox,
                                 SeeAllContainer(
                                   title: "Popular Vendors",
                                   onPressed: _toSeeAllPopularVendors,
                                 ),
                                 kSizedBox,
-                                SizedBox(
-                                  width: mediaWidth,
-                                  child: Center(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        for (int i = 0;
-                                            i < popularVendorsIndex.length;
-                                            i++,)
-                                          PopularVendorsCard(
-                                            onTap: () {},
-                                            cardImage: popularVendorImage[i],
-                                            bannerColor:
-                                                popularVendorBannerColor[i],
-                                            bannerText:
-                                                popularVendorBannerText[i],
-                                            vendorName: popularVendorName[i],
-                                            food: popularVendorFood[i],
-                                            category: popularVendorCategory[i],
-                                            rating: popularVendorRating[i],
-                                            noOfUsersRated:
-                                                popularVendorNoOfUsersRating[i],
-                                          ),
-                                      ],
-                                    ),
+                                Center(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      for (int i = 0;
+                                          i < popularVendorsIndex.length;
+                                          i++,)
+                                        HomePopularVendorsCard(
+                                          onTap: () {},
+                                          cardImage: popularVendorImage[i],
+                                          vendorName: popularVendorName[i],
+                                          food: popularVendorFood[i],
+                                          category: popularVendorCategory[i],
+                                          rating: popularVendorRating[i],
+                                          noOfUsersRated:
+                                              popularVendorNoOfUsersRating[i],
+                                        ),
+                                    ],
                                   ),
                                 ),
                                 kSizedBox,
-                                Text(
-                                  'Hot Deals',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: -0.40,
-                                  ),
+                                SeeAllContainer(
+                                  title: "Hot Deals",
+                                  onPressed: _toSeeAllHotDeals,
                                 ),
                                 kSizedBox,
                                 SizedBox(
@@ -514,8 +512,8 @@ class _HomeState extends State<Home> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        for (int i = 0; i < 5; i++,)
-                                          HomeHotDeals(),
+                                        for (int i = 0; i < 10; i++,)
+                                          HotDealsCard(),
                                       ],
                                     ),
                                   ),

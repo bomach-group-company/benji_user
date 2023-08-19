@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/home_popular_vendors_card.dart';
+import '../../src/common_widgets/vendor/home_popular_vendors_card.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
@@ -36,11 +36,9 @@ class _PopularVendorsState extends State<PopularVendors> {
             physics: BouncingScrollPhysics(),
             itemCount: 10,
             itemBuilder: (BuildContext context, int index) {
-              return PopularVendorsCard(
+              return HomePopularVendorsCard(
                 onTap: () {},
                 cardImage: 'best-choice-restaurant.png',
-                bannerColor: kAccentColor,
-                bannerText: "Free Delivery",
                 vendorName: "Best Choice restaurant",
                 food: "Food",
                 category: "Fast Food",

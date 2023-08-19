@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../providers/constants.dart';
-import '../../theme/colors.dart';
+import '../../providers/constants.dart';
+import '../../../theme/colors.dart';
 
 class SeeAllContainer extends StatelessWidget {
   final String title;

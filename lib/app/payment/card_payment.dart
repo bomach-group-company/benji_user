@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:benji_user/src/common_widgets/textformfield/flex_textfield.dart';
+import 'package:flutter/material.dart';
 
-import '../../src/common_widgets/my_elevatedbutton.dart';
-import '../../src/common_widgets/my_outlined_elevatedbutton.dart';
+import '../../src/common_widgets/button/my_elevatedbutton.dart';
+import '../../src/common_widgets/button/my_outlined_elevatedbutton.dart';
 import '../../src/common_widgets/textformfield/name_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
