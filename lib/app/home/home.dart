@@ -6,13 +6,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/appBar_delivery_location.dart';
-import '../../src/common_widgets/vendor/home_popular_vendors_card.dart';
 import '../../src/common_widgets/product/hot_deals_card.dart';
-import '../../src/common_widgets/vendor/homepage_vendors.dart';
 import '../../src/common_widgets/section/category_button_section.dart';
 import '../../src/common_widgets/section/custom_showSearch.dart';
 import '../../src/common_widgets/section/see_all_container.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
+import '../../src/common_widgets/vendor/homepage_vendors.dart';
+import '../../src/common_widgets/vendor/popular_vendors_card.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../address/address.dart';
@@ -24,7 +24,7 @@ import '../product/hot_deals_page.dart';
 import '../profile/edit_profile.dart';
 import '../send_package/send_package.dart';
 import '../vendors/popular_vendors.dart';
-import '../vendors/vendor.dart';
+import '../vendors/vendor_details.dart';
 import '../vendors/vendors_near_you.dart';
 import 'home_drawer.dart';
 
@@ -49,10 +49,12 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+  //=======================================================================================================================================\\
 
 //============================================== ALL VARIABLES =================================================\\
-  late bool _loadingScreen;
 
+//============================================== BOOL VALUES =================================================\\
+  late bool _loadingScreen;
   bool _vendorStatus = true;
 
   //Online Vendors
@@ -70,11 +72,11 @@ class _HomeState extends State<Home> {
   final String _offlineVendorsImage = "best-choice-restaurant";
   final double _offlineVendorsRating = 4.0;
 
-  //===================== CONTROLLERS =======================\\
+  //==================================================== CONTROLLERS ======================================================\\
   TextEditingController searchController = TextEditingController();
   final _scrollController = ScrollController();
 
-  //===================== CATEGORY BUTTONS =======================\\
+  //==================================================== CATEGORY BUTTONS ======================================================\\
   final List _categoryButton = [
     "Food",
     "Drinks",
@@ -125,13 +127,6 @@ class _HomeState extends State<Home> {
     "Food",
   ];
 
-  final List<String> popularVendorCategory = [
-    "Fast Food",
-    "Continental",
-    "Fast Food",
-    "Fast Food",
-    "Fast Food",
-  ];
   final List<String> popularVendorRating = [
     "3.6",
     "3.6",
@@ -277,6 +272,17 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
+  void _toVendorPage() => Get.to(
+        () => const VendorDetails(),
+        routeName: 'VendorDetails',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   void _toSeeAllPopularVendors() => Get.to(
         () => const PopularVendors(),
         routeName: 'PopularVendors',
@@ -297,20 +303,10 @@ class _HomeState extends State<Home> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
-  void _toVendorPage() => Get.to(
-        () => const VendorDetails(),
-        routeName: 'VendorDetails',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
 
   void _toSeeAllHotDeals() => Get.to(
         () => const HotDealsPage(),
-        routeName: 'HotDeals',
+        routeName: 'HotDealsPage',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -477,24 +473,26 @@ class _HomeState extends State<Home> {
                                 ),
                                 kSizedBox,
                                 Center(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      for (int i = 0;
-                                          i < popularVendorsIndex.length;
-                                          i++,)
-                                        HomePopularVendorsCard(
-                                          onTap: () {},
-                                          cardImage: popularVendorImage[i],
-                                          vendorName: popularVendorName[i],
-                                          food: popularVendorFood[i],
-                                          category: popularVendorCategory[i],
-                                          rating: popularVendorRating[i],
-                                          noOfUsersRated:
-                                              popularVendorNoOfUsersRating[i],
-                                        ),
-                                    ],
+                                  child: ListView.separated(
+                                    physics: const BouncingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.only(
+                                      left: kDefaultPadding / 2,
+                                      right: kDefaultPadding / 2,
+                                    ),
+                                    itemCount: popularVendorsIndex.length,
+                                    separatorBuilder: (context, index) =>
+                                        kHalfSizedBox,
+                                    itemBuilder: (context, index) =>
+                                        PopularVendorsCard(
+                                      onTap: () {},
+                                      cardImage: popularVendorImage[index],
+                                      vendorName: popularVendorName[index],
+                                      food: popularVendorFood[index],
+                                      rating: popularVendorRating[index],
+                                      noOfUsersRated:
+                                          popularVendorNoOfUsersRating[index],
+                                    ),
                                   ),
                                 ),
                                 kSizedBox,
@@ -503,19 +501,19 @@ class _HomeState extends State<Home> {
                                   onPressed: _toSeeAllHotDeals,
                                 ),
                                 kSizedBox,
-                                SizedBox(
-                                  width: mediaWidth,
-                                  child: Center(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        for (int i = 0; i < 10; i++,)
-                                          HotDealsCard(),
-                                      ],
+                                Center(
+                                  child: ListView.separated(
+                                    physics: const BouncingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.only(
+                                      left: kDefaultPadding / 2,
+                                      right: kDefaultPadding / 2,
                                     ),
+                                    itemCount: 10,
+                                    separatorBuilder: (context, index) =>
+                                        kHalfSizedBox,
+                                    itemBuilder: (context, index) =>
+                                        HotDealsCard(),
                                   ),
                                 ),
                               ],

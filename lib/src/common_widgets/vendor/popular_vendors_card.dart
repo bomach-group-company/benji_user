@@ -4,15 +4,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 
-class HomePopularVendorsCard extends StatelessWidget {
+class PopularVendorsCard extends StatelessWidget {
   final Function() onTap;
-  final String cardImage, vendorName, food, category, rating, noOfUsersRated;
-  const HomePopularVendorsCard({
+  final String cardImage, vendorName, food, rating, noOfUsersRated;
+  const PopularVendorsCard({
     super.key,
     required this.onTap,
     required this.vendorName,
     required this.food,
-    required this.category,
     required this.rating,
     required this.noOfUsersRated,
     required this.cardImage,
@@ -25,7 +24,6 @@ class HomePopularVendorsCard extends StatelessWidget {
       child: Container(
         width: 355,
         height: 130,
-        margin: EdgeInsets.only(bottom: 10),
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
@@ -59,9 +57,7 @@ class HomePopularVendorsCard extends StatelessWidget {
             ),
             kHalfWidthSizedBox,
             Container(
-              padding: EdgeInsets.only(
-                top: 10.0,
-              ),
+              padding: EdgeInsets.only(top: 10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
