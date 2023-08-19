@@ -16,6 +16,7 @@ import '../../src/common_widgets/see_all_container.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../address/address.dart';
+import '../address/deliver_to.dart';
 import '../auth/login.dart';
 import '../cart/cart.dart';
 import '../orders/order_history.dart';
@@ -298,6 +299,16 @@ class _HomeState extends State<Home> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
+  void _toDeliverToPage() => Get.to(
+        () => const DeliverTo(),
+        routeName: 'DeliverTo',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -345,6 +356,7 @@ class _HomeState extends State<Home> {
               ),
               AppBarDeliveryLocation(
                 deliveryLocation: 'Independence Layout, Enugu',
+                toDeliverToPage: _toDeliverToPage,
               ),
             ],
           ),
@@ -413,11 +425,13 @@ class _HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 kHalfSizedBox,
-                CategoryButtonSection(
-                  category: _categoryButton,
-                  categorybgColor: _categoryButtonBgColor,
-                  categoryFontColor: _categoryButtonFontColor,
-                ),
+                _loadingScreen
+                    ? kSizedBox
+                    : CategoryButtonSection(
+                        category: _categoryButton,
+                        categorybgColor: _categoryButtonBgColor,
+                        categoryFontColor: _categoryButtonFontColor,
+                      ),
                 SizedBox(height: 8),
                 _loadingScreen
                     ? SpinKitChasingDots(color: kAccentColor)
