@@ -215,26 +215,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
           ),
           ListTile(
-            onTap: widget.toInvitesPage,
-            leading: Icon(
-              Icons.person_add_alt_1_rounded,
-              color: kAccentColor,
-            ),
-            title: Text(
-              'Invites',
-              style: TextStyle(
-                color: Color(0xFF334A66),
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            trailing: Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 16,
-              color: Color(0xFF4C4C4C),
-            ),
-          ),
-          ListTile(
             onTap: widget.logOut,
             leading: Icon(
               Icons.logout_rounded,

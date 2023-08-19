@@ -180,10 +180,15 @@ class _HomeState extends State<Home> {
         drawer: HomeDrawer(
           userID: userID,
           toEditProfilePage: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => EditProfile(),
-              ),
+            Get.to(
+              () => const EditProfile(),
+              routeName: 'EditProfile',
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
             );
           },
           copyUserIdToClipBoard: () {
@@ -192,45 +197,64 @@ class _HomeState extends State<Home> {
             );
           },
           toAddressesPage: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => Addresses(),
-              ),
+            Get.to(
+              () => const Addresses(),
+              routeName: 'Addresses',
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
             );
           },
           toSendPackagePage: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => SendPackage(),
-              ),
+            Get.to(
+              () => const SendPackage(),
+              routeName: 'SendPackage',
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
             );
           },
           toFavoritesPage: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => Favorites(
-                  vendorCoverImage: _vendorStatus
-                      ? _onlineVendorsImage
-                      : _offlineVendorsImage,
-                  vendorName:
-                      _vendorStatus ? _onlineVendorsName : _offlineVendorsName,
-                  vendorRating: _vendorStatus
-                      ? _onlineVendorsRating
-                      : _offlineVendorsRating,
-                  vendorActiveStatus:
-                      _vendorStatus ? _vendorActive : _vendorInactive,
-                  vendorActiveStatusColor:
-                      _vendorStatus ? _vendorActiveColor : _vendorInactiveColor,
-                ),
+            Get.to(
+              () => Favorites(
+                vendorCoverImage:
+                    _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
+                vendorName:
+                    _vendorStatus ? _onlineVendorsName : _offlineVendorsName,
+                vendorRating: _vendorStatus
+                    ? _onlineVendorsRating
+                    : _offlineVendorsRating,
+                vendorActiveStatus:
+                    _vendorStatus ? _vendorActive : _vendorInactive,
+                vendorActiveStatusColor:
+                    _vendorStatus ? _vendorActiveColor : _vendorInactiveColor,
               ),
+              routeName: 'SendPackage',
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
             );
           },
           toInvitesPage: () {},
           toOrdersPage: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => OrdersHistory(),
-              ),
+            Get.to(
+              () => const OrdersHistory(),
+              routeName: 'OrdersHistory',
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
             );
           },
           logOut: _logOut,
@@ -282,10 +306,15 @@ class _HomeState extends State<Home> {
                   alignment: Alignment.center,
                   child: IconButton(
                     onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => Cart(),
-                        ),
+                      Get.to(
+                        () => const Cart(),
+                        routeName: 'Cart',
+                        duration: const Duration(milliseconds: 300),
+                        fullscreenDialog: true,
+                        curve: Curves.easeIn,
+                        preventDuplicates: true,
+                        popGesture: true,
+                        transition: Transition.rightToLeft,
                       );
                     },
                     splashRadius: 20,
@@ -350,10 +379,15 @@ class _HomeState extends State<Home> {
                       SeeAllContainer(
                         title: "Vendors Near you",
                         onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => VendorsNearYou(),
-                            ),
+                          Get.to(
+                            () => const VendorsNearYou(),
+                            routeName: 'VendorsNearYou',
+                            duration: const Duration(milliseconds: 300),
+                            fullscreenDialog: true,
+                            curve: Curves.easeIn,
+                            preventDuplicates: true,
+                            popGesture: true,
+                            transition: Transition.rightToLeft,
                           );
                         },
                       ),
@@ -365,10 +399,15 @@ class _HomeState extends State<Home> {
                       SeeAllContainer(
                         title: "Popular Vendors",
                         onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => PopularVendors(),
-                            ),
+                          Get.to(
+                            () => const PopularVendors(),
+                            routeName: 'PopularVendors',
+                            duration: const Duration(milliseconds: 300),
+                            fullscreenDialog: true,
+                            curve: Curves.easeIn,
+                            preventDuplicates: true,
+                            popGesture: true,
+                            transition: Transition.rightToLeft,
                           );
                         },
                       ),
