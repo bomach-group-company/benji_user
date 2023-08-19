@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/home_hot_deals.dart';
+import '../../src/common_widgets/hot_deals_card.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
-class HotDeals extends StatefulWidget {
-  const HotDeals({super.key});
+class HotDealsPage extends StatefulWidget {
+  const HotDealsPage({super.key});
 
   @override
-  State<HotDeals> createState() => _HotDealsState();
+  State<HotDealsPage> createState() => _HotDealsPageState();
 }
 
-class _HotDealsState extends State<HotDeals> {
+class _HotDealsPageState extends State<HotDealsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +36,7 @@ class _HotDealsState extends State<HotDeals> {
             physics: BouncingScrollPhysics(),
             itemCount: 10,
             itemBuilder: (BuildContext context, int index) {
-              return HomeHotDeals();
+              return HotDealsCard();
             },
           ),
         ),

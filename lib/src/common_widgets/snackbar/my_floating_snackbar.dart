@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../providers/constants.dart';
-import '../../theme/colors.dart';
+import '../../../theme/colors.dart';
+import '../../providers/constants.dart';
 
 void mySnackBar(
   BuildContext context,

@@ -447,13 +447,10 @@ class _FavoritesState extends State<Favorites>
                                                       _orderID < 30;
                                                       _orderID +=
                                                           _incrementOrderID)
-                                                    PopularVendorsCard(
+                                                    HomePopularVendorsCard(
                                                       onTap: () {},
                                                       cardImage:
                                                           'best-choice-restaurant.png',
-                                                      bannerColor: kAccentColor,
-                                                      bannerText:
-                                                          "Free Delivery",
                                                       vendorName:
                                                           "Best Choice restaurant",
                                                       food: "Food",

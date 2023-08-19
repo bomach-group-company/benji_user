@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
-import '../my_floating_snackbar.dart';
+import '../snackbar/my_floating_snackbar.dart';
 
 class VendorFoodContainer extends StatefulWidget {
   final Function() onTap;
@@ -25,7 +25,6 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
   //======================================= BOOL VALUES ==========================================\\
   bool isAddedToCart = false;
 
-
   //======================================= FUNCTIONS ==========================================\\
 
   void incrementQuantity() {
@@ -43,7 +42,6 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
       }
     });
   }
-
 
   void cartFunction() {
     setState(() {
@@ -72,11 +70,9 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
     // double mediaHeight = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: widget.onTap,
-
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-
         margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 2.5),
         width: MediaQuery.of(context).size.width,
         decoration: ShapeDecoration(
@@ -110,7 +106,6 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
                     "assets/images/food/pasta.png",
                   ),
                   fit: BoxFit.cover,
-
                 ),
               ),
             ),

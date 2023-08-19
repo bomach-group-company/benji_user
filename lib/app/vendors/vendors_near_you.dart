@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../src/common_widgets/home_popular_vendors_card.dart';
-import '../../src/providers/constants.dart';
+import '../../src/common_widgets/vendor/all_vendors_near_you_card.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
+import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
 class VendorsNearYou extends StatefulWidget {
@@ -36,13 +36,13 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
             physics: BouncingScrollPhysics(),
             itemCount: 10,
             itemBuilder: (BuildContext context, int index) {
-              return PopularVendorsCard(
-                distance: '46 mins',
+              return AllVendorsNearYouCard(
                 onTap: () {},
                 cardImage: 'best-choice-restaurant.png',
+                vendorName: "Best Choice restaurant",
+                distance: "45 mins",
                 bannerColor: kAccentColor,
                 bannerText: "Free Delivery",
-                vendorName: "Best Choice restaurant",
                 food: "Food",
                 category: "Fast Food",
                 rating: "3.6",

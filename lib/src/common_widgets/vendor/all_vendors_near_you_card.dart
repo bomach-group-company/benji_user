@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../theme/colors.dart';
-import '../providers/constants.dart';
+import '../../../theme/colors.dart';
+import '../../providers/constants.dart';
 
-class HomePopularVendorsCard extends StatelessWidget {
+class AllVendorsNearYouCard extends StatelessWidget {
   final Function() onTap;
-  final String cardImage, vendorName, food, category, rating, noOfUsersRated;
-  const HomePopularVendorsCard({
+  final String cardImage,
+      vendorName,
+      food,
+      category,
+      rating,
+      noOfUsersRated,
+      bannerText,
+      distance;
+  final Color bannerColor;
+  const AllVendorsNearYouCard({
     super.key,
     required this.onTap,
     required this.vendorName,
@@ -16,6 +24,9 @@ class HomePopularVendorsCard extends StatelessWidget {
     required this.rating,
     required this.noOfUsersRated,
     required this.cardImage,
+    required this.bannerColor,
+    required this.bannerText,
+    this.distance = '',
   });
 
   @override
@@ -92,24 +103,53 @@ class HomePopularVendorsCard extends StatelessWidget {
                   ),
                   kSizedBox,
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      FaIcon(
-                        FontAwesomeIcons.solidStar,
-                        color: kStarColor,
-                        size: 15,
+                      Row(
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.solidStar,
+                            color: kStarColor,
+                            size: 15,
+                          ),
+                          SizedBox(
+                            width: kDefaultPadding / 10,
+                          ),
+                          Text(
+                            "$rating ($noOfUsersRated+)",
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: -0.24,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        width: kDefaultPadding / 10,
-                      ),
-                      Text(
-                        "$rating ($noOfUsersRated+)",
-                        style: TextStyle(
-                          color: kTextBlackColor,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: -0.24,
-                        ),
-                      ),
+                      kHalfWidthSizedBox,
+                      distance != ''
+                          ? Row(
+                              children: [
+                                Icon(
+                                  Icons.watch_later_outlined,
+                                  color: kAccentColor,
+                                ),
+                                SizedBox(
+                                  width: kDefaultPadding / 10,
+                                ),
+                                Text(
+                                  '30 mins',
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 14,
+                                    fontFamily: 'Sen',
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: -0.28,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : SizedBox(),
                     ],
                   ),
                 ],

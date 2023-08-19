@@ -36,11 +36,9 @@ class _PopularVendorsState extends State<PopularVendors> {
             physics: BouncingScrollPhysics(),
             itemCount: 10,
             itemBuilder: (BuildContext context, int index) {
-              return PopularVendorsCard(
+              return HomePopularVendorsCard(
                 onTap: () {},
                 cardImage: 'best-choice-restaurant.png',
-                bannerColor: kAccentColor,
-                bannerText: "Free Delivery",
                 vendorName: "Best Choice restaurant",
                 food: "Food",
                 category: "Fast Food",

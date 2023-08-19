@@ -6,7 +6,7 @@ import 'package:get/route_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/my_floating_snackbar.dart';
+import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/common_widgets/section/category_button_section.dart';
 import '../../src/common_widgets/section/custom_showSearch.dart';
 import '../../src/common_widgets/section/rating_view.dart';
@@ -19,14 +19,15 @@ import '../../theme/colors.dart';
 import '../product/product_detail_screen.dart';
 import 'about_vendor.dart';
 
-class Vendor extends StatefulWidget {
-  const Vendor({super.key});
+class VendorDetails extends StatefulWidget {
+  const VendorDetails({super.key});
 
   @override
-  State<Vendor> createState() => _VendorState();
+  State<VendorDetails> createState() => _VendorDetailsState();
 }
 
-class _VendorState extends State<Vendor> with SingleTickerProviderStateMixin {
+class _VendorDetailsState extends State<VendorDetails>
+    with SingleTickerProviderStateMixin {
   //================================================= INITIAL STATE AND DISPOSE =====================================================\\
   @override
   void initState() {

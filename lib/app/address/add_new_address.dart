@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../src/common_widgets/textformfield/my textformfield.dart';
-import '../../src/providers/constants.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/my_elevatedbutton.dart';
-import '../../src/common_widgets/my_floating_snackbar.dart';
 import '../../src/common_widgets/my_intl_phonefield.dart';
 import '../../src/common_widgets/my_outlined_elevatedbutton.dart';
+import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
+import '../../src/common_widgets/textformfield/my textformfield.dart';
+import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
 class AddNewAddress extends StatefulWidget {
