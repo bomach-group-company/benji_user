@@ -24,7 +24,7 @@ import '../product/hot_deals_page.dart';
 import '../profile/edit_profile.dart';
 import '../send_package/send_package.dart';
 import '../vendors/popular_vendors.dart';
-import '../vendors/vendor.dart';
+import '../vendors/vendor_details.dart';
 import '../vendors/vendors_near_you.dart';
 import 'home_drawer.dart';
 
@@ -127,13 +127,6 @@ class _HomeState extends State<Home> {
     "Food",
   ];
 
-  final List<String> popularVendorCategory = [
-    "Fast Food",
-    "Continental",
-    "Fast Food",
-    "Fast Food",
-    "Fast Food",
-  ];
   final List<String> popularVendorRating = [
     "3.6",
     "3.6",
@@ -496,7 +489,6 @@ class _HomeState extends State<Home> {
                                       cardImage: popularVendorImage[index],
                                       vendorName: popularVendorName[index],
                                       food: popularVendorFood[index],
-                                      category: popularVendorCategory[index],
                                       rating: popularVendorRating[index],
                                       noOfUsersRated:
                                           popularVendorNoOfUsersRating[index],

@@ -78,17 +78,15 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                     padding: const EdgeInsets.all(kDefaultPadding),
                     itemCount: 20,
                     separatorBuilder: (context, index) => kHalfSizedBox,
-                    itemBuilder: (context, index) {
-                      return AllVendorsNearYouCard(
-                        onTap: () {},
-                        cardImage: 'ntachi-osa.png',
-                        vendorName: "Ntachi Osa",
-                        typeOfBusiness: "Restaurant",
-                        distance: "45 mins",
-                        rating: "3.6",
-                        noOfUsersRated: "500",
-                      );
-                    },
+                    itemBuilder: (context, index) => AllVendorsNearYouCard(
+                      onTap: () {},
+                      cardImage: 'ntachi-osa.png',
+                      vendorName: "Ntachi Osa",
+                      typeOfBusiness: "Restaurant",
+                      distance: "45 mins",
+                      rating: "3.6",
+                      noOfUsersRated: "500",
+                    ),
                   ),
                 ),
         ),

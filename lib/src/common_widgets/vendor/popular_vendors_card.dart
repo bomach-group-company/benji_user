@@ -6,13 +6,12 @@ import '../../providers/constants.dart';
 
 class PopularVendorsCard extends StatelessWidget {
   final Function() onTap;
-  final String cardImage, vendorName, food, category, rating, noOfUsersRated;
+  final String cardImage, vendorName, food, rating, noOfUsersRated;
   const PopularVendorsCard({
     super.key,
     required this.onTap,
     required this.vendorName,
     required this.food,
-    required this.category,
     required this.rating,
     required this.noOfUsersRated,
     required this.cardImage,

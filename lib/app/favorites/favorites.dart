@@ -454,7 +454,6 @@ class _FavoritesState extends State<Favorites>
                                                       vendorName:
                                                           "Best Choice restaurant",
                                                       food: "Food",
-                                                      category: "Fast Food",
                                                       rating: "3.6",
                                                       noOfUsersRated: "500",
                                                     ),
