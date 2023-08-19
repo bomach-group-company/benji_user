@@ -1,8 +1,11 @@
+import 'package:benji_user/app/cart/cart.dart';
 import 'package:benji_user/theme/app%20theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import 'app/home/home.dart';
+import 'app/payment/payment_method.dart';
 import 'app/splash_screens/startup_splash_screen.dart';
 
 void main() {
@@ -27,7 +30,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      home: StartupSplashscreen(),
+      home: Home(),
     );
   }
 }
