@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/home_popular_vendors_card.dart';
+import '../../src/common_widgets/vendor/home_popular_vendors_card.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 

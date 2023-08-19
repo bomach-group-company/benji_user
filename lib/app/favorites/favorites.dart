@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-import '../../src/common_widgets/home_popular_vendors_card.dart';
+import '../../src/common_widgets/vendor/home_popular_vendors_card.dart';
 import '../../src/common_widgets/section/category_button_section.dart';
 import '../../src/common_widgets/vendor/vendors_food_container.dart';
 import '../../src/providers/constants.dart';

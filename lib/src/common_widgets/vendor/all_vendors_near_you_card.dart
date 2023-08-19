@@ -26,7 +26,7 @@ class AllVendorsNearYouCard extends StatelessWidget {
     required this.cardImage,
     required this.bannerColor,
     required this.bannerText,
-    this.distance = '',
+    required this.distance,
   });
 
   @override
@@ -36,7 +36,6 @@ class AllVendorsNearYouCard extends StatelessWidget {
       child: Container(
         width: 355,
         height: 130,
-        margin: EdgeInsets.only(bottom: 10),
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
@@ -115,41 +114,47 @@ class AllVendorsNearYouCard extends StatelessWidget {
                           SizedBox(
                             width: kDefaultPadding / 10,
                           ),
-                          Text(
-                            "$rating ($noOfUsersRated+)",
-                            style: TextStyle(
-                              color: kTextBlackColor,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              letterSpacing: -0.24,
+                          SizedBox(
+                            width: 80,
+                            child: Text(
+                              "$rating ($noOfUsersRated+)",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: -0.24,
+                              ),
                             ),
                           ),
                         ],
                       ),
                       kHalfWidthSizedBox,
-                      distance != ''
-                          ? Row(
-                              children: [
-                                Icon(
-                                  Icons.watch_later_outlined,
-                                  color: kAccentColor,
-                                ),
-                                SizedBox(
-                                  width: kDefaultPadding / 10,
-                                ),
-                                Text(
-                                  '30 mins',
-                                  style: TextStyle(
-                                    color: kTextBlackColor,
-                                    fontSize: 14,
-                                    fontFamily: 'Sen',
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: -0.28,
-                                  ),
-                                ),
-                              ],
-                            )
-                          : SizedBox(),
+                      Row(
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.solidClock,
+                            color: kAccentColor,
+                            size: 15,
+                          ),
+                          SizedBox(
+                            width: kDefaultPadding / 10,
+                          ),
+                          SizedBox(
+                            width: 60,
+                            child: Text(
+                              '30 mins',
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: -0.28,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ],

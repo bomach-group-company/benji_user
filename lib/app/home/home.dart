@@ -6,12 +6,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/appBar_delivery_location.dart';
-import '../../src/common_widgets/home_popular_vendors_card.dart';
-import '../../src/common_widgets/hot_deals_card.dart';
-import '../../src/common_widgets/product/homepage_vendors.dart';
+import '../../src/common_widgets/vendor/home_popular_vendors_card.dart';
+import '../../src/common_widgets/product/hot_deals_card.dart';
+import '../../src/common_widgets/vendor/homepage_vendors.dart';
 import '../../src/common_widgets/section/category_button_section.dart';
 import '../../src/common_widgets/section/custom_showSearch.dart';
-import '../../src/common_widgets/see_all_container.dart';
+import '../../src/common_widgets/section/see_all_container.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
@@ -107,20 +107,6 @@ class _HomeState extends State<Home> {
     "best-choice-restaurant.png",
     "best-choice-restaurant.png",
     "best-choice-restaurant.png",
-  ];
-  final List<dynamic> popularVendorBannerColor = [
-    kAccentColor,
-    Color(0x00000000),
-    kAccentColor,
-    kAccentColor,
-    kAccentColor,
-  ];
-  final List<dynamic> popularVendorBannerText = [
-    "Free Delivery",
-    "",
-    "Free Delivery",
-    "Free Delivery",
-    "Free Delivery",
   ];
 
   final List<String> popularVendorName = [

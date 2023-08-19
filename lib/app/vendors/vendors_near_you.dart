@@ -1,7 +1,8 @@
+import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:flutter/material.dart';
 
-import '../../src/common_widgets/vendor/all_vendors_near_you_card.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
+import '../../src/common_widgets/vendor/all_vendors_near_you_card.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
@@ -13,42 +14,82 @@ class VendorsNearYou extends StatefulWidget {
 }
 
 class _VendorsNearYouState extends State<VendorsNearYou> {
+  //================================================= INITIAL STATE AND DISPOSE =====================================================\\
+  @override
+  void initState() {
+    super.initState();
+
+    _loadingScreen = true;
+    Future.delayed(
+      const Duration(seconds: 2),
+      () => setState(
+        () => _loadingScreen = false,
+      ),
+    );
+  }
+
+//============================================== ALL VARIABLES =================================================\\
+  late bool _loadingScreen;
+
+//============================================== CONTROLLERS =================================================\\
+  final _scrollController = ScrollController();
+
+  //==================================================== FUNCTIONS ===========================================================\\
+  //===================== Handle refresh ==========================\\
+
+  Future<void> _handleRefresh() async {
+    setState(() {
+      _loadingScreen = true;
+    });
+    await Future.delayed(const Duration(milliseconds: 500));
+    setState(() {
+      _loadingScreen = false;
+    });
+  }
+  //========================================================================\\
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kPrimaryColor,
-      appBar: MyAppBar(
-        elevation: 0.0,
-        title: "Vendors Near You ",
-        toolbarHeight: 80,
+    return MyLiquidRefresh(
+      handleRefresh: _handleRefresh,
+      child: Scaffold(
         backgroundColor: kPrimaryColor,
-        actions: [],
-      ),
-      body: SafeArea(
-        maintainBottomViewPadding: true,
-        child: Container(
-          margin: EdgeInsets.only(
-            top: kDefaultPadding,
-            left: kDefaultPadding,
-            right: kDefaultPadding,
-          ),
-          child: ListView.builder(
-            physics: BouncingScrollPhysics(),
-            itemCount: 10,
-            itemBuilder: (BuildContext context, int index) {
-              return AllVendorsNearYouCard(
-                onTap: () {},
-                cardImage: 'best-choice-restaurant.png',
-                vendorName: "Best Choice restaurant",
-                distance: "45 mins",
-                bannerColor: kAccentColor,
-                bannerText: "Free Delivery",
-                food: "Food",
-                category: "Fast Food",
-                rating: "3.6",
-                noOfUsersRated: "500",
-              );
-            },
+        appBar: MyAppBar(
+          elevation: 0.0,
+          title: "Vendors Near You ",
+          toolbarHeight: 80,
+          backgroundColor: kPrimaryColor,
+          actions: [],
+        ),
+        body: SafeArea(
+          maintainBottomViewPadding: true,
+          child: Container(
+            margin: EdgeInsets.only(
+              top: kDefaultPadding,
+              left: kDefaultPadding,
+              right: kDefaultPadding,
+            ),
+            child: Scrollbar(
+              controller: _scrollController,
+              child: ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return AllVendorsNearYouCard(
+                    onTap: () {},
+                    cardImage: 'best-choice-restaurant.png',
+                    vendorName: "Best Choice restaurant",
+                    distance: "45 mins",
+                    bannerColor: kAccentColor,
+                    bannerText: "Free Delivery",
+                    food: "Food",
+                    category: "Fast Food",
+                    rating: "3.6",
+                    noOfUsersRated: "500",
+                  );
+                },
+              ),
+            ),
           ),
         ),
       ),

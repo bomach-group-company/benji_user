@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../theme/colors.dart';
 import '../providers/constants.dart';
 
 class TrackOrderDetailsContainer extends StatelessWidget {
@@ -21,28 +22,19 @@ class TrackOrderDetailsContainer extends StatelessWidget {
       width: 375,
       height: 104,
       decoration: ShapeDecoration(
-        color: Colors.white,
+        color: kPrimaryColor,
         shape: RoundedRectangleBorder(
           side: BorderSide(
             width: 0.50,
-            color: Color(
-              0xFFF0F0F0,
-            ),
+            color: Color(0xFFF0F0F0),
           ),
-          borderRadius: BorderRadius.circular(
-            10,
-          ),
+          borderRadius: BorderRadius.circular(10),
         ),
         shadows: [
           BoxShadow(
-            color: Color(
-              0x0F000000,
-            ),
+            color: Color(0x0F000000),
             blurRadius: 24,
-            offset: Offset(
-              0,
-              4,
-            ),
+            offset: Offset(0, 4),
             spreadRadius: 0,
           ),
         ],
@@ -78,9 +70,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                       width: 4,
                       height: 4,
                       decoration: ShapeDecoration(
-                        color: Color(
-                          0xFFC4C4C4,
-                        ),
+                        color: Color(0xFFC4C4C4),
                         shape: OvalBorder(),
                       ),
                     ),
@@ -88,9 +78,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                     Text(
                       '2 items',
                       style: TextStyle(
-                        color: Color(
-                          0xFF676565,
-                        ),
+                        color: kTextGreyColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),
@@ -103,9 +91,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                       'May 30',
                       textAlign: TextAlign.right,
                       style: TextStyle(
-                        color: Color(
-                          0xFF676565,
-                        ),
+                        color: kTextGreyColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),
@@ -124,9 +110,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                       '14:30',
                       textAlign: TextAlign.right,
                       style: TextStyle(
-                        color: Color(
-                          0xFF676565,
-                        ),
+                        color: kTextGreyColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),
@@ -141,9 +125,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                 Text(
                   '#1228730aebcf...421289',
                   style: TextStyle(
-                    color: Color(
-                      0xFF676565,
-                    ),
+                    color: kTextGreyColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
                   ),
@@ -152,9 +134,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                   'N4,000',
                   textAlign: TextAlign.right,
                   style: TextStyle(
-                    color: Color(
-                      0xFF333333,
-                    ),
+                    color: kTextGreyColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                   ),

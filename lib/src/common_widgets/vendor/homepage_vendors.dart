@@ -120,7 +120,7 @@ class HomePageVendorsNearYou extends StatelessWidget {
                             FaIcon(
                               FontAwesomeIcons.solidClock,
                               color: kAccentColor,
-                              size: 20,
+                              size: 15,
                             ),
                             const SizedBox(width: 4.0),
                             SizedBox(

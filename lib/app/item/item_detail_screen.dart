@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../src/common_widgets/my_elevatedbutton.dart';
+import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/common_widgets/section/category_button_section.dart';
 import '../../src/common_widgets/snackbar/my_fixed_snackBar.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
-import '../../src/common_widgets/my_outlined_elevatedbutton.dart';
+import '../../src/common_widgets/button/my_outlined_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../splash_screens/payment_successful_screen.dart';

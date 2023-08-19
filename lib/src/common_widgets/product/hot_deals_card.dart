@@ -2,7 +2,7 @@ import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../providers/constants.dart';
+import '../../providers/constants.dart';
 
 class HotDealsCard extends StatelessWidget {
   const HotDealsCard({

@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/my_elevatedbutton.dart';
+import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/common_widgets/my_intl_phonefield.dart';
 import '../../src/common_widgets/snackbar/my_fixed_snackBar.dart';
 import '../../src/common_widgets/textformfield/email_textformfield.dart';
