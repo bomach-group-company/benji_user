@@ -10,7 +10,7 @@ import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/my_appbar.dart';
 import '../../src/common_widgets/my_fixed_snackBar.dart';
-import '../../src/common_widgets/otp_textFormField.dart';
+import '../../src/common_widgets/textformfield/otp_textFormField.dart';
 import '../../src/common_widgets/reusable_authentication_first_half.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';

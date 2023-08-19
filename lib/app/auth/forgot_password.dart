@@ -6,7 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/email_textformfield.dart';
+import '../../src/common_widgets/textformfield/email_textformfield.dart';
 import '../../src/common_widgets/my_appbar.dart';
 import '../../src/common_widgets/my_fixed_snackBar.dart';
 import '../../src/common_widgets/reusable_authentication_first_half.dart';

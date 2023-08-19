@@ -7,13 +7,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../src/common_widgets/email_textformfield.dart';
-import '../../src/common_widgets/message_textformfield.dart';
+import '../../src/common_widgets/textformfield/email_textformfield.dart';
+import '../../src/common_widgets/textformfield/message_textformfield.dart';
 import '../../src/common_widgets/my_appbar.dart';
 import '../../src/common_widgets/my_elevatedbutton.dart';
 import '../../src/common_widgets/my_fixed_snackBar.dart';
 import '../../src/common_widgets/my_intl_phonefield.dart';
-import '../../src/common_widgets/name_textformfield.dart';
+import '../../src/common_widgets/textformfield/name_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 

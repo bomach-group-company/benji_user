@@ -1,3 +1,4 @@
+import 'package:benji_user/src/providers/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'category button.dart';
@@ -25,9 +26,7 @@ class CategoryButtonSection extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         physics: BouncingScrollPhysics(),
         itemBuilder: (BuildContext context, int index) => Padding(
-          padding: const EdgeInsets.all(
-            8.0,
-          ),
+          padding: const EdgeInsets.all(kDefaultPadding / 2),
           child: CategoryButton(
             onPressed: () {},
             title: _category[index],

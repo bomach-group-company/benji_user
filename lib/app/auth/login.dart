@@ -9,9 +9,9 @@ import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../src/common_widgets/email_textformfield.dart';
+import '../../src/common_widgets/textformfield/email_textformfield.dart';
 import '../../src/common_widgets/my_fixed_snackBar.dart';
-import '../../src/common_widgets/password_textformfield.dart';
+import '../../src/common_widgets/textformfield/password_textformfield.dart';
 import '../../src/common_widgets/reusable_authentication_first_half.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
@@ -20,6 +20,7 @@ import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import '../splash_screens/login_splash_screen.dart';
 import 'forgot_password.dart';
+import 'signup.dart';
 
 class Login extends StatefulWidget {
   final bool logout;
@@ -82,9 +83,9 @@ class _LoginState extends State<Login> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('rememberMe', _isChecked);
 
-    setState(() {
-      _isLoading = false;
-    });
+    // setState(() {
+    //   _isLoading = false;
+    // });
   }
 
   //=========================== REQUEST ====================================\\
@@ -107,10 +108,7 @@ class _LoginState extends State<Login> {
 
   Future<void> sendPostRequest(String username, String password) async {
     final url = Uri.parse('$baseURL/auth/token');
-    final body = {
-      'username': username,
-      'password': password,
-    };
+    final body = {'username': username, 'password': password};
 
     final response = await http.post(url, body: body);
 
@@ -158,6 +156,17 @@ class _LoginState extends State<Login> {
   }
 
   //=========================== Navigation ====================================\\
+  void _toSignUpPage() => Get.to(
+        () => const SignUp(),
+        routeName: 'SignUp',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   void _toForgotPasswordPage() => Get.to(
         () => const ForgotPassword(),
         routeName: 'ForgotPassword',
@@ -243,7 +252,7 @@ class _LoginState extends State<Login> {
                                 FontAwesomeIcons.lock,
                                 color: kSecondaryColor,
                                 size: 80,
-                                semanticLabel: "login_icon",
+                                semanticLabel: "lock_icon",
                               ),
                             ),
                             decoration: ShapeDecoration(
@@ -263,18 +272,18 @@ class _LoginState extends State<Login> {
                 height: media.height,
                 width: media.width,
                 padding: const EdgeInsets.only(
-                  top: kDefaultPadding,
+                  top: kDefaultPadding / 2,
                   left: kDefaultPadding,
                   right: kDefaultPadding,
                 ),
                 decoration: BoxDecoration(
+                  color: kPrimaryColor,
                   borderRadius: BorderRadius.only(
                     topLeft:
                         Radius.circular(breakPoint(media.width, 24, 24, 0, 0)),
                     topRight:
                         Radius.circular(breakPoint(media.width, 24, 24, 0, 0)),
                   ),
-                  color: kPrimaryColor,
                 ),
                 child: ListView(
                   physics: const BouncingScrollPhysics(),
@@ -290,9 +299,7 @@ class _LoginState extends State<Login> {
                               'Email',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Color(
-                                  0xFF31343D,
-                                ),
+                                color: kTextBlackColor,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -324,9 +331,7 @@ class _LoginState extends State<Login> {
                             child: Text(
                               'Password',
                               style: TextStyle(
-                                color: Color(
-                                  0xFF31343D,
-                                ),
+                                color: kTextBlackColor,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -361,9 +366,7 @@ class _LoginState extends State<Login> {
                                 });
                               },
                               icon: _isObscured
-                                  ? const Icon(
-                                      Icons.visibility_off_rounded,
-                                    )
+                                  ? const Icon(Icons.visibility_off_rounded)
                                   : Icon(
                                       Icons.visibility,
                                       color: kSecondaryColor,
@@ -387,9 +390,7 @@ class _LoginState extends State<Login> {
                                   ? kGreyColor1
                                   : kSecondaryColor,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  5,
-                                ),
+                                borderRadius: BorderRadius.circular(5),
                               ),
                               onChanged: _validAuthCredentials
                                   ? null
@@ -457,6 +458,75 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                     kHalfSizedBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Don't have an account? ",
+                          style: TextStyle(
+                            color: Color(0xFF646982),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: _toSignUpPage,
+                          child: Text(
+                            "Sign up",
+                            style: TextStyle(color: kAccentColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                    kHalfSizedBox,
+                    // Center(
+                    //   child: Column(
+                    //     children: [
+                    //       const Text(
+                    //         "Or log in with ",
+                    //         textAlign: TextAlign.center,
+                    //         style: TextStyle(
+                    //           color: Color(0xFF646982),
+                    //         ),
+                    //       ),
+                    //       kSizedBox,
+                    //       InkWell(
+                    //         borderRadius: BorderRadius.circular(10),
+                    //         onTap: () {},
+                    //         child: Container(
+                    //           width: MediaQuery.of(context).size.width / 2,
+                    //           height: 60,
+                    //           decoration: BoxDecoration(
+                    //             borderRadius: BorderRadius.circular(10),
+                    //             border: Border.all(color: kGreyColor1),
+                    //           ),
+                    //           child: Row(
+                    //             mainAxisAlignment: MainAxisAlignment.center,
+                    //             children: [
+                    //               Container(
+                    //                 height: 50,
+                    //                 width: 50,
+                    //                 decoration: const BoxDecoration(
+                    //                   image: DecorationImage(
+                    //                     image: AssetImage(
+                    //                       "assets/images/icons/google-signup-icon.png",
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //               const Text(
+                    //                 "Google",
+                    //                 style: TextStyle(
+                    //                   color: kTextBlackColor,
+                    //                   fontSize: 18,
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       kSizedBox,
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
