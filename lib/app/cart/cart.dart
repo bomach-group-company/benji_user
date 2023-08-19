@@ -1,8 +1,10 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:benji_user/app/payment/payment_method.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/route_manager.dart';
 
 import '../../src/providers/constants.dart';
 import '../../src/common_widgets/my_appbar.dart';
@@ -90,39 +92,17 @@ class _CartState extends State<Cart> {
 
   //PLACE ORDER
 
-  Future<void> placeOrder() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    // Simulating a delay
-    await Future.delayed(Duration(seconds: 1));
-
-    //Display snackBar
-    mySnackBar(
-      context,
-      "Succcess!",
-      "Order placed successfully",
-      Duration(
-        seconds: 2,
-      ),
+  void placeOrder() async {
+    Get.to(
+      () => const PaymentMethod(),
+      routeName: 'y',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
     );
-
-    Future.delayed(
-        const Duration(
-          seconds: 1,
-        ), () {
-      // Navigate to the new page
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => PaymentSuccessful(),
-        ),
-      );
-    });
-
-    setState(() {
-      isLoading = false;
-    });
   }
 
   @override
@@ -830,390 +810,392 @@ class _CartState extends State<Cart> {
                   kSizedBox,
                   MyOutlinedElevatedButton(
                     title: "Pay For Me - ₦${totalPrice.toStringAsFixed(2)}",
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        backgroundColor: kPrimaryColor,
-                        elevation: 20,
-                        barrierColor: kBlackColor.withOpacity(
-                          0.2,
-                        ),
-                        showDragHandle: true,
-                        useSafeArea: true,
-                        constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.height * 0.8,
-                          minHeight: MediaQuery.of(context).size.height * 0.5,
-                        ),
-                        isScrollControlled: true,
-                        isDismissible: true,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(
-                              kDefaultPadding,
-                            ),
-                          ),
-                        ),
-                        enableDrag: true,
-                        builder: (context) => Container(
-                          margin: EdgeInsets.symmetric(
-                            horizontal: kDefaultPadding,
-                          ),
-                          // color: kAccentColor,
-                          child: ListView(
-                            physics: const BouncingScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            children: [
-                              Container(
-                                height: 65,
-                                padding: const EdgeInsets.all(
-                                  8,
-                                ),
-                                child: Text(
-                                  'Hey! share this link with your friends to have them pay for your order',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xFF333333,
-                                    ),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: kDefaultPadding,
-                              ),
-                              Container(
-                                height: 64,
-                                padding: const EdgeInsets.only(
-                                  top: 16,
-                                  left: 17,
-                                  right: 17,
-                                  bottom: 18,
-                                ),
-                                decoration: ShapeDecoration(
-                                  color: Color(
-                                    0xFFFEF8F8,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                      width: 0.50,
-                                      color: Color(
-                                        0xFFFDEDED,
-                                      ),
-                                    ),
-                                    borderRadius: BorderRadius.circular(
-                                      10,
-                                    ),
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
-                                      text,
-                                      style: TextStyle(
-                                        color: kBlackColor,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        left: kDefaultPadding * 4,
-                                      ),
-                                      width: 2,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                        color: Color(
-                                          0xFFA39B9B,
-                                        ),
-                                      ),
-                                    ),
-                                    kHalfWidthSizedBox,
-                                    IconButton(
-                                      onPressed: () =>
-                                          _copyToClipboard(context),
-                                      icon: Icon(
-                                        Icons.content_copy_rounded,
-                                        color: kAccentColor,
-                                        size: 14,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              kSizedBox,
-                              Container(
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                height: 80,
-                                                width: 80,
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: AssetImage(
-                                                      "assets/images/icons/whatsapp-icon.png",
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                'WhatsApp',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Color(
-                                                    0xFF3C3E56,
-                                                  ),
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                height: 80,
-                                                width: 80,
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: AssetImage(
-                                                      "assets/images/icons/facebook-icon.png",
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                'Facebook',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Color(
-                                                    0xFF3C3E56,
-                                                  ),
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                height: 80,
-                                                width: 80,
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: AssetImage(
-                                                      "assets/images/icons/messenger-icon.png",
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                'Messenger',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Color(
-                                                    0xFF3C3E56,
-                                                  ),
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                height: 80,
-                                                width: 80,
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: AssetImage(
-                                                      "assets/images/icons/messages-icon.png",
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                'Message',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Color(
-                                                    0xFF3C3E56,
-                                                  ),
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    kHalfSizedBox,
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        InkWell(
-                                          onTap: () {},
-                                          child: Container(
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  height: 80,
-                                                  width: 80,
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                        "assets/images/icons/instagram-icon.png",
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'Instagram',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    color: Color(
-                                                      0xFF3C3E56,
-                                                    ),
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        InkWell(
-                                          onTap: () {},
-                                          child: Container(
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  height: 80,
-                                                  width: 80,
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                        "assets/images/icons/twitter-icon.png",
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'Twitter',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    color: Color(
-                                                      0xFF3C3E56,
-                                                    ),
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        InkWell(
-                                          onTap: () {},
-                                          child: Container(
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  height: 80,
-                                                  width: 80,
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                        "assets/images/icons/telegram-icon.png",
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'Telegram',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    color: Color(
-                                                      0xFF3C3E56,
-                                                    ),
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        InkWell(
-                                          onTap: () {},
-                                          child: Container(
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  height: 80,
-                                                  width: 80,
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                        "assets/images/icons/linkedin-icon.png",
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'LinkedIn',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    color: Color(
-                                                      0xFF3C3E56,
-                                                    ),
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: kDefaultPadding * 4,
-                              ),
-                              MyElevatedButton(
-                                title: "Close",
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
+                    onPressed: null,
+                    //() {
+                    //   showModalBottomSheet(
+                    //     context: context,
+                    //     backgroundColor: kPrimaryColor,
+                    //     elevation: 20,
+                    //     barrierColor: kBlackColor.withOpacity(
+                    //       0.2,
+                    //     ),
+                    //     showDragHandle: true,
+                    //     useSafeArea: true,
+                    //     constraints: BoxConstraints(
+                    //       maxHeight: MediaQuery.of(context).size.height * 0.8,
+                    //       minHeight: MediaQuery.of(context).size.height * 0.5,
+                    //     ),
+                    //     isScrollControlled: true,
+                    //     isDismissible: true,
+                    //     shape: RoundedRectangleBorder(
+                    //       borderRadius: BorderRadius.vertical(
+                    //         top: Radius.circular(
+                    //           kDefaultPadding,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     enableDrag: true,
+                    //     builder: (context) => Container(
+                    //       margin: EdgeInsets.symmetric(
+                    //         horizontal: kDefaultPadding,
+                    //       ),
+                    //       // color: kAccentColor,
+                    //       child: ListView(
+                    //         physics: const BouncingScrollPhysics(),
+                    //         scrollDirection: Axis.vertical,
+                    //         children: [
+                    //           Container(
+                    //             height: 65,
+                    //             padding: const EdgeInsets.all(
+                    //               8,
+                    //             ),
+                    //             child: Text(
+                    //               'Hey! share this link with your friends to have them pay for your order',
+                    //               style: TextStyle(
+                    //                 color: Color(
+                    //                   0xFF333333,
+                    //                 ),
+                    //                 fontSize: 16,
+                    //                 fontWeight: FontWeight.w400,
+                    //               ),
+                    //             ),
+                    //           ),
+                    //           SizedBox(
+                    //             height: kDefaultPadding,
+                    //           ),
+                    //           Container(
+                    //             height: 64,
+                    //             padding: const EdgeInsets.only(
+                    //               top: 16,
+                    //               left: 17,
+                    //               right: 17,
+                    //               bottom: 18,
+                    //             ),
+                    //             decoration: ShapeDecoration(
+                    //               color: Color(
+                    //                 0xFFFEF8F8,
+                    //               ),
+                    //               shape: RoundedRectangleBorder(
+                    //                 side: BorderSide(
+                    //                   width: 0.50,
+                    //                   color: Color(
+                    //                     0xFFFDEDED,
+                    //                   ),
+                    //                 ),
+                    //                 borderRadius: BorderRadius.circular(
+                    //                   10,
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //             child: Row(
+                    //               mainAxisAlignment:
+                    //                   MainAxisAlignment.spaceAround,
+                    //               children: [
+                    //                 Text(
+                    //                   text,
+                    //                   style: TextStyle(
+                    //                     color: kBlackColor,
+                    //                     fontSize: 12,
+                    //                     fontWeight: FontWeight.w400,
+                    //                   ),
+                    //                 ),
+                    //                 Container(
+                    //                   margin: EdgeInsets.only(
+                    //                     left: kDefaultPadding * 4,
+                    //                   ),
+                    //                   width: 2,
+                    //                   height: 30,
+                    //                   decoration: BoxDecoration(
+                    //                     color: Color(
+                    //                       0xFFA39B9B,
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //                 kHalfWidthSizedBox,
+                    //                 IconButton(
+                    //                   onPressed: () =>
+                    //                       _copyToClipboard(context),
+                    //                   icon: Icon(
+                    //                     Icons.content_copy_rounded,
+                    //                     color: kAccentColor,
+                    //                     size: 14,
+                    //                   ),
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //           kSizedBox,
+                    //           Container(
+                    //             child: Column(
+                    //               children: [
+                    //                 Row(
+                    //                   mainAxisAlignment:
+                    //                       MainAxisAlignment.spaceBetween,
+                    //                   children: [
+                    //                     Container(
+                    //                       child: Column(
+                    //                         children: [
+                    //                           Container(
+                    //                             height: 80,
+                    //                             width: 80,
+                    //                             decoration: BoxDecoration(
+                    //                               image: DecorationImage(
+                    //                                 image: AssetImage(
+                    //                                   "assets/images/icons/whatsapp-icon.png",
+                    //                                 ),
+                    //                               ),
+                    //                             ),
+                    //                           ),
+                    //                           Text(
+                    //                             'WhatsApp',
+                    //                             textAlign: TextAlign.center,
+                    //                             style: TextStyle(
+                    //                               color: Color(
+                    //                                 0xFF3C3E56,
+                    //                               ),
+                    //                               fontSize: 16,
+                    //                               fontWeight: FontWeight.w400,
+                    //                             ),
+                    //                           ),
+                    //                         ],
+                    //                       ),
+                    //                     ),
+                    //                     Container(
+                    //                       child: Column(
+                    //                         children: [
+                    //                           Container(
+                    //                             height: 80,
+                    //                             width: 80,
+                    //                             decoration: BoxDecoration(
+                    //                               image: DecorationImage(
+                    //                                 image: AssetImage(
+                    //                                   "assets/images/icons/facebook-icon.png",
+                    //                                 ),
+                    //                               ),
+                    //                             ),
+                    //                           ),
+                    //                           Text(
+                    //                             'Facebook',
+                    //                             textAlign: TextAlign.center,
+                    //                             style: TextStyle(
+                    //                               color: Color(
+                    //                                 0xFF3C3E56,
+                    //                               ),
+                    //                               fontSize: 16,
+                    //                               fontWeight: FontWeight.w400,
+                    //                             ),
+                    //                           ),
+                    //                         ],
+                    //                       ),
+                    //                     ),
+                    //                     Container(
+                    //                       child: Column(
+                    //                         children: [
+                    //                           Container(
+                    //                             height: 80,
+                    //                             width: 80,
+                    //                             decoration: BoxDecoration(
+                    //                               image: DecorationImage(
+                    //                                 image: AssetImage(
+                    //                                   "assets/images/icons/messenger-icon.png",
+                    //                                 ),
+                    //                               ),
+                    //                             ),
+                    //                           ),
+                    //                           Text(
+                    //                             'Messenger',
+                    //                             textAlign: TextAlign.center,
+                    //                             style: TextStyle(
+                    //                               color: Color(
+                    //                                 0xFF3C3E56,
+                    //                               ),
+                    //                               fontSize: 16,
+                    //                               fontWeight: FontWeight.w400,
+                    //                             ),
+                    //                           ),
+                    //                         ],
+                    //                       ),
+                    //                     ),
+                    //                     Container(
+                    //                       child: Column(
+                    //                         children: [
+                    //                           Container(
+                    //                             height: 80,
+                    //                             width: 80,
+                    //                             decoration: BoxDecoration(
+                    //                               image: DecorationImage(
+                    //                                 image: AssetImage(
+                    //                                   "assets/images/icons/messages-icon.png",
+                    //                                 ),
+                    //                               ),
+                    //                             ),
+                    //                           ),
+                    //                           Text(
+                    //                             'Message',
+                    //                             textAlign: TextAlign.center,
+                    //                             style: TextStyle(
+                    //                               color: Color(
+                    //                                 0xFF3C3E56,
+                    //                               ),
+                    //                               fontSize: 16,
+                    //                               fontWeight: FontWeight.w400,
+                    //                             ),
+                    //                           ),
+                    //                         ],
+                    //                       ),
+                    //                     ),
+                    //                   ],
+                    //                 ),
+                    //                 kHalfSizedBox,
+                    //                 Row(
+                    //                   mainAxisAlignment:
+                    //                       MainAxisAlignment.spaceBetween,
+                    //                   children: [
+                    //                     InkWell(
+                    //                       onTap: () {},
+                    //                       child: Container(
+                    //                         child: Column(
+                    //                           children: [
+                    //                             Container(
+                    //                               height: 80,
+                    //                               width: 80,
+                    //                               decoration: BoxDecoration(
+                    //                                 image: DecorationImage(
+                    //                                   image: AssetImage(
+                    //                                     "assets/images/icons/instagram-icon.png",
+                    //                                   ),
+                    //                                 ),
+                    //                               ),
+                    //                             ),
+                    //                             Text(
+                    //                               'Instagram',
+                    //                               textAlign: TextAlign.center,
+                    //                               style: TextStyle(
+                    //                                 color: Color(
+                    //                                   0xFF3C3E56,
+                    //                                 ),
+                    //                                 fontSize: 16,
+                    //                                 fontWeight: FontWeight.w400,
+                    //                               ),
+                    //                             ),
+                    //                           ],
+                    //                         ),
+                    //                       ),
+                    //                     ),
+                    //                     InkWell(
+                    //                       onTap: () {},
+                    //                       child: Container(
+                    //                         child: Column(
+                    //                           children: [
+                    //                             Container(
+                    //                               height: 80,
+                    //                               width: 80,
+                    //                               decoration: BoxDecoration(
+                    //                                 image: DecorationImage(
+                    //                                   image: AssetImage(
+                    //                                     "assets/images/icons/twitter-icon.png",
+                    //                                   ),
+                    //                                 ),
+                    //                               ),
+                    //                             ),
+                    //                             Text(
+                    //                               'Twitter',
+                    //                               textAlign: TextAlign.center,
+                    //                               style: TextStyle(
+                    //                                 color: Color(
+                    //                                   0xFF3C3E56,
+                    //                                 ),
+                    //                                 fontSize: 16,
+                    //                                 fontWeight: FontWeight.w400,
+                    //                               ),
+                    //                             ),
+                    //                           ],
+                    //                         ),
+                    //                       ),
+                    //                     ),
+                    //                     InkWell(
+                    //                       onTap: () {},
+                    //                       child: Container(
+                    //                         child: Column(
+                    //                           children: [
+                    //                             Container(
+                    //                               height: 80,
+                    //                               width: 80,
+                    //                               decoration: BoxDecoration(
+                    //                                 image: DecorationImage(
+                    //                                   image: AssetImage(
+                    //                                     "assets/images/icons/telegram-icon.png",
+                    //                                   ),
+                    //                                 ),
+                    //                               ),
+                    //                             ),
+                    //                             Text(
+                    //                               'Telegram',
+                    //                               textAlign: TextAlign.center,
+                    //                               style: TextStyle(
+                    //                                 color: Color(
+                    //                                   0xFF3C3E56,
+                    //                                 ),
+                    //                                 fontSize: 16,
+                    //                                 fontWeight: FontWeight.w400,
+                    //                               ),
+                    //                             ),
+                    //                           ],
+                    //                         ),
+                    //                       ),
+                    //                     ),
+                    //                     InkWell(
+                    //                       onTap: () {},
+                    //                       child: Container(
+                    //                         child: Column(
+                    //                           children: [
+                    //                             Container(
+                    //                               height: 80,
+                    //                               width: 80,
+                    //                               decoration: BoxDecoration(
+                    //                                 image: DecorationImage(
+                    //                                   image: AssetImage(
+                    //                                     "assets/images/icons/linkedin-icon.png",
+                    //                                   ),
+                    //                                 ),
+                    //                               ),
+                    //                             ),
+                    //                             Text(
+                    //                               'LinkedIn',
+                    //                               textAlign: TextAlign.center,
+                    //                               style: TextStyle(
+                    //                                 color: Color(
+                    //                                   0xFF3C3E56,
+                    //                                 ),
+                    //                                 fontSize: 16,
+                    //                                 fontWeight: FontWeight.w400,
+                    //                               ),
+                    //                             ),
+                    //                           ],
+                    //                         ),
+                    //                       ),
+                    //                     ),
+                    //                   ],
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //           SizedBox(
+                    //             height: kDefaultPadding * 4,
+                    //           ),
+                    //           MyElevatedButton(
+                    //             title: "Close",
+                    //             onPressed: () {
+                    //               Navigator.of(context).pop();
+                    //             },
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   );
+                    // },
                   ),
+                  Text('comming soon'),
                   kSizedBox,
                 ],
               ),
