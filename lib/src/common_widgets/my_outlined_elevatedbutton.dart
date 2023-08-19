@@ -4,12 +4,12 @@ import '../../theme/colors.dart';
 
 class MyOutlinedElevatedButton extends StatelessWidget {
   final String title;
-  final Function() onPressed;
+  final Function()? onPressed;
 
   const MyOutlinedElevatedButton({
     super.key,
     required this.title,
-    required this.onPressed,
+    this.onPressed,
   });
 
   @override
