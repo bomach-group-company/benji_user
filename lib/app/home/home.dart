@@ -1,6 +1,8 @@
 import 'package:benji_user/app/favorites/favorites.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appBar_delivery_location.dart';
@@ -14,6 +16,7 @@ import '../../src/common_widgets/see_all_container.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../address/address.dart';
+import '../address/deliver_to.dart';
 import '../auth/login.dart';
 import '../cart/cart.dart';
 import '../orders/order_history.dart';
@@ -32,7 +35,23 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  //================================================= INITIAL STATE AND DISPOSE =====================================================\\
+  @override
+  void initState() {
+    super.initState();
+
+    _loadingScreen = true;
+    Future.delayed(
+      const Duration(seconds: 2),
+      () => setState(
+        () => _loadingScreen = false,
+      ),
+    );
+  }
+
 //============================================== ALL VARIABLES =================================================\\
+  late bool _loadingScreen;
+
   bool _vendorStatus = true;
 
   //Online Vendors
@@ -50,8 +69,9 @@ class _HomeState extends State<Home> {
   final String _offlineVendorsImage = "best-choice-restaurant";
   final double _offlineVendorsRating = 4.0;
 
-  //===================== TEXTEDITING CONTROLLER =======================\\
+  //===================== CONTROLLERS =======================\\
   TextEditingController searchController = TextEditingController();
+  final _scrollController = ScrollController();
 
   //===================== CATEGORY BUTTONS =======================\\
   final List _categoryButton = [
@@ -162,6 +182,20 @@ class _HomeState extends State<Home> {
   }
 
   //==================================================== FUNCTIONS ===========================================================\\
+  //===================== Handle refresh ==========================\\
+
+  Future<void> _handleRefresh() async {
+    setState(() {
+      _loadingScreen = true;
+    });
+    await Future.delayed(const Duration(milliseconds: 500));
+    setState(() {
+      _loadingScreen = false;
+    });
+  }
+  //========================================================================\\
+
+  //==================================================== Navigation ===========================================================\\
   void _logOut() => Get.offAll(
         () => const Login(logout: true),
         predicate: (route) => false,
@@ -173,91 +207,126 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
+  void _toProfileSettings() => Get.to(
+        () => const EditProfile(),
+        routeName: 'EditProfile',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+  void _toAddressPage() => Get.to(
+        () => const Addresses(),
+        routeName: 'Addresses',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+  void _toSendPackagePage() => Get.to(
+        () => const SendPackage(),
+        routeName: 'SendPackage',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+  void _toFavoritesPage() => Get.to(
+        () => Favorites(
+          vendorCoverImage:
+              _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
+          vendorName: _vendorStatus ? _onlineVendorsName : _offlineVendorsName,
+          vendorRating:
+              _vendorStatus ? _onlineVendorsRating : _offlineVendorsRating,
+          vendorActiveStatus: _vendorStatus ? _vendorActive : _vendorInactive,
+          vendorActiveStatusColor:
+              _vendorStatus ? _vendorActiveColor : _vendorInactiveColor,
+        ),
+        routeName: 'SendPackage',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+  void _toOrdersPage() => Get.to(
+        () => const OrdersHistory(),
+        routeName: 'OrdersHistory',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+  void _toCartPage() => Get.to(
+        () => const Cart(),
+        routeName: 'Cart',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+  void _toSeeAllVendorsNearYou() => Get.to(
+        () => const VendorsNearYou(),
+        routeName: 'VendorsNearYou',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+  void _toSeeAllPopularVendors() => Get.to(
+        () => const PopularVendors(),
+        routeName: 'PopularVendors',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+  void _toDeliverToPage() => Get.to(
+        () => const DeliverTo(),
+        routeName: 'DeliverTo',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
+    double mediaWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         drawer: HomeDrawer(
           userID: userID,
-          toEditProfilePage: () {
-            Get.to(
-              () => const EditProfile(),
-              routeName: 'EditProfile',
-              duration: const Duration(milliseconds: 300),
-              fullscreenDialog: true,
-              curve: Curves.easeIn,
-              preventDuplicates: true,
-              popGesture: true,
-              transition: Transition.rightToLeft,
-            );
-          },
+          toEditProfilePage: _toProfileSettings,
           copyUserIdToClipBoard: () {
-            _copyToClipboard(
-              context,
-            );
+            _copyToClipboard(context);
           },
-          toAddressesPage: () {
-            Get.to(
-              () => const Addresses(),
-              routeName: 'Addresses',
-              duration: const Duration(milliseconds: 300),
-              fullscreenDialog: true,
-              curve: Curves.easeIn,
-              preventDuplicates: true,
-              popGesture: true,
-              transition: Transition.rightToLeft,
-            );
-          },
-          toSendPackagePage: () {
-            Get.to(
-              () => const SendPackage(),
-              routeName: 'SendPackage',
-              duration: const Duration(milliseconds: 300),
-              fullscreenDialog: true,
-              curve: Curves.easeIn,
-              preventDuplicates: true,
-              popGesture: true,
-              transition: Transition.rightToLeft,
-            );
-          },
-          toFavoritesPage: () {
-            Get.to(
-              () => Favorites(
-                vendorCoverImage:
-                    _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
-                vendorName:
-                    _vendorStatus ? _onlineVendorsName : _offlineVendorsName,
-                vendorRating: _vendorStatus
-                    ? _onlineVendorsRating
-                    : _offlineVendorsRating,
-                vendorActiveStatus:
-                    _vendorStatus ? _vendorActive : _vendorInactive,
-                vendorActiveStatusColor:
-                    _vendorStatus ? _vendorActiveColor : _vendorInactiveColor,
-              ),
-              routeName: 'SendPackage',
-              duration: const Duration(milliseconds: 300),
-              fullscreenDialog: true,
-              curve: Curves.easeIn,
-              preventDuplicates: true,
-              popGesture: true,
-              transition: Transition.rightToLeft,
-            );
-          },
-          toInvitesPage: () {},
-          toOrdersPage: () {
-            Get.to(
-              () => const OrdersHistory(),
-              routeName: 'OrdersHistory',
-              duration: const Duration(milliseconds: 300),
-              fullscreenDialog: true,
-              curve: Curves.easeIn,
-              preventDuplicates: true,
-              popGesture: true,
-              transition: Transition.rightToLeft,
-            );
-          },
+          toAddressesPage: _toAddressPage,
+          toSendPackagePage: _toSendPackagePage,
+          toFavoritesPage: _toFavoritesPage,
+          toOrdersPage: _toOrdersPage,
           logOut: _logOut,
         ),
         appBar: AppBar(
@@ -279,12 +348,16 @@ class _HomeState extends State<Home> {
                     },
                     icon: Image.asset(
                       "assets/images/icons/drawer-icon.png",
+                      color: kAccentColor,
+                      fit: BoxFit.cover,
+                      height: 20,
                     ),
                   ),
                 ),
               ),
               AppBarDeliveryLocation(
                 deliveryLocation: 'Independence Layout, Enugu',
+                toDeliverToPage: _toDeliverToPage,
               ),
             ],
           ),
@@ -296,8 +369,8 @@ class _HomeState extends State<Home> {
                   delegate: CustomSearchDelegate(),
                 );
               },
-              icon: Icon(
-                Icons.search_rounded,
+              icon: FaIcon(
+                FontAwesomeIcons.magnifyingGlass,
                 color: kAccentColor,
               ),
             ),
@@ -306,21 +379,11 @@ class _HomeState extends State<Home> {
                 Container(
                   alignment: Alignment.center,
                   child: IconButton(
-                    onPressed: () {
-                      Get.to(
-                        () => const Cart(),
-                        routeName: 'Cart',
-                        duration: const Duration(milliseconds: 300),
-                        fullscreenDialog: true,
-                        curve: Curves.easeIn,
-                        preventDuplicates: true,
-                        popGesture: true,
-                        transition: Transition.rightToLeft,
-                      );
-                    },
+                    onPressed: _toCartPage,
                     splashRadius: 20,
-                    icon: Icon(
-                      Icons.shopping_cart_outlined,
+                    icon: FaIcon(
+                      FontAwesomeIcons.cartShopping,
+                      size: 18,
                       color: kAccentColor,
                     ),
                   ),
@@ -348,7 +411,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ],
@@ -357,113 +420,114 @@ class _HomeState extends State<Home> {
           maintainBottomViewPadding: true,
           child: Container(
             color: kPrimaryColor,
-            width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.all(
-              kDefaultPadding,
-            ),
+            width: mediaWidth,
+            padding: EdgeInsets.all(kDefaultPadding / 2),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 kHalfSizedBox,
-                CategoryButtonSection(
-                  category: _categoryButton,
-                  categorybgColor: _categoryButtonBgColor,
-                  categoryFontColor: _categoryButtonFontColor,
-                ),
+                _loadingScreen
+                    ? kSizedBox
+                    : CategoryButtonSection(
+                        category: _categoryButton,
+                        categorybgColor: _categoryButtonBgColor,
+                        categoryFontColor: _categoryButtonFontColor,
+                      ),
+
                 SizedBox(height: 8),
-                Flexible(
-                  fit: FlexFit.loose,
-                  child: ListView(
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    children: [
-                      SeeAllContainer(
-                        title: "Vendors Near you",
-                        onPressed: () {
-                          Get.to(
-                            () => const VendorsNearYou(),
-                            routeName: 'VendorsNearYou',
-                            duration: const Duration(milliseconds: 300),
-                            fullscreenDialog: true,
-                            curve: Curves.easeIn,
-                            preventDuplicates: true,
-                            popGesture: true,
-                            transition: Transition.rightToLeft,
-                          );
-                        },
-                      ),
-                      kSizedBox,
-                      HomePageVendorsCard(),
-                      SizedBox(
-                        height: kDefaultPadding * 2,
-                      ),
-                      SeeAllContainer(
-                        title: "Popular Vendors",
-                        onPressed: () {
-                          Get.to(
-                            () => const PopularVendors(),
-                            routeName: 'PopularVendors',
-                            duration: const Duration(milliseconds: 300),
-                            fullscreenDialog: true,
-                            curve: Curves.easeIn,
-                            preventDuplicates: true,
-                            popGesture: true,
-                            transition: Transition.rightToLeft,
-                          );
-                        },
-                      ),
-                      kSizedBox,
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            for (int i = 0;
-                                i < popularVendorsIndex.length;
-                                i++,)
-                              PopularVendorsCard(
-                                onTap: () {},
-                                cardImage: popularVendorImage[i],
-                                bannerColor: popularVendorBannerColor[i],
-                                bannerText: popularVendorBannerText[i],
-                                vendorName: popularVendorName[i],
-                                food: popularVendorFood[i],
-                                category: popularVendorCategory[i],
-                                rating: popularVendorRating[i],
-                                noOfUsersRated: popularVendorNoOfUsersRating[i],
-                              ),
-                          ],
+                _loadingScreen
+                    ? SpinKitChasingDots(color: kAccentColor)
+                    : Flexible(
+                        fit: FlexFit.loose,
+                        child: Scrollbar(
+                          controller: _scrollController,
+                          radius: Radius.circular(10),
+                          scrollbarOrientation: ScrollbarOrientation.right,
+                          child: RefreshIndicator(
+                            onRefresh: _handleRefresh,
+                            color: kAccentColor,
+                            edgeOffset: 0,
+                            displacement: 0.0,
+                            semanticsLabel: "Pull to refresh",
+                            strokeWidth: 3.0,
+                            triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                            child: ListView(
+                              physics: const BouncingScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              children: [
+                                SeeAllContainer(
+                                  title: "Vendors Near you",
+                                  onPressed: _toSeeAllVendorsNearYou,
+                                ),
+                                kSizedBox,
+                                HomePageVendorsCard(),
+                                kHalfSizedBox,
+                                SeeAllContainer(
+                                  title: "Popular Vendors",
+                                  onPressed: _toSeeAllPopularVendors,
+                                ),
+                                kSizedBox,
+                                SizedBox(
+                                  width: mediaWidth,
+                                  child: Center(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        for (int i = 0;
+                                            i < popularVendorsIndex.length;
+                                            i++,)
+                                          PopularVendorsCard(
+                                            onTap: () {},
+                                            cardImage: popularVendorImage[i],
+                                            bannerColor:
+                                                popularVendorBannerColor[i],
+                                            bannerText:
+                                                popularVendorBannerText[i],
+                                            vendorName: popularVendorName[i],
+                                            food: popularVendorFood[i],
+                                            category: popularVendorCategory[i],
+                                            rating: popularVendorRating[i],
+                                            noOfUsersRated:
+                                                popularVendorNoOfUsersRating[i],
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                kSizedBox,
+                                Text(
+                                  'Hot Deals',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: -0.40,
+                                  ),
+                                ),
+                                kSizedBox,
+                                SizedBox(
+                                  width: mediaWidth,
+                                  child: Center(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        for (int i = 0; i < 5; i++,)
+                                          HomeHotDeals(),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
                         ),
                       ),
-                      kSizedBox,
-                      SeeAllContainer(
-                        title: "Hot Deals",
-                        onPressed: () {
-                          Get.to(
-                            () => const HotDeals(),
-                            routeName: 'HotDeals',
-                            duration: const Duration(milliseconds: 300),
-                            fullscreenDialog: true,
-                            curve: Curves.easeIn,
-                            preventDuplicates: true,
-                            popGesture: true,
-                            transition: Transition.rightToLeft,
-                          );
-                        },
-                      ),
-                      kSizedBox,
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            for (int i = 0; i < 5; i++,) HomeHotDeals(),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),

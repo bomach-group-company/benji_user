@@ -22,6 +22,10 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
   int _quantity = 1;
   double _productPrice = 12000;
 
+  //======================================= BOOL VALUES ==========================================\\
+  bool isAddedToCart = false;
+
+
   //======================================= FUNCTIONS ==========================================\\
 
   void incrementQuantity() {
@@ -40,7 +44,6 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
     });
   }
 
-  bool isAddedToCart = false;
 
   void cartFunction() {
     setState(() {
@@ -69,7 +72,11 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
     // double mediaHeight = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: widget.onTap,
-      child: Container(
+
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+
         margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 2.5),
         width: MediaQuery.of(context).size.width,
         decoration: ShapeDecoration(
@@ -102,7 +109,8 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
                   image: AssetImage(
                     "assets/images/food/pasta.png",
                   ),
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
+
                 ),
               ),
             ),
@@ -112,6 +120,7 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
+                  width: mediaWidth / 2,
                   child: Text(
                     'Smokey Jollof Pasta',
                     style: TextStyle(
