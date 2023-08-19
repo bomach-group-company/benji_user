@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../theme/colors.dart';
+import '../../../theme/colors.dart';
 
 class AppBarDeliveryLocation extends StatelessWidget {
   final String deliveryLocation;
