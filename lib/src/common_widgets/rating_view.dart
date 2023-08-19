@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../theme/colors.dart';
 import '../providers/constants.dart';
-import 'message_textformfield.dart';
+import 'textformfield/message_textformfield.dart';
 
 class RatingView extends StatefulWidget {
   const RatingView({super.key});

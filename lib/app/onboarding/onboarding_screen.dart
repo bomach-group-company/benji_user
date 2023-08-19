@@ -44,10 +44,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             : [
                 TextButton(
                   onPressed: () async {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => Login(),
-                      ),
+                    Get.off(
+                      () => const Login(),
+                      routeName: 'Login',
+                      duration: const Duration(milliseconds: 300),
+                      fullscreenDialog: true,
+                      curve: Curves.easeIn,
+                      popGesture: true,
+                      preventDuplicates: true,
+                      transition: Transition.rightToLeft,
                     );
                   },
                   child: Text(
@@ -147,9 +152,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               color: currentIndex == index
                                   ? kAccentColor
                                   : kPrimaryColor,
-                              borderRadius: BorderRadius.circular(
-                                10.0,
-                              ),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
                             duration: const Duration(
                               milliseconds: 500,
@@ -178,9 +181,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       );
                     }
                     _pageController.nextPage(
-                      duration: const Duration(
-                        milliseconds: 600,
-                      ),
+                      duration: const Duration(milliseconds: 600),
                       curve: Curves.decelerate,
                     );
                   },

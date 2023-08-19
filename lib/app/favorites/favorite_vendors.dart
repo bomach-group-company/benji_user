@@ -2,18 +2,18 @@
 
 import 'package:flutter/material.dart';
 
-class VendorsOrdersTab extends StatefulWidget {
+class FavoriteVendorsTab extends StatefulWidget {
   final Widget list;
-  const VendorsOrdersTab({
+  const FavoriteVendorsTab({
     super.key,
     required this.list,
   });
 
   @override
-  State<VendorsOrdersTab> createState() => _VendorsOrdersTabState();
+  State<FavoriteVendorsTab> createState() => _FavoriteVendorsTabState();
 }
 
-class _VendorsOrdersTabState extends State<VendorsOrdersTab> {
+class _FavoriteVendorsTabState extends State<FavoriteVendorsTab> {
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;

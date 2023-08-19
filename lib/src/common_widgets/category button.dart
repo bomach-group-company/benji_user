@@ -27,17 +27,10 @@ class CategoryButton extends StatelessWidget {
           fontWeight: FontWeight.w700,
         ),
       ),
-      onLongPress: null,
       style: ElevatedButton.styleFrom(
         backgroundColor: bgColor,
-        minimumSize: Size(
-          100,
-          80,
-        ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-            20,
-          ),
+          borderRadius: BorderRadius.circular(20),
         ),
       ),
     );

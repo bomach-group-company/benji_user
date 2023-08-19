@@ -9,9 +9,9 @@ import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../src/common_widgets/email_textformfield.dart';
+import '../../src/common_widgets/textformfield/email_textformfield.dart';
 import '../../src/common_widgets/my_fixed_snackBar.dart';
-import '../../src/common_widgets/password_textformfield.dart';
+import '../../src/common_widgets/textformfield/password_textformfield.dart';
 import '../../src/common_widgets/reusable_authentication_first_half.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
@@ -83,9 +83,9 @@ class _LoginState extends State<Login> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('rememberMe', _isChecked);
 
-    setState(() {
-      _isLoading = false;
-    });
+    // setState(() {
+    //   _isLoading = false;
+    // });
   }
 
   //=========================== REQUEST ====================================\\
@@ -108,10 +108,7 @@ class _LoginState extends State<Login> {
 
   Future<void> sendPostRequest(String username, String password) async {
     final url = Uri.parse('$baseURL/auth/token');
-    final body = {
-      'username': username,
-      'password': password,
-    };
+    final body = {'username': username, 'password': password};
 
     final response = await http.post(url, body: body);
 
@@ -393,9 +390,7 @@ class _LoginState extends State<Login> {
                                   ? kGreyColor1
                                   : kSecondaryColor,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  5,
-                                ),
+                                borderRadius: BorderRadius.circular(5),
                               ),
                               onChanged: _validAuthCredentials
                                   ? null
@@ -482,56 +477,56 @@ class _LoginState extends State<Login> {
                       ],
                     ),
                     kHalfSizedBox,
-                    Center(
-                      child: Column(
-                        children: [
-                          const Text(
-                            "Or log in with ",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF646982),
-                            ),
-                          ),
-                          kSizedBox,
-                          InkWell(
-                            borderRadius: BorderRadius.circular(10),
-                            onTap: () {},
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 2,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: kGreyColor1),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 50,
-                                    width: 50,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          "assets/images/icons/google-signup-icon.png",
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const Text(
-                                    "Google",
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          kSizedBox,
-                        ],
-                      ),
-                    ),
+                    // Center(
+                    //   child: Column(
+                    //     children: [
+                    //       const Text(
+                    //         "Or log in with ",
+                    //         textAlign: TextAlign.center,
+                    //         style: TextStyle(
+                    //           color: Color(0xFF646982),
+                    //         ),
+                    //       ),
+                    //       kSizedBox,
+                    //       InkWell(
+                    //         borderRadius: BorderRadius.circular(10),
+                    //         onTap: () {},
+                    //         child: Container(
+                    //           width: MediaQuery.of(context).size.width / 2,
+                    //           height: 60,
+                    //           decoration: BoxDecoration(
+                    //             borderRadius: BorderRadius.circular(10),
+                    //             border: Border.all(color: kGreyColor1),
+                    //           ),
+                    //           child: Row(
+                    //             mainAxisAlignment: MainAxisAlignment.center,
+                    //             children: [
+                    //               Container(
+                    //                 height: 50,
+                    //                 width: 50,
+                    //                 decoration: const BoxDecoration(
+                    //                   image: DecorationImage(
+                    //                     image: AssetImage(
+                    //                       "assets/images/icons/google-signup-icon.png",
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //               const Text(
+                    //                 "Google",
+                    //                 style: TextStyle(
+                    //                   color: kTextBlackColor,
+                    //                   fontSize: 18,
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       kSizedBox,
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

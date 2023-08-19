@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-import '../../src/common_widgets/category_button_section_tab.dart';
+import '../../src/common_widgets/category_button_section.dart';
 import '../../src/common_widgets/home_popular_vendors_card.dart';
-import '../../src/common_widgets/vendors_food_container.dart';
+import '../../src/common_widgets/vendor/vendors_food_container.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../cart/cart.dart';
@@ -122,8 +122,6 @@ class _FavoritesState extends State<Favorites>
   // double calculateSubtotal() {
   //   return _itemPrice * _itemQuantity;
   // }
-
-  void _changeProductCategory() {}
 
 //===================== Handle refresh ==========================\\
 
@@ -379,14 +377,12 @@ class _FavoritesState extends State<Favorites>
                                         ? const Center(
                                             child: Text('Loading'),
                                           )
-                                        : VendorsProductsTab(
+                                        : FavoriteProductsTab(
                                             list: Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
                                                 CategoryButtonSection(
-                                                  onPressed:
-                                                      _changeProductCategory,
                                                   category: _categoryButtonText,
                                                   categorybgColor:
                                                       _categoryButtonBgColor,
@@ -441,7 +437,7 @@ class _FavoritesState extends State<Favorites>
                                         ? const Center(
                                             child: Text('Loading...'),
                                           )
-                                        : VendorsOrdersTab(
+                                        : FavoriteVendorsTab(
                                             list: Column(
                                               children: [
                                                 for (_orderID = 1;

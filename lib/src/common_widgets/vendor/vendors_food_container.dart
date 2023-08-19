@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-import '../../theme/colors.dart';
-import '../providers/constants.dart';
-import 'my_floating_snackbar.dart';
+import '../../../theme/colors.dart';
+import '../../providers/constants.dart';
+import '../my_floating_snackbar.dart';
 
 class VendorFoodContainer extends StatefulWidget {
   final Function() onTap;
@@ -18,20 +19,21 @@ class VendorFoodContainer extends StatefulWidget {
 class _VendorFoodContainerState extends State<VendorFoodContainer> {
   //======================================= ALL VARIABLES ==========================================\\
 
-  int quantity = 1;
+  int _quantity = 1;
+  double _productPrice = 12000;
 
   //======================================= FUNCTIONS ==========================================\\
 
   void incrementQuantity() {
     setState(() {
-      quantity++; // Increment the quantity by 1
+      _quantity++; // Increment the quantity by 1
     });
   }
 
   void decrementQuantity() {
     setState(() {
-      if (quantity > 1) {
-        quantity--; // Decrement the quantity by 1, but ensure it doesn't go below 1
+      if (_quantity > 1) {
+        _quantity--; // Decrement the quantity by 1, but ensure it doesn't go below 1
       } else {
         cartFunction();
       }
@@ -55,36 +57,32 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
     );
   }
 
+//===================== Number format ==========================\\
+  String formattedText(double value) {
+    final numberFormat = NumberFormat('#,##0');
+    return numberFormat.format(value);
+  }
+
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
     // double mediaHeight = MediaQuery.of(context).size.height;
-    return GestureDetector(
+    return InkWell(
       onTap: widget.onTap,
       child: Container(
-        margin: EdgeInsets.symmetric(
-          vertical: kDefaultPadding / 2.5,
-        ),
+        margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 2.5),
         width: MediaQuery.of(context).size.width,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              12,
-            ),
+            borderRadius: BorderRadius.circular(12),
           ),
           shadows: [
             BoxShadow(
-              color: Color(
-                0x0F000000,
-              ),
-              blurRadius: 24,
-              offset: Offset(
-                0,
-                4,
-              ),
-              spreadRadius: 0,
-            )
+                color: Color(0x0F000000),
+                blurRadius: 24,
+                offset: Offset(0, 4),
+                spreadRadius: 0)
           ],
         ),
         child: Row(
@@ -96,12 +94,8 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
               decoration: ShapeDecoration(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(
-                      12,
-                    ),
-                    bottomLeft: Radius.circular(
-                      12,
-                    ),
+                    topLeft: Radius.circular(12),
+                    bottomLeft: Radius.circular(12),
                   ),
                 ),
                 image: DecorationImage(
@@ -121,9 +115,7 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
                   child: Text(
                     'Smokey Jollof Pasta',
                     style: TextStyle(
-                      color: Color(
-                        0xFF333333,
-                      ),
+                      color: Color(0xFF333333),
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                     ),
@@ -136,27 +128,41 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
                     'Short description about the food here',
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: Color(
-                        0xFF676565,
-                      ),
+                      color: Color(0xFF676565),
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
                 kHalfSizedBox,
-                Container(
-                  child: Text(
-                    '₦1200.00',
-                    style: TextStyle(
-                      color: Color(
-                        0xFF333333,
+                Row(
+                  children: [
+                    SizedBox(
+                      width: mediaWidth / 4,
+                      child: Text(
+                        "₦${formattedText(_productPrice)}",
+                        style: TextStyle(
+                          color: Color(0xFF333333),
+                          fontSize: 14,
+                          fontFamily: 'Sen',
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
-                      fontSize: 14,
-                      fontFamily: 'Sen',
-                      fontWeight: FontWeight.w400,
                     ),
-                  ),
+                    SizedBox(
+                      width: mediaWidth / 4,
+                      height: 17,
+                      child: Text(
+                        "Qty: 200",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: kTextGreyColor,
+                          fontSize: 13.60,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -174,7 +180,7 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
                         ),
                       ),
                       Text(
-                        "$quantity",
+                        "$_quantity",
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                         ),

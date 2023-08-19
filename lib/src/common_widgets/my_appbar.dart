@@ -13,7 +13,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> actions;
   final double toolbarHeight;
   @override
-  Size get preferredSize => const Size.fromHeight(40);
+  Size get preferredSize => const Size.fromHeight(45);
   const MyAppBar({
     super.key,
     required this.title,

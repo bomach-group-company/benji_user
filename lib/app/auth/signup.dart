@@ -9,11 +9,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../src/common_widgets/email_textformfield.dart';
+import '../../src/common_widgets/textformfield/email_textformfield.dart';
 import '../../src/common_widgets/my_appbar.dart';
 import '../../src/common_widgets/my_fixed_snackBar.dart';
-import '../../src/common_widgets/name_textformfield.dart';
-import '../../src/common_widgets/password_textformfield.dart';
+import '../../src/common_widgets/textformfield/name_textformfield.dart';
+import '../../src/common_widgets/textformfield/password_textformfield.dart';
 import '../../src/common_widgets/reusable_authentication_first_half.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
@@ -521,62 +521,62 @@ class _SignUpState extends State<SignUp> {
                       ],
                     ),
                     kHalfSizedBox,
-                    Center(
-                      child: Column(
-                        children: [
-                          const Text(
-                            "Or sign up with ",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(
-                                0xFF646982,
-                              ),
-                            ),
-                          ),
-                          kSizedBox,
-                          InkWell(
-                            borderRadius: BorderRadius.circular(10),
-                            onTap: () {},
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 2,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                  10,
-                                ),
-                                border: Border.all(
-                                  color: kGreyColor1,
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 50,
-                                    width: 50,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          "assets/images/icons/google-signup-icon.png",
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const Text(
-                                    "Google",
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          kSizedBox,
-                        ],
-                      ),
-                    ),
+                    // Center(
+                    //   child: Column(
+                    //     children: [
+                    //       const Text(
+                    //         "Or sign up with ",
+                    //         textAlign: TextAlign.center,
+                    //         style: TextStyle(
+                    //           color: Color(
+                    //             0xFF646982,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       kSizedBox,
+                    //       InkWell(
+                    //         borderRadius: BorderRadius.circular(10),
+                    //         onTap: () {},
+                    //         child: Container(
+                    //           width: MediaQuery.of(context).size.width / 2,
+                    //           height: 60,
+                    //           decoration: BoxDecoration(
+                    //             borderRadius: BorderRadius.circular(
+                    //               10,
+                    //             ),
+                    //             border: Border.all(
+                    //               color: kGreyColor1,
+                    //             ),
+                    //           ),
+                    //           child: Row(
+                    //             mainAxisAlignment: MainAxisAlignment.center,
+                    //             children: [
+                    //               Container(
+                    //                 height: 50,
+                    //                 width: 50,
+                    //                 decoration: const BoxDecoration(
+                    //                   image: DecorationImage(
+                    //                     image: AssetImage(
+                    //                       "assets/images/icons/google-signup-icon.png",
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //               const Text(
+                    //                 "Google",
+                    //                 style: TextStyle(
+                    //                   color: kTextBlackColor,
+                    //                   fontSize: 18,
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       kSizedBox,
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
