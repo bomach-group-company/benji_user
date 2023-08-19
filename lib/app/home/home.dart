@@ -5,13 +5,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/appBar_delivery_location.dart';
-import '../../src/common_widgets/category_button_section.dart';
-import '../../src/common_widgets/custom_showSearch.dart';
+import '../../src/common_widgets/appbar/appBar_delivery_location.dart';
 import '../../src/common_widgets/home_hot_deals.dart';
 import '../../src/common_widgets/home_popular_vendors_card.dart';
 import '../../src/common_widgets/homepage_vendors.dart';
 import '../../src/common_widgets/my_floating_snackbar.dart';
+import '../../src/common_widgets/section/category_button_section.dart';
+import '../../src/common_widgets/section/custom_showSearch.dart';
 import '../../src/common_widgets/see_all_container.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';

@@ -1,7 +1,7 @@
 import 'package:benji_user/src/providers/constants.dart';
 import 'package:flutter/material.dart';
 
-import 'category button.dart';
+import '../category button.dart';
 
 class CategoryButtonSection extends StatelessWidget {
   const CategoryButtonSection({

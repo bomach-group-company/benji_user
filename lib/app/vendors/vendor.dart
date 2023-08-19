@@ -5,11 +5,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../src/common_widgets/category_button_section.dart';
-import '../../src/common_widgets/custom_showSearch.dart';
-import '../../src/common_widgets/my_appbar.dart';
+import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/my_floating_snackbar.dart';
-import '../../src/common_widgets/rating_view.dart';
+import '../../src/common_widgets/section/category_button_section.dart';
+import '../../src/common_widgets/section/custom_showSearch.dart';
+import '../../src/common_widgets/section/rating_view.dart';
 import '../../src/common_widgets/vendor/vendor_about_tab.dart';
 import '../../src/common_widgets/vendor/vendor_products_tab.dart';
 import '../../src/common_widgets/vendor/vendors_food_container.dart';

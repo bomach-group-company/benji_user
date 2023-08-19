@@ -4,7 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-import '../../src/common_widgets/my_appbar.dart';
+import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';

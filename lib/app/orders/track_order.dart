@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/providers/constants.dart';
-import '../../src/common_widgets/my_appbar.dart';
 import '../../theme/colors.dart';
 import '../call/call_screen.dart';
 import '../delivery/delivery_map.dart';
