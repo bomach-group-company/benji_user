@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/colors.dart';
-import '../providers/constants.dart';
+import '../../../theme/colors.dart';
+import '../../providers/constants.dart';
 
 class TrackOrderDetailsContainer extends StatelessWidget {
   final IconData shipIconDetail;

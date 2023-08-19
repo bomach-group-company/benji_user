@@ -81,13 +81,10 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                     itemBuilder: (context, index) {
                       return AllVendorsNearYouCard(
                         onTap: () {},
-                        cardImage: 'best-choice-restaurant.png',
-                        vendorName: "Best Choice restaurant",
+                        cardImage: 'ntachi-osa.png',
+                        vendorName: "Ntachi Osa",
+                        typeOfBusiness: "Restaurant",
                         distance: "45 mins",
-                        bannerColor: kAccentColor,
-                        bannerText: "Free Delivery",
-                        food: "Food",
-                        category: "Fast Food",
                         rating: "3.6",
                         noOfUsersRated: "500",
                       );

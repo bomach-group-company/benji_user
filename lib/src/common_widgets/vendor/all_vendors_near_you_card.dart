@@ -8,24 +8,18 @@ class AllVendorsNearYouCard extends StatelessWidget {
   final Function() onTap;
   final String cardImage,
       vendorName,
-      food,
-      category,
+      typeOfBusiness,
       rating,
       noOfUsersRated,
-      bannerText,
       distance;
-  final Color bannerColor;
   const AllVendorsNearYouCard({
     super.key,
     required this.onTap,
     required this.vendorName,
-    required this.food,
-    required this.category,
+    required this.typeOfBusiness,
     required this.rating,
     required this.noOfUsersRated,
     required this.cardImage,
-    required this.bannerColor,
-    required this.bannerText,
     required this.distance,
   });
 
@@ -58,7 +52,7 @@ class AllVendorsNearYouCard extends StatelessWidget {
               decoration: ShapeDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    "assets/images/food/$cardImage",
+                    "assets/images/vendors/$cardImage",
                   ),
                   fit: BoxFit.fill,
                 ),
@@ -91,7 +85,7 @@ class AllVendorsNearYouCard extends StatelessWidget {
                   SizedBox(
                     width: 200,
                     child: Text(
-                      food,
+                      typeOfBusiness,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         color: kTextBlackColor,
