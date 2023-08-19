@@ -33,6 +33,7 @@ class _PopularVendorsState extends State<PopularVendors> {
             right: kDefaultPadding,
           ),
           child: ListView.builder(
+            physics: BouncingScrollPhysics(),
             itemCount: 10,
             itemBuilder: (BuildContext context, int index) {
               return PopularVendorsCard(

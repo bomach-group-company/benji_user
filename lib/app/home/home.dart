@@ -17,6 +17,7 @@ import '../address/address.dart';
 import '../auth/login.dart';
 import '../cart/cart.dart';
 import '../orders/order_history.dart';
+import '../product/hot_deals.dart';
 import '../profile/edit_profile.dart';
 import '../send_package/send_package.dart';
 import '../vendors/popular_vendors.dart';
@@ -435,15 +436,20 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       kSizedBox,
-                      Text(
-                        'Hot Deals',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: -0.40,
-                        ),
+                      SeeAllContainer(
+                        title: "Hot Deals",
+                        onPressed: () {
+                          Get.to(
+                            () => const HotDeals(),
+                            routeName: 'HotDeals',
+                            duration: const Duration(milliseconds: 300),
+                            fullscreenDialog: true,
+                            curve: Curves.easeIn,
+                            preventDuplicates: true,
+                            popGesture: true,
+                            transition: Transition.rightToLeft,
+                          );
+                        },
                       ),
                       kSizedBox,
                       SizedBox(
