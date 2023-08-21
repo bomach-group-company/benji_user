@@ -18,6 +18,7 @@ import '../../src/providers/my_liquid_refresh.dart';
 import '../../theme/colors.dart';
 import '../product/product_detail_screen.dart';
 import 'about_vendor.dart';
+import 'report_vendor.dart';
 
 class VendorDetails extends StatefulWidget {
   const VendorDetails({super.key});
@@ -65,6 +66,7 @@ class _VendorDetailsState extends State<VendorDetails>
 
 //===================== BOOL VALUES =======================\\
   late bool _loadingScreen;
+  bool _submittingRequest = false;
   bool _loadingTabBarContent = false;
 
 //===================== CATEGORY BUTTONS =======================\\
@@ -129,6 +131,33 @@ class _VendorDetailsState extends State<VendorDetails>
   }
 
 //=================================== Show Popup Menu =====================================\\
+  //========================== Submit Report ==================================\\
+  Future<void> _submitRequest() async {
+    setState(() {
+      _submittingRequest = true;
+    });
+
+    // Simulating a delay of 3 seconds
+    await Future.delayed(const Duration(seconds: 1));
+
+    //Display snackBar
+    mySnackBar(
+      context,
+      "Success",
+      "Your report has been submitted successfully",
+      const Duration(seconds: 1),
+    );
+
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        _submittingRequest = false;
+      });
+
+      //Go back;
+      Get.back();
+    });
+  }
+
 //Show popup menu
   void showPopupMenu(BuildContext context) {
     // final RenderBox overlay =
@@ -150,7 +179,16 @@ class _VendorDetailsState extends State<VendorDetails>
       if (value != null) {
         switch (value) {
           case 'report':
-            () {};
+            Get.to(
+              () => ReportVendor(),
+              routeName: 'ReportVendor',
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
+            );
             break;
         }
       }
