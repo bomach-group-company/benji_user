@@ -69,8 +69,7 @@ class _FavoritesState extends State<Favorites>
   bool _loadingTabBarContent = false;
 
   //=================================== Orders =======================================\\
-  final int _incrementOrderID = 2 + 2;
-  late int _orderID;
+
   // final String _orderItem = "Jollof Rice and Chicken";
   // final String _customerAddress = "21 Odogwu Street, New Haven";
   // final int _itemQuantity = 2;
@@ -92,30 +91,6 @@ class _FavoritesState extends State<Favorites>
 
 //===================== KEYS =======================\\
   // final _formKey = GlobalKey<FormState>();
-
-  //===================== CATEGORY BUTTONS =======================\\
-  final List _categoryButtonText = [
-    "Pasta",
-    "Burgers",
-    "Rice Dishes",
-    "Chicken",
-    "Snacks"
-  ];
-
-  final List<Color> _categoryButtonBgColor = [
-    kAccentColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor
-  ];
-  final List<Color> _categoryButtonFontColor = [
-    kPrimaryColor,
-    kTextGreyColor,
-    kTextGreyColor,
-    kTextGreyColor,
-    kTextGreyColor
-  ];
 
 //===================== FUNCTIONS =======================\\
   // double calculateSubtotal() {
@@ -336,26 +311,27 @@ class _FavoritesState extends State<Favorites>
                                               ),
                                             ],
                                           )
-                                        : FavoriteProductsTab(
-                                            list: Column(
-                                              children: [
-                                                ListView.separated(
-                                                  itemCount: 20,
-                                                  shrinkWrap: true,
-                                                  physics:
-                                                      const BouncingScrollPhysics(),
-                                                  separatorBuilder:
-                                                      (context, index) =>
-                                                          kHalfSizedBox,
-                                                  itemBuilder:
-                                                      (context, index) =>
-                                                          VendorFoodContainer(
-                                                    onTap:
-                                                        _toProductDetailsScreen,
-                                                  ),
+                                        : Scrollbar(
+                                            controller: _scrollController,
+                                            radius: const Radius.circular(10),
+                                            trackVisibility: true,
+                                            child: FavoriteProductsTab(
+                                              list: ListView.separated(
+                                                controller: _scrollController,
+                                                scrollDirection: Axis.vertical,
+                                                itemCount: 20,
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const BouncingScrollPhysics(),
+                                                separatorBuilder:
+                                                    (context, index) =>
+                                                        kHalfSizedBox,
+                                                itemBuilder: (context, index) =>
+                                                    VendorFoodContainer(
+                                                  onTap:
+                                                      _toProductDetailsScreen,
                                                 ),
-                                                kSizedBox,
-                                              ],
+                                              ),
                                             ),
                                           ),
                                     _loadingTabBarContent
@@ -369,33 +345,40 @@ class _FavoritesState extends State<Favorites>
                                             ],
                                           )
                                         : FavoriteVendorsTab(
-                                            list: ListView.separated(
-                                              itemCount: 20,
-                                              shrinkWrap: true,
-                                              physics:
-                                                  const BouncingScrollPhysics(),
-                                              separatorBuilder:
-                                                  (context, index) =>
-                                                      kHalfSizedBox,
-                                              itemBuilder: (context, index) =>
-                                                  PopularVendorsCard(
-                                                onTap: () {},
-                                                cardImage:
-                                                    'best-choice-restaurant.png',
-                                                vendorName:
-                                                    "Best Choice restaurant",
-                                                food: "Food",
-                                                rating: "3.6",
-                                                noOfUsersRated: "500",
+                                            list: Scrollbar(
+                                              controller: _scrollController,
+                                              radius: const Radius.circular(10),
+                                              trackVisibility: true,
+                                              child: ListView.separated(
+                                                controller: _scrollController,
+                                                itemCount: 20,
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const BouncingScrollPhysics(),
+                                                separatorBuilder:
+                                                    (context, index) =>
+                                                        kHalfSizedBox,
+                                                itemBuilder: (context, index) =>
+                                                    PopularVendorsCard(
+                                                  onTap: () {},
+                                                  cardImage:
+                                                      'best-choice-restaurant.png',
+                                                  vendorName:
+                                                      "Best Choice restaurant",
+                                                  food: "Food",
+                                                  rating: "3.6",
+                                                  noOfUsersRated: "500",
+                                                ),
                                               ),
                                             ),
                                           ),
                                   ],
                                 ),
                               ),
+                              kHalfSizedBox,
                             ],
                           ),
-                        )
+                        ),
                       ],
                     );
             },
