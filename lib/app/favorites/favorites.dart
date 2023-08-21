@@ -1,11 +1,13 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-import '../../src/common_widgets/section/category_button_section.dart';
 import '../../src/common_widgets/vendor/popular_vendors_card.dart';
 import '../../src/common_widgets/vendor/vendors_food_container.dart';
 import '../../src/providers/constants.dart';
@@ -46,7 +48,7 @@ class _FavoritesState extends State<Favorites>
     _loadingScreen = false;
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 0),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -115,9 +117,6 @@ class _FavoritesState extends State<Favorites>
     kTextGreyColor
   ];
 
-//===================== VENDORS LIST VIEW INDEX =======================\\
-  List<int> foodListView = [0, 1, 3, 4, 5, 6];
-
 //===================== FUNCTIONS =======================\\
   // double calculateSubtotal() {
   //   return _itemPrice * _itemQuantity;
@@ -129,7 +128,7 @@ class _FavoritesState extends State<Favorites>
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 500));
     setState(() {
       _loadingScreen = false;
     });
@@ -140,7 +139,7 @@ class _FavoritesState extends State<Favorites>
       _loadingTabBarContent = true;
     });
 
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 1000));
 
     setState(() {
       _loadingTabBarContent = false;
@@ -148,7 +147,27 @@ class _FavoritesState extends State<Favorites>
   }
 
   //===================== Navigation ==========================\\
-  void toProductDetailScreen() {}
+  void _toCartPage() => Get.to(
+        () => const Cart(),
+        routeName: 'Cart',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+  void _toProductDetailsScreen() => Get.to(
+        () => const ProductDetailScreen(),
+        routeName: 'ProductDetailScreen',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -170,85 +189,20 @@ class _FavoritesState extends State<Favorites>
       child: Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          leading: InkWell(
-            borderRadius: BorderRadius.circular(24),
-            onTap: () {
-              Navigator.of(context).pop(context);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(
-                8.0,
-              ),
-              child: SizedBox(
-                width: 48,
-                height: 48,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: Container(
-                        width: 48,
-                        height: 48,
-                        decoration: ShapeDecoration(
-                          color: const Color(
-                            0xFFFEF8F8,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                              width: 0.50,
-                              color: Color(
-                                0xFFFDEDED,
-                              ),
-                            ),
-                            borderRadius: BorderRadius.circular(
-                              24,
-                            ),
-                          ),
-                        ),
-                        child: Icon(
-                          Icons.arrow_back_ios_new_rounded,
-                          color: kAccentColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          backgroundColor: kPrimaryColor,
-          titleSpacing: kDefaultPadding / 2,
+        appBar: MyAppBar(
+          title: "Favorites",
           elevation: 0.0,
-          title: Text(
-            "Favorite",
-            style: const TextStyle(
-              color: Color(
-                0xFF151515,
-              ),
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              letterSpacing: -0.40,
-            ),
-          ),
-          // toolbarHeight: 40,
           actions: [
             Stack(
               children: [
                 Container(
                   alignment: Alignment.center,
                   child: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => Cart(),
-                        ),
-                      );
-                    },
+                    onPressed: _toCartPage,
                     splashRadius: 20,
-                    icon: Icon(
-                      Icons.shopping_cart_outlined,
+                    icon: FaIcon(
+                      FontAwesomeIcons.cartShopping,
+                      size: 18,
                       color: kAccentColor,
                     ),
                   ),
@@ -276,10 +230,12 @@ class _FavoritesState extends State<Favorites>
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ],
+          backgroundColor: kPrimaryColor,
+          toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
@@ -287,7 +243,7 @@ class _FavoritesState extends State<Favorites>
             future: null,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                Center(child: SpinKitDoubleBounce(color: kAccentColor));
+                Center(child: SpinKitChasingDots(color: kAccentColor));
               }
               if (snapshot.connectionState == ConnectionState.none) {
                 const Center(
@@ -295,7 +251,7 @@ class _FavoritesState extends State<Favorites>
                 );
               }
               // if (snapshot.connectionState == snapshot.requireData) {
-              //   SpinKitDoubleBounce(color: kAccentColor);
+              //   SpinKitChasingDots(color: kAccentColor);
               // }
               if (snapshot.connectionState == snapshot.error) {
                 const Center(
@@ -303,171 +259,144 @@ class _FavoritesState extends State<Favorites>
                 );
               }
               return _loadingScreen
-                  ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
-                  : Scrollbar(
-                      controller: _scrollController,
-                      radius: const Radius.circular(10),
-                      scrollbarOrientation: ScrollbarOrientation.right,
-                      child: ListView(
-                        physics: const BouncingScrollPhysics(),
-                        dragStartBehavior: DragStartBehavior.down,
-                        children: [
-                          kSizedBox,
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: kDefaultPadding,
-                            ),
-                            child: Container(
-                              width: mediaWidth,
-                              decoration: BoxDecoration(
-                                color: kDefaultCategoryBackgroundColor,
-                                borderRadius: BorderRadius.circular(50),
-                                border: Border.all(
-                                  color: kGreyColor1,
-                                  style: BorderStyle.solid,
-                                  strokeAlign: BorderSide.strokeAlignOutside,
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: TabBar(
-                                      controller: _tabBarController,
-                                      onTap: (value) => _clickOnTabBarOption(),
-                                      enableFeedback: true,
-                                      mouseCursor: SystemMouseCursors.click,
-                                      automaticIndicatorColorAdjustment: true,
-                                      overlayColor: MaterialStatePropertyAll(
-                                          kAccentColor),
-                                      labelColor: kPrimaryColor,
-                                      unselectedLabelColor: kTextGreyColor,
-                                      indicatorColor: kAccentColor,
-                                      indicatorWeight: 2,
-                                      splashBorderRadius:
-                                          BorderRadius.circular(50),
-                                      indicator: BoxDecoration(
-                                        color: kAccentColor,
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      tabs: const [
-                                        Tab(text: "Products"),
-                                        Tab(text: "Vendors"),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                  ? Center(child: SpinKitChasingDots(color: kAccentColor))
+                  : Column(
+                      children: [
+                        kSizedBox,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: kDefaultPadding,
                           ),
-                          kSizedBox,
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: kDefaultPadding,
-                            ),
-                            height: mediaHeight + mediaHeight + mediaHeight,
+                          child: Container(
                             width: mediaWidth,
+                            decoration: BoxDecoration(
+                              color: kDefaultCategoryBackgroundColor,
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(
+                                color: kGreyColor1,
+                                style: BorderStyle.solid,
+                                strokeAlign: BorderSide.strokeAlignOutside,
+                              ),
+                            ),
                             child: Column(
                               children: [
-                                Expanded(
-                                  child: TabBarView(
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: TabBar(
                                     controller: _tabBarController,
-                                    physics: const BouncingScrollPhysics(),
-                                    dragStartBehavior: DragStartBehavior.down,
-                                    children: [
-                                      _loadingTabBarContent
-                                          ? const Center(
-                                              child: Text('Loading'),
-                                            )
-                                          : FavoriteProductsTab(
-                                              list: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  CategoryButtonSection(
-                                                    category:
-                                                        _categoryButtonText,
-                                                    categorybgColor:
-                                                        _categoryButtonBgColor,
-                                                    categoryFontColor:
-                                                        _categoryButtonFontColor,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Container(
-                                                        margin: EdgeInsets
-                                                            .symmetric(
-                                                          vertical:
-                                                              kDefaultPadding *
-                                                                  0.5,
-                                                        ),
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Text(
-                                                          'Pasta',
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF333333),
-                                                            fontSize: 18,
-                                                            fontFamily: 'Sen',
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  for (int i = 0;
-                                                      i < foodListView.length;
-                                                      i++)
-                                                    VendorFoodContainer(
-                                                      onTap: () {
-                                                        Navigator.of(context)
-                                                            .push(
-                                                          MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                ProductDetailScreen(),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                ],
-                                              ),
-                                            ),
-                                      _loadingTabBarContent
-                                          ? const Center(
-                                              child: Text('Loading...'),
-                                            )
-                                          : FavoriteVendorsTab(
-                                              list: Column(
-                                                children: [
-                                                  for (_orderID = 1;
-                                                      _orderID < 30;
-                                                      _orderID +=
-                                                          _incrementOrderID)
-                                                    PopularVendorsCard(
-                                                      onTap: () {},
-                                                      cardImage:
-                                                          'best-choice-restaurant.png',
-                                                      vendorName:
-                                                          "Best Choice restaurant",
-                                                      food: "Food",
-                                                      rating: "3.6",
-                                                      noOfUsersRated: "500",
-                                                    ),
-                                                ],
-                                              ),
-                                            ),
+                                    onTap: (value) => _clickOnTabBarOption(),
+                                    enableFeedback: true,
+                                    mouseCursor: SystemMouseCursors.click,
+                                    automaticIndicatorColorAdjustment: true,
+                                    overlayColor:
+                                        MaterialStatePropertyAll(kAccentColor),
+                                    labelColor: kPrimaryColor,
+                                    unselectedLabelColor: kTextGreyColor,
+                                    indicatorColor: kAccentColor,
+                                    indicatorWeight: 2,
+                                    splashBorderRadius:
+                                        BorderRadius.circular(50),
+                                    indicator: BoxDecoration(
+                                      color: kAccentColor,
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    tabs: const [
+                                      Tab(text: "Products"),
+                                      Tab(text: "Vendors"),
                                     ],
                                   ),
                                 ),
                               ],
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        ),
+                        kSizedBox,
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: kDefaultPadding,
+                          ),
+                          height: mediaHeight - 170,
+                          width: mediaWidth,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: TabBarView(
+                                  controller: _tabBarController,
+                                  clipBehavior: Clip.hardEdge,
+                                  physics: const BouncingScrollPhysics(),
+                                  dragStartBehavior: DragStartBehavior.down,
+                                  children: [
+                                    _loadingTabBarContent
+                                        ? Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              SpinKitChasingDots(
+                                                color: kAccentColor,
+                                              ),
+                                            ],
+                                          )
+                                        : FavoriteProductsTab(
+                                            list: Column(
+                                              children: [
+                                                ListView.separated(
+                                                  itemCount: 20,
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      const BouncingScrollPhysics(),
+                                                  separatorBuilder:
+                                                      (context, index) =>
+                                                          kHalfSizedBox,
+                                                  itemBuilder:
+                                                      (context, index) =>
+                                                          VendorFoodContainer(
+                                                    onTap:
+                                                        _toProductDetailsScreen,
+                                                  ),
+                                                ),
+                                                kSizedBox,
+                                              ],
+                                            ),
+                                          ),
+                                    _loadingTabBarContent
+                                        ? Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              SpinKitChasingDots(
+                                                color: kAccentColor,
+                                              ),
+                                            ],
+                                          )
+                                        : FavoriteVendorsTab(
+                                            list: ListView.separated(
+                                              itemCount: 20,
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const BouncingScrollPhysics(),
+                                              separatorBuilder:
+                                                  (context, index) =>
+                                                      kHalfSizedBox,
+                                              itemBuilder: (context, index) =>
+                                                  PopularVendorsCard(
+                                                onTap: () {},
+                                                cardImage:
+                                                    'best-choice-restaurant.png',
+                                                vendorName:
+                                                    "Best Choice restaurant",
+                                                food: "Food",
+                                                rating: "3.6",
+                                                noOfUsersRated: "500",
+                                              ),
+                                            ),
+                                          ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
                     );
             },
           ),

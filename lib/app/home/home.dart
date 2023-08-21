@@ -156,7 +156,7 @@ class _HomeState extends State<Home> {
     mySnackBar(
       context,
       "Success!",
-      "Copied to clipboard",
+      "ID copied to clipboard",
       Duration(
         seconds: 2,
       ),
