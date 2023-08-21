@@ -83,9 +83,9 @@ class _LoginState extends State<Login> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('rememberMe', _isChecked);
 
-    // setState(() {
-    //   _isLoading = false;
-    // });
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   //=========================== REQUEST ====================================\\

@@ -26,12 +26,8 @@ void mySnackBar(
                     color: kAccentColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(
-                          20.0,
-                        ),
-                        bottom: Radius.circular(
-                          20.0,
-                        ),
+                        top: Radius.circular(20.0),
+                        bottom: Radius.circular(20.0),
                       ),
                     ),
                   ),
