@@ -66,8 +66,8 @@ class _VendorDetailsState extends State<VendorDetails>
 
 //===================== BOOL VALUES =======================\\
   late bool _loadingScreen;
-  bool _submittingRequest = false;
   bool _loadingTabBarContent = false;
+  bool _isAddedToFavorites = false;
 
 //===================== CATEGORY BUTTONS =======================\\
   final List _categoryButtonText = [
@@ -116,7 +116,22 @@ class _VendorDetailsState extends State<VendorDetails>
       _loadingScreen = false;
     });
   }
+
   //========================================================================\\
+  void _addToFavorites() {
+    setState(() {
+      _isAddedToFavorites = !_isAddedToFavorites;
+    });
+
+    mySnackBar(
+      context,
+      "Success",
+      _isAddedToFavorites
+          ? "Vendor has been added to favorites"
+          : "Vendor been removed from favorites",
+      Duration(milliseconds: 500),
+    );
+  }
 
   void _clickOnTabBarOption() async {
     setState(() {
@@ -131,32 +146,6 @@ class _VendorDetailsState extends State<VendorDetails>
   }
 
 //=================================== Show Popup Menu =====================================\\
-  //========================== Submit Report ==================================\\
-  Future<void> _submitRequest() async {
-    setState(() {
-      _submittingRequest = true;
-    });
-
-    // Simulating a delay of 3 seconds
-    await Future.delayed(const Duration(seconds: 1));
-
-    //Display snackBar
-    mySnackBar(
-      context,
-      "Success",
-      "Your report has been submitted successfully",
-      const Duration(seconds: 1),
-    );
-
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        _submittingRequest = false;
-      });
-
-      //Go back;
-      Get.back();
-    });
-  }
 
 //Show popup menu
   void showPopupMenu(BuildContext context) {
@@ -231,9 +220,11 @@ class _VendorDetailsState extends State<VendorDetails>
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: _addToFavorites,
               icon: FaIcon(
-                FontAwesomeIcons.heart,
+                _isAddedToFavorites
+                    ? FontAwesomeIcons.solidHeart
+                    : FontAwesomeIcons.heart,
                 color: kAccentColor,
               ),
             ),
@@ -347,8 +338,8 @@ class _VendorDetailsState extends State<VendorDetails>
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                Icon(
-                                                  Icons.location_pin,
+                                                FaIcon(
+                                                  FontAwesomeIcons.locationDot,
                                                   color: kAccentColor,
                                                   size: 15,
                                                 ),
@@ -416,45 +407,8 @@ class _VendorDetailsState extends State<VendorDetails>
                                                   MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 Container(
-                                                  width: mediaWidth * 0.25,
-                                                  height: 56.67,
-                                                  decoration: ShapeDecoration(
-                                                    color: kPrimaryColor,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                        19,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Icon(
-                                                        Icons
-                                                            .access_time_outlined,
-                                                        color: kAccentColor,
-                                                      ),
-                                                      const SizedBox(width: 5),
-                                                      const Text(
-                                                        "30 mins",
-                                                        style: TextStyle(
-                                                          color: kBlackColor,
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          letterSpacing: -0.28,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Container(
                                                   width: mediaWidth * 0.23,
-                                                  height: 56.67,
+                                                  height: 57,
                                                   decoration: ShapeDecoration(
                                                     color: kPrimaryColor,
                                                     shape:
@@ -469,9 +423,11 @@ class _VendorDetailsState extends State<VendorDetails>
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Icon(
-                                                        Icons.star_rounded,
+                                                      FaIcon(
+                                                        FontAwesomeIcons
+                                                            .solidStar,
                                                         color: kStarColor,
+                                                        size: 17,
                                                       ),
                                                       const SizedBox(width: 5),
                                                       Text(
@@ -489,7 +445,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                                 ),
                                                 Container(
                                                   width: mediaWidth * 0.25,
-                                                  height: 56.67,
+                                                  height: 57,
                                                   decoration: ShapeDecoration(
                                                     color: kPrimaryColor,
                                                     shape:
@@ -517,12 +473,9 @@ class _VendorDetailsState extends State<VendorDetails>
                                                         ),
                                                       ),
                                                       const SizedBox(width: 5),
-                                                      InkWell(
-                                                        onTap: () {},
-                                                        child: Icon(
-                                                          Icons.info_outline,
-                                                          color: kAccentColor,
-                                                        ),
+                                                      FaIcon(
+                                                        Icons.info,
+                                                        color: kAccentColor,
                                                       ),
                                                     ],
                                                   ),
