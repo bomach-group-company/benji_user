@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/providers/constants.dart';
@@ -47,22 +48,32 @@ class _HomeDrawerState extends State<HomeDrawer> {
           MyAppBar(
             elevation: 0.0,
             title: "Profile",
-            toolbarHeight: 80,
+            toolbarHeight: kToolbarHeight,
             backgroundColor: kPrimaryColor,
             actions: [],
           ),
           ListTile(
-            leading: CircleAvatar(
-              radius: 30,
-              backgroundImage: AssetImage(
-                "assets/images/profile/super-maria.png",
+            leading: AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              curve: Curves.easeIn,
+              height: 60,
+              width: 60,
+              decoration: ShapeDecoration(
+                color: kPageSkeletonColor,
+                image: DecorationImage(
+                  image: AssetImage(
+                    "assets/images/profile/avatar-image.jpg",
+                  ),
+                  fit: BoxFit.cover,
+                ),
+                shape: OvalBorder(),
               ),
             ),
             title: Text(
               'Super Maria',
               textAlign: TextAlign.start,
               style: TextStyle(
-                color: Color(0xFF4C4C4C),
+                color: kTextBlackColor,
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               ),
@@ -76,7 +87,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     'supermaria@gmail.com',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFF4C4C4C),
+                      color: kTextBlackColor,
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                     ),
@@ -87,7 +98,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         widget.userID,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Color(0xFF4C4C4C),
+                          color: kTextBlackColor,
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),
@@ -95,8 +106,10 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       kWidthSizedBox,
                       IconButton(
                         onPressed: widget.copyUserIdToClipBoard,
-                        icon: Icon(
-                          Icons.content_copy_rounded,
+                        tooltip: "Copy ID",
+                        mouseCursor: SystemMouseCursors.click,
+                        icon: FaIcon(
+                          FontAwesomeIcons.copy,
                           size: 14,
                           color: kAccentColor,
                         ),
@@ -109,19 +122,19 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ),
           kHalfSizedBox,
           Divider(
-            color: Color(0xFF4C4C4C),
+            color: kTextBlackColor,
           ),
           kHalfSizedBox,
           ListTile(
             onTap: widget.toEditProfilePage,
-            leading: Icon(
-              Icons.person_rounded,
+            leading: FaIcon(
+              FontAwesomeIcons.solidCircleUser,
               color: kAccentColor,
             ),
             title: Text(
               'Profile Settings',
               style: TextStyle(
-                color: Color(0xFF334A66),
+                color: kTextBlackColor,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
@@ -129,19 +142,19 @@ class _HomeDrawerState extends State<HomeDrawer> {
             trailing: Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
-              color: Color(0xFF4C4C4C),
+              color: kTextBlackColor,
             ),
           ),
           ListTile(
             onTap: widget.toAddressesPage,
-            leading: Icon(
-              Icons.location_on_rounded,
+            leading: FaIcon(
+              FontAwesomeIcons.locationDot,
               color: kAccentColor,
             ),
             title: Text(
               'Addresses',
               style: TextStyle(
-                color: Color(0xFF334A66),
+                color: kTextBlackColor,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
@@ -149,19 +162,19 @@ class _HomeDrawerState extends State<HomeDrawer> {
             trailing: Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
-              color: Color(0xFF4C4C4C),
+              color: kTextBlackColor,
             ),
           ),
           ListTile(
             onTap: widget.toSendPackagePage,
-            leading: Icon(
-              Icons.delivery_dining_rounded,
+            leading: FaIcon(
+              FontAwesomeIcons.bicycle,
               color: kAccentColor,
             ),
             title: Text(
               'Send Package',
               style: TextStyle(
-                color: Color(0xFF334A66),
+                color: kTextBlackColor,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
@@ -169,19 +182,19 @@ class _HomeDrawerState extends State<HomeDrawer> {
             trailing: Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
-              color: Color(0xFF4C4C4C),
+              color: kTextBlackColor,
             ),
           ),
           ListTile(
             onTap: widget.toFavoritesPage,
-            leading: Icon(
-              Icons.favorite_rounded,
+            leading: FaIcon(
+              FontAwesomeIcons.solidHeart,
               color: kAccentColor,
             ),
             title: Text(
               'Favorites',
               style: TextStyle(
-                color: Color(0xFF334A66),
+                color: kTextBlackColor,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
@@ -189,19 +202,19 @@ class _HomeDrawerState extends State<HomeDrawer> {
             trailing: Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
-              color: Color(0xFF4C4C4C),
+              color: kTextBlackColor,
             ),
           ),
           ListTile(
             onTap: widget.toOrdersPage,
-            leading: Icon(
-              Icons.receipt_long,
+            leading: FaIcon(
+              FontAwesomeIcons.boxOpen,
               color: kAccentColor,
             ),
             title: Text(
               'Orders',
               style: TextStyle(
-                color: Color(0xFF334A66),
+                color: kTextBlackColor,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
@@ -209,19 +222,19 @@ class _HomeDrawerState extends State<HomeDrawer> {
             trailing: Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
-              color: Color(0xFF4C4C4C),
+              color: kTextBlackColor,
             ),
           ),
           ListTile(
             onTap: widget.logOut,
-            leading: Icon(
-              Icons.logout_rounded,
+            leading: FaIcon(
+              FontAwesomeIcons.rightFromBracket,
               color: kAccentColor,
             ),
             title: Text(
               'Logout',
               style: TextStyle(
-                color: Color(0xFF334A66),
+                color: kTextBlackColor,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
@@ -229,7 +242,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             trailing: Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
-              color: Color(0xFF4C4C4C),
+              color: kTextBlackColor,
             ),
           ),
         ],
