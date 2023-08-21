@@ -645,7 +645,6 @@ class _VendorDetailsState extends State<VendorDetails>
                                                 list: Column(
                                                   children: [
                                                     Expanded(
-                                                      flex: 1,
                                                       child: AboutVendor(
                                                         vendorName:
                                                             "Ntachi-Osa",

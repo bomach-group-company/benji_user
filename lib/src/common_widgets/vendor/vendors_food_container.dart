@@ -73,8 +73,8 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-        margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 2.5),
-        width: MediaQuery.of(context).size.width,
+        // margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 3),
+        width: mediaWidth,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
