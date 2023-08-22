@@ -9,7 +9,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/reusable_authentication_first_half.dart';
 import '../../src/common_widgets/snackbar/my_fixed_snackBar.dart';
 import '../../src/common_widgets/textformfield/email_textformfield.dart';
@@ -40,11 +39,11 @@ class _SignUpState extends State<SignUp> {
 
   //=========================== CONTROLLER ====================================\\
 
-  TextEditingController userFirstNameEC = TextEditingController();
-  TextEditingController userLastNameEC = TextEditingController();
-  TextEditingController userEmailEC = TextEditingController();
-  TextEditingController userPhoneNumberEC = TextEditingController();
-  TextEditingController userPasswordEC = TextEditingController();
+  TextEditingController _userFirstNameEC = TextEditingController();
+  TextEditingController _userLastNameEC = TextEditingController();
+  TextEditingController _userEmailEC = TextEditingController();
+  TextEditingController _userPhoneNumberEC = TextEditingController();
+  TextEditingController _userPasswordEC = TextEditingController();
 
   //=========================== KEYS ====================================\\
   final _formKey = GlobalKey<FormState>();
@@ -60,11 +59,22 @@ class _SignUpState extends State<SignUp> {
   //=========================== FOCUS NODES ====================================\\
   FocusNode userFirstNameFN = FocusNode();
   FocusNode userLastNameFN = FocusNode();
-  FocusNode userPhoneNumberFN = FocusNode();
-  FocusNode userEmailFN = FocusNode();
-  FocusNode userPasswordFN = FocusNode();
+  FocusNode _userPhoneNumberFN = FocusNode();
+  FocusNode _userEmailFN = FocusNode();
+  FocusNode _userPasswordFN = FocusNode();
 
   //=========================== FUNCTIONS ====================================\\
+  void _toLoginPage() => Get.offAll(
+        () => const Login(),
+        routeName: 'Login',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        predicate: (routes) => false,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   Future<void> loadData() async {
     setState(() {
       _isLoading = true;
@@ -114,13 +124,6 @@ class _SignUpState extends State<SignUp> {
       child: Scaffold(
         backgroundColor: kSecondaryColor,
         resizeToAvoidBottomInset: true,
-        appBar: const MyAppBar(
-          title: "",
-          toolbarHeight: kToolbarHeight,
-          backgroundColor: kTransparentColor,
-          elevation: 0.0,
-          actions: [],
-        ),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: LayoutGrid(
@@ -233,9 +236,7 @@ class _SignUpState extends State<SignUp> {
                               'First Name',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Color(
-                                  0xFF31343D,
-                                ),
+                                color: kTextBlackColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -243,7 +244,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                           kHalfSizedBox,
                           NameTextFormField(
-                            controller: userFirstNameEC,
+                            controller: _userFirstNameEC,
                             validator: (value) {
                               RegExp userNamePattern = RegExp(
                                 r'^.{3,}$', //Min. of 3 characters
@@ -258,7 +259,7 @@ class _SignUpState extends State<SignUp> {
                               return null;
                             },
                             onSaved: (value) {
-                              userFirstNameEC.text = value;
+                              _userFirstNameEC.text = value;
                             },
                             textInputAction: TextInputAction.next,
                             nameFocusNode: userFirstNameFN,
@@ -270,9 +271,7 @@ class _SignUpState extends State<SignUp> {
                               'Last Name',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Color(
-                                  0xFF31343D,
-                                ),
+                                color: kTextBlackColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -280,7 +279,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                           kHalfSizedBox,
                           NameTextFormField(
-                            controller: userLastNameEC,
+                            controller: _userLastNameEC,
                             validator: (value) {
                               RegExp userNamePattern = RegExp(
                                 r'^.{3,}$', //Min. of 3 characters
@@ -295,7 +294,7 @@ class _SignUpState extends State<SignUp> {
                               return null;
                             },
                             onSaved: (value) {
-                              userLastNameEC.text = value;
+                              _userLastNameEC.text = value;
                             },
                             textInputAction: TextInputAction.next,
                             nameFocusNode: userLastNameFN,
@@ -307,9 +306,7 @@ class _SignUpState extends State<SignUp> {
                               'Email',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Color(
-                                  0xFF31343D,
-                                ),
+                                color: kTextBlackColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -317,24 +314,24 @@ class _SignUpState extends State<SignUp> {
                           ),
                           kHalfSizedBox,
                           EmailTextFormField(
-                            controller: userEmailEC,
-                            emailFocusNode: userEmailFN,
+                            controller: _userEmailEC,
+                            emailFocusNode: _userEmailFN,
                             textInputAction: TextInputAction.next,
                             validator: (value) {
                               RegExp emailPattern = RegExp(
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
                               );
                               if (value == null || value!.isEmpty) {
-                                userEmailFN.requestFocus();
+                                _userEmailFN.requestFocus();
                                 return "Enter your email address";
                               } else if (!emailPattern.hasMatch(value)) {
-                                userEmailFN.requestFocus();
+                                _userEmailFN.requestFocus();
                                 return "Please enter a valid email address";
                               }
                               return null;
                             },
                             onSaved: (value) {
-                              userEmailEC.text = value;
+                              _userEmailEC.text = value;
                             },
                           ),
                           kSizedBox,
@@ -343,9 +340,7 @@ class _SignUpState extends State<SignUp> {
                               'Phone Number',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Color(
-                                  0xFF31343D,
-                                ),
+                                color: kTextBlackColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -353,7 +348,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                           kHalfSizedBox,
                           MyIntlPhoneField(
-                            controller: userPhoneNumberEC,
+                            controller: _userPhoneNumberEC,
                             initialCountryCode: "NG",
                             invalidNumberMessage: "Invalid Phone Number",
                             dropdownIconPosition: IconPosition.trailing,
@@ -364,24 +359,22 @@ class _SignUpState extends State<SignUp> {
                               color: kAccentColor,
                             ),
                             validator: (value) {
-                              if (value.isBlank) {
+                              if (value == null || value!.isEmpty) {
                                 return "Enter your phone number";
                               }
                             },
                             onSaved: (value) {
-                              userPhoneNumberEC.text = value!;
+                              _userPhoneNumberEC.text = value!;
                             },
                             textInputAction: TextInputAction.next,
-                            focusNode: userPhoneNumberFN,
+                            focusNode: _userPhoneNumberFN,
                           ),
                           kSizedBox,
                           const SizedBox(
                             child: Text(
                               'Password',
                               style: TextStyle(
-                                color: Color(
-                                  0xFF31343D,
-                                ),
+                                color: kTextBlackColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -389,26 +382,26 @@ class _SignUpState extends State<SignUp> {
                           ),
                           kHalfSizedBox,
                           PasswordTextFormField(
-                            controller: userPasswordEC,
-                            passwordFocusNode: userPasswordFN,
+                            controller: _userPasswordEC,
+                            passwordFocusNode: _userPasswordFN,
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: _isObscured,
-                            textInputAction: TextInputAction.done,
+                            textInputAction: TextInputAction.go,
                             validator: (value) {
                               RegExp passwordPattern = RegExp(
                                 r'^.{8,}$',
                               );
                               if (value == null || value!.isEmpty) {
-                                userPasswordFN.requestFocus();
+                                _userPasswordFN.requestFocus();
                                 return "Enter your password";
                               } else if (!passwordPattern.hasMatch(value)) {
-                                userPasswordFN.requestFocus();
+                                _userPasswordFN.requestFocus();
                                 return "Password must be at least 8 characters";
                               }
                               return null;
                             },
                             onSaved: (value) {
-                              userPasswordEC.text = value;
+                              _userPasswordEC.text = value;
                             },
                             suffixIcon: IconButton(
                               onPressed: () {
@@ -434,7 +427,7 @@ class _SignUpState extends State<SignUp> {
                       uppercaseCharCount: 1,
                       lowercaseCharCount: 1,
                       numericCharCount: 1,
-                      controller: userPasswordEC,
+                      controller: _userPasswordEC,
                       width: 400,
                       height: 150,
                       minLength: 8,
@@ -500,19 +493,11 @@ class _SignUpState extends State<SignUp> {
                         const Text(
                           "Already have an account? ",
                           style: TextStyle(
-                            color: Color(
-                              0xFF646982,
-                            ),
+                            color: Color(0xFF646982),
                           ),
                         ),
                         TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => const Login(),
-                              ),
-                            );
-                          },
+                          onPressed: _toLoginPage,
                           child: Text(
                             "Log in",
                             style: TextStyle(color: kAccentColor),
@@ -521,62 +506,6 @@ class _SignUpState extends State<SignUp> {
                       ],
                     ),
                     kHalfSizedBox,
-                    // Center(
-                    //   child: Column(
-                    //     children: [
-                    //       const Text(
-                    //         "Or sign up with ",
-                    //         textAlign: TextAlign.center,
-                    //         style: TextStyle(
-                    //           color: Color(
-                    //             0xFF646982,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //       kSizedBox,
-                    //       InkWell(
-                    //         borderRadius: BorderRadius.circular(10),
-                    //         onTap: () {},
-                    //         child: Container(
-                    //           width: MediaQuery.of(context).size.width / 2,
-                    //           height: 60,
-                    //           decoration: BoxDecoration(
-                    //             borderRadius: BorderRadius.circular(
-                    //               10,
-                    //             ),
-                    //             border: Border.all(
-                    //               color: kGreyColor1,
-                    //             ),
-                    //           ),
-                    //           child: Row(
-                    //             mainAxisAlignment: MainAxisAlignment.center,
-                    //             children: [
-                    //               Container(
-                    //                 height: 50,
-                    //                 width: 50,
-                    //                 decoration: const BoxDecoration(
-                    //                   image: DecorationImage(
-                    //                     image: AssetImage(
-                    //                       "assets/images/icons/google-signup-icon.png",
-                    //                     ),
-                    //                   ),
-                    //                 ),
-                    //               ),
-                    //               const Text(
-                    //                 "Google",
-                    //                 style: TextStyle(
-                    //                   color: kTextBlackColor,
-                    //                   fontSize: 18,
-                    //                 ),
-                    //               ),
-                    //             ],
-                    //           ),
-                    //         ),
-                    //       ),
-                    //       kSizedBox,
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
               ),

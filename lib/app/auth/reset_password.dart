@@ -32,11 +32,11 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   //=========================== CONTROLLERS ====================================\\
 
-  TextEditingController userPasswordEC = TextEditingController();
+  TextEditingController _userPasswordEC = TextEditingController();
   TextEditingController confirmPasswordEC = TextEditingController();
 
   //=========================== FOCUS NODES ====================================\\
-  FocusNode userPasswordFN = FocusNode();
+  FocusNode _userPasswordFN = FocusNode();
   FocusNode confirmPasswordFN = FocusNode();
 
   //=========================== BOOL VALUES====================================\\
@@ -204,8 +204,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                           ),
                           kHalfSizedBox,
                           PasswordTextFormField(
-                            controller: userPasswordEC,
-                            passwordFocusNode: userPasswordFN,
+                            controller: _userPasswordEC,
+                            passwordFocusNode: _userPasswordFN,
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: _isObscured,
                             textInputAction: TextInputAction.next,
@@ -214,16 +214,16 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 r'^.{8,}$',
                               );
                               if (value == null || value!.isEmpty) {
-                                userPasswordFN.requestFocus();
+                                _userPasswordFN.requestFocus();
                                 return "Enter your password";
                               } else if (!passwordPattern.hasMatch(value)) {
-                                userPasswordFN.requestFocus();
+                                _userPasswordFN.requestFocus();
                                 return "Password must be at least 8 characters";
                               }
                               return null;
                             },
                             onSaved: (value) {
-                              userPasswordEC.text = value;
+                              _userPasswordEC.text = value;
                             },
                             suffixIcon: const IconButton(
                               onPressed: null,
@@ -236,7 +236,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                             uppercaseCharCount: 1,
                             lowercaseCharCount: 1,
                             numericCharCount: 1,
-                            controller: userPasswordEC,
+                            controller: _userPasswordEC,
                             width: 400,
                             height: 150,
                             minLength: 8,
@@ -288,7 +288,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 confirmPasswordFN.requestFocus();
                                 return "Confirm your password";
                               }
-                              if (value != userPasswordEC.text) {
+                              if (value != _userPasswordEC.text) {
                                 return "Password does not match";
                               } else if (!passwordPattern.hasMatch(value)) {
                                 return "Password must be at least 8 characters";

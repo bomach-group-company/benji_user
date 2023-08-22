@@ -9,10 +9,10 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
-import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
 import '../../src/common_widgets/snackbar/my_fixed_snackBar.dart';
 import '../../src/common_widgets/textformfield/email_textformfield.dart';
 import '../../src/common_widgets/textformfield/message_textformfield.dart';
+import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
 import '../../src/common_widgets/textformfield/name_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
@@ -32,16 +32,16 @@ class _EditProfileState extends State<EditProfile> {
 
   //=========================== CONTROLLERS ====================================\\
 
-  TextEditingController userFirstNameEC = TextEditingController();
-  TextEditingController userLastNameEC = TextEditingController();
-  TextEditingController userEmailEC = TextEditingController();
+  TextEditingController _userFirstNameEC = TextEditingController();
+  TextEditingController _userLastNameEC = TextEditingController();
+  TextEditingController _userEmailEC = TextEditingController();
   TextEditingController phoneNumberEC = TextEditingController();
   TextEditingController bioEC = TextEditingController();
 
   //=========================== FOCUS NODES ====================================\\
   FocusNode userFirstNameFN = FocusNode();
   FocusNode userLastNameFN = FocusNode();
-  FocusNode userEmailFN = FocusNode();
+  FocusNode _userEmailFN = FocusNode();
   FocusNode phoneNumberFN = FocusNode();
   FocusNode messageFN = FocusNode();
 
@@ -336,7 +336,7 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     kHalfSizedBox,
                     NameTextFormField(
-                      controller: userFirstNameEC,
+                      controller: _userFirstNameEC,
                       validator: (value) {
                         RegExp userNamePattern = RegExp(
                           r'^.{3,}$', //Min. of 3 characters
@@ -351,7 +351,7 @@ class _EditProfileState extends State<EditProfile> {
                         return null;
                       },
                       onSaved: (value) {
-                        userFirstNameEC.text = value;
+                        _userFirstNameEC.text = value;
                       },
                       textInputAction: TextInputAction.next,
                       nameFocusNode: userFirstNameFN,
@@ -367,7 +367,7 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     kHalfSizedBox,
                     NameTextFormField(
-                      controller: userLastNameEC,
+                      controller: _userLastNameEC,
                       hintText: "Enter last name",
                       validator: (value) {
                         RegExp userNamePattern = RegExp(
@@ -383,7 +383,7 @@ class _EditProfileState extends State<EditProfile> {
                         return null;
                       },
                       onSaved: (value) {
-                        userLastNameEC.text = value;
+                        _userLastNameEC.text = value;
                       },
                       textInputAction: TextInputAction.next,
                       nameFocusNode: userLastNameFN,
@@ -398,24 +398,24 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     kHalfSizedBox,
                     EmailTextFormField(
-                      controller: userEmailEC,
-                      emailFocusNode: userEmailFN,
+                      controller: _userEmailEC,
+                      emailFocusNode: _userEmailFN,
                       textInputAction: TextInputAction.next,
                       validator: (value) {
                         RegExp emailPattern = RegExp(
                           r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
                         );
                         if (value == null || value!.isEmpty) {
-                          userEmailFN.requestFocus();
+                          _userEmailFN.requestFocus();
                           return "Enter your email address";
                         } else if (!emailPattern.hasMatch(value)) {
-                          userEmailFN.requestFocus();
+                          _userEmailFN.requestFocus();
                           return "Please enter a valid email address";
                         }
                         return null;
                       },
                       onSaved: (value) {
-                        userEmailEC.text = value;
+                        _userEmailEC.text = value;
                       },
                     ),
                     kSizedBox,

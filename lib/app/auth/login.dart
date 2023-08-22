@@ -45,8 +45,8 @@ class _LoginState extends State<Login> {
 
   //=========================== CONTROLLERS ====================================\\
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   //=========================== KEYS ====================================\\
 
@@ -78,7 +78,7 @@ class _LoginState extends State<Login> {
       _isLoading = true;
     });
 
-    await sendPostRequest(emailController.text, passwordController.text);
+    await sendPostRequest(_emailController.text, _passwordController.text);
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('rememberMe', _isChecked);
@@ -156,13 +156,13 @@ class _LoginState extends State<Login> {
   }
 
   //=========================== Navigation ====================================\\
-  void _toSignUpPage() => Get.to(
+  void _toSignUpPage() => Get.offAll(
         () => const SignUp(),
         routeName: 'SignUp',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        preventDuplicates: true,
+        predicate: (routes) => false,
         popGesture: true,
         transition: Transition.rightToLeft,
       );
@@ -307,7 +307,7 @@ class _LoginState extends State<Login> {
                           ),
                           kHalfSizedBox,
                           EmailTextFormField(
-                            controller: emailController,
+                            controller: _emailController,
                             emailFocusNode: _emailFocusNode,
                             textInputAction: TextInputAction.next,
                             validator: (value) {
@@ -323,7 +323,7 @@ class _LoginState extends State<Login> {
                               return null;
                             },
                             onSaved: (value) {
-                              emailController.text = value;
+                              _emailController.text = value;
                             },
                           ),
                           kSizedBox,
@@ -339,11 +339,11 @@ class _LoginState extends State<Login> {
                           ),
                           kHalfSizedBox,
                           PasswordTextFormField(
-                            controller: passwordController,
+                            controller: _passwordController,
                             passwordFocusNode: _passwordFocusNode,
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: _isObscured,
-                            textInputAction: TextInputAction.done,
+                            textInputAction: TextInputAction.go,
                             validator: (value) {
                               RegExp passwordPattern = RegExp(
                                 r'^.{8,}$',
@@ -357,7 +357,7 @@ class _LoginState extends State<Login> {
                               return null;
                             },
                             onSaved: (value) {
-                              passwordController.text = value;
+                              _passwordController.text = value;
                             },
                             suffixIcon: IconButton(
                               onPressed: () {
