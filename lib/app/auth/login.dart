@@ -74,6 +74,8 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> loadData() async {
+    print("Remember me is $_isChecked");
+
     setState(() {
       _isLoading = true;
     });

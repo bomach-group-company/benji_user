@@ -14,6 +14,7 @@ class UserSnapshot extends StatelessWidget {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? rememberMe = prefs.getBool('rememberMe');
     if (rememberMe == true) {
+      print("Remember me is $rememberMe");
       return getUser();
     }
     return null;
