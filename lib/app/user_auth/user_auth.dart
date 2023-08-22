@@ -13,10 +13,10 @@ class UserSnapshot extends StatelessWidget {
   Future<User?> rememberUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? rememberMe = prefs.getBool('rememberMe');
-    if (rememberMe == false) {
-      return null;
+    if (rememberMe == true) {
+      return getUser();
     }
-    return getUser();
+    return null;
   }
 
   @override
