@@ -45,7 +45,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.benji.benji_user"
+        applicationId 'com.benji'
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 20
@@ -65,7 +65,8 @@ android {
             multiDexEnabled true
         }
     }
-    buildToolsVersion '34.0.0'
+
+
 }
 
 flutter {
