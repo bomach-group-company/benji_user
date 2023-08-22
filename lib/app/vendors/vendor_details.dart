@@ -93,7 +93,7 @@ class _VendorDetailsState extends State<VendorDetails>
     kTextGreyColor
   ];
 
-//===================== FUNCTIONS =======================\\
+//=================================================== FUNCTIONS =====================================================\\
   void validate() {
     mySnackBar(
       context,
@@ -194,6 +194,19 @@ class _VendorDetailsState extends State<VendorDetails>
       },
     );
   }
+
+//=================================== Navigation =====================================\\
+
+  void _toProductDetailScreen() => Get.to(
+        () => ProductDetailScreen(),
+        routeName: 'ProductDetailScreen',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -601,20 +614,20 @@ class _VendorDetailsState extends State<VendorDetails>
                                                       categoryFontColor:
                                                           _categoryButtonFontColor,
                                                     ),
-                                                    for (int i = 0;
-                                                        i < 13;
-                                                        i++,)
-                                                      VendorFoodContainer(
-                                                        onTap: () {
-                                                          Navigator.of(context)
-                                                              .push(
-                                                            MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  ProductDetailScreen(),
-                                                            ),
-                                                          );
-                                                        },
+                                                    Expanded(
+                                                      child: ListView.separated(
+                                                        itemCount: 10,
+                                                        separatorBuilder:
+                                                            (context, index) =>
+                                                                kHalfSizedBox,
+                                                        itemBuilder: (context,
+                                                                index) =>
+                                                            VendorFoodContainer(
+                                                          onTap:
+                                                              _toProductDetailScreen,
+                                                        ),
                                                       ),
+                                                    ),
                                                     kSizedBox,
                                                     TextButton(
                                                       onPressed: () {},
