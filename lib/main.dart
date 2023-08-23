@@ -1,4 +1,3 @@
-import 'package:benji_user/app/auth/signup.dart';
 import 'package:benji_user/theme/app%20theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,9 +30,6 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       initialRoute: "SignUp",
-      onInit: () {
-        Get.offAll(() => SignUp());
-      },
       home: StartupSplashscreen(),
     );
   }
