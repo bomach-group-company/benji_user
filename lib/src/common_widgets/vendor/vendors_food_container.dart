@@ -73,7 +73,6 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-        // margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 3),
         width: mediaWidth,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
@@ -103,7 +102,7 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
                 ),
                 image: DecorationImage(
                   image: AssetImage(
-                    "assets/images/food/pasta.png",
+                    "assets/images/products/pasta.png",
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -119,7 +118,7 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
                   child: Text(
                     'Smokey Jollof Pasta',
                     style: TextStyle(
-                      color: Color(0xFF333333),
+                      color: kTextBlackColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                     ),
@@ -132,7 +131,7 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
                     'Short description about the food here',
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: Color(0xFF676565),
+                      color: kTextGreyColor,
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                     ),
@@ -146,7 +145,7 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
                       child: Text(
                         "₦${formattedText(_productPrice)}",
                         style: TextStyle(
-                          color: Color(0xFF333333),
+                          color: kTextBlackColor,
                           fontSize: 14,
                           fontFamily: 'Sen',
                           fontWeight: FontWeight.w400,

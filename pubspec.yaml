@@ -30,6 +30,7 @@ dependencies:
   intl: ^0.18.1
   flutter_layout_grid: ^2.0.4
   shimmer: ^3.0.0
+  readmore: ^2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -62,7 +63,6 @@ flutter:
     - assets/images/onboarding_screen/
     - assets/images/home/
     - assets/images/vendors/
-    - assets/images/food/
     - assets/images/icons/
     - assets/images/rider/
     - assets/images/profile/

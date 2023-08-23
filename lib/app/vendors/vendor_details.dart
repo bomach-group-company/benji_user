@@ -68,6 +68,7 @@ class _VendorDetailsState extends State<VendorDetails>
   late bool _loadingScreen;
   bool _loadingTabBarContent = false;
   bool _isAddedToFavorites = false;
+  bool _isAddedToCart = false;
 
 //===================== CATEGORY BUTTONS =======================\\
   final List _categoryButtonText = [
@@ -557,6 +558,9 @@ class _VendorDetailsState extends State<VendorDetails>
                                         onTap: (value) =>
                                             _clickOnTabBarOption(),
                                         enableFeedback: true,
+                                        dragStartBehavior:
+                                            DragStartBehavior.start,
+                                        isScrollable: true,
                                         mouseCursor: SystemMouseCursors.click,
                                         automaticIndicatorColorAdjustment: true,
                                         overlayColor: MaterialStatePropertyAll(

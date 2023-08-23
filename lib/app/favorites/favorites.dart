@@ -12,7 +12,7 @@ import '../../src/common_widgets/vendor/popular_vendors_card.dart';
 import '../../src/common_widgets/vendor/vendors_food_container.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../cart/cart.dart';
+import '../checkout/checkout_screen.dart';
 import '../product/product_detail_screen.dart';
 import 'favorite_products.dart';
 import 'favorite_vendors.dart';
@@ -122,9 +122,9 @@ class _FavoritesState extends State<Favorites>
   }
 
   //===================== Navigation ==========================\\
-  void _toCartPage() => Get.to(
-        () => const Cart(),
-        routeName: 'Cart',
+  void _toCheckoutScreenPage() => Get.to(
+        () => const CheckoutScreen(),
+        routeName: 'CheckoutScreen',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -173,7 +173,7 @@ class _FavoritesState extends State<Favorites>
                 Container(
                   alignment: Alignment.center,
                   child: IconButton(
-                    onPressed: _toCartPage,
+                    onPressed: _toCheckoutScreenPage,
                     splashRadius: 20,
                     icon: FaIcon(
                       FontAwesomeIcons.cartShopping,

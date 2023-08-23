@@ -19,7 +19,8 @@ import '../../theme/colors.dart';
 import '../address/address.dart';
 import '../address/deliver_to.dart';
 import '../auth/login.dart';
-import '../cart/cart.dart';
+import '../cart/cart_screen.dart';
+import '../checkout/checkout_screen.dart';
 import '../orders/order_history.dart';
 import '../product/hot_deals_page.dart';
 import '../profile/edit_profile.dart';
@@ -251,9 +252,9 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toCartPage() => Get.to(
-        () => const Cart(),
-        routeName: 'Cart',
+  void _toCartScreen() => Get.to(
+        () => const CartScreen(),
+        routeName: 'CartScreen',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -386,7 +387,7 @@ class _HomeState extends State<Home> {
                 Container(
                   alignment: Alignment.center,
                   child: IconButton(
-                    onPressed: _toCartPage,
+                    onPressed: _toCartScreen,
                     splashRadius: 20,
                     icon: FaIcon(
                       FontAwesomeIcons.cartShopping,
