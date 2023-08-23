@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
+import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -12,6 +13,7 @@ import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../theme/colors.dart';
 import '../cart/cart_screen.dart';
+import '../checkout/checkout_screen.dart';
 import 'report_product.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -53,6 +55,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   ScrollController _scrollController = ScrollController();
 
   //======================================================= FUNCTIONS ==========================================================\\
+  //===================== Number format ==========================\\
+  String formattedText(double value) {
+    final numberFormat = NumberFormat('#,##0');
+    return numberFormat.format(value);
+  }
+
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
@@ -145,6 +153,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         transition: Transition.rightToLeft,
       );
 
+  void _toCheckoutScreen() => Get.to(
+        () => const CheckoutScreen(),
+        routeName: 'CheckoutScreen',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   //=================================== Show Popup Menu =====================================\\
 
 //Show popup menu
@@ -189,24 +208,72 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           title: "Product Detail",
           elevation: 0.0,
           actions: [
-            IconButton(
-              onPressed: _addToFavorites,
-              icon: FaIcon(
-                _isAddedToFavorites
-                    ? FontAwesomeIcons.solidHeart
-                    : FontAwesomeIcons.heart,
-                color: kAccentColor,
-              ),
-            ),
-            _isAddedToCart
-                ? IconButton(
-                    onPressed: _toCartScreen,
-                    icon: FaIcon(
-                      FontAwesomeIcons.cartShopping,
-                      color: kAccentColor,
+            AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeIn,
+              child: _isAddedToCart
+                  ? Row(
+                      children: [
+                        IconButton(
+                          onPressed: _addToFavorites,
+                          icon: FaIcon(
+                            _isAddedToFavorites
+                                ? FontAwesomeIcons.solidHeart
+                                : FontAwesomeIcons.heart,
+                            color: kAccentColor,
+                          ),
+                        ),
+                        Stack(
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              child: IconButton(
+                                onPressed: _toCartScreen,
+                                splashRadius: 20,
+                                icon: FaIcon(
+                                  FontAwesomeIcons.cartShopping,
+                                  color: kAccentColor,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 5,
+                              right: 5,
+                              child: Container(
+                                height: 20,
+                                width: 20,
+                                decoration: ShapeDecoration(
+                                  color: kAccentColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "10+",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  : IconButton(
+                      onPressed: _addToFavorites,
+                      icon: FaIcon(
+                        _isAddedToFavorites
+                            ? FontAwesomeIcons.solidHeart
+                            : FontAwesomeIcons.heart,
+                        color: kAccentColor,
+                      ),
                     ),
-                  )
-                : SizedBox(),
+            ),
             IconButton(
               onPressed: () => showPopupMenu(context),
               icon: FaIcon(
@@ -366,7 +433,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         ),
                                       ),
                                       Text(
-                                        "₦ ${itemPrice.toStringAsFixed(2)}",
+                                        "₦ ${formattedText(itemPrice)}",
                                         style: TextStyle(
                                           color: kTextBlackColor,
                                           fontSize: 22,
@@ -375,6 +442,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         ),
                                       ),
                                     ],
+                                  ),
+                                  kSizedBox,
+                                  SizedBox(
+                                    width: mediaWidth / 4,
+                                    height: 17,
+                                    child: Text(
+                                      "Qty: ${formattedText(200)}",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: kTextGreyColor,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
                                   ),
                                   kSizedBox,
                                   Container(
@@ -457,15 +538,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                         ),
                                                       ),
                                                       ElevatedButton(
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .push(
-                                                            MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  CartScreen(),
-                                                            ),
-                                                          );
-                                                        },
+                                                        onPressed:
+                                                            _toCheckoutScreen,
                                                         style: ElevatedButton
                                                             .styleFrom(
                                                           backgroundColor:
@@ -498,7 +572,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                               60),
                                                         ),
                                                         child: Text(
-                                                          "Go to cart"
+                                                          "Buy Now"
                                                               .toUpperCase(),
                                                           textAlign:
                                                               TextAlign.center,
@@ -518,7 +592,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                       _cartFunction();
                                                     },
                                                     title:
-                                                        "Add to Cart (₦${price.toStringAsFixed(2)})",
+                                                        "Add to Cart (₦${formattedText(price)})",
                                                   ),
                                           ),
                                         ),

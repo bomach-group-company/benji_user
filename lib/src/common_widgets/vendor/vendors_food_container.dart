@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 import '../../../theme/colors.dart';
@@ -156,11 +157,11 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
                       width: mediaWidth / 4,
                       height: 17,
                       child: Text(
-                        "Qty: 200",
+                        "Qty: ${formattedText(200)}",
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           color: kTextGreyColor,
-                          fontSize: 13.60,
+                          fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -176,10 +177,9 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
                         onPressed: () {
                           decrementQuantity();
                         },
-                        icon: Icon(
-                          Icons.remove_circle,
+                        icon: FaIcon(
+                          FontAwesomeIcons.circleMinus,
                           color: kAccentColor,
-                          size: 30,
                         ),
                       ),
                       Text(
@@ -192,10 +192,9 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
                         onPressed: () {
                           incrementQuantity();
                         },
-                        icon: Icon(
-                          Icons.add_circle_rounded,
+                        icon: FaIcon(
+                          FontAwesomeIcons.circlePlus,
                           color: kAccentColor,
-                          size: 30,
                         ),
                       ),
                     ],
@@ -204,10 +203,9 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
                     onPressed: () {
                       cartFunction();
                     },
-                    icon: Icon(
-                      Icons.add_circle_rounded,
+                    icon: FaIcon(
+                      FontAwesomeIcons.circlePlus,
                       color: kAccentColor,
-                      size: 30,
                     ),
                   ),
           ],
