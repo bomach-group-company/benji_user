@@ -1,6 +1,7 @@
 // ignore_for_file:   avoid_print, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../../theme/colors.dart';
@@ -18,6 +19,7 @@ class MyIntlPhoneField extends StatelessWidget {
   final FocusNode focusNode;
   final dynamic onSaved;
   final dynamic validator;
+  final void Function(Country country)? onCountryChanged;
   const MyIntlPhoneField({
     super.key,
     required this.controller,
@@ -31,6 +33,7 @@ class MyIntlPhoneField extends StatelessWidget {
     required this.focusNode,
     this.onSaved,
     this.validator,
+    this.onCountryChanged,
   });
 
   @override
@@ -53,9 +56,7 @@ class MyIntlPhoneField extends StatelessWidget {
       onChanged: (phone) {
         print(phone.completeNumber);
       },
-      onCountryChanged: (country) {
-        print('Country changed to: ' + country.name);
-      },
+      onCountryChanged: onCountryChanged,
       decoration: InputDecoration(
         hintText: "Enter phone Number",
         errorStyle: const TextStyle(
