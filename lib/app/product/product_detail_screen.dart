@@ -1,10 +1,15 @@
+import 'package:benji_user/src/providers/constants.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
+import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../theme/colors.dart';
+import '../cart/cart.dart';
 import 'report_product.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -136,6 +141,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     double mediaWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       extendBodyBehindAppBar: true,
+      extendBody: true,
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
         title: "Product Detail",
@@ -165,254 +171,241 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         maintainBottomViewPadding: true,
         child: ListView(
           physics: const BouncingScrollPhysics(),
+          dragStartBehavior: DragStartBehavior.down,
           children: [
-            Stack(
-              children: [
-                Container(
-                  height: mediaHeight * 0.4,
-                  decoration: ShapeDecoration(
-                    shape: RoundedRectangleBorder(),
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage(
-                        "assets/images/food/pasta.png",
+            SizedBox(
+              height: mediaHeight * 0.46,
+              child: Stack(
+                children: [
+                  Container(
+                    height: mediaHeight * 0.4,
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(),
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage(
+                          "assets/images/food/pasta.png",
+                        ),
                       ),
                     ),
                   ),
-                ),
-                // Positioned(
-                //   top: mediaHeight * 0.25,
-                //   left: mediaWidth / 5, // right: kDefaultPadding,
-                //   right: mediaWidth / 5, // right: kDefaultPadding,
-                //   child: Container(
-                //     width: mediaWidth,
-                //     height: 70,
-                //     decoration: ShapeDecoration(
-                //       color: Color(0xFFFAFAFA),
-                //       shadows: [
-                //         BoxShadow(
-                //           color: Colors.black.withOpacity(
-                //             0.1,
-                //           ),
-                //           blurRadius: 5,
-                //           spreadRadius: 2,
-                //           blurStyle: BlurStyle.normal,
-                //         ),
-                //       ],
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(
-                //           19,
-                //         ),
-                //       ),
-                //     ),
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //       children: [
-                //         IconButton(
-                //           onPressed: () {
-                //             decrementQuantity();
-                //           },
-                //           splashRadius: 10,
-                //           icon: Icon(
-                //             Icons.remove_rounded,
-                //             color: kBlackColor,
-                //           ),
-                //         ),
-                //         Container(
-                //           height: 50,
-                //           decoration: ShapeDecoration(
-                //             color: Colors.white,
-                //             shape: OvalBorder(),
-                //           ),
-                //           child: Padding(
-                //             padding: const EdgeInsets.all(
-                //               8.0,
-                //             ),
-                //             child: Center(
-                //               child: Text(
-                //                 '$quantity',
-                //                 textAlign: TextAlign.center,
-                //                 style: TextStyle(
-                //                   color: Color(
-                //                     0xFF302F3C,
-                //                   ),
-                //                   fontSize: 31.98,
-                //                   fontWeight: FontWeight.w400,
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //         IconButton(
-                //           onPressed: () {
-                //             incrementQuantity();
-                //           },
-                //           splashRadius: 10,
-                //           icon: Icon(
-                //             Icons.add_rounded,
-                //             color: kAccentColor,
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                //  Positioned(
-                //   top: mediaHeight * 0.35,
-                //   left: kDefaultPadding,
-                //   right: kDefaultPadding,
-                //   child: Container(
-                //     height: mediaHeight - 220,
-                //     width: mediaWidth,
-                //     // color: kAccentColor,
-                //     padding: EdgeInsets.all(
-                //       5.0,
-                //     ),
-                //     child: Column(
-                //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //           children: [
-                //             Text(
-                //               "Smokey Jollof Rice",
-                //               textAlign: TextAlign.center,
-                //               style: TextStyle(
-                //                 color: kTextBlackColor,
-                //                 fontSize: 20,
-                //                 fontWeight: FontWeight.w700,
-                //               ),
-                //             ),
-                //             Text(
-                //               "₦ ${itemPrice.toStringAsFixed(2)}",
-                //               style: TextStyle(
-                //                 color: kTextBlackColor,
-                //                 fontSize: 22,
-                //                 fontFamily: 'sen',
-                //                 fontWeight: FontWeight.w400,
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //         kSizedBox,
-                //         Container(
-                //           child: Text(
-                //             "This is a short description about the food you mentoned which is a restaurant food in this case.",
-                //             style: TextStyle(
-                //               color: Color(
-                //                 0xFF676565,
-                //               ),
-                //               fontSize: 14,
-                //               fontWeight: FontWeight.w400,
-                //             ),
-                //           ),
-                //         ),
-                //         kSizedBox,
-                //         isLoading
-                //             ? Column(
-                //                 children: [
-                //                   Center(
-                //                     child: SpinKitChasingDots(
-                //                       color: kAccentColor,
-                //                       duration: const Duration(seconds: 1),
-                //                     ),
-                //                   ),
-                //                   kSizedBox,
-                //                 ],
-                //               )
-                //             : Center(
-                //                 child: Container(
-                //                   margin: EdgeInsets.only(
-                //                     bottom: kDefaultPadding * 2,
-                //                   ),
-                //                   child: addedToCart
-                //                       ? Row(
-                //                           mainAxisAlignment:
-                //                               MainAxisAlignment.spaceAround,
-                //                           children: [
-                //                             ElevatedButton(
-                //                               onPressed: () {
-                //                                 cartFunction();
-                //                               },
-                //                               style: ElevatedButton.styleFrom(
-                //                                 backgroundColor: kAccentColor,
-                //                                 elevation: 20.0,
-                //                                 shape: RoundedRectangleBorder(
-                //                                   borderRadius:
-                //                                       BorderRadius.circular(20),
-                //                                 ),
-                //                                 shadowColor: kBlackColor
-                //                                     .withOpacity(0.4),
-                //                                 minimumSize: Size(60, 60),
-                //                                 maximumSize: Size(60, 60),
-                //                               ),
-                //                               child: Icon(
-                //                                 Icons
-                //                                     .remove_shopping_cart_rounded,
-                //                                 color: kPrimaryColor,
-                //                               ),
-                //                             ),
-                //                             ElevatedButton(
-                //                               onPressed: () {
-                //                                 Navigator.of(context).push(
-                //                                   MaterialPageRoute(
-                //                                     builder: (context) =>
-                //                                         Cart(),
-                //                                   ),
-                //                                 );
-                //                               },
-                //                               style: ElevatedButton.styleFrom(
-                //                                 backgroundColor: kAccentColor,
-                //                                 elevation: 20.0,
-                //                                 shape: RoundedRectangleBorder(
-                //                                   borderRadius:
-                //                                       BorderRadius.circular(20),
-                //                                 ),
-                //                                 shadowColor: kBlackColor
-                //                                     .withOpacity(0.4),
-                //                                 minimumSize: Size(
-                //                                     MediaQuery.of(context)
-                //                                             .size
-                //                                             .width /
-                //                                         1.5,
-                //                                     60),
-                //                                 maximumSize: Size(
-                //                                     MediaQuery.of(context)
-                //                                             .size
-                //                                             .width /
-                //                                         1.5,
-                //                                     60),
-                //                               ),
-                //                               child: Text(
-                //                                 "Go to cart".toUpperCase(),
-                //                                 textAlign: TextAlign.center,
-                //                                 style: TextStyle(
-                //                                   color: kPrimaryColor,
-                //                                   fontSize: 18,
-                //                                   fontWeight: FontWeight.w700,
-                //                                 ),
-                //                               ),
-                //                             ),
-                //                           ],
-                //                         )
-                //                       : MyElevatedButton(
-                //                           onPressed: () {
-                //                             cartFunction();
-                //                           },
-                //                           title:
-                //                               "Add to Cart (₦${price.toStringAsFixed(2)})",
-                //                         ),
-                //                 ),
-                //               ),
-                //         SizedBox(
-                //           height: kDefaultPadding * 3,
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
-              ],
+                  Positioned(
+                    top: mediaHeight * 0.35,
+                    left: mediaWidth / 5, // right: kDefaultPadding,
+                    right: mediaWidth / 5, // right: kDefaultPadding,
+                    child: Container(
+                      width: mediaWidth,
+                      height: 70,
+                      decoration: ShapeDecoration(
+                        color: Color(0xFFFAFAFA),
+                        shadows: [
+                          BoxShadow(
+                            color: kBlackColor.withOpacity(0.1),
+                            blurRadius: 5,
+                            spreadRadius: 2,
+                            blurStyle: BlurStyle.normal,
+                          ),
+                        ],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(19),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              decrementQuantity();
+                            },
+                            splashRadius: 50,
+                            icon: Icon(
+                              Icons.remove_rounded,
+                              color: kBlackColor,
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            decoration: ShapeDecoration(
+                              color: kAccentColor,
+                              shape: OvalBorder(),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: kDefaultPadding / 2),
+                              child: Center(
+                                child: Text(
+                                  '$quantity',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: kTextWhiteColor,
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              incrementQuantity();
+                            },
+                            splashRadius: 50,
+                            icon: Icon(
+                              Icons.add_rounded,
+                              color: kAccentColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: mediaWidth,
+              // color: kAccentColor,
+              padding: EdgeInsets.all(
+                5.0,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Smokey Jollof Rice",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: kTextBlackColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        "₦ ${itemPrice.toStringAsFixed(2)}",
+                        style: TextStyle(
+                          color: kTextBlackColor,
+                          fontSize: 22,
+                          fontFamily: 'sen',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                  kSizedBox,
+                  Container(
+                    child: Text(
+                      "This is a short description about the food you mentoned which is a restaurant food in this case.",
+                      style: TextStyle(
+                        color: kTextGreyColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  kSizedBox,
+                  isLoading
+                      ? Column(
+                          children: [
+                            Center(
+                              child: SpinKitChasingDots(
+                                color: kAccentColor,
+                                duration: const Duration(seconds: 1),
+                              ),
+                            ),
+                            kSizedBox,
+                          ],
+                        )
+                      : Center(
+                          child: Container(
+                            margin: EdgeInsets.only(
+                              bottom: kDefaultPadding * 2,
+                            ),
+                            child: addedToCart
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          cartFunction();
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: kAccentColor,
+                                          elevation: 20.0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          shadowColor:
+                                              kBlackColor.withOpacity(0.4),
+                                          minimumSize: Size(60, 60),
+                                          maximumSize: Size(60, 60),
+                                        ),
+                                        child: Icon(
+                                          Icons.remove_shopping_cart_rounded,
+                                          color: kPrimaryColor,
+                                        ),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) => Cart(),
+                                            ),
+                                          );
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: kAccentColor,
+                                          elevation: 20.0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          shadowColor:
+                                              kBlackColor.withOpacity(0.4),
+                                          minimumSize: Size(
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.5,
+                                              60),
+                                          maximumSize: Size(
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.5,
+                                              60),
+                                        ),
+                                        child: Text(
+                                          "Go to cart".toUpperCase(),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : MyElevatedButton(
+                                    onPressed: () {
+                                      cartFunction();
+                                    },
+                                    title:
+                                        "Add to Cart (₦${price.toStringAsFixed(2)})",
+                                  ),
+                          ),
+                        ),
+                  SizedBox(
+                    height: kDefaultPadding * 3,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

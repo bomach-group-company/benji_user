@@ -107,7 +107,7 @@ class _RatingViewState extends State<RatingView> {
 
                     setState(
                       () {
-                        _starPosition = 30.0;
+                        _starPosition = 20.0;
                         _rating = index + 1;
                         _pageChanged = true;
                       },
