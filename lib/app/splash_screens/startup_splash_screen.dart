@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../auth/login.dart';
+import '../auth/signup.dart';
 import '../home/home.dart';
 
 class StartupSplashscreen extends StatefulWidget {
@@ -29,14 +29,14 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
           () {
             Get.offAll(
               () => obtainedUserDetails == null || obtainedUserDetails == ""
-                  ? const Login()
+                  ? const SignUp()
                   : Home(),
               duration: const Duration(seconds: 2),
               fullscreenDialog: true,
               curve: Curves.easeIn,
               routeName:
                   obtainedUserDetails == null || obtainedUserDetails == ""
-                      ? "Login"
+                      ? "SignUp"
                       : "Home",
               predicate: (route) => false,
               popGesture: true,

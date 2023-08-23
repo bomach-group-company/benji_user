@@ -63,18 +63,19 @@ class _RatingViewState extends State<RatingView> {
             right: 0,
             child: Container(
               decoration: BoxDecoration(
-                color: kAccentColor,
+                color: _pageChanged == false ? kGreyColor1 : kAccentColor,
               ),
               child: _pageChanged == false
                   ? MaterialButton(
                       enableFeedback: true,
-                      onPressed: () {
-                        Navigator.of(context).pop(context);
-                      },
+                      onPressed: null,
                       child: Text(
                         "Done",
                         style: TextStyle(color: kPrimaryColor),
                       ),
+                      disabledElevation: 0.0,
+                      disabledColor: kGreyColor1,
+                      disabledTextColor: kTextBlackColor,
                     )
                   : MaterialButton(
                       enableFeedback: true,
