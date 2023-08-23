@@ -1,4 +1,5 @@
 import 'package:benji_user/app/favorites/favorites.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -321,6 +322,8 @@ class _HomeState extends State<Home> {
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
+        drawerDragStartBehavior: DragStartBehavior.start,
+        drawerEnableOpenDragGesture: true,
         drawer: HomeDrawer(
           userID: userID,
           toEditProfilePage: _toProfileSettings,

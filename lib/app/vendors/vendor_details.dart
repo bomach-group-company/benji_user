@@ -159,6 +159,10 @@ class _VendorDetailsState extends State<VendorDetails>
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       items: [
         const PopupMenuItem<String>(
+          value: 'review',
+          child: Text("Review vendor"),
+        ),
+        const PopupMenuItem<String>(
           value: 'report',
           child: Text("Report vendor"),
         ),
@@ -167,6 +171,9 @@ class _VendorDetailsState extends State<VendorDetails>
       // Handle the selected value from the popup menu
       if (value != null) {
         switch (value) {
+          case 'review':
+            openRatingDialog(context);
+            break;
           case 'report':
             Get.to(
               () => ReportVendor(),

@@ -65,11 +65,11 @@ void mySnackBar(
         ),
       ),
       duration: duration,
-      dismissDirection: DismissDirection.vertical,
+      dismissDirection: DismissDirection.horizontal,
       margin: EdgeInsets.only(
         left: kDefaultPadding * 2,
         right: kDefaultPadding * 2,
-        bottom: MediaQuery.of(context).size.height - 120,
+        bottom: MediaQuery.of(context).size.height - 160,
       ),
       showCloseIcon: true,
       closeIconColor: kAccentColor,
