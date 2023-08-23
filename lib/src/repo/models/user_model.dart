@@ -45,6 +45,5 @@ class User {
 }
 
 User modelUser(data) {
-  print(data);
   return User.fromJson(jsonDecode(data));
 }

@@ -68,8 +68,10 @@ flutter:
     - assets/images/profile/
     - assets/images/products/
     - assets/images/customers/
-    - assets/animations/splash screen/
+    - assets/animations/splash_screen/
     - assets/animations/successful/
+    - assets/animations/no_internet/
+    - assets/animations/forgot_password/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

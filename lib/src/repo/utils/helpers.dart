@@ -25,7 +25,10 @@ Future<User?> getUser() async {
 
 Future<bool> deleteUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.remove('rememberMe');
+  prefs.remove('userData');
+  if ('userData'.isEmpty) {
+    print("UserData has been removed");
+  }
   return prefs.remove('user');
 }
 
@@ -52,7 +55,7 @@ dynamic isUnauthorized(Map data) {
       fullscreenDialog: true,
       curve: Curves.easeIn,
       popGesture: false,
-      transition: Transition.rightToLeft,
+      transition: Transition.downToUp,
     );
   } else {
     return data;
