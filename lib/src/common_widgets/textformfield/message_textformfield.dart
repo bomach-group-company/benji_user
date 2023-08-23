@@ -41,7 +41,6 @@ class MyMessageTextFormField extends StatelessWidget {
       maxLines: maxLines,
       enableSuggestions: true,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      autofocus: true,
       canRequestFocus: true,
       mouseCursor: SystemMouseCursors.click,
       enableInteractiveSelection: true,

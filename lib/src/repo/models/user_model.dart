@@ -3,46 +3,43 @@ import 'dart:convert';
 class User {
   final int id;
   final String email;
-  final String password;
   final String phone;
-  final bool isActiveCustomUserverified;
   final String username;
-  final String created;
   final String firstName;
-  final bool isOnline;
-  final String address;
+  final String lastName;
+  final String gender;
   final String image;
   final String token;
+  // final String password;
+  // final String address;
 
   const User({
     required this.id,
     required this.email,
-    required this.password,
     required this.phone,
-    required this.isActiveCustomUserverified,
     required this.username,
-    required this.created,
     required this.firstName,
-    required this.isOnline,
-    required this.address,
+    required this.lastName,
+    required this.gender,
     required this.image,
     required this.token,
+    // required this.password,
+    // required this.address,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
       email: json['email'],
-      password: json['password'],
       phone: json['phone'],
-      isActiveCustomUserverified: json['is_activeCustomUserverified'],
       username: json['username'],
-      created: json['created'],
       firstName: json['first_name'],
-      isOnline: json['is_online'],
-      address: json['address'],
+      lastName: json['last_name'],
+      gender: json['gender'],
       image: json['image'],
       token: json['token'],
+      // password: json['password'],
+      // address: json['address'],
     );
   }
 }

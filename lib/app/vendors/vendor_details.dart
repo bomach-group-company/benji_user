@@ -614,18 +614,19 @@ class _VendorDetailsState extends State<VendorDetails>
                                                       categoryFontColor:
                                                           _categoryButtonFontColor,
                                                     ),
-                                                    Expanded(
-                                                      child: ListView.separated(
-                                                        itemCount: 10,
-                                                        separatorBuilder:
-                                                            (context, index) =>
-                                                                kHalfSizedBox,
-                                                        itemBuilder: (context,
-                                                                index) =>
-                                                            VendorFoodContainer(
-                                                          onTap:
-                                                              _toProductDetailScreen,
-                                                        ),
+                                                    ListView.separated(
+                                                      itemCount: 10,
+                                                      shrinkWrap: true,
+                                                      physics:
+                                                          const BouncingScrollPhysics(),
+                                                      separatorBuilder:
+                                                          (context, index) =>
+                                                              kHalfSizedBox,
+                                                      itemBuilder: (context,
+                                                              index) =>
+                                                          VendorFoodContainer(
+                                                        onTap:
+                                                            _toProductDetailScreen,
                                                       ),
                                                     ),
                                                     kSizedBox,

@@ -54,7 +54,6 @@ class _LoginState extends State<Login> {
 
   //=========================== BOOL VALUES ====================================\\
   bool _isLoading = false;
-  bool _isChecked = true;
   bool _validAuthCredentials = false;
   bool _invalidAuthCredentials = false;
 
@@ -67,11 +66,6 @@ class _LoginState extends State<Login> {
   FocusNode _passwordFocusNode = FocusNode();
 
   //=========================== FUNCTIONS ====================================\\
-  void _checkBoxFunction(newVal) {
-    setState(() {
-      _isChecked = newVal!;
-    });
-  }
 
   Future<void> loadData() async {
     setState(() {
@@ -79,9 +73,6 @@ class _LoginState extends State<Login> {
     });
 
     await sendPostRequest(_emailController.text, _passwordController.text);
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('rememberMe', _isChecked);
 
     setState(() {
       _isLoading = false;
@@ -126,6 +117,15 @@ class _LoginState extends State<Login> {
         "Login Successful".toUpperCase(),
         kSuccessColor,
         const Duration(seconds: 2),
+      );
+
+      String _email = _emailController.text;
+      String _password = _passwordController.text;
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setStringList(
+        'userData',
+        [_email, _password],
       );
 
       //Simulating a delay
@@ -377,49 +377,19 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     kHalfSizedBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Checkbox(
-                              value: _isChecked,
-                              splashRadius: 50,
-                              activeColor: _validAuthCredentials
-                                  ? kGreyColor1
-                                  : kSecondaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              onChanged: _validAuthCredentials
-                                  ? null
-                                  : _checkBoxFunction,
-                            ),
-                            Text(
-                              "Remember me ",
-                              style: TextStyle(
-                                color: _validAuthCredentials
-                                    ? kGreyColor1
-                                    : kTextBlackColor,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: _validAuthCredentials
+                            ? null
+                            : _toForgotPasswordPage,
+                        child: Text(
+                          "Forgot Password",
+                          style: _validAuthCredentials
+                              ? TextStyle(color: kTextGreyColor)
+                              : TextStyle(color: kAccentColor),
                         ),
-                        TextButton(
-                          onPressed: _validAuthCredentials
-                              ? null
-                              : _toForgotPasswordPage,
-                          child: Text(
-                            "Forgot Password",
-                            style: _validAuthCredentials
-                                ? TextStyle(color: kTextGreyColor)
-                                : TextStyle(color: kAccentColor),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                     kSizedBox,
                     _isLoading
