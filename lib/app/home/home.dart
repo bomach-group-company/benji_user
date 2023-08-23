@@ -186,7 +186,7 @@ class _HomeState extends State<Home> {
         fullscreenDialog: true,
         curve: Curves.easeIn,
         popGesture: true,
-        transition: Transition.rightToLeft,
+        transition: Transition.downToUp,
       );
 
   void _toProfileSettings() => Get.to(
