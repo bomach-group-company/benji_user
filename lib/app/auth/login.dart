@@ -7,7 +7,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../src/common_widgets/section/reusable_authentication_first_half.dart';
 import '../../src/common_widgets/snackbar/my_fixed_snackBar.dart';

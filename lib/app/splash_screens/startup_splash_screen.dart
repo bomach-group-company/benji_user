@@ -4,7 +4,6 @@ import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/user_model.dart';
