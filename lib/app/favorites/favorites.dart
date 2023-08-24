@@ -10,7 +10,7 @@ import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../src/common_widgets/vendor/popular_vendors_card.dart';
-import '../../src/common_widgets/vendor/vendors_food_container.dart';
+import '../../src/common_widgets/vendor/vendors_product_container.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../product/product_detail_screen.dart';
@@ -326,7 +326,7 @@ class _FavoritesState extends State<Favorites>
                                                     (context, index) =>
                                                         kHalfSizedBox,
                                                 itemBuilder: (context, index) =>
-                                                    VendorFoodContainer(
+                                                    VendorsProductContainer(
                                                   onTap:
                                                       _toProductDetailsScreen,
                                                 ),
