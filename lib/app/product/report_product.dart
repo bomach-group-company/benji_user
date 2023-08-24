@@ -139,7 +139,7 @@ class _ReportProductState extends State<ReportProduct> {
                   SizedBox(
                     width: 332,
                     child: Text(
-                      "Why do you want to report this product?",
+                      "What is wrong with this product?",
                       style: TextStyle(
                         color: kTextGreyColor,
                         fontSize: 14,
@@ -164,7 +164,7 @@ class _ReportProductState extends State<ReportProduct> {
                           validator: (value) {
                             if (value == null || value!.isEmpty) {
                               _messageFN.requestFocus();
-                              return "Field Cannot be left blank";
+                              return "Field cannot be left empty";
                             }
 
                             return null;
