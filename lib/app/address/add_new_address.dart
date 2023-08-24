@@ -1,7 +1,10 @@
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:http/http.dart' as http;
+import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
@@ -10,6 +13,8 @@ import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/common_widgets/textformfield/my textformfield.dart';
 import '../../src/providers/constants.dart';
+import '../../src/repo/models/user_model.dart';
+import '../../src/repo/utils/base_url.dart';
 import '../../theme/colors.dart';
 
 class AddNewAddress extends StatefulWidget {
@@ -20,8 +25,6 @@ class AddNewAddress extends StatefulWidget {
 }
 
 class _AddNewAddressState extends State<AddNewAddress> {
-  //=================================== ALL VARIABLES =====================================\\
-
   //===================== KEYS =======================\\
   final _formKey = GlobalKey<FormState>();
   final _cscPickerKey = GlobalKey<CSCPickerState>();
@@ -40,39 +43,78 @@ class _AddNewAddressState extends State<AddNewAddress> {
   FocusNode apartmentDetailsFN = FocusNode();
   FocusNode phoneNumberFN = FocusNode();
 
+  //===================== ALL VARIABLES =======================\\
+  String? country;
+  String? state;
+  String? city;
+  String countryDialCode = '234';
+
   //===================== BOOL VALUES =======================\\
   bool isLoading = false;
   bool isLoading2 = false;
 
   //===================== FUNCTIONS =======================\\
+  Future<bool> addAddress({bool is_current = true}) async {
+    final url = Uri.parse('$baseURL/address/addAddress');
+    List<String> countryList = country!.split(' ');
+    final User? user = (await getUser()) as User?;
+    print('got here ooooo');
+
+    final body = {
+      'user_id': user!.id.toString(),
+      'title': addressTitleEC.text,
+      'recipient_name': recipientNameEC.text,
+      'phone': "+$countryDialCode${phoneNumberEC.text}",
+      'street_address': streetAddressEC.text,
+      'details': apartmentDetailsEC.text,
+      'country': countryList[countryList.length - 1],
+      'state': state,
+      'city': city,
+      'is_current': is_current.toString(),
+    };
+    print(body);
+    final response =
+        await http.post(url, body: body, headers: await authHeader(user.token));
+
+    print(response.body);
+
+    isUnauthorized(response.body);
+
+    return response.body == '"Address added successfully to ${user.email}"' &&
+        response.statusCode == 200;
+  }
+
   //SET DEFAULT ADDRESS
   Future<void> setDefaultAddress() async {
     setState(() {
       isLoading = true;
     });
 
-    // Simulating a delay
-    await Future.delayed(Duration(seconds: 1));
+    if (await addAddress(is_current: true)) {
+      mySnackBar(
+        context,
+        "Success!",
+        "Set As Default Address",
+        Duration(seconds: 2),
+      );
+      Get.back();
 
-    //Display snackBar\
-    mySnackBar(
-      context,
-      "Success!",
-      "Set As Default Address",
-      Duration(seconds: 2),
-    );
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      mySnackBar(
+        context,
+        "Failed!",
+        "Failed to Set Default Address",
+        Duration(seconds: 2),
+      );
+      Get.back();
 
-    // Future.delayed(
-    //     const Duration(
-    //       seconds: 1,
-    //     ), () {
-    //   // Navigate to the new page
-    //   Navigator.of(context).pop(context);
-    // });
-
-    setState(() {
-      isLoading = false;
-    });
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   //SAVE NEW ADDRESS
@@ -81,27 +123,31 @@ class _AddNewAddressState extends State<AddNewAddress> {
       isLoading2 = true;
     });
 
-    // Simulating a delay
-    await Future.delayed(Duration(seconds: 1));
+    if (await addAddress(is_current: false)) {
+      mySnackBar(
+        context,
+        "Success!",
+        "Added Address",
+        Duration(seconds: 2),
+      );
+      Get.back();
 
-    //Display snackBar\
-    mySnackBar(
-      context,
-      "Success!",
-      "Address saved",
-      Duration(seconds: 2),
-    );
-    Future.delayed(
-        const Duration(
-          seconds: 1,
-        ), () {
-      // Navigate to the new page
-      Navigator.of(context).pop(context);
-    });
+      setState(() {
+        isLoading2 = false;
+      });
+    } else {
+      mySnackBar(
+        context,
+        "Failed!",
+        "Failed to Add Address",
+        Duration(seconds: 2),
+      );
+      Get.back();
 
-    setState(() {
-      isLoading2 = false;
-    });
+      setState(() {
+        isLoading2 = false;
+      });
+    }
   }
 
   @override
@@ -310,6 +356,9 @@ class _AddNewAddressState extends State<AddNewAddress> {
                             ),
                             kHalfSizedBox,
                             MyIntlPhoneField(
+                              onCountryChanged: (country) {
+                                countryDialCode = country.dialCode;
+                              },
                               initialCountryCode: "NG",
                               invalidNumberMessage: "Invalid phone number",
                               dropdownIconPosition: IconPosition.trailing,
@@ -356,14 +405,20 @@ class _AddNewAddressState extends State<AddNewAddress> {
                               countryDropdownLabel: "Select country",
                               stateDropdownLabel: "Select state",
                               cityDropdownLabel: "Select city",
-                              onCountryChanged: (country) {
-                                country = country;
+                              onCountryChanged: (data) {
+                                setState(() {
+                                  country = data;
+                                });
                               },
-                              onStateChanged: (state) {
-                                state = state;
+                              onStateChanged: (data) {
+                                setState(() {
+                                  state = data;
+                                });
                               },
-                              onCityChanged: (city) {
-                                city = city;
+                              onCityChanged: (data) {
+                                setState(() {
+                                  city = data;
+                                });
                               },
                             ),
                           ],
