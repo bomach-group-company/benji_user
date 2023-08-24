@@ -16,7 +16,7 @@ import '../../src/common_widgets/vendor/homepage_vendors.dart';
 import '../../src/common_widgets/vendor/popular_vendors_card.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../address/address.dart';
+import '../address/addresses.dart';
 import '../address/deliver_to.dart';
 import '../auth/login.dart';
 import '../cart/cart_screen.dart';

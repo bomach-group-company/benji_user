@@ -306,7 +306,7 @@ class _VendorDetailsState extends State<VendorDetails>
                         radius: const Radius.circular(10),
                         scrollbarOrientation: ScrollbarOrientation.right,
                         child: ListView(
-                          physics: const BouncingScrollPhysics(),
+                          physics: const ScrollPhysics(),
                           children: [
                             SizedBox(
                               height: 340,
