@@ -108,13 +108,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   Future<void> _cartFunction() async {
     setState(() {
-      _isAddedToCart = !_isAddedToCart;
       isLoading = true;
     });
 
     // Simulating a delay of 3 seconds
     await Future.delayed(Duration(seconds: 1));
-
+    setState(() {
+      _isAddedToCart = !_isAddedToCart;
+    });
     //Display snackBar
     mySnackBar(
       context,
