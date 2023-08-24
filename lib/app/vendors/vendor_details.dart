@@ -249,7 +249,10 @@ class _VendorDetailsState extends State<VendorDetails>
           actions: [
             IconButton(
               onPressed: () {
-                showSearch(context: context, delegate: CustomSearchDelegate());
+                _loadingScreen
+                    ? null
+                    : showSearch(
+                        context: context, delegate: CustomSearchDelegate());
               },
               icon: FaIcon(
                 FontAwesomeIcons.magnifyingGlass,
@@ -257,7 +260,7 @@ class _VendorDetailsState extends State<VendorDetails>
               ),
             ),
             IconButton(
-              onPressed: _addToFavorites,
+              onPressed: _loadingScreen ? null : _addToFavorites,
               icon: FaIcon(
                 _isAddedToFavorites
                     ? FontAwesomeIcons.solidHeart
@@ -266,7 +269,7 @@ class _VendorDetailsState extends State<VendorDetails>
               ),
             ),
             IconButton(
-              onPressed: () => showPopupMenu(context),
+              onPressed: () => _loadingScreen ? null : showPopupMenu(context),
               icon: FaIcon(
                 FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,
@@ -637,6 +640,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                                       categoryFontColor:
                                                           _categoryButtonFontColor,
                                                     ),
+                                                    kHalfSizedBox,
                                                     ListView.separated(
                                                       itemCount: 10,
                                                       shrinkWrap: true,
@@ -682,6 +686,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                                 list: Column(
                                                   children: [
                                                     Expanded(
+                                                      flex: 0,
                                                       child: AboutVendor(
                                                         vendorName:
                                                             "Ntachi-Osa",

@@ -42,9 +42,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
   //============================================================ ALL VARIABLES ===================================================================\\
 
-  int quantity = 1; // Add a variable to hold the quantity
-  double price = 1200.0;
-  final double itemPrice = 1200.0;
+  int _quantity = 1; // Add a variable to hold the _quantity
+  double _totalCost = 1200;
+  double _itemPrice = 1200;
+  double _productQuantity = 200;
 
 //====================================================== BOOL VALUES ========================================================\\
   late bool _loadingScreen;
@@ -77,16 +78,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //========================================================================\\
   void incrementQuantity() {
     setState(() {
-      quantity++; // Increment the quantity by 1
-      price = quantity * itemPrice;
+      _quantity++; // Increment the _quantity by 1
+      _totalCost = _quantity * _itemPrice;
     });
   }
 
   void decrementQuantity() {
     setState(() {
-      if (quantity > 1) {
-        quantity--; // Decrement the quantity by 1, but ensure it doesn't go below 1
-        price = quantity * itemPrice;
+      if (_quantity > 1) {
+        _quantity--; // Decrement the _quantity by 1, but ensure it doesn't go below 1
+        _totalCost = _quantity * _itemPrice;
       }
     });
   }
@@ -251,7 +252,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ? Row(
                       children: [
                         IconButton(
-                          onPressed: _addToFavorites,
+                          onPressed: _loadingScreen ? null : _addToFavorites,
                           icon: FaIcon(
                             _isAddedToFavorites
                                 ? FontAwesomeIcons.solidHeart
@@ -264,7 +265,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             Container(
                               alignment: Alignment.center,
                               child: IconButton(
-                                onPressed: _toCartScreen,
+                                onPressed:
+                                    _loadingScreen ? null : _toCartScreen,
                                 splashRadius: 20,
                                 icon: FaIcon(
                                   FontAwesomeIcons.cartShopping,
@@ -301,7 +303,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ],
                     )
                   : IconButton(
-                      onPressed: _addToFavorites,
+                      onPressed: _loadingScreen ? null : _addToFavorites,
                       icon: FaIcon(
                         _isAddedToFavorites
                             ? FontAwesomeIcons.solidHeart
@@ -311,7 +313,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
             ),
             IconButton(
-              onPressed: () => showPopupMenu(context),
+              onPressed: () => _loadingScreen ? null : showPopupMenu(context),
               icon: FaIcon(
                 FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,
@@ -419,7 +421,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                           kDefaultPadding / 2),
                                               child: Center(
                                                 child: Text(
-                                                  '$quantity',
+                                                  '$_quantity',
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     color: kTextWhiteColor,
@@ -459,32 +461,75 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        "Smokey Jollof Rice",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: kTextBlackColor,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700,
-                                        ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Product Name",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              color: kTextGreyColor,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          kHalfSizedBox,
+                                          SizedBox(
+                                            width: mediaWidth / 2,
+                                            child: Text(
+                                              "Smokey Jollof Pasta",
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                color: kTextBlackColor,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        "₦ ${formattedText(itemPrice)}",
-                                        style: TextStyle(
-                                          color: kTextBlackColor,
-                                          fontSize: 22,
-                                          fontFamily: 'sen',
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "Product price",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              color: kTextGreyColor,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          kHalfSizedBox,
+                                          SizedBox(
+                                            width: mediaWidth / 2.5,
+                                            child: Text(
+                                              "₦ ${formattedText(_itemPrice)}",
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.end,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                color: kTextBlackColor,
+                                                fontSize: 22,
+                                                fontFamily: 'sen',
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
                                   kSizedBox,
                                   SizedBox(
-                                    width: mediaWidth / 4,
+                                    width: mediaWidth / 3,
                                     height: 17,
                                     child: Text(
-                                      "Qty: ${formattedText(200)}",
+                                      "Qty: ${formattedText(_productQuantity)}",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         color: kTextGreyColor,
@@ -507,15 +552,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       trimMode: TrimMode.Line,
                                       trimLines: 4,
                                     ),
-
-                                    //  Text(
-                                    //   "This is a short description about the food you mentoned which is a restaurant food in this case.",
-                                    //   style: TextStyle(
-                                    //     color: kTextGreyColor,
-                                    //     fontSize: 14,
-                                    //     fontWeight: FontWeight.w400,
-                                    //   ),
-                                    // ),
                                   ),
                                   kSizedBox,
                                   isLoading
@@ -628,7 +664,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                       _cartFunction();
                                                     },
                                                     title:
-                                                        "Add to Cart (₦${formattedText(price)})",
+                                                        "Add to Cart (₦${formattedText(_totalCost)})",
                                                   ),
                                           ),
                                         ),

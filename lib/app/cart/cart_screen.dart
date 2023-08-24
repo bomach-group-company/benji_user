@@ -58,6 +58,7 @@ class _CartScreenState extends State<CartScreen> {
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
+        bottomNavigationBar: Container(),
       ),
     );
   }

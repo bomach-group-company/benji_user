@@ -21,7 +21,7 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
   //======================================= ALL VARIABLES ==========================================\\
 
   int _quantity = 1;
-  double _productPrice = 12000;
+  double _productPrice = 1200;
 
   //======================================= BOOL VALUES ==========================================\\
   bool isAddedToCart = false;
