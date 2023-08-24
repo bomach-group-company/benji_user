@@ -28,7 +28,9 @@ class _CartScreenState extends State<CartScreen> {
       ),
     );
   }
+
   //============================================================ ALL VARIABLES ===================================================================\\
+  int _itemCount = 10;
 
 //====================================================== BOOL VALUES ========================================================\\
   late bool _loadingScreen;
@@ -38,7 +40,7 @@ class _CartScreenState extends State<CartScreen> {
 
 //==================================================== FUNCTIONS ==========================================================\\
   //===================== Number format ==========================\\
-  String formattedText(double value) {
+  String formattedText(int value) {
     final numberFormat = NumberFormat('#,##0');
     return numberFormat.format(value);
   }
@@ -59,6 +61,9 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double mediaWidth = MediaQuery.of(context).size.width;
+    double mediaHeight = MediaQuery.of(context).size.height;
+
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
@@ -73,21 +78,50 @@ class _CartScreenState extends State<CartScreen> {
         extendBodyBehindAppBar: true,
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: Column(
-            children: [
-              Scrollbar(
-                controller: _scrollController,
-                radius: const Radius.circular(10),
-                scrollbarOrientation: ScrollbarOrientation.right,
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => kHalfSizedBox,
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return SizedBox();
-                  },
+          child: Padding(
+            padding: const EdgeInsets.all(kDefaultPadding / 2),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Cart Summary".toUpperCase()),
+                kSizedBox,
+                Container(
+                  width: mediaWidth,
+                  decoration: ShapeDecoration(
+                    color: kPrimaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x0F000000),
+                        blurRadius: 24,
+                        offset: Offset(0, 4),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                kSizedBox,
+                Text("Cart (${formattedText(_itemCount)})".toUpperCase()),
+                kSizedBox,
+                Container(),
+                kSizedBox,
+                Scrollbar(
+                  controller: _scrollController,
+                  radius: const Radius.circular(10),
+                  scrollbarOrientation: ScrollbarOrientation.right,
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => kHalfSizedBox,
+                    itemCount: _itemCount,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return SizedBox();
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

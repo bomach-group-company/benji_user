@@ -365,7 +365,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   kDefaultPadding,
                 ),
                 decoration: ShapeDecoration(
-                  color: Colors.white,
+                  color: kPrimaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -505,7 +505,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   kDefaultPadding,
                 ),
                 decoration: ShapeDecoration(
-                  color: Colors.white,
+                  color: kPrimaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
                       10,

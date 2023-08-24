@@ -43,7 +43,7 @@ class _TrackOrderState extends State<TrackOrder> {
                 kDefaultPadding / 2,
               ),
               decoration: ShapeDecoration(
-                color: Colors.white,
+                color: kPrimaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
                     12,
@@ -239,7 +239,7 @@ class _TrackOrderState extends State<TrackOrder> {
               width: 339,
               height: 103,
               decoration: ShapeDecoration(
-                color: Colors.white,
+                color: kPrimaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
                     12,
@@ -309,7 +309,7 @@ class _TrackOrderState extends State<TrackOrder> {
             Container(
               width: MediaQuery.of(context).size.width,
               decoration: ShapeDecoration(
-                color: Colors.white,
+                color: kPrimaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
                     12,

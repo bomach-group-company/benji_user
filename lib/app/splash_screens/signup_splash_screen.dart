@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../../theme/colors.dart';
 import '../home/home.dart';
 
 class SignUpSplashScreen extends StatelessWidget {
@@ -18,7 +19,7 @@ class SignUpSplashScreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: kPrimaryColor,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

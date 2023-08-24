@@ -246,8 +246,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   child: Text(
                                     'Send Code'.toUpperCase(),
                                     textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: Colors.white,
+                                    style: TextStyle(
+                                      color: kPrimaryColor,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                     ),
