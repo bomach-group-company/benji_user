@@ -41,8 +41,8 @@ class PopularVendorsCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 130,
-              height: 130,
+              width: 120,
+              height: 120,
               decoration: ShapeDecoration(
                 image: DecorationImage(
                   image: AssetImage(
