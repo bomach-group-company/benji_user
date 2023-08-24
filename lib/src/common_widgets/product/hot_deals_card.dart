@@ -54,7 +54,7 @@ class HotDealsCard extends StatelessWidget {
                 ),
                 image: DecorationImage(
                   image: AssetImage(
-                    "assets/images/food/okra-soup.png",
+                    "assets/images/products/okra-soup.png",
                   ),
                   fit: BoxFit.fill,
                 ),

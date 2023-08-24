@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/category_button_section.dart';
 import '../../src/common_widgets/section/custom_showSearch.dart';
-import '../../src/common_widgets/section/rating_view.dart';
+import '../../src/common_widgets/section/rate_vendor_dialog.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/common_widgets/vendor/vendor_about_tab.dart';
 import '../../src/common_widgets/vendor/vendor_products_tab.dart';
@@ -158,20 +158,32 @@ class _VendorDetailsState extends State<VendorDetails>
       position: position,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       items: [
-        const PopupMenuItem<String>(
-          value: 'review',
-          child: Text("Review vendor"),
+        PopupMenuItem<String>(
+          value: 'rate',
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              FaIcon(FontAwesomeIcons.solidStar, color: kStarColor),
+              Text("Rate this vendor"),
+            ],
+          ),
         ),
-        const PopupMenuItem<String>(
+        PopupMenuItem<String>(
           value: 'report',
-          child: Text("Report vendor"),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              FaIcon(FontAwesomeIcons.solidFlag, color: kAccentColor),
+              Text("Report this vendor"),
+            ],
+          ),
         ),
       ],
     ).then((value) {
       // Handle the selected value from the popup menu
       if (value != null) {
         switch (value) {
-          case 'review':
+          case 'rate':
             openRatingDialog(context);
             break;
           case 'report':
@@ -191,12 +203,17 @@ class _VendorDetailsState extends State<VendorDetails>
     });
   }
 
+//================================ Rating Dialog ======================================\\
   openRatingDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
         return Dialog(
-          child: RatingView(),
+          insetAnimationCurve: Curves.easeIn,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(kDefaultPadding)),
+          elevation: 50,
+          child: RateVendorDialog(),
         );
       },
     );
@@ -391,7 +408,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                                   launchUrl(
                                                     websiteurl,
                                                     mode: LaunchMode
-                                                        .externalApplication,
+                                                        .externalNonBrowserApplication,
                                                   );
                                                 } else {
                                                   throw "An unexpected error occured and $websiteurl cannot be loaded";
@@ -523,10 +540,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                           ),
                                           fit: BoxFit.cover,
                                         ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(43.50),
-                                        ),
+                                        shape: OvalBorder(),
                                       ),
                                     ),
                                   ),
@@ -557,6 +571,8 @@ class _VendorDetailsState extends State<VendorDetails>
                                         onTap: (value) =>
                                             _clickOnTabBarOption(),
                                         enableFeedback: true,
+                                        dragStartBehavior:
+                                            DragStartBehavior.start,
                                         mouseCursor: SystemMouseCursors.click,
                                         automaticIndicatorColorAdjustment: true,
                                         overlayColor: MaterialStatePropertyAll(

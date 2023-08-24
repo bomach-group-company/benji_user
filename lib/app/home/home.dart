@@ -19,7 +19,8 @@ import '../../theme/colors.dart';
 import '../address/address.dart';
 import '../address/deliver_to.dart';
 import '../auth/login.dart';
-import '../cart/cart.dart';
+import '../cart/cart_screen.dart';
+import '../checkout/checkout_screen.dart';
 import '../orders/order_history.dart';
 import '../product/hot_deals_page.dart';
 import '../profile/edit_profile.dart';
@@ -201,7 +202,7 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toAddressPage() => Get.to(
+  void _toAddressScreen() => Get.to(
         () => const Addresses(),
         routeName: 'Addresses',
         duration: const Duration(milliseconds: 300),
@@ -211,7 +212,7 @@ class _HomeState extends State<Home> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
-  void _toSendPackagePage() => Get.to(
+  void _toSendPackageScreen() => Get.to(
         () => const SendPackage(),
         routeName: 'SendPackage',
         duration: const Duration(milliseconds: 300),
@@ -221,7 +222,7 @@ class _HomeState extends State<Home> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
-  void _toFavoritesPage() => Get.to(
+  void _toFavoritesScreen() => Get.to(
         () => Favorites(
           vendorCoverImage:
               _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
@@ -240,7 +241,7 @@ class _HomeState extends State<Home> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
-  void _toOrdersPage() => Get.to(
+  void _toOrdersScreen() => Get.to(
         () => const OrdersHistory(),
         routeName: 'OrdersHistory',
         duration: const Duration(milliseconds: 300),
@@ -251,9 +252,20 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toCartPage() => Get.to(
-        () => const Cart(),
-        routeName: 'Cart',
+  void _toCheckoutScreen() => Get.to(
+        () => const CheckoutScreen(),
+        routeName: 'CheckoutScreen',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+  void _toCartScreen() => Get.to(
+        () => const CartScreen(),
+        routeName: 'CartScreen',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -330,10 +342,11 @@ class _HomeState extends State<Home> {
           copyUserIdToClipBoard: () {
             _copyToClipboard(context);
           },
-          toAddressesPage: _toAddressPage,
-          toSendPackagePage: _toSendPackagePage,
-          toFavoritesPage: _toFavoritesPage,
-          toOrdersPage: _toOrdersPage,
+          toAddressesPage: _toAddressScreen,
+          toSendPackagePage: _toSendPackageScreen,
+          toFavoritesPage: _toFavoritesScreen,
+          toCheckoutScreen: _toCheckoutScreen,
+          toOrdersPage: _toOrdersScreen,
           logOut: _logOut,
         ),
         appBar: AppBar(
@@ -386,11 +399,10 @@ class _HomeState extends State<Home> {
                 Container(
                   alignment: Alignment.center,
                   child: IconButton(
-                    onPressed: _toCartPage,
+                    onPressed: _toCartScreen,
                     splashRadius: 20,
                     icon: FaIcon(
                       FontAwesomeIcons.cartShopping,
-                      size: 18,
                       color: kAccentColor,
                     ),
                   ),

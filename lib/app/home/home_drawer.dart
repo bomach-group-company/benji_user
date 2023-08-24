@@ -8,7 +8,7 @@ import '../../theme/colors.dart';
 class HomeDrawer extends StatefulWidget {
   final Function() toEditProfilePage;
   final Function() copyUserIdToClipBoard;
-  // final Function() toInvitesPage;
+  final Function() toCheckoutScreen;
   final Function() toFavoritesPage;
   final Function() toOrdersPage;
   final Function() toAddressesPage;
@@ -27,6 +27,7 @@ class HomeDrawer extends StatefulWidget {
     required this.logOut,
     required this.toFavoritesPage,
     required this.toEditProfilePage,
+    required this.toCheckoutScreen,
   });
 
   @override
@@ -206,13 +207,34 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
           ),
           ListTile(
+            onTap: widget.toCheckoutScreen,
+            leading: FaIcon(
+              Icons.shopping_cart_checkout,
+              size: 28,
+              color: kAccentColor,
+            ),
+            title: Text(
+              'Checkout',
+              style: TextStyle(
+                color: kTextBlackColor,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+              color: kTextBlackColor,
+            ),
+          ),
+          ListTile(
             onTap: widget.toOrdersPage,
             leading: FaIcon(
               FontAwesomeIcons.boxOpen,
               color: kAccentColor,
             ),
             title: Text(
-              'Orders',
+              'My Orders',
               style: TextStyle(
                 color: kTextBlackColor,
                 fontSize: 12,

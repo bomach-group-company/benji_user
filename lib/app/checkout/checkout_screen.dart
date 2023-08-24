@@ -13,14 +13,14 @@ import '../../theme/colors.dart';
 import '../address/deliver_to.dart';
 import '../coupon/apply_coupon.dart';
 
-class Cart extends StatefulWidget {
-  const Cart({super.key});
+class CheckoutScreen extends StatefulWidget {
+  const CheckoutScreen({super.key});
 
   @override
-  State<Cart> createState() => _CartState();
+  State<CheckoutScreen> createState() => _CheckoutScreenState();
 }
 
-class _CartState extends State<Cart> {
+class _CheckoutScreenState extends State<CheckoutScreen> {
   //=================================== ALL VARIABLES ==========================================\\
 
   int quantity = 1;
@@ -73,10 +73,10 @@ class _CartState extends State<Cart> {
 
   //PLACE ORDER
 
-  void placeOrder() async {
+  void _placeOrder() async {
     Get.to(
       () => const PaymentMethod(),
-      routeName: 'y',
+      routeName: 'PaymentMethod',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,
@@ -99,7 +99,7 @@ class _CartState extends State<Cart> {
         toolbarHeight: 80,
         elevation: 0.0,
         backgroundColor: kPrimaryColor,
-        title: "Cart",
+        title: "Checkout",
         actions: [],
       ),
       body: SafeArea(
@@ -785,7 +785,7 @@ class _CartState extends State<Cart> {
                           title:
                               "Place Order - ₦${totalPrice.toStringAsFixed(2)}",
                           onPressed: () {
-                            placeOrder();
+                            _placeOrder();
                           },
                         ),
                   kSizedBox,
