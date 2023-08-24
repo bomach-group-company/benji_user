@@ -164,7 +164,7 @@ class _ReportVendorState extends State<ReportVendor> {
                           validator: (value) {
                             if (value == null || value!.isEmpty) {
                               _messageFN.requestFocus();
-                              return "Field Cannot be left blank";
+                              return "Field cannot be left blank";
                             }
 
                             return null;
