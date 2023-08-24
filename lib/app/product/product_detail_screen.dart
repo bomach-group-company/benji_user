@@ -10,6 +10,7 @@ import 'package:readmore/readmore.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
+import '../../src/common_widgets/section/rate_product_dialog.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../theme/colors.dart';
 import '../cart/cart_screen.dart';
@@ -142,17 +143,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         transition: Transition.rightToLeft,
       );
 
-  void _toReportProduct() => Get.to(
-        () => ReportProduct(),
-        routeName: 'ReportProduct',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
-
   void _toCheckoutScreen() => Get.to(
         () => const CheckoutScreen(),
         routeName: 'CheckoutScreen',
@@ -177,21 +167,66 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       position: position,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       items: [
-        const PopupMenuItem<String>(
+        PopupMenuItem<String>(
+          value: 'rate',
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              FaIcon(FontAwesomeIcons.solidStar, color: kStarColor),
+              Text("Rate this product"),
+            ],
+          ),
+        ),
+        PopupMenuItem<String>(
           value: 'report',
-          child: Text("Report product"),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              FaIcon(FontAwesomeIcons.solidFlag, color: kAccentColor),
+              Text("Report this product"),
+            ],
+          ),
         ),
       ],
     ).then((value) {
       // Handle the selected value from the popup menu
       if (value != null) {
         switch (value) {
+          case 'rate':
+            openRatingDialog(context);
+            break;
           case 'report':
-            _toReportProduct;
+            Get.to(
+              () => ReportProduct(),
+              routeName: 'ReportProduct',
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
+            );
             break;
         }
       }
     });
+  }
+
+//================================ Rating Dialog ======================================\\
+
+  openRatingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          insetAnimationCurve: Curves.easeIn,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(kDefaultPadding)),
+          elevation: 50,
+          child: RateProductDialog(),
+        );
+      },
+    );
   }
 
   @override
