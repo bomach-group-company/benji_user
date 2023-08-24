@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:benji_user/app/auth/forgot_password.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -1,12 +1,9 @@
-import 'package:benji_user/app/address/add_new_address.dart';
-import 'package:benji_user/app/auth/signup.dart';
 import 'package:benji_user/app/home/home.dart';
 import 'package:benji_user/theme/app%20theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import 'app/splash_screens/startup_splash_screen.dart';
 import 'theme/colors.dart';
 
 void main() {
