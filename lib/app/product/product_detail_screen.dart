@@ -76,6 +76,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   //========================================================================\\
+
   void incrementQuantity() {
     setState(() {
       _quantity++; // Increment the _quantity by 1
@@ -85,7 +86,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   void decrementQuantity() {
     setState(() {
-      if (_quantity > 1) {
+      if (_quantity > 1 && _quantity <= _productQuantity) {
         _quantity--; // Decrement the _quantity by 1, but ensure it doesn't go below 1
         _totalCost = _quantity * _itemPrice;
       }
@@ -351,7 +352,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         radius: const Radius.circular(10),
                         scrollbarOrientation: ScrollbarOrientation.right,
                         child: ListView(
-                          physics: const BouncingScrollPhysics(),
+                          physics: const ScrollPhysics(),
                           dragStartBehavior: DragStartBehavior.down,
                           children: [
                             SizedBox(
@@ -528,13 +529,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   SizedBox(
                                     width: mediaWidth / 3,
                                     height: 17,
-                                    child: Text(
-                                      "Qty: ${formattedText(_productQuantity)}",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: kTextGreyColor,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400,
+                                    child: Text.rich(
+                                      TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: "Qty: ",
+                                            style: TextStyle(
+                                              color: kTextGreyColor,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text:
+                                                formattedText(_productQuantity),
+                                            style: TextStyle(
+                                              color: kTextBlackColor,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),

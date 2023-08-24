@@ -5,20 +5,20 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/common_widgets/button/my_outlined_elevatedbutton.dart';
-import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/common_widgets/textformfield/my textformfield.dart';
+import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
-class AddressDetails extends StatefulWidget {
-  const AddressDetails({super.key});
+class EditAddressDetails extends StatefulWidget {
+  const EditAddressDetails({super.key});
 
   @override
-  State<AddressDetails> createState() => _AddressDetailsState();
+  State<EditAddressDetails> createState() => _EditAddressDetailsState();
 }
 
-class _AddressDetailsState extends State<AddressDetails> {
+class _EditAddressDetailsState extends State<EditAddressDetails> {
   //=================================== ALL VARIABLES =====================================\\
 
   //===================== KEYS =======================\\

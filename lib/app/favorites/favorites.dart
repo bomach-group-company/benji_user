@@ -314,7 +314,6 @@ class _FavoritesState extends State<Favorites>
                                         : Scrollbar(
                                             controller: _scrollController,
                                             radius: const Radius.circular(10),
-                                            trackVisibility: true,
                                             child: FavoriteProductsTab(
                                               list: ListView.separated(
                                                 controller: _scrollController,
@@ -348,7 +347,6 @@ class _FavoritesState extends State<Favorites>
                                             list: Scrollbar(
                                               controller: _scrollController,
                                               radius: const Radius.circular(10),
-                                              trackVisibility: true,
                                               child: ListView.separated(
                                                 controller: _scrollController,
                                                 itemCount: 20,
