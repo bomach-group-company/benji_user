@@ -40,17 +40,24 @@ Future<bool> deleteUser() async {
   return prefs.remove('user');
 }
 
-Future<Map<String, String>> authHeader([String? authToken]) async {
+Future<Map<String, String>> authHeader(
+    [String? authToken, String? contentType]) async {
   if (authToken == null) {
     User? user = await getUser();
     if (user != null) {
       authToken = user.token;
     }
   }
-  return {
+
+  Map<String, String> res = {
     'Authorization': 'Bearer $authToken',
-    // 'Content-Type': 'application/json'
   };
+  // 'Content-Type': 'application/json'
+
+  if (contentType != null) {
+    res['Content-Type'] = contentType;
+  }
+  return res;
 }
 
 dynamic isUnauthorized(String resp) {
