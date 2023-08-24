@@ -330,8 +330,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                             child: Text(
                               'Save'.toUpperCase(),
                               textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: Colors.white,
+                              style: TextStyle(
+                                color: kPrimaryColor,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                               ),

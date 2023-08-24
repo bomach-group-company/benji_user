@@ -37,9 +37,9 @@ class _StarRowState extends State<StarRow> {
                         0xFFA9AAB1,
                       ),
               ),
-              backgroundColor: active == 'all' ? kAccentColor : Colors.white,
+              backgroundColor: active == 'all' ? kAccentColor : kPrimaryColor,
               foregroundColor:
-                  active == 'all' ? Colors.white : Color(0xFFA9AAB1),
+                  active == 'all' ? kPrimaryColor : Color(0xFFA9AAB1),
             ),
             onPressed: () {
               setState(() {

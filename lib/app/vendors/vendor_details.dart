@@ -12,7 +12,7 @@ import '../../src/common_widgets/section/rate_vendor_dialog.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/common_widgets/vendor/vendor_about_tab.dart';
 import '../../src/common_widgets/vendor/vendor_products_tab.dart';
-import '../../src/common_widgets/vendor/vendors_food_container.dart';
+import '../../src/common_widgets/vendor/vendors_product_container.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../theme/colors.dart';
@@ -651,7 +651,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                                               kHalfSizedBox,
                                                       itemBuilder: (context,
                                                               index) =>
-                                                          VendorFoodContainer(
+                                                          VendorsProductContainer(
                                                         onTap:
                                                             _toProductDetailScreen,
                                                       ),
