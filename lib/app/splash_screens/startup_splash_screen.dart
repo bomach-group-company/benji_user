@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../src/providers/constants.dart';
+import '../../src/repo/models/user_model.dart';
 import '../../theme/colors.dart';
 import '../auth/signup.dart';
 import '../home/home.dart';
@@ -29,7 +31,9 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
           () {
             Get.offAll(
               () => obtainedUserDetails == null || obtainedUserDetails == ""
-                  ? const SignUp()
+                  ? const SignUp(
+                      logout: true,
+                    )
                   : Home(),
               duration: const Duration(seconds: 2),
               fullscreenDialog: true,
@@ -48,14 +52,13 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
     );
   }
 
-  List<String>? obtainedUserDetails;
+  User? obtainedUserDetails;
 
   Future rememberUser() async {
-    SharedPreferences getUser = await SharedPreferences.getInstance();
-    var userData = getUser.getStringList('userData');
+    final User? user = (await getUser()) as User?;
 
     setState(() {
-      obtainedUserDetails = userData;
+      obtainedUserDetails = user;
     });
     print(obtainedUserDetails);
     return null;

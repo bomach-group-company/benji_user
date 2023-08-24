@@ -1,3 +1,6 @@
+import 'package:benji_user/app/address/add_new_address.dart';
+import 'package:benji_user/app/auth/signup.dart';
+import 'package:benji_user/app/home/home.dart';
 import 'package:benji_user/theme/app%20theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,8 +32,8 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      initialRoute: "SignUp",
-      home: StartupSplashscreen(),
+      // home: StartupSplashscreen(),
+      home: Home(),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:benji_user/app/auth/forgot_password.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,11 +15,22 @@ Future<void> saveUser(String user, String token) async {
   await prefs.setString('user', jsonEncode(data));
 }
 
-Future<User?> getUser() async {
+Future<dynamic> getUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? user = prefs.getString('user');
   if (user == null) {
-    return null;
+    return Get.offAll(
+      () => Login(
+        logout: true,
+      ),
+      routeName: 'Login',
+      predicate: (route) => false,
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      popGesture: false,
+      transition: Transition.rightToLeft,
+    );
   }
   return modelUser(user);
 }
@@ -26,9 +38,6 @@ Future<User?> getUser() async {
 Future<bool> deleteUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.remove('userData');
-  if ('userData'.isEmpty) {
-    print("UserData has been removed");
-  }
   return prefs.remove('user');
 }
 
@@ -41,23 +50,33 @@ Future<Map<String, String>> authHeader([String? authToken]) async {
   }
   return {
     'Authorization': 'Bearer $authToken',
-    'Content-Type': 'application/json'
+    // 'Content-Type': 'application/json'
   };
 }
 
-dynamic isUnauthorized(Map data) {
-  if (data.containsKey('detail') && data['detail'] == 'Unauthorized') {
-    return Get.offAll(
-      () => Login(),
-      routeName: 'Login',
-      predicate: (route) => false,
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      popGesture: false,
-      transition: Transition.downToUp,
-    );
-  } else {
-    return data;
+dynamic isUnauthorized(String resp) {
+  try {
+    dynamic data = jsonDecode(resp);
+
+    if (data.runtimeType.toString() == '_JsonMap' &&
+        data.containsKey('detail') &&
+        data['detail'] == 'Unauthorized') {
+      return Get.offAll(
+        () => Login(
+          logout: true,
+        ),
+        routeName: 'Login',
+        predicate: (route) => false,
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: false,
+        transition: Transition.downToUp,
+      );
+    } else {
+      return data;
+    }
+  } catch (e) {
+    return resp;
   }
 }
