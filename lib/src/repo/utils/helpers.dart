@@ -19,7 +19,6 @@ Future<dynamic> getUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? user = prefs.getString('user');
   if (user == null) {
-    print('in get user');
     return Get.offAll(
       () => Login(
         logout: true,
@@ -33,7 +32,6 @@ Future<dynamic> getUser() async {
       transition: Transition.rightToLeft,
     );
   }
-  print(user);
   return modelUser(user);
 }
 
@@ -59,13 +57,10 @@ Future<Map<String, String>> authHeader([String? authToken]) async {
 dynamic isUnauthorized(String resp) {
   try {
     dynamic data = jsonDecode(resp);
-    print(
-        ' type ${data.runtimeType.toString()} ${data.runtimeType.toString() == "_JsonMap"}');
 
     if (data.runtimeType.toString() == '_JsonMap' &&
         data.containsKey('detail') &&
         data['detail'] == 'Unauthorized') {
-      print('go to login');
       return Get.offAll(
         () => Login(
           logout: true,

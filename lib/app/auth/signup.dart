@@ -27,7 +27,8 @@ import '../splash_screens/signup_splash_screen.dart';
 import 'login.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+  final bool logout;
+  const SignUp({super.key, this.logout = false});
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -38,6 +39,9 @@ class _SignUpState extends State<SignUp> {
   @override
   void initState() {
     super.initState();
+    if (widget.logout) {
+      deleteUser();
+    }
     _isObscured = true;
   }
 
@@ -146,15 +150,6 @@ class _SignUpState extends State<SignUp> {
       setState(() {
         _validAuthCredentials = true;
       });
-
-      String _email = _userEmailEC.text;
-      String _password = _userPhoneNumberEC.text;
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setStringList(
-        'userData',
-        [_email, _password],
-      );
 
       //Simulating a delay
       await Future.delayed(Duration(seconds: 2));

@@ -119,15 +119,6 @@ class _LoginState extends State<Login> {
         const Duration(seconds: 2),
       );
 
-      String _email = _emailController.text;
-      String _password = _passwordController.text;
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setStringList(
-        'userData',
-        [_email, _password],
-      );
-
       //Simulating a delay
       await Future.delayed(Duration(seconds: 2));
 

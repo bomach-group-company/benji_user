@@ -58,7 +58,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
     final url = Uri.parse('$baseURL/address/addAddress');
     List<String> countryList = country!.split(' ');
     final User? user = (await getUser()) as User?;
-    print('got here ooooo');
 
     final body = {
       'user_id': user!.id.toString(),
@@ -72,11 +71,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
       'city': city,
       'is_current': is_current.toString(),
     };
-    print(body);
     final response =
         await http.post(url, body: body, headers: await authHeader(user.token));
-
-    print(response.body);
 
     isUnauthorized(response.body);
 
