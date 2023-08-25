@@ -28,7 +28,6 @@ class AllVendorsNearYouCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: 355,
         height: 130,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
