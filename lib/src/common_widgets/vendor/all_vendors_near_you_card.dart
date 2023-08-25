@@ -74,6 +74,7 @@ class AllVendorsNearYouCard extends StatelessWidget {
                     child: Text(
                       vendorName,
                       style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
                         color: kTextBlackColor,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -88,6 +89,7 @@ class AllVendorsNearYouCard extends StatelessWidget {
                       typeOfBusiness,
                       textAlign: TextAlign.start,
                       style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
                         color: kTextBlackColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -95,61 +97,70 @@ class AllVendorsNearYouCard extends StatelessWidget {
                     ),
                   ),
                   kSizedBox,
-                  Wrap(
-                    // alignment: ,
-                    children: [
-                      Row(
-                        children: [
-                          FaIcon(
-                            FontAwesomeIcons.solidStar,
-                            color: kStarColor,
-                            size: 15,
-                          ),
-                          SizedBox(
-                            width: kDefaultPadding / 10,
-                          ),
-                          SizedBox(
-                            width: 70,
-                            child: Text(
-                              "$rating ($noOfUsersRated+)",
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: -0.24,
+                  Container(
+                    width: media.width - 180,
+                    child: Wrap(
+                      runSpacing: 3,
+                      children: [
+                        SizedBox(
+                          width: 90,
+                          child: Row(
+                            children: [
+                              FaIcon(
+                                FontAwesomeIcons.solidStar,
+                                color: kStarColor,
+                                size: 15,
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      kHalfWidthSizedBox,
-                      Row(
-                        children: [
-                          FaIcon(
-                            FontAwesomeIcons.solidClock,
-                            color: kAccentColor,
-                            size: 15,
-                          ),
-                          SizedBox(
-                            width: kDefaultPadding / 10,
-                          ),
-                          SizedBox(
-                            width: 50,
-                            child: Text(
-                              '30 mins',
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: -0.28,
+                              SizedBox(
+                                width: kDefaultPadding / 10,
                               ),
-                            ),
+                              SizedBox(
+                                width: 70,
+                                child: Text(
+                                  "$rating ($noOfUsersRated+)",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: -0.24,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      )
-                    ],
+                        ),
+                        kHalfWidthSizedBox,
+                        SizedBox(
+                          width: 70,
+                          child: Row(
+                            children: [
+                              FaIcon(
+                                FontAwesomeIcons.solidClock,
+                                color: kAccentColor,
+                                size: 15,
+                              ),
+                              SizedBox(
+                                width: kDefaultPadding / 10,
+                              ),
+                              SizedBox(
+                                width: 50,
+                                child: Text(
+                                  '30 mins',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: -0.28,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),

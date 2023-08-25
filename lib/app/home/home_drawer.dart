@@ -104,7 +104,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      kWidthSizedBox,
                       IconButton(
                         onPressed: widget.copyUserIdToClipBoard,
                         tooltip: "Copy ID",
