@@ -116,10 +116,11 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: mediaWidth / 2,
+                  width: mediaWidth - 180,
                   child: Text(
                     'Smokey Jollof Pasta',
                     style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
                       color: kTextBlackColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
@@ -128,7 +129,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                 ),
                 kHalfSizedBox,
                 Container(
-                  width: mediaWidth / 2,
+                  width: mediaWidth - 180,
                   child: Text(
                     'Short description about the food here',
                     overflow: TextOverflow.ellipsis,
@@ -143,7 +144,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                 Row(
                   children: [
                     SizedBox(
-                      width: mediaWidth / 4,
+                      width: (mediaWidth - 190) / 2,
                       child: Text(
                         "₦${formattedText(_productPrice)}",
                         style: TextStyle(
@@ -155,7 +156,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                       ),
                     ),
                     SizedBox(
-                      width: mediaWidth / 4,
+                      width: (mediaWidth - 190) / 2,
                       height: 17,
                       child: Text(
                         "Qty: ${formattedText(200)}",

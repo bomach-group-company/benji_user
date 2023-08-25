@@ -25,6 +25,7 @@ class AllVendorsNearYouCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -82,7 +83,7 @@ class AllVendorsNearYouCard extends StatelessWidget {
                   ),
                   kSizedBox,
                   SizedBox(
-                    width: 200,
+                    width: media.width - 200,
                     child: Text(
                       typeOfBusiness,
                       textAlign: TextAlign.start,
@@ -94,8 +95,8 @@ class AllVendorsNearYouCard extends StatelessWidget {
                     ),
                   ),
                   kSizedBox,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Wrap(
+                    // alignment: ,
                     children: [
                       Row(
                         children: [
@@ -108,7 +109,7 @@ class AllVendorsNearYouCard extends StatelessWidget {
                             width: kDefaultPadding / 10,
                           ),
                           SizedBox(
-                            width: 80,
+                            width: 70,
                             child: Text(
                               "$rating ($noOfUsersRated+)",
                               overflow: TextOverflow.ellipsis,
@@ -134,7 +135,7 @@ class AllVendorsNearYouCard extends StatelessWidget {
                             width: kDefaultPadding / 10,
                           ),
                           SizedBox(
-                            width: 60,
+                            width: 50,
                             child: Text(
                               '30 mins',
                               overflow: TextOverflow.ellipsis,

@@ -1,4 +1,4 @@
-import 'package:benji_user/app/home/home.dart';
+import 'package:benji_user/app/favorites/favorites.dart';
 import 'package:benji_user/theme/app%20theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,8 +29,13 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      // home: StartupSplashscreen(),
-      home: Home(),
+      home: Favorites(
+        vendorCoverImage: "best-choice-restaurant",
+        vendorName: 'The big man store',
+        vendorRating: 3.9,
+        vendorActiveStatus: "Online",
+        vendorActiveStatusColor: kSuccessColor,
+      ),
     );
   }
 }
