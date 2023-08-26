@@ -54,9 +54,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
       context,
       "Success!",
       isAddedToCart ? "Item has been added to cart." : "Item has been removed.",
-      Duration(
-        seconds: 1,
-      ),
+      Duration(seconds: 1),
     );
   }
 

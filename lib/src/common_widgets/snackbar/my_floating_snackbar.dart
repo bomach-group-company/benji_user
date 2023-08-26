@@ -11,58 +11,53 @@ void mySnackBar(
 ) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Container(
-        height: 80,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 60,
-                  width: 10,
-                  decoration: ShapeDecoration(
-                    color: kAccentColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(20.0),
-                        bottom: Radius.circular(20.0),
-                      ),
-                    ),
+      content: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Flexible(
+            fit: FlexFit.loose,
+            child: Container(
+              height: 50,
+              width: 10,
+              decoration: ShapeDecoration(
+                color: kAccentColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20.0),
+                    bottom: Radius.circular(20.0),
                   ),
                 ),
-                kHalfWidthSizedBox,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title.toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: kTextBlackColor,
-                      ),
-                    ),
-                    kHalfSizedBox,
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: Text(
-                        message.toUpperCase(),
-                        // overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: kGreyColor1,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
-          ],
-        ),
+          ),
+          kHalfWidthSizedBox,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title.toUpperCase(),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: kTextBlackColor,
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 2,
+                child: Text(
+                  message.toUpperCase(),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: kGreyColor1,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       duration: duration,
       dismissDirection: DismissDirection.horizontal,
@@ -76,12 +71,12 @@ void mySnackBar(
       behavior: SnackBarBehavior.floating,
       backgroundColor: kPrimaryColor,
       elevation: 20.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20.0),
-          bottom: Radius.circular(20.0),
-        ),
-      ),
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.vertical(
+      //     top: Radius.circular(20.0),
+      //     bottom: Radius.circular(20.0),
+      //   ),
+      // ),
     ),
   );
 }
