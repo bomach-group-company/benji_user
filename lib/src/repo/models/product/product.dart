@@ -1,6 +1,6 @@
-import 'package:benji_user/src/repo/models/sub_category_model.dart';
+import 'package:benji_user/src/repo/models/category/sub_category.dart';
 
-import 'vendor_model.dart';
+import '../vendor/vendor.dart';
 
 class Product {
   final String id;

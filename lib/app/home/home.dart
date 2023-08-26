@@ -1,5 +1,6 @@
 import 'package:benji_user/app/favorites/favorites.dart';
 import 'package:benji_user/src/others/my_future_builder.dart';
+import 'package:benji_user/src/repo/models/category/category.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/appBar_delivery_location.dart';
+import '../../src/common_widgets/button/category button.dart';
 import '../../src/common_widgets/product/hot_deals_card.dart';
-import '../../src/common_widgets/section/category_button_section.dart';
 import '../../src/common_widgets/section/custom_showSearch.dart';
 import '../../src/common_widgets/section/see_all_container.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
@@ -44,6 +45,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    _getData();
 
     _loadingScreen = true;
     Future.delayed(
@@ -53,10 +55,18 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+  Map? _data;
+
+  _getData() async {
+    List<Category> category = await getCategories();
+    _data = {'category': category};
+  }
+
   //=======================================================================================================================================\\
 
 //============================================== ALL VARIABLES =================================================\\
-
+  int activeCategory = 0;
 //============================================== BOOL VALUES =================================================\\
   late bool _loadingScreen;
   bool _vendorStatus = true;
@@ -328,7 +338,6 @@ class _HomeState extends State<Home> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
-
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
@@ -449,97 +458,117 @@ class _HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 kHalfSizedBox,
-                _loadingScreen
-                    ? SizedBox()
-                    : CategoryButtonSection(
-                        category: _categoryButton,
-                        categorybgColor: _categoryButtonBgColor,
-                        categoryFontColor: _categoryButtonFontColor,
-                      ),
-                SizedBox(height: 8),
-                _loadingScreen
-                    ? SpinKitChasingDots(color: kAccentColor)
-                    : Flexible(
-                        fit: FlexFit.loose,
-                        child: Scrollbar(
-                          controller: _scrollController,
-                          radius: Radius.circular(10),
-                          scrollbarOrientation: ScrollbarOrientation.right,
-                          child: RefreshIndicator(
-                            onRefresh: _handleRefresh,
-                            color: kAccentColor,
-                            edgeOffset: 0,
-                            displacement: 0.0,
-                            semanticsLabel: "Pull to refresh",
-                            strokeWidth: 3.0,
-                            triggerMode: RefreshIndicatorTriggerMode.onEdge,
-                            child: ListView(
-                              physics: const BouncingScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              children: [
-                                SeeAllContainer(
-                                  title: "Vendors Near you",
-                                  onPressed: _toSeeAllVendorsNearYou,
-                                ),
-                                kSizedBox,
-                                HomePageVendorsNearYou(
-                                  onTap: _toVendorPage,
-                                ),
-                                kHalfSizedBox,
-                                SeeAllContainer(
-                                  title: "Popular Vendors",
-                                  onPressed: _toSeeAllPopularVendors,
-                                ),
-                                kSizedBox,
-                                Center(
-                                  child: ListView.separated(
-                                    physics: const BouncingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.only(
-                                      left: kDefaultPadding / 2,
-                                      right: kDefaultPadding / 2,
-                                    ),
-                                    itemCount: popularVendorsIndex.length,
-                                    separatorBuilder: (context, index) =>
-                                        kHalfSizedBox,
-                                    itemBuilder: (context, index) =>
-                                        PopularVendorsCard(
-                                      onTap: () {},
-                                      cardImage: popularVendorImage[index],
-                                      vendorName: popularVendorName[index],
-                                      food: popularVendorFood[index],
-                                      rating: popularVendorRating[index],
-                                      noOfUsersRated:
-                                          popularVendorNoOfUsersRating[index],
-                                    ),
-                                  ),
-                                ),
-                                kSizedBox,
-                                SeeAllContainer(
-                                  title: "Hot Deals",
-                                  onPressed: _toSeeAllHotDeals,
-                                ),
-                                kSizedBox,
-                                Center(
-                                  child: ListView.separated(
-                                    physics: const BouncingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.only(
-                                      left: kDefaultPadding / 2,
-                                      right: kDefaultPadding / 2,
-                                    ),
-                                    itemCount: 10,
-                                    separatorBuilder: (context, index) =>
-                                        kHalfSizedBox,
-                                    itemBuilder: (context, index) =>
-                                        HotDealsCard(),
-                                  ),
-                                ),
-                              ],
+                _data == null
+                    ? Center(
+                        child: SpinKitChasingDots(color: kAccentColor),
+                      )
+                    : SizedBox(
+                        height: 60,
+                        child: ListView.builder(
+                          itemCount: _data!['category'].length,
+                          scrollDirection: Axis.horizontal,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) =>
+                              Padding(
+                            padding: const EdgeInsets.all(kDefaultPadding / 2),
+                            child: CategoryButton(
+                              onPressed: () {
+                                setState(() {
+                                  activeCategory = index;
+                                });
+                              },
+                              title: _data!['category'][index].name,
+                              bgColor: index == activeCategory
+                                  ? kAccentColor
+                                  : kDefaultCategoryBackgroundColor,
+                              categoryFontColor: index == activeCategory
+                                  ? kPrimaryColor
+                                  : kTextGreyColor,
                             ),
                           ),
                         ),
                       ),
+                SizedBox(height: 8),
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Scrollbar(
+                    controller: _scrollController,
+                    radius: Radius.circular(10),
+                    scrollbarOrientation: ScrollbarOrientation.right,
+                    child: RefreshIndicator(
+                      onRefresh: _handleRefresh,
+                      color: kAccentColor,
+                      edgeOffset: 0,
+                      displacement: 0.0,
+                      semanticsLabel: "Pull to refresh",
+                      strokeWidth: 3.0,
+                      triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                      child: ListView(
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        children: [
+                          SeeAllContainer(
+                            title: "Vendors Near you",
+                            onPressed: _toSeeAllVendorsNearYou,
+                          ),
+                          kSizedBox,
+                          HomePageVendorsNearYou(
+                            onTap: _toVendorPage,
+                          ),
+                          kHalfSizedBox,
+                          SeeAllContainer(
+                            title: "Popular Vendors",
+                            onPressed: _toSeeAllPopularVendors,
+                          ),
+                          kSizedBox,
+                          Center(
+                            child: ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              padding: EdgeInsets.only(
+                                left: kDefaultPadding / 2,
+                                right: kDefaultPadding / 2,
+                              ),
+                              itemCount: popularVendorsIndex.length,
+                              separatorBuilder: (context, index) =>
+                                  kHalfSizedBox,
+                              itemBuilder: (context, index) =>
+                                  PopularVendorsCard(
+                                onTap: () {},
+                                cardImage: popularVendorImage[index],
+                                vendorName: popularVendorName[index],
+                                food: popularVendorFood[index],
+                                rating: popularVendorRating[index],
+                                noOfUsersRated:
+                                    popularVendorNoOfUsersRating[index],
+                              ),
+                            ),
+                          ),
+                          kSizedBox,
+                          SeeAllContainer(
+                            title: "Hot Deals",
+                            onPressed: _toSeeAllHotDeals,
+                          ),
+                          kSizedBox,
+                          Center(
+                            child: ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              padding: EdgeInsets.only(
+                                left: kDefaultPadding / 2,
+                                right: kDefaultPadding / 2,
+                              ),
+                              itemCount: 10,
+                              separatorBuilder: (context, index) =>
+                                  kHalfSizedBox,
+                              itemBuilder: (context, index) => HotDealsCard(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

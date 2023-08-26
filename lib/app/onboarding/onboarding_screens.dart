@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import '../../src/repo/models/others/onboarding_screen.dart';
 import '../../theme/colors.dart';
-import '../../src/repo/models/onboarding_screen_model.dart';
 
 List<OnboardModel> screens = <OnboardModel>[
   OnboardModel(

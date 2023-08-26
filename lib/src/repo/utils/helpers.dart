@@ -5,7 +5,7 @@ import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app/auth/login.dart';
-import '../models/user_model.dart';
+import '../models/user/user_model.dart';
 
 Future<void> saveUser(String user, String token) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -1,5 +1,5 @@
-import 'client_model.dart';
-import 'product_model.dart';
+import '../product/product.dart';
+import '../user/client_model.dart';
 
 class OrderDetails {
   final String id;
