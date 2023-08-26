@@ -93,8 +93,8 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              width: 90,
-              height: 92,
+              width: 120,
+              height: 120,
               decoration: ShapeDecoration(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -116,7 +116,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: mediaWidth - 180,
+                  width: mediaWidth - 200,
                   child: Text(
                     'Smokey Jollof Pasta',
                     style: TextStyle(
@@ -129,7 +129,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                 ),
                 kHalfSizedBox,
                 Container(
-                  width: mediaWidth - 180,
+                  width: mediaWidth - 200,
                   child: Text(
                     'Short description about the food here',
                     overflow: TextOverflow.ellipsis,
@@ -140,11 +140,11 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                     ),
                   ),
                 ),
-                kHalfSizedBox,
+                kSizedBox,
                 Row(
                   children: [
                     SizedBox(
-                      width: (mediaWidth - 190) / 2,
+                      width: (mediaWidth - 200) / 2,
                       child: Text(
                         "₦${formattedText(_productPrice)}",
                         style: TextStyle(
@@ -156,8 +156,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                       ),
                     ),
                     SizedBox(
-                      width: (mediaWidth - 190) / 2,
-                      height: 17,
+                      width: (mediaWidth - 200) / 2,
                       child: Text(
                         "Qty: ${formattedText(200)}",
                         textAlign: TextAlign.right,

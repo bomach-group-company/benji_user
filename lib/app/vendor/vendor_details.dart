@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/category_button_section.dart';
@@ -18,7 +17,9 @@ import '../../src/providers/my_liquid_refresh.dart';
 import '../../theme/colors.dart';
 import '../product/product_detail_screen.dart';
 import 'about_vendor.dart';
+import 'all_vendor_products.dart';
 import 'report_vendor.dart';
+import 'vendor_location.dart';
 
 class VendorDetails extends StatefulWidget {
   const VendorDetails({super.key});
@@ -232,6 +233,28 @@ class _VendorDetailsState extends State<VendorDetails>
         transition: Transition.rightToLeft,
       );
 
+  void _toVendorLocation() => Get.to(
+        () => VendorLocation(),
+        routeName: 'VendorLocation',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+  void _viewProducts() => Get.to(
+        () => AllVendorProducts(),
+        routeName: 'AllVendorProducts',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
@@ -364,13 +387,18 @@ class _VendorDetailsState extends State<VendorDetails>
                                             top: kDefaultPadding * 2.6),
                                         child: Column(
                                           children: [
-                                            Text(
-                                              "Ntachi-Osa",
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                color: kTextBlackColor,
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.w700,
+                                            SizedBox(
+                                              width: mediaWidth - 200,
+                                              child: Text(
+                                                "Ntachi Osa",
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: kTextBlackColor,
+                                                  fontSize: 24,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
                                               ),
                                             ),
                                             kHalfSizedBox,
@@ -401,22 +429,24 @@ class _VendorDetailsState extends State<VendorDetails>
                                             ),
                                             kHalfSizedBox,
                                             InkWell(
-                                              onTap: (() async {
-                                                final websiteurl = Uri.parse(
-                                                  "https://goo.gl/maps/8pKoBVCsew5oqjU49",
-                                                );
-                                                if (await canLaunchUrl(
-                                                  websiteurl,
-                                                )) {
-                                                  launchUrl(
-                                                    websiteurl,
-                                                    mode: LaunchMode
-                                                        .externalNonBrowserApplication,
-                                                  );
-                                                } else {
-                                                  throw "An unexpected error occured and $websiteurl cannot be loaded";
-                                                }
-                                              }),
+                                              onTap: _toVendorLocation,
+
+                                              // (() async {
+                                              //   final websiteurl = Uri.parse(
+                                              //     "https://goo.gl/maps/8pKoBVCsew5oqjU49",
+                                              //   );
+                                              //   if (await canLaunchUrl(
+                                              //     websiteurl,
+                                              //   )) {
+                                              //     launchUrl(
+                                              //       websiteurl,
+                                              //       mode: LaunchMode
+                                              //           .externalNonBrowserApplication,
+                                              //     );
+                                              //   } else {
+                                              //     throw "An unexpected error occured and $websiteurl cannot be loaded";
+                                              //   }
+                                              // }),
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               child: Container(
@@ -658,7 +688,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                                     ),
                                                     kSizedBox,
                                                     TextButton(
-                                                      onPressed: () {},
+                                                      onPressed: _viewProducts,
                                                       child: Text(
                                                         "See all",
                                                         style: TextStyle(
