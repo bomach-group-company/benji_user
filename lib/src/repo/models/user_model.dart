@@ -10,6 +10,7 @@ class User {
   final String? gender;
   final String? image;
   final String? token;
+  final String? code;
 
   const User({
     this.id,
@@ -21,6 +22,7 @@ class User {
     this.gender,
     this.image,
     this.token,
+    this.code,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -34,6 +36,7 @@ class User {
       gender: json['gender'],
       image: json['image'],
       token: json['token'],
+      code: json['code'],
     );
   }
 }

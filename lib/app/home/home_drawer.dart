@@ -1,3 +1,5 @@
+import 'package:benji_user/src/others/my_future_builder.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -53,71 +55,74 @@ class _HomeDrawerState extends State<HomeDrawer> {
             backgroundColor: kPrimaryColor,
             actions: [],
           ),
-          ListTile(
-            leading: AnimatedContainer(
-              duration: Duration(milliseconds: 500),
-              curve: Curves.easeIn,
-              height: 60,
-              width: 60,
-              decoration: ShapeDecoration(
-                color: kPageSkeletonColor,
-                image: DecorationImage(
-                  image: AssetImage(
-                    "assets/images/profile/avatar-image.jpg",
-                  ),
-                  fit: BoxFit.cover,
-                ),
-                shape: OvalBorder(),
-              ),
-            ),
-            title: Text(
-              'Super Maria',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                color: kTextBlackColor,
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            subtitle: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'supermaria@gmail.com',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: kTextBlackColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
+          MyFutureBuilder(
+            future: getUser(),
+            child: (data) => ListTile(
+              leading: AnimatedContainer(
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeIn,
+                height: 60,
+                width: 60,
+                decoration: ShapeDecoration(
+                  color: kPageSkeletonColor,
+                  image: DecorationImage(
+                    image: AssetImage(
+                      "assets/images/profile/avatar-image.jpg",
                     ),
+                    fit: BoxFit.cover,
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        widget.userID,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: kTextBlackColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
+                  shape: OvalBorder(),
+                ),
+              ),
+              title: Text(
+                '${data.firstName} ${data.lastName}',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: kTextBlackColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              subtitle: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      data.email,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: kTextBlackColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
                       ),
-                      kWidthSizedBox,
-                      IconButton(
-                        onPressed: widget.copyUserIdToClipBoard,
-                        tooltip: "Copy ID",
-                        mouseCursor: SystemMouseCursors.click,
-                        icon: FaIcon(
-                          FontAwesomeIcons.copy,
-                          size: 14,
-                          color: kAccentColor,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          widget.userID,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        kWidthSizedBox,
+                        IconButton(
+                          onPressed: widget.copyUserIdToClipBoard,
+                          tooltip: "Copy ID",
+                          mouseCursor: SystemMouseCursors.click,
+                          icon: FaIcon(
+                            FontAwesomeIcons.copy,
+                            size: 14,
+                            color: kAccentColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
