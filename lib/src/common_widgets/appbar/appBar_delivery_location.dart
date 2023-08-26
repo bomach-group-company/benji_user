@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+
 import '../../../theme/colors.dart';
 
 class AppBarDeliveryLocation extends StatelessWidget {
@@ -12,6 +15,7 @@ class AppBarDeliveryLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return InkWell(
       borderRadius: BorderRadius.circular(24),
       onTap: toDeliverToPage,
@@ -30,7 +34,7 @@ class AppBarDeliveryLocation extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 150,
+                width: max(100, media.width - 250),
                 child: Text(
                   deliveryLocation,
                   overflow: TextOverflow.ellipsis,

@@ -1,4 +1,6 @@
+import 'package:benji_user/app/checkout/checkout_screen.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendors_product_container.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:benji_user/theme/colors.dart';
@@ -76,6 +78,17 @@ class _CartScreenState extends State<CartScreen> {
         transition: Transition.rightToLeft,
       );
 
+  void _toCheckoutScreen() => Get.to(
+        () => const CheckoutScreen(),
+        routeName: 'CheckoutScreen',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
@@ -93,6 +106,17 @@ class _CartScreenState extends State<CartScreen> {
         ),
         extendBody: true,
         extendBodyBehindAppBar: true,
+        bottomNavigationBar: Container(
+          padding: const EdgeInsets.all(kDefaultPadding / 2),
+          decoration: BoxDecoration(
+              color: kPrimaryColor,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+          child: MyElevatedButton(
+            onPressed: _toCheckoutScreen,
+            title: "Checkout (₦ ${formattedText(12000)})",
+          ),
+        ),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: _loadingScreen
@@ -178,6 +202,7 @@ class _CartScreenState extends State<CartScreen> {
                           );
                         },
                       ),
+                      SizedBox(height: kDefaultPadding * 4),
                     ],
                   ),
                 ),

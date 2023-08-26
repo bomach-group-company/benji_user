@@ -19,10 +19,11 @@ class PopularVendorsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: 355,
+        // width: 355,
         height: 130,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
@@ -63,9 +64,11 @@ class PopularVendorsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
+                    width: media.width - 170,
                     child: Text(
                       vendorName,
                       style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
                         color: kTextBlackColor,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -75,7 +78,6 @@ class PopularVendorsCard extends StatelessWidget {
                   ),
                   kSizedBox,
                   SizedBox(
-                    width: 200,
                     child: Text(
                       food,
                       textAlign: TextAlign.start,

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/category_button_section.dart';
@@ -18,7 +17,9 @@ import '../../src/providers/my_liquid_refresh.dart';
 import '../../theme/colors.dart';
 import '../product/product_detail_screen.dart';
 import 'about_vendor.dart';
+import 'all_vendor_products.dart';
 import 'report_vendor.dart';
+import 'vendor_location.dart';
 
 class VendorDetails extends StatefulWidget {
   final String id;
@@ -239,6 +240,28 @@ class _VendorDetailsState extends State<VendorDetails>
         transition: Transition.rightToLeft,
       );
 
+  void _toVendorLocation() => Get.to(
+        () => VendorLocation(),
+        routeName: 'VendorLocation',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+  void _viewProducts() => Get.to(
+        () => AllVendorProducts(),
+        routeName: 'AllVendorProducts',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
@@ -287,6 +310,7 @@ class _VendorDetailsState extends State<VendorDetails>
         extendBodyBehindAppBar: true,
         body: SafeArea(
           maintainBottomViewPadding: true,
+<<<<<<< HEAD:lib/app/vendors/vendor_details.dart
           child: Scrollbar(
             controller: _scrollController,
             radius: const Radius.circular(10),
@@ -310,6 +334,283 @@ class _VendorDetailsState extends State<VendorDetails>
                               fit: BoxFit.cover,
                               image: AssetImage(
                                 "assets/images/vendors/ntachi-osa.png",
+=======
+          child: FutureBuilder(
+              future: null,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  Center(child: SpinKitChasingDots(color: kAccentColor));
+                }
+                if (snapshot.connectionState == ConnectionState.none) {
+                  const Center(
+                    child: Text("Please connect to the internet"),
+                  );
+                }
+                // if (snapshot.connectionState == snapshot.requireData) {
+                //   SpinKitChasingDots(color: kAccentColor);
+                // }
+                if (snapshot.connectionState == snapshot.error) {
+                  const Center(
+                    child: Text("Error, Please try again later"),
+                  );
+                }
+                return _loadingScreen
+                    ? Center(child: SpinKitChasingDots(color: kAccentColor))
+                    : Scrollbar(
+                        controller: _scrollController,
+                        radius: const Radius.circular(10),
+                        scrollbarOrientation: ScrollbarOrientation.right,
+                        child: ListView(
+                          physics: const ScrollPhysics(),
+                          children: [
+                            SizedBox(
+                              height: 340,
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.3,
+                                      decoration: BoxDecoration(
+                                        color: kPageSkeletonColor,
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage(
+                                            "assets/images/vendors/ntachi-osa.png",
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: MediaQuery.of(context).size.height *
+                                        0.13,
+                                    left: kDefaultPadding,
+                                    right: kDefaultPadding,
+                                    child: Container(
+                                      width: 200,
+                                      padding: const EdgeInsets.all(
+                                          kDefaultPadding / 2),
+                                      decoration: ShapeDecoration(
+                                        shadows: [
+                                          BoxShadow(
+                                            color: kBlackColor.withOpacity(0.1),
+                                            blurRadius: 5,
+                                            spreadRadius: 2,
+                                            blurStyle: BlurStyle.normal,
+                                          ),
+                                        ],
+                                        color: const Color(0xFFFEF8F8),
+                                        shape: RoundedRectangleBorder(
+                                          side: const BorderSide(
+                                            width: 0.50,
+                                            color: Color(0xFFFDEDED),
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: kDefaultPadding * 2.6),
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              width: mediaWidth - 200,
+                                              child: Text(
+                                                "Ntachi Osa",
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: kTextBlackColor,
+                                                  fontSize: 24,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                            ),
+                                            kHalfSizedBox,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                FaIcon(
+                                                  FontAwesomeIcons.locationDot,
+                                                  color: kAccentColor,
+                                                  size: 15,
+                                                ),
+                                                kHalfWidthSizedBox,
+                                                SizedBox(
+                                                  width: mediaWidth - 100,
+                                                  child: Text(
+                                                    "Old Abakaliki Rd, Thinkers Corner 400103, Enugu",
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            kHalfSizedBox,
+                                            InkWell(
+                                              onTap: _toVendorLocation,
+
+                                              // (() async {
+                                              //   final websiteurl = Uri.parse(
+                                              //     "https://goo.gl/maps/8pKoBVCsew5oqjU49",
+                                              //   );
+                                              //   if (await canLaunchUrl(
+                                              //     websiteurl,
+                                              //   )) {
+                                              //     launchUrl(
+                                              //       websiteurl,
+                                              //       mode: LaunchMode
+                                              //           .externalNonBrowserApplication,
+                                              //     );
+                                              //   } else {
+                                              //     throw "An unexpected error occured and $websiteurl cannot be loaded";
+                                              //   }
+                                              // }),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: Container(
+                                                width: mediaWidth / 4,
+                                                padding: const EdgeInsets.all(
+                                                    kDefaultPadding / 4),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  border: Border.all(
+                                                    color: kAccentColor,
+                                                    width: 1,
+                                                  ),
+                                                ),
+                                                child: const Text(
+                                                  "Show on map",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            kHalfSizedBox,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Container(
+                                                  width: mediaWidth * 0.23,
+                                                  height: 57,
+                                                  decoration: ShapeDecoration(
+                                                    color: kPrimaryColor,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              19),
+                                                    ),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      FaIcon(
+                                                        FontAwesomeIcons
+                                                            .solidStar,
+                                                        color: kStarColor,
+                                                        size: 17,
+                                                      ),
+                                                      const SizedBox(width: 5),
+                                                      Text(
+                                                        "4.8",
+                                                        style: const TextStyle(
+                                                          color: kBlackColor,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          letterSpacing: -0.28,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: mediaWidth * 0.25,
+                                                  height: 57,
+                                                  decoration: ShapeDecoration(
+                                                    color: kPrimaryColor,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              19),
+                                                    ),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        "Online",
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          color: kSuccessColor,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          letterSpacing: -0.36,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 5),
+                                                      FaIcon(
+                                                        Icons.info,
+                                                        color: kAccentColor,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: MediaQuery.of(context).size.height *
+                                        0.07,
+                                    left:
+                                        MediaQuery.of(context).size.width / 2.7,
+                                    child: Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: ShapeDecoration(
+                                        color: kPageSkeletonColor,
+                                        image: const DecorationImage(
+                                          image: AssetImage(
+                                            "assets/images/vendors/ntachi-osa-logo.png",
+                                          ),
+                                          fit: BoxFit.cover,
+                                        ),
+                                        shape: OvalBorder(),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+>>>>>>> main:lib/app/vendor/vendor_details.dart
                               ),
                             ),
                           ),
@@ -591,6 +892,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                 : VendorsProductsTab(
                                     list: Column(
                                       children: [
+<<<<<<< HEAD:lib/app/vendors/vendor_details.dart
                                         CategoryButtonSection(
                                           category: _categoryButtonText,
                                           categoryFontColor:
@@ -624,6 +926,106 @@ class _VendorDetailsState extends State<VendorDetails>
                                           ),
                                         ),
                                         kSizedBox,
+=======
+                                        _loadingTabBarContent
+                                            ? Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  SpinKitChasingDots(
+                                                    color: kAccentColor,
+                                                  ),
+                                                ],
+                                              )
+                                            : VendorsProductsTab(
+                                                list: Column(
+                                                  children: [
+                                                    CategoryButtonSection(
+                                                      category:
+                                                          _categoryButtonText,
+                                                      categorybgColor:
+                                                          _categoryButtonBgColor,
+                                                      categoryFontColor:
+                                                          _categoryButtonFontColor,
+                                                    ),
+                                                    kHalfSizedBox,
+                                                    ListView.separated(
+                                                      itemCount: 10,
+                                                      shrinkWrap: true,
+                                                      physics:
+                                                          const BouncingScrollPhysics(),
+                                                      separatorBuilder:
+                                                          (context, index) =>
+                                                              kHalfSizedBox,
+                                                      itemBuilder: (context,
+                                                              index) =>
+                                                          VendorsProductContainer(
+                                                        onTap:
+                                                            _toProductDetailScreen,
+                                                      ),
+                                                    ),
+                                                    kSizedBox,
+                                                    TextButton(
+                                                      onPressed: _viewProducts,
+                                                      child: Text(
+                                                        "See all",
+                                                        style: TextStyle(
+                                                          color: kAccentColor,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    kSizedBox,
+                                                  ],
+                                                ),
+                                              ),
+                                        _loadingTabBarContent
+                                            ? Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  SpinKitChasingDots(
+                                                      color: kAccentColor),
+                                                ],
+                                              )
+                                            : VendorsAboutTab(
+                                                list: Column(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 0,
+                                                      child: AboutVendor(
+                                                        vendorName:
+                                                            "Ntachi-Osa",
+                                                        vendorHeadLine: "",
+                                                        monToFriOpeningHours:
+                                                            "",
+                                                        monToFriClosingHours:
+                                                            "",
+                                                        satOpeningHours: "",
+                                                        satClosingHours: "",
+                                                        sunOpeningHours: "",
+                                                        sunClosingHours: "",
+                                                      ),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {},
+                                                      child: Text(
+                                                        "See all",
+                                                        style: TextStyle(
+                                                          color: kAccentColor,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    kSizedBox,
+                                                  ],
+                                                ),
+                                              ),
+>>>>>>> main:lib/app/vendor/vendor_details.dart
                                       ],
                                     ),
                                   ),

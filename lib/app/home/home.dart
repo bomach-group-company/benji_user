@@ -28,9 +28,9 @@ import '../orders/order_history.dart';
 import '../product/hot_deals_page.dart';
 import '../profile/edit_profile.dart';
 import '../send_package/send_package.dart';
-import '../vendors/popular_vendors.dart';
-import '../vendors/vendor_details.dart';
-import '../vendors/vendors_near_you.dart';
+import '../vendor/popular_vendors.dart';
+import '../vendor/vendor_details.dart';
+import '../vendor/vendors_near_you.dart';
 import 'home_drawer.dart';
 
 class Home extends StatefulWidget {

@@ -12,7 +12,7 @@ void mySnackBar(
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Container(
-        height: 60,
+        height: 80,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

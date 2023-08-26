@@ -26,6 +26,7 @@ dependencies:
   liquid_pull_to_refresh: ^3.0.1
   shared_preferences: ^2.2.0
   font_awesome_flutter: ^10.5.0
+  lottie:
   get: ^4.6.5
   intl: ^0.18.1
   flutter_layout_grid: ^2.0.4
@@ -72,6 +73,7 @@ flutter:
     - assets/animations/successful/
     - assets/animations/no_internet/
     - assets/animations/forgot_password/
+    - assets/animations/error/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

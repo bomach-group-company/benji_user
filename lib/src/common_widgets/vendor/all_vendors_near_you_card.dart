@@ -25,10 +25,10 @@ class AllVendorsNearYouCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: 355,
         height: 130,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
@@ -74,6 +74,7 @@ class AllVendorsNearYouCard extends StatelessWidget {
                     child: Text(
                       vendorName,
                       style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
                         color: kTextBlackColor,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -83,11 +84,12 @@ class AllVendorsNearYouCard extends StatelessWidget {
                   ),
                   kSizedBox,
                   SizedBox(
-                    width: 200,
+                    width: media.width - 200,
                     child: Text(
                       typeOfBusiness,
                       textAlign: TextAlign.start,
                       style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
                         color: kTextBlackColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -95,61 +97,70 @@ class AllVendorsNearYouCard extends StatelessWidget {
                     ),
                   ),
                   kSizedBox,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          FaIcon(
-                            FontAwesomeIcons.solidStar,
-                            color: kStarColor,
-                            size: 15,
-                          ),
-                          SizedBox(
-                            width: kDefaultPadding / 10,
-                          ),
-                          SizedBox(
-                            width: 80,
-                            child: Text(
-                              "$rating ($noOfUsersRated+)",
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: -0.24,
+                  Container(
+                    width: media.width - 180,
+                    child: Wrap(
+                      runSpacing: 3,
+                      children: [
+                        SizedBox(
+                          width: 90,
+                          child: Row(
+                            children: [
+                              FaIcon(
+                                FontAwesomeIcons.solidStar,
+                                color: kStarColor,
+                                size: 15,
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      kHalfWidthSizedBox,
-                      Row(
-                        children: [
-                          FaIcon(
-                            FontAwesomeIcons.solidClock,
-                            color: kAccentColor,
-                            size: 15,
-                          ),
-                          SizedBox(
-                            width: kDefaultPadding / 10,
-                          ),
-                          SizedBox(
-                            width: 60,
-                            child: Text(
-                              '30 mins',
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: -0.28,
+                              SizedBox(
+                                width: kDefaultPadding / 10,
                               ),
-                            ),
+                              SizedBox(
+                                width: 70,
+                                child: Text(
+                                  "$rating ($noOfUsersRated+)",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: -0.24,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      )
-                    ],
+                        ),
+                        kHalfWidthSizedBox,
+                        SizedBox(
+                          width: 70,
+                          child: Row(
+                            children: [
+                              FaIcon(
+                                FontAwesomeIcons.solidClock,
+                                color: kAccentColor,
+                                size: 15,
+                              ),
+                              SizedBox(
+                                width: kDefaultPadding / 10,
+                              ),
+                              SizedBox(
+                                width: 50,
+                                child: Text(
+                                  '30 mins',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: -0.28,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),
