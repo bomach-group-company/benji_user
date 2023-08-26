@@ -1,4 +1,4 @@
-import 'category_model.dart';
+import 'category.dart';
 
 class SubCategory {
   final String id;

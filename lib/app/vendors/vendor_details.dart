@@ -94,6 +94,8 @@ class _VendorDetailsState extends State<VendorDetails>
   ];
 
 //=================================================== FUNCTIONS =====================================================\\
+  _getData() {}
+
   void validate() {
     mySnackBar(
       context,
@@ -104,8 +106,6 @@ class _VendorDetailsState extends State<VendorDetails>
 
     Get.back();
   }
-
-  //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
     setState(() {
