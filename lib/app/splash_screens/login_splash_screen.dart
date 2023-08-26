@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../../theme/colors.dart';
 import '../home/home.dart';
 
 class LoginSplashScreen extends StatelessWidget {
@@ -19,7 +20,7 @@ class LoginSplashScreen extends StatelessWidget {
     return SafeArea(
       maintainBottomViewPadding: true,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: kPrimaryColor,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

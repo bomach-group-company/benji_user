@@ -12,7 +12,7 @@ import '../../src/common_widgets/section/rate_vendor_dialog.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/common_widgets/vendor/vendor_about_tab.dart';
 import '../../src/common_widgets/vendor/vendor_products_tab.dart';
-import '../../src/common_widgets/vendor/vendors_food_container.dart';
+import '../../src/common_widgets/vendor/vendors_product_container.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../theme/colors.dart';
@@ -249,7 +249,10 @@ class _VendorDetailsState extends State<VendorDetails>
           actions: [
             IconButton(
               onPressed: () {
-                showSearch(context: context, delegate: CustomSearchDelegate());
+                _loadingScreen
+                    ? null
+                    : showSearch(
+                        context: context, delegate: CustomSearchDelegate());
               },
               icon: FaIcon(
                 FontAwesomeIcons.magnifyingGlass,
@@ -257,7 +260,7 @@ class _VendorDetailsState extends State<VendorDetails>
               ),
             ),
             IconButton(
-              onPressed: _addToFavorites,
+              onPressed: _loadingScreen ? null : _addToFavorites,
               icon: FaIcon(
                 _isAddedToFavorites
                     ? FontAwesomeIcons.solidHeart
@@ -266,7 +269,7 @@ class _VendorDetailsState extends State<VendorDetails>
               ),
             ),
             IconButton(
-              onPressed: () => showPopupMenu(context),
+              onPressed: () => _loadingScreen ? null : showPopupMenu(context),
               icon: FaIcon(
                 FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,
@@ -303,7 +306,7 @@ class _VendorDetailsState extends State<VendorDetails>
                         radius: const Radius.circular(10),
                         scrollbarOrientation: ScrollbarOrientation.right,
                         child: ListView(
-                          physics: const BouncingScrollPhysics(),
+                          physics: const ScrollPhysics(),
                           children: [
                             SizedBox(
                               height: 340,
@@ -637,6 +640,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                                       categoryFontColor:
                                                           _categoryButtonFontColor,
                                                     ),
+                                                    kHalfSizedBox,
                                                     ListView.separated(
                                                       itemCount: 10,
                                                       shrinkWrap: true,
@@ -647,7 +651,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                                               kHalfSizedBox,
                                                       itemBuilder: (context,
                                                               index) =>
-                                                          VendorFoodContainer(
+                                                          VendorsProductContainer(
                                                         onTap:
                                                             _toProductDetailScreen,
                                                       ),
@@ -682,6 +686,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                                 list: Column(
                                                   children: [
                                                     Expanded(
+                                                      flex: 0,
                                                       child: AboutVendor(
                                                         vendorName:
                                                             "Ntachi-Osa",

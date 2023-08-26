@@ -48,10 +48,8 @@ class CostumerReviewCard extends StatelessWidget {
                 decoration: ShapeDecoration(
                   shape: OvalBorder(),
                   image: DecorationImage(
-
                     image:
                         AssetImage('assets/images/customers/ebuka_henry.png'),
-
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -87,7 +85,7 @@ class CostumerReviewCard extends StatelessWidget {
               ),
               kHalfWidthSizedBox,
               Text(
-                '5.0 Ratings',
+                '5.0 Rating',
                 textAlign: TextAlign.right,
                 style: TextStyle(
                   color: kTextGreyColor,

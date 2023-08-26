@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-
 import '../../src/common_widgets/rating_view/customer_review_card.dart';
 import '../../src/common_widgets/rating_view/star_row.dart';
 import '../../src/providers/constants.dart';
-
 
 class AboutVendor extends StatefulWidget {
   final String vendorName;
@@ -36,7 +34,6 @@ class _AboutVendorState extends State<AboutVendor> {
   @override
   void initState() {
     super.initState();
-
   }
 
 //============================================= FUNCTIONS  ===================================================\\
@@ -44,10 +41,9 @@ class _AboutVendorState extends State<AboutVendor> {
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
+    // double mediaHeight = MediaQuery.of(context).size.height;
 
     return Container(
-      height: mediaHeight,
       padding: const EdgeInsets.all(kDefaultPadding / 2),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -291,12 +287,11 @@ class _AboutVendorState extends State<AboutVendor> {
             physics: BouncingScrollPhysics(),
             separatorBuilder: (context, index) => kSizedBox,
             shrinkWrap: true,
-            itemCount: 5,
-            itemBuilder: (BuildContext context, int index) {
-              return CostumerReviewCard(
-                mediaWidth: mediaWidth,
-              );
-            },
+            itemCount: 3,
+            itemBuilder: (BuildContext context, int index) =>
+                CostumerReviewCard(
+              mediaWidth: mediaWidth,
+            ),
           ),
         ],
       ),

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../../src/providers/constants.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
+import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
 class VendorLocation extends StatefulWidget {
@@ -176,7 +176,7 @@ class _VendorLocationState extends State<VendorLocation> {
                           width: 102,
                           height: 56.67,
                           decoration: ShapeDecoration(
-                            color: Colors.white,
+                            color: kPrimaryColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                 19,
@@ -209,7 +209,7 @@ class _VendorLocationState extends State<VendorLocation> {
                           width: 102,
                           height: 56.67,
                           decoration: ShapeDecoration(
-                            color: Colors.white,
+                            color: kPrimaryColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                 19,
@@ -244,7 +244,7 @@ class _VendorLocationState extends State<VendorLocation> {
                           width: 102,
                           height: 56.67,
                           decoration: ShapeDecoration(
-                            color: Colors.white,
+                            color: kPrimaryColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                 19,

@@ -2,8 +2,9 @@
 
 import 'package:flutter/material.dart';
 
-import '../../src/providers/constants.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
+import '../../src/providers/constants.dart';
+import '../../theme/colors.dart';
 import '../orders/track_order.dart';
 
 class PaymentSuccessful extends StatelessWidget {
@@ -12,7 +13,7 @@ class PaymentSuccessful extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: kPrimaryColor,
       body: SafeArea(
         maintainBottomViewPadding: true,
         child: Container(
