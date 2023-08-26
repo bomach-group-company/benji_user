@@ -52,7 +52,7 @@ android {
         targetSdk 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        applicationIdSuffix 'Benji'
+        applicationIdSuffix 'benji'
         multiDexEnabled true
         versionNameSuffix flutterVersionName
     }
@@ -74,5 +74,5 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.0"
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.10'
 }
