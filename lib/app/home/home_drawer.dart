@@ -108,16 +108,15 @@ class _HomeDrawerState extends State<HomeDrawer> {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-
-                      ),
-                      IconButton(
-                        onPressed: widget.copyUserIdToClipBoard,
-                        tooltip: "Copy ID",
-                        mouseCursor: SystemMouseCursors.click,
-                        icon: FaIcon(
-                          FontAwesomeIcons.copy,
-                          size: 14,
-                          color: kAccentColor,
+                        IconButton(
+                          onPressed: widget.copyUserIdToClipBoard,
+                          tooltip: "Copy ID",
+                          mouseCursor: SystemMouseCursors.click,
+                          icon: FaIcon(
+                            FontAwesomeIcons.copy,
+                            size: 14,
+                            color: kAccentColor,
+                          ),
                         ),
                       ],
                     ),
