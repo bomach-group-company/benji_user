@@ -1,4 +1,6 @@
 import 'package:benji_user/app/favorites/favorites.dart';
+import 'package:benji_user/src/others/my_future_builder.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -145,8 +147,7 @@ class _HomeState extends State<Home> {
   ];
 
   //===================== COPY TO CLIPBOARD =======================\\
-  final String userID = 'ID: 337890-AZQ';
-  void _copyToClipboard(BuildContext context) {
+  void _copyToClipboard(BuildContext context, String userID) {
     Clipboard.setData(
       ClipboardData(
         text: userID,
@@ -336,18 +337,21 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         drawerDragStartBehavior: DragStartBehavior.start,
         drawerEnableOpenDragGesture: true,
-        drawer: HomeDrawer(
-          userID: userID,
-          toEditProfilePage: _toProfileSettings,
-          copyUserIdToClipBoard: () {
-            _copyToClipboard(context);
-          },
-          toAddressesPage: _toAddressScreen,
-          toSendPackagePage: _toSendPackageScreen,
-          toFavoritesPage: _toFavoritesScreen,
-          toCheckoutScreen: _toCheckoutScreen,
-          toOrdersPage: _toOrdersScreen,
-          logOut: _logOut,
+        drawer: MyFutureBuilder(
+          future: getUser(),
+          child: (data) => HomeDrawer(
+            userID: data.code,
+            toEditProfilePage: _toProfileSettings,
+            copyUserIdToClipBoard: () {
+              _copyToClipboard(context, data.code);
+            },
+            toAddressesPage: _toAddressScreen,
+            toSendPackagePage: _toSendPackageScreen,
+            toFavoritesPage: _toFavoritesScreen,
+            toCheckoutScreen: _toCheckoutScreen,
+            toOrdersPage: _toOrdersScreen,
+            logOut: _logOut,
+          ),
         ),
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
