@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../../utils/base_url.dart';
 import '../../utils/helpers.dart';
 import '../others/driver.dart';
-import '../others/percentage.dart';
+import '../percentage.dart';
 import '../user/user_model.dart';
 import 'order_details.dart';
 

@@ -7,7 +7,6 @@ import '../../src/providers/constants.dart';
 import '../../src/repo/models/user/address_model.dart';
 import '../../theme/colors.dart';
 import 'add_new_address.dart';
-import 'address_details.dart';
 
 class Addresses extends StatefulWidget {
   const Addresses({super.key});
@@ -115,11 +114,11 @@ class _AddressesState extends State<Addresses> {
                             ),
                             child: ListTile(
                               onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => AddressDetails(),
-                                  ),
-                                );
+                                // Navigator.of(context).push(
+                                //   MaterialPageRoute(
+                                //     builder: (context) => AddressDetails(),
+                                //   ),
+                                // );
                               },
                               enableFeedback: true,
                               trailing: Icon(

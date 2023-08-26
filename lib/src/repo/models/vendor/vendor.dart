@@ -63,3 +63,16 @@ Future<VendorModel> getVendorById(id) async {
     throw Exception('Failed to load vendor');
   }
 }
+
+Future<List<VendorModel>> getVendors(start, end) async {
+  final response = await http
+      .get(Uri.parse('$baseURL/vendors/getAllVendor?start=$start&end=$end'));
+
+  if (response.statusCode == 200) {
+    return (jsonDecode(response.body)['items'] as List)
+        .map((item) => VendorModel.fromJson(item))
+        .toList();
+  } else {
+    throw Exception('Failed to load vendor');
+  }
+}

@@ -1,4 +1,4 @@
-import 'package:benji_user/app/vendors/vendor_details.dart';
+import 'package:benji_user/app/home/home.dart';
 import 'package:benji_user/theme/app%20theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       // home: StartupSplashscreen(),
-      home: VendorDetails(),
+      home: Home(),
     );
   }
 }
