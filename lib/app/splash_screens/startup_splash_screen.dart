@@ -6,7 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/providers/constants.dart';
-import '../../src/repo/models/user_model.dart';
+import '../../src/repo/models/user/user_model.dart';
 import '../../theme/colors.dart';
 import '../auth/signup.dart';
 import '../home/home.dart';

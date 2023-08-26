@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:benji_user/src/repo/models/user_model.dart';
+import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:http/http.dart' as http;
 
-import '../utils/base_url.dart';
-import '../utils/helpers.dart';
+import '../../utils/base_url.dart';
+import '../../utils/helpers.dart';
 
 class Address {
   final String? id;
@@ -70,7 +70,7 @@ Future<List<Address>> getAddressesByUser() async {
 Future<Address> getCurrentAddress() async {
   int? userId = (await getUser() as User).id;
 
-  final response = await http.put(
+  final response = await http.get(
     Uri.parse('$baseURL/clients/getCurrentAddress/$userId'),
     headers: await authHeader(),
   );

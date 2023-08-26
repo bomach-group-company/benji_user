@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../utils/base_url.dart';
-import '../utils/helpers.dart';
-import 'driver_model.dart';
-import 'order_details_model.dart';
-import 'percentage_model.dart';
-import 'user_model.dart';
+import '../../utils/base_url.dart';
+import '../../utils/helpers.dart';
+import '../others/driver.dart';
+import '../percentage.dart';
+import '../user/user_model.dart';
+import 'order_details.dart';
 
 class Order {
   final String id;

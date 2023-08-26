@@ -7,7 +7,7 @@ import 'package:get/route_manager.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
-import '../../src/repo/models/address_model.dart';
+import '../../src/repo/models/user/address_model.dart';
 import '../../theme/colors.dart';
 import 'add_new_address.dart';
 
