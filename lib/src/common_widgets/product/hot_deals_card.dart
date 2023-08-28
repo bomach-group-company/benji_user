@@ -5,12 +5,14 @@ import 'package:intl/intl.dart';
 import '../../providers/constants.dart';
 
 class HotDealsCard extends StatelessWidget {
+  final Function()? OnTap;
   final String name;
   final double price;
   const HotDealsCard({
     super.key,
     required this.name,
     required this.price,
+    this.OnTap,
   });
 
 //===================== Number format ==========================\\
@@ -22,7 +24,7 @@ class HotDealsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: OnTap,
       child: Container(
         width: 349.82,
         height: 325.29,
