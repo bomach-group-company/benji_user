@@ -22,8 +22,14 @@ import 'report_vendor.dart';
 import 'vendor_location.dart';
 
 class VendorDetails extends StatefulWidget {
-  final String id;
-  const VendorDetails({super.key, this.id = '4'});
+  final int id;
+  final String shopName;
+  final bool isOnline;
+  const VendorDetails(
+      {super.key,
+      required this.id,
+      required this.shopName,
+      required this.isOnline});
 
   @override
   State<VendorDetails> createState() => _VendorDetailsState();
@@ -397,7 +403,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                           SizedBox(
                                             width: mediaWidth - 200,
                                             child: Text(
-                                              "Ntachi Osa",
+                                              widget.shopName,
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
                                               textAlign: TextAlign.center,
@@ -533,11 +539,15 @@ class _VendorDetailsState extends State<VendorDetails>
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      "Online",
+                                                      widget.isOnline
+                                                          ? "Online"
+                                                          : 'Offline',
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
-                                                        color: kSuccessColor,
+                                                        color: widget.isOnline
+                                                            ? kSuccessColor
+                                                            : kAccentColor,
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.w400,

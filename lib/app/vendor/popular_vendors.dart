@@ -5,6 +5,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/vendor/popular_vendors_card.dart';
 import '../../src/providers/constants.dart';
+import '../../src/repo/models/vendor/vendor.dart';
+import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 
 class PopularVendors extends StatefulWidget {
@@ -20,33 +22,29 @@ class _PopularVendorsState extends State<PopularVendors> {
   void initState() {
     super.initState();
 
-    _loadingScreen = true;
-    Future.delayed(
-      const Duration(milliseconds: 1000),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
+    _getData();
   }
-  //==================================================== ALL VARIABLES ===========================================================\\
 
-  //==================================================== BOOL VALUES ===========================================================\\
-  late bool _loadingScreen;
+  Map? _data;
+
+  _getData() async {
+    await checkAuth(context);
+    List<VendorModel> vendor = await getVendors();
+    setState(() {
+      _data = {
+        'vendor': vendor,
+      };
+    });
+  }
 
   //==================================================== CONTROLLERS ======================================================\\
   final _scrollController = ScrollController();
 
   //==================================================== FUNCTIONS ===========================================================\\
   //===================== Handle refresh ==========================\\
-
   Future<void> _handleRefresh() async {
-    setState(() {
-      _loadingScreen = true;
-    });
-    await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      _loadingScreen = false;
-    });
+    _data = null;
+    await _getData();
   }
   //========================================================================\\
 
@@ -65,7 +63,7 @@ class _PopularVendorsState extends State<PopularVendors> {
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: _loadingScreen
+          child: _data == null
               ? SpinKitChasingDots(color: kAccentColor)
               : Scrollbar(
                   controller: _scrollController,
@@ -73,14 +71,14 @@ class _PopularVendorsState extends State<PopularVendors> {
                   radius: Radius.circular(10),
                   child: ListView.separated(
                     physics: BouncingScrollPhysics(),
-                    itemCount: 10,
+                    itemCount: _data!['vendor'].length,
                     padding: const EdgeInsets.all(kDefaultPadding),
                     separatorBuilder: (context, index) => kHalfSizedBox,
                     itemBuilder: (BuildContext context, int index) =>
                         PopularVendorsCard(
                       onTap: () {},
                       cardImage: 'best-choice-restaurant.png',
-                      vendorName: "Best Choice restaurant",
+                      vendorName: _data!['vendor'][index].shopName,
                       food: "Food",
                       rating: "3.6",
                       noOfUsersRated: "500",

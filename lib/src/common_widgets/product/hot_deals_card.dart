@@ -5,8 +5,12 @@ import 'package:intl/intl.dart';
 import '../../providers/constants.dart';
 
 class HotDealsCard extends StatelessWidget {
+  final String name;
+  final double price;
   const HotDealsCard({
     super.key,
+    required this.name,
+    required this.price,
   });
 
 //===================== Number format ==========================\\
@@ -73,7 +77,7 @@ class HotDealsCard extends StatelessWidget {
                     SizedBox(
                       width: 313,
                       child: Text(
-                        'Okra Soup and swallow',
+                        name,
                         style: TextStyle(
                           color: kTextBlackColor,
                           fontSize: 20,
@@ -104,7 +108,7 @@ class HotDealsCard extends StatelessWidget {
               child: SizedBox(
                 width: 313,
                 child: Text(
-                  '₦${formattedText(40000)}',
+                  '₦${formattedText(price)}',
                   style: TextStyle(
                     color: kTextBlackColor,
                     fontSize: 20,

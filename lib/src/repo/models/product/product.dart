@@ -1,5 +1,10 @@
-import 'package:benji_user/src/repo/models/category/sub_category.dart';
+import 'dart:convert';
 
+import 'package:benji_user/src/repo/models/category/sub_category.dart';
+import 'package:http/http.dart' as http;
+
+import '../../utils/base_url.dart';
+import '../../utils/helpers.dart';
 import '../vendor/vendor.dart';
 
 class Product {
@@ -43,5 +48,20 @@ class Product {
       vendorId: VendorModel.fromJson(json['vendor_id']),
       subCategoryId: SubCategory.fromJson(json['sub_category_id']),
     );
+  }
+}
+
+Future<List<Product>> getProducts({limit = 10}) async {
+  final response = await http.get(
+    Uri.parse('$baseURL/products/listProduct?limit=$limit'),
+    headers: await authHeader(),
+  );
+
+  if (response.statusCode == 200) {
+    return (jsonDecode(response.body)["items"] as List)
+        .map((item) => Product.fromJson(item))
+        .toList();
+  } else {
+    throw Exception('Failed to load user product');
   }
 }

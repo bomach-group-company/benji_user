@@ -17,9 +17,10 @@ import '../../src/common_widgets/product/hot_deals_card.dart';
 import '../../src/common_widgets/section/custom_showSearch.dart';
 import '../../src/common_widgets/section/see_all_container.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
-import '../../src/common_widgets/vendor/homepage_vendors.dart';
 import '../../src/common_widgets/vendor/popular_vendors_card.dart';
 import '../../src/providers/constants.dart';
+import '../../src/repo/models/product/product.dart';
+import '../../src/repo/models/vendor/vendor.dart';
 import '../../theme/colors.dart';
 import '../address/addresses.dart';
 import '../address/deliver_to.dart';
@@ -55,8 +56,14 @@ class _HomeState extends State<Home> {
   _getData() async {
     await checkAuth(context);
     List<Category> category = await getCategories();
+    List<Product> product = await getProducts();
+    List<VendorModel> vendor = await getVendors();
     setState(() {
-      _data = {'category': category};
+      _data = {
+        'category': category,
+        'product': product,
+        'vendor': vendor,
+      };
     });
   }
 
@@ -85,30 +92,6 @@ class _HomeState extends State<Home> {
   //==================================================== CONTROLLERS ======================================================\\
   TextEditingController searchController = TextEditingController();
   final _scrollController = ScrollController();
-
-  // //==================================================== CATEGORY BUTTONS ======================================================\\
-  // final List _categoryButton = [
-  //   "Food",
-  //   "Drinks",
-  //   "Groceries",
-  //   "Pharmaceuticals",
-  //   "Snacks",
-  // ];
-
-  // final List<Color> _categoryButtonBgColor = [
-  //   kAccentColor,
-  //   kDefaultCategoryBackgroundColor,
-  //   kDefaultCategoryBackgroundColor,
-  //   kDefaultCategoryBackgroundColor,
-  //   kDefaultCategoryBackgroundColor,
-  // ];
-  // final List<Color> _categoryButtonFontColor = [
-  //   kPrimaryColor,
-  //   kTextGreyColor,
-  //   kTextGreyColor,
-  //   kTextGreyColor,
-  //   kTextGreyColor,
-  // ];
 
 //===================== POPULAR VENDORS =======================\\
   final List<int> popularVendorsIndex = [0, 1, 2, 3, 4];
@@ -176,7 +159,10 @@ class _HomeState extends State<Home> {
   //==================================================== FUNCTIONS ===========================================================\\
   //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {}
+  Future<void> _handleRefresh() async {
+    _data = null;
+    await _getData();
+  }
   //========================================================================\\
 
   //==================================================== Navigation ===========================================================\\
@@ -285,8 +271,8 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toVendorPage() => Get.to(
-        () => const VendorDetails(),
+  void _toVendorPage(int id, bool isOnline, String shopName) => Get.to(
+        () => VendorDetails(id: id, isOnline: isOnline, shopName: shopName),
         routeName: 'VendorDetails',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -444,15 +430,15 @@ class _HomeState extends State<Home> {
             color: kPrimaryColor,
             width: mediaWidth,
             padding: EdgeInsets.all(kDefaultPadding / 2),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                kHalfSizedBox,
-                _data == null
-                    ? Center(
-                        child: SpinKitChasingDots(color: kAccentColor),
-                      )
-                    : SizedBox(
+            child: _data == null
+                ? Center(
+                    child: SpinKitChasingDots(color: kAccentColor),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      kHalfSizedBox,
+                      SizedBox(
                         height: 60,
                         child: ListView.builder(
                           itemCount: _data!['category'].length,
@@ -478,89 +464,263 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ),
-                SizedBox(height: 8),
-                Flexible(
-                  fit: FlexFit.loose,
-                  child: Scrollbar(
-                    controller: _scrollController,
-                    radius: Radius.circular(10),
-                    scrollbarOrientation: ScrollbarOrientation.right,
-                    child: RefreshIndicator(
-                      onRefresh: _handleRefresh,
-                      color: kAccentColor,
-                      edgeOffset: 0,
-                      displacement: 0.0,
-                      semanticsLabel: "Pull to refresh",
-                      strokeWidth: 3.0,
-                      triggerMode: RefreshIndicatorTriggerMode.onEdge,
-                      child: ListView(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        children: [
-                          SeeAllContainer(
-                            title: "Vendors Near you",
-                            onPressed: _toSeeAllVendorsNearYou,
-                          ),
-                          kSizedBox,
-                          HomePageVendorsNearYou(
-                            onTap: _toVendorPage,
-                          ),
-                          kHalfSizedBox,
-                          SeeAllContainer(
-                            title: "Popular Vendors",
-                            onPressed: _toSeeAllPopularVendors,
-                          ),
-                          kSizedBox,
-                          Center(
-                            child: ListView.separated(
+                      SizedBox(height: 8),
+                      Flexible(
+                        fit: FlexFit.loose,
+                        child: Scrollbar(
+                          controller: _scrollController,
+                          radius: Radius.circular(10),
+                          scrollbarOrientation: ScrollbarOrientation.right,
+                          child: RefreshIndicator(
+                            onRefresh: _handleRefresh,
+                            color: kAccentColor,
+                            edgeOffset: 0,
+                            displacement: 0.0,
+                            semanticsLabel: "Pull to refresh",
+                            strokeWidth: 3.0,
+                            triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                            child: ListView(
                               physics: const BouncingScrollPhysics(),
-                              shrinkWrap: true,
-                              padding: EdgeInsets.only(
-                                left: kDefaultPadding / 2,
-                                right: kDefaultPadding / 2,
-                              ),
-                              itemCount: popularVendorsIndex.length,
-                              separatorBuilder: (context, index) =>
-                                  kHalfSizedBox,
-                              itemBuilder: (context, index) =>
-                                  PopularVendorsCard(
-                                onTap: () {},
-                                cardImage: popularVendorImage[index],
-                                vendorName: popularVendorName[index],
-                                food: popularVendorFood[index],
-                                rating: popularVendorRating[index],
-                                noOfUsersRated:
-                                    popularVendorNoOfUsersRating[index],
-                              ),
+                              scrollDirection: Axis.vertical,
+                              children: [
+                                SeeAllContainer(
+                                  title: "Vendors Near you",
+                                  onPressed: _toSeeAllVendorsNearYou,
+                                ),
+                                kSizedBox,
+                                SizedBox(
+                                  height: 250,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: ListView.separated(
+                                    itemCount: _data!['vendor'].length,
+                                    scrollDirection: Axis.horizontal,
+                                    physics: BouncingScrollPhysics(),
+                                    separatorBuilder: (context, index) =>
+                                        kHalfWidthSizedBox,
+                                    itemBuilder: (context, index) => InkWell(
+                                      onTap: () {
+                                        _toVendorPage(
+                                          _data!['vendor'][index].id,
+                                          _data!['vendor'][index].isOnline,
+                                          _data!['vendor'][index].shopName,
+                                        );
+                                      },
+                                      child: Container(
+                                        decoration: ShapeDecoration(
+                                          color: kPrimaryColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                          ),
+                                          shadows: [
+                                            BoxShadow(
+                                              color: Color(0x0F000000),
+                                              blurRadius: 24,
+                                              offset: Offset(0, 4),
+                                              spreadRadius: 0,
+                                            )
+                                          ],
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              width: 224,
+                                              height: 128,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                    "assets/images/vendors/ntachi-osa.png",
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft:
+                                                      Radius.circular(7.20),
+                                                  topRight:
+                                                      Radius.circular(7.20),
+                                                ),
+                                              ),
+                                            ),
+                                            kHalfSizedBox,
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0, right: 8.0),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                    width: 200,
+                                                    height: 26,
+                                                    child: Text(
+                                                      _data!['vendor'][index]
+                                                          .shopName,
+                                                      style: TextStyle(
+                                                        color: kTextBlackColor,
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        letterSpacing: -0.40,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  kHalfSizedBox,
+                                                  SizedBox(
+                                                    width: 200,
+                                                    child: Text(
+                                                      "Restaurant",
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        color: kTextGreyColor,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  kHalfSizedBox,
+                                                  Container(
+                                                    width: 200,
+                                                    height: 17,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        FaIcon(
+                                                          FontAwesomeIcons
+                                                              .solidStar,
+                                                          color: kStarColor,
+                                                          size: 15,
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 4.0),
+                                                        SizedBox(
+                                                          width: 70,
+                                                          child: Text(
+                                                            '3.6 (100+)',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  kTextBlackColor,
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              letterSpacing:
+                                                                  -0.28,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 10.0),
+                                                        FaIcon(
+                                                          FontAwesomeIcons
+                                                              .solidClock,
+                                                          color: kAccentColor,
+                                                          size: 15,
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 4.0),
+                                                        SizedBox(
+                                                          width: 60,
+                                                          child: Text(
+                                                            '30 mins',
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: TextStyle(
+                                                              color:
+                                                                  kTextBlackColor,
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              letterSpacing:
+                                                                  -0.28,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                kHalfSizedBox,
+                                SeeAllContainer(
+                                  title: "Popular Vendors",
+                                  onPressed: _toSeeAllPopularVendors,
+                                ),
+                                kSizedBox,
+                                Center(
+                                  child: ListView.separated(
+                                    physics: const BouncingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.only(
+                                      left: kDefaultPadding / 2,
+                                      right: kDefaultPadding / 2,
+                                    ),
+                                    itemCount: _data!['vendor'].length,
+                                    separatorBuilder: (context, index) =>
+                                        kHalfSizedBox,
+                                    itemBuilder: (context, index) =>
+                                        PopularVendorsCard(
+                                      onTap: () {},
+                                      cardImage: popularVendorImage[index],
+                                      vendorName:
+                                          _data!['vendor'][index].shopName,
+                                      food: popularVendorFood[index],
+                                      rating: popularVendorRating[index],
+                                      noOfUsersRated:
+                                          popularVendorNoOfUsersRating[index],
+                                    ),
+                                  ),
+                                ),
+                                kSizedBox,
+                                SeeAllContainer(
+                                  title: "Products",
+                                  onPressed: _toSeeAllHotDeals,
+                                ),
+                                kSizedBox,
+                                Center(
+                                  child: ListView.separated(
+                                    physics: const BouncingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.only(
+                                      left: kDefaultPadding / 2,
+                                      right: kDefaultPadding / 2,
+                                    ),
+                                    itemCount: _data!['product'].length,
+                                    separatorBuilder: (context, index) =>
+                                        kHalfSizedBox,
+                                    itemBuilder: (context, index) =>
+                                        HotDealsCard(
+                                            name: _data!['product'][index].name,
+                                            price:
+                                                _data!['product'][index].price),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          kSizedBox,
-                          SeeAllContainer(
-                            title: "Hot Deals",
-                            onPressed: _toSeeAllHotDeals,
-                          ),
-                          kSizedBox,
-                          Center(
-                            child: ListView.separated(
-                              physics: const BouncingScrollPhysics(),
-                              shrinkWrap: true,
-                              padding: EdgeInsets.only(
-                                left: kDefaultPadding / 2,
-                                right: kDefaultPadding / 2,
-                              ),
-                              itemCount: 10,
-                              separatorBuilder: (context, index) =>
-                                  kHalfSizedBox,
-                              itemBuilder: (context, index) => HotDealsCard(),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ),
-              ],
-            ),
           ),
         ),
       ),
