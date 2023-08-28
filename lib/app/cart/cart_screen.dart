@@ -10,6 +10,7 @@ import 'package:get/route_manager.dart';
 import 'package:intl/intl.dart';
 
 import '../../src/providers/constants.dart';
+import '../../src/repo/models/product/product.dart';
 import '../product/product_detail_screen.dart';
 
 class CartScreen extends StatefulWidget {
@@ -24,23 +25,27 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
+    _getData();
+  }
 
-    _loadingScreen = true;
+  Map? _data;
 
-    Future.delayed(
-      const Duration(milliseconds: 500),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
+  _getData() async {
+    List<Product> product = await getProducts();
+    setState(() {
+      _data = {'product': product};
+    });
+  }
+
+  Future<void> _handleRefresh() async {
+    setState(() {
+      _data = null;
+    });
+    await _getData();
   }
 
   //============================================================ ALL VARIABLES ===================================================================\\
-  int _itemCount = 12;
-
-//====================================================== BOOL VALUES ========================================================\\
-  late bool _loadingScreen;
-
+  int _itemCount = 5;
   //==================================================== CONTROLLERS ======================================================\\
   ScrollController _scrollController = ScrollController();
 
@@ -52,16 +57,6 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   //===================== Handle refresh ==========================\\
-
-  Future<void> _handleRefresh() async {
-    setState(() {
-      _loadingScreen = true;
-    });
-    await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      _loadingScreen = false;
-    });
-  }
 
   //========================================================================\\
 
@@ -118,7 +113,7 @@ class _CartScreenState extends State<CartScreen> {
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: _loadingScreen
+          child: _data == null
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -192,11 +187,12 @@ class _CartScreenState extends State<CartScreen> {
                       kSizedBox,
                       ListView.separated(
                         separatorBuilder: (context, index) => kHalfSizedBox,
-                        itemCount: _itemCount,
+                        itemCount: _data!['product'].length,
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
                           return VendorsProductContainer(
+                            product: _data!['product'][index],
                             onTap: _toProductDetailScreen,
                           );
                         },

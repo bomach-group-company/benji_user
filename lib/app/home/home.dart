@@ -13,6 +13,7 @@ import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/appBar_delivery_location.dart';
 import '../../src/common_widgets/button/category button.dart';
+import '../../src/common_widgets/cart.dart';
 import '../../src/common_widgets/product/hot_deals_card.dart';
 import '../../src/common_widgets/section/custom_showSearch.dart';
 import '../../src/common_widgets/section/see_all_container.dart';
@@ -21,6 +22,7 @@ import '../../src/common_widgets/vendor/popular_vendors_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/product/product.dart';
 import '../../src/repo/models/vendor/vendor.dart';
+import '../../src/repo/utils/cart.dart';
 import '../../theme/colors.dart';
 import '../address/addresses.dart';
 import '../address/deliver_to.dart';
@@ -28,7 +30,8 @@ import '../auth/login.dart';
 import '../cart/cart_screen.dart';
 import '../checkout/checkout_screen.dart';
 import '../orders/order_history.dart';
-import '../product/hot_deals_page.dart';
+import '../product/product_detail_screen.dart';
+import '../product/products.dart';
 import '../profile/edit_profile.dart';
 import '../send_package/send_package.dart';
 import '../vendor/popular_vendors.dart';
@@ -49,6 +52,14 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _getData();
+    countCartFunc();
+  }
+
+  countCartFunc() async {
+    String data = await countCart();
+    setState(() {
+      cartCount = data;
+    });
   }
 
   Map? _data;
@@ -71,6 +82,7 @@ class _HomeState extends State<Home> {
 
 //============================================== ALL VARIABLES =================================================\\
   int activeCategory = 0;
+  String cartCount = '';
 //============================================== BOOL VALUES =================================================\\
   bool _vendorStatus = true;
 
@@ -160,7 +172,9 @@ class _HomeState extends State<Home> {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    _data = null;
+    setState(() {
+      _data = null;
+    });
     await _getData();
   }
   //========================================================================\\
@@ -303,6 +317,17 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
+  void _toProductDetailScreenPage() => Get.to(
+        () => const ProductDetailScreen(),
+        routeName: 'ProductDetailScreen',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   void _toSeeAllHotDeals() => Get.to(
         () => const HotDealsPage(),
         routeName: 'HotDealsPage',
@@ -378,45 +403,7 @@ class _HomeState extends State<Home> {
                 color: kAccentColor,
               ),
             ),
-            Stack(
-              children: [
-                Container(
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: _toCartScreen,
-                    splashRadius: 20,
-                    icon: FaIcon(
-                      FontAwesomeIcons.cartShopping,
-                      color: kAccentColor,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 5,
-                  right: 5,
-                  child: Container(
-                    height: 20,
-                    width: 20,
-                    decoration: ShapeDecoration(
-                      color: kAccentColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "10+",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            CartCard()
           ],
         ),
         body: SafeArea(
@@ -704,6 +691,7 @@ class _HomeState extends State<Home> {
                                         kHalfSizedBox,
                                     itemBuilder: (context, index) =>
                                         HotDealsCard(
+                                            OnTap: _toProductDetailScreenPage,
                                             name: _data!['product'][index].name,
                                             price:
                                                 _data!['product'][index].price),

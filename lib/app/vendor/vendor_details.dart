@@ -14,6 +14,7 @@ import '../../src/common_widgets/vendor/vendor_products_tab.dart';
 import '../../src/common_widgets/vendor/vendors_product_container.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
+import '../../src/repo/models/product/product.dart';
 import '../../theme/colors.dart';
 import '../product/product_detail_screen.dart';
 import 'about_vendor.dart';
@@ -44,13 +45,6 @@ class _VendorDetailsState extends State<VendorDetails>
     _getData();
 
     _tabBarController = TabController(length: 2, vsync: this);
-    _loadingScreen = true;
-    Future.delayed(
-      const Duration(milliseconds: 500),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
   }
 
   @override
@@ -74,7 +68,6 @@ class _VendorDetailsState extends State<VendorDetails>
   FocusNode rateVendorFN = FocusNode();
 
 //===================== BOOL VALUES =======================\\
-  late bool _loadingScreen;
   bool _loadingTabBarContent = false;
   bool _isAddedToFavorites = false;
 
@@ -103,11 +96,13 @@ class _VendorDetailsState extends State<VendorDetails>
   ];
 
 //=================================================== FUNCTIONS =====================================================\\
-  // Map? _data;
+  Map? _data;
 
   _getData() async {
-    // VendorModel vendor = await getVendorById(widget.vendorId);
-    // _data = {'vendor': vendor};
+    List<Product> product = await getProductsByVendor(widget.id);
+    setState(() {
+      _data = {'product': product};
+    });
   }
 
   void validate() {
@@ -124,12 +119,9 @@ class _VendorDetailsState extends State<VendorDetails>
 
   Future<void> _handleRefresh() async {
     setState(() {
-      _loadingScreen = true;
+      _data = null;
     });
-    await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      _loadingScreen = false;
-    });
+    await _getData();
   }
 
   //========================================================================\\
@@ -287,7 +279,7 @@ class _VendorDetailsState extends State<VendorDetails>
           actions: [
             IconButton(
               onPressed: () {
-                _loadingScreen
+                _data == null
                     ? null
                     : showSearch(
                         context: context, delegate: CustomSearchDelegate());
@@ -298,7 +290,7 @@ class _VendorDetailsState extends State<VendorDetails>
               ),
             ),
             IconButton(
-              onPressed: _loadingScreen ? null : _addToFavorites,
+              onPressed: _data == null ? null : _addToFavorites,
               icon: FaIcon(
                 _isAddedToFavorites
                     ? FontAwesomeIcons.solidHeart
@@ -307,7 +299,7 @@ class _VendorDetailsState extends State<VendorDetails>
               ),
             ),
             IconButton(
-              onPressed: () => _loadingScreen ? null : showPopupMenu(context),
+              onPressed: () => _data == null ? null : showPopupMenu(context),
               icon: FaIcon(
                 FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,
@@ -337,7 +329,7 @@ class _VendorDetailsState extends State<VendorDetails>
                   child: Text("Error, Please try again later"),
                 );
               }
-              return _loadingScreen
+              return _data == null
                   ? Center(child: SpinKitChasingDots(color: kAccentColor))
                   : Scrollbar(
                       controller: _scrollController,
@@ -681,7 +673,8 @@ class _VendorDetailsState extends State<VendorDetails>
                                                   ),
                                                   kHalfSizedBox,
                                                   ListView.separated(
-                                                    itemCount: 10,
+                                                    itemCount: _data!['product']
+                                                        .length,
                                                     shrinkWrap: true,
                                                     physics:
                                                         const BouncingScrollPhysics(),
@@ -691,6 +684,8 @@ class _VendorDetailsState extends State<VendorDetails>
                                                     itemBuilder: (context,
                                                             index) =>
                                                         VendorsProductContainer(
+                                                      product: _data!['product']
+                                                          [index],
                                                       onTap:
                                                           _toProductDetailScreen,
                                                     ),

@@ -43,7 +43,9 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    _data = null;
+    setState(() {
+      _data = null;
+    });
     await _getData();
   }
   //========================================================================\\

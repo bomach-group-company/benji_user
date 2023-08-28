@@ -9,6 +9,7 @@ import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
+import '../../src/repo/models/product/product.dart';
 import '../../theme/colors.dart';
 import '../product/product_detail_screen.dart';
 
@@ -24,14 +25,7 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
   @override
   void initState() {
     super.initState();
-
-    _loadingScreen = true;
-    Future.delayed(
-      const Duration(milliseconds: 500),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
+    _getData();
   }
 
   @override
@@ -50,9 +44,6 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
 
 //===================== FOCUS NODES =======================\\
   FocusNode rateVendorFN = FocusNode();
-
-//===================== BOOL VALUES =======================\\
-  late bool _loadingScreen;
 
 //===================== CATEGORY BUTTONS =======================\\
   final List _categoryButtonText = [
@@ -91,16 +82,20 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
     Get.back();
   }
 
-  //===================== Handle refresh ==========================\\
+  Map? _data;
+
+  _getData() async {
+    List<Product> product = await getProducts();
+    setState(() {
+      _data = {'product': product};
+    });
+  }
 
   Future<void> _handleRefresh() async {
     setState(() {
-      _loadingScreen = true;
+      _data = null;
     });
-    await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      _loadingScreen = false;
-    });
+    await _getData();
   }
 
   //========================================================================\\
@@ -134,7 +129,7 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
         body: SafeArea(
           child: Scrollbar(
             controller: _scrollController,
-            child: _loadingScreen
+            child: _data == null
                 ? SpinKitChasingDots(color: kAccentColor)
                 : ListView(
                     padding: const EdgeInsets.all(kDefaultPadding / 2),
@@ -148,12 +143,13 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
                       ),
                       kHalfSizedBox,
                       ListView.separated(
-                        itemCount: 10,
+                        itemCount: _data!['product'].length,
                         separatorBuilder: (context, index) => kHalfSizedBox,
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (context, index) =>
                             VendorsProductContainer(
+                                product: _data!['product'][index],
                                 onTap: _toProductDetailScreen),
                       ),
                       kSizedBox
