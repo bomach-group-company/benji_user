@@ -28,7 +28,7 @@ import '../auth/login.dart';
 import '../cart/cart_screen.dart';
 import '../checkout/checkout_screen.dart';
 import '../orders/order_history.dart';
-import '../product/hot_deals_page.dart';
+import '../product/products.dart';
 import '../profile/edit_profile.dart';
 import '../send_package/send_package.dart';
 import '../vendor/popular_vendors.dart';
@@ -160,7 +160,9 @@ class _HomeState extends State<Home> {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    _data = null;
+    setState(() {
+      _data = null;
+    });
     await _getData();
   }
   //========================================================================\\
