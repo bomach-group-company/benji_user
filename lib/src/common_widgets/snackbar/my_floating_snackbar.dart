@@ -72,12 +72,12 @@ void mySnackBar(
       behavior: SnackBarBehavior.floating,
       backgroundColor: kPrimaryColor,
       elevation: 20.0,
-      // shape: RoundedRectangleBorder(
-      //   borderRadius: BorderRadius.vertical(
-      //     top: Radius.circular(20.0),
-      //     bottom: Radius.circular(20.0),
-      //   ),
-      // ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20.0),
+          bottom: Radius.circular(20.0),
+        ),
+      ),
     ),
   );
 }
