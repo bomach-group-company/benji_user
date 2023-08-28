@@ -12,6 +12,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import '../../src/common_widgets/vendor/popular_vendors_card.dart';
 import '../../src/common_widgets/vendor/vendors_product_container.dart';
 import '../../src/providers/constants.dart';
+import '../../src/repo/models/product/product.dart';
 import '../../theme/colors.dart';
 import '../product/product_detail_screen.dart';
 import 'favorite_products.dart';
@@ -45,14 +46,23 @@ class _FavoritesState extends State<Favorites>
     super.initState();
 
     _tabBarController = TabController(length: 2, vsync: this);
-    _loadingScreen = false;
-    _loadingScreen = true;
-    Future.delayed(
-      const Duration(milliseconds: 1000),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
+    _getData();
+  }
+
+  Map? _data;
+
+  _getData() async {
+    List<Product> product = await getProducts();
+    setState(() {
+      _data = {'product': product};
+    });
+  }
+
+  Future<void> _handleRefresh() async {
+    setState(() {
+      _data = null;
+    });
+    await _getData();
   }
 
   @override
@@ -65,7 +75,7 @@ class _FavoritesState extends State<Favorites>
 
 //===================== BOOL VALUES =======================\\
   // bool isLoading = false;
-  late bool _loadingScreen;
+
   bool _loadingTabBarContent = false;
 
   //=================================== Orders =======================================\\
@@ -98,16 +108,6 @@ class _FavoritesState extends State<Favorites>
   // }
 
 //===================== Handle refresh ==========================\\
-
-  Future<void> _handleRefresh() async {
-    setState(() {
-      _loadingScreen = true;
-    });
-    await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      _loadingScreen = false;
-    });
-  }
 
   void _clickOnTabBarOption() async {
     setState(() {
@@ -233,7 +233,7 @@ class _FavoritesState extends State<Favorites>
                   child: Text("Error, Please try again later"),
                 );
               }
-              return _loadingScreen
+              return _data == null
                   ? Center(child: SpinKitChasingDots(color: kAccentColor))
                   : Column(
                       children: [
@@ -288,7 +288,7 @@ class _FavoritesState extends State<Favorites>
                         kSizedBox,
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: kDefaultPadding,
+                            horizontal: kDefaultPadding / 2,
                           ),
                           height: mediaHeight - 170,
                           width: mediaWidth,
@@ -318,7 +318,8 @@ class _FavoritesState extends State<Favorites>
                                               list: ListView.separated(
                                                 controller: _scrollController,
                                                 scrollDirection: Axis.vertical,
-                                                itemCount: 20,
+                                                itemCount:
+                                                    _data!['product'].length,
                                                 shrinkWrap: true,
                                                 physics:
                                                     const BouncingScrollPhysics(),
@@ -327,6 +328,8 @@ class _FavoritesState extends State<Favorites>
                                                         kHalfSizedBox,
                                                 itemBuilder: (context, index) =>
                                                     VendorsProductContainer(
+                                                  product: _data!['product']
+                                                      [index],
                                                   onTap:
                                                       _toProductDetailsScreen,
                                                 ),

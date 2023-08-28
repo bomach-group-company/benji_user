@@ -4,13 +4,16 @@ import 'package:intl/intl.dart';
 
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
+import '../../repo/models/product/product.dart';
 import '../snackbar/my_floating_snackbar.dart';
 
 class VendorsProductContainer extends StatefulWidget {
   final Function() onTap;
+  final Product product;
   const VendorsProductContainer({
     super.key,
     required this.onTap,
+    required this.product,
   });
 
   @override
@@ -19,10 +22,16 @@ class VendorsProductContainer extends StatefulWidget {
 }
 
 class _VendorsProductContainerState extends State<VendorsProductContainer> {
-  //======================================= ALL VARIABLES ==========================================\\
+  @override
+  void initState() {
+    super.initState();
+    _quantity = widget.product.quantityAvailable;
+    _productPrice = widget.product.price;
+  }
+  //======================================= VARIABLES ==========================================\\
 
-  int _quantity = 1;
-  double _productPrice = 1200;
+  int _quantity = 0;
+  double _productPrice = 0;
 
   //======================================= BOOL VALUES ==========================================\\
   bool isAddedToCart = false;
@@ -117,7 +126,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                 Container(
                   width: mediaWidth - 200,
                   child: Text(
-                    'Smokey Jollof Pasta',
+                    widget.product.name,
                     style: TextStyle(
                       overflow: TextOverflow.ellipsis,
                       color: kTextBlackColor,
@@ -130,7 +139,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                 Container(
                   width: mediaWidth - 200,
                   child: Text(
-                    'Short description about the food here',
+                    widget.product.description,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: kTextGreyColor,
@@ -157,7 +166,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                     SizedBox(
                       width: (mediaWidth - 200) / 2,
                       child: Text(
-                        "Qty: ${formattedText(200)}",
+                        "Qty: ${formattedText(_quantity.toDouble())}",
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           color: kTextGreyColor,

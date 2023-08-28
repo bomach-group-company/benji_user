@@ -10,8 +10,10 @@ import 'package:readmore/readmore.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
+import '../../src/common_widgets/cart.dart';
 import '../../src/common_widgets/section/rate_product_dialog.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
+import '../../src/repo/utils/cart.dart';
 import '../../theme/colors.dart';
 import '../cart/cart_screen.dart';
 import '../checkout/checkout_screen.dart';
@@ -46,7 +48,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   double _totalCost = 1200;
   double _itemPrice = 1200;
   double _productQuantity = 200;
-
+  String? cartCount;
 //====================================================== BOOL VALUES ========================================================\\
   late bool _loadingScreen;
   var _isAddedToFavorites;
@@ -113,12 +115,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     setState(() {
       isLoading = true;
     });
+    cartCount =
+        await addToCart('f4715bd5-80d5-4477-9167-393590d5aa30', qty: _quantity);
 
-    // Simulating a delay of 3 seconds
-    await Future.delayed(Duration(seconds: 1));
-    setState(() {
-      _isAddedToCart = !_isAddedToCart;
-    });
     //Display snackBar
     mySnackBar(
       context,
@@ -175,9 +174,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         PopupMenuItem<String>(
           value: 'rate',
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               FaIcon(FontAwesomeIcons.solidStar, color: kStarColor),
+              kWidthSizedBox,
               Text("Rate this product"),
             ],
           ),
@@ -185,9 +185,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         PopupMenuItem<String>(
           value: 'report',
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               FaIcon(FontAwesomeIcons.solidFlag, color: kAccentColor),
+              kWidthSizedBox,
               Text("Report this product"),
             ],
           ),
@@ -249,63 +250,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           elevation: 0.0,
           actions: [
             AnimatedContainer(
-              duration: Duration(milliseconds: 300),
-              curve: Curves.easeIn,
-              child: _isAddedToCart
-                  ? Row(
-                      children: [
-                        IconButton(
-                          onPressed: _loadingScreen ? null : _addToFavorites,
-                          icon: FaIcon(
-                            _isAddedToFavorites
-                                ? FontAwesomeIcons.solidHeart
-                                : FontAwesomeIcons.heart,
-                            color: kAccentColor,
-                          ),
-                        ),
-                        Stack(
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              child: IconButton(
-                                onPressed:
-                                    _loadingScreen ? null : _toCartScreen,
-                                splashRadius: 20,
-                                icon: FaIcon(
-                                  FontAwesomeIcons.cartShopping,
-                                  color: kAccentColor,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 5,
-                              right: 5,
-                              child: Container(
-                                height: 20,
-                                width: 20,
-                                decoration: ShapeDecoration(
-                                  color: kAccentColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "10+",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
-                  : IconButton(
+                duration: Duration(milliseconds: 300),
+                curve: Curves.easeIn,
+                child: Row(
+                  children: [
+                    IconButton(
                       onPressed: _loadingScreen ? null : _addToFavorites,
                       icon: FaIcon(
                         _isAddedToFavorites
@@ -314,7 +263,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         color: kAccentColor,
                       ),
                     ),
-            ),
+                    CartCard(
+                      cartCount: cartCount,
+                    )
+                  ],
+                )),
             IconButton(
               onPressed: () => _loadingScreen ? null : showPopupMenu(context),
               icon: FaIcon(

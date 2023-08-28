@@ -46,7 +46,9 @@ class _HotDealsPageState extends State<HotDealsPage> {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    _data = null;
+    setState(() {
+      _data = null;
+    });
     await _getData();
   }
   //========================================================================\\

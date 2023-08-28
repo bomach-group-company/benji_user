@@ -65,3 +65,20 @@ Future<List<Product>> getProducts({limit = 10}) async {
     throw Exception('Failed to load user product');
   }
 }
+
+Future<List<Product>> getProductsByVendor(vendorId,
+    {start = 0, end = 10}) async {
+  final response = await http.get(
+    Uri.parse(
+        '$baseURL/vendors/$vendorId/listMyProducts?start=$start&end=$end'),
+    headers: await authHeader(),
+  );
+
+  if (response.statusCode == 200) {
+    return (jsonDecode(response.body)["items"] as List)
+        .map((item) => Product.fromJson(item))
+        .toList();
+  } else {
+    throw Exception('Failed to load user product');
+  }
+}

@@ -43,7 +43,9 @@ class _PopularVendorsState extends State<PopularVendors> {
   //==================================================== FUNCTIONS ===========================================================\\
   //===================== Handle refresh ==========================\\
   Future<void> _handleRefresh() async {
-    _data = null;
+    setState(() {
+      _data = null;
+    });
     await _getData();
   }
   //========================================================================\\
