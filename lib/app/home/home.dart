@@ -470,9 +470,9 @@ class _HomeState extends State<Home> {
                             onRefresh: _handleRefresh,
                             color: kAccentColor,
                             edgeOffset: 0,
-                            displacement: 0.0,
+                            displacement: kDefaultPadding,
                             semanticsLabel: "Pull to refresh",
-                            strokeWidth: 3.0,
+                            strokeWidth: 4,
                             triggerMode: RefreshIndicatorTriggerMode.onEdge,
                             child: ListView(
                               physics: const BouncingScrollPhysics(),
