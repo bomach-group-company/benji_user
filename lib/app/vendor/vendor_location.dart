@@ -75,7 +75,8 @@ class _VendorLocationState extends State<VendorLocation> {
     }
 
     Position _position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+      desiredAccuracy: LocationAccuracy.high,
+    );
     // _currentPosition = _position;
 
     LatLng _latLngPosition = LatLng(_position.latitude, _position.longitude);
@@ -90,11 +91,30 @@ class _VendorLocationState extends State<VendorLocation> {
   }
 
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(
-      6.455898890177413,
-      7.507847720077416,
-    ),
+    target: LatLng(6.455888229466976, 7.507826262254407),
     zoom: 14.4746,
+  );
+
+  static Marker _kGooglePlexMarker = Marker(
+    markerId: MarkerId("_kGooglePlex"),
+    draggable: true,
+    icon: BitmapDescriptor.defaultMarker,
+    infoWindow: InfoWindow(title: "Google Plex", snippet: ""),
+    position: LatLng(6.455898890177413, 7.507847720077416),
+  );
+
+  static final CameraPosition _kVendor = CameraPosition(
+    bearing: 192,
+    target: LatLng(6.463987057779448, 7.539842027339904),
+    zoom: 14.4746,
+  );
+
+  static Marker _kVendorMarker = Marker(
+    markerId: MarkerId("_kGooglePlex"),
+    draggable: true,
+    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+    infoWindow: InfoWindow(title: "Ntachi Osa", snippet: "Ntachi Osa"),
+    position: LatLng(6.463987057779448, 7.539842027339904),
   );
 
   void _onMapCreated(GoogleMapController controller) {
@@ -136,6 +156,8 @@ class _VendorLocationState extends State<VendorLocation> {
         children: [
           GoogleMap(
             mapType: MapType.normal,
+            onMapCreated: _onMapCreated,
+            markers: {_kVendorMarker},
             padding:
                 EdgeInsets.only(bottom: _isExpanded ? mediaHeight * 0.56 : 90),
             buildingsEnabled: true,
@@ -153,7 +175,6 @@ class _VendorLocationState extends State<VendorLocation> {
             scrollGesturesEnabled: true,
             trafficEnabled: true,
             initialCameraPosition: _kGooglePlex,
-            onMapCreated: _onMapCreated,
           ),
           // FutureBuilder<Object>(
           //   future: _determinePosition(),

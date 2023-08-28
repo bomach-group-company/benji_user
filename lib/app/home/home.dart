@@ -355,26 +355,21 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
           automaticallyImplyLeading: false,
-          titleSpacing: kDefaultPadding / 2,
+          titleSpacing: 0,
           elevation: 0.0,
           title: Row(
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: kDefaultPadding / 2,
-                ),
-                child: Builder(
-                  builder: (context) => IconButton(
-                    splashRadius: 20,
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                    icon: Image.asset(
-                      "assets/images/icons/drawer-icon.png",
-                      color: kAccentColor,
-                      fit: BoxFit.cover,
-                      height: 20,
-                    ),
+              Builder(
+                builder: (context) => IconButton(
+                  splashRadius: 20,
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  icon: Image.asset(
+                    "assets/images/icons/drawer-icon.png",
+                    color: kAccentColor,
+                    fit: BoxFit.cover,
+                    height: 20,
                   ),
                 ),
               ),
@@ -443,7 +438,7 @@ class _HomeState extends State<Home> {
           child: Container(
             color: kPrimaryColor,
             width: mediaWidth,
-            padding: EdgeInsets.all(kDefaultPadding / 2),
+            padding: EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -460,7 +455,7 @@ class _HomeState extends State<Home> {
                           physics: BouncingScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) =>
                               Padding(
-                            padding: const EdgeInsets.all(kDefaultPadding / 2),
+                            padding: const EdgeInsets.all(10),
                             child: CategoryButton(
                               onPressed: () {
                                 setState(() {
@@ -516,8 +511,8 @@ class _HomeState extends State<Home> {
                               physics: const BouncingScrollPhysics(),
                               shrinkWrap: true,
                               padding: EdgeInsets.only(
-                                left: kDefaultPadding / 2,
-                                right: kDefaultPadding / 2,
+                                left: 10,
+                                right: 10,
                               ),
                               itemCount: popularVendorsIndex.length,
                               separatorBuilder: (context, index) =>
@@ -545,8 +540,8 @@ class _HomeState extends State<Home> {
                               physics: const BouncingScrollPhysics(),
                               shrinkWrap: true,
                               padding: EdgeInsets.only(
-                                left: kDefaultPadding / 2,
-                                right: kDefaultPadding / 2,
+                                left: 10,
+                                right: 10,
                               ),
                               itemCount: 10,
                               separatorBuilder: (context, index) =>
