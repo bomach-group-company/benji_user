@@ -97,7 +97,7 @@ class _VendorDetailsState extends State<VendorDetails>
   ];
 
 //=================================================== FUNCTIONS =====================================================\\
-  Map? _data;
+  // Map? _data;
 
   _getData() async {
     // VendorModel vendor = await getVendorById(widget.vendorId);
@@ -107,6 +107,7 @@ class _VendorDetailsState extends State<VendorDetails>
   void validate() {
     mySnackBar(
       context,
+      kSuccessColor,
       "Success!",
       "Thank you for your feedback!",
       Duration(seconds: 1),
@@ -133,6 +134,7 @@ class _VendorDetailsState extends State<VendorDetails>
 
     mySnackBar(
       context,
+      kSuccessColor,
       "Success",
       _isAddedToFavorites
           ? "Vendor has been added to favorites"

@@ -46,6 +46,7 @@ class _ReportVendorState extends State<ReportVendor> {
     //Display snackBar
     mySnackBar(
       context,
+      kSuccessColor,
       "Success",
       "Your report has been submitted successfully",
       const Duration(seconds: 1),

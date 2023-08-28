@@ -52,6 +52,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
 
     mySnackBar(
       context,
+      kSuccessColor,
       "Success!",
       isAddedToCart ? "Item has been added to cart." : "Item has been removed.",
       Duration(seconds: 1),

@@ -1,5 +1,6 @@
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -293,9 +294,10 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                 title: "Set As Default Address",
                 onPressed: (() async {
                   if (_formKey.currentState!.validate()) {
-                    Navigator.of(context).pop(context);
+                    Get.back();
                     mySnackBar(
                       context,
+                      kSuccessColor,
                       "Success!",
                       "Set As Default Address",
                       Duration(seconds: 2),
@@ -308,9 +310,10 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                 title: "Save changes",
                 onPressed: (() async {
                   if (_formKey.currentState!.validate()) {
-                    Navigator.of(context).pop(context);
+                    Get.back();
                     mySnackBar(
                       context,
+                      kSuccessColor,
                       "Success!",
                       "Changes saved",
                       Duration(seconds: 2),

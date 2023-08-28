@@ -82,6 +82,7 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
   void validate() {
     mySnackBar(
       context,
+      kSuccessColor,
       "Success!",
       "Thank you for your feedback!",
       Duration(seconds: 1),
