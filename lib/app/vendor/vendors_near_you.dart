@@ -5,6 +5,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/vendor/all_vendors_near_you_card.dart';
 import '../../src/providers/constants.dart';
+import '../../src/repo/models/vendor/vendor.dart';
+import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 
 class VendorsNearYou extends StatefulWidget {
@@ -19,18 +21,20 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
   @override
   void initState() {
     super.initState();
-
-    _loadingScreen = true;
-    Future.delayed(
-      const Duration(milliseconds: 1000),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
+    _getData();
   }
 
-//============================================== ALL VARIABLES =================================================\\
-  late bool _loadingScreen;
+  Map? _data;
+
+  _getData() async {
+    await checkAuth(context);
+    List<VendorModel> vendor = await getVendors();
+    setState(() {
+      _data = {
+        'vendor': vendor,
+      };
+    });
+  }
 
 //============================================== CONTROLLERS =================================================\\
   final _scrollController = ScrollController();
@@ -39,13 +43,8 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    setState(() {
-      _loadingScreen = true;
-    });
-    await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      _loadingScreen = false;
-    });
+    _data = null;
+    await _getData();
   }
   //========================================================================\\
 
@@ -64,7 +63,7 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: _loadingScreen
+          child: _data == null
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -76,12 +75,12 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                   child: ListView.separated(
                     physics: BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(kDefaultPadding),
-                    itemCount: 20,
+                    itemCount: _data!['vendor'].length,
                     separatorBuilder: (context, index) => kHalfSizedBox,
                     itemBuilder: (context, index) => AllVendorsNearYouCard(
                       onTap: () {},
                       cardImage: 'ntachi-osa.png',
-                      vendorName: "Ntachi Osa",
+                      vendorName: _data!['vendor'][index].shopName,
                       typeOfBusiness: "Restaurant",
                       distance: "45 mins",
                       rating: "3.6",

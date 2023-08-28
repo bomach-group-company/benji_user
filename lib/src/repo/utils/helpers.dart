@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
@@ -50,6 +51,7 @@ checkAuth(context) async {
   if (haveUser == null || !isAuth) {
     mySnackBar(
       context,
+      kAccentColor,
       "Login to continue!",
       "Please login to continue",
       Duration(seconds: 2),

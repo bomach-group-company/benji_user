@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../utils/base_url.dart';
+import '../../utils/helpers.dart';
 
 class VendorModel {
   final int? id;
@@ -64,9 +65,11 @@ Future<VendorModel> getVendorById(id) async {
   }
 }
 
-Future<List<VendorModel>> getVendors(start, end) async {
-  final response = await http
-      .get(Uri.parse('$baseURL/vendors/getAllVendor?start=$start&end=$end'));
+Future<List<VendorModel>> getVendors({start = 1, end = 10}) async {
+  final response = await http.get(
+    Uri.parse('$baseURL/vendors/getAllVendor?start=$start&end=$end'),
+    headers: await authHeader(),
+  );
 
   if (response.statusCode == 200) {
     return (jsonDecode(response.body)['items'] as List)
