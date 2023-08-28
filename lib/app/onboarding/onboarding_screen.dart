@@ -96,9 +96,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                 ),
-                // SizedBox(
-                //   height: kDefaultPadding * 3,
-                // ),
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -112,9 +109,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                 ),
-                // SizedBox(
-                //   height: kDefaultPadding * 1.5,
-                // ),
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -127,9 +121,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                 ),
-                // SizedBox(
-                //   height: kDefaultPadding * 2,
-                // ),
                 Container(
                   height: 10.0,
                   child: ListView.builder(
@@ -163,9 +154,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     },
                   ),
                 ),
-                // SizedBox(
-                //   height: kDefaultPadding * 4,
-                // ),
                 ElevatedButton(
                   onPressed: () async {
                     if (index == screens.length - 1) {

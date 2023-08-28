@@ -15,7 +15,6 @@ import '../../src/common_widgets/section/rate_product_dialog.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/repo/utils/cart.dart';
 import '../../theme/colors.dart';
-import '../cart/cart_screen.dart';
 import '../checkout/checkout_screen.dart';
 import 'report_product.dart';
 
@@ -136,16 +135,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   //======================================= Navigation ==========================================\\
-  void _toCartScreen() => Get.to(
-        () => const CartScreen(),
-        routeName: 'CartScreen',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
 
   void _toCheckoutScreen() => Get.to(
         () => const CheckoutScreen(),

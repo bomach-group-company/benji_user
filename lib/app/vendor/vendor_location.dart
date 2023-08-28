@@ -22,21 +22,28 @@ class VendorLocation extends StatefulWidget {
 }
 
 class _VendorLocationState extends State<VendorLocation> {
-  //=================================================================== INITIAL STATE =========================================================================\\
+  //============================================================== INITIAL STATE ====================================================================\\
   @override
   void initState() {
     super.initState();
     _marker.addAll(_listOfMarkers);
   }
 
-  //=================================================================== ALL VARIABLES =========================================================================\\
+  //============================================================= ALL VARIABLES ======================================================================\\
+
+  //============================================================= BOOL VALUES ======================================================================\\
   bool _isExpanded = false;
 
   //===================== GlobalKeys =======================\\
 
   //=================================== CONTROLLERS ======================================================\\
   Completer<GoogleMapController> _googleMapController = Completer();
+
   GoogleMapController? _newGoogleMapController;
+
+  //============================================== FUNCTIONS =============================================================\\
+  void _handleRefresh() {}
+
   //=========================== Google Maps ====================================\\
 
   /// Determine the current position of the device.
@@ -154,29 +161,34 @@ class _VendorLocationState extends State<VendorLocation> {
       ),
       body: Stack(
         children: [
-          GoogleMap(
-            mapType: MapType.normal,
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: _kGooglePlex,
-            markers: Set.of(_marker),
-            polylines: {},
-            tileOverlays: {},
-            padding:
-                EdgeInsets.only(bottom: _isExpanded ? mediaHeight * 0.56 : 90),
-            buildingsEnabled: true,
-            compassEnabled: true,
-            indoorViewEnabled: true,
-            mapToolbarEnabled: true,
-            minMaxZoomPreference: MinMaxZoomPreference.unbounded,
-            tiltGesturesEnabled: true,
-            zoomControlsEnabled: true,
-            zoomGesturesEnabled: true,
-            myLocationButtonEnabled: true,
-            myLocationEnabled: true,
-            cameraTargetBounds: CameraTargetBounds.unbounded,
-            rotateGesturesEnabled: true,
-            scrollGesturesEnabled: true,
-            trafficEnabled: false,
+          FutureBuilder(
+            future: _determinePosition(),
+            builder: (context, snapshot) {
+              return GoogleMap(
+                mapType: MapType.normal,
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: _kGooglePlex,
+                markers: Set.of(_marker),
+                polylines: {},
+                tileOverlays: {},
+                padding: EdgeInsets.only(
+                    bottom: _isExpanded ? mediaHeight * 0.56 : 90),
+                buildingsEnabled: true,
+                compassEnabled: true,
+                indoorViewEnabled: true,
+                mapToolbarEnabled: true,
+                minMaxZoomPreference: MinMaxZoomPreference.unbounded,
+                tiltGesturesEnabled: true,
+                zoomControlsEnabled: true,
+                zoomGesturesEnabled: true,
+                myLocationButtonEnabled: true,
+                myLocationEnabled: true,
+                cameraTargetBounds: CameraTargetBounds.unbounded,
+                rotateGesturesEnabled: true,
+                scrollGesturesEnabled: true,
+                trafficEnabled: false,
+              );
+            },
           ),
           AnimatedPositioned(
             duration: Duration(milliseconds: 300),

@@ -21,11 +21,11 @@ class _SignUpSplashScreenState extends State<SignUpSplashScreen> {
   void initState() {
     super.initState();
     Timer(
-      Duration(days: 2),
+      Duration(seconds: 2),
       () {
         Get.offAll(
           () => Home(),
-          duration: const Duration(days: 2),
+          duration: const Duration(seconds: 2),
           fullscreenDialog: true,
           curve: Curves.easeIn,
           routeName: "Home",
