@@ -27,7 +27,6 @@ import '../../theme/colors.dart';
 import '../address/addresses.dart';
 import '../address/deliver_to.dart';
 import '../auth/login.dart';
-import '../cart/cart_screen.dart';
 import '../checkout/checkout_screen.dart';
 import '../orders/order_history.dart';
 import '../product/product_detail_screen.dart';
@@ -255,17 +254,6 @@ class _HomeState extends State<Home> {
   void _toCheckoutScreen() => Get.to(
         () => const CheckoutScreen(),
         routeName: 'CheckoutScreen',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
-
-  void _toCartScreen() => Get.to(
-        () => const CartScreen(),
-        routeName: 'CartScreen',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
