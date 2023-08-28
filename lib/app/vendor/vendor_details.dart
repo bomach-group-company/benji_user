@@ -137,7 +137,7 @@ class _VendorDetailsState extends State<VendorDetails>
       _isAddedToFavorites
           ? "Vendor has been added to favorites"
           : "Vendor been removed from favorites",
-      Duration(milliseconds: 500),
+      Duration(milliseconds: 1000),
     );
   }
 
