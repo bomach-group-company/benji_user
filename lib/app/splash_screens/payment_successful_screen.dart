@@ -1,6 +1,8 @@
 // ignore_for_file: camel_case_types
 
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
@@ -10,8 +12,21 @@ import '../orders/track_order.dart';
 class PaymentSuccessful extends StatelessWidget {
   const PaymentSuccessful({super.key});
 
+  void _toTrackOrder() => Get.off(
+        () => TrackOrder(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Home",
+        preventDuplicates: true,
+        popGesture: false,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
+    double mediaHeight = MediaQuery.of(context).size.height;
+    double mediaWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: SafeArea(
@@ -26,67 +41,18 @@ class PaymentSuccessful extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
             children: [
-              Center(
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                        "assets/animations/successful/successful-payment.gif",
-                      ),
-                    ),
-                    shape: BoxShape.circle,
-                  ),
+              Align(
+                alignment: Alignment.center,
+                child: Lottie.asset(
+                  "assets/animations/payment/frame_1.json",
+                  height: mediaHeight / 3,
+                  width: mediaWidth,
                 ),
               ),
               SizedBox(
-                height: kDefaultPadding * 2,
+                height: mediaHeight * 0.4,
               ),
-              Container(
-                width: 297,
-                child: Text(
-                  'Thank You!',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(
-                      0xFF333333,
-                    ),
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -0.48,
-                  ),
-                ),
-              ),
-              kSizedBox,
-              SizedBox(
-                width: 307,
-                child: Text(
-                  'Your payment is successful',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(
-                      0xFF676565,
-                    ),
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: -0.36,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.2,
-              ),
-              MyElevatedButton(
-                title: "Done",
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => TrackOrder(),
-                    ),
-                  );
-                },
-              ),
+              MyElevatedButton(title: "Done", onPressed: _toTrackOrder),
               kSizedBox,
             ],
           ),

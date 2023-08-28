@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -25,6 +26,7 @@ class _VendorLocationState extends State<VendorLocation> {
   @override
   void initState() {
     super.initState();
+    _marker.addAll(_listOfMarkers);
   }
 
   //=================================================================== ALL VARIABLES =========================================================================\\
@@ -75,8 +77,18 @@ class _VendorLocationState extends State<VendorLocation> {
     }
 
     Position _position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+      desiredAccuracy: LocationAccuracy.high,
+    );
     // _currentPosition = _position;
+
+    _marker.add(
+      Marker(
+        markerId: MarkerId("1"),
+        position: LatLng(_position.latitude, _position.latitude),
+        icon: BitmapDescriptor.defaultMarker,
+        infoWindow: InfoWindow(title: "My location", onTap: () {}),
+      ),
+    );
 
     LatLng _latLngPosition = LatLng(_position.latitude, _position.longitude);
     CameraPosition _cameraPosition =
@@ -89,16 +101,24 @@ class _VendorLocationState extends State<VendorLocation> {
     return await _position;
   }
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(
-      6.455898890177413,
-      7.507847720077416,
+  List<Marker> _marker = [];
+  List<Marker> _listOfMarkers = [
+    Marker(
+      markerId: MarkerId("2"),
+      position: LatLng(6.463987057779448, 7.539842027339904),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+      infoWindow: InfoWindow(title: "Ntachi Osa"),
     ),
-    zoom: 14.4746,
+  ];
+  List<LatLng> _latLng = <LatLng>[];
+
+  static final CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(6.455888229466976, 7.507826262254407),
+    zoom: 14,
   );
 
   void _onMapCreated(GoogleMapController controller) {
-    _googleMapController.isCompleted;
+    _googleMapController.complete(controller);
     _newGoogleMapController = controller;
     _determinePosition();
   }
@@ -122,7 +142,7 @@ class _VendorLocationState extends State<VendorLocation> {
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.width;
+    double mediaHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
@@ -136,6 +156,11 @@ class _VendorLocationState extends State<VendorLocation> {
         children: [
           GoogleMap(
             mapType: MapType.normal,
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: _kGooglePlex,
+            markers: Set.of(_marker),
+            polylines: {},
+            tileOverlays: {},
             padding:
                 EdgeInsets.only(bottom: _isExpanded ? mediaHeight * 0.56 : 90),
             buildingsEnabled: true,
@@ -151,61 +176,8 @@ class _VendorLocationState extends State<VendorLocation> {
             cameraTargetBounds: CameraTargetBounds.unbounded,
             rotateGesturesEnabled: true,
             scrollGesturesEnabled: true,
-            trafficEnabled: true,
-            initialCameraPosition: _kGooglePlex,
-            onMapCreated: _onMapCreated,
+            trafficEnabled: false,
           ),
-          // FutureBuilder<Object>(
-          //   future: _determinePosition(),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.hasData) {
-          //       return GoogleMap(
-          //         mapType: MapType.normal,
-          //         padding: EdgeInsets.only(
-          //             bottom: _isExpanded ? mediaHeight * 0.56 : 90),
-          //         buildingsEnabled: true,
-          //         compassEnabled: true,
-          //         indoorViewEnabled: true,
-          //         mapToolbarEnabled: true,
-          //         minMaxZoomPreference: MinMaxZoomPreference.unbounded,
-          //         tiltGesturesEnabled: true,
-          //         zoomControlsEnabled: true,
-          //         zoomGesturesEnabled: true,
-          //         myLocationButtonEnabled: true,
-          //         myLocationEnabled: true,
-          //         cameraTargetBounds: CameraTargetBounds.unbounded,
-          //         rotateGesturesEnabled: true,
-          //         scrollGesturesEnabled: true,
-          //         trafficEnabled: true,
-          //         initialCameraPosition: _kGooglePlex,
-          //         onMapCreated: _onMapCreated,
-          //       );
-          //     }
-          //else if (snapshot.hasError) {
-          //   return Center(
-          //     child: Column(
-          //       children: [
-          //         Lottie.asset(
-          //           "assets/animations/error/error_1.json",
-          //           height: 300,
-          //           animate: true,
-          //           fit: BoxFit.cover,
-          //         ),
-          //         Text(
-          //           "An unexpected error occured",
-          //           style: TextStyle(
-          //             color: kTextGreyColor,
-          //             fontSize: 20,
-          //             fontWeight: FontWeight.w700,
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   );
-          // }
-          //     return SpinKitChasingDots(color: kAccentColor);
-          //   },
-          // ),
           AnimatedPositioned(
             duration: Duration(milliseconds: 300),
             curve: Curves.easeIn,
