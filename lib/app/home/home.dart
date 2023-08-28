@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'package:benji_user/app/favorites/favorites.dart';
 import 'package:benji_user/src/others/my_future_builder.dart';
 import 'package:benji_user/src/repo/models/category/category.dart';
@@ -90,29 +92,29 @@ class _HomeState extends State<Home> {
   TextEditingController searchController = TextEditingController();
   final _scrollController = ScrollController();
 
-  //==================================================== CATEGORY BUTTONS ======================================================\\
-  final List _categoryButton = [
-    "Food",
-    "Drinks",
-    "Groceries",
-    "Pharmaceuticals",
-    "Snacks",
-  ];
+  // //==================================================== CATEGORY BUTTONS ======================================================\\
+  // final List _categoryButton = [
+  //   "Food",
+  //   "Drinks",
+  //   "Groceries",
+  //   "Pharmaceuticals",
+  //   "Snacks",
+  // ];
 
-  final List<Color> _categoryButtonBgColor = [
-    kAccentColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor,
-  ];
-  final List<Color> _categoryButtonFontColor = [
-    kPrimaryColor,
-    kTextGreyColor,
-    kTextGreyColor,
-    kTextGreyColor,
-    kTextGreyColor,
-  ];
+  // final List<Color> _categoryButtonBgColor = [
+  //   kAccentColor,
+  //   kDefaultCategoryBackgroundColor,
+  //   kDefaultCategoryBackgroundColor,
+  //   kDefaultCategoryBackgroundColor,
+  //   kDefaultCategoryBackgroundColor,
+  // ];
+  // final List<Color> _categoryButtonFontColor = [
+  //   kPrimaryColor,
+  //   kTextGreyColor,
+  //   kTextGreyColor,
+  //   kTextGreyColor,
+  //   kTextGreyColor,
+  // ];
 
 //===================== POPULAR VENDORS =======================\\
   final List<int> popularVendorsIndex = [0, 1, 2, 3, 4];
@@ -168,6 +170,7 @@ class _HomeState extends State<Home> {
 
     mySnackBar(
       context,
+      kSuccessColor,
       "Success!",
       "ID copied to clipboard",
       Duration(

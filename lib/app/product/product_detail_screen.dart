@@ -100,6 +100,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
     mySnackBar(
       context,
+      kSuccessColor,
       "Success",
       _isAddedToFavorites
           ? "Product has been added to favorites"
@@ -121,6 +122,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     //Display snackBar
     mySnackBar(
       context,
+      kSuccessColor,
       "Success!",
       _isAddedToCart
           ? "Item has been added to cart."

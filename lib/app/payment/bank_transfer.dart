@@ -29,6 +29,7 @@ class _BankTransferState extends State<BankTransfer> {
 
     mySnackBar(
       context,
+      kSuccessColor,
       "Success!",
       "Copied to clipboard",
       Duration(

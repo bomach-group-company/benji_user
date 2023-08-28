@@ -48,6 +48,7 @@ class _RateProductDialogState extends State<RateProductDialog> {
     //Display snackBar
     mySnackBar(
       context,
+      kSuccessColor,
       "Success",
       "Your review has been submitted successfully",
       const Duration(seconds: 1),

@@ -72,6 +72,7 @@ class _PaymentMethodState extends State<PaymentMethod>
   void validate() {
     mySnackBar(
       context,
+      kSuccessColor,
       "Success!",
       "Thank you for your feedback!",
       Duration(seconds: 1),

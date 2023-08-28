@@ -88,6 +88,7 @@ class _DeliverToState extends State<DeliverTo> {
     //Display snackBar
     mySnackBar(
       context,
+      kSuccessColor,
       "Succcess!",
       "Delivery address updated",
       Duration(

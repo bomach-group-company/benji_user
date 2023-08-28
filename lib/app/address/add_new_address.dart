@@ -89,6 +89,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
     if (await addAddress(is_current: true)) {
       mySnackBar(
         context,
+        kSuccessColor,
         "Success!",
         "Set As Default Address",
         Duration(seconds: 2),
@@ -101,6 +102,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
     } else {
       mySnackBar(
         context,
+        kErrorColor,
         "Failed!",
         "Failed to Set Default Address",
         Duration(seconds: 2),
@@ -122,6 +124,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
     if (await addAddress(is_current: false)) {
       mySnackBar(
         context,
+        kSuccessColor,
         "Success!",
         "Added Address",
         Duration(seconds: 2),
@@ -134,6 +137,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
     } else {
       mySnackBar(
         context,
+        kErrorColor,
         "Failed!",
         "Failed to Add Address",
         Duration(seconds: 2),
