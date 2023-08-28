@@ -57,7 +57,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
   Future<bool> addAddress({bool is_current = true}) async {
     final url = Uri.parse('$baseURL/address/addAddress');
     List<String> countryList = country!.split(' ');
-    final User? user = (await getUser()) as User?;
+    final User? user = await getUser();
 
     final body = {
       'user_id': user!.id.toString(),
@@ -74,14 +74,13 @@ class _AddNewAddressState extends State<AddNewAddress> {
     final response =
         await http.post(url, body: body, headers: await authHeader(user.token));
 
-    isUnauthorized(response.body);
-
     return response.body == '"Address added successfully to ${user.email}"' &&
         response.statusCode == 200;
   }
 
   //SET DEFAULT ADDRESS
-  Future<void> setDefaultAddress() async {
+  setDefaultAddress() async {
+    await checkAuth(context);
     setState(() {
       isLoading = true;
     });
@@ -113,8 +112,15 @@ class _AddNewAddressState extends State<AddNewAddress> {
     }
   }
 
+  @override
+  void initState() {
+    super.initState();
+    checkAuth(context);
+  }
+
   //SAVE NEW ADDRESS
-  Future<void> saveNewAddress() async {
+  saveNewAddress() async {
+    await checkAuth(context);
     setState(() {
       isLoading2 = true;
     });

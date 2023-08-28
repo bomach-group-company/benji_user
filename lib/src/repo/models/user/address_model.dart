@@ -68,7 +68,7 @@ Future<List<Address>> getAddressesByUser() async {
 }
 
 Future<Address> getCurrentAddress() async {
-  int? userId = (await getUser() as User).id;
+  int? userId = (await getUser())!.id;
 
   final response = await http.get(
     Uri.parse('$baseURL/clients/getCurrentAddress/$userId'),

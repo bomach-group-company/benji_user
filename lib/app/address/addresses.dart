@@ -8,6 +8,7 @@ import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/user/address_model.dart';
+import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import 'add_new_address.dart';
 
@@ -35,6 +36,8 @@ class _AddressesState extends State<Addresses> {
   Map? addressData;
 
   _getData() async {
+    await checkAuth(context);
+
     String current = '';
     try {
       current = (await getCurrentAddress()).id ?? '';

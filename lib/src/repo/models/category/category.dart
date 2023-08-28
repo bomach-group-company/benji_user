@@ -31,6 +31,7 @@ class Category {
 Future<List<Category>> getCategories() async {
   final response = await http.get(Uri.parse('$baseURL/categories/list'),
       headers: await authHeader());
+
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => Category.fromJson(item))

@@ -46,21 +46,16 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _getData();
-
-    _loadingScreen = true;
-    Future.delayed(
-      const Duration(seconds: 2),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
   }
 
   Map? _data;
 
   _getData() async {
+    await checkAuth(context);
     List<Category> category = await getCategories();
-    _data = {'category': category};
+    setState(() {
+      _data = {'category': category};
+    });
   }
 
   //=======================================================================================================================================\\
@@ -68,7 +63,6 @@ class _HomeState extends State<Home> {
 //============================================== ALL VARIABLES =================================================\\
   int activeCategory = 0;
 //============================================== BOOL VALUES =================================================\\
-  late bool _loadingScreen;
   bool _vendorStatus = true;
 
   //Online Vendors
@@ -179,15 +173,7 @@ class _HomeState extends State<Home> {
   //==================================================== FUNCTIONS ===========================================================\\
   //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {
-    setState(() {
-      _loadingScreen = true;
-    });
-    await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      _loadingScreen = false;
-    });
-  }
+  Future<void> _handleRefresh() async {}
   //========================================================================\\
 
   //==================================================== Navigation ===========================================================\\
