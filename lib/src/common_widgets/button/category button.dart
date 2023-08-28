@@ -18,7 +18,7 @@ class CategoryButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       child: Text(
-        title,
+        title.toUpperCase(),
         textAlign: TextAlign.center,
         style: TextStyle(
           overflow: TextOverflow.ellipsis,
