@@ -5,6 +5,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/product/hot_deals_card.dart';
 import '../../src/providers/constants.dart';
+import '../../src/repo/models/product/product.dart';
+import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 
 class HotDealsPage extends StatefulWidget {
@@ -19,19 +21,23 @@ class _HotDealsPageState extends State<HotDealsPage> {
   @override
   void initState() {
     super.initState();
+    _getData();
+  }
 
-    _loadingScreen = true;
-    Future.delayed(
-      const Duration(milliseconds: 1000),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
+  Map? _data;
+
+  _getData() async {
+    await checkAuth(context);
+    List<Product> product = await getProducts();
+    setState(() {
+      _data = {
+        'product': product,
+      };
+    });
   }
   //==================================================== ALL VARIABLES ===========================================================\\
 
   //==================================================== BOOL VALUES ===========================================================\\
-  late bool _loadingScreen;
 
   //==================================================== CONTROLLERS ======================================================\\
   final _scrollController = ScrollController();
@@ -40,13 +46,8 @@ class _HotDealsPageState extends State<HotDealsPage> {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    setState(() {
-      _loadingScreen = true;
-    });
-    await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      _loadingScreen = false;
-    });
+    _data = null;
+    await _getData();
   }
   //========================================================================\\
 
@@ -58,14 +59,14 @@ class _HotDealsPageState extends State<HotDealsPage> {
         backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
           elevation: 0.0,
-          title: "Hot Deals",
+          title: "Products",
           toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
           actions: [],
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: _loadingScreen
+          child: _data == null
               ? SpinKitChasingDots(color: kAccentColor)
               : Scrollbar(
                   controller: _scrollController,
@@ -73,12 +74,14 @@ class _HotDealsPageState extends State<HotDealsPage> {
                   scrollbarOrientation: ScrollbarOrientation.right,
                   child: ListView.separated(
                     physics: BouncingScrollPhysics(),
-                    itemCount: 20,
+                    itemCount: _data!['product'].length,
                     shrinkWrap: true,
                     padding: EdgeInsets.all(kDefaultPadding),
                     separatorBuilder: (context, index) => kHalfSizedBox,
                     itemBuilder: (BuildContext context, int index) =>
-                        HotDealsCard(),
+                        HotDealsCard(
+                            name: _data!['product'][index].name,
+                            price: _data!['product'][index].price),
                   ),
                 ),
         ),

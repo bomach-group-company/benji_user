@@ -54,12 +54,11 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
   User? obtainedUserDetails;
 
   Future rememberUser() async {
-    final User? user = (await getUser()) as User?;
+    final User? user = (await getUser());
 
     setState(() {
       obtainedUserDetails = user;
     });
-    print(obtainedUserDetails);
     return null;
   }
 
