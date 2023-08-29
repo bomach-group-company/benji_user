@@ -83,10 +83,15 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                       onTap: () {},
                       cardImage: 'ntachi-osa.png',
                       vendorName: _data!['vendor'][index].shopName,
-                      typeOfBusiness: "Restaurant",
-                      distance: "45 mins",
-                      rating: "3.6",
-                      noOfUsersRated: "500",
+                      distance: "50 mins",
+                      typeOfBusiness: _data!['vendor'][index].shopType.name ??
+                          'Not Available',
+                      rating: (_data!['vendor'][index].averageRating ?? 0)
+                          .toString(),
+                      noOfUsersRated:
+                          (_data!['vendor'][index].numberOfClientsReactions ??
+                                  0)
+                              .toString(),
                     ),
                   ),
                 ),

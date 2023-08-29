@@ -82,6 +82,9 @@ class _HotDealsPageState extends State<HotDealsPage> {
                     separatorBuilder: (context, index) => kHalfSizedBox,
                     itemBuilder: (BuildContext context, int index) =>
                         HotDealsCard(
+                            vendorShopName:
+                                _data!['product'][index].vendorId.shopName ??
+                                    'Not Available',
                             name: _data!['product'][index].name,
                             price: _data!['product'][index].price),
                   ),

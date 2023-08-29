@@ -146,7 +146,7 @@ class AllVendorsNearYouCard extends StatelessWidget {
                               SizedBox(
                                 width: 50,
                                 child: Text(
-                                  '30 mins',
+                                  distance,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     color: kTextBlackColor,
