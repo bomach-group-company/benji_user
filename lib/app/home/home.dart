@@ -149,9 +149,7 @@ class _HomeState extends State<Home> {
   //===================== COPY TO CLIPBOARD =======================\\
   void _copyToClipboard(BuildContext context, String userID) {
     Clipboard.setData(
-      ClipboardData(
-        text: userID,
-      ),
+      ClipboardData(text: userID),
     );
 
     //===================== SNACK BAR =======================\\
