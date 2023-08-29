@@ -62,8 +62,8 @@ class _CartScreenState extends State<CartScreen> {
 
   //================================== Navigation =======================================\\
 
-  void _toProductDetailScreen() => Get.to(
-        () => ProductDetailScreen(),
+  void _toProductDetailScreen(product) => Get.to(
+        () => ProductDetailScreen(product: product),
         routeName: 'ProductDetailScreen',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -193,7 +193,8 @@ class _CartScreenState extends State<CartScreen> {
                         itemBuilder: (context, index) {
                           return VendorsProductContainer(
                             product: _data!['product'][index],
-                            onTap: _toProductDetailScreen,
+                            onTap: () => _toProductDetailScreen(
+                                _data!['product'][index]),
                           );
                         },
                       ),
