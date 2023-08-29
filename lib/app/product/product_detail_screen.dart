@@ -606,11 +606,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                             shape: OvalBorder(),
                                                           ),
                                                           child: Padding(
-                                                            padding: const EdgeInsets
+                                                            padding:
+                                                                const EdgeInsets
                                                                     .symmetric(
-                                                                horizontal:
-                                                                    kDefaultPadding /
-                                                                        2),
+                                                                    horizontal:
+                                                                        kDefaultPadding /
+                                                                            2),
                                                             child: Center(
                                                               child: Text(
                                                                 '$_quantity',

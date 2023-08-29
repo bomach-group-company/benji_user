@@ -51,6 +51,7 @@ class _AddressesState extends State<Addresses> {
       'current': current,
       'addresses': addresses,
     };
+    print(data);
 
     setState(() {
       addressData = data;
@@ -130,143 +131,128 @@ class _AddressesState extends State<Addresses> {
                       children: [
                         Column(
                           children: [
-                            FutureBuilder(
-                              future: _getData(),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  return ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: addressData!['addresses'].length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Container(
-                                        padding:
-                                            EdgeInsetsDirectional.symmetric(
-                                          vertical: kDefaultPadding / 2,
-                                        ),
-                                        child: ListTile(
-                                          onTap: _toEditAddressDetails,
-                                          enableFeedback: true,
-                                          trailing: Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            size: 16,
-                                            color: kAccentColor,
-                                          ),
-                                          title: Container(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  addressData!['addresses']
-                                                              [index]
-                                                          .title ??
-                                                      '',
-                                                  style: TextStyle(
-                                                    color: kTextGreyColor,
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                                kWidthSizedBox,
-                                                addressData!['current'] ==
-                                                        addressData![
-                                                                    'addresses']
-                                                                [index]
-                                                            .id
-                                                    ? Container(
-                                                        width: 58,
-                                                        height: 24,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                          horizontal: 8,
-                                                          vertical: 4,
-                                                        ),
-                                                        decoration:
-                                                            ShapeDecoration(
-                                                          color: kAccentColor,
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                        ),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text(
-                                                              'default',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .right,
-                                                              style: TextStyle(
-                                                                color:
-                                                                    kPrimaryColor,
-                                                                fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      )
-                                                    : SizedBox(),
-                                              ],
-                                            ),
-                                          ),
-                                          subtitle: Padding(
-                                            padding: const EdgeInsets.only(
-                                              top: kDefaultPadding / 2,
-                                            ),
-                                            child: Container(
-                                              child: Text(
-                                                addressData!['addresses'][index]
-                                                        .streetAddress ??
-                                                    '',
-                                                style: TextStyle(
-                                                  color: kTextGreyColor,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                }
-                                return Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Lottie.asset(
-                                      "assets/animations/empty/frame_1.json",
-                                      height: 300,
+                            ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: addressData!['addresses'].length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  padding: EdgeInsetsDirectional.symmetric(
+                                    vertical: kDefaultPadding / 2,
+                                  ),
+                                  child: ListTile(
+                                    onTap: _toEditAddressDetails,
+                                    enableFeedback: true,
+                                    trailing: Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 16,
+                                      color: kAccentColor,
                                     ),
-                                    kSizedBox,
-                                    Text(
-                                      "Oops!, There is nothing here",
-                                      style: TextStyle(
-                                        color: kTextGreyColor,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
+                                    title: Container(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            addressData!['addresses'][index]
+                                                    .title ??
+                                                '',
+                                            style: TextStyle(
+                                              color: kTextGreyColor,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                          kWidthSizedBox,
+                                          addressData!['current'] ==
+                                                  addressData!['addresses']
+                                                          [index]
+                                                      .id
+                                              ? Container(
+                                                  width: 58,
+                                                  height: 24,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 8,
+                                                    vertical: 4,
+                                                  ),
+                                                  decoration: ShapeDecoration(
+                                                    color: kAccentColor,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        'default',
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        style: TextStyle(
+                                                          color: kPrimaryColor,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              : SizedBox(),
+                                        ],
                                       ),
-                                    )
-                                  ],
+                                    ),
+                                    subtitle: Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: kDefaultPadding / 2,
+                                      ),
+                                      child: Container(
+                                        child: Text(
+                                          addressData!['addresses'][index]
+                                                  .streetAddress ??
+                                              '',
+                                          style: TextStyle(
+                                            color: kTextGreyColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 );
                               },
                             ),
+                            (addressData!['addresses'] as List<Address>).isEmpty
+                                ? Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Lottie.asset(
+                                        "assets/animations/empty/frame_1.json",
+                                        height: 300,
+                                      ),
+                                      kSizedBox,
+                                      Text(
+                                        "Oops!, There is nothing here",
+                                        style: TextStyle(
+                                          color: kTextGreyColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                : SizedBox(),
                             SizedBox(
                               height: kDefaultPadding * 3,
                             ),
