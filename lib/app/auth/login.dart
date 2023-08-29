@@ -467,7 +467,7 @@ class _LoginState extends State<Login> {
                     //                 decoration: const BoxDecoration(
                     //                   image: DecorationImage(
                     //                     image: AssetImage(
-                    //                       "assets/images/icons/google-signup-icon.png",
+                    //                       "assets/icons/google-signup-icon.png",
                     //                     ),
                     //                   ),
                     //                 ),

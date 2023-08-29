@@ -149,9 +149,7 @@ class _HomeState extends State<Home> {
   //===================== COPY TO CLIPBOARD =======================\\
   void _copyToClipboard(BuildContext context, String userID) {
     Clipboard.setData(
-      ClipboardData(
-        text: userID,
-      ),
+      ClipboardData(text: userID),
     );
 
     //===================== SNACK BAR =======================\\
@@ -365,7 +363,7 @@ class _HomeState extends State<Home> {
                     Scaffold.of(context).openDrawer();
                   },
                   icon: Image.asset(
-                    "assets/images/icons/drawer-icon.png",
+                    "assets/icons/drawer-icon.png",
                     color: kAccentColor,
                     fit: BoxFit.cover,
                     height: 20,
