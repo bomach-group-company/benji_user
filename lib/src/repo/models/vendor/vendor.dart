@@ -9,31 +9,33 @@ class VendorModel {
   final int? id;
   final String? email;
   final String? phone;
-  final bool? isActiveCustomUserVerified;
   final String? username;
   final String? code;
   final bool? isOnline;
-  final String? created;
   final String? firstName;
   final String? lastName;
   final String? gender;
   final String? shopName;
-  final String? balance;
+  final String? averageRating;
+  final String? numberOfClientsReactions;
+  final String? shopImage;
+  final String? shopType;
 
   VendorModel({
     this.id,
     this.email,
     this.phone,
-    this.isActiveCustomUserVerified,
     this.username,
     this.code,
     this.isOnline,
-    this.created,
     this.firstName,
     this.lastName,
     this.gender,
     this.shopName,
-    this.balance,
+    this.averageRating,
+    this.numberOfClientsReactions,
+    this.shopImage,
+    this.shopType,
   });
 
   factory VendorModel.fromJson(Map<String, dynamic> json) {
@@ -41,16 +43,17 @@ class VendorModel {
       id: json['id'],
       email: json['email'],
       phone: json['phone'],
-      isActiveCustomUserVerified: json['is_activeCustomUserverified'],
       username: json['username'],
       code: json['code'],
       isOnline: json['is_online'],
-      created: json['created'],
       firstName: json['first_name'],
       lastName: json['last_name'],
       gender: json['gender'],
       shopName: json['shop_name'],
-      balance: json['balance'],
+      averageRating: json['averageRating'],
+      numberOfClientsReactions: json['numberOfClientsReactions'],
+      shopImage: json['shopImage'],
+      shopType: json['shopType'],
     );
   }
 }

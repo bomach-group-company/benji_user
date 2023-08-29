@@ -229,8 +229,8 @@ class _VendorDetailsState extends State<VendorDetails>
 
 //=================================== Navigation =====================================\\
 
-  void _toProductDetailScreen() => Get.to(
-        () => ProductDetailScreen(),
+  void _toProductDetailScreen(product) => Get.to(
+        () => ProductDetailScreen(product: product),
         routeName: 'ProductDetailScreen',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -687,7 +687,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                                       product: _data!['product']
                                                           [index],
                                                       onTap:
-                                                          _toProductDetailScreen,
+                                                         () => _toProductDetailScreen(_data!['product'][index]),
                                                     ),
                                                   ),
                                                   kSizedBox,

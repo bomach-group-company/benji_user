@@ -133,8 +133,8 @@ class _FavoritesState extends State<Favorites>
         transition: Transition.rightToLeft,
       );
 
-  void _toProductDetailsScreen() => Get.to(
-        () => const ProductDetailScreen(),
+  void _toProductDetailsScreen(product) => Get.to(
+        () => ProductDetailScreen(product: product),
         routeName: 'ProductDetailScreen',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -330,8 +330,10 @@ class _FavoritesState extends State<Favorites>
                                                     VendorsProductContainer(
                                                   product: _data!['product']
                                                       [index],
-                                                  onTap:
-                                                      _toProductDetailsScreen,
+                                                  onTap: () =>
+                                                      _toProductDetailsScreen(
+                                                          _data!['product']
+                                                              [index]),
                                                 ),
                                               ),
                                             ),

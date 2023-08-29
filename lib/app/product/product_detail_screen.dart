@@ -1,5 +1,6 @@
 import 'package:benji_user/src/providers/constants.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
+import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -19,7 +20,8 @@ import '../checkout/checkout_screen.dart';
 import 'report_product.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  const ProductDetailScreen({super.key});
+  final Product product;
+  const ProductDetailScreen({super.key, required this.product});
 
   @override
   State<ProductDetailScreen> createState() => _ProductDetailScreenState();
@@ -31,33 +33,58 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   void initState() {
     super.initState();
     _isAddedToFavorites = false;
-    _isAddedToCart = false;
-    _loadingScreen = true;
-
-    Future.delayed(
-      const Duration(milliseconds: 500),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
+    checkCart();
   }
+
   //============================================================ ALL VARIABLES ===================================================================\\
 
-  int _quantity = 1; // Add a variable to hold the _quantity
   double _totalCost = 1200;
   double _itemPrice = 1200;
   double _productQuantity = 200;
-  String? cartCount;
+  String cartCount = '1';
+  String cartCountAll = '1';
 //====================================================== BOOL VALUES ========================================================\\
-  late bool _loadingScreen;
   var _isAddedToFavorites;
-  var _isAddedToCart;
+  bool _isAddedToCart = false;
   bool isLoading = false;
+  bool justInPage = true;
 
   //==================================================== CONTROLLERS ======================================================\\
   ScrollController _scrollController = ScrollController();
 
-  //======================================================= FUNCTIONS ==========================================================\\
+  //==================================================== FUNCTIONS ======================================================\\
+
+  checkCart() async {
+    String count = await countCart();
+    String countAll = await countCart(all: true);
+
+    setState(() {
+      cartCount = count;
+      cartCountAll = countAll;
+      if (count != '0') {
+        _isAddedToCart = true;
+      } else {
+        _isAddedToCart = false;
+      }
+    });
+    if (_isAddedToCart == false && justInPage == false) {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Item has been removed from cart.",
+        Duration(
+          seconds: 1,
+        ),
+      );
+    }
+    if (justInPage) {
+      setState(() {
+        justInPage = false;
+      });
+    }
+  }
+
   //===================== Number format ==========================\\
   String formattedText(double value) {
     final numberFormat = NumberFormat('#,##0');
@@ -67,31 +94,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    setState(() {
-      _loadingScreen = true;
-    });
-    await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      _loadingScreen = false;
-    });
+    await checkCart();
   }
 
   //========================================================================\\
 
-  void incrementQuantity() {
-    setState(() {
-      _quantity++; // Increment the _quantity by 1
-      _totalCost = _quantity * _itemPrice;
-    });
+  void incrementQuantity() async {
+    await addToCart('f4715bd5-80d5-4477-9167-393590d5aa30');
+    await checkCart();
   }
 
-  void decrementQuantity() {
-    setState(() {
-      if (_quantity > 1 && _quantity <= _productQuantity) {
-        _quantity--; // Decrement the _quantity by 1, but ensure it doesn't go below 1
-        _totalCost = _quantity * _itemPrice;
-      }
-    });
+  void decrementQuantity() async {
+    await removeFromCart('f4715bd5-80d5-4477-9167-393590d5aa30');
+    await checkCart();
   }
 
   void _addToFavorites() {
@@ -110,28 +125,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  Future<void> _cartFunction() async {
-    setState(() {
-      isLoading = true;
-    });
-    cartCount =
-        await addToCart('f4715bd5-80d5-4477-9167-393590d5aa30', qty: _quantity);
+  Future<void> _cartAddFunction() async {
+    await addToCart('f4715bd5-80d5-4477-9167-393590d5aa30');
+    await checkCart();
 
-    //Display snackBar
     mySnackBar(
       context,
       kSuccessColor,
       "Success!",
-      _isAddedToCart
-          ? "Item has been added to cart."
-          : "Item has been removed.",
+      "Item has been added to cart.",
       Duration(
         seconds: 1,
       ),
     );
-    setState(() {
-      isLoading = false;
-    });
   }
 
   //======================================= Navigation ==========================================\\
@@ -151,8 +157,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
 //Show popup menu
   void showPopupMenu(BuildContext context) {
-    // final RenderBox overlay =
-    //     Overlay.of(context).context.findRenderObject() as RenderBox;
     const position = RelativeRect.fromLTRB(10, 60, 0, 0);
 
     showMenu<String>(
@@ -244,7 +248,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 child: Row(
                   children: [
                     IconButton(
-                      onPressed: _loadingScreen ? null : _addToFavorites,
+                      onPressed: cartCount == null ? null : _addToFavorites,
                       icon: FaIcon(
                         _isAddedToFavorites
                             ? FontAwesomeIcons.solidHeart
@@ -252,13 +256,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         color: kAccentColor,
                       ),
                     ),
-                    CartCard(
-                      cartCount: cartCount,
-                    )
+                    CartCard()
                   ],
                 )),
             IconButton(
-              onPressed: () => _loadingScreen ? null : showPopupMenu(context),
+              onPressed: () =>
+                  cartCount == null ? null : showPopupMenu(context),
               icon: FaIcon(
                 FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,
@@ -289,7 +292,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     child: Text("Error, Please try again later"),
                   );
                 }
-                return _loadingScreen
+                return cartCount == null
                     ? Center(child: SpinKitChasingDots(color: kAccentColor))
                     : Scrollbar(
                         controller: _scrollController,
@@ -312,82 +315,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         image: AssetImage(
                                           "assets/images/products/pasta.png",
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: mediaHeight * 0.35,
-                                    left: mediaWidth /
-                                        5, // right: kDefaultPadding,
-                                    right: mediaWidth /
-                                        5, // right: kDefaultPadding,
-                                    child: Container(
-                                      width: mediaWidth,
-                                      height: 70,
-                                      decoration: ShapeDecoration(
-                                        color: Color(0xFFFAFAFA),
-                                        shadows: [
-                                          BoxShadow(
-                                            color: kBlackColor.withOpacity(0.1),
-                                            blurRadius: 5,
-                                            spreadRadius: 2,
-                                            blurStyle: BlurStyle.normal,
-                                          ),
-                                        ],
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(19),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          IconButton(
-                                            onPressed: () {
-                                              decrementQuantity();
-                                            },
-                                            splashRadius: 50,
-                                            icon: Icon(
-                                              Icons.remove_rounded,
-                                              color: kBlackColor,
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            decoration: ShapeDecoration(
-                                              color: kAccentColor,
-                                              shape: OvalBorder(),
-                                            ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal:
-                                                          kDefaultPadding / 2),
-                                              child: Center(
-                                                child: Text(
-                                                  '$_quantity',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    color: kTextWhiteColor,
-                                                    fontSize: 32,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              incrementQuantity();
-                                            },
-                                            splashRadius: 50,
-                                            icon: Icon(
-                                              Icons.add_rounded,
-                                              color: kAccentColor,
-                                            ),
-                                          ),
-                                        ],
                                       ),
                                     ),
                                   ),
@@ -526,106 +453,109 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             kSizedBox,
                                           ],
                                         )
-                                      : Center(
-                                          child: Container(
-                                            margin: EdgeInsets.only(
-                                              bottom: kDefaultPadding * 2,
-                                            ),
-                                            child: _isAddedToCart
-                                                ? Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      ElevatedButton(
-                                                        onPressed: () {
-                                                          _cartFunction();
-                                                        },
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          backgroundColor:
-                                                              kAccentColor,
-                                                          elevation: 20.0,
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20),
-                                                          ),
-                                                          shadowColor:
-                                                              kBlackColor
-                                                                  .withOpacity(
-                                                                      0.4),
-                                                          minimumSize:
-                                                              Size(60, 60),
-                                                          maximumSize:
-                                                              Size(60, 60),
-                                                        ),
-                                                        child: Icon(
-                                                          Icons
-                                                              .remove_shopping_cart_rounded,
-                                                          color: kPrimaryColor,
-                                                        ),
-                                                      ),
-                                                      ElevatedButton(
-                                                        onPressed:
-                                                            _toCheckoutScreen,
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          backgroundColor:
-                                                              kAccentColor,
-                                                          elevation: 20.0,
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20),
-                                                          ),
-                                                          shadowColor:
-                                                              kBlackColor
-                                                                  .withOpacity(
-                                                                      0.4),
-                                                          minimumSize: Size(
-                                                              MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width /
-                                                                  1.5,
-                                                              60),
-                                                          maximumSize: Size(
-                                                              MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width /
-                                                                  1.5,
-                                                              60),
-                                                        ),
-                                                        child: Text(
-                                                          "Buy Now"
-                                                              .toUpperCase(),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            color:
-                                                                kPrimaryColor,
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )
-                                                : MyElevatedButton(
-                                                    onPressed: () {
-                                                      _cartFunction();
-                                                    },
-                                                    title:
-                                                        "Add to Cart (₦${formattedText(_totalCost)})",
-                                                  ),
+                                      : Container(
+                                          margin: EdgeInsets.only(
+                                            bottom: kDefaultPadding * 2,
                                           ),
+                                          child: _isAddedToCart
+                                              ? Positioned(
+                                                  top: mediaHeight * 0.35,
+                                                  left: mediaWidth /
+                                                      5, // right: kDefaultPadding,
+                                                  right: mediaWidth /
+                                                      5, // right: kDefaultPadding,
+                                                  child: Container(
+                                                    width: mediaWidth,
+                                                    height: 70,
+                                                    decoration: ShapeDecoration(
+                                                      color: Color(0xFFFAFAFA),
+                                                      shadows: [
+                                                        BoxShadow(
+                                                          color: kBlackColor
+                                                              .withOpacity(0.1),
+                                                          blurRadius: 5,
+                                                          spreadRadius: 2,
+                                                          blurStyle:
+                                                              BlurStyle.normal,
+                                                        ),
+                                                      ],
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(19),
+                                                      ),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      children: [
+                                                        IconButton(
+                                                          onPressed: () {
+                                                            decrementQuantity();
+                                                          },
+                                                          splashRadius: 50,
+                                                          icon: Icon(
+                                                            Icons
+                                                                .remove_rounded,
+                                                            color: kBlackColor,
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          height: 50,
+                                                          decoration:
+                                                              ShapeDecoration(
+                                                            color: kAccentColor,
+                                                            shape: OvalBorder(),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        kDefaultPadding /
+                                                                            2),
+                                                            child: Center(
+                                                              child: Text(
+                                                                '$cartCountAll',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style:
+                                                                    TextStyle(
+                                                                  color:
+                                                                      kTextWhiteColor,
+                                                                  fontSize: 32,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        IconButton(
+                                                          onPressed: () {
+                                                            incrementQuantity();
+                                                          },
+                                                          splashRadius: 50,
+                                                          icon: Icon(
+                                                            Icons.add_rounded,
+                                                            color: kAccentColor,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              : MyElevatedButton(
+                                                  onPressed: () {
+                                                    _cartAddFunction();
+                                                  },
+                                                  title:
+                                                      "Add to Cart (₦${formattedText(_totalCost)})",
+                                                ),
                                         ),
                                   SizedBox(
                                     height: kDefaultPadding * 3,
