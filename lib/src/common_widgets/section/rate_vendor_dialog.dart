@@ -67,133 +67,136 @@ class _RateVendorDialogState extends State<RateVendorDialog> {
   @override
   Widget build(BuildContext context) {
     double mediaHeight = MediaQuery.of(context).size.height;
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeIn,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(kDefaultPadding),
-      ),
-      child: Stack(
-        children: [
-          AnimatedContainer(
-            duration: Duration(milliseconds: 300),
-            curve: Curves.easeIn,
-            height: _pageChanged
-                ? max(300, mediaHeight * 0.5)
-                : max(300, mediaHeight * 0.3),
-            padding: EdgeInsets.all(kDefaultPadding),
-            child: PageView(
-              controller: _ratingPageController,
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                _buildThanksNote(),
-                _submittingRequest
-                    ? SpinKitChasingDots(color: kAccentColor)
-                    : _causeOfRating(
-                        _myMessageEC,
-                        (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Field cannot be left empty";
+    return GestureDetector(
+      onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(kDefaultPadding),
+        ),
+        child: Stack(
+          children: [
+            AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeIn,
+              height: _pageChanged
+                  ? max(300, mediaHeight * 0.5)
+                  : max(300, mediaHeight * 0.3),
+              padding: EdgeInsets.all(kDefaultPadding),
+              child: PageView(
+                controller: _ratingPageController,
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  _buildThanksNote(),
+                  _submittingRequest
+                      ? SpinKitChasingDots(color: kAccentColor)
+                      : _causeOfRating(
+                          _myMessageEC,
+                          (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Field cannot be left empty";
+                            }
+                            return null;
+                          },
+                          _myMessageFN,
+                          _formKey,
+                        ),
+                ],
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: _pageChanged == false ? kGreyColor1 : kAccentColor,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(kDefaultPadding),
+                    bottomRight: Radius.circular(kDefaultPadding),
+                  ),
+                ),
+                child: _pageChanged == false
+                    ? MaterialButton(
+                        enableFeedback: true,
+                        onPressed: null,
+                        child: Text(
+                          "Done",
+                          style: TextStyle(color: kPrimaryColor),
+                        ),
+                        disabledElevation: 0.0,
+                        disabledColor: kGreyColor1,
+                        disabledTextColor: kTextBlackColor,
+                        mouseCursor: SystemMouseCursors.click,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(kDefaultPadding),
+                            bottomRight: Radius.circular(kDefaultPadding),
+                          ),
+                        ),
+                      )
+                    : MaterialButton(
+                        enableFeedback: true,
+                        onPressed: (() async {
+                          if (_formKey.currentState!.validate()) {
+                            _submitRequest();
                           }
-                          return null;
-                        },
-                        _myMessageFN,
-                        _formKey,
+                        }),
+                        child: Text(
+                          "Done",
+                          style: TextStyle(color: kPrimaryColor),
+                        ),
+                        mouseCursor: SystemMouseCursors.click,
+                        color: kAccentColor,
+                        height: 50,
+                        focusElevation: kDefaultPadding,
+                        focusColor: kAccentColor,
+                        hoverElevation: 10.0,
+                        hoverColor: kAccentColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(kDefaultPadding),
+                            bottomRight: Radius.circular(kDefaultPadding),
+                          ),
+                        ),
                       ),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: _pageChanged == false ? kGreyColor1 : kAccentColor,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(kDefaultPadding),
-                  bottomRight: Radius.circular(kDefaultPadding),
-                ),
               ),
-              child: _pageChanged == false
-                  ? MaterialButton(
-                      enableFeedback: true,
-                      onPressed: null,
-                      child: Text(
-                        "Done",
-                        style: TextStyle(color: kPrimaryColor),
-                      ),
-                      disabledElevation: 0.0,
-                      disabledColor: kGreyColor1,
-                      disabledTextColor: kTextBlackColor,
-                      mouseCursor: SystemMouseCursors.click,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(kDefaultPadding),
-                          bottomRight: Radius.circular(kDefaultPadding),
-                        ),
-                      ),
-                    )
-                  : MaterialButton(
-                      enableFeedback: true,
-                      onPressed: (() async {
-                        if (_formKey.currentState!.validate()) {
-                          _submitRequest();
-                        }
-                      }),
-                      child: Text(
-                        "Done",
-                        style: TextStyle(color: kPrimaryColor),
-                      ),
-                      mouseCursor: SystemMouseCursors.click,
-                      color: kAccentColor,
-                      height: 50,
-                      focusElevation: kDefaultPadding,
-                      focusColor: kAccentColor,
-                      hoverElevation: 10.0,
-                      hoverColor: kAccentColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(kDefaultPadding),
-                          bottomRight: Radius.circular(kDefaultPadding),
-                        ),
-                      ),
-                    ),
             ),
-          ),
-          AnimatedPositioned(
-            top: _starPosition,
-            left: 0,
-            right: 0,
-            duration: Duration(milliseconds: 500),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                5,
-                (index) => IconButton(
-                  onPressed: () {
-                    _ratingPageController.nextPage(
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.easeIn,
-                    );
+            AnimatedPositioned(
+              top: _starPosition,
+              left: 0,
+              right: 0,
+              duration: Duration(milliseconds: 500),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  5,
+                  (index) => IconButton(
+                    onPressed: () {
+                      _ratingPageController.nextPage(
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.easeIn,
+                      );
 
-                    setState(
-                      () {
-                        _starPosition = 10.0;
-                        _rating = index + 1;
-                        _pageChanged = true;
-                      },
-                    );
-                  },
-                  color: kStarColor,
-                  icon: index < _rating
-                      ? FaIcon(FontAwesomeIcons.solidStar, size: 30)
-                      : FaIcon(FontAwesomeIcons.star, size: 26),
+                      setState(
+                        () {
+                          _starPosition = 10.0;
+                          _rating = index + 1;
+                          _pageChanged = true;
+                        },
+                      );
+                    },
+                    color: kStarColor,
+                    icon: index < _rating
+                        ? FaIcon(FontAwesomeIcons.solidStar, size: 30)
+                        : FaIcon(FontAwesomeIcons.star, size: 26),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

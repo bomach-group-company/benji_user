@@ -29,7 +29,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
           Duration(seconds: 3),
           () {
             Get.offAll(
-              () => obtainedUserDetails == null || obtainedUserDetails == ""
+              () => _obtainedUserDetails == null || _obtainedUserDetails == ""
                   ? const SignUp(
                       logout: true,
                     )
@@ -38,7 +38,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
               fullscreenDialog: true,
               curve: Curves.easeIn,
               routeName:
-                  obtainedUserDetails == null || obtainedUserDetails == ""
+                  _obtainedUserDetails == null || _obtainedUserDetails == ""
                       ? "SignUp"
                       : "Home",
               predicate: (route) => false,
@@ -51,13 +51,13 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
     );
   }
 
-  User? obtainedUserDetails;
+  User? _obtainedUserDetails;
 
   Future rememberUser() async {
     final User? user = (await getUser());
 
     setState(() {
-      obtainedUserDetails = user;
+      _obtainedUserDetails = user;
     });
     return null;
   }

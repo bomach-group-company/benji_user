@@ -27,7 +27,6 @@ import '../../theme/colors.dart';
 import '../address/addresses.dart';
 import '../address/deliver_to.dart';
 import '../auth/login.dart';
-import '../cart/cart_screen.dart';
 import '../checkout/checkout_screen.dart';
 import '../orders/order_history.dart';
 import '../product/product_detail_screen.dart';
@@ -263,17 +262,6 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toCartScreen() => Get.to(
-        () => const CartScreen(),
-        routeName: 'CartScreen',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
-
   void _toSeeAllVendorsNearYou() => Get.to(
         () => const VendorsNearYou(),
         routeName: 'VendorsNearYou',
@@ -366,26 +354,21 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
           automaticallyImplyLeading: false,
-          titleSpacing: kDefaultPadding / 2,
+          titleSpacing: 0,
           elevation: 0.0,
           title: Row(
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: kDefaultPadding / 2,
-                ),
-                child: Builder(
-                  builder: (context) => IconButton(
-                    splashRadius: 20,
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                    icon: Image.asset(
-                      "assets/images/icons/drawer-icon.png",
-                      color: kAccentColor,
-                      fit: BoxFit.cover,
-                      height: 20,
-                    ),
+              Builder(
+                builder: (context) => IconButton(
+                  splashRadius: 20,
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  icon: Image.asset(
+                    "assets/images/icons/drawer-icon.png",
+                    color: kAccentColor,
+                    fit: BoxFit.cover,
+                    height: 20,
                   ),
                 ),
               ),
@@ -433,7 +416,7 @@ class _HomeState extends State<Home> {
                           physics: BouncingScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) =>
                               Padding(
-                            padding: const EdgeInsets.all(kDefaultPadding / 2),
+                            padding: const EdgeInsets.all(10),
                             child: CategoryButton(
                               onPressed: () {
                                 setState(() {
@@ -462,9 +445,9 @@ class _HomeState extends State<Home> {
                             onRefresh: _handleRefresh,
                             color: kAccentColor,
                             edgeOffset: 0,
-                            displacement: 0.0,
+                            displacement: kDefaultPadding,
                             semanticsLabel: "Pull to refresh",
-                            strokeWidth: 3.0,
+                            strokeWidth: 4,
                             triggerMode: RefreshIndicatorTriggerMode.onEdge,
                             child: ListView(
                               physics: const BouncingScrollPhysics(),

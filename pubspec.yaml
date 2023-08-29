@@ -69,11 +69,12 @@ flutter:
     - assets/images/profile/
     - assets/images/products/
     - assets/images/customers/
-    - assets/animations/splash_screen/
-    - assets/animations/successful/
+    - assets/animations/login/
+    - assets/animations/signup/
+    - assets/animations/payment/
     - assets/animations/no_internet/
-    - assets/animations/forgot_password/
     - assets/animations/error/
+    - assets/animations/empty/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

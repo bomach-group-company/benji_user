@@ -1,22 +1,44 @@
 // ignore_for_file: camel_case_types
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../theme/colors.dart';
 import '../home/home.dart';
 
-class LoginSplashScreen extends StatelessWidget {
+class LoginSplashScreen extends StatefulWidget {
   const LoginSplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => Home()),
-        (route) => false,
-      );
-    });
+  State<LoginSplashScreen> createState() => _LoginSplashScreenState();
+}
 
+class _LoginSplashScreenState extends State<LoginSplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(
+      Duration(seconds: 2),
+      () {
+        Get.offAll(
+          () => Home(),
+          duration: const Duration(seconds: 2),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          routeName: "Home",
+          predicate: (route) => false,
+          popGesture: false,
+          transition: Transition.fadeIn,
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       maintainBottomViewPadding: true,
       child: Scaffold(
@@ -27,17 +49,10 @@ class LoginSplashScreen extends StatelessWidget {
           children: [
             const Spacer(),
             Center(
-              child: Container(
-                width: 400,
-                height: 500,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                      "assets/animations/splash_screen/successful.gif",
-                    ),
-                  ),
-                  shape: BoxShape.circle,
-                ),
+              child: Lottie.asset(
+                "assets/animations/login/frame_1.json",
+                height: 300,
+                fit: BoxFit.cover,
               ),
             ),
             const Spacer(),
