@@ -100,12 +100,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //========================================================================\\
 
   void incrementQuantity() async {
-    await addToCart('f4715bd5-80d5-4477-9167-393590d5aa30');
+    await addToCart(widget.product.id);
     await checkCart();
   }
 
   void decrementQuantity() async {
-    await removeFromCart('f4715bd5-80d5-4477-9167-393590d5aa30');
+    await removeFromCart(widget.product.id);
     await checkCart();
   }
 
@@ -126,7 +126,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Future<void> _cartAddFunction() async {
-    await addToCart('f4715bd5-80d5-4477-9167-393590d5aa30');
+    await addToCart(widget.product.id);
     await checkCart();
 
     mySnackBar(
