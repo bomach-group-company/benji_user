@@ -365,7 +365,7 @@ class _HomeState extends State<Home> {
                     Scaffold.of(context).openDrawer();
                   },
                   icon: Image.asset(
-                    "assets/images/icons/drawer-icon.png",
+                    "assets/icons/drawer-icon.png",
                     color: kAccentColor,
                     fit: BoxFit.cover,
                     height: 20,

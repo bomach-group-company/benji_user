@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
 import '../../src/common_widgets/textformfield/my textformfield.dart';
+import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import 'choose_rider.dart';
@@ -591,7 +591,7 @@ class _SendPackageState extends State<SendPackage> {
                       children: [
                         Icon(Icons.cloud_upload),
                         // Image.asset(
-                        //   "assets/images/icons/image-upload.png",
+                        //   "assets/icons/image-upload.png",
                         // ),
                         kHalfSizedBox,
                         const Text(
