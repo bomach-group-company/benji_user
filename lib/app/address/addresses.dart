@@ -51,7 +51,6 @@ class _AddressesState extends State<Addresses> {
       'current': current,
       'addresses': addresses,
     };
-    print(data);
 
     setState(() {
       addressData = data;

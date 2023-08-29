@@ -33,34 +33,58 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   void initState() {
     super.initState();
     _isAddedToFavorites = false;
-    _loadingScreen = true;
     checkCart();
   }
 
-  checkCart() async {
-    if (await countCart() != '0') {
-      setState(() {
-        _isAddedToCart = true;
-      });
-    }
-  }
   //============================================================ ALL VARIABLES ===================================================================\\
 
-  int _quantity = 1; // Add a variable to hold the _quantity
   double _totalCost = 1200;
   double _itemPrice = 1200;
   double _productQuantity = 200;
-  String? cartCount;
+  String cartCount = '1';
+  String cartCountAll = '1';
 //====================================================== BOOL VALUES ========================================================\\
-  late bool _loadingScreen;
   var _isAddedToFavorites;
   bool _isAddedToCart = false;
   bool isLoading = false;
+  bool justInPage = true;
 
   //==================================================== CONTROLLERS ======================================================\\
   ScrollController _scrollController = ScrollController();
 
-  //======================================================= FUNCTIONS ==========================================================\\
+  //==================================================== FUNCTIONS ======================================================\\
+
+  checkCart() async {
+    String count = await countCart();
+    String countAll = await countCart(all: true);
+
+    setState(() {
+      cartCount = count;
+      cartCountAll = countAll;
+      if (count != '0') {
+        _isAddedToCart = true;
+      } else {
+        _isAddedToCart = false;
+      }
+    });
+    if (_isAddedToCart == false && justInPage == false) {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Item has been removed from cart.",
+        Duration(
+          seconds: 1,
+        ),
+      );
+    }
+    if (justInPage) {
+      setState(() {
+        justInPage = false;
+      });
+    }
+  }
+
   //===================== Number format ==========================\\
   String formattedText(double value) {
     final numberFormat = NumberFormat('#,##0');
@@ -70,30 +94,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    String count = await countCart();
-    setState(() {
-      cartCount = count;
-    });
+    await checkCart();
   }
 
   //========================================================================\\
 
   void incrementQuantity() async {
-    cartCount = await addToCart('f4715bd5-80d5-4477-9167-393590d5aa30');
-    setState(() {
-      _quantity++;
-      _totalCost = _quantity * _itemPrice;
-    });
+    await addToCart('f4715bd5-80d5-4477-9167-393590d5aa30');
+    await checkCart();
   }
 
   void decrementQuantity() async {
-    cartCount = await removeFromCart('f4715bd5-80d5-4477-9167-393590d5aa30');
-    setState(() {
-      if (_quantity > 1 && _quantity <= _productQuantity) {
-        _quantity--;
-        _totalCost = _quantity * _itemPrice;
-      }
-    });
+    await removeFromCart('f4715bd5-80d5-4477-9167-393590d5aa30');
+    await checkCart();
   }
 
   void _addToFavorites() {
@@ -113,15 +126,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Future<void> _cartAddFunction() async {
-    setState(() {
-      isLoading = true;
-    });
-    cartCount =
-        await addToCart('f4715bd5-80d5-4477-9167-393590d5aa30', qty: _quantity);
+    await addToCart('f4715bd5-80d5-4477-9167-393590d5aa30');
+    await checkCart();
 
-    _isAddedToCart = true;
-
-    //Display snackBar
     mySnackBar(
       context,
       kSuccessColor,
@@ -131,32 +138,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         seconds: 1,
       ),
     );
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  Future<void> _cartRemoveFunction() async {
-    setState(() {
-      isLoading = true;
-    });
-    cartCount = await removeFromCart('f4715bd5-80d5-4477-9167-393590d5aa30');
-
-    _isAddedToCart = false;
-
-    //Display snackBar
-    mySnackBar(
-      context,
-      kAccentColor,
-      "Success!",
-      "Item has been removed.",
-      Duration(
-        seconds: 1,
-      ),
-    );
-    setState(() {
-      isLoading = false;
-    });
   }
 
   //======================================= Navigation ==========================================\\
@@ -267,7 +248,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 child: Row(
                   children: [
                     IconButton(
-                      onPressed: _loadingScreen ? null : _addToFavorites,
+                      onPressed: cartCount == null ? null : _addToFavorites,
                       icon: FaIcon(
                         _isAddedToFavorites
                             ? FontAwesomeIcons.solidHeart
@@ -275,13 +256,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         color: kAccentColor,
                       ),
                     ),
-                    CartCard(
-                      cartCount: cartCount,
-                    )
+                    CartCard()
                   ],
                 )),
             IconButton(
-              onPressed: () => _loadingScreen ? null : showPopupMenu(context),
+              onPressed: () =>
+                  cartCount == null ? null : showPopupMenu(context),
               icon: FaIcon(
                 FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,
@@ -312,7 +292,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     child: Text("Error, Please try again later"),
                   );
                 }
-                return _loadingScreen
+                return cartCount == null
                     ? Center(child: SpinKitChasingDots(color: kAccentColor))
                     : Scrollbar(
                         controller: _scrollController,
@@ -338,82 +318,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       ),
                                     ),
                                   ),
-                                  // Positioned(
-                                  //   top: mediaHeight * 0.35,
-                                  //   left: mediaWidth /
-                                  //       5, // right: kDefaultPadding,
-                                  //   right: mediaWidth /
-                                  //       5, // right: kDefaultPadding,
-                                  //   child: Container(
-                                  //     width: mediaWidth,
-                                  //     height: 70,
-                                  //     decoration: ShapeDecoration(
-                                  //       color: Color(0xFFFAFAFA),
-                                  //       shadows: [
-                                  //         BoxShadow(
-                                  //           color: kBlackColor.withOpacity(0.1),
-                                  //           blurRadius: 5,
-                                  //           spreadRadius: 2,
-                                  //           blurStyle: BlurStyle.normal,
-                                  //         ),
-                                  //       ],
-                                  //       shape: RoundedRectangleBorder(
-                                  //         borderRadius:
-                                  //             BorderRadius.circular(19),
-                                  //       ),
-                                  //     ),
-                                  //     child: Row(
-                                  //       mainAxisAlignment:
-                                  //           MainAxisAlignment.spaceAround,
-                                  //       children: [
-                                  //         IconButton(
-                                  //           onPressed: () {
-                                  //             decrementQuantity();
-                                  //           },
-                                  //           splashRadius: 50,
-                                  //           icon: Icon(
-                                  //             Icons.remove_rounded,
-                                  //             color: kBlackColor,
-                                  //           ),
-                                  //         ),
-                                  //         Container(
-                                  //           height: 50,
-                                  //           decoration: ShapeDecoration(
-                                  //             color: kAccentColor,
-                                  //             shape: OvalBorder(),
-                                  //           ),
-                                  //           child: Padding(
-                                  //             padding:
-                                  //                 const EdgeInsets.symmetric(
-                                  //                     horizontal:
-                                  //                         kDefaultPadding / 2),
-                                  //             child: Center(
-                                  //               child: Text(
-                                  //                 '$_quantity',
-                                  //                 textAlign: TextAlign.center,
-                                  //                 style: TextStyle(
-                                  //                   color: kTextWhiteColor,
-                                  //                   fontSize: 32,
-                                  //                   fontWeight: FontWeight.w400,
-                                  //                 ),
-                                  //               ),
-                                  //             ),
-                                  //           ),
-                                  //         ),
-                                  //         IconButton(
-                                  //           onPressed: () {
-                                  //             incrementQuantity();
-                                  //           },
-                                  //           splashRadius: 50,
-                                  //           icon: Icon(
-                                  //             Icons.add_rounded,
-                                  //             color: kAccentColor,
-                                  //           ),
-                                  //         ),
-                                  //       ],
-                                  //     ),
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                             ),
@@ -614,7 +518,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                                             2),
                                                             child: Center(
                                                               child: Text(
-                                                                '$_quantity',
+                                                                '$cartCountAll',
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,

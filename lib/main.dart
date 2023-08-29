@@ -1,9 +1,9 @@
-import 'package:benji_user/app/address/addresses.dart';
 import 'package:benji_user/theme/app%20theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import 'app/home/home.dart';
 import 'theme/colors.dart';
 
 void main() {
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      home: Addresses(),
+      home: Home(),
     );
   }
 }
