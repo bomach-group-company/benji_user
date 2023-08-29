@@ -7,10 +7,10 @@ import 'package:benji_user/src/providers/api_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -30,9 +30,15 @@ class _VendorLocationState extends State<VendorLocation> {
   @override
   void initState() {
     super.initState();
-    _getPolyPoints();
-
-    _loadMapData();
+    Timer(Duration(milliseconds: 500), () async {
+      setState(() {
+        _loadingScreen = true;
+      });
+      await Future.delayed(Duration(milliseconds: 1000));
+      setState(() {
+        _loadingScreen = false;
+      });
+    });
   }
 
   //============================================================= ALL VARIABLES ======================================================================\\
@@ -66,6 +72,7 @@ class _VendorLocationState extends State<VendorLocation> {
 //==========================================================================================\\
 
   //============================================================= BOOL VALUES ======================================================================\\
+  late bool _loadingScreen;
   bool _isExpanded = false;
 
   //========================================================== GlobalKeys ============================================================\\
@@ -75,9 +82,15 @@ class _VendorLocationState extends State<VendorLocation> {
   GoogleMapController? _newGoogleMapController;
 
   //============================================================== FUNCTIONS =============================================================================\\
-  // void _handleRefresh() async {
-  //   await _determinePosition();
-  // }
+  void _handleRefresh() async {
+    setState(() {
+      _loadingScreen = true;
+    });
+    await _determinePosition();
+    setState(() {
+      _loadingScreen = false;
+    });
+  }
 
   //======================================= Google Maps ================================================\\
 
@@ -86,22 +99,22 @@ class _VendorLocationState extends State<VendorLocation> {
   /// When the location services are not enabled or permissions
   /// are denied the `Future` will return an error.
   Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
+    bool _serviceEnabled;
+    LocationPermission _permission;
 
     // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
+    _serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!_serviceEnabled) {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
       return Future.error('Location services are disabled.');
     }
 
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
+    _permission = await Geolocator.checkPermission();
+    if (_permission == LocationPermission.denied) {
+      _permission = await Geolocator.requestPermission();
+      if (_permission == LocationPermission.denied) {
         // Permissions are denied, next time you could try
         // requesting permissions again (this is also where
         // Android's shouldShowRequestPermissionRationale
@@ -111,7 +124,7 @@ class _VendorLocationState extends State<VendorLocation> {
       }
     }
 
-    if (permission == LocationPermission.deniedForever) {
+    if (_permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
       return Future.error(
         'Location permissions are permanently denied, we cannot request permissions.',
@@ -131,13 +144,8 @@ class _VendorLocationState extends State<VendorLocation> {
       CameraUpdate.newCameraPosition(_cameraPosition),
     );
 
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    return await _position;
-  }
-
 //============================================== Adding polypoints ==================================================\\
-  void _getPolyPoints() async {
+
     PolylinePoints _polyLinePoints = PolylinePoints();
     PolylineResult _result = await _polyLinePoints.getRouteBetweenCoordinates(
       googleMapsApiKey,
@@ -152,23 +160,21 @@ class _VendorLocationState extends State<VendorLocation> {
       );
       setState(() {});
     }
-  }
 
 //====================================== Add Custom Markers =========================================\\
 
-  Future<Uint8List> _getBytesFromAssets(String path, int width) async {
-    ByteData _data = await rootBundle.load(path);
-    ui.Codec _codec = await ui.instantiateImageCodec(
-      _data.buffer.asUint8List(),
-      targetHeight: width,
-    );
-    ui.FrameInfo _fi = await _codec.getNextFrame();
-    return (await _fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
-  }
+    Future<Uint8List> _getBytesFromAssets(String path, int width) async {
+      ByteData _data = await rootBundle.load(path);
+      ui.Codec _codec = await ui.instantiateImageCodec(
+        _data.buffer.asUint8List(),
+        targetHeight: width,
+      );
+      ui.FrameInfo _fi = await _codec.getNextFrame();
+      return (await _fi.image.toByteData(format: ui.ImageByteFormat.png))!
+          .buffer
+          .asUint8List();
+    }
 
-  _loadMapData() async {
     for (int i = 0; i < _customMarkers.length; i++) {
       final Uint8List _markerIcon =
           await _getBytesFromAssets(_customMarkers[i], 100);
@@ -186,8 +192,15 @@ class _VendorLocationState extends State<VendorLocation> {
       );
       setState(() {});
     }
-  }
+
 //==========================================================================================\\
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return _position;
+  }
+
+//============================================== Get Current Location ==================================================\\
 
 //============================================== Initial Camera Positon ============================================\\
 
@@ -227,44 +240,46 @@ class _VendorLocationState extends State<VendorLocation> {
         backgroundColor: kPrimaryColor,
         elevation: 0.0,
         actions: [
-          // IconButton(
-          //   onPressed: _handleRefresh,
-          //   icon: FaIcon(FontAwesomeIcons.arrowsRotate, color: kAccentColor),
-          // ),
+          IconButton(
+            onPressed: _handleRefresh,
+            icon: FaIcon(FontAwesomeIcons.arrowsRotate, color: kAccentColor),
+          ),
         ],
         toolbarHeight: kToolbarHeight,
       ),
       body: Stack(
         children: [
-          GoogleMap(
-            mapType: MapType.normal,
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: _kGooglePlex,
-            markers: Set.of(_markers),
-            polylines: {
-              Polyline(
-                polylineId: PolylineId("route"),
-                geodesic: true,
-                color: kSecondaryColor,
-                width: 6,
-                points: _polylineCoordinates,
-              ),
-            },
-            padding: EdgeInsets.only(
-              bottom: _isExpanded ? mediaHeight * 0.56 : 90,
-            ),
-            compassEnabled: true,
-            mapToolbarEnabled: true,
-            minMaxZoomPreference: MinMaxZoomPreference.unbounded,
-            tiltGesturesEnabled: true,
-            zoomControlsEnabled: true,
-            zoomGesturesEnabled: true,
-            myLocationButtonEnabled: true,
-            myLocationEnabled: true,
-            cameraTargetBounds: CameraTargetBounds.unbounded,
-            rotateGesturesEnabled: true,
-            scrollGesturesEnabled: true,
-          ),
+          _loadingScreen
+              ? SpinKitChasingDots(color: kAccentColor)
+              : GoogleMap(
+                  mapType: MapType.normal,
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: _kGooglePlex,
+                  markers: Set.of(_markers),
+                  // polylines: {
+                  //   Polyline(
+                  //     polylineId: PolylineId("route"),
+                  //     geodesic: true,
+                  //     color: kSecondaryColor,
+                  //     width: 6,
+                  //     points: _polylineCoordinates,
+                  //   ),
+                  // },
+                  padding: EdgeInsets.only(
+                    bottom: _isExpanded ? mediaHeight * 0.56 : 90,
+                  ),
+                  compassEnabled: true,
+                  mapToolbarEnabled: true,
+                  minMaxZoomPreference: MinMaxZoomPreference.unbounded,
+                  tiltGesturesEnabled: true,
+                  zoomControlsEnabled: true,
+                  zoomGesturesEnabled: true,
+                  myLocationButtonEnabled: true,
+                  myLocationEnabled: true,
+                  cameraTargetBounds: CameraTargetBounds.unbounded,
+                  rotateGesturesEnabled: true,
+                  scrollGesturesEnabled: true,
+                ),
           AnimatedPositioned(
             duration: Duration(milliseconds: 300),
             curve: Curves.easeIn,
