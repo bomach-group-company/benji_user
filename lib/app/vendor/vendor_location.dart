@@ -1,8 +1,12 @@
 // ignore_for_file: unused_field
 
 import 'dart:async';
+import 'dart:ui' as ui; // Import the ui library with an alias
 
+import 'package:benji_user/src/providers/api_keys.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -26,25 +30,56 @@ class _VendorLocationState extends State<VendorLocation> {
   @override
   void initState() {
     super.initState();
-    _marker.addAll(_listOfMarkers);
+    _getPolyPoints();
+
+    _loadMapData();
   }
 
   //============================================================= ALL VARIABLES ======================================================================\\
+  Uint8List? _markerImage;
+
+  //====================================== Setting Google Map Consts =========================================\\
+
+  static const LatLng _userLocation =
+      LatLng(6.455798292640031, 7.507804133159955);
+  static const LatLng _vendorLocation =
+      LatLng(6.463810164127019, 7.539888438605598);
+  List<LatLng> _polylineCoordinates = [];
+  List<Marker> _markers = <Marker>[];
+
+  List<MarkerId> _markerId = <MarkerId>[
+    MarkerId("0"),
+    MarkerId("1"),
+  ];
+
+  List<LatLng> _latLng = <LatLng>[_userLocation, _vendorLocation];
+
+  List<String> _markerTitle = <String>["Me", "Ntachi Osa"];
+
+  List<String> _markerSnippet = <String>["My Location", "4.7 Star Rating"];
+
+  List<String> _customMarkers = <String>[
+    "assets/icons/person_location.png",
+    "assets/icons/store.png",
+  ];
+
+//==========================================================================================\\
 
   //============================================================= BOOL VALUES ======================================================================\\
   bool _isExpanded = false;
 
-  //===================== GlobalKeys =======================\\
+  //========================================================== GlobalKeys ============================================================\\
 
   //=================================== CONTROLLERS ======================================================\\
   Completer<GoogleMapController> _googleMapController = Completer();
-
   GoogleMapController? _newGoogleMapController;
 
-  //============================================== FUNCTIONS =============================================================\\
-  void _handleRefresh() {}
+  //============================================================== FUNCTIONS =============================================================================\\
+  // void _handleRefresh() async {
+  //   await _determinePosition();
+  // }
 
-  //=========================== Google Maps ====================================\\
+  //======================================= Google Maps ================================================\\
 
   /// Determine the current position of the device.
   ///
@@ -86,42 +121,79 @@ class _VendorLocationState extends State<VendorLocation> {
     Position _position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
-    // _currentPosition = _position;
-
-    _marker.add(
-      Marker(
-        markerId: MarkerId("1"),
-        position: LatLng(_position.latitude, _position.latitude),
-        icon: BitmapDescriptor.defaultMarker,
-        infoWindow: InfoWindow(title: "My location", onTap: () {}),
-      ),
-    );
 
     LatLng _latLngPosition = LatLng(_position.latitude, _position.longitude);
+
     CameraPosition _cameraPosition =
-        new CameraPosition(target: _latLngPosition, zoom: 14);
-    _newGoogleMapController!
-        .animateCamera(CameraUpdate.newCameraPosition(_cameraPosition));
+        new CameraPosition(target: _latLngPosition, zoom: 13);
+
+    _newGoogleMapController!.animateCamera(
+      CameraUpdate.newCameraPosition(_cameraPosition),
+    );
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
     return await _position;
   }
 
-  List<Marker> _marker = [];
-  List<Marker> _listOfMarkers = [
-    Marker(
-      markerId: MarkerId("2"),
-      position: LatLng(6.463987057779448, 7.539842027339904),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-      infoWindow: InfoWindow(title: "Ntachi Osa"),
-    ),
-  ];
-  List<LatLng> _latLng = <LatLng>[];
+//============================================== Adding polypoints ==================================================\\
+  void _getPolyPoints() async {
+    PolylinePoints _polyLinePoints = PolylinePoints();
+    PolylineResult _result = await _polyLinePoints.getRouteBetweenCoordinates(
+      googleMapsApiKey,
+      PointLatLng(_userLocation.latitude, _userLocation.longitude),
+      PointLatLng(_vendorLocation.latitude, _vendorLocation.longitude),
+    );
+
+    if (_result.points.isNotEmpty) {
+      _result.points.forEach(
+        (PointLatLng point) =>
+            _polylineCoordinates.add(LatLng(point.latitude, point.longitude)),
+      );
+      setState(() {});
+    }
+  }
+
+//====================================== Add Custom Markers =========================================\\
+
+  Future<Uint8List> _getBytesFromAssets(String path, int width) async {
+    ByteData _data = await rootBundle.load(path);
+    ui.Codec _codec = await ui.instantiateImageCodec(
+      _data.buffer.asUint8List(),
+      targetHeight: width,
+    );
+    ui.FrameInfo _fi = await _codec.getNextFrame();
+    return (await _fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
+  }
+
+  _loadMapData() async {
+    for (int i = 0; i < _customMarkers.length; i++) {
+      final Uint8List _markerIcon =
+          await _getBytesFromAssets(_customMarkers[i], 100);
+
+      _markers.add(
+        Marker(
+          markerId: _markerId[i],
+          icon: BitmapDescriptor.fromBytes(_markerIcon),
+          position: _latLng[i],
+          infoWindow: InfoWindow(
+            title: "${_markerTitle[i]}",
+            snippet: "${_markerSnippet[i]}",
+          ),
+        ),
+      );
+      setState(() {});
+    }
+  }
+//==========================================================================================\\
+
+//============================================== Initial Camera Positon ============================================\\
 
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(6.455888229466976, 7.507826262254407),
-    zoom: 14,
+    target: _userLocation,
+    zoom: 13,
   );
 
   void _onMapCreated(GoogleMapController controller) {
@@ -130,9 +202,7 @@ class _VendorLocationState extends State<VendorLocation> {
     _determinePosition();
   }
 
-//=================================================================================\\
-
-//====================================================================== FUNCTIONS =======================================================================\\
+//============================================================================================\\
 
 //========================================================== Navigation =============================================================\\
   void _viewProducts() => Get.off(
@@ -156,39 +226,44 @@ class _VendorLocationState extends State<VendorLocation> {
         title: "Vendors location",
         backgroundColor: kPrimaryColor,
         elevation: 0.0,
-        actions: [],
+        actions: [
+          // IconButton(
+          //   onPressed: _handleRefresh,
+          //   icon: FaIcon(FontAwesomeIcons.arrowsRotate, color: kAccentColor),
+          // ),
+        ],
         toolbarHeight: kToolbarHeight,
       ),
       body: Stack(
         children: [
-          FutureBuilder(
-            future: _determinePosition(),
-            builder: (context, snapshot) {
-              return GoogleMap(
-                mapType: MapType.normal,
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: _kGooglePlex,
-                markers: Set.of(_marker),
-                polylines: {},
-                tileOverlays: {},
-                padding: EdgeInsets.only(
-                    bottom: _isExpanded ? mediaHeight * 0.56 : 90),
-                buildingsEnabled: true,
-                compassEnabled: true,
-                indoorViewEnabled: true,
-                mapToolbarEnabled: true,
-                minMaxZoomPreference: MinMaxZoomPreference.unbounded,
-                tiltGesturesEnabled: true,
-                zoomControlsEnabled: true,
-                zoomGesturesEnabled: true,
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-                cameraTargetBounds: CameraTargetBounds.unbounded,
-                rotateGesturesEnabled: true,
-                scrollGesturesEnabled: true,
-                trafficEnabled: false,
-              );
+          GoogleMap(
+            mapType: MapType.normal,
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: _kGooglePlex,
+            markers: Set.of(_markers),
+            polylines: {
+              Polyline(
+                polylineId: PolylineId("route"),
+                geodesic: true,
+                color: kSecondaryColor,
+                width: 6,
+                points: _polylineCoordinates,
+              ),
             },
+            padding: EdgeInsets.only(
+              bottom: _isExpanded ? mediaHeight * 0.56 : 90,
+            ),
+            compassEnabled: true,
+            mapToolbarEnabled: true,
+            minMaxZoomPreference: MinMaxZoomPreference.unbounded,
+            tiltGesturesEnabled: true,
+            zoomControlsEnabled: true,
+            zoomGesturesEnabled: true,
+            myLocationButtonEnabled: true,
+            myLocationEnabled: true,
+            cameraTargetBounds: CameraTargetBounds.unbounded,
+            rotateGesturesEnabled: true,
+            scrollGesturesEnabled: true,
           ),
           AnimatedPositioned(
             duration: Duration(milliseconds: 300),

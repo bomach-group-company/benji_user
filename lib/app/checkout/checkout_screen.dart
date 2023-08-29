@@ -932,7 +932,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   //                               decoration: BoxDecoration(
                   //                                 image: DecorationImage(
                   //                                   image: AssetImage(
-                  //                                     "assets/images/icons/whatsapp-icon.png",
+                  //                                     "assets/icons/whatsapp-icon.png",
                   //                                   ),
                   //                                 ),
                   //                               ),
@@ -960,7 +960,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   //                               decoration: BoxDecoration(
                   //                                 image: DecorationImage(
                   //                                   image: AssetImage(
-                  //                                     "assets/images/icons/facebook-icon.png",
+                  //                                     "assets/icons/facebook-icon.png",
                   //                                   ),
                   //                                 ),
                   //                               ),
@@ -988,7 +988,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   //                               decoration: BoxDecoration(
                   //                                 image: DecorationImage(
                   //                                   image: AssetImage(
-                  //                                     "assets/images/icons/messenger-icon.png",
+                  //                                     "assets/icons/messenger-icon.png",
                   //                                   ),
                   //                                 ),
                   //                               ),
@@ -1016,7 +1016,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   //                               decoration: BoxDecoration(
                   //                                 image: DecorationImage(
                   //                                   image: AssetImage(
-                  //                                     "assets/images/icons/messages-icon.png",
+                  //                                     "assets/icons/messages-icon.png",
                   //                                   ),
                   //                                 ),
                   //                               ),
@@ -1053,7 +1053,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   //                                 decoration: BoxDecoration(
                   //                                   image: DecorationImage(
                   //                                     image: AssetImage(
-                  //                                       "assets/images/icons/instagram-icon.png",
+                  //                                       "assets/icons/instagram-icon.png",
                   //                                     ),
                   //                                   ),
                   //                                 ),
@@ -1084,7 +1084,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   //                                 decoration: BoxDecoration(
                   //                                   image: DecorationImage(
                   //                                     image: AssetImage(
-                  //                                       "assets/images/icons/twitter-icon.png",
+                  //                                       "assets/icons/twitter-icon.png",
                   //                                     ),
                   //                                   ),
                   //                                 ),
@@ -1115,7 +1115,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   //                                 decoration: BoxDecoration(
                   //                                   image: DecorationImage(
                   //                                     image: AssetImage(
-                  //                                       "assets/images/icons/telegram-icon.png",
+                  //                                       "assets/icons/telegram-icon.png",
                   //                                     ),
                   //                                   ),
                   //                                 ),
@@ -1146,7 +1146,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   //                                 decoration: BoxDecoration(
                   //                                   image: DecorationImage(
                   //                                     image: AssetImage(
-                  //                                       "assets/images/icons/linkedin-icon.png",
+                  //                                       "assets/icons/linkedin-icon.png",
                   //                                     ),
                   //                                   ),
                   //                                 ),
