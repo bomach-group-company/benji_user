@@ -303,8 +303,8 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toProductDetailScreenPage() => Get.to(
-        () => const ProductDetailScreen(),
+  void _toProductDetailScreenPage(product) => Get.to(
+        () => ProductDetailScreen(product: product),
         routeName: 'ProductDetailScreen',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -677,7 +677,9 @@ class _HomeState extends State<Home> {
                                         kHalfSizedBox,
                                     itemBuilder: (context, index) =>
                                         HotDealsCard(
-                                            OnTap: _toProductDetailScreenPage,
+                                            OnTap: () =>
+                                                _toProductDetailScreenPage(
+                                                    _data!['product'][index]),
                                             name: _data!['product'][index].name,
                                             price:
                                                 _data!['product'][index].price),

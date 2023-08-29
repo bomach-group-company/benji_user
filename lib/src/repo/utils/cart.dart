@@ -7,7 +7,7 @@ Future<String> addToCart(String id, {int qty = 1}) async {
   Map cart = jsonDecode(await prefs.getString('cart') ?? '{}');
 
   if (cart[id] != null) {
-    cart[id] = cart[id] += qty;
+    cart[id] += qty;
     await prefs.setString('cart', jsonEncode(cart));
     return await countCart();
   }
@@ -26,7 +26,8 @@ Future<String> removeFromCart(String id, {bool removeAll = false}) async {
       await prefs.setString('cart', jsonEncode(cart));
       return await countCart();
     }
-    cart[id] = cart[id]--;
+    cart[id] -= 1;
+
     await prefs.setString('cart', jsonEncode(cart));
     return await countCart();
   }
@@ -42,12 +43,15 @@ Future<Map?> getCart() async {
   return jsonDecode(cart);
 }
 
-Future<String> countCart() async {
+Future<String> countCart({all = false}) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   Map cart = jsonDecode(prefs.getString('cart') ?? '{}');
   int total = 0;
   for (int num in cart.values) {
     total = total + num;
+  }
+  if (all) {
+    return total.toString();
   }
   return total <= 10 ? total.toString() : '10+';
 }

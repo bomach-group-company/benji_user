@@ -17,21 +17,17 @@ class _CartCardState extends State<CartCard> {
   @override
   void initState() {
     super.initState();
-    countCartFunc();
+    // countCartFunc();
   }
 
-  String? cartCount;
+  // String? cartCount;
 
-  countCartFunc() async {
+  Future<String> countCartFunc() async {
     if (widget.cartCount == null) {
       String data = await countCart();
-      setState(() {
-        cartCount = data;
-      });
+      return data;
     } else {
-      setState(() {
-        cartCount = cartCount;
-      });
+      return widget.cartCount!;
     }
   }
 
@@ -77,14 +73,21 @@ class _CartCardState extends State<CartCard> {
                 ),
               ),
               child: Center(
-                child: Text(
-                  cartCount == null ? '0' : cartCount!,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 9,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
+                child: FutureBuilder(
+                    future: countCartFunc(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Text('');
+                      }
+                      return Text(
+                        snapshot.data!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 9,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      );
+                    }),
               ),
             ),
           ),
