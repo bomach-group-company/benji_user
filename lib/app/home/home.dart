@@ -540,7 +540,10 @@ class _HomeState extends State<Home> {
                                                   SizedBox(
                                                     width: 200,
                                                     child: Text(
-                                                      "Restaurant",
+                                                      _data!['vendor'][index]
+                                                              .shopType
+                                                              .name ??
+                                                          'Not Available',
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       style: TextStyle(
@@ -574,7 +577,7 @@ class _HomeState extends State<Home> {
                                                         SizedBox(
                                                           width: 70,
                                                           child: Text(
-                                                            '3.6 (100+)',
+                                                            '${_data!['vendor'][index].averageRating ?? 0} (${_data!['vendor'][index].numberOfClientsReactions ?? 0}+)',
                                                             style: TextStyle(
                                                               color:
                                                                   kTextBlackColor,
@@ -651,10 +654,18 @@ class _HomeState extends State<Home> {
                                       cardImage: popularVendorImage[index],
                                       vendorName:
                                           _data!['vendor'][index].shopName,
-                                      food: popularVendorFood[index],
-                                      rating: popularVendorRating[index],
-                                      noOfUsersRated:
-                                          popularVendorNoOfUsersRating[index],
+                                      food: _data!['vendor'][index]
+                                              .shopType
+                                              .name ??
+                                          'Not Available',
+                                      rating: (_data!['vendor'][index]
+                                                  .averageRating ??
+                                              0)
+                                          .toString(),
+                                      noOfUsersRated: (_data!['vendor'][index]
+                                                  .numberOfClientsReactions ??
+                                              0)
+                                          .toString(),
                                     ),
                                   ),
                                 ),
@@ -677,6 +688,11 @@ class _HomeState extends State<Home> {
                                         kHalfSizedBox,
                                     itemBuilder: (context, index) =>
                                         HotDealsCard(
+                                            vendorShopName: _data!['product']
+                                                        [index]
+                                                    .vendorId
+                                                    .shopName ??
+                                                'Not Available',
                                             OnTap: () =>
                                                 _toProductDetailScreenPage(
                                                     _data!['product'][index]),

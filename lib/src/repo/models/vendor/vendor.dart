@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:benji_user/src/repo/models/shop_type.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/base_url.dart';
@@ -16,10 +17,10 @@ class VendorModel {
   final String? lastName;
   final String? gender;
   final String? shopName;
-  final String? averageRating;
-  final String? numberOfClientsReactions;
+  final int? averageRating;
+  final int? numberOfClientsReactions;
   final String? shopImage;
-  final String? shopType;
+  final ShopTypeModel? shopType;
 
   VendorModel({
     this.id,
@@ -50,10 +51,10 @@ class VendorModel {
       lastName: json['last_name'],
       gender: json['gender'],
       shopName: json['shop_name'],
-      averageRating: json['averageRating'],
-      numberOfClientsReactions: json['numberOfClientsReactions'],
+      averageRating: json['average_rating'],
+      numberOfClientsReactions: json['number_of_clients_reactions'],
       shopImage: json['shopImage'],
-      shopType: json['shopType'],
+      shopType: ShopTypeModel.fromJson(json['shop_type']),
     );
   }
 }

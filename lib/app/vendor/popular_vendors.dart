@@ -81,9 +81,14 @@ class _PopularVendorsState extends State<PopularVendors> {
                       onTap: () {},
                       cardImage: 'best-choice-restaurant.png',
                       vendorName: _data!['vendor'][index].shopName,
-                      food: "Food",
-                      rating: "3.6",
-                      noOfUsersRated: "500",
+                      food: _data!['vendor'][index].shopType.name ??
+                          'Not Available',
+                      rating: (_data!['vendor'][index].averageRating ?? 0)
+                          .toString(),
+                      noOfUsersRated:
+                          (_data!['vendor'][index].numberOfClientsReactions ??
+                                  0)
+                              .toString(),
                     ),
                   ),
                 ),

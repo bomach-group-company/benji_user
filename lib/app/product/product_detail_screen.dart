@@ -100,12 +100,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //========================================================================\\
 
   void incrementQuantity() async {
-    await addToCart('f4715bd5-80d5-4477-9167-393590d5aa30');
+    await addToCart(widget.product.id);
     await checkCart();
   }
 
   void decrementQuantity() async {
-    await removeFromCart('f4715bd5-80d5-4477-9167-393590d5aa30');
+    await removeFromCart(widget.product.id);
     await checkCart();
   }
 
@@ -126,7 +126,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Future<void> _cartAddFunction() async {
-    await addToCart('f4715bd5-80d5-4477-9167-393590d5aa30');
+    await addToCart(widget.product.id);
     await checkCart();
 
     mySnackBar(
@@ -458,95 +458,85 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             bottom: kDefaultPadding * 2,
                                           ),
                                           child: _isAddedToCart
-                                              ? Positioned(
-                                                  top: mediaHeight * 0.35,
-                                                  left: mediaWidth /
-                                                      5, // right: kDefaultPadding,
-                                                  right: mediaWidth /
-                                                      5, // right: kDefaultPadding,
-                                                  child: Container(
-                                                    width: mediaWidth,
-                                                    height: 70,
-                                                    decoration: ShapeDecoration(
-                                                      color: Color(0xFFFAFAFA),
-                                                      shadows: [
-                                                        BoxShadow(
-                                                          color: kBlackColor
-                                                              .withOpacity(0.1),
-                                                          blurRadius: 5,
-                                                          spreadRadius: 2,
-                                                          blurStyle:
-                                                              BlurStyle.normal,
-                                                        ),
-                                                      ],
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(19),
+                                              ? Container(
+                                                  width: mediaWidth,
+                                                  height: 70,
+                                                  decoration: ShapeDecoration(
+                                                    color: Color(0xFFFAFAFA),
+                                                    shadows: [
+                                                      BoxShadow(
+                                                        color: kBlackColor
+                                                            .withOpacity(0.1),
+                                                        blurRadius: 5,
+                                                        spreadRadius: 2,
+                                                        blurStyle:
+                                                            BlurStyle.normal,
                                                       ),
+                                                    ],
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              19),
                                                     ),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      children: [
-                                                        IconButton(
-                                                          onPressed: () {
-                                                            decrementQuantity();
-                                                          },
-                                                          splashRadius: 50,
-                                                          icon: Icon(
-                                                            Icons
-                                                                .remove_rounded,
-                                                            color: kBlackColor,
-                                                          ),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          decrementQuantity();
+                                                        },
+                                                        splashRadius: 50,
+                                                        icon: Icon(
+                                                          Icons.remove_rounded,
+                                                          color: kBlackColor,
                                                         ),
-                                                        Container(
-                                                          height: 50,
-                                                          decoration:
-                                                              ShapeDecoration(
-                                                            color: kAccentColor,
-                                                            shape: OvalBorder(),
-                                                          ),
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        kDefaultPadding /
-                                                                            2),
-                                                            child: Center(
-                                                              child: Text(
-                                                                '$cartCountAll',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style:
-                                                                    TextStyle(
-                                                                  color:
-                                                                      kTextWhiteColor,
-                                                                  fontSize: 32,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                ),
+                                                      ),
+                                                      Container(
+                                                        height: 50,
+                                                        decoration:
+                                                            ShapeDecoration(
+                                                          color: kAccentColor,
+                                                          shape: OvalBorder(),
+                                                        ),
+                                                        child: Padding(
+                                                          padding: const EdgeInsets
+                                                              .symmetric(
+                                                              horizontal:
+                                                                  kDefaultPadding /
+                                                                      2),
+                                                          child: Center(
+                                                            child: Text(
+                                                              '$cartCountAll',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                color:
+                                                                    kTextWhiteColor,
+                                                                fontSize: 32,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
                                                               ),
                                                             ),
                                                           ),
                                                         ),
-                                                        IconButton(
-                                                          onPressed: () {
-                                                            incrementQuantity();
-                                                          },
-                                                          splashRadius: 50,
-                                                          icon: Icon(
-                                                            Icons.add_rounded,
-                                                            color: kAccentColor,
-                                                          ),
+                                                      ),
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          incrementQuantity();
+                                                        },
+                                                        splashRadius: 50,
+                                                        icon: Icon(
+                                                          Icons.add_rounded,
+                                                          color: kAccentColor,
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 )
                                               : MyElevatedButton(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<String> addToCart(String id, {int qty = 1}) async {
@@ -41,6 +42,25 @@ Future<Map?> getCart() async {
     return null;
   }
   return jsonDecode(cart);
+}
+
+Future<List<Product>> getCartProduct([Function(String)? whenError]) async {
+  List<Product> res = [];
+  Map? cart = await getCart();
+  if (cart == null) {
+    return res;
+  }
+
+  for (String item in cart.keys) {
+    try {
+      res.add(await getProductById(item));
+    } catch (e) {
+      if (whenError != null) {
+        whenError(item);
+      }
+    }
+  }
+  return res;
 }
 
 Future<String> countCart({all = false}) async {

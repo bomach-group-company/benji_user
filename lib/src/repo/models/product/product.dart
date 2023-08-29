@@ -51,6 +51,19 @@ class Product {
   }
 }
 
+Future<Product> getProductById(String id) async {
+  final response = await http.get(
+    Uri.parse('$baseURL/products/product/$id'),
+    headers: await authHeader(),
+  );
+
+  if (response.statusCode == 200) {
+    return Product.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to load user product');
+  }
+}
+
 Future<List<Product>> getProducts({limit = 10}) async {
   final response = await http.get(
     Uri.parse('$baseURL/products/listProduct?limit=$limit'),

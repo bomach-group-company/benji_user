@@ -7,11 +7,13 @@ import '../../providers/constants.dart';
 class HotDealsCard extends StatelessWidget {
   final Function()? OnTap;
   final String name;
+  final String vendorShopName;
   final double price;
   const HotDealsCard({
     super.key,
     required this.name,
     required this.price,
+    required this.vendorShopName,
     this.OnTap,
   });
 
@@ -91,7 +93,7 @@ class HotDealsCard extends StatelessWidget {
                     SizedBox(
                       width: 313,
                       child: Text(
-                        'Ntachi Osa Food',
+                        vendorShopName,
                         style: TextStyle(
                           color: kTextGreyColor,
                           fontSize: 16,

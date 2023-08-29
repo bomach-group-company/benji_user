@@ -1,3 +1,4 @@
+import 'package:benji_user/src/repo/utils/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -9,10 +10,14 @@ import '../snackbar/my_floating_snackbar.dart';
 
 class VendorsProductContainer extends StatefulWidget {
   final Function() onTap;
+  final Function()? incrementQuantity;
+  final Function()? decrementQuantity;
   final Product product;
   const VendorsProductContainer({
     super.key,
     required this.onTap,
+    this.incrementQuantity,
+    this.decrementQuantity,
     required this.product,
   });
 
@@ -25,48 +30,14 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
   @override
   void initState() {
     super.initState();
-    _quantity = widget.product.quantityAvailable;
+    checkCart();
     _productPrice = widget.product.price;
   }
   //======================================= VARIABLES ==========================================\\
 
-  int _quantity = 0;
   double _productPrice = 0;
-
-  //======================================= BOOL VALUES ==========================================\\
-  bool isAddedToCart = false;
-
-  //======================================= FUNCTIONS ==========================================\\
-
-  void incrementQuantity() {
-    setState(() {
-      _quantity++; // Increment the quantity by 1
-    });
-  }
-
-  void decrementQuantity() {
-    setState(() {
-      if (_quantity > 1) {
-        _quantity--; // Decrement the quantity by 1, but ensure it doesn't go below 1
-      } else {
-        cartFunction();
-      }
-    });
-  }
-
-  void cartFunction() {
-    setState(() {
-      isAddedToCart = !isAddedToCart;
-    });
-
-    mySnackBar(
-      context,
-      kSuccessColor,
-      "Success!",
-      isAddedToCart ? "Item has been added to cart." : "Item has been removed.",
-      Duration(seconds: 1),
-    );
-  }
+  String cartCount = '1';
+  String cartCountAll = '1';
 
 //===================== Number format ==========================\\
   String formattedText(double value) {
@@ -74,133 +45,164 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
     return numberFormat.format(value);
   }
 
+//===================== Cart logic functions ==========================\\
+
+  checkCart() async {
+    String count = await countCart();
+    String countAll = await countCart(all: true);
+
+    setState(() {
+      cartCount = count;
+      cartCountAll = countAll;
+    });
+    if (cartCountAll == '0') {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Item has been removed from cart.",
+        Duration(
+          seconds: 1,
+        ),
+      );
+    }
+  }
+
+  void incrementQuantity() async {
+    await addToCart(widget.product.id);
+    await checkCart();
+  }
+
+  void decrementQuantity() async {
+    await removeFromCart(widget.product.id);
+    await checkCart();
+  }
+
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
     // double mediaHeight = MediaQuery.of(context).size.height;
-    return InkWell(
-      onTap: widget.onTap,
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-        width: mediaWidth,
-        decoration: ShapeDecoration(
-          color: kPrimaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          shadows: [
-            BoxShadow(
-                color: Color(0x0F000000),
-                blurRadius: 24,
-                offset: Offset(0, 4),
-                spreadRadius: 0)
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              width: 120,
-              height: 120,
+
+    return cartCountAll == '0'
+        ? SizedBox()
+        : InkWell(
+            onTap: widget.onTap,
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              width: mediaWidth,
               decoration: ShapeDecoration(
+                color: kPrimaryColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    bottomLeft: Radius.circular(12),
-                  ),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                image: DecorationImage(
-                  image: AssetImage(
-                    "assets/images/products/pasta.png",
-                  ),
-                  fit: BoxFit.cover,
-                ),
+                shadows: [
+                  BoxShadow(
+                      color: Color(0x0F000000),
+                      blurRadius: 24,
+                      offset: Offset(0, 4),
+                      spreadRadius: 0)
+                ],
               ),
-            ),
-            kHalfWidthSizedBox,
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: mediaWidth - 200,
-                  child: Text(
-                    widget.product.name,
-                    style: TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      color: kTextBlackColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                kHalfSizedBox,
-                Container(
-                  width: mediaWidth - 200,
-                  child: Text(
-                    widget.product.description,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: kTextGreyColor,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                kSizedBox,
-                Row(
-                  children: [
-                    SizedBox(
-                      width: (mediaWidth - 200) / 2,
-                      child: Text(
-                        "₦${formattedText(_productPrice)}",
-                        style: TextStyle(
-                          color: kTextBlackColor,
-                          fontSize: 14,
-                          fontFamily: 'Sen',
-                          fontWeight: FontWeight.w400,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 120,
+                    height: 120,
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          bottomLeft: Radius.circular(12),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: (mediaWidth - 200) / 2,
-                      child: Text(
-                        "Qty: ${formattedText(_quantity.toDouble())}",
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: kTextGreyColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
+                      image: DecorationImage(
+                        image: AssetImage(
+                          "assets/images/products/pasta.png",
                         ),
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ),
-            isAddedToCart
-                ? Column(
+                  ),
+                  kHalfWidthSizedBox,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: mediaWidth - 200,
+                        child: Text(
+                          widget.product.name,
+                          style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            color: kTextBlackColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      kHalfSizedBox,
+                      Container(
+                        width: mediaWidth - 200,
+                        child: Text(
+                          widget.product.description,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: kTextGreyColor,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      kSizedBox,
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: (mediaWidth - 200) / 2,
+                            child: Text(
+                              "₦${formattedText(_productPrice)}",
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 14,
+                                fontFamily: 'Sen',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: (mediaWidth - 200) / 2,
+                            child: Text(
+                              "Qty: ${formattedText(double.parse(cartCountAll))}",
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                color: kTextGreyColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
                     children: [
                       IconButton(
-                        onPressed: () {
-                          decrementQuantity();
-                        },
+                        onPressed: decrementQuantity,
                         icon: FaIcon(
                           FontAwesomeIcons.circleMinus,
                           color: kAccentColor,
                         ),
                       ),
                       Text(
-                        "$_quantity",
+                        "$cartCountAll",
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                       IconButton(
-                        onPressed: () {
-                          incrementQuantity();
-                        },
+                        onPressed: incrementQuantity,
                         icon: FaIcon(
                           FontAwesomeIcons.circlePlus,
                           color: kAccentColor,
@@ -208,18 +210,9 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                       ),
                     ],
                   )
-                : IconButton(
-                    onPressed: () {
-                      cartFunction();
-                    },
-                    icon: FaIcon(
-                      FontAwesomeIcons.circlePlus,
-                      color: kAccentColor,
-                    ),
-                  ),
-          ],
-        ),
-      ),
-    );
+                ],
+              ),
+            ),
+          );
   }
 }

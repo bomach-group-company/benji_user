@@ -1,8 +1,10 @@
 import 'package:benji_user/app/checkout/checkout_screen.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
+import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendors_product_container.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
+import 'package:benji_user/src/repo/utils/cart.dart';
 import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -31,7 +33,17 @@ class _CartScreenState extends State<CartScreen> {
   Map? _data;
 
   _getData() async {
-    List<Product> product = await getProducts();
+    List<Product> product = await getCartProduct(
+      (data) => mySnackBar(
+        context,
+        kAccentColor,
+        "Error!",
+        "Item with id $data not found",
+        Duration(
+          seconds: 1,
+        ),
+      ),
+    );
     setState(() {
       _data = {'product': product};
     });
@@ -50,15 +62,24 @@ class _CartScreenState extends State<CartScreen> {
   ScrollController _scrollController = ScrollController();
 
 //==================================================== FUNCTIONS ==========================================================\\
+
+  void incrementQuantity(String id) async {
+    await addToCart(id);
+    setState(() {});
+    // await checkCart();
+  }
+
+  void decrementQuantity(String id) async {
+    await removeFromCart(id);
+    setState(() {});
+    // await checkCart();
+  }
+
   //===================== Number format ==========================\\
   String formattedText(int value) {
     final numberFormat = NumberFormat('#,##0');
     return numberFormat.format(value);
   }
-
-  //===================== Handle refresh ==========================\\
-
-  //========================================================================\\
 
   //================================== Navigation =======================================\\
 
@@ -192,6 +213,10 @@ class _CartScreenState extends State<CartScreen> {
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
                           return VendorsProductContainer(
+                            decrementQuantity: () =>
+                                decrementQuantity(_data!['product'][index].id),
+                            incrementQuantity: () =>
+                                incrementQuantity(_data!['product'][index].id),
                             product: _data!['product'][index],
                             onTap: () => _toProductDetailScreen(
                                 _data!['product'][index]),
