@@ -10,8 +10,6 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/common_widgets/snackbar/my_fixed_snackBar.dart';
-import '../../src/common_widgets/textformfield/email_textformfield.dart';
-import '../../src/common_widgets/textformfield/message_textformfield.dart';
 import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
 import '../../src/common_widgets/textformfield/name_textformfield.dart';
 import '../../src/providers/constants.dart';
@@ -34,16 +32,12 @@ class _EditProfileState extends State<EditProfile> {
 
   TextEditingController _userFirstNameEC = TextEditingController();
   TextEditingController _userLastNameEC = TextEditingController();
-  TextEditingController _userEmailEC = TextEditingController();
   TextEditingController phoneNumberEC = TextEditingController();
-  TextEditingController bioEC = TextEditingController();
 
   //=========================== FOCUS NODES ====================================\\
   FocusNode userFirstNameFN = FocusNode();
   FocusNode userLastNameFN = FocusNode();
-  FocusNode _userEmailFN = FocusNode();
   FocusNode phoneNumberFN = FocusNode();
-  FocusNode messageFN = FocusNode();
 
   //=========================== BOOL VALUES ====================================\\
   bool isLoading = false;
@@ -390,36 +384,6 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     kSizedBox,
                     Text(
-                      "Email".toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    kHalfSizedBox,
-                    EmailTextFormField(
-                      controller: _userEmailEC,
-                      emailFocusNode: _userEmailFN,
-                      textInputAction: TextInputAction.next,
-                      validator: (value) {
-                        RegExp emailPattern = RegExp(
-                          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
-                        );
-                        if (value == null || value!.isEmpty) {
-                          _userEmailFN.requestFocus();
-                          return "Enter your email address";
-                        } else if (!emailPattern.hasMatch(value)) {
-                          _userEmailFN.requestFocus();
-                          return "Please enter a valid email address";
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _userEmailEC.text = value;
-                      },
-                    ),
-                    kSizedBox,
-                    Text(
                       "Phone Number".toUpperCase(),
                       style: TextStyle(
                         fontSize: 14,
@@ -452,37 +416,9 @@ class _EditProfileState extends State<EditProfile> {
                       },
                     ),
                     kSizedBox,
-                    Text(
-                      "BIO".toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    kHalfSizedBox,
-                    MyMessageTextFormField(
-                      controller: bioEC,
-                      textInputAction: TextInputAction.newline,
-                      focusNode: messageFN,
-                      hintText: "Enter your bio",
-                      maxLines: 5,
-                      keyboardType: TextInputType.multiline,
-                      validator: (value) {
-                        if (value == null || value!.isEmpty) {
-                          messageFN.requestFocus();
-                          return "Enter your Bio";
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        bioEC.text = value;
-                      },
-                      maxLength: 6000,
-                    ),
                   ],
                 ),
               ),
-              kSizedBox,
             ],
           ),
         ),
