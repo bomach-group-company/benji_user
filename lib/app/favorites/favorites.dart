@@ -3,6 +3,7 @@
 import 'package:benji_user/app/cart/cart_screen.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/cart.dart';
+import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/common_widgets/product/hot_deals_card.dart';
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
@@ -277,23 +278,26 @@ class _FavoritesState extends State<Favorites>
                                       controller: _scrollController,
                                       radius: const Radius.circular(10),
                                       child: FavoriteProductsTab(
-                                        list: ListView.separated(
-                                          controller: _scrollController,
-                                          scrollDirection: Axis.vertical,
-                                          itemCount: _dataProduct!.length,
-                                          shrinkWrap: true,
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          separatorBuilder: (context, index) =>
-                                              kHalfSizedBox,
-                                          itemBuilder: (context, index) =>
-                                              HotDealsCard(
-                                            OnTap: () =>
-                                                _toProductDetailsScreen(
-                                                    _dataProduct![index]),
-                                            product: _dataProduct![index],
-                                          ),
-                                        ),
+                                        list: _dataProduct!.isEmpty
+                                            ? EmptyCard()
+                                            : ListView.separated(
+                                                controller: _scrollController,
+                                                scrollDirection: Axis.vertical,
+                                                itemCount: _dataProduct!.length,
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const BouncingScrollPhysics(),
+                                                separatorBuilder:
+                                                    (context, index) =>
+                                                        kHalfSizedBox,
+                                                itemBuilder: (context, index) =>
+                                                    HotDealsCard(
+                                                  OnTap: () =>
+                                                      _toProductDetailsScreen(
+                                                          _dataProduct![index]),
+                                                  product: _dataProduct![index],
+                                                ),
+                                              ),
                                       ),
                                     ),
                               _dataVendor == null
@@ -310,33 +314,38 @@ class _FavoritesState extends State<Favorites>
                                       list: Scrollbar(
                                         controller: _scrollController,
                                         radius: const Radius.circular(10),
-                                        child: ListView.separated(
-                                          controller: _scrollController,
-                                          itemCount: _dataVendor!.length,
-                                          shrinkWrap: true,
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          separatorBuilder: (context, index) =>
-                                              kHalfSizedBox,
-                                          itemBuilder: (context, index) =>
-                                              PopularVendorsCard(
-                                            onTap: () {},
-                                            cardImage:
-                                                'best-choice-restaurant.png',
-                                            vendorName:
-                                                _dataVendor![index].shopName!,
-                                            food: _dataVendor![index]
-                                                .shopType
-                                                .name!,
-                                            rating: _dataVendor![index]
-                                                .averageRating
-                                                .toString(),
-                                            noOfUsersRated: (_dataVendor![index]
-                                                        .numberOfClientsReactions ??
-                                                    0)
-                                                .toString(),
-                                          ),
-                                        ),
+                                        child: _dataVendor!.isEmpty
+                                            ? EmptyCard()
+                                            : ListView.separated(
+                                                controller: _scrollController,
+                                                itemCount: _dataVendor!.length,
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const BouncingScrollPhysics(),
+                                                separatorBuilder:
+                                                    (context, index) =>
+                                                        kHalfSizedBox,
+                                                itemBuilder: (context, index) =>
+                                                    PopularVendorsCard(
+                                                  onTap: () {},
+                                                  cardImage:
+                                                      'best-choice-restaurant.png',
+                                                  vendorName:
+                                                      _dataVendor![index]
+                                                          .shopName!,
+                                                  food: _dataVendor![index]
+                                                      .shopType
+                                                      .name!,
+                                                  rating: _dataVendor![index]
+                                                      .averageRating
+                                                      .toString(),
+                                                  noOfUsersRated: (_dataVendor![
+                                                                  index]
+                                                              .numberOfClientsReactions ??
+                                                          0)
+                                                      .toString(),
+                                                ),
+                                              ),
                                       ),
                                     ),
                             ],

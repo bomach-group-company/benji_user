@@ -1,6 +1,7 @@
 import 'package:benji_user/app/checkout/checkout_screen.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
+import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendors_product_container.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
@@ -237,6 +238,7 @@ class _CartScreenState extends State<CartScreen> {
                           );
                         },
                       ),
+                      _data!.isEmpty ? EmptyCard() : SizedBox(),
                       SizedBox(height: kDefaultPadding * 4),
                     ],
                   ),
