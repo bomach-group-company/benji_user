@@ -155,33 +155,17 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
                         ),
                       ),
                       kSizedBox,
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: (mediaWidth - 200) / 2,
-                            child: Text(
-                              "₦${formattedText(_productPrice)}",
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontFamily: 'Sen',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
+                      SizedBox(
+                        width: (mediaWidth - 200) / 2,
+                        child: Text(
+                          "₦${formattedText(_productPrice)}",
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 14,
+                            fontFamily: 'Sen',
+                            fontWeight: FontWeight.w400,
                           ),
-                          SizedBox(
-                            width: (mediaWidth - 200) / 2,
-                            child: Text(
-                              "Qty: ${formattedText(double.parse(cartCountAll))}",
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                color: kTextGreyColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ],
                   ),

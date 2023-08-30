@@ -54,6 +54,7 @@ class _CartScreenState extends State<CartScreen> {
 
     setState(() {
       _data = product;
+      _itemCount = _data!.length;
     });
   }
 
@@ -65,7 +66,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   //============================================================ ALL VARIABLES ===================================================================\\
-  int _itemCount = 5;
+  int _itemCount = 0;
   double _subTotal = 0;
   //==================================================== CONTROLLERS ======================================================\\
   ScrollController _scrollController = ScrollController();
@@ -87,6 +88,8 @@ class _CartScreenState extends State<CartScreen> {
       Product product = _data!.firstWhere((element) => element.id == id);
       _subTotal -= product.price;
     }
+    _itemCount = await countItemCart();
+
     setState(() {});
   }
 
