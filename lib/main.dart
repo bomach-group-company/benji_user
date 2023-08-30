@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       home: StartupSplashscreen(),
-      // home: CartScreen(),
     );
   }
 }
