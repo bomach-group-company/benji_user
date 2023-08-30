@@ -10,11 +10,11 @@ Future<String> addToCart(String id, {int qty = 1}) async {
   if (cart[id] != null) {
     cart[id] += qty;
     await prefs.setString('cart', jsonEncode(cart));
-    return await countCart();
+    return await countCart(all: true);
   }
   cart[id] = qty;
   await prefs.setString('cart', jsonEncode(cart));
-  return await countCart();
+  return await countCart(all: true);
 }
 
 Future<String> removeFromCart(String id, {bool removeAll = false}) async {
@@ -25,32 +25,28 @@ Future<String> removeFromCart(String id, {bool removeAll = false}) async {
     if (cart[id] == 1 || removeAll) {
       cart.remove(id);
       await prefs.setString('cart', jsonEncode(cart));
-      return await countCart();
+      return await countCart(all: true);
     }
     cart[id] -= 1;
 
     await prefs.setString('cart', jsonEncode(cart));
-    return await countCart();
+    return await countCart(all: true);
   }
-  return await countCart();
+  return await countCart(all: true);
 }
 
-Future<Map?> getCart() async {
+Future<Map<String, dynamic>> getCart() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? cart = prefs.getString('cart');
   if (cart == null) {
-    return null;
+    return {};
   }
   return jsonDecode(cart);
 }
 
 Future<List<Product>> getCartProduct([Function(String)? whenError]) async {
   List<Product> res = [];
-  Map? cart = await getCart();
-  if (cart == null) {
-    return res;
-  }
-
+  Map cart = await getCart();
   for (String item in cart.keys) {
     try {
       res.add(await getProductById(item));

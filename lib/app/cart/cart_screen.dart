@@ -30,9 +30,10 @@ class _CartScreenState extends State<CartScreen> {
     _getData();
   }
 
-  Map? _data;
+  List<Product>? _data;
 
   _getData() async {
+    _subTotal = 0;
     List<Product> product = await getCartProduct(
       (data) => mySnackBar(
         context,
@@ -44,8 +45,14 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
     );
+    Map<String, dynamic> cartItems = await getCart();
+
+    for (Product item in product) {
+      _subTotal += (item.price * cartItems[item.id]);
+    }
+
     setState(() {
-      _data = {'product': product};
+      _data = product;
     });
   }
 
@@ -58,6 +65,7 @@ class _CartScreenState extends State<CartScreen> {
 
   //============================================================ ALL VARIABLES ===================================================================\\
   int _itemCount = 5;
+  double _subTotal = 0;
   //==================================================== CONTROLLERS ======================================================\\
   ScrollController _scrollController = ScrollController();
 
@@ -65,18 +73,24 @@ class _CartScreenState extends State<CartScreen> {
 
   void incrementQuantity(String id) async {
     await addToCart(id);
+    if (_data != null) {
+      Product product = _data!.firstWhere((element) => element.id == id);
+      _subTotal += product.price;
+    }
     setState(() {});
-    // await checkCart();
   }
 
   void decrementQuantity(String id) async {
     await removeFromCart(id);
+    if (_data != null) {
+      Product product = _data!.firstWhere((element) => element.id == id);
+      _subTotal -= product.price;
+    }
     setState(() {});
-    // await checkCart();
   }
 
   //===================== Number format ==========================\\
-  String formattedText(int value) {
+  String formattedText(double value) {
     final numberFormat = NumberFormat('#,##0');
     return numberFormat.format(value);
   }
@@ -129,7 +143,7 @@ class _CartScreenState extends State<CartScreen> {
                   topLeft: Radius.circular(10), topRight: Radius.circular(10))),
           child: MyElevatedButton(
             onPressed: _toCheckoutScreen,
-            title: "Checkout (₦ ${formattedText(12000)})",
+            title: "Checkout (₦ ${formattedText(_subTotal)})",
           ),
         ),
         body: SafeArea(
@@ -187,7 +201,7 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                             ),
                             Text(
-                              "₦ ${formattedText(12000)}",
+                              "₦ ${formattedText(_subTotal)}",
                               style: TextStyle(
                                 color: kTextBlackColor,
                                 fontFamily: 'sen',
@@ -199,7 +213,8 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                       kSizedBox,
                       Text(
-                        "Cart (${formattedText(_itemCount)})".toUpperCase(),
+                        "Cart (${formattedText(_itemCount.toDouble())})"
+                            .toUpperCase(),
                         style: TextStyle(
                           color: kTextGreyColor,
                           fontWeight: FontWeight.w400,
@@ -208,18 +223,17 @@ class _CartScreenState extends State<CartScreen> {
                       kSizedBox,
                       ListView.separated(
                         separatorBuilder: (context, index) => kHalfSizedBox,
-                        itemCount: _data!['product'].length,
+                        itemCount: _data!.length,
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
                           return VendorsProductContainer(
                             decrementQuantity: () =>
-                                decrementQuantity(_data!['product'][index].id),
+                                decrementQuantity(_data![index].id),
                             incrementQuantity: () =>
-                                incrementQuantity(_data!['product'][index].id),
-                            product: _data!['product'][index],
-                            onTap: () => _toProductDetailScreen(
-                                _data!['product'][index]),
+                                incrementQuantity(_data![index].id),
+                            product: _data![index],
+                            onTap: () => _toProductDetailScreen(_data![index]),
                           );
                         },
                       ),
