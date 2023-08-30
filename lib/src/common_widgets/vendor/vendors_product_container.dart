@@ -68,15 +68,15 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
     }
   }
 
-  void incrementQuantity() async {
-    await addToCart(widget.product.id);
-    await checkCart();
-  }
+  // void incrementQuantity() async {
+  //   await addToCart(widget.product.id);
+  //   await checkCart();
+  // }
 
-  void decrementQuantity() async {
-    await removeFromCart(widget.product.id);
-    await checkCart();
-  }
+  // void decrementQuantity() async {
+  //   await removeFromCart(widget.product.id);
+  //   await checkCart();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +189,12 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                   Column(
                     children: [
                       IconButton(
-                        onPressed: decrementQuantity,
+                        onPressed: () {
+                          if (widget.decrementQuantity != null) {
+                            widget.decrementQuantity!();
+                          }
+                          checkCart();
+                        },
                         icon: FaIcon(
                           FontAwesomeIcons.circleMinus,
                           color: kAccentColor,
@@ -202,7 +207,12 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                         ),
                       ),
                       IconButton(
-                        onPressed: incrementQuantity,
+                        onPressed: () {
+                          if (widget.incrementQuantity != null) {
+                            widget.incrementQuantity!();
+                          }
+                          checkCart();
+                        },
                         icon: FaIcon(
                           FontAwesomeIcons.circlePlus,
                           color: kAccentColor,

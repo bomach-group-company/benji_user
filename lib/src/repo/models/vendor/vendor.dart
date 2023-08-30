@@ -20,7 +20,7 @@ class VendorModel {
   final int? averageRating;
   final int? numberOfClientsReactions;
   final String? shopImage;
-  final ShopTypeModel? shopType;
+  final ShopTypeModel shopType;
 
   VendorModel({
     this.id,
@@ -28,7 +28,7 @@ class VendorModel {
     this.phone,
     this.username,
     this.code,
-    this.isOnline,
+    this.isOnline = true,
     this.firstName,
     this.lastName,
     this.gender,
@@ -36,7 +36,7 @@ class VendorModel {
     this.averageRating,
     this.numberOfClientsReactions,
     this.shopImage,
-    this.shopType,
+    required this.shopType,
   });
 
   factory VendorModel.fromJson(Map<String, dynamic> json) {
@@ -60,7 +60,10 @@ class VendorModel {
 }
 
 Future<VendorModel> getVendorById(id) async {
-  final response = await http.get(Uri.parse('$baseURL/vendors/getVendor/$id'));
+  final response = await http.get(
+    Uri.parse('$baseURL/vendors/getVendor/$id'),
+    headers: await authHeader(),
+  );
 
   if (response.statusCode == 200) {
     return VendorModel.fromJson(jsonDecode(response.body));

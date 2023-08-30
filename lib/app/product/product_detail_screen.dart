@@ -1,6 +1,7 @@
 import 'package:benji_user/src/providers/constants.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
+import 'package:benji_user/src/repo/utils/favorite.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -32,7 +33,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   void initState() {
     super.initState();
-    _isAddedToFavorites = false;
+    getFavoritePSingle(widget.product.id).then(
+      (value) {
+        _isAddedToFavorites = value;
+      },
+    );
     checkCart();
   }
 
@@ -44,7 +49,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String cartCount = '1';
   String cartCountAll = '1';
 //====================================================== BOOL VALUES ========================================================\\
-  var _isAddedToFavorites;
+  bool _isAddedToFavorites = false;
   bool _isAddedToCart = false;
   bool isLoading = false;
   bool justInPage = true;
@@ -91,27 +96,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     return numberFormat.format(value);
   }
 
-  //===================== Handle refresh ==========================\\
+  //============================ Favorite ================================\\
 
-  Future<void> _handleRefresh() async {
-    await checkCart();
-  }
-
-  //========================================================================\\
-
-  void incrementQuantity() async {
-    await addToCart(widget.product.id);
-    await checkCart();
-  }
-
-  void decrementQuantity() async {
-    await removeFromCart(widget.product.id);
-    await checkCart();
-  }
-
-  void _addToFavorites() {
+  void _addToFavorites() async {
+    bool val = await favoriteItP(widget.product.id);
     setState(() {
-      _isAddedToFavorites = !_isAddedToFavorites;
+      _isAddedToFavorites = val;
     });
 
     mySnackBar(
@@ -123,6 +113,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           : "Product been removed from favorites",
       Duration(milliseconds: 500),
     );
+  }
+
+  //===================== Handle refresh ==========================\\
+
+  Future<void> _handleRefresh() async {
+    await checkCart();
+  }
+
+  //============================= Cart utility functions ============================\\
+
+  void incrementQuantity() async {
+    await addToCart(widget.product.id);
+    await checkCart();
+  }
+
+  void decrementQuantity() async {
+    await removeFromCart(widget.product.id);
+    await checkCart();
   }
 
   Future<void> _cartAddFunction() async {
@@ -248,7 +256,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 child: Row(
                   children: [
                     IconButton(
-                      onPressed: cartCount == null ? null : _addToFavorites,
+                      onPressed: _addToFavorites,
                       icon: FaIcon(
                         _isAddedToFavorites
                             ? FontAwesomeIcons.solidHeart
@@ -260,8 +268,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ],
                 )),
             IconButton(
-              onPressed: () =>
-                  cartCount == null ? null : showPopupMenu(context),
+              onPressed: () => showPopupMenu(context),
               icon: FaIcon(
                 FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,

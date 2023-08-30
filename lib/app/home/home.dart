@@ -688,17 +688,10 @@ class _HomeState extends State<Home> {
                                         kHalfSizedBox,
                                     itemBuilder: (context, index) =>
                                         HotDealsCard(
-                                            vendorShopName: _data!['product']
-                                                        [index]
-                                                    .vendorId
-                                                    .shopName ??
-                                                'Not Available',
-                                            OnTap: () =>
-                                                _toProductDetailScreenPage(
-                                                    _data!['product'][index]),
-                                            name: _data!['product'][index].name,
-                                            price:
-                                                _data!['product'][index].price),
+                                      product: _data!['product'][index],
+                                      OnTap: () => _toProductDetailScreenPage(
+                                          _data!['product'][index]),
+                                    ),
                                   ),
                                 ),
                               ],
