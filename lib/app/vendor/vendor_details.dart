@@ -1,4 +1,5 @@
 import 'package:benji_user/src/common_widgets/section/category_button_section.dart';
+import 'package:benji_user/src/repo/utils/favorite.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -43,8 +44,12 @@ class _VendorDetailsState extends State<VendorDetails>
   void initState() {
     super.initState();
     _getData();
-
     _tabBarController = TabController(length: 2, vsync: this);
+    getFavoriteVSingle(widget.id.toString()).then(
+      (value) {
+        _isAddedToFavorites = value;
+      },
+    );
   }
 
   @override
@@ -125,9 +130,11 @@ class _VendorDetailsState extends State<VendorDetails>
   }
 
   //========================================================================\\
-  void _addToFavorites() {
+
+  void _addToFavorites() async {
+    bool val = await favoriteItV(widget.id.toString());
     setState(() {
-      _isAddedToFavorites = !_isAddedToFavorites;
+      _isAddedToFavorites = val;
     });
 
     mySnackBar(
@@ -135,9 +142,9 @@ class _VendorDetailsState extends State<VendorDetails>
       kSuccessColor,
       "Success",
       _isAddedToFavorites
-          ? "Vendor has been added to favorites"
-          : "Vendor been removed from favorites",
-      Duration(milliseconds: 1000),
+          ? "Product has been added to favorites"
+          : "Product been removed from favorites",
+      Duration(milliseconds: 500),
     );
   }
 
@@ -686,8 +693,10 @@ class _VendorDetailsState extends State<VendorDetails>
                                                         VendorsProductContainer(
                                                       product: _data!['product']
                                                           [index],
-                                                      onTap:
-                                                         () => _toProductDetailScreen(_data!['product'][index]),
+                                                      onTap: () =>
+                                                          _toProductDetailScreen(
+                                                              _data!['product']
+                                                                  [index]),
                                                     ),
                                                   ),
                                                   kSizedBox,

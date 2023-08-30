@@ -1,3 +1,4 @@
+import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -6,14 +7,11 @@ import '../../providers/constants.dart';
 
 class HotDealsCard extends StatelessWidget {
   final Function()? OnTap;
-  final String name;
-  final String vendorShopName;
-  final double price;
+  final Product product;
+
   const HotDealsCard({
     super.key,
-    required this.name,
-    required this.price,
-    required this.vendorShopName,
+    required this.product,
     this.OnTap,
   });
 
@@ -81,7 +79,7 @@ class HotDealsCard extends StatelessWidget {
                     SizedBox(
                       width: 313,
                       child: Text(
-                        name,
+                        product.name,
                         style: TextStyle(
                           color: kTextBlackColor,
                           fontSize: 20,
@@ -93,7 +91,7 @@ class HotDealsCard extends StatelessWidget {
                     SizedBox(
                       width: 313,
                       child: Text(
-                        vendorShopName,
+                        product.vendorId.shopName!,
                         style: TextStyle(
                           color: kTextGreyColor,
                           fontSize: 16,
@@ -112,7 +110,7 @@ class HotDealsCard extends StatelessWidget {
               child: SizedBox(
                 width: 313,
                 child: Text(
-                  '₦${formattedText(price)}',
+                  '₦${formattedText(product.price)}',
                   style: TextStyle(
                     color: kTextBlackColor,
                     fontSize: 20,
