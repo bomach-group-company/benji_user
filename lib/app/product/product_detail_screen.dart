@@ -17,7 +17,6 @@ import '../../src/common_widgets/section/rate_product_dialog.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/repo/utils/cart.dart';
 import '../../theme/colors.dart';
-import '../checkout/checkout_screen.dart';
 import 'report_product.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -147,19 +146,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       ),
     );
   }
-
-  //======================================= Navigation ==========================================\\
-
-  void _toCheckoutScreen() => Get.to(
-        () => const CheckoutScreen(),
-        routeName: 'CheckoutScreen',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
 
   //=================================== Show Popup Menu =====================================\\
 
@@ -299,7 +285,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     child: Text("Error, Please try again later"),
                   );
                 }
-                return cartCount == null
+                return cartCount == false
                     ? Center(child: SpinKitChasingDots(color: kAccentColor))
                     : Scrollbar(
                         controller: _scrollController,
