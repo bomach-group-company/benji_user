@@ -1,4 +1,6 @@
+import 'package:benji_user/app/product/product_detail_screen.dart';
 import 'package:benji_user/src/common_widgets/section/category_button_section.dart';
+import 'package:benji_user/src/common_widgets/vendor/product_container.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +14,10 @@ import '../../src/common_widgets/section/rate_vendor_dialog.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/common_widgets/vendor/vendor_about_tab.dart';
 import '../../src/common_widgets/vendor/vendor_products_tab.dart';
-import '../../src/common_widgets/vendor/vendors_product_container.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../src/repo/models/product/product.dart';
 import '../../theme/colors.dart';
-import '../product/product_detail_screen.dart';
 import 'about_vendor.dart';
 import 'all_vendor_products.dart';
 import 'report_vendor.dart';
@@ -27,11 +27,12 @@ class VendorDetails extends StatefulWidget {
   final int id;
   final String shopName;
   final bool isOnline;
-  const VendorDetails(
-      {super.key,
-      required this.id,
-      required this.shopName,
-      required this.isOnline});
+  const VendorDetails({
+    super.key,
+    required this.id,
+    required this.shopName,
+    required this.isOnline,
+  });
 
   @override
   State<VendorDetails> createState() => _VendorDetailsState();
@@ -235,7 +236,6 @@ class _VendorDetailsState extends State<VendorDetails>
   }
 
 //=================================== Navigation =====================================\\
-
   void _toProductDetailScreen(product) => Get.to(
         () => ProductDetailScreen(product: product),
         routeName: 'ProductDetailScreen',
@@ -688,9 +688,9 @@ class _VendorDetailsState extends State<VendorDetails>
                                                     separatorBuilder:
                                                         (context, index) =>
                                                             kHalfSizedBox,
-                                                    itemBuilder: (context,
-                                                            index) =>
-                                                        VendorsProductContainer(
+                                                    itemBuilder:
+                                                        (context, index) =>
+                                                            ProductContainer(
                                                       product: _data!['product']
                                                           [index],
                                                       onTap: () =>

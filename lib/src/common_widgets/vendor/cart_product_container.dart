@@ -8,12 +8,12 @@ import '../../providers/constants.dart';
 import '../../repo/models/product/product.dart';
 import '../snackbar/my_floating_snackbar.dart';
 
-class VendorsProductContainer extends StatefulWidget {
+class ProductCartContainer extends StatefulWidget {
   final Function() onTap;
   final Function()? incrementQuantity;
   final Function()? decrementQuantity;
   final Product product;
-  const VendorsProductContainer({
+  const ProductCartContainer({
     super.key,
     required this.onTap,
     this.incrementQuantity,
@@ -22,11 +22,10 @@ class VendorsProductContainer extends StatefulWidget {
   });
 
   @override
-  State<VendorsProductContainer> createState() =>
-      _VendorsProductContainerState();
+  State<ProductCartContainer> createState() => sProductContaCartinerState();
 }
 
-class _VendorsProductContainerState extends State<VendorsProductContainer> {
+class sProductContaCartinerState extends State<ProductCartContainer> {
   @override
   void initState() {
     super.initState();
