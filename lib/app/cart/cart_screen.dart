@@ -6,6 +6,7 @@ import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart
 import 'package:benji_user/src/common_widgets/vendor/cart_product_container.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:benji_user/src/repo/utils/cart.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -34,6 +35,7 @@ class _CartScreenState extends State<CartScreen> {
   List<Product>? _data;
 
   _getData() async {
+    await checkAuth(context);
     _subTotal = 0;
     List<Product> product = await getCartProduct(
       (data) => mySnackBar(
@@ -54,6 +56,7 @@ class _CartScreenState extends State<CartScreen> {
 
     setState(() {
       _data = product;
+      _itemCount = _data!.length;
     });
   }
 
@@ -65,7 +68,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   //============================================================ ALL VARIABLES ===================================================================\\
-  int _itemCount = 5;
+  int _itemCount = 0;
   double _subTotal = 0;
   //==================================================== CONTROLLERS ======================================================\\
   ScrollController _scrollController = ScrollController();
@@ -87,6 +90,8 @@ class _CartScreenState extends State<CartScreen> {
       Product product = _data!.firstWhere((element) => element.id == id);
       _subTotal -= product.price;
     }
+    _itemCount = await countItemCart();
+
     setState(() {});
   }
 
@@ -142,10 +147,12 @@ class _CartScreenState extends State<CartScreen> {
               color: kPrimaryColor,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-          child: MyElevatedButton(
-            onPressed: _toCheckoutScreen,
-            title: "Checkout (₦ ${formattedText(_subTotal)})",
-          ),
+          child: _itemCount == 0
+              ? SizedBox()
+              : MyElevatedButton(
+                  onPressed: _toCheckoutScreen,
+                  title: "Checkout (₦ ${formattedText(_subTotal)})",
+                ),
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,

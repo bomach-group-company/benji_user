@@ -2,6 +2,7 @@ import 'package:benji_user/src/providers/constants.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -59,6 +60,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //==================================================== FUNCTIONS ======================================================\\
 
   checkCart() async {
+    await checkAuth(context);
     String count = await countCart();
     String countAll = await countCart(all: true);
 
@@ -117,6 +119,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
+    justInPage = true;
     await checkCart();
   }
 

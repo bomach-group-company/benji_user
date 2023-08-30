@@ -8,6 +8,7 @@ import 'package:benji_user/src/common_widgets/product/hot_deals_card.dart';
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -61,6 +62,7 @@ class _FavoritesState extends State<Favorites>
   List<VendorModel>? _dataVendor;
 
   _getDataProduct() async {
+    await checkAuth(context);
     List<Product> product = await getFavoriteProduct(
       (data) => mySnackBar(
         context,
@@ -79,6 +81,7 @@ class _FavoritesState extends State<Favorites>
   }
 
   _getDataVendor() async {
+    await checkAuth(context);
     List<VendorModel> vendor = await getFavoriteVendor(
       (data) => mySnackBar(
         context,

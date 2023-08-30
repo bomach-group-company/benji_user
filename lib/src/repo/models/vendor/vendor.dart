@@ -17,7 +17,7 @@ class VendorModel {
   final String? lastName;
   final String? gender;
   final String? shopName;
-  final int? averageRating;
+  final double? averageRating;
   final int? numberOfClientsReactions;
   final String? shopImage;
   final ShopTypeModel shopType;

@@ -1,20 +1,52 @@
+import 'package:benji_user/src/repo/models/order/order.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 
 class TrackOrderDetailsContainer extends StatelessWidget {
-  final IconData shipIconDetail;
-  final Color shipIconDetailColor;
-  final String shipDetailText;
-  final Color shipDetailTextColor;
+  final Order order;
   const TrackOrderDetailsContainer({
     super.key,
-    required this.shipIconDetail,
-    required this.shipIconDetailColor,
-    required this.shipDetailText,
-    required this.shipDetailTextColor,
+    required this.order,
   });
+
+  String shortenUuid(String uuid) {
+    final int truncationLength = 6; // Number of characters to keep on each end
+    final String shortenedUuid =
+        "${uuid.substring(0, truncationLength)}...${uuid.substring(uuid.length - truncationLength)}";
+    return shortenedUuid;
+  }
+
+  String formattedText(double value) {
+    final numberFormat = NumberFormat('#,##0');
+    return numberFormat.format(value);
+  }
+
+  String intToMonth(int monthNumber) {
+    List<String> months = [
+      "",
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+
+    if (monthNumber >= 1 && monthNumber <= 12) {
+      return months[monthNumber];
+    } else {
+      throw Exception("Invalid month number");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,16 +83,10 @@ class TrackOrderDetailsContainer extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(
-                      shipIconDetail,
-                      color: shipIconDetailColor,
-                      size: 10,
-                    ),
-                    kHalfWidthSizedBox,
                     Text(
-                      shipDetailText,
+                      order.deliveryStatus,
                       style: TextStyle(
-                        color: shipDetailTextColor,
+                        color: kBlueLinkTextColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),
@@ -76,7 +102,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                     ),
                     kHalfWidthSizedBox,
                     Text(
-                      '2 items',
+                      '${order.orderItems.length} items',
                       style: TextStyle(
                         color: kTextGreyColor,
                         fontSize: 14,
@@ -88,7 +114,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'May 30',
+                      '${intToMonth(order.created.month)} ${order.created.day}',
                       textAlign: TextAlign.right,
                       style: TextStyle(
                         color: kTextGreyColor,
@@ -107,7 +133,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                     ),
                     kHalfWidthSizedBox,
                     Text(
-                      '14:30',
+                      '${order.created.minute}:${order.created.second}',
                       textAlign: TextAlign.right,
                       style: TextStyle(
                         color: kTextGreyColor,
@@ -123,7 +149,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '#1228730aebcf...421289',
+                  shortenUuid(order.id),
                   style: TextStyle(
                     color: kTextGreyColor,
                     fontSize: 18,
@@ -131,7 +157,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'N4,000',
+                  formattedText(order.totalPrice.toDouble()),
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     color: kTextGreyColor,
