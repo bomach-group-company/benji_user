@@ -1,9 +1,9 @@
 import 'package:benji_user/app/address/edit_address_details.dart';
+import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
@@ -233,24 +233,7 @@ class _AddressesState extends State<Addresses> {
                               },
                             ),
                             (addressData!['addresses'] as List<Address>).isEmpty
-                                ? Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Lottie.asset(
-                                        "assets/animations/empty/frame_1.json",
-                                        height: 300,
-                                      ),
-                                      kSizedBox,
-                                      Text(
-                                        "Oops!, There is nothing here",
-                                        style: TextStyle(
-                                          color: kTextGreyColor,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      )
-                                    ],
-                                  )
+                                ? EmptyCard()
                                 : SizedBox(),
                             SizedBox(
                               height: kDefaultPadding * 3,

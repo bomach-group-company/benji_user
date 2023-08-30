@@ -1,6 +1,6 @@
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/section/category_button_section.dart';
-import 'package:benji_user/src/common_widgets/vendor/vendors_product_container.dart';
+import 'package:benji_user/src/common_widgets/vendor/product_container.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -147,8 +147,7 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
                         separatorBuilder: (context, index) => kHalfSizedBox,
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
-                        itemBuilder: (context, index) =>
-                            VendorsProductContainer(
+                        itemBuilder: (context, index) => ProductContainer(
                           product: _data!['product'][index],
                           onTap: () =>
                               _toProductDetailScreen(_data!['product'][index]),
