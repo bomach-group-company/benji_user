@@ -1,11 +1,14 @@
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
+import '../../src/others/my_future_builder.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
+import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import '../auth/login.dart';
 import 'edit_profile.dart';
@@ -70,6 +73,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
+
+  void _toChangePassword() {}
+
   void _logOut() => Get.offAll(
         () => const Login(logout: true),
         predicate: (route) => false,
@@ -108,44 +114,218 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.all(kDefaultPadding),
               children: [
-                Container(
-                  width: mediaWidth,
-                  padding: const EdgeInsets.all(10),
-                  decoration: ShapeDecoration(
-                    color: kPrimaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                MyFutureBuilder(
+                  future: getUser(),
+                  child: (snapshot) => Container(
+                    width: mediaWidth,
+                    padding: const EdgeInsets.all(10),
+                    decoration: ShapeDecoration(
+                      color: kPrimaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      shadows: [
+                        BoxShadow(
+                          color: Color(0x0F000000),
+                          blurRadius: 24,
+                          offset: Offset(0, 4),
+                          spreadRadius: 0,
+                        ),
+                      ],
                     ),
-                    shadows: [
-                      BoxShadow(
-                        color: Color(0x0F000000),
-                        blurRadius: 24,
-                        offset: Offset(0, 4),
-                        spreadRadius: 0,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 100,
-                            width: 100,
-                            decoration: ShapeDecoration(
-                              color: kPageSkeletonColor,
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  "assets/images/profile/avatar-image.jpg",
-                                ),
-                                fit: BoxFit.cover,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          height: 100,
+                          width: 100,
+                          decoration: ShapeDecoration(
+                            color: kPageSkeletonColor,
+                            image: DecorationImage(
+                              image: AssetImage(
+                                "assets/images/profile/avatar-image.jpg",
                               ),
-                              shape: OvalBorder(),
+                              fit: BoxFit.cover,
                             ),
-                          )
-                        ],
+                            shape: OvalBorder(),
+                          ),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              '${snapshot.firstName} ${snapshot.lastName}',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              snapshot.email,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  snapshot.code,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    _copyToClipboard(context, snapshot.code);
+                                  },
+                                  tooltip: "Copy ID",
+                                  mouseCursor: SystemMouseCursors.click,
+                                  icon: FaIcon(
+                                    FontAwesomeIcons.copy,
+                                    size: 14,
+                                    color: kAccentColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                kSizedBox,
+                InkWell(
+                  onTap: _toEditProfile,
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    width: mediaWidth,
+                    decoration: ShapeDecoration(
+                      color: kPrimaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                    ],
+                      shadows: [
+                        BoxShadow(
+                          color: Color(0x0F000000),
+                          blurRadius: 24,
+                          offset: Offset(0, 4),
+                          spreadRadius: 0,
+                        ),
+                      ],
+                    ),
+                    child: ListTile(
+                      enableFeedback: true,
+                      leading: FaIcon(
+                        FontAwesomeIcons.userPen,
+                        color: kAccentColor,
+                      ),
+                      title: Text(
+                        'Edit profile',
+                        style: TextStyle(
+                          color: kTextBlackColor,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 16,
+                        color: kTextBlackColor,
+                      ),
+                    ),
+                  ),
+                ),
+                kHalfSizedBox,
+                InkWell(
+                  onTap: _toChangePassword,
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    width: mediaWidth,
+                    decoration: ShapeDecoration(
+                      color: kPrimaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      shadows: [
+                        BoxShadow(
+                          color: Color(0x0F000000),
+                          blurRadius: 24,
+                          offset: Offset(0, 4),
+                          spreadRadius: 0,
+                        ),
+                      ],
+                    ),
+                    child: ListTile(
+                      enableFeedback: true,
+                      leading: FaIcon(
+                        FontAwesomeIcons.solidPenToSquare,
+                        color: kAccentColor,
+                      ),
+                      title: Text(
+                        'Change Password',
+                        style: TextStyle(
+                          color: kTextBlackColor,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 16,
+                        color: kTextBlackColor,
+                      ),
+                    ),
+                  ),
+                ),
+                kHalfSizedBox,
+                InkWell(
+                  onTap: _logOut,
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    width: mediaWidth,
+                    decoration: ShapeDecoration(
+                      color: kPrimaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      shadows: [
+                        BoxShadow(
+                          color: Color(0x0F000000),
+                          blurRadius: 24,
+                          offset: Offset(0, 4),
+                          spreadRadius: 0,
+                        ),
+                      ],
+                    ),
+                    child: ListTile(
+                      enableFeedback: true,
+                      leading: FaIcon(
+                        FontAwesomeIcons.rightFromBracket,
+                        color: kAccentColor,
+                      ),
+                      title: Text(
+                        'Log out',
+                        style: TextStyle(
+                          color: kTextBlackColor,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 16,
+                        color: kTextBlackColor,
+                      ),
+                    ),
                   ),
                 ),
               ],

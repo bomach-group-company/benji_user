@@ -50,7 +50,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
         children: [
           MyAppBar(
             elevation: 0.0,
-            title: "Profile",
+            title: "",
             toolbarHeight: kToolbarHeight,
             backgroundColor: kPrimaryColor,
             actions: [],
@@ -133,7 +133,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ListTile(
             onTap: widget.toProfileSettings,
             leading: FaIcon(
-              FontAwesomeIcons.solidCircleUser,
+              FontAwesomeIcons.gear,
               color: kAccentColor,
             ),
             title: Text(
