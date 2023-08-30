@@ -8,7 +8,7 @@ import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
 class HomeDrawer extends StatefulWidget {
-  final Function() toEditProfilePage;
+  final Function() toProfileSettings;
   final Function() copyUserIdToClipBoard;
   final Function() toCheckoutScreen;
   final Function() toFavoritesPage;
@@ -28,7 +28,7 @@ class HomeDrawer extends StatefulWidget {
     required this.toSendPackagePage,
     required this.logOut,
     required this.toFavoritesPage,
-    required this.toEditProfilePage,
+    required this.toProfileSettings,
     required this.toCheckoutScreen,
   });
 
@@ -131,7 +131,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ),
           kHalfSizedBox,
           ListTile(
-            onTap: widget.toEditProfilePage,
+            onTap: widget.toProfileSettings,
             leading: FaIcon(
               FontAwesomeIcons.solidCircleUser,
               color: kAccentColor,

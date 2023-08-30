@@ -31,7 +31,7 @@ import '../checkout/checkout_screen.dart';
 import '../orders/order_history.dart';
 import '../product/product_detail_screen.dart';
 import '../product/products.dart';
-import '../profile/edit_profile.dart';
+import '../profile_settings/profile_settings.dart';
 import '../send_package/send_package.dart';
 import '../vendor/popular_vendors.dart';
 import '../vendor/vendor_details.dart';
@@ -101,7 +101,7 @@ class _HomeState extends State<Home> {
   final double _offlineVendorsRating = 4.0;
 
   //==================================================== CONTROLLERS ======================================================\\
-  TextEditingController searchController = TextEditingController();
+  TextEditingController _searchController = TextEditingController();
   final _scrollController = ScrollController();
 
 //===================== POPULAR VENDORS =======================\\
@@ -189,8 +189,8 @@ class _HomeState extends State<Home> {
       );
 
   void _toProfileSettings() => Get.to(
-        () => const EditProfile(),
-        routeName: 'EditProfile',
+        () => const ProfileSettings(),
+        routeName: 'ProfileSettings',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -337,7 +337,7 @@ class _HomeState extends State<Home> {
           future: getUser(),
           child: (data) => HomeDrawer(
             userID: data.code,
-            toEditProfilePage: _toProfileSettings,
+            toProfileSettings: _toProfileSettings,
             copyUserIdToClipBoard: () {
               _copyToClipboard(context, data.code);
             },
@@ -405,34 +405,6 @@ class _HomeState extends State<Home> {
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      kHalfSizedBox,
-                      SizedBox(
-                        height: 60,
-                        child: ListView.builder(
-                          itemCount: _data!['category'].length,
-                          scrollDirection: Axis.horizontal,
-                          physics: BouncingScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) =>
-                              Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: CategoryButton(
-                              onPressed: () {
-                                setState(() {
-                                  activeCategory = index;
-                                });
-                              },
-                              title: _data!['category'][index].name,
-                              bgColor: index == activeCategory
-                                  ? kAccentColor
-                                  : kDefaultCategoryBackgroundColor,
-                              categoryFontColor: index == activeCategory
-                                  ? kPrimaryColor
-                                  : kTextGreyColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8),
                       Flexible(
                         fit: FlexFit.loose,
                         child: Scrollbar(
@@ -679,6 +651,34 @@ class _HomeState extends State<Home> {
                                 SeeAllContainer(
                                   title: "Products",
                                   onPressed: _toSeeAllHotDeals,
+                                ),
+                                SizedBox(
+                                  height: 60,
+                                  child: ListView.builder(
+                                    itemCount: _data!['category'].length,
+                                    scrollDirection: Axis.horizontal,
+                                    physics: BouncingScrollPhysics(),
+                                    itemBuilder:
+                                        (BuildContext context, int index) =>
+                                            Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: CategoryButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            activeCategory = index;
+                                          });
+                                        },
+                                        title: _data!['category'][index].name,
+                                        bgColor: index == activeCategory
+                                            ? kAccentColor
+                                            : kDefaultCategoryBackgroundColor,
+                                        categoryFontColor:
+                                            index == activeCategory
+                                                ? kPrimaryColor
+                                                : kTextGreyColor,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                                 kSizedBox,
                                 Center(
