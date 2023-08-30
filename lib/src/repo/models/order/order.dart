@@ -1,53 +1,64 @@
 import 'dart:convert';
 
+import 'package:benji_user/src/repo/models/delivery_address.dart';
+import 'package:benji_user/src/repo/models/order/order_item.dart';
+import 'package:benji_user/src/repo/utils/base_url.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:http/http.dart' as http;
 
-import '../../utils/base_url.dart';
-import '../../utils/helpers.dart';
-import '../others/driver.dart';
-import '../percentage.dart';
 import '../user/user_model.dart';
-import 'order_details.dart';
 
 class Order {
   final String id;
-  final OrderDetails orderId;
-  final Driver driverId;
-  final double amount;
-  final Percentage percentageId;
-  final int status;
+  final int totalPrice;
+  final String assignedStatus;
+  final String deliveryStatus;
+  final User client;
+  final DeliveryAddress deliveryAddress;
+  final List<OrderItem> orderItems;
+  final DateTime created;
 
   Order({
     required this.id,
-    required this.orderId,
-    required this.driverId,
-    required this.amount,
-    required this.percentageId,
-    required this.status,
+    required this.totalPrice,
+    required this.assignedStatus,
+    required this.deliveryStatus,
+    required this.client,
+    required this.deliveryAddress,
+    required this.orderItems,
+    required this.created,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) {
+    List<OrderItem> orderItems = [];
+    for (var item in json['orderitems']) {
+      orderItems.add(OrderItem.fromJson(item));
+    }
+
     return Order(
       id: json['id'],
-      orderId: OrderDetails.fromJson(json['order_id']),
-      driverId: Driver.fromJson(json['driver_id']),
-      amount: json['amount'].toDouble(),
-      percentageId: Percentage.fromJson(json['percentage_id']),
-      status: json['status'],
+      totalPrice: json['total_price'],
+      assignedStatus: json['assigned_status'],
+      deliveryStatus: json['delivery_status'],
+      client: User.fromJson(json['client']),
+      deliveryAddress: DeliveryAddress.fromJson(json['delivery_address']),
+      orderItems: orderItems,
+      created: DateTime.parse(json['created']),
     );
   }
 }
 
-Future<List<Order>> fetchOrdersByDriver() async {
-  User? user = await getUser();
-  final response = await http
-      .get(Uri.parse('$baseURL/drivers/commissionEarned/${user!.id}'));
+Future<List<Order>> getOrders({start = 1, end = 10}) async {
+  final response = await http.get(
+    Uri.parse('$baseURL/orders/list_order?start=$start&end=$end'),
+    headers: await authHeader(),
+  );
 
   if (response.statusCode == 200) {
-    return (jsonDecode(response.body) as List)
+    return (jsonDecode(response.body)['items'] as List)
         .map((item) => Order.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load orders');
+    throw Exception('Failed to load order');
   }
 }
