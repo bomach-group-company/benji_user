@@ -650,7 +650,13 @@ class _HomeState extends State<Home> {
                                         kHalfSizedBox,
                                     itemBuilder: (context, index) =>
                                         PopularVendorsCard(
-                                      onTap: () {},
+                                      onTap: () {
+                                        _toVendorPage(
+                                          _data!['vendor'][index].id,
+                                          _data!['vendor'][index].isOnline,
+                                          _data!['vendor'][index].shopName,
+                                        );
+                                      },
                                       cardImage: popularVendorImage[index],
                                       vendorName:
                                           _data!['vendor'][index].shopName,
