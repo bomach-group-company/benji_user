@@ -145,10 +145,12 @@ class _CartScreenState extends State<CartScreen> {
               color: kPrimaryColor,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-          child: MyElevatedButton(
-            onPressed: _toCheckoutScreen,
-            title: "Checkout (₦ ${formattedText(_subTotal)})",
-          ),
+          child: _itemCount == 0
+              ? SizedBox()
+              : MyElevatedButton(
+                  onPressed: _toCheckoutScreen,
+                  title: "Checkout (₦ ${formattedText(_subTotal)})",
+                ),
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
