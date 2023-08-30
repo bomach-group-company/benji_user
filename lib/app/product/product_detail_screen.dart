@@ -118,6 +118,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
+    justInPage = true;
     await checkCart();
   }
 
