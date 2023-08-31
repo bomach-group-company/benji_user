@@ -3,6 +3,7 @@ import 'package:benji_user/src/common_widgets/section/category_button_section.da
 import 'package:benji_user/src/common_widgets/vendor/product_container.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -102,6 +103,8 @@ class _VendorDetailsState extends State<VendorDetails>
   Map? _data;
 
   _getData() async {
+    await checkAuth(context);
+
     List<Product> product = await getProductsByVendor(widget.vendor.id);
     setState(() {
       _data = {'product': product};
@@ -343,7 +346,7 @@ class _VendorDetailsState extends State<VendorDetails>
                         physics: const ScrollPhysics(),
                         children: [
                           SizedBox(
-                            height: 340,
+                            height: 370,
                             child: Stack(
                               children: [
                                 Positioned(
@@ -459,7 +462,6 @@ class _VendorDetailsState extends State<VendorDetails>
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             child: Container(
-                                              width: mediaWidth / 4,
                                               padding: const EdgeInsets.all(
                                                   kDefaultPadding / 4),
                                               decoration: BoxDecoration(
@@ -658,107 +660,76 @@ class _VendorDetailsState extends State<VendorDetails>
                                     physics: const BouncingScrollPhysics(),
                                     dragStartBehavior: DragStartBehavior.down,
                                     children: [
-                                      _loadingTabBarContent
-                                          ? Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                SpinKitChasingDots(
+                                      VendorsProductsTab(
+                                        list: Column(
+                                          children: [
+                                            CategoryButtonSection(
+                                              category: _categoryButtonText,
+                                              categorybgColor:
+                                                  _categoryButtonBgColor,
+                                              categoryFontColor:
+                                                  _categoryButtonFontColor,
+                                            ),
+                                            kHalfSizedBox,
+                                            ListView.separated(
+                                              itemCount:
+                                                  _data!['product'].length,
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const BouncingScrollPhysics(),
+                                              separatorBuilder:
+                                                  (context, index) =>
+                                                      kHalfSizedBox,
+                                              itemBuilder: (context, index) =>
+                                                  ProductContainer(
+                                                product: _data!['product']
+                                                    [index],
+                                                onTap: () =>
+                                                    _toProductDetailScreen(
+                                                        _data!['product']
+                                                            [index]),
+                                              ),
+                                            ),
+                                            kSizedBox,
+                                            TextButton(
+                                              onPressed: _viewProducts,
+                                              child: Text(
+                                                "See all",
+                                                style: TextStyle(
                                                   color: kAccentColor,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
                                                 ),
-                                              ],
-                                            )
-                                          : VendorsProductsTab(
-                                              list: Column(
-                                                children: [
-                                                  CategoryButtonSection(
-                                                    category:
-                                                        _categoryButtonText,
-                                                    categorybgColor:
-                                                        _categoryButtonBgColor,
-                                                    categoryFontColor:
-                                                        _categoryButtonFontColor,
-                                                  ),
-                                                  kHalfSizedBox,
-                                                  ListView.separated(
-                                                    itemCount: _data!['product']
-                                                        .length,
-                                                    shrinkWrap: true,
-                                                    physics:
-                                                        const BouncingScrollPhysics(),
-                                                    separatorBuilder:
-                                                        (context, index) =>
-                                                            kHalfSizedBox,
-                                                    itemBuilder:
-                                                        (context, index) =>
-                                                            ProductContainer(
-                                                      product: _data!['product']
-                                                          [index],
-                                                      onTap: () =>
-                                                          _toProductDetailScreen(
-                                                              _data!['product']
-                                                                  [index]),
-                                                    ),
-                                                  ),
-                                                  kSizedBox,
-                                                  TextButton(
-                                                    onPressed: _viewProducts,
-                                                    child: Text(
-                                                      "See all",
-                                                      style: TextStyle(
-                                                        color: kAccentColor,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  kHalfSizedBox,
-                                                ],
                                               ),
                                             ),
-                                      _loadingTabBarContent
-                                          ? Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                SpinKitChasingDots(
-                                                    color: kAccentColor),
-                                              ],
-                                            )
-                                          : VendorsAboutTab(
-                                              list: Column(
-                                                children: [
-                                                  Expanded(
-                                                    flex: 0,
-                                                    child: AboutVendor(
-                                                      vendor: widget.vendor,
-                                                      vendorName: "Ntachi-Osa",
-                                                      vendorHeadLine: "",
-                                                      monToFriOpeningHours: "",
-                                                      monToFriClosingHours: "",
-                                                      satOpeningHours: "",
-                                                      satClosingHours: "",
-                                                      sunOpeningHours: "",
-                                                      sunClosingHours: "",
-                                                    ),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {},
-                                                    child: Text(
-                                                      "See all",
-                                                      style: TextStyle(
-                                                        color: kAccentColor,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  kSizedBox,
-                                                ],
+                                            kHalfSizedBox,
+                                          ],
+                                        ),
+                                      ),
+                                      VendorsAboutTab(
+                                        list: Column(
+                                          children: [
+                                            Expanded(
+                                              flex: 0,
+                                              child: AboutVendor(
+                                                vendor: widget.vendor,
                                               ),
                                             ),
+                                            TextButton(
+                                              onPressed: () {},
+                                              child: Text(
+                                                "See all",
+                                                style: TextStyle(
+                                                  color: kAccentColor,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ),
+                                            kSizedBox,
+                                          ],
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 )

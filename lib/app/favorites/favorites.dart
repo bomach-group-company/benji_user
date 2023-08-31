@@ -337,7 +337,7 @@ class _FavoritesState extends State<Favorites>
                                                       _dataVendor![index]
                                                           .shopName!,
                                                   food: _dataVendor![index]
-                                                      .shopType
+                                                      .shopType!
                                                       .name!,
                                                   rating: _dataVendor![index]
                                                       .averageRating

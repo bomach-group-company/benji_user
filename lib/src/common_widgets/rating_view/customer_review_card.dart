@@ -1,18 +1,20 @@
+import 'package:benji_user/src/repo/models/rating/ratings.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 
 class CostumerReviewCard extends StatelessWidget {
+  final Ratings rating;
   const CostumerReviewCard({
     super.key,
-    required this.mediaWidth,
+    required this.rating,
   });
-
-  final double mediaWidth;
 
   @override
   Widget build(BuildContext context) {
+    double mediaWidth = MediaQuery.of(context).size.width;
+
     return Container(
       width: mediaWidth,
       padding: const EdgeInsets.all(kDefaultPadding),
@@ -56,7 +58,7 @@ class CostumerReviewCard extends StatelessWidget {
               ),
               kHalfWidthSizedBox,
               Text(
-                'Ebuka Henry',
+                rating.client.username!,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF131514),
@@ -68,7 +70,7 @@ class CostumerReviewCard extends StatelessWidget {
           ),
           kSizedBox,
           Text(
-            'Their meals are on point, and their response time is encouraging.',
+            rating.comment!,
             style: TextStyle(
               color: kTextGreyColor,
               fontSize: 14,
@@ -85,7 +87,7 @@ class CostumerReviewCard extends StatelessWidget {
               ),
               kHalfWidthSizedBox,
               Text(
-                '5.0 Rating',
+                '${rating.ratingValue} Rating',
                 textAlign: TextAlign.right,
                 style: TextStyle(
                   color: kTextGreyColor,

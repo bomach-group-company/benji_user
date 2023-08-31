@@ -1,5 +1,9 @@
+import 'package:benji_user/src/repo/models/rating/ratings.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../src/common_widgets/rating_view/customer_review_card.dart';
 import '../../src/common_widgets/rating_view/star_row.dart';
@@ -7,25 +11,9 @@ import '../../src/providers/constants.dart';
 
 class AboutVendor extends StatefulWidget {
   final VendorModel vendor;
-  final String vendorName;
-  final String vendorHeadLine;
-  final String monToFriOpeningHours;
-  final String monToFriClosingHours;
-  final String satOpeningHours;
-  final String satClosingHours;
-  final String sunOpeningHours;
-  final String sunClosingHours;
   const AboutVendor({
     super.key,
     required this.vendor,
-    required this.vendorName,
-    required this.vendorHeadLine,
-    required this.monToFriOpeningHours,
-    required this.monToFriClosingHours,
-    required this.satOpeningHours,
-    required this.satClosingHours,
-    required this.sunOpeningHours,
-    required this.sunClosingHours,
   });
 
   @override
@@ -37,8 +25,18 @@ class _AboutVendorState extends State<AboutVendor> {
   @override
   void initState() {
     super.initState();
+    _getData();
   }
 
+  Map? _data;
+
+  _getData() async {
+    await checkAuth(context);
+    List<Ratings> ratings = await getRatingsByVendorId(widget.vendor.id!);
+    setState(() {
+      _data = {'ratings': ratings};
+    });
+  }
 //============================================= FUNCTIONS  ===================================================\\
 
   @override
@@ -82,7 +80,7 @@ class _AboutVendorState extends State<AboutVendor> {
               ],
             ),
             child: Text(
-              widget.vendorHeadLine,
+              widget.vendor.shopType!.description ?? 'Not Available',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -91,7 +89,7 @@ class _AboutVendorState extends State<AboutVendor> {
           ),
           kSizedBox,
           const Text(
-            "Opening Hours",
+            "Working Hours",
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
@@ -233,16 +231,16 @@ class _AboutVendorState extends State<AboutVendor> {
             ),
           ),
           kSizedBox,
-          ListView.separated(
-            physics: BouncingScrollPhysics(),
-            separatorBuilder: (context, index) => kSizedBox,
-            shrinkWrap: true,
-            itemCount: 3,
-            itemBuilder: (BuildContext context, int index) =>
-                CostumerReviewCard(
-              mediaWidth: mediaWidth,
-            ),
-          ),
+          _data == null
+              ? Center(child: SpinKitChasingDots(color: kAccentColor))
+              : ListView.separated(
+                  physics: BouncingScrollPhysics(),
+                  separatorBuilder: (context, index) => kSizedBox,
+                  shrinkWrap: true,
+                  itemCount: _data!['ratings'].length,
+                  itemBuilder: (BuildContext context, int index) =>
+                      CostumerReviewCard(rating: _data!['ratings'][index]),
+                ),
         ],
       ),
     );
