@@ -14,16 +14,16 @@ import '../../src/common_widgets/textformfield/password_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
-import 'login.dart';
+import '../auth/login.dart';
 
-class ResetPassword extends StatefulWidget {
-  const ResetPassword({super.key});
+class ChangePassword extends StatefulWidget {
+  const ChangePassword({super.key});
 
   @override
-  State<ResetPassword> createState() => _ResetPasswordState();
+  State<ChangePassword> createState() => _ChangePasswordState();
 }
 
-class _ResetPasswordState extends State<ResetPassword> {
+class _ChangePasswordState extends State<ChangePassword> {
   //=========================== ALL VARIABBLES ====================================\\
 
   //=========================== KEYS ====================================\\
@@ -61,7 +61,7 @@ class _ResetPasswordState extends State<ResetPassword> {
     //Display snackBar
     myFixedSnackBar(
       context,
-      "Password Reset successful",
+      "Password changed successfully",
       kSuccessColor,
       const Duration(
         seconds: 2,
@@ -76,10 +76,10 @@ class _ResetPasswordState extends State<ResetPassword> {
       () => const Login(),
       routeName: 'Login',
       duration: const Duration(milliseconds: 300),
-      predicate: (routes) => false,
       fullscreenDialog: true,
+      predicate: (routes) => false,
       curve: Curves.easeIn,
-      popGesture: true,
+      popGesture: false,
       transition: Transition.rightToLeft,
     );
 
@@ -123,7 +123,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     child: () {
                       if (_validAuthCredentials) {
                         return ReusableAuthenticationFirstHalf(
-                          title: "Reset Password",
+                          title: "Change password",
                           subtitle:
                               "Just enter a new password here and you are good to go!",
                           curves: Curves.easeInOut,
@@ -142,16 +142,16 @@ class _ResetPasswordState extends State<ResetPassword> {
                         );
                       } else {
                         return ReusableAuthenticationFirstHalf(
-                          title: "Reset Password",
+                          title: "Change password",
                           subtitle:
                               "Just enter a new password here and you are good to go!",
                           curves: Curves.easeInOut,
                           duration: Duration(),
                           containerChild: Center(
                             child: FaIcon(
-                              FontAwesomeIcons.rotateLeft,
+                              FontAwesomeIcons.key,
                               color: kSecondaryColor,
-                              size: 80,
+                              size: 60,
                             ),
                           ),
                           decoration: ShapeDecoration(

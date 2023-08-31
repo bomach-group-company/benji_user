@@ -13,16 +13,16 @@ import '../../src/common_widgets/textformfield/email_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
-import 'otp_reset_password.dart';
+import 'otp_change_password.dart';
 
-class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key});
+class EmailVerification extends StatefulWidget {
+  const EmailVerification({super.key});
 
   @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
+  State<EmailVerification> createState() => _EmailVerificationState();
 }
 
-class _ForgotPasswordState extends State<ForgotPassword> {
+class _EmailVerificationState extends State<EmailVerification> {
   //=========================== ALL VARIABBLES ====================================\\
 
   //=========================== BOOL VALUES ====================================\\
@@ -69,8 +69,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
     // Navigate to the new page
     Get.to(
-      () => const OTPResetPassword(),
-      routeName: 'OTPResetPassword',
+      () => const OTPChangePassword(),
+      routeName: 'OTPChangePassword',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,
@@ -114,9 +114,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     child: () {
                       if (_validAuthCredentials) {
                         return ReusableAuthenticationFirstHalf(
-                          title: "Forgot your password?",
+                          title: "Email",
                           subtitle:
-                              "Simply enter your email below and we will send you a code via which you need to reset your password",
+                              "Enter your email below and we will send you a code via which you need to change your password",
                           curves: Curves.easeInOut,
                           duration: Duration(),
                           containerChild: Center(
@@ -135,16 +135,16 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         );
                       } else {
                         return ReusableAuthenticationFirstHalf(
-                          title: "Forgot your password?",
+                          title: "Email",
                           subtitle:
-                              "Simply enter your email below and we will send you a code via which you need to reset your password",
+                              "Enter your email below and we will send you a code via which you need to change your password",
                           curves: Curves.easeInOut,
                           duration: Duration(),
                           containerChild: Center(
                             child: FaIcon(
-                              FontAwesomeIcons.question,
+                              FontAwesomeIcons.solidEnvelope,
                               color: kSecondaryColor,
-                              size: 80,
+                              size: 60,
                             ),
                           ),
                           decoration: ShapeDecoration(

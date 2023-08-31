@@ -12,6 +12,7 @@ import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import '../auth/login.dart';
 import 'edit_profile.dart';
+import 'email_verification.dart';
 
 class ProfileSettings extends StatefulWidget {
   const ProfileSettings({super.key});
@@ -74,7 +75,16 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         transition: Transition.rightToLeft,
       );
 
-  void _toChangePassword() {}
+  void _toChangePassword() => Get.to(
+        () => const EmailVerification(),
+        routeName: 'EmailVerification',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 
   void _logOut() => Get.offAll(
         () => const Login(logout: true),
