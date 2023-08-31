@@ -9,7 +9,8 @@ import '../../providers/constants.dart';
 
 class MyIntlPhoneField extends StatelessWidget {
   final TextEditingController controller;
-  final String initialCountryCode;
+  final String? initialCountryCode;
+  final String? initialValue;
   final String invalidNumberMessage;
   final IconPosition dropdownIconPosition;
   final bool showCountryFlag;
@@ -23,7 +24,8 @@ class MyIntlPhoneField extends StatelessWidget {
   const MyIntlPhoneField({
     super.key,
     required this.controller,
-    required this.initialCountryCode,
+    this.initialCountryCode,
+    this.initialValue,
     required this.invalidNumberMessage,
     required this.dropdownIconPosition,
     required this.showCountryFlag,
@@ -39,6 +41,7 @@ class MyIntlPhoneField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IntlPhoneField(
+      initialValue: initialValue,
       controller: controller,
       initialCountryCode: initialCountryCode,
       invalidNumberMessage: invalidNumberMessage,

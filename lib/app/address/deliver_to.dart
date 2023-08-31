@@ -1,5 +1,5 @@
 import 'package:benji_user/app/checkout/checkout_screen.dart';
-import 'package:benji_user/src/repo/models/user/address_model.dart';
+import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -15,7 +15,9 @@ import 'add_new_address.dart';
 
 class DeliverTo extends StatefulWidget {
   final bool toCheckout;
-  const DeliverTo({super.key, this.toCheckout = false});
+  final bool inCheckout;
+  const DeliverTo(
+      {super.key, this.toCheckout = false, this.inCheckout = false});
 
   @override
   State<DeliverTo> createState() => _DeliverToState();
@@ -51,12 +53,13 @@ class _DeliverToState extends State<DeliverTo> {
     currentOption = current;
     List<Address> addresses = await getAddressesByUser();
 
-    Address? itemToMove =
-        addresses.firstWhere((elem) => elem.id == current, orElse: null);
+    if (current != '') {
+      Address? itemToMove =
+          addresses.firstWhere((elem) => elem.id == current, orElse: null);
 
-    addresses.remove(itemToMove);
-    addresses.insert(0, itemToMove);
-
+      addresses.remove(itemToMove);
+      addresses.insert(0, itemToMove);
+    }
     Map data = {
       'current': current,
       'addresses': addresses,
@@ -104,15 +107,19 @@ class _DeliverToState extends State<DeliverTo> {
     }
 
     if (widget.toCheckout) {
-      Get.off(
-        () => CheckoutScreen(deliverTo: address),
-        routeName: 'CheckoutScreen',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+      if (widget.inCheckout) {
+        Get.close(1);
+      } else {
+        Get.off(
+          () => CheckoutScreen(deliverTo: address),
+          routeName: 'CheckoutScreen',
+          duration: const Duration(milliseconds: 300),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          popGesture: true,
+          transition: Transition.rightToLeft,
+        );
+      }
     } else {
       Get.back();
     }

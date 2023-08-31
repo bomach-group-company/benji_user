@@ -2,8 +2,8 @@
 
 import 'package:benji_user/app/payment/payment_method.dart';
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
+import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
-import 'package:benji_user/src/repo/models/user/address_model.dart';
 import 'package:benji_user/src/repo/utils/cart.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
@@ -112,8 +112,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  void _toDeliverTo() => Get.off(
-        () => const DeliverTo(toCheckout: true),
+  void _toDeliverTo() => Get.to(
+        () => const DeliverTo(toCheckout: true, inCheckout: true),
+        routeName: 'DeliverTo',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

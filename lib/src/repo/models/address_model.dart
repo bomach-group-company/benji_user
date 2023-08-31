@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:http/http.dart' as http;
 
-import '../../utils/base_url.dart';
-import '../../utils/helpers.dart';
+import '../utils/base_url.dart';
+import '../utils/helpers.dart';
 
 class Address {
   final String? id;
@@ -78,7 +78,7 @@ Future<Address> getCurrentAddress() async {
   if (response.statusCode == 200) {
     return Address.fromJson(jsonDecode(response.body));
   } else {
-    throw Exception('Failed to load user address');
+    throw Exception('Failed to get user address');
   }
 }
 
@@ -98,5 +98,20 @@ Future<Address> setCurrentAddress(
     return Address.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Failed to set address');
+  }
+}
+
+Future<bool> deleteAddress(
+  String addressId,
+) async {
+  final response = await http.delete(
+    Uri.parse('$baseURL/address/deleteAddress/$addressId'),
+    headers: await authHeader(),
+  );
+
+  if (response.statusCode == 200) {
+    return response.body == "Address deleted successfully";
+  } else {
+    throw Exception('Failed to delete address');
   }
 }

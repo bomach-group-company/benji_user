@@ -177,9 +177,10 @@ class _VendorDetailsState extends State<VendorDetails>
         PopupMenuItem<String>(
           value: 'rate',
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               FaIcon(FontAwesomeIcons.solidStar, color: kStarColor),
+              kWidthSizedBox,
               Text("Rate this vendor"),
             ],
           ),
@@ -187,9 +188,10 @@ class _VendorDetailsState extends State<VendorDetails>
         PopupMenuItem<String>(
           value: 'report',
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               FaIcon(FontAwesomeIcons.solidFlag, color: kAccentColor),
+              kWidthSizedBox,
               Text("Report this vendor"),
             ],
           ),

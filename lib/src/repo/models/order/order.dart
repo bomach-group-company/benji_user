@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:benji_user/src/repo/models/delivery_address.dart';
+import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/models/order/order_item.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
@@ -14,7 +14,7 @@ class Order {
   final String assignedStatus;
   final String deliveryStatus;
   final User client;
-  final DeliveryAddress deliveryAddress;
+  final Address deliveryAddress;
   final List<OrderItem> orderItems;
   final DateTime created;
 
@@ -41,7 +41,7 @@ class Order {
       assignedStatus: json['assigned_status'],
       deliveryStatus: json['delivery_status'],
       client: User.fromJson(json['client']),
-      deliveryAddress: DeliveryAddress.fromJson(json['delivery_address']),
+      deliveryAddress: Address.fromJson(json['delivery_address']),
       orderItems: orderItems,
       created: DateTime.parse(json['created']),
     );
