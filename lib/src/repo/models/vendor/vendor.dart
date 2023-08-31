@@ -20,7 +20,7 @@ class VendorModel {
   final double? averageRating;
   final int? numberOfClientsReactions;
   final String? shopImage;
-  final ShopTypeModel shopType;
+  final ShopTypeModel? shopType;
 
   VendorModel({
     this.id,
@@ -36,7 +36,7 @@ class VendorModel {
     this.averageRating,
     this.numberOfClientsReactions,
     this.shopImage,
-    required this.shopType,
+    this.shopType,
   });
 
   factory VendorModel.fromJson(Map<String, dynamic> json) {
@@ -54,7 +54,9 @@ class VendorModel {
       averageRating: json['average_rating'],
       numberOfClientsReactions: json['number_of_clients_reactions'],
       shopImage: json['shopImage'],
-      shopType: ShopTypeModel.fromJson(json['shop_type']),
+      shopType: json['shop_type'] == null
+          ? null
+          : ShopTypeModel.fromJson(json['shop_type']),
     );
   }
 }
