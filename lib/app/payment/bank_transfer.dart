@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/common_widgets/button/my_outlined_elevatedbutton.dart';
+import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../splash_screens/payment_successful_screen.dart';
@@ -17,12 +18,10 @@ class BankTransfer extends StatefulWidget {
 
 class _BankTransferState extends State<BankTransfer> {
 //===================== COPY TO CLIPBOARD =======================\\
-  final String userID = '9926374776';
+  final String _accountNumber = '9926374776';
   void _copyToClipboard(BuildContext context) {
     Clipboard.setData(
-      ClipboardData(
-        text: userID,
-      ),
+      ClipboardData(text: _accountNumber),
     );
 
     //===================== SNACK BAR =======================\\
@@ -53,35 +52,35 @@ class _BankTransferState extends State<BankTransfer> {
 
   @override
   Widget build(BuildContext context) {
+    double mediaWidth = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(kDefaultPadding),
+      padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
       child: Column(
         children: [
           Container(
             padding: const EdgeInsets.all(kDefaultPadding),
             decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(
-                side: BorderSide(width: 2, color: Color(0xFFF0F0F0)),
-                borderRadius: BorderRadius.circular(4),
+                side: BorderSide(width: 2, color: kLightGreyColor),
+                borderRadius: BorderRadius.circular(10),
               ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                kSizedBox,
                 Text(
                   'Bank Transfer',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: kTextBlackColor,
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 kSizedBox,
                 Text(
-                  'Please transfer money directory  to the bank account below',
+                  'Please transfer the money to the bank account below',
                   style: TextStyle(
-                    color: Color(0xFF929292),
+                    color: kTextGreyColor,
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
                   ),
@@ -89,29 +88,30 @@ class _BankTransferState extends State<BankTransfer> {
                 kSizedBox,
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'ACCOUNT NUMBER',
-                        style: TextStyle(
-                          color: Color(0xFF929292),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
+                  title: Text(
+                    'ACCOUNT NUMBER',
+                    style: TextStyle(
+                      color: kTextGreyColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  subtitle: SizedBox(
+                    width: mediaWidth / 1.2,
+                    child: Text(
+                      '$_accountNumber',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: kAccentColor,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w400,
                       ),
-                      kHalfSizedBox,
-                      Text(
-                        '9926374776',
-                        style: TextStyle(
-                          color: kAccentColor,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                   trailing: OutlinedButton(
+                    onPressed: () {
+                      _copyToClipboard(context);
+                    },
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         side: BorderSide(width: 0.50, color: kAccentColor),
@@ -121,14 +121,11 @@ class _BankTransferState extends State<BankTransfer> {
                         color: kAccentColor,
                       ),
                     ),
-                    onPressed: () {
-                      _copyToClipboard(context);
-                    },
                     child: Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        Icon(
-                          Icons.copy,
+                        FaIcon(
+                          FontAwesomeIcons.copy,
                           color: kAccentColor,
                           size: 18,
                         ),
@@ -146,7 +143,7 @@ class _BankTransferState extends State<BankTransfer> {
                     ),
                   ),
                 ),
-                Divider(),
+                Divider(color: kGreyColor1),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: Icon(
@@ -154,80 +151,88 @@ class _BankTransferState extends State<BankTransfer> {
                     color: kAccentColor,
                     size: 40,
                   ),
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'BANK NAME\n',
-                        style: TextStyle(
-                          color: kSecondaryColor,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
+                  title: Text(
+                    'BANK NAME',
+                    style: TextStyle(
+                      color: kSecondaryColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  subtitle: SizedBox(
+                    width: mediaWidth / 1.2,
+                    child: Text(
+                      'Guarantee Trust Bank',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: kTextBlackColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
                       ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      Text(
-                        'Guarantee Trust Bank',
-                        style: TextStyle(
-                          color: Color(0xFF181C2E),
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-                kSizedBox,
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading: SizedBox(),
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'ACCOUNT NAME',
-                        style: TextStyle(
-                          color: Color(0xFF50555C),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                        ),
+                  title: Text(
+                    'ACCOUNT NAME',
+                    style: TextStyle(
+                      color: kTextGreyColor,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  subtitle: SizedBox(
+                    width: mediaWidth / 1.2,
+                    child: Text(
+                      'Leticia Ikaegbu',
+                      style: TextStyle(
+                        color: kTextBlackColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        'Leticia Ikaegbu',
-                        style: TextStyle(
-                          color: Color(0xFF181C2E),
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 )
               ],
             ),
           ),
-          SizedBox(
-            height: kDefaultPadding * 2.5,
-          ),
+          kSizedBox,
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'Pay: NGN 2,450',
-                  style: TextStyle(
-                    color: Color(0xFF929292),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
+                  alignment: Alignment.centerRight,
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Amount to Pay:',
+                          style: TextStyle(
+                            color: kTextGreyColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        TextSpan(
+                          text: ' ',
+                          style: TextStyle(
+                            color: kTextGreyColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        TextSpan(
+                          text: '${formattedText(2450)}',
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
               kSizedBox,
               MyOutlinedElevatedButton(
                   onPressed: _paymentSuccess, title: 'I have made the transfer')

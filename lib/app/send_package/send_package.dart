@@ -28,21 +28,21 @@ class _SendPackageState extends State<SendPackage> {
   var _formKey = GlobalKey<FormState>();
 
   //=============================== CONTROLLERS ==================================\\
-  var pickupEC = TextEditingController();
-  var senderNameEC = TextEditingController();
-  var senderPhoneEC = TextEditingController();
-  var dropOffEC = TextEditingController();
-  var receiverNameEC = TextEditingController();
-  var receiverPhoneEC = TextEditingController();
-  var itemNameEC = TextEditingController();
-  var itemCategoryEC = TextEditingController();
-  var itemWeightEC = TextEditingController();
-  var itemQuantityEC = TextEditingController();
-  var itemValueEC = TextEditingController();
+  var _pickupEC = TextEditingController();
+  var _senderNameEC = TextEditingController();
+  var _senderPhoneEC = TextEditingController();
+  var _dropOffEC = TextEditingController();
+  var _receiverNameEC = TextEditingController();
+  var _receiverPhoneEC = TextEditingController();
+  var _itemNameEC = TextEditingController();
+  var _itemCategoryEC = TextEditingController();
+  var _itemWeightEC = TextEditingController();
+  var _itemQuantityEC = TextEditingController();
+  var _AddressesState = TextEditingController();
 
   //=============================== FOCUS NODES ==================================\\
-  var pickupFN = FocusNode();
-  var senderNameFN = FocusNode();
+  var _pickupFN = FocusNode();
+  var _senderNameFN = FocusNode();
   var senderPhoneFN = FocusNode();
   var dropOffFN = FocusNode();
   var receiverNameFN = FocusNode();
@@ -52,7 +52,7 @@ class _SendPackageState extends State<SendPackage> {
   var itemValueFN = FocusNode();
 
   //=============================== FUNCTIONS ==================================\\
-  continueStep() {
+  _continueStep() {
     if (_currentStep < 2) {
       setState(() {
         _nextPage = true;
@@ -67,7 +67,7 @@ class _SendPackageState extends State<SendPackage> {
     }
   }
 
-  cancelStep() {
+  _cancelStep() {
     if (_currentStep < 2) {
       setState(() {
         _nextPage = false;
@@ -82,7 +82,7 @@ class _SendPackageState extends State<SendPackage> {
     }
   }
 
-  onStepTapped(int value) {
+  _onStepTapped(int value) {
     setState(() {
       _currentStep = value;
     });
@@ -98,7 +98,7 @@ class _SendPackageState extends State<SendPackage> {
   //   );
   // }
 
-  Widget controlsBuilder(context, details) {
+  Widget _controlsBuilder(context, details) {
     return _nextPage == false
         ? ElevatedButton(
             onPressed: details.onStepContinue,
@@ -216,23 +216,23 @@ class _SendPackageState extends State<SendPackage> {
               ),
               kHalfSizedBox,
               MyTextFormField(
-                controller: pickupEC,
+                controller: _pickupEC,
                 validator: (value) {
                   RegExp pickupAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
                   if (value!.isEmpty || value == null) {
-                    pickupFN.requestFocus();
+                    _pickupFN.requestFocus();
                     return "Enter pickup location";
                   } else if (!pickupAddress.hasMatch(value)) {
-                    pickupFN.requestFocus();
+                    _pickupFN.requestFocus();
                     return "Enter a valid address (must have a street number)";
                   }
                   return null;
                 },
                 onSaved: (value) {
-                  pickupEC.text = value;
+                  _pickupEC.text = value;
                 },
                 textInputAction: TextInputAction.next,
-                focusNode: pickupFN,
+                focusNode: _pickupFN,
                 hintText: "E.g 123, Main Street",
                 textInputType: TextInputType.streetAddress,
               ),
@@ -246,25 +246,25 @@ class _SendPackageState extends State<SendPackage> {
               ),
               kHalfSizedBox,
               MyTextFormField(
-                controller: senderNameEC,
+                controller: _senderNameEC,
                 validator: (value) {
                   RegExp userNamePattern = RegExp(
                     r'^.{3,}$', //Min. of 3 characters
                   );
                   if (value == null || value!.isEmpty) {
-                    senderNameFN.requestFocus();
+                    _senderNameFN.requestFocus();
                     return "Enter your name";
                   } else if (!userNamePattern.hasMatch(value)) {
-                    senderNameFN.requestFocus();
+                    _senderNameFN.requestFocus();
                     return "Name must be at least 3 characters";
                   }
                   return null;
                 },
                 onSaved: (value) {
-                  senderNameEC.text = value;
+                  _senderNameEC.text = value;
                 },
                 textInputAction: TextInputAction.done,
-                focusNode: senderNameFN,
+                focusNode: _senderNameFN,
                 hintText: "Enter your name",
                 textInputType: TextInputType.name,
               ),
@@ -287,7 +287,7 @@ class _SendPackageState extends State<SendPackage> {
                   Icons.arrow_drop_down_rounded,
                   color: kAccentColor,
                 ),
-                controller: senderPhoneEC,
+                controller: _senderPhoneEC,
                 textInputAction: TextInputAction.done,
                 focusNode: senderPhoneFN,
                 validator: (value) {
@@ -298,7 +298,7 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  senderPhoneEC.text = value;
+                  _senderPhoneEC.text = value;
                 },
               ),
               kSizedBox,
@@ -329,7 +329,7 @@ class _SendPackageState extends State<SendPackage> {
               ),
               kHalfSizedBox,
               MyTextFormField(
-                controller: dropOffEC,
+                controller: _dropOffEC,
                 validator: (value) {
                   RegExp dropOffAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
                   if (value.isEmpty || value == null) {
@@ -342,7 +342,7 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  dropOffEC.text = value;
+                  _dropOffEC.text = value;
                 },
                 textInputAction: TextInputAction.next,
                 focusNode: dropOffFN,
@@ -359,7 +359,7 @@ class _SendPackageState extends State<SendPackage> {
               ),
               kHalfSizedBox,
               MyTextFormField(
-                controller: receiverNameEC,
+                controller: _receiverNameEC,
                 validator: (value) {
                   RegExp userNamePattern = RegExp(
                     r'^.{3,}$', //Min. of 3 characters
@@ -374,7 +374,7 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  receiverNameEC.text = value;
+                  _receiverNameEC.text = value;
                 },
                 textInputAction: TextInputAction.done,
                 focusNode: receiverNameFN,
@@ -400,20 +400,20 @@ class _SendPackageState extends State<SendPackage> {
                   Icons.arrow_drop_down_rounded,
                   color: kAccentColor,
                 ),
-                controller: receiverPhoneEC,
+                controller: _receiverPhoneEC,
                 textInputAction: TextInputAction.done,
                 focusNode: receiverPhoneFN,
                 validator: (value) {
                   if (value == null ||
                       value.isEmpty ||
-                      receiverPhoneEC.text.isEmpty) {
+                      _receiverPhoneEC.text.isEmpty) {
                     receiverPhoneFN.requestFocus();
                     return "Enter receiver's phone number";
                   }
                   return null;
                 },
                 onSaved: (value) {
-                  receiverPhoneEC.text = value;
+                  _receiverPhoneEC.text = value;
                 },
               ),
               kSizedBox,
@@ -443,7 +443,7 @@ class _SendPackageState extends State<SendPackage> {
               ),
               kHalfSizedBox,
               MyTextFormField(
-                controller: itemNameEC,
+                controller: _itemNameEC,
                 validator: (value) {
                   RegExp userNamePattern = RegExp(
                     r'^.{3,}$', //Min. of 3 characters
@@ -458,7 +458,7 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  itemNameEC.text = value;
+                  _itemNameEC.text = value;
                 },
                 textInputAction: TextInputAction.next,
                 focusNode: itemNameFN,
@@ -475,7 +475,7 @@ class _SendPackageState extends State<SendPackage> {
               ),
               kHalfSizedBox,
               ItemDropDownMenu(
-                itemEC: itemCategoryEC,
+                itemEC: _itemCategoryEC,
                 mediaWidth: mediaWidth,
                 hintText: "Choose category",
                 dropdownMenuEntries2: <DropdownMenuEntry<String>>[
@@ -498,7 +498,7 @@ class _SendPackageState extends State<SendPackage> {
               ),
               kHalfSizedBox,
               ItemDropDownMenu(
-                itemEC: itemWeightEC,
+                itemEC: _itemWeightEC,
                 mediaWidth: mediaWidth,
                 hintText: "Choose weight",
                 dropdownMenuEntries2: <DropdownMenuEntry<String>>[
@@ -519,7 +519,7 @@ class _SendPackageState extends State<SendPackage> {
               ),
               kHalfSizedBox,
               MyTextFormField(
-                controller: itemQuantityEC,
+                controller: _itemQuantityEC,
                 validator: (value) {
                   if (value == null || value!.isEmpty) {
                     itemQuantityFN.requestFocus();
@@ -528,7 +528,7 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  itemQuantityEC.text = value;
+                  _itemQuantityEC.text = value;
                 },
                 textInputAction: TextInputAction.next,
                 focusNode: itemQuantityFN,
@@ -545,7 +545,7 @@ class _SendPackageState extends State<SendPackage> {
               ),
               kHalfSizedBox,
               MyTextFormField(
-                controller: itemValueEC,
+                controller: _AddressesState,
                 validator: (value) {
                   if (value == null || value!.isEmpty) {
                     itemValueFN.requestFocus();
@@ -554,7 +554,7 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  itemValueEC.text = value;
+                  _AddressesState.text = value;
                 },
                 textInputAction: TextInputAction.done,
                 focusNode: itemValueFN,
@@ -640,10 +640,10 @@ class _SendPackageState extends State<SendPackage> {
                   right: kDefaultPadding,
                 ),
                 currentStep: _currentStep,
-                onStepContinue: continueStep,
-                onStepCancel: cancelStep,
-                onStepTapped: onStepTapped,
-                controlsBuilder: controlsBuilder,
+                onStepContinue: _continueStep,
+                onStepCancel: _cancelStep,
+                onStepTapped: _onStepTapped,
+                controlsBuilder: _controlsBuilder,
                 elevation: 0.0,
                 // stepIconBuilder: stepIconBuilder,
                 type: StepperType.horizontal,

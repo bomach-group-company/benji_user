@@ -29,6 +29,10 @@ class PaymentSuccessful extends StatelessWidget {
     double mediaWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: kPrimaryColor,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(10),
+        child: MyElevatedButton(title: "Done", onPressed: _toTrackOrder),
+      ),
       body: SafeArea(
         maintainBottomViewPadding: true,
         child: Container(
@@ -41,19 +45,27 @@ class PaymentSuccessful extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
             children: [
-              Align(
-                alignment: Alignment.center,
-                child: Lottie.asset(
-                  "assets/animations/payment/frame_1.json",
-                  height: mediaHeight / 3,
-                  width: mediaWidth,
-                ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    "assets/animations/payment/frame_1.json",
+                    alignment: Alignment.center,
+                    fit: BoxFit.contain,
+                    height: mediaHeight / 2,
+                    width: mediaWidth / 2,
+                  ),
+                  Text(
+                    "Payment Successful",
+                    style: TextStyle(
+                      color: kTextGreyColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )
+                ],
               ),
-              SizedBox(
-                height: mediaHeight * 0.4,
-              ),
-              MyElevatedButton(title: "Done", onPressed: _toTrackOrder),
-              kSizedBox,
             ],
           ),
         ),
