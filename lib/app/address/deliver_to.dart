@@ -1,3 +1,5 @@
+import 'package:benji_user/src/repo/models/user/address_model.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -22,68 +24,68 @@ class _DeliverToState extends State<DeliverTo> {
   //=========================== BOOL VALUES ====================================\\
   bool isLoading = false;
 
-  //===================== RADIO LIST TILE =======================\\
-
-  List<String> radioListTitles = [
-    "Home",
-    "School",
-    "My Apartment",
-    "My Office",
-    "My Parent's House",
-  ];
-  List<String> radioListSubtitles = [
-    "No 2 Chime Avenue New Haven Enugu.",
-    "No 2 Chime Avenue New Haven Enugu.",
-    "No 2 Chime Avenue New Haven Enugu.",
-    "No 2 Chime Avenue New Haven Enugu.",
-    "No 2 Chime Avenue New Haven Enugu.",
-  ];
-
-  String? currentOption;
-
-  List<String> radioListTileDefaultTitle = [
-    "Default",
-    "",
-    "",
-    "",
-    "",
-  ];
-
-  List<Color> radioListTileDefaultColor = [
-    Color(
-      0xFFFFCFCF,
-    ),
-    Color(
-      0x00000000,
-    ),
-    Color(
-      0x00000000,
-    ),
-    Color(
-      0x00000000,
-    ),
-    Color(
-      0x00000000,
-    ),
-  ];
+  String currentOption = '';
 
   //===================== STATES =======================\\
 
   @override
   void initState() {
     super.initState();
-    currentOption = radioListTitles[0];
+    _getData();
+  }
+
+  Map? addressData;
+
+  _getData() async {
+    await checkAuth(context);
+
+    String current = '';
+    try {
+      current = (await getCurrentAddress()).id ?? '';
+    } catch (e) {
+      current = '';
+    }
+    currentOption = current;
+    List<Address> addresses = await getAddressesByUser();
+
+    Address? itemToMove =
+        addresses.firstWhere((elem) => elem.id == current, orElse: null);
+
+    addresses.remove(itemToMove);
+    addresses.insert(0, itemToMove);
+
+    Map data = {
+      'current': current,
+      'addresses': addresses,
+    };
+
+    setState(() {
+      addressData = data;
+    });
+  }
+
+  //=================================================================================================\\
+
+  //===================================================================== FUNCTIONS =======================================================================\\
+
+  //===================== Handle refresh ==========================\\
+
+  Future<void> _handleRefresh() async {
+    setState(() {
+      addressData = null;
+    });
+
+    await _getData();
   }
 
   //===================== FUNCTIONS =======================\\
 
-  Future<void> applyDeliveryAddress() async {
+  Future<void> applyDeliveryAddress(String addressId) async {
     setState(() {
       isLoading = true;
     });
 
-    // Simulating a delay
-    await Future.delayed(Duration(seconds: 1));
+    await setCurrentAddress(addressId);
 
     //Display snackBar
     mySnackBar(
@@ -126,138 +128,163 @@ class _DeliverToState extends State<DeliverTo> {
           left: kDefaultPadding,
           right: kDefaultPadding,
         ),
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          physics: const BouncingScrollPhysics(),
-          children: [
-            Column(
-              children: [
-                for (int i = 0; i < radioListTitles.length; i++)
-                  Container(
-                    padding: EdgeInsetsDirectional.symmetric(
-                      vertical: kDefaultPadding / 2,
-                    ),
-                    child: RadioListTile(
-                      value: radioListTitles[i],
-                      groupValue: currentOption,
-                      activeColor: kAccentColor,
-                      enableFeedback: true,
-                      controlAffinity: ListTileControlAffinity.trailing,
-                      fillColor: MaterialStatePropertyAll(
-                        kAccentColor,
-                      ),
-                      onChanged: ((value) {
-                        setState(
-                          () {
-                            currentOption = value.toString();
-                          },
-                        );
-                      }),
-                      title: Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              radioListTitles[i],
-                              style: TextStyle(
-                                color: Color(
-                                  0xFF151515,
+        child: addressData == null
+            ? Center(child: SpinKitChasingDots(color: kAccentColor))
+            : ListView(
+                scrollDirection: Axis.vertical,
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  Column(
+                    children: [
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: addressData!['addresses'].length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              padding: EdgeInsetsDirectional.symmetric(
+                                vertical: kDefaultPadding / 2,
+                              ),
+                              child: RadioListTile(
+                                value: addressData!['addresses'][index].id,
+                                groupValue: currentOption,
+                                activeColor: kAccentColor,
+                                enableFeedback: true,
+                                controlAffinity:
+                                    ListTileControlAffinity.trailing,
+                                fillColor: MaterialStatePropertyAll(
+                                  kAccentColor,
                                 ),
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            kWidthSizedBox,
-                            Container(
-                              width: 58,
-                              height: 24,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              decoration: ShapeDecoration(
-                                color: radioListTileDefaultColor[i],
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    8,
+                                onChanged: ((value) {
+                                  setState(
+                                    () {
+                                      currentOption =
+                                          addressData!['addresses'][index].id;
+                                    },
+                                  );
+                                }),
+                                title: Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        addressData!['addresses'][index].title,
+                                        style: TextStyle(
+                                          color: Color(
+                                            0xFF151515,
+                                          ),
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      kWidthSizedBox,
+                                      Container(
+                                        width: 58,
+                                        height: 24,
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                          vertical: 4,
+                                        ),
+                                        decoration: ShapeDecoration(
+                                          color: currentOption ==
+                                                  addressData!['addresses']
+                                                          [index]
+                                                      .id
+                                              ? Color(
+                                                  0xFFFFCFCF,
+                                                )
+                                              : Color(
+                                                  0x00000000,
+                                                ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              currentOption ==
+                                                      addressData!['addresses']
+                                                              [index]
+                                                          .id
+                                                  ? 'Default'
+                                                  : '',
+                                              textAlign: TextAlign.right,
+                                              style: TextStyle(
+                                                color: kAccentColor,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 ),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    radioListTileDefaultTitle[i],
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                      color: kAccentColor,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
+                                subtitle: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: kDefaultPadding / 2,
+                                  ),
+                                  child: Container(
+                                    child: Text(
+                                      addressData!['addresses'][index]
+                                          .streetAddress,
+                                      style: TextStyle(
+                                        color: Color(
+                                          0xFF4C4C4C,
+                                        ),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
-                            )
-                          ],
-                        ),
+                            );
+                          }),
+                      SizedBox(
+                        height: kDefaultPadding * 2,
                       ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(
-                          top: kDefaultPadding / 2,
-                        ),
-                        child: Container(
-                          child: Text(
-                            radioListSubtitles[1],
-                            style: TextStyle(
-                              color: Color(
-                                0xFF4C4C4C,
-                              ),
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    ],
                   ),
-                SizedBox(
-                  height: kDefaultPadding * 2,
-                ),
-              ],
-            ),
-            MyOutlinedElevatedButton(
-              title: "Add New Address",
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => AddNewAddress(),
-                  ),
-                );
-              },
-            ),
-            SizedBox(
-              height: kDefaultPadding,
-            ),
-            isLoading
-                ? Center(
-                    child: SpinKitChasingDots(
-                      color: kAccentColor,
-                      duration: const Duration(seconds: 1),
-                    ),
-                  )
-                : MyElevatedButton(
-                    title: "Apply",
+                  MyOutlinedElevatedButton(
+                    title: "Add New Address",
                     onPressed: () {
-                      applyDeliveryAddress();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => AddNewAddress(),
+                        ),
+                      );
                     },
                   ),
-            SizedBox(
-              height: kDefaultPadding * 2,
-            ),
-          ],
-        ),
+                  SizedBox(
+                    height: kDefaultPadding,
+                  ),
+                  isLoading
+                      ? Center(
+                          child: SpinKitChasingDots(
+                            color: kAccentColor,
+                            duration: const Duration(seconds: 1),
+                          ),
+                        )
+                      : MyElevatedButton(
+                          title: "Apply",
+                          onPressed: () {
+                            applyDeliveryAddress(currentOption);
+                          },
+                        ),
+                  SizedBox(
+                    height: kDefaultPadding * 2,
+                  ),
+                ],
+              ),
       ),
     );
   }
