@@ -24,50 +24,7 @@ class _DeliverToState extends State<DeliverTo> {
   //=========================== BOOL VALUES ====================================\\
   bool isLoading = false;
 
-  //===================== RADIO LIST TILE =======================\\
-
-  List<String> radioListTitles = [
-    "Home",
-    "School",
-    "My Apartment",
-    "My Office",
-    "My Parent's House",
-  ];
-  List<String> radioListSubtitles = [
-    "No 2 Chime Avenue New Haven Enugu.",
-    "No 2 Chime Avenue New Haven Enugu.",
-    "No 2 Chime Avenue New Haven Enugu.",
-    "No 2 Chime Avenue New Haven Enugu.",
-    "No 2 Chime Avenue New Haven Enugu.",
-  ];
-
   String currentOption = '';
-
-  List<String> radioListTileDefaultTitle = [
-    "Default",
-    "",
-    "",
-    "",
-    "",
-  ];
-
-  List<Color> radioListTileDefaultColor = [
-    Color(
-      0xFFFFCFCF,
-    ),
-    Color(
-      0x00000000,
-    ),
-    Color(
-      0x00000000,
-    ),
-    Color(
-      0x00000000,
-    ),
-    Color(
-      0x00000000,
-    ),
-  ];
 
   //===================== STATES =======================\\
 
@@ -90,6 +47,12 @@ class _DeliverToState extends State<DeliverTo> {
     }
     currentOption = current;
     List<Address> addresses = await getAddressesByUser();
+
+    Address? itemToMove =
+        addresses.firstWhere((elem) => elem.id == current, orElse: null);
+
+    addresses.remove(itemToMove);
+    addresses.insert(0, itemToMove);
 
     Map data = {
       'current': current,
@@ -271,7 +234,8 @@ class _DeliverToState extends State<DeliverTo> {
                                   ),
                                   child: Container(
                                     child: Text(
-                                      radioListSubtitles[1],
+                                      addressData!['addresses'][index]
+                                          .streetAddress,
                                       style: TextStyle(
                                         color: Color(
                                           0xFF4C4C4C,
