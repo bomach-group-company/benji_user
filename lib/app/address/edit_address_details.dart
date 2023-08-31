@@ -1,7 +1,10 @@
+import 'package:benji_user/src/repo/models/address_model.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -11,36 +14,157 @@ import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/common_widgets/textformfield/my textformfield.dart';
 import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
 import '../../src/providers/constants.dart';
+import '../../src/repo/models/user/user_model.dart';
+import '../../src/repo/utils/base_url.dart';
 import '../../theme/colors.dart';
 
 class EditAddressDetails extends StatefulWidget {
-  const EditAddressDetails({super.key});
+  final Address address;
+  const EditAddressDetails({super.key, required this.address});
 
   @override
   State<EditAddressDetails> createState() => _EditAddressDetailsState();
 }
 
 class _EditAddressDetailsState extends State<EditAddressDetails> {
-  //=================================== ALL VARIABLES =====================================\\
-
   //===================== KEYS =======================\\
   final _formKey = GlobalKey<FormState>();
   final _cscPickerKey = GlobalKey<CSCPickerState>();
 
   //===================== CONTROLLERS =======================\\
   TextEditingController _addressTitleEC = TextEditingController();
+  TextEditingController _recipientNameEC = TextEditingController();
   TextEditingController _streetAddressEC = TextEditingController();
   TextEditingController _apartmentDetailsEC = TextEditingController();
   TextEditingController _phoneNumberEC = TextEditingController();
-  TextEditingController countryController = TextEditingController();
-  TextEditingController stateController = TextEditingController();
-  TextEditingController cityController = TextEditingController();
 
   //===================== FOCUS NODES =======================\\
   FocusNode _addressTitleFN = FocusNode();
+  FocusNode _recipientNameFN = FocusNode();
   FocusNode _streetAddressFN = FocusNode();
   FocusNode _apartmentDetailsFN = FocusNode();
   FocusNode _phoneNumberFN = FocusNode();
+
+  //===================== ALL VARIABLES =======================\\
+  String? country;
+  String? state;
+  String? city;
+  String countryDialCode = '';
+
+  //===================== BOOL VALUES =======================\\
+  bool _isLoading = false;
+  bool _isLoading2 = false;
+
+  //===================== FUNCTIONS =======================\\
+  Future<bool> addAddress({bool is_current = true}) async {
+    await checkAuth(context);
+    final url =
+        Uri.parse('$baseURL/address/changeAddressDetails/${widget.address.id}');
+    List<String> countryList = country!.split(' ');
+    final User user = (await getUser())!;
+
+    final body = {
+      'title': _addressTitleEC.text,
+      'recipient_name': _recipientNameEC.text,
+      'phone': "+$countryDialCode${_phoneNumberEC.text}",
+      'street_address': _streetAddressEC.text,
+      'details': _apartmentDetailsEC.text,
+      'country': countryList[countryList.length - 1],
+      'state': state,
+      'city': city,
+    };
+    final response =
+        await http.put(url, body: body, headers: await authHeader(user.token));
+
+    return response.body == '"Address added successfully to ${user.email}"' &&
+        response.statusCode == 200;
+  }
+
+  //SET DEFAULT ADDRESS
+  setDefaultAddress() async {
+    await checkAuth(context);
+    setState(() {
+      _isLoading = true;
+    });
+
+    if (await addAddress(is_current: true)) {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Set As Default Address",
+        Duration(seconds: 2),
+      );
+      Get.back();
+
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      mySnackBar(
+        context,
+        kErrorColor,
+        "Failed!",
+        "Failed to Set as Default Address",
+        Duration(seconds: 2),
+      );
+      Get.back();
+
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkAuth(context);
+    _addressTitleEC.text = widget.address.title ?? '';
+    _streetAddressEC.text = widget.address.streetAddress ?? '';
+    _apartmentDetailsEC.text = widget.address.details ?? '';
+    _phoneNumberEC.text = widget.address.phone ?? '';
+    _recipientNameEC.text = widget.address.recipientName ?? '';
+    country = widget.address.country ?? '';
+    state = widget.address.state ?? '';
+    city = widget.address.city ?? '';
+  }
+
+  //SAVE NEW ADDRESS
+  saveNewAddress() async {
+    await checkAuth(context);
+    setState(() {
+      _isLoading2 = true;
+    });
+
+    if (await addAddress(is_current: false)) {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Added Address",
+        Duration(seconds: 2),
+      );
+      Get.back();
+
+      setState(() {
+        _isLoading2 = false;
+      });
+    } else {
+      mySnackBar(
+        context,
+        kErrorColor,
+        "Failed!",
+        "Failed to Add Address",
+        Duration(seconds: 2),
+      );
+      Get.back();
+
+      setState(() {
+        _isLoading2 = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,21 +174,10 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
         backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
           elevation: 0.0,
-          title: "Edit Address",
-          toolbarHeight: kToolbarHeight,
+          title: "Edit Address ",
+          toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
-          actions: [
-            IconButton(
-              onPressed: () {
-                _addressTitleFN.requestFocus();
-              },
-              icon: FaIcon(
-                FontAwesomeIcons.solidPenToSquare,
-                color: kAccentColor,
-                size: 18,
-              ),
-            ),
-          ],
+          actions: [],
         ),
         body: Container(
           margin: EdgeInsets.only(
@@ -76,55 +189,97 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
             children: [
-              Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Title (My Home, My Office)',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+              Container(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Title (My Home, My Office)',
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        kHalfSizedBox,
-                        MyTextFormField(
-                          hintText: "30 Crescent Lane, Lagos",
-                          controller: _addressTitleEC,
-                          textInputAction: TextInputAction.next,
-                          textInputType: TextInputType.name,
-                          focusNode: _addressTitleFN,
-                          validator: (value) {
-                            if (value == null || value!.isEmpty) {
-                              _addressTitleFN.requestFocus();
-                              return "Enter a title";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _addressTitleEC.text = value!;
-                          },
-                        ),
-                        kHalfSizedBox,
-                        Text(
-                          'Name tag of this address e.g my work, my apartment',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w400,
+                          kHalfSizedBox,
+                          MyTextFormField(
+                            hintText:
+                                "Enter address name tag e.g my work, my home....",
+                            controller: _addressTitleEC,
+                            textInputAction: TextInputAction.next,
+                            textInputType: TextInputType.name,
+                            focusNode: _addressTitleFN,
+                            validator: (value) {
+                              RegExp locationNamePattern = RegExp(r'^.{3,}$');
+                              if (value == null || value!.isEmpty) {
+                                _addressTitleFN.requestFocus();
+                                return "Enter a title";
+                              } else if (!locationNamePattern.hasMatch(value)) {
+                                _recipientNameFN.requestFocus();
+                                return "Please enter a valid name";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _addressTitleEC.text = value!;
+                            },
                           ),
-                        ),
-                      ],
-                    ),
-                    kSizedBox,
-                    Container(
-                      child: Column(
+                          kHalfSizedBox,
+                          Text(
+                            'Name tag of this address e.g my work, my apartment',
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                      kSizedBox,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Recipient Name',
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          kHalfSizedBox,
+                          MyTextFormField(
+                            hintText: "Enter recipient name",
+                            controller: _recipientNameEC,
+                            textInputAction: TextInputAction.next,
+                            textInputType: TextInputType.name,
+                            focusNode: _recipientNameFN,
+                            validator: (value) {
+                              //username pattern
+                              //Min. of 3 characters
+                              RegExp userNamePattern = RegExp(r'^.{3,}$');
+                              if (value == null || value!.isEmpty) {
+                                _recipientNameFN.requestFocus();
+                                return "Enter your name";
+                              } else if (!userNamePattern.hasMatch(value)) {
+                                _recipientNameFN.requestFocus();
+                                return "Please enter a valid name";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _recipientNameEC.text = value!;
+                            },
+                          ),
+                        ],
+                      ),
+                      kSizedBox,
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -137,7 +292,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                           ),
                           kHalfSizedBox,
                           MyTextFormField(
-                            hintText: "Crescent Lane, Surrulere,  Lagos",
+                            hintText: "E.g 123 Main Street",
                             controller: _streetAddressEC,
                             textInputAction: TextInputAction.next,
                             textInputType: TextInputType.streetAddress,
@@ -161,10 +316,8 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                           ),
                         ],
                       ),
-                    ),
-                    kSizedBox,
-                    Container(
-                      child: Column(
+                      kSizedBox,
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -177,7 +330,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                           ),
                           kHalfSizedBox,
                           MyTextFormField(
-                            hintText: "Flat 4",
+                            hintText: "E.g Suite B3",
                             controller: _apartmentDetailsEC,
                             textInputAction: TextInputAction.next,
                             textInputType: TextInputType.text,
@@ -195,10 +348,8 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                           ),
                         ],
                       ),
-                    ),
-                    kSizedBox,
-                    Container(
-                      child: Column(
+                      kSizedBox,
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -211,7 +362,10 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                           ),
                           kHalfSizedBox,
                           MyIntlPhoneField(
-                            initialCountryCode: "NG",
+                            onCountryChanged: (country) {
+                              countryDialCode = country.dialCode;
+                            },
+                            initialValue: widget.address.phone,
                             invalidNumberMessage: "Invalid phone number",
                             dropdownIconPosition: IconPosition.trailing,
                             showCountryFlag: true,
@@ -236,10 +390,8 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                           ),
                         ],
                       ),
-                    ),
-                    kSizedBox,
-                    Container(
-                      child: Column(
+                      kSizedBox,
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -252,63 +404,71 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                           ),
                           kHalfSizedBox,
                           CSCPicker(
+                            currentCity: city,
+                            currentState: state,
+                            currentCountry: country,
                             key: _cscPickerKey,
                             layout: Layout.vertical,
                             countryDropdownLabel: "Select country",
                             stateDropdownLabel: "Select state",
                             cityDropdownLabel: "Select city",
-                            currentCountry: "Nigeria",
-                            onCountryChanged: (country) {
-                              country = country;
+                            onCountryChanged: (data) {
+                              setState(() {
+                                country = data;
+                              });
                             },
-                            onStateChanged: (state) {
-                              state = state;
+                            onStateChanged: (data) {
+                              setState(() {
+                                state = data;
+                              });
                             },
-                            onCityChanged: (city) {
-                              city = city;
+                            onCityChanged: (data) {
+                              setState(() {
+                                city = data;
+                              });
                             },
                           ),
                         ],
                       ),
-                    ),
-                    kSizedBox,
-                  ],
+                      kSizedBox,
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
                 height: kDefaultPadding * 2,
               ),
-              MyOutlinedElevatedButton(
-                title: "Set As Default Address",
-                onPressed: (() async {
-                  if (_formKey.currentState!.validate()) {
-                    Get.back();
-                    mySnackBar(
-                      context,
-                      kSuccessColor,
-                      "Success!",
-                      "Set As Default Address",
-                      Duration(seconds: 2),
-                    );
-                  }
-                }),
-              ),
+              _isLoading
+                  ? Center(
+                      child: SpinKitChasingDots(
+                        color: kAccentColor,
+                        duration: const Duration(seconds: 1),
+                      ),
+                    )
+                  : MyOutlinedElevatedButton(
+                      title: "Set As Default Address",
+                      onPressed: (() async {
+                        if (_formKey.currentState!.validate()) {
+                          setDefaultAddress();
+                        }
+                      }),
+                    ),
               kSizedBox,
-              MyElevatedButton(
-                title: "Save changes",
-                onPressed: (() async {
-                  if (_formKey.currentState!.validate()) {
-                    Get.back();
-                    mySnackBar(
-                      context,
-                      kSuccessColor,
-                      "Success!",
-                      "Changes saved",
-                      Duration(seconds: 2),
-                    );
-                  }
-                }),
-              ),
+              _isLoading2
+                  ? Center(
+                      child: SpinKitChasingDots(
+                        color: kAccentColor,
+                        duration: const Duration(seconds: 1),
+                      ),
+                    )
+                  : MyElevatedButton(
+                      title: "Save Changes",
+                      onPressed: (() async {
+                        if (_formKey.currentState!.validate()) {
+                          saveNewAddress();
+                        }
+                      }),
+                    ),
               SizedBox(
                 height: kDefaultPadding * 2,
               ),

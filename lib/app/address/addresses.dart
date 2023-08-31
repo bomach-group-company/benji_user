@@ -85,7 +85,7 @@ class _AddressesState extends State<Addresses> {
 
   //======================================= Navigation ==========================================\\
 
-  void _pickOption(String id) => Get.defaultDialog(
+  void _pickOption(Address address) => Get.defaultDialog(
         title: "What do you want to do?",
         titleStyle: TextStyle(
           fontSize: 20,
@@ -94,7 +94,7 @@ class _AddressesState extends State<Addresses> {
         ),
         content: SizedBox(height: 0),
         cancel: ElevatedButton(
-          onPressed: () => _deleteAddress(id),
+          onPressed: () => _deleteAddress(address.id!),
           style: ElevatedButton.styleFrom(
             backgroundColor: kPrimaryColor,
             elevation: 10.0,
@@ -122,7 +122,7 @@ class _AddressesState extends State<Addresses> {
           ),
         ),
         confirm: ElevatedButton(
-          onPressed: _toEditAddressDetails,
+          onPressed: () => _toEditAddressDetails(address),
           style: ElevatedButton.styleFrom(
             backgroundColor: kAccentColor,
             elevation: 10.0,
@@ -155,8 +155,8 @@ class _AddressesState extends State<Addresses> {
     await _getData();
   }
 
-  void _toEditAddressDetails() => Get.to(
-        () => const EditAddressDetails(),
+  void _toEditAddressDetails(Address address) => Get.to(
+        () => EditAddressDetails(address: address),
         routeName: 'EditAddressDetails',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -227,7 +227,7 @@ class _AddressesState extends State<Addresses> {
                               ),
                               child: ListTile(
                                 onTap: () => _pickOption(
-                                    addressData!['addresses'][index].id!),
+                                    addressData!['addresses'][index]),
                                 enableFeedback: true,
                                 trailing: Icon(
                                   Icons.arrow_forward_ios_rounded,
