@@ -112,8 +112,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  void _toDeliverTo() => Get.off(
-        () => const DeliverTo(toCheckout: true),
+  void _toDeliverTo() => Get.to(
+        () => const DeliverTo(toCheckout: true, inCheckout: true),
+        routeName: 'DeliverTo',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

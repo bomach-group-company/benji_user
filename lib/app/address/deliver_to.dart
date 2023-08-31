@@ -15,7 +15,9 @@ import 'add_new_address.dart';
 
 class DeliverTo extends StatefulWidget {
   final bool toCheckout;
-  const DeliverTo({super.key, this.toCheckout = false});
+  final bool inCheckout;
+  const DeliverTo(
+      {super.key, this.toCheckout = false, this.inCheckout = false});
 
   @override
   State<DeliverTo> createState() => _DeliverToState();
@@ -104,15 +106,19 @@ class _DeliverToState extends State<DeliverTo> {
     }
 
     if (widget.toCheckout) {
-      Get.off(
-        () => CheckoutScreen(deliverTo: address),
-        routeName: 'CheckoutScreen',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+      if (widget.inCheckout) {
+        Get.close(1);
+      } else {
+        Get.off(
+          () => CheckoutScreen(deliverTo: address),
+          routeName: 'CheckoutScreen',
+          duration: const Duration(milliseconds: 300),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          popGesture: true,
+          transition: Transition.rightToLeft,
+        );
+      }
     } else {
       Get.back();
     }
