@@ -3,14 +3,13 @@
 import 'package:benji_user/app/payment/payment_method.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../address/deliver_to.dart';
-import '../coupon/apply_coupon.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -23,14 +22,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   //=================================== ALL VARIABLES ==========================================\\
 
   int quantity = 1;
-  double price = 4200.0;
-  final double itemPrice = 4200.0;
+  double price = 4200;
+  final double itemPrice = 4200;
 
-  double deliveryFee = 700.00;
-  double serviceFee = 0.00;
-  double insuranceFee = 0.00;
-  double discountFee = 0.00;
-  double calculateTotalPrice() {
+  double deliveryFee = 700;
+  double serviceFee = 0;
+  double insuranceFee = 0;
+  double discountFee = 0;
+  double _calculateTotalPrice() {
     return (itemPrice * quantity) +
         deliveryFee +
         serviceFee +
@@ -47,25 +46,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   ScrollController scrollController = ScrollController();
 
   //===================== BOOL VALUES =======================\\
-  bool isLoading = false;
+  bool _isLoading = false;
 
   //===================== FUNCTIONS =======================\\
-
-  void incrementQuantity() {
-    setState(() {
-      quantity++;
-      price = quantity * itemPrice;
-    });
-  }
-
-  void decrementQuantity() {
-    setState(() {
-      if (quantity > 1) {
-        quantity--;
-        price = quantity * itemPrice;
-      }
-    });
-  }
 
   // COPY TO CLIPBOARD
   final String text = 'Generated Link code here';
@@ -85,11 +68,22 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
+  void _toDeliverTo() => Get.to(
+        () => const DeliverTo(),
+        routeName: 'DeliverTo',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
     var mediaWidth = MediaQuery.of(context).size.width;
     var mediaHeight = MediaQuery.of(context).size.height;
-    double totalPrice = calculateTotalPrice();
+    double totalPrice = _calculateTotalPrice();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -118,9 +112,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 child: Text(
                   'Deliver to',
                   style: TextStyle(
-                    color: Color(
-                      0xFF202020,
-                    ),
+                    color: kTextBlackColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                   ),
@@ -128,13 +120,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ),
               kSizedBox,
               InkWell(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => DeliverTo(),
-                    ),
-                  );
-                },
+                onTap: _toDeliverTo,
                 child: Container(
                   width: mediaWidth,
                   padding: const EdgeInsets.all(kDefaultPadding / 2),
@@ -148,7 +134,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         color: Color(0x0F000000),
                         blurRadius: 24,
                         offset: Offset(0, 4),
-                        spreadRadius: 0,
+                        spreadRadius: 7,
                       ),
                     ],
                   ),
@@ -165,9 +151,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             maxLines: 1,
                             style: TextStyle(
                               overflow: TextOverflow.ellipsis,
-                              color: Color(
-                                0xFF151515,
-                              ),
+                              color: kTextBlackColor,
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
                             ),
@@ -178,9 +162,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(
-                              color: Color(
-                                0xFF4C4C4C,
-                              ),
+                              color: kTextGreyColor,
                               overflow: TextOverflow.ellipsis,
                               fontSize: 13,
                               fontWeight: FontWeight.w400,
@@ -204,9 +186,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 child: Text(
                   'Product Summary',
                   style: TextStyle(
-                    color: Color(
-                      0xFF151515,
-                    ),
+                    color: kTextBlackColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                   ),
@@ -219,283 +199,48 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 decoration: ShapeDecoration(
                   color: kPrimaryColor,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      10,
-                    ),
-                  ),
-                  shadows: [
-                    BoxShadow(
-                      color: Color(
-                        0x0F000000,
-                      ),
-                      blurRadius: 24,
-                      offset: Offset(
-                        0,
-                        4,
-                      ),
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Smokey Jollof Rice',
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                                style: TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  color: Color(
-                                    0xFF333333,
-                                  ),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              kHalfSizedBox,
-                              Text(
-                                '2x  Stewed Fried Chicken',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  color: Color(
-                                    0xFF676565,
-                                  ),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              kHalfSizedBox,
-                              Text(
-                                '2x Grilled 1/4 Chicken',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  color: Color(
-                                    0xFF676565,
-                                  ),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.remove_shopping_cart_rounded,
-                              color: kAccentColor,
-                              size: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                      kSizedBox,
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '₦${price.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              color: Color(
-                                0xCC4C4C4C,
-                              ),
-                              fontSize: 16,
-                              fontFamily: 'Sen',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          Container(
-                            width: 100,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    decrementQuantity();
-                                  },
-                                  child: Icon(
-                                    Icons.remove_circle_rounded,
-                                    color: kAccentColor,
-                                  ),
-                                ),
-                                Text(
-                                  '$quantity',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    incrementQuantity();
-                                  },
-                                  child: Icon(
-                                    Icons.add_circle_rounded,
-                                    color: kAccentColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              kSizedBox,
-              Container(
-                width: mediaWidth,
-                padding: EdgeInsets.all(
-                  kDefaultPadding,
-                ),
-                decoration: ShapeDecoration(
-                  color: kPrimaryColor,
-                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   shadows: [
                     BoxShadow(
-                      color: Color(
-                        0x0F000000,
-                      ),
+                      color: Color(0x0F000000),
                       blurRadius: 24,
-                      offset: Offset(
-                        0,
-                        4,
-                      ),
-                      spreadRadius: 0,
+                      offset: Offset(0, 4),
+                      spreadRadius: 7,
                     ),
                   ],
                 ),
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Coupon',
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: mediaWidth,
+                      child: Text(
+                        '2x  Stewed Fried Chicken',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: Color(
-                            0xFF151515,
-                          ),
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
+                          color: kTextGreyColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                      kHalfSizedBox,
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                              width: 0.50,
-                              strokeAlign: BorderSide.strokeAlignCenter,
-                              color: Color(
-                                0xFFEAEAEA,
-                              ),
-                            ),
-                          ),
+                    ),
+                    kHalfSizedBox,
+                    SizedBox(
+                      width: mediaWidth,
+                      child: Text(
+                        '2x Grilled 1/4 Chicken',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: kTextGreyColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
-                      kHalfSizedBox,
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => ApplyCoupon(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Add Coupon',
-                                style: TextStyle(
-                                  color: Color(
-                                    0xFF151515,
-                                  ),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              Container(
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      height: 24,
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 4,
-                                      ),
-                                      decoration: ShapeDecoration(
-                                        color: kAccentColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            8,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'ADB1897',
-                                            style: TextStyle(
-                                              color: kPrimaryColor,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 8,
-                                          ),
-                                          Text(
-                                            'x',
-                                            style: TextStyle(
-                                              color: kPrimaryColor,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      color: kAccentColor,
-                                      size: 16,
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               kSizedBox,
@@ -513,14 +258,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                   shadows: [
                     BoxShadow(
-                      color: Color(
-                        0x0F000000,
-                      ),
+                      color: Color(0x0F000000),
                       blurRadius: 24,
-                      offset: Offset(
-                        0,
-                        4,
-                      ),
+                      offset: Offset(0, 4),
                       spreadRadius: 0,
                     ),
                   ],
@@ -530,39 +270,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        height: 50,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              'Payment Summary',
-                              style: TextStyle(
-                                color: Color(
-                                  0xFF151515,
-                                ),
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    width: 0.50,
-                                    strokeAlign: BorderSide.strokeAlignCenter,
-                                    color: Color(
-                                      0xFFEAEAEA,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                      SizedBox(
+                        child: Text(
+                          'Payment Summary',
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
+                      Divider(height: 20, color: kGreyColor1),
                       Container(
                         child: Column(
                           children: [
@@ -574,19 +292,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   Text(
                                     'Subtotal',
                                     style: TextStyle(
-                                      color: Color(
-                                        0xFF151515,
-                                      ),
+                                      color: kTextBlackColor,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
                                   Text(
-                                    '₦${price.toStringAsFixed(2)}',
+                                    '₦${formattedText(price)}',
                                     style: TextStyle(
-                                      color: Color(
-                                        0xCC4C4C4C,
-                                      ),
+                                      color: kTextGreyColor,
                                       fontSize: 16,
                                       fontFamily: 'Sen',
                                       fontWeight: FontWeight.w700,
@@ -604,19 +318,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   Text(
                                     'Delivery Fee',
                                     style: TextStyle(
-                                      color: Color(
-                                        0xFF151515,
-                                      ),
+                                      color: kTextBlackColor,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
                                   Text(
-                                    '₦${deliveryFee.toStringAsFixed(2)}',
+                                    '₦${formattedText(deliveryFee)}',
                                     style: TextStyle(
-                                      color: Color(
-                                        0xCC4C4C4C,
-                                      ),
+                                      color: kTextGreyColor,
                                       fontSize: 16,
                                       fontFamily: 'Sen',
                                       fontWeight: FontWeight.w700,
@@ -634,19 +344,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   Text(
                                     'Service Fee',
                                     style: TextStyle(
-                                      color: Color(
-                                        0xFF151515,
-                                      ),
+                                      color: kTextBlackColor,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
                                   Text(
-                                    '₦${serviceFee.toStringAsFixed(2)}',
+                                    '₦${formattedText(serviceFee)}',
                                     style: TextStyle(
-                                      color: Color(
-                                        0xCC4C4C4C,
-                                      ),
+                                      color: kTextGreyColor,
                                       fontSize: 16,
                                       fontFamily: 'Sen',
                                       fontWeight: FontWeight.w700,
@@ -656,34 +362,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               ),
                             ),
                             kSizedBox,
-                            Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Insurance Fee',
-                                    style: TextStyle(
-                                      color: Color(
-                                        0xFF151515,
-                                      ),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Insurance Fee',
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                  Text(
-                                    '₦${insuranceFee.toStringAsFixed(2)}',
-                                    style: TextStyle(
-                                      color: Color(
-                                        0xCC4C4C4C,
-                                      ),
-                                      fontSize: 16,
-                                      fontFamily: 'Sen',
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                                ),
+                                Text(
+                                  '₦${formattedText(insuranceFee)}',
+                                  style: TextStyle(
+                                    color: kTextGreyColor,
+                                    fontSize: 16,
+                                    fontFamily: 'Sen',
+                                    fontWeight: FontWeight.w700,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                             kSizedBox,
                             Container(
@@ -694,19 +393,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   Text(
                                     'Discount',
                                     style: TextStyle(
-                                      color: Color(
-                                        0xFF151515,
-                                      ),
+                                      color: kTextBlackColor,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
                                   Text(
-                                    '₦${discountFee.toStringAsFixed(2)}',
+                                    '₦${formattedText(discountFee)}',
                                     style: TextStyle(
-                                      color: Color(
-                                        0xCC4C4C4C,
-                                      ),
+                                      color: kTextGreyColor,
                                       fontSize: 16,
                                       fontFamily: 'Sen',
                                       fontWeight: FontWeight.w700,
@@ -719,20 +414,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         ),
                       ),
                       kHalfSizedBox,
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                              width: 0.50,
-                              strokeAlign: BorderSide.strokeAlignCenter,
-                              color: Color(
-                                0xFFEAEAEA,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      Divider(height: 4, color: kGreyColor1),
                       kHalfSizedBox,
                       Container(
                         child: Row(
@@ -741,19 +423,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             Text(
                               'Total',
                               style: TextStyle(
-                                color: Color(
-                                  0xFF151515,
-                                ),
+                                color: kTextBlackColor,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
                             Text(
-                              '₦${totalPrice.toStringAsFixed(2)}',
+                              '₦${formattedText(totalPrice)}',
                               style: TextStyle(
-                                color: Color(
-                                  0xCC4C4C4C,
-                                ),
+                                color: kTextGreyColor,
                                 fontSize: 16,
                                 fontFamily: 'Sen',
                                 fontWeight: FontWeight.w700,
@@ -766,29 +444,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: kDefaultPadding * 2,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  isLoading
-                      ? Center(
-                          child: SpinKitChasingDots(
-                            color: kAccentColor,
-                            duration: const Duration(seconds: 1),
-                          ),
-                        )
-                      : MyElevatedButton(
-                          title:
-                              "Place Order - ₦${totalPrice.toStringAsFixed(2)}",
-                          onPressed: () {
-                            _placeOrder();
-                          },
-                        ),
-                  kSizedBox,
-                ],
-              ),
+              SizedBox(height: kDefaultPadding * 2),
+              _isLoading
+                  ? Center(
+                      child: SpinKitChasingDots(
+                        color: kAccentColor,
+                        duration: const Duration(seconds: 1),
+                      ),
+                    )
+                  : MyElevatedButton(
+                      title: "Place Order - ₦${formattedText(totalPrice)}",
+                      onPressed: () {
+                        _placeOrder();
+                      },
+                    ),
+              kSizedBox,
             ],
           ),
         ),
@@ -798,7 +468,148 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 }
 
 
-//==================================================================== FUTURE REFERENCE ======================================================================================\\
+//======================================================= FUTURE REFERENCE ====================================================================\\
+
+//====================================== Add Coupon ====================================\\
+
+              // Container(
+              //   width: mediaWidth,
+              //   padding: EdgeInsets.all(
+              //     kDefaultPadding,
+              //   ),
+              //   decoration: ShapeDecoration(
+              //     color: kPrimaryColor,
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(10),
+              //     ),
+              //     shadows: [
+              //       BoxShadow(
+              //         color: Color(0x0F000000),
+              //         blurRadius: 24,
+              //         offset: Offset(0, 4),
+              //         spreadRadius: 0,
+              //       ),
+              //     ],
+              //   ),
+              //   child: Container(
+              //     child: Column(
+              //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         Text(
+              //           'Coupon',
+              //           style: TextStyle(
+              //             color: Color(
+              //               0xFF151515,
+              //             ),
+              //             fontSize: 18,
+              //             fontWeight: FontWeight.w700,
+              //           ),
+              //         ),
+              //         kHalfSizedBox,
+              //         Container(
+              //           width: MediaQuery.of(context).size.width,
+              //           decoration: ShapeDecoration(
+              //             shape: RoundedRectangleBorder(
+              //               side: BorderSide(
+              //                 width: 0.50,
+              //                 strokeAlign: BorderSide.strokeAlignCenter,
+              //                 color: Color(
+              //                   0xFFEAEAEA,
+              //                 ),
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //         kHalfSizedBox,
+              //         InkWell(
+              //           onTap: () {
+              //             Navigator.of(context).push(
+              //               MaterialPageRoute(
+              //                 builder: (context) => ApplyCoupon(),
+              //               ),
+              //             );
+              //           },
+              //           child: Container(
+              //             child: Row(
+              //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //               children: [
+              //                 Text(
+              //                   'Add Coupon',
+              //                   style: TextStyle(
+              //                     color: Color(
+              //                       0xFF151515,
+              //                     ),
+              //                     fontSize: 18,
+              //                     fontWeight: FontWeight.w400,
+              //                   ),
+              //                 ),
+              //                 Container(
+              //                   child: Row(
+              //                     children: [
+              //                       Container(
+              //                         height: 24,
+              //                         padding: const EdgeInsets.symmetric(
+              //                           horizontal: 8,
+              //                           vertical: 4,
+              //                         ),
+              //                         decoration: ShapeDecoration(
+              //                           color: kAccentColor,
+              //                           shape: RoundedRectangleBorder(
+              //                             borderRadius: BorderRadius.circular(
+              //                               8,
+              //                             ),
+              //                           ),
+              //                         ),
+              //                         child: Row(
+              //                           mainAxisSize: MainAxisSize.min,
+              //                           mainAxisAlignment:
+              //                               MainAxisAlignment.center,
+              //                           crossAxisAlignment:
+              //                               CrossAxisAlignment.center,
+              //                           children: [
+              //                             Text(
+              //                               'ADB1897',
+              //                               style: TextStyle(
+              //                                 color: kPrimaryColor,
+              //                                 fontSize: 12,
+              //                                 fontWeight: FontWeight.w700,
+              //                               ),
+              //                             ),
+              //                             const SizedBox(
+              //                               width: 8,
+              //                             ),
+              //                             Text(
+              //                               'x',
+              //                               style: TextStyle(
+              //                                 color: kPrimaryColor,
+              //                                 fontSize: 12,
+              //                                 fontWeight: FontWeight.w400,
+              //                               ),
+              //                             ),
+              //                           ],
+              //                         ),
+              //                       ),
+              //                       Icon(
+              //                         Icons.arrow_forward_ios_rounded,
+              //                         color: kAccentColor,
+              //                         size: 16,
+              //                       ),
+              //                     ],
+              //                   ),
+              //                 )
+              //               ],
+              //             ),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              // kSizedBox,
+
+//====================================== Pay for me ====================================\\
+
                   // MyOutlinedElevatedButton(
                   //   title: "Pay For Me\n (Coming soon 😊)",
                   //   onPressed: 

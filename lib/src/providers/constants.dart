@@ -48,3 +48,9 @@ String formatDateAndTime(DateTime dateTime) {
 
   return formattedDateTime;
 }
+
+//===================== Number format ==========================\\
+String formattedText(double value) {
+  final numberFormat = NumberFormat('#,##0');
+  return numberFormat.format(value);
+}
