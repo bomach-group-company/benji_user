@@ -30,18 +30,18 @@ class _AddNewAddressState extends State<AddNewAddress> {
   final _cscPickerKey = GlobalKey<CSCPickerState>();
 
   //===================== CONTROLLERS =======================\\
-  TextEditingController addressTitleEC = TextEditingController();
-  TextEditingController recipientNameEC = TextEditingController();
-  TextEditingController streetAddressEC = TextEditingController();
-  TextEditingController apartmentDetailsEC = TextEditingController();
-  TextEditingController phoneNumberEC = TextEditingController();
+  TextEditingController _addressTitleEC = TextEditingController();
+  TextEditingController _recipientNameEC = TextEditingController();
+  TextEditingController _streetAddressEC = TextEditingController();
+  TextEditingController _apartmentDetailsEC = TextEditingController();
+  TextEditingController _phoneNumberEC = TextEditingController();
 
   //===================== FOCUS NODES =======================\\
-  FocusNode addressTitleFN = FocusNode();
-  FocusNode recipientNameFN = FocusNode();
-  FocusNode streetAddressFN = FocusNode();
-  FocusNode apartmentDetailsFN = FocusNode();
-  FocusNode phoneNumberFN = FocusNode();
+  FocusNode _addressTitleFN = FocusNode();
+  FocusNode _recipientNameFN = FocusNode();
+  FocusNode _streetAddressFN = FocusNode();
+  FocusNode _apartmentDetailsFN = FocusNode();
+  FocusNode _phoneNumberFN = FocusNode();
 
   //===================== ALL VARIABLES =======================\\
   String? country;
@@ -50,8 +50,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
   String countryDialCode = '234';
 
   //===================== BOOL VALUES =======================\\
-  bool isLoading = false;
-  bool isLoading2 = false;
+  bool _isLoading = false;
+  bool _isLoading2 = false;
 
   //===================== FUNCTIONS =======================\\
   Future<bool> addAddress({bool is_current = true}) async {
@@ -61,11 +61,11 @@ class _AddNewAddressState extends State<AddNewAddress> {
 
     final body = {
       'user_id': user!.id.toString(),
-      'title': addressTitleEC.text,
-      'recipient_name': recipientNameEC.text,
-      'phone': "+$countryDialCode${phoneNumberEC.text}",
-      'street_address': streetAddressEC.text,
-      'details': apartmentDetailsEC.text,
+      'title': _addressTitleEC.text,
+      'recipient_name': _recipientNameEC.text,
+      'phone': "+$countryDialCode${_phoneNumberEC.text}",
+      'street_address': _streetAddressEC.text,
+      'details': _apartmentDetailsEC.text,
       'country': countryList[countryList.length - 1],
       'state': state,
       'city': city,
@@ -82,7 +82,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
   setDefaultAddress() async {
     await checkAuth(context);
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
 
     if (await addAddress(is_current: true)) {
@@ -96,20 +96,20 @@ class _AddNewAddressState extends State<AddNewAddress> {
       Get.back();
 
       setState(() {
-        isLoading = false;
+        _isLoading = false;
       });
     } else {
       mySnackBar(
         context,
         kErrorColor,
         "Failed!",
-        "Failed to Set Default Address",
+        "Failed to Set as Default Address",
         Duration(seconds: 2),
       );
       Get.back();
 
       setState(() {
-        isLoading = false;
+        _isLoading = false;
       });
     }
   }
@@ -124,7 +124,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
   saveNewAddress() async {
     await checkAuth(context);
     setState(() {
-      isLoading2 = true;
+      _isLoading2 = true;
     });
 
     if (await addAddress(is_current: false)) {
@@ -138,7 +138,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
       Get.back();
 
       setState(() {
-        isLoading2 = false;
+        _isLoading2 = false;
       });
     } else {
       mySnackBar(
@@ -151,7 +151,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
       Get.back();
 
       setState(() {
-        isLoading2 = false;
+        _isLoading2 = false;
       });
     }
   }
@@ -185,250 +185,237 @@ class _AddNewAddressState extends State<AddNewAddress> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Title (My Home, My Office)',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Title (My Home, My Office)',
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
                             ),
-                            kHalfSizedBox,
-                            MyTextFormField(
-                              hintText:
-                                  "Enter address name tag e.g my work, my home....",
-                              controller: addressTitleEC,
-                              textInputAction: TextInputAction.next,
-                              textInputType: TextInputType.name,
-                              focusNode: addressTitleFN,
-                              validator: (value) {
-                                if (value == null || value!.isEmpty) {
-                                  addressTitleFN.requestFocus();
-                                  return "Enter a title";
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                addressTitleEC.text = value!;
-                              },
+                          ),
+                          kHalfSizedBox,
+                          MyTextFormField(
+                            hintText:
+                                "Enter address name tag e.g my work, my home....",
+                            controller: _addressTitleEC,
+                            textInputAction: TextInputAction.next,
+                            textInputType: TextInputType.name,
+                            focusNode: _addressTitleFN,
+                            validator: (value) {
+                              RegExp locationNamePattern = RegExp(r'^.{3,}$');
+                              if (value == null || value!.isEmpty) {
+                                _addressTitleFN.requestFocus();
+                                return "Enter a title";
+                              } else if (!locationNamePattern.hasMatch(value)) {
+                                _recipientNameFN.requestFocus();
+                                return "Please enter a valid name";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _addressTitleEC.text = value!;
+                            },
+                          ),
+                          kHalfSizedBox,
+                          Text(
+                            'Name tag of this address e.g my work, my apartment',
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
                             ),
-                            kHalfSizedBox,
-                            Text(
-                              'Name tag of this address e.g my work, my apartment',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       kSizedBox,
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Recipient Name',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Recipient Name',
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
                             ),
-                            kHalfSizedBox,
-                            MyTextFormField(
-                              hintText: "Enter recipient name",
-                              controller: recipientNameEC,
-                              textInputAction: TextInputAction.next,
-                              textInputType: TextInputType.name,
-                              focusNode: recipientNameFN,
-                              validator: (value) {
-                                //username pattern
-                                //Min. of 3 characters
-                                RegExp userNamePattern = RegExp(
-                                  r'^.{3,}$',
-                                );
-                                if (value == null || value!.isEmpty) {
-                                  recipientNameFN.requestFocus();
-                                  return "Enter your name";
-                                } else if (!userNamePattern.hasMatch(value)) {
-                                  recipientNameFN.requestFocus();
-                                  return "Please enter a valid name";
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                recipientNameEC.text = value!;
-                              },
-                            ),
-                          ],
-                        ),
+                          ),
+                          kHalfSizedBox,
+                          MyTextFormField(
+                            hintText: "Enter recipient name",
+                            controller: _recipientNameEC,
+                            textInputAction: TextInputAction.next,
+                            textInputType: TextInputType.name,
+                            focusNode: _recipientNameFN,
+                            validator: (value) {
+                              //username pattern
+                              //Min. of 3 characters
+                              RegExp userNamePattern = RegExp(r'^.{3,}$');
+                              if (value == null || value!.isEmpty) {
+                                _recipientNameFN.requestFocus();
+                                return "Enter your name";
+                              } else if (!userNamePattern.hasMatch(value)) {
+                                _recipientNameFN.requestFocus();
+                                return "Please enter a valid name";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _recipientNameEC.text = value!;
+                            },
+                          ),
+                        ],
                       ),
                       kSizedBox,
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Street Address',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Street Address',
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
                             ),
-                            kHalfSizedBox,
-                            MyTextFormField(
-                              hintText: "E.g 123 Main Street",
-                              controller: streetAddressEC,
-                              textInputAction: TextInputAction.next,
-                              textInputType: TextInputType.streetAddress,
-                              focusNode: streetAddressFN,
-                              validator: (value) {
-                                RegExp streetAddressPattern = RegExp(
-                                  r'^\d+\s+[a-zA-Z0-9\s.-]+$',
-                                );
-                                ;
-                                if (value == null || value!.isEmpty) {
-                                  streetAddressFN.requestFocus();
-                                  return "Enter your street address";
-                                } else if (!streetAddressPattern
-                                    .hasMatch(value)) {
-                                  streetAddressFN.requestFocus();
-                                  return "Please enter a valid street address (Must have a number)";
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                streetAddressEC.text = value!;
-                              },
-                            ),
-                          ],
-                        ),
+                          ),
+                          kHalfSizedBox,
+                          MyTextFormField(
+                            hintText: "E.g 123 Main Street",
+                            controller: _streetAddressEC,
+                            textInputAction: TextInputAction.next,
+                            textInputType: TextInputType.streetAddress,
+                            focusNode: _streetAddressFN,
+                            validator: (value) {
+                              RegExp streetAddressPattern = RegExp(r'^.{4,}$');
+
+                              if (value == null || value!.isEmpty) {
+                                _streetAddressFN.requestFocus();
+                                return "Enter your street address";
+                              } else if (!streetAddressPattern
+                                  .hasMatch(value)) {
+                                _streetAddressFN.requestFocus();
+                                return "Please enter a valid street address";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _streetAddressEC.text = value!;
+                            },
+                          ),
+                        ],
                       ),
                       kSizedBox,
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Details (Door, Apartment Number)',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Details (Door, Apartment Number)',
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
                             ),
-                            kHalfSizedBox,
-                            MyTextFormField(
-                              hintText: "E.g Suite B3",
-                              controller: apartmentDetailsEC,
-                              textInputAction: TextInputAction.next,
-                              textInputType: TextInputType.text,
-                              focusNode: apartmentDetailsFN,
-                              validator: (value) {
-                                if (value == null || value!.isEmpty) {
-                                  apartmentDetailsFN.requestFocus();
-                                  return "Enter your apartment detail";
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                apartmentDetailsEC.text = value!;
-                              },
-                            ),
-                          ],
-                        ),
+                          ),
+                          kHalfSizedBox,
+                          MyTextFormField(
+                            hintText: "E.g Suite B3",
+                            controller: _apartmentDetailsEC,
+                            textInputAction: TextInputAction.next,
+                            textInputType: TextInputType.text,
+                            focusNode: _apartmentDetailsFN,
+                            validator: (value) {
+                              if (value == null || value!.isEmpty) {
+                                _apartmentDetailsFN.requestFocus();
+                                return "Enter your apartment detail";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _apartmentDetailsEC.text = value!;
+                            },
+                          ),
+                        ],
                       ),
                       kSizedBox,
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Phone Number',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Phone Number',
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
                             ),
-                            kHalfSizedBox,
-                            MyIntlPhoneField(
-                              onCountryChanged: (country) {
-                                countryDialCode = country.dialCode;
-                              },
-                              initialCountryCode: "NG",
-                              invalidNumberMessage: "Invalid phone number",
-                              dropdownIconPosition: IconPosition.trailing,
-                              showCountryFlag: true,
-                              showDropdownIcon: true,
-                              dropdownIcon: Icon(
-                                Icons.arrow_drop_down_rounded,
-                                color: kAccentColor,
-                              ),
-                              controller: phoneNumberEC,
-                              textInputAction: TextInputAction.next,
-                              focusNode: phoneNumberFN,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  phoneNumberFN.requestFocus();
-                                  return "Enter your phone number";
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                phoneNumberEC.text = value;
-                              },
+                          ),
+                          kHalfSizedBox,
+                          MyIntlPhoneField(
+                            onCountryChanged: (country) {
+                              countryDialCode = country.dialCode;
+                            },
+                            initialCountryCode: "NG",
+                            invalidNumberMessage: "Invalid phone number",
+                            dropdownIconPosition: IconPosition.trailing,
+                            showCountryFlag: true,
+                            showDropdownIcon: true,
+                            dropdownIcon: Icon(
+                              Icons.arrow_drop_down_rounded,
+                              color: kAccentColor,
                             ),
-                          ],
-                        ),
+                            controller: _phoneNumberEC,
+                            textInputAction: TextInputAction.next,
+                            focusNode: _phoneNumberFN,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                _phoneNumberFN.requestFocus();
+                                return "Enter your phone number";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _phoneNumberEC.text = value;
+                            },
+                          ),
+                        ],
                       ),
                       kSizedBox,
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Localization',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Localization',
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
                             ),
-                            kHalfSizedBox,
-                            CSCPicker(
-                              key: _cscPickerKey,
-                              layout: Layout.vertical,
-                              countryDropdownLabel: "Select country",
-                              stateDropdownLabel: "Select state",
-                              cityDropdownLabel: "Select city",
-                              onCountryChanged: (data) {
-                                setState(() {
-                                  country = data;
-                                });
-                              },
-                              onStateChanged: (data) {
-                                setState(() {
-                                  state = data;
-                                });
-                              },
-                              onCityChanged: (data) {
-                                setState(() {
-                                  city = data;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
+                          ),
+                          kHalfSizedBox,
+                          CSCPicker(
+                            key: _cscPickerKey,
+                            layout: Layout.vertical,
+                            countryDropdownLabel: "Select country",
+                            stateDropdownLabel: "Select state",
+                            cityDropdownLabel: "Select city",
+                            onCountryChanged: (data) {
+                              setState(() {
+                                country = data;
+                              });
+                            },
+                            onStateChanged: (data) {
+                              setState(() {
+                                state = data;
+                              });
+                            },
+                            onCityChanged: (data) {
+                              setState(() {
+                                city = data;
+                              });
+                            },
+                          ),
+                        ],
                       ),
                       kSizedBox,
                     ],
@@ -438,7 +425,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
               SizedBox(
                 height: kDefaultPadding * 2,
               ),
-              isLoading
+              _isLoading
                   ? Center(
                       child: SpinKitChasingDots(
                         color: kAccentColor,
@@ -454,7 +441,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       }),
                     ),
               kSizedBox,
-              isLoading2
+              _isLoading2
                   ? Center(
                       child: SpinKitChasingDots(
                         color: kAccentColor,

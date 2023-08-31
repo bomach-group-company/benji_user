@@ -218,7 +218,7 @@ class _VendorLocationState extends State<VendorLocation> {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
-        title: "Vendors location",
+        title: "Vendor's location",
         backgroundColor: kPrimaryColor,
         elevation: 0.0,
         actions: [],

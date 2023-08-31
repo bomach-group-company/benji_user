@@ -1,16 +1,17 @@
-import 'package:benji_user/app/address/edit_address_details.dart';
-import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
+import '../../src/common_widgets/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/user/address_model.dart';
 import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import 'add_new_address.dart';
+import 'edit_address_details.dart';
 
 class Addresses extends StatefulWidget {
   const Addresses({super.key});
@@ -28,6 +29,9 @@ class _AddressesState extends State<Addresses> {
   }
 
   //============================================================ ALL VARIABLES ===================================================================\\
+
+  //============================================================ BOOL VALUES ===================================================================\\
+  bool _loading = false;
 
   //==================================================== CONTROLLERS ======================================================\\
   ScrollController _scrollController = ScrollController();
@@ -79,6 +83,72 @@ class _AddressesState extends State<Addresses> {
   //========================================================================\\
 
   //======================================= Navigation ==========================================\\
+
+  void _pickOption() => Get.defaultDialog(
+        title: "What do you want to do?",
+        titleStyle: TextStyle(
+          fontSize: 20,
+          color: kTextBlackColor,
+          fontWeight: FontWeight.w700,
+        ),
+        content: SizedBox(height: 0),
+        cancel: ElevatedButton(
+          onPressed: _deleteAddress,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: kPrimaryColor,
+            elevation: 10.0,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: kAccentColor),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            shadowColor: kBlackColor.withOpacity(0.4),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FaIcon(FontAwesomeIcons.solidTrashCan, color: kAccentColor),
+              kHalfWidthSizedBox,
+              Text(
+                "Delete",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: kAccentColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+        ),
+        confirm: ElevatedButton(
+          onPressed: _toEditAddressDetails,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: kAccentColor,
+            elevation: 10.0,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shadowColor: kBlackColor.withOpacity(0.4),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FaIcon(FontAwesomeIcons.solidPenToSquare, color: kPrimaryColor),
+              kHalfSizedBox,
+              Text(
+                "Edit",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: kPrimaryColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  void _deleteAddress() => Get.back();
 
   void _toEditAddressDetails() => Get.to(
         () => const EditAddressDetails(),
@@ -151,7 +221,7 @@ class _AddressesState extends State<Addresses> {
                                 vertical: kDefaultPadding / 2,
                               ),
                               child: ListTile(
-                                onTap: _toEditAddressDetails,
+                                onTap: _pickOption,
                                 enableFeedback: true,
                                 trailing: Icon(
                                   Icons.arrow_forward_ios_rounded,
