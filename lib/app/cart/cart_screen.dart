@@ -1,4 +1,4 @@
-import 'package:benji_user/app/checkout/checkout_screen.dart';
+import 'package:benji_user/app/address/deliver_to.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:benji_user/src/common_widgets/empty.dart';
@@ -115,8 +115,8 @@ class _CartScreenState extends State<CartScreen> {
       );
 
   void _toCheckoutScreen() => Get.to(
-        () => const CheckoutScreen(),
-        routeName: 'CheckoutScreen',
+        () => DeliverTo(toCheckout: true),
+        routeName: 'DeliverTo',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

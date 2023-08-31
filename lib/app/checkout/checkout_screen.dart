@@ -17,7 +17,8 @@ import '../../theme/colors.dart';
 import '../address/deliver_to.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({super.key});
+  final Address deliverTo;
+  const CheckoutScreen({super.key, required this.deliverTo});
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -111,13 +112,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  void _toDeliverTo() => Get.to(
-        () => const DeliverTo(),
-        routeName: 'DeliverTo',
+  void _toDeliverTo() => Get.off(
+        () => const DeliverTo(toCheckout: true),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        preventDuplicates: true,
         popGesture: true,
         transition: Transition.rightToLeft,
       );
@@ -183,14 +182,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ],
                         ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'School',
+                                  widget.deliverTo.title ?? 'Not Available',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
@@ -202,7 +201,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 ),
                                 kSizedBox,
                                 Text(
-                                  'No 2 Chime Avenue New Haven Enugu.',
+                                  widget.deliverTo.streetAddress ??
+                                      'Not Available',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
