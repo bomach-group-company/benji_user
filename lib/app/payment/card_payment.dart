@@ -40,7 +40,6 @@ class _CardPaymentState extends State<CardPayment> {
 
   @override
   Widget build(BuildContext context) {
-    double mediaHeight = MediaQuery.of(context).size.height;
     double mediaWidth = MediaQuery.of(context).size.width;
 
     return Container(
