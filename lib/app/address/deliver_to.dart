@@ -1,5 +1,5 @@
 import 'package:benji_user/app/checkout/checkout_screen.dart';
-import 'package:benji_user/src/repo/models/user/address_model.dart';
+import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -53,12 +53,13 @@ class _DeliverToState extends State<DeliverTo> {
     currentOption = current;
     List<Address> addresses = await getAddressesByUser();
 
-    Address? itemToMove =
-        addresses.firstWhere((elem) => elem.id == current, orElse: null);
+    if (current != '') {
+      Address? itemToMove =
+          addresses.firstWhere((elem) => elem.id == current, orElse: null);
 
-    addresses.remove(itemToMove);
-    addresses.insert(0, itemToMove);
-
+      addresses.remove(itemToMove);
+      addresses.insert(0, itemToMove);
+    }
     Map data = {
       'current': current,
       'addresses': addresses,

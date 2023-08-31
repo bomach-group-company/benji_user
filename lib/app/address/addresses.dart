@@ -7,7 +7,7 @@ import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/common_widgets/empty.dart';
 import '../../src/providers/constants.dart';
-import '../../src/repo/models/user/address_model.dart';
+import '../../src/repo/models/address_model.dart';
 import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import 'add_new_address.dart';
@@ -50,12 +50,13 @@ class _AddressesState extends State<Addresses> {
     }
     List<Address> addresses = await getAddressesByUser();
 
-    Address? itemToMove =
-        addresses.firstWhere((elem) => elem.id == current, orElse: null);
+    if (current != '') {
+      Address? itemToMove =
+          addresses.firstWhere((elem) => elem.id == current, orElse: null);
 
-    addresses.remove(itemToMove);
-    addresses.insert(0, itemToMove);
-
+      addresses.remove(itemToMove);
+      addresses.insert(0, itemToMove);
+    }
     Map data = {
       'current': current,
       'addresses': addresses,
@@ -84,7 +85,7 @@ class _AddressesState extends State<Addresses> {
 
   //======================================= Navigation ==========================================\\
 
-  void _pickOption() => Get.defaultDialog(
+  void _pickOption(String id) => Get.defaultDialog(
         title: "What do you want to do?",
         titleStyle: TextStyle(
           fontSize: 20,
@@ -93,7 +94,7 @@ class _AddressesState extends State<Addresses> {
         ),
         content: SizedBox(height: 0),
         cancel: ElevatedButton(
-          onPressed: _deleteAddress,
+          onPressed: () => _deleteAddress(id),
           style: ElevatedButton.styleFrom(
             backgroundColor: kPrimaryColor,
             elevation: 10.0,
@@ -148,7 +149,11 @@ class _AddressesState extends State<Addresses> {
         ),
       );
 
-  void _deleteAddress() => Get.back();
+  void _deleteAddress(String addressId) async {
+    await deleteAddress(addressId);
+    Get.back();
+    await _getData();
+  }
 
   void _toEditAddressDetails() => Get.to(
         () => const EditAddressDetails(),
@@ -221,7 +226,8 @@ class _AddressesState extends State<Addresses> {
                                 vertical: kDefaultPadding / 2,
                               ),
                               child: ListTile(
-                                onTap: _pickOption,
+                                onTap: () => _pickOption(
+                                    addressData!['addresses'][index].id!),
                                 enableFeedback: true,
                                 trailing: Icon(
                                   Icons.arrow_forward_ios_rounded,
