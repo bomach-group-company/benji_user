@@ -46,6 +46,12 @@ class _AddressesState extends State<Addresses> {
     }
     List<Address> addresses = await getAddressesByUser();
 
+    Address? itemToMove =
+        addresses.firstWhere((elem) => elem.id == current, orElse: null);
+
+    addresses.remove(itemToMove);
+    addresses.insert(0, itemToMove);
+
     Map data = {
       'current': current,
       'addresses': addresses,

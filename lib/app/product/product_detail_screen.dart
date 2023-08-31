@@ -43,8 +43,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   //============================================================ ALL VARIABLES ===================================================================\\
 
-  double _totalCost = 1200;
-  double _itemPrice = 1200;
   double _productQuantity = 200;
   String cartCount = '1';
   String cartCountAll = '1';
@@ -346,7 +344,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                           SizedBox(
                                             width: mediaWidth / 2,
                                             child: Text(
-                                              "Smokey Jollof Pasta",
+                                              widget.product.name,
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                               textAlign: TextAlign.start,
@@ -376,7 +374,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                           SizedBox(
                                             width: mediaWidth / 2.5,
                                             child: Text(
-                                              "₦ ${formattedText(_itemPrice)}",
+                                              "₦ ${formattedText(widget.product.price)}",
                                               overflow: TextOverflow.ellipsis,
                                               textAlign: TextAlign.end,
                                               maxLines: 1,
@@ -408,8 +406,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             ),
                                           ),
                                           TextSpan(
-                                            text:
-                                                formattedText(_productQuantity),
+                                            text: formattedText(widget
+                                                .product.quantityAvailable
+                                                .toDouble()),
                                             style: TextStyle(
                                               color: kTextBlackColor,
                                               fontSize: 15,
@@ -423,7 +422,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   kSizedBox,
                                   Container(
                                     child: ReadMoreText(
-                                      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias error harum maxime adipisci amet laborum. Perspiciatis minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur fugiat, temporibus enim commodi iusto libero magni deleniti quod quam consequuntur! Commodi minima excepturi repudiandae velit hic maxime doloremque. Quaerat provident commodi consectetur veniam similique ad earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam quasi aliquam eligendi, placeat qui corporis! ",
+                                      widget.product.description,
                                       callback: (value) {},
                                       colorClickableText: kAccentColor,
                                       moreStyle: TextStyle(color: kAccentColor),
@@ -540,7 +539,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                     _cartAddFunction();
                                                   },
                                                   title:
-                                                      "Add to Cart (₦${formattedText(_totalCost)})",
+                                                      "Add to Cart (₦${formattedText(widget.product.price)})",
                                                 ),
                                         ),
                                   SizedBox(
