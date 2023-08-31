@@ -17,14 +17,14 @@ import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
 import 'reset_password.dart';
 
-class SendOTP extends StatefulWidget {
-  const SendOTP({super.key});
+class OTPResetPassword extends StatefulWidget {
+  const OTPResetPassword({super.key});
 
   @override
-  State<SendOTP> createState() => _SendOTPState();
+  State<OTPResetPassword> createState() => _OTPResetPasswordState();
 }
 
-class _SendOTPState extends State<SendOTP> {
+class _OTPResetPasswordState extends State<OTPResetPassword> {
   //=========================== INITIAL STATE ====================================\\
   @override
   void initState() {
@@ -171,7 +171,8 @@ class _SendOTPState extends State<SendOTP> {
                       if (_validAuthCredentials) {
                         return ReusableAuthenticationFirstHalf(
                           title: "Verification",
-                          subtitle: "We have sent a code to your email",
+                          subtitle:
+                              "Please enter the code we sent to your email",
                           curves: Curves.easeInOut,
                           duration: Duration(),
                           containerChild: Center(
@@ -189,7 +190,8 @@ class _SendOTPState extends State<SendOTP> {
                       } else {
                         return ReusableAuthenticationFirstHalf(
                           title: "Verification",
-                          subtitle: "We have sent a code to your email",
+                          subtitle:
+                              "Please enter the code we sent to your email",
                           curves: Curves.easeInOut,
                           duration: Duration(),
                           containerChild: Center(
