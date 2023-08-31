@@ -6,6 +6,7 @@ import 'package:get/route_manager.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../auth/login.dart';
+import '../auth/signup.dart';
 import 'onboarding_screens.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -45,8 +46,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 TextButton(
                   onPressed: () async {
                     Get.off(
-                      () => const Login(),
-                      routeName: 'Login',
+                      () => const SignUp(),
+                      routeName: 'SignUp',
                       duration: const Duration(milliseconds: 300),
                       fullscreenDialog: true,
                       curve: Curves.easeIn,

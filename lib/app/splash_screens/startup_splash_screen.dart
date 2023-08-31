@@ -8,8 +8,8 @@ import 'package:get/route_manager.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../theme/colors.dart';
-import '../auth/signup.dart';
 import '../home/home.dart';
+import '../onboarding/onboarding_screen.dart';
 
 class StartupSplashscreen extends StatefulWidget {
   static String routeName = "Startup Splash Screen";
@@ -30,16 +30,14 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
           () {
             Get.offAll(
               () => _obtainedUserDetails == null || _obtainedUserDetails == ""
-                  ? const SignUp(
-                      logout: true,
-                    )
+                  ? const OnboardingScreen()
                   : Home(),
               duration: const Duration(seconds: 2),
               fullscreenDialog: true,
               curve: Curves.easeIn,
               routeName:
                   _obtainedUserDetails == null || _obtainedUserDetails == ""
-                      ? "SignUp"
+                      ? "OnboadingScreen"
                       : "Home",
               predicate: (route) => false,
               popGesture: true,
