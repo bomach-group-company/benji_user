@@ -1,3 +1,4 @@
+import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:flutter/material.dart';
 
 import '../../src/common_widgets/rating_view/customer_review_card.dart';
@@ -5,6 +6,7 @@ import '../../src/common_widgets/rating_view/star_row.dart';
 import '../../src/providers/constants.dart';
 
 class AboutVendor extends StatefulWidget {
+  final VendorModel vendor;
   final String vendorName;
   final String vendorHeadLine;
   final String monToFriOpeningHours;
@@ -15,6 +17,7 @@ class AboutVendor extends StatefulWidget {
   final String sunClosingHours;
   const AboutVendor({
     super.key,
+    required this.vendor,
     required this.vendorName,
     required this.vendorHeadLine,
     required this.monToFriOpeningHours,
@@ -116,125 +119,72 @@ class _AboutVendorState extends State<AboutVendor> {
                 ),
               ],
             ),
-            child: Row(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Mon. - Fri.",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          "Mon. - Fri.",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfWidthSizedBox,
+                        Text(
+                          " - ",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
                     ),
-                    kSizedBox,
-                    Text(
-                      "Sat.",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
+                    kHalfSizedBox,
+                    Row(
+                      children: [
+                        Text(
+                          "Sat.",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfWidthSizedBox,
+                        Text(
+                          " - ",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
                     ),
-                    kSizedBox,
-                    Text(
-                      "Sun.",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
+                    kHalfSizedBox,
+                    Row(
+                      children: [
+                        Text(
+                          "Sun.",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfWidthSizedBox,
+                        Text(
+                          " - ",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                SizedBox(width: kDefaultPadding * 2),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: widget.monToFriOpeningHours.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          TextSpan(
-                            text: " - ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          TextSpan(
-                            text: widget.monToFriClosingHours.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    kSizedBox,
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: widget.satOpeningHours.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          TextSpan(
-                            text: " - ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          TextSpan(
-                            text: widget.satClosingHours.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    kSizedBox,
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: widget.sunOpeningHours.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          TextSpan(
-                            text: " - ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          TextSpan(
-                            text: widget.sunClosingHours.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    kSizedBox,
                   ],
                 ),
               ],

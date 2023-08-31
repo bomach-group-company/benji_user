@@ -271,8 +271,8 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toVendorPage(int id, bool isOnline, String shopName) => Get.to(
-        () => VendorDetails(id: id, isOnline: isOnline, shopName: shopName),
+  void _toVendorPage(VendorModel vendor) => Get.to(
+        () => VendorDetails(vendor: vendor),
         routeName: 'VendorDetails',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -439,11 +439,7 @@ class _HomeState extends State<Home> {
                                         kHalfWidthSizedBox,
                                     itemBuilder: (context, index) => InkWell(
                                       onTap: () {
-                                        _toVendorPage(
-                                          _data!['vendor'][index].id,
-                                          _data!['vendor'][index].isOnline,
-                                          _data!['vendor'][index].shopName,
-                                        );
+                                        _toVendorPage(_data!['vendor'][index]);
                                       },
                                       child: Container(
                                         decoration: ShapeDecoration(
@@ -624,9 +620,7 @@ class _HomeState extends State<Home> {
                                         PopularVendorsCard(
                                       onTap: () {
                                         _toVendorPage(
-                                          _data!['vendor'][index].id,
-                                          _data!['vendor'][index].isOnline,
-                                          _data!['vendor'][index].shopName,
+                                          _data!['vendor'][index],
                                         );
                                       },
                                       cardImage: popularVendorImage[index],

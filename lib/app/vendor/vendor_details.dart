@@ -1,6 +1,7 @@
 import 'package:benji_user/app/product/product_detail_screen.dart';
 import 'package:benji_user/src/common_widgets/section/category_button_section.dart';
 import 'package:benji_user/src/common_widgets/vendor/product_container.dart';
+import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -24,14 +25,10 @@ import 'report_vendor.dart';
 import 'vendor_location.dart';
 
 class VendorDetails extends StatefulWidget {
-  final int id;
-  final String shopName;
-  final bool isOnline;
+  final VendorModel vendor;
   const VendorDetails({
     super.key,
-    required this.id,
-    required this.shopName,
-    required this.isOnline,
+    required this.vendor,
   });
 
   @override
@@ -46,7 +43,7 @@ class _VendorDetailsState extends State<VendorDetails>
     super.initState();
     _getData();
     _tabBarController = TabController(length: 2, vsync: this);
-    getFavoriteVSingle(widget.id.toString()).then(
+    getFavoriteVSingle(widget.vendor.id.toString()).then(
       (value) {
         _isAddedToFavorites = value;
       },
@@ -105,7 +102,7 @@ class _VendorDetailsState extends State<VendorDetails>
   Map? _data;
 
   _getData() async {
-    List<Product> product = await getProductsByVendor(widget.id);
+    List<Product> product = await getProductsByVendor(widget.vendor.id);
     setState(() {
       _data = {'product': product};
     });
@@ -133,7 +130,7 @@ class _VendorDetailsState extends State<VendorDetails>
   //========================================================================\\
 
   void _addToFavorites() async {
-    bool val = await favoriteItV(widget.id.toString());
+    bool val = await favoriteItV(widget.vendor.id.toString());
     setState(() {
       _isAddedToFavorites = val;
     });
@@ -402,7 +399,8 @@ class _VendorDetailsState extends State<VendorDetails>
                                           SizedBox(
                                             width: mediaWidth - 200,
                                             child: Text(
-                                              widget.shopName,
+                                              widget.vendor.shopName ??
+                                                  'Not Available',
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
                                               textAlign: TextAlign.center,
@@ -538,13 +536,16 @@ class _VendorDetailsState extends State<VendorDetails>
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      widget.isOnline
+                                                      widget.vendor.isOnline ??
+                                                              false
                                                           ? "Online"
                                                           : 'Offline',
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
-                                                        color: widget.isOnline
+                                                        color: widget.vendor
+                                                                    .isOnline ??
+                                                                false
                                                             ? kSuccessColor
                                                             : kAccentColor,
                                                         fontSize: 14,
@@ -731,6 +732,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                                   Expanded(
                                                     flex: 0,
                                                     child: AboutVendor(
+                                                      vendor: widget.vendor,
                                                       vendorName: "Ntachi-Osa",
                                                       vendorHeadLine: "",
                                                       monToFriOpeningHours: "",
