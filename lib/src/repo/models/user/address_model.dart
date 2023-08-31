@@ -84,14 +84,14 @@ Future<Address> getCurrentAddress() async {
 
 Future<Address> setCurrentAddress(
   String addressId,
-  Map body,
+  // Map body,
 ) async {
-  int? userId = (await getUser() as User).id;
+  int? userId = (await getUser())!.id;
 
   final response = await http.put(
     Uri.parse('$baseURL/clients/setCurrentAddress/$addressId?user_id=$userId'),
     headers: await authHeader(),
-    body: body,
+    // body: body,
   );
 
   if (response.statusCode == 200) {

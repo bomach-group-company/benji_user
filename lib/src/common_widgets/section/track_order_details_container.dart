@@ -86,7 +86,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                     Text(
                       order.deliveryStatus,
                       style: TextStyle(
-                        color: kBlueLinkTextColor,
+                        color: kSecondaryColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),
