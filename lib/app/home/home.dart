@@ -27,7 +27,6 @@ import '../../theme/colors.dart';
 import '../address/addresses.dart';
 import '../address/deliver_to.dart';
 import '../auth/login.dart';
-import '../checkout/checkout_screen.dart';
 import '../orders/order_history.dart';
 import '../product/product_detail_screen.dart';
 import '../product/products.dart';
@@ -250,8 +249,8 @@ class _HomeState extends State<Home> {
       );
 
   void _toCheckoutScreen() => Get.to(
-        () => const CheckoutScreen(),
-        routeName: 'CheckoutScreen',
+        () => const DeliverTo(toCheckout: true),
+        routeName: 'DeliverTo',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -259,7 +258,6 @@ class _HomeState extends State<Home> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
-
   void _toSeeAllVendorsNearYou() => Get.to(
         () => const VendorsNearYou(),
         routeName: 'VendorsNearYou',

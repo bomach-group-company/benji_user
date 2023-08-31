@@ -1,7 +1,9 @@
+import 'package:benji_user/app/checkout/checkout_screen.dart';
 import 'package:benji_user/src/repo/models/user/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
@@ -12,7 +14,8 @@ import '../../theme/colors.dart';
 import 'add_new_address.dart';
 
 class DeliverTo extends StatefulWidget {
-  const DeliverTo({super.key});
+  final bool toCheckout;
+  const DeliverTo({super.key, this.toCheckout = false});
 
   @override
   State<DeliverTo> createState() => _DeliverToState();
@@ -85,26 +88,34 @@ class _DeliverToState extends State<DeliverTo> {
       isLoading = true;
     });
 
-    await setCurrentAddress(addressId);
+    Address address = await setCurrentAddress(addressId);
 
-    //Display snackBar
-    mySnackBar(
-      context,
-      kSuccessColor,
-      "Succcess!",
-      "Delivery address updated",
-      Duration(
-        seconds: 2,
-      ),
-    );
+    if (!widget.toCheckout) {
+      //Display snackBar
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Succcess!",
+        "Delivery address updated",
+        Duration(
+          seconds: 2,
+        ),
+      );
+    }
 
-    Future.delayed(
-        const Duration(
-          seconds: 1,
-        ), () {
-      // Navigate to the new page
-      Navigator.of(context).pop(context);
-    });
+    if (widget.toCheckout) {
+      Get.off(
+        () => CheckoutScreen(deliverTo: address),
+        routeName: 'CheckoutScreen',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+    } else {
+      Get.back();
+    }
 
     setState(() {
       isLoading = false;
