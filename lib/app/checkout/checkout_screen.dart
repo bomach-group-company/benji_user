@@ -1,6 +1,11 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:benji_user/app/payment/payment_method.dart';
+import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
+import 'package:benji_user/src/repo/models/product/product.dart';
+import 'package:benji_user/src/repo/models/user/address_model.dart';
+import 'package:benji_user/src/repo/utils/cart.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -21,21 +26,10 @@ class CheckoutScreen extends StatefulWidget {
 class _CheckoutScreenState extends State<CheckoutScreen> {
   //=================================== ALL VARIABLES ==========================================\\
 
-  int quantity = 1;
-  double price = 4200;
-  final double itemPrice = 4200;
-
   double deliveryFee = 700;
   double serviceFee = 0;
   double insuranceFee = 0;
   double discountFee = 0;
-  double _calculateTotalPrice() {
-    return (itemPrice * quantity) +
-        deliveryFee +
-        serviceFee +
-        insuranceFee +
-        discountFee;
-  }
 
   //===================== GlobalKeys =======================\\
 
@@ -49,6 +43,55 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   bool _isLoading = false;
 
   //===================== FUNCTIONS =======================\\
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
+  Map? _data;
+  double _subTotal = 0;
+  double totalPrice = 0;
+
+  _getData() async {
+    _subTotal = 0;
+    await checkAuth(context);
+    List<Product> product = await getCartProduct(
+      (data) => mySnackBar(
+        context,
+        kAccentColor,
+        "Error!",
+        "Item with id $data not found",
+        Duration(
+          seconds: 1,
+        ),
+      ),
+    );
+
+    Map<String, dynamic> cartItems = await getCart();
+
+    Address? deliverTo;
+    try {
+      deliverTo = await getCurrentAddress();
+    } catch (e) {
+      deliverTo = null;
+    }
+
+    for (Product item in product) {
+      _subTotal += (item.price * cartItems[item.id]);
+    }
+
+    totalPrice =
+        _subTotal + deliveryFee + insuranceFee + serviceFee + discountFee;
+
+    setState(() {
+      _data = {
+        'deliverTo': deliverTo,
+        'product': product,
+        'cartItems': cartItems,
+      };
+    });
+  }
 
   // COPY TO CLIPBOARD
   final String text = 'Generated Link code here';
@@ -83,7 +126,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     var mediaWidth = MediaQuery.of(context).size.width;
     var mediaHeight = MediaQuery.of(context).size.height;
-    double totalPrice = _calculateTotalPrice();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -103,295 +145,325 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             left: kDefaultPadding,
             right: kDefaultPadding,
           ),
-          child: ListView(
-            controller: scrollController,
-            scrollDirection: Axis.vertical,
-            physics: BouncingScrollPhysics(),
-            children: [
-              Container(
-                child: Text(
-                  'Deliver to',
-                  style: TextStyle(
-                    color: kTextBlackColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              kSizedBox,
-              InkWell(
-                onTap: _toDeliverTo,
-                child: Container(
-                  width: mediaWidth,
-                  padding: const EdgeInsets.all(kDefaultPadding / 2),
-                  decoration: ShapeDecoration(
-                    color: kPrimaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    shadows: [
-                      BoxShadow(
-                        color: Color(0x0F000000),
-                        blurRadius: 24,
-                        offset: Offset(0, 4),
-                        spreadRadius: 7,
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'School',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              color: kTextBlackColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          Text(
-                            'No 2 Chime Avenue New Haven Enugu.',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(
-                              color: kTextGreyColor,
-                              overflow: TextOverflow.ellipsis,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: kAccentColor,
-                        size: 15,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: kDefaultPadding * 2,
-              ),
-              Container(
-                child: Text(
-                  'Product Summary',
-                  style: TextStyle(
-                    color: kTextBlackColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              kSizedBox,
-              Container(
-                width: mediaWidth,
-                padding: EdgeInsets.all(kDefaultPadding),
-                decoration: ShapeDecoration(
-                  color: kPrimaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  shadows: [
-                    BoxShadow(
-                      color: Color(0x0F000000),
-                      blurRadius: 24,
-                      offset: Offset(0, 4),
-                      spreadRadius: 7,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          child: _data == null
+              ? Center(child: SpinKitChasingDots(color: kAccentColor))
+              : ListView(
+                  controller: scrollController,
+                  scrollDirection: Axis.vertical,
+                  physics: BouncingScrollPhysics(),
                   children: [
-                    SizedBox(
-                      width: mediaWidth,
+                    Container(
                       child: Text(
-                        '2x  Stewed Fried Chicken',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                        'Deliver to',
                         style: TextStyle(
-                          color: kTextGreyColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
+                          color: kTextBlackColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
-                    kHalfSizedBox,
-                    SizedBox(
-                      width: mediaWidth,
-                      child: Text(
-                        '2x Grilled 1/4 Chicken',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: kTextGreyColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              kSizedBox,
-              Container(
-                width: mediaWidth,
-                padding: EdgeInsets.all(
-                  kDefaultPadding,
-                ),
-                decoration: ShapeDecoration(
-                  color: kPrimaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      10,
-                    ),
-                  ),
-                  shadows: [
-                    BoxShadow(
-                      color: Color(0x0F000000),
-                      blurRadius: 24,
-                      offset: Offset(0, 4),
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        child: Text(
-                          'Payment Summary',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
+                    kSizedBox,
+                    InkWell(
+                      onTap: _toDeliverTo,
+                      child: Container(
+                        width: mediaWidth,
+                        padding: const EdgeInsets.all(kDefaultPadding / 2),
+                        decoration: ShapeDecoration(
+                          color: kPrimaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
+                          shadows: [
+                            BoxShadow(
+                              color: Color(0x0F000000),
+                              blurRadius: 24,
+                              offset: Offset(0, 4),
+                              spreadRadius: 7,
+                            ),
+                          ],
                         ),
-                      ),
-                      Divider(height: 20, color: kGreyColor1),
-                      Container(
-                        child: Column(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Subtotal',
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    '₦${formattedText(price)}',
-                                    style: TextStyle(
-                                      color: kTextGreyColor,
-                                      fontSize: 16,
-                                      fontFamily: 'Sen',
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            kSizedBox,
-                            Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Delivery Fee',
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    '₦${formattedText(deliveryFee)}',
-                                    style: TextStyle(
-                                      color: kTextGreyColor,
-                                      fontSize: 16,
-                                      fontFamily: 'Sen',
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            kSizedBox,
-                            Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Service Fee',
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    '₦${formattedText(serviceFee)}',
-                                    style: TextStyle(
-                                      color: kTextGreyColor,
-                                      fontSize: 16,
-                                      fontFamily: 'Sen',
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            kSizedBox,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Insurance Fee',
+                                  'School',
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                   style: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
                                     color: kTextBlackColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
+                                kSizedBox,
                                 Text(
-                                  '₦${formattedText(insuranceFee)}',
+                                  'No 2 Chime Avenue New Haven Enugu.',
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                   style: TextStyle(
                                     color: kTextGreyColor,
-                                    fontSize: 16,
-                                    fontFamily: 'Sen',
-                                    fontWeight: FontWeight.w700,
+                                    overflow: TextOverflow.ellipsis,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
                                   ),
                                 ),
                               ],
                             ),
-                            kSizedBox,
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: kAccentColor,
+                              size: 15,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: kDefaultPadding * 2,
+                    ),
+                    Container(
+                      child: Text(
+                        'Product Summary',
+                        style: TextStyle(
+                          color: kTextBlackColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    kSizedBox,
+                    Container(
+                      width: mediaWidth,
+                      padding: EdgeInsets.all(kDefaultPadding),
+                      decoration: ShapeDecoration(
+                        color: kPrimaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        shadows: [
+                          BoxShadow(
+                            color: Color(0x0F000000),
+                            blurRadius: 24,
+                            offset: Offset(0, 4),
+                            spreadRadius: 7,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ListView.separated(
+                            shrinkWrap: true,
+                            itemCount: _data!['product'].length,
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return kHalfSizedBox;
+                            },
+                            itemBuilder: (BuildContext context, int index) {
+                              return SizedBox(
+                                width: mediaWidth,
+                                child: Text(
+                                  '${_data!['cartItems'][_data!['product'][index].id]}x  ${_data!['product'][index].name}',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: kTextGreyColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    kSizedBox,
+                    Container(
+                      width: mediaWidth,
+                      padding: EdgeInsets.all(
+                        kDefaultPadding,
+                      ),
+                      decoration: ShapeDecoration(
+                        color: kPrimaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            10,
+                          ),
+                        ),
+                        shadows: [
+                          BoxShadow(
+                            color: Color(0x0F000000),
+                            blurRadius: 24,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              child: Text(
+                                'Payment Summary',
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            Divider(height: 20, color: kGreyColor1),
+                            Container(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Subtotal',
+                                          style: TextStyle(
+                                            color: kTextBlackColor,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        Text(
+                                          '₦${formattedText(_subTotal)}',
+                                          style: TextStyle(
+                                            color: kTextGreyColor,
+                                            fontSize: 16,
+                                            fontFamily: 'Sen',
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  kSizedBox,
+                                  Container(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Delivery Fee',
+                                          style: TextStyle(
+                                            color: kTextBlackColor,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        Text(
+                                          '₦${formattedText(deliveryFee)}',
+                                          style: TextStyle(
+                                            color: kTextGreyColor,
+                                            fontSize: 16,
+                                            fontFamily: 'Sen',
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  kSizedBox,
+                                  Container(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Service Fee',
+                                          style: TextStyle(
+                                            color: kTextBlackColor,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        Text(
+                                          '₦${formattedText(serviceFee)}',
+                                          style: TextStyle(
+                                            color: kTextGreyColor,
+                                            fontSize: 16,
+                                            fontFamily: 'Sen',
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  kSizedBox,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Insurance Fee',
+                                        style: TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      Text(
+                                        '₦${formattedText(insuranceFee)}',
+                                        style: TextStyle(
+                                          color: kTextGreyColor,
+                                          fontSize: 16,
+                                          fontFamily: 'Sen',
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  kSizedBox,
+                                  Container(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Discount',
+                                          style: TextStyle(
+                                            color: kTextBlackColor,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        Text(
+                                          '₦${formattedText(discountFee)}',
+                                          style: TextStyle(
+                                            color: kTextGreyColor,
+                                            fontSize: 16,
+                                            fontFamily: 'Sen',
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            kHalfSizedBox,
+                            Divider(height: 4, color: kGreyColor1),
+                            kHalfSizedBox,
                             Container(
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Discount',
+                                    'Total',
                                     style: TextStyle(
                                       color: kTextBlackColor,
                                       fontSize: 16,
@@ -399,7 +471,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     ),
                                   ),
                                   Text(
-                                    '₦${formattedText(discountFee)}',
+                                    '₦${formattedText(totalPrice)}',
                                     style: TextStyle(
                                       color: kTextGreyColor,
                                       fontSize: 16,
@@ -409,58 +481,29 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   ),
                                 ],
                               ),
-                            ),
+                            )
                           ],
                         ),
                       ),
-                      kHalfSizedBox,
-                      Divider(height: 4, color: kGreyColor1),
-                      kHalfSizedBox,
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Total',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            Text(
-                              '₦${formattedText(totalPrice)}',
-                              style: TextStyle(
-                                color: kTextGreyColor,
-                                fontSize: 16,
-                                fontFamily: 'Sen',
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: kDefaultPadding * 2),
-              _isLoading
-                  ? Center(
-                      child: SpinKitChasingDots(
-                        color: kAccentColor,
-                        duration: const Duration(seconds: 1),
-                      ),
-                    )
-                  : MyElevatedButton(
-                      title: "Place Order - ₦${formattedText(totalPrice)}",
-                      onPressed: () {
-                        _placeOrder();
-                      },
                     ),
-              kSizedBox,
-            ],
-          ),
+                    SizedBox(height: kDefaultPadding * 2),
+                    _isLoading
+                        ? Center(
+                            child: SpinKitChasingDots(
+                              color: kAccentColor,
+                              duration: const Duration(seconds: 1),
+                            ),
+                          )
+                        : MyElevatedButton(
+                            title:
+                                "Place Order - ₦${formattedText(totalPrice)}",
+                            onPressed: () {
+                              _placeOrder();
+                            },
+                          ),
+                    kSizedBox,
+                  ],
+                ),
         ),
       ),
     );
