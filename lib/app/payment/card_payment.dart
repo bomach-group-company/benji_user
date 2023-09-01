@@ -70,7 +70,7 @@ class _CardPaymentState extends State<CardPayment> {
           ListTile(
             leading: FaIcon(
               FontAwesomeIcons.solidCreditCard,
-              color: kAccentColor,
+              color: _selectedOption == 0 ? kAccentColor : kGreyColor1,
               size: 30,
             ),
             contentPadding: EdgeInsets.zero,
@@ -85,7 +85,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "Mastercard",
                       style: TextStyle(
-                        color: kTextBlackColor,
+                        color: _selectedOption == 0
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         letterSpacing: -0.35,
@@ -94,7 +96,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: " ",
                       style: TextStyle(
-                        color: kTextBlackColor,
+                        color: _selectedOption == 0
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         letterSpacing: -0.35,
@@ -103,7 +107,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "****1234",
                       style: TextStyle(
-                        color: kTextBlackColor,
+                        color: _selectedOption == 0
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         letterSpacing: -0.35,
@@ -124,7 +130,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "Benard Okechukwu",
                       style: TextStyle(
-                        color: kTextBlackColor,
+                        color: _selectedOption == 0
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.28,
@@ -133,7 +141,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: " Expires ",
                       style: TextStyle(
-                        color: kTextBlackColor,
+                        color: _selectedOption == 0
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.28,
@@ -142,7 +152,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "01/2024",
                       style: TextStyle(
-                        color: kTextBlackColor,
+                        color: _selectedOption == 0
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.28,
@@ -167,7 +179,7 @@ class _CardPaymentState extends State<CardPayment> {
           ListTile(
             leading: FaIcon(
               FontAwesomeIcons.solidCreditCard,
-              color: kGreyColor1,
+              color: _selectedOption == 1 ? kAccentColor : kGreyColor1,
               size: 30,
             ),
             contentPadding: EdgeInsets.zero,
@@ -182,7 +194,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "Visa",
                       style: TextStyle(
-                        color: kTextGreyColor,
+                        color: _selectedOption == 1
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         letterSpacing: -0.35,
@@ -191,7 +205,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: " ",
                       style: TextStyle(
-                        color: kTextGreyColor,
+                        color: _selectedOption == 1
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         letterSpacing: -0.35,
@@ -200,7 +216,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "****1234",
                       style: TextStyle(
-                        color: kTextGreyColor,
+                        color: _selectedOption == 1
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         letterSpacing: -0.35,
@@ -221,7 +239,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "Benard Okechukwu",
                       style: TextStyle(
-                        color: kTextGreyColor,
+                        color: _selectedOption == 1
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.28,
@@ -230,7 +250,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: " Expires ",
                       style: TextStyle(
-                        color: kTextGreyColor,
+                        color: _selectedOption == 1
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.28,
@@ -239,7 +261,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "01/2024",
                       style: TextStyle(
-                        color: kTextGreyColor,
+                        color: _selectedOption == 1
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.28,
