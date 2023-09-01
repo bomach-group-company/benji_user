@@ -1,3 +1,4 @@
+import 'package:benji_user/src/common_widgets/textformfield/card_expiry_textformfield.dart';
 import 'package:benji_user/src/common_widgets/textformfield/flex_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,6 +28,8 @@ class _CardPaymentState extends State<CardPayment> {
   TextEditingController expiryDateEC = TextEditingController();
   TextEditingController cvvEC = TextEditingController();
   TextEditingController cardHoldersFullNameEC = TextEditingController();
+  TextEditingController cardMonthEC = TextEditingController();
+  TextEditingController cardYearEC = TextEditingController();
 
   //=========================== FOCUS NODES ====================================\\
 
@@ -35,6 +38,8 @@ class _CardPaymentState extends State<CardPayment> {
   FocusNode cvvFN = FocusNode();
   FocusNode cardHoldersFullNameFN = FocusNode();
   FocusNode rateVendorFN = FocusNode();
+  FocusNode cardMonthFN = FocusNode();
+  FocusNode cardYearFN = FocusNode();
 
   //=========================== VARIABLES ====================================\\
 
@@ -51,7 +56,7 @@ class _CardPaymentState extends State<CardPayment> {
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
-
+    double mediaHeight = MediaQuery.of(context).size.height;
     return Container(
       padding: const EdgeInsets.all(kDefaultPadding),
       decoration: ShapeDecoration(
@@ -65,7 +70,7 @@ class _CardPaymentState extends State<CardPayment> {
           ListTile(
             leading: FaIcon(
               FontAwesomeIcons.solidCreditCard,
-              color: kAccentColor,
+              color: _selectedOption == 0 ? kAccentColor : kGreyColor1,
               size: 30,
             ),
             contentPadding: EdgeInsets.zero,
@@ -80,7 +85,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "Mastercard",
                       style: TextStyle(
-                        color: kTextBlackColor,
+                        color: _selectedOption == 0
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         letterSpacing: -0.35,
@@ -89,7 +96,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: " ",
                       style: TextStyle(
-                        color: kTextBlackColor,
+                        color: _selectedOption == 0
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         letterSpacing: -0.35,
@@ -98,7 +107,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "****1234",
                       style: TextStyle(
-                        color: kTextBlackColor,
+                        color: _selectedOption == 0
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         letterSpacing: -0.35,
@@ -119,7 +130,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "Benard Okechukwu",
                       style: TextStyle(
-                        color: kTextBlackColor,
+                        color: _selectedOption == 0
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.28,
@@ -128,7 +141,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: " Expires ",
                       style: TextStyle(
-                        color: kTextBlackColor,
+                        color: _selectedOption == 0
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.28,
@@ -137,7 +152,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "01/2024",
                       style: TextStyle(
-                        color: kTextBlackColor,
+                        color: _selectedOption == 0
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.28,
@@ -162,7 +179,7 @@ class _CardPaymentState extends State<CardPayment> {
           ListTile(
             leading: FaIcon(
               FontAwesomeIcons.solidCreditCard,
-              color: kGreyColor1,
+              color: _selectedOption == 1 ? kAccentColor : kGreyColor1,
               size: 30,
             ),
             contentPadding: EdgeInsets.zero,
@@ -177,7 +194,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "Visa",
                       style: TextStyle(
-                        color: kTextGreyColor,
+                        color: _selectedOption == 1
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         letterSpacing: -0.35,
@@ -186,7 +205,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: " ",
                       style: TextStyle(
-                        color: kTextGreyColor,
+                        color: _selectedOption == 1
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         letterSpacing: -0.35,
@@ -195,7 +216,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "****1234",
                       style: TextStyle(
-                        color: kTextGreyColor,
+                        color: _selectedOption == 1
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         letterSpacing: -0.35,
@@ -216,7 +239,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "Benard Okechukwu",
                       style: TextStyle(
-                        color: kTextGreyColor,
+                        color: _selectedOption == 1
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.28,
@@ -225,7 +250,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: " Expires ",
                       style: TextStyle(
-                        color: kTextGreyColor,
+                        color: _selectedOption == 1
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.28,
@@ -234,7 +261,9 @@ class _CardPaymentState extends State<CardPayment> {
                     TextSpan(
                       text: "01/2024",
                       style: TextStyle(
-                        color: kTextGreyColor,
+                        color: _selectedOption == 1
+                            ? kTextBlackColor
+                            : kTextGreyColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: -0.28,
@@ -327,27 +356,69 @@ class _CardPaymentState extends State<CardPayment> {
                                   children: [
                                     Expanded(
                                       flex: 10,
-                                      child: MyFlexTextFormField(
-                                        controller: expiryDateEC,
-                                        textInputAction: TextInputAction.next,
-                                        onSaved: (value) {
-                                          expiryDateEC.text = value;
-                                        },
-                                        validator: (value) {
-                                          RegExp datePattern = RegExp(
-                                            r"^(0[1-9]|1[0-2])\/(2[2-9]|[3-9]\d)$",
-                                          );
-                                          if (value == null || value!.isEmpty) {
-                                            expiryDateFN.requestFocus();
-                                            return "Expiry date";
-                                          } else if (!datePattern
-                                              .hasMatch(value)) {
-                                            expiryDateFN.requestFocus();
-                                            return "Invalid date";
-                                          }
-                                          return null;
-                                        },
-                                        hintText: 'Expiry date',
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              child: MyCardExpiryTextFormField(
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                onSaved: (value) {
+                                                  cardYearEC.text = value!;
+                                                },
+                                                onChanged: (value) {
+                                                  if (value.length == 2) {
+                                                    FocusScope.of(context)
+                                                        .nextFocus();
+                                                  }
+                                                },
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    cardMonthFN.requestFocus();
+                                                    return "";
+                                                  }
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              ' / ',
+                                              style: TextStyle(
+                                                fontSize: 25,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              child: MyCardExpiryTextFormField(
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                onSaved: (value) {
+                                                  cardYearEC.text = value!;
+                                                },
+                                                onChanged: (value) {
+                                                  if (value.length == 2) {
+                                                    FocusScope.of(context)
+                                                        .nextFocus();
+                                                  }
+                                                },
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    cardYearFN.requestFocus();
+                                                    return "";
+                                                  }
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     Spacer(flex: 1),
