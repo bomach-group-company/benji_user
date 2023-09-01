@@ -1,13 +1,12 @@
 import 'package:benji_user/src/repo/models/order/order.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 
 class TrackOrderDetailsContainer extends StatelessWidget {
   final Order order;
-  const TrackOrderDetailsContainer({
+  TrackOrderDetailsContainer({
     super.key,
     required this.order,
   });
@@ -17,11 +16,6 @@ class TrackOrderDetailsContainer extends StatelessWidget {
     final String shortenedUuid =
         "${uuid.substring(0, truncationLength)}...${uuid.substring(uuid.length - truncationLength)}";
     return shortenedUuid;
-  }
-
-  String formattedText(double value) {
-    final numberFormat = NumberFormat('#,##0');
-    return numberFormat.format(value);
   }
 
   String intToMonth(int monthNumber) {
@@ -47,6 +41,18 @@ class TrackOrderDetailsContainer extends StatelessWidget {
       throw Exception("Invalid month number");
     }
   }
+
+  final Map statusColor = {
+    'pend': kLoadingColor,
+    'comp': kSuccessColor,
+    'canc': kAccentColor,
+  };
+
+  final Map status = {
+    'pend': 'PENDING',
+    'comp': 'COMPLETED',
+    'canc': 'CANCELLED',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -84,9 +90,15 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      order.deliveryStatus,
+                      status[order.deliveryStatus.toLowerCase()] != null
+                          ? status[order.deliveryStatus.toLowerCase()]
+                          : "Not Available",
                       style: TextStyle(
-                        color: kSecondaryColor,
+                        color: statusColor[
+                                    order.deliveryStatus.toLowerCase()] !=
+                                null
+                            ? statusColor[order.deliveryStatus.toLowerCase()]
+                            : kSecondaryColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),
@@ -157,7 +169,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  formattedText(order.totalPrice.toDouble()),
+                  "₦ ${formattedText(order.totalPrice.toDouble())}",
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     color: kTextGreyColor,
