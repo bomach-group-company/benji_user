@@ -1,6 +1,7 @@
 import 'package:benji_user/src/common_widgets/textformfield/flex_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/common_widgets/button/my_outlined_elevatedbutton.dart';
@@ -17,6 +18,7 @@ class CardPayment extends StatefulWidget {
 
 class _CardPaymentState extends State<CardPayment> {
   //=========================== CONTROLLER ====================================\\
+  final _scrollController = ScrollController();
 
   //=========================== KEYS ====================================\\
   GlobalKey<FormState> _formKey = GlobalKey();
@@ -34,9 +36,17 @@ class _CardPaymentState extends State<CardPayment> {
   FocusNode cardHoldersFullNameFN = FocusNode();
   FocusNode rateVendorFN = FocusNode();
 
-  //=========================== Var ====================================\\
+  //=========================== VARIABLES ====================================\\
 
   int? _selectedOption = 0;
+
+  //=========================== FUNCTIONS ====================================\\
+
+  void _saveCard() {
+    Get.back();
+  }
+
+  //=========================== WIDGETS ====================================\\
 
   @override
   Widget build(BuildContext context) {
@@ -258,7 +268,6 @@ class _CardPaymentState extends State<CardPayment> {
                 useSafeArea: true,
                 isScrollControlled: true,
                 isDismissible: true,
-                constraints: BoxConstraints.expand(),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(kDefaultPadding),
@@ -267,136 +276,151 @@ class _CardPaymentState extends State<CardPayment> {
                 enableDrag: true,
                 builder: (context) => GestureDetector(
                   onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
-                  child: ListView(
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                    children: [
-                      Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            Text(
-                              'Add new card',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            kSizedBox,
-                            NameTextFormField(
-                              controller: cardNumberEC,
-                              validator: (value) {
-                                RegExp cardPattern = RegExp(
-                                  r"^(?:\d{4}-\d{4}-\d{4}-\d{4}|\d{16}|\d{18})$",
-                                );
-                                if (value == null || value!.isEmpty) {
-                                  cardNumberFN.requestFocus();
-                                  return "Card Number";
-                                } else if (!cardPattern.hasMatch(value)) {
-                                  cardNumberFN.requestFocus();
-                                  return "Invalid Card number";
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                cardNumberEC.text = value;
-                              },
-                              textInputAction: TextInputAction.next,
-                              nameFocusNode: cardNumberFN,
-                              hintText: "Card Number",
-                            ),
-                            kSizedBox,
-                            Row(
+                  child: Scaffold(
+                    resizeToAvoidBottomInset: true,
+                    backgroundColor: kPrimaryColor,
+                    body: Scrollbar(
+                      controller: _scrollController,
+                      child: ListView(
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                        children: [
+                          Form(
+                            key: _formKey,
+                            child: Column(
                               children: [
-                                Expanded(
-                                  flex: 10,
-                                  child: MyFlexTextFormField(
-                                    controller: expiryDateEC,
-                                    textInputAction: TextInputAction.next,
-                                    onSaved: (value) {
-                                      expiryDateEC.text = value;
-                                    },
-                                    validator: (value) {
-                                      RegExp datePattern = RegExp(
-                                        r"^(0[1-9]|1[0-2])\/(2[2-9]|[3-9]\d)$",
-                                      );
-                                      if (value == null || value!.isEmpty) {
-                                        expiryDateFN.requestFocus();
-                                        return "Expiry date";
-                                      } else if (!datePattern.hasMatch(value)) {
-                                        expiryDateFN.requestFocus();
-                                        return "Invalid date";
-                                      }
-                                      return null;
-                                    },
-                                    hintText: 'Expiry date',
+                                Text(
+                                  'Add new card',
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                Spacer(flex: 1),
-                                Expanded(
-                                  flex: 10,
-                                  child: MyFlexTextFormField(
-                                    controller: cvvEC,
-                                    textInputAction: TextInputAction.next,
-                                    onSaved: (value) {
-                                      cvvEC.text = value;
-                                    },
-                                    validator: (value) {
-                                      RegExp cvvPattern = RegExp(
-                                        r"^\d{3,4}$",
-                                      );
-                                      if (value == null || value!.isEmpty) {
-                                        cvvFN.requestFocus();
-                                        return "CVV";
-                                      } else if (!cvvPattern.hasMatch(value)) {
-                                        cvvFN.requestFocus();
-                                        return "Invalid CVV";
-                                      }
-                                      return null;
-                                    },
-                                    hintText: 'CVV',
-                                  ),
+                                kSizedBox,
+                                NameTextFormField(
+                                  controller: cardNumberEC,
+                                  validator: (value) {
+                                    RegExp cardPattern = RegExp(
+                                      r"^(?:\d{4}-\d{4}-\d{4}-\d{4}|\d{16}|\d{18})$",
+                                    );
+                                    if (value == null || value!.isEmpty) {
+                                      cardNumberFN.requestFocus();
+                                      return "Card Number";
+                                    } else if (!cardPattern.hasMatch(value)) {
+                                      cardNumberFN.requestFocus();
+                                      return "Invalid Card number";
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    cardNumberEC.text = value;
+                                  },
+                                  textInputAction: TextInputAction.next,
+                                  nameFocusNode: cardNumberFN,
+                                  hintText: "Card Number",
+                                ),
+                                kSizedBox,
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 10,
+                                      child: MyFlexTextFormField(
+                                        controller: expiryDateEC,
+                                        textInputAction: TextInputAction.next,
+                                        onSaved: (value) {
+                                          expiryDateEC.text = value;
+                                        },
+                                        validator: (value) {
+                                          RegExp datePattern = RegExp(
+                                            r"^(0[1-9]|1[0-2])\/(2[2-9]|[3-9]\d)$",
+                                          );
+                                          if (value == null || value!.isEmpty) {
+                                            expiryDateFN.requestFocus();
+                                            return "Expiry date";
+                                          } else if (!datePattern
+                                              .hasMatch(value)) {
+                                            expiryDateFN.requestFocus();
+                                            return "Invalid date";
+                                          }
+                                          return null;
+                                        },
+                                        hintText: 'Expiry date',
+                                      ),
+                                    ),
+                                    Spacer(flex: 1),
+                                    Expanded(
+                                      flex: 10,
+                                      child: MyFlexTextFormField(
+                                        controller: cvvEC,
+                                        textInputAction: TextInputAction.next,
+                                        onSaved: (value) {
+                                          cvvEC.text = value;
+                                        },
+                                        validator: (value) {
+                                          RegExp cvvPattern = RegExp(
+                                            r"^\d{3,4}$",
+                                          );
+                                          if (value == null || value!.isEmpty) {
+                                            cvvFN.requestFocus();
+                                            return "CVV";
+                                          } else if (!cvvPattern
+                                              .hasMatch(value)) {
+                                            cvvFN.requestFocus();
+                                            return "Invalid CVV";
+                                          }
+                                          return null;
+                                        },
+                                        hintText: 'CVV',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                kSizedBox,
+                                NameTextFormField(
+                                  controller: cardHoldersFullNameEC,
+                                  validator: (value) {
+                                    RegExp cardPattern = RegExp(
+                                      r"^[A-Za-z]+(?:\s+[A-Za-z]+)*$",
+                                    );
+                                    if (value == null || value!.isEmpty) {
+                                      cardNumberFN.requestFocus();
+                                      return "Card Holder's full name";
+                                    } else if (!cardPattern.hasMatch(value)) {
+                                      cardNumberFN.requestFocus();
+                                      return "Invalid Name";
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    cardHoldersFullNameEC.text = value;
+                                  },
+                                  textInputAction: TextInputAction.next,
+                                  nameFocusNode: cardHoldersFullNameFN,
+                                  hintText: "Card Holder's full name",
+                                ),
+                                SizedBox(
+                                  height: kDefaultPadding * 2,
+                                ),
+                                MyElevatedButton(
+                                  title: "Continue",
+                                  onPressed: (() async {
+                                    if (_formKey.currentState!.validate()) {
+                                      _saveCard;
+                                    }
+                                  }),
+                                ),
+                                SizedBox(
+                                  height: kDefaultPadding * 2,
                                 ),
                               ],
                             ),
-                            kSizedBox,
-                            NameTextFormField(
-                              controller: cardHoldersFullNameEC,
-                              validator: (value) {
-                                RegExp cardPattern = RegExp(
-                                  r"^[A-Za-z]+(?:\s+[A-Za-z]+)*$",
-                                );
-                                if (value == null || value!.isEmpty) {
-                                  cardNumberFN.requestFocus();
-                                  return "Card Holder’s full name";
-                                } else if (!cardPattern.hasMatch(value)) {
-                                  cardNumberFN.requestFocus();
-                                  return "Invalid Name";
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                cardHoldersFullNameEC.text = value;
-                              },
-                              textInputAction: TextInputAction.next,
-                              nameFocusNode: cardHoldersFullNameFN,
-                              hintText: "Card Holder’s full name",
-                            ),
-                            SizedBox(
-                              height: kDefaultPadding * 2,
-                            ),
-                            MyElevatedButton(
-                              title: "Continue",
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               );

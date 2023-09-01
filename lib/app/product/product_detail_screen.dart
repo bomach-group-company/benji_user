@@ -43,7 +43,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   //============================================================ ALL VARIABLES ===================================================================\\
 
-  double _productQuantity = 200;
   String cartCount = '1';
   String cartCountAll = '1';
 //====================================================== BOOL VALUES ========================================================\\
