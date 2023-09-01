@@ -28,9 +28,9 @@ class _DeliverToState extends State<DeliverTo> {
   //=================================== ALL VARIABLES =====================================\\
 
   //=========================== BOOL VALUES ====================================\\
-  bool isLoading = false;
+  bool _isLoading = false;
 
-  String currentOption = '';
+  String _currentOption = '';
 
   //===================== STATES =======================\\
 
@@ -40,7 +40,7 @@ class _DeliverToState extends State<DeliverTo> {
     _getData();
   }
 
-  Map? addressData;
+  Map? _addressData;
 
   _getData() async {
     await checkAuth(context);
@@ -51,7 +51,7 @@ class _DeliverToState extends State<DeliverTo> {
     } catch (e) {
       current = '';
     }
-    currentOption = current;
+    _currentOption = current;
     List<Address> addresses = await getAddressesByUser();
 
     if (current != '') {
@@ -67,7 +67,7 @@ class _DeliverToState extends State<DeliverTo> {
     };
 
     setState(() {
-      addressData = data;
+      _addressData = data;
     });
   }
 
@@ -79,7 +79,7 @@ class _DeliverToState extends State<DeliverTo> {
 
   Future<void> _handleRefresh() async {
     setState(() {
-      addressData = null;
+      _addressData = null;
     });
 
     await _getData();
@@ -89,10 +89,10 @@ class _DeliverToState extends State<DeliverTo> {
 
   Future<void> applyDeliveryAddress(String addressId) async {
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
 
-    if (currentOption == '') {
+    if (_currentOption == '') {
       Get.off(
         () => AddNewAddress(),
         routeName: 'AddNewAddress',
@@ -150,7 +150,7 @@ class _DeliverToState extends State<DeliverTo> {
     }
 
     setState(() {
-      isLoading = false;
+      _isLoading = false;
     });
   }
 
@@ -162,8 +162,8 @@ class _DeliverToState extends State<DeliverTo> {
         backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
           elevation: 0.0,
-          title: "Deliver to ",
-          toolbarHeight: 80,
+          title: "Add a delivery location",
+          toolbarHeight: kToolbarHeight,
           backgroundColor: kPrimaryColor,
           actions: [],
         ),
@@ -173,7 +173,7 @@ class _DeliverToState extends State<DeliverTo> {
             left: kDefaultPadding,
             right: kDefaultPadding,
           ),
-          child: addressData == null
+          child: _addressData == null
               ? Center(child: SpinKitChasingDots(color: kAccentColor))
               : ListView(
                   scrollDirection: Axis.vertical,
@@ -183,15 +183,15 @@ class _DeliverToState extends State<DeliverTo> {
                       children: [
                         ListView.builder(
                             shrinkWrap: true,
-                            itemCount: addressData!['addresses'].length,
+                            itemCount: _addressData!['addresses'].length,
                             itemBuilder: (context, index) {
                               return Container(
                                 padding: EdgeInsetsDirectional.symmetric(
                                   vertical: kDefaultPadding / 2,
                                 ),
                                 child: RadioListTile(
-                                  value: addressData!['addresses'][index].id,
-                                  groupValue: currentOption,
+                                  value: _addressData!['addresses'][index].id,
+                                  groupValue: _currentOption,
                                   activeColor: kAccentColor,
                                   enableFeedback: true,
                                   controlAffinity:
@@ -202,8 +202,9 @@ class _DeliverToState extends State<DeliverTo> {
                                   onChanged: ((value) {
                                     setState(
                                       () {
-                                        currentOption =
-                                            addressData!['addresses'][index].id;
+                                        _currentOption =
+                                            _addressData!['addresses'][index]
+                                                .id;
                                       },
                                     );
                                   }),
@@ -213,7 +214,7 @@ class _DeliverToState extends State<DeliverTo> {
                                           MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          addressData!['addresses'][index]
+                                          _addressData!['addresses'][index]
                                               .title,
                                           style: TextStyle(
                                             color: Color(
@@ -232,8 +233,8 @@ class _DeliverToState extends State<DeliverTo> {
                                             vertical: 4,
                                           ),
                                           decoration: ShapeDecoration(
-                                            color: currentOption ==
-                                                    addressData!['addresses']
+                                            color: _currentOption ==
+                                                    _addressData!['addresses']
                                                             [index]
                                                         .id
                                                 ? Color(
@@ -257,8 +258,8 @@ class _DeliverToState extends State<DeliverTo> {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                currentOption ==
-                                                        addressData![
+                                                _currentOption ==
+                                                        _addressData![
                                                                     'addresses']
                                                                 [index]
                                                             .id
@@ -283,7 +284,7 @@ class _DeliverToState extends State<DeliverTo> {
                                     ),
                                     child: Container(
                                       child: Text(
-                                        addressData!['addresses'][index]
+                                        _addressData!['addresses'][index]
                                             .streetAddress,
                                         style: TextStyle(
                                           color: Color(
@@ -316,7 +317,7 @@ class _DeliverToState extends State<DeliverTo> {
                     SizedBox(
                       height: kDefaultPadding,
                     ),
-                    isLoading
+                    _isLoading
                         ? Center(
                             child: SpinKitChasingDots(
                               color: kAccentColor,
@@ -326,7 +327,7 @@ class _DeliverToState extends State<DeliverTo> {
                         : MyElevatedButton(
                             title: "Apply",
                             onPressed: () {
-                              applyDeliveryAddress(currentOption);
+                              applyDeliveryAddress(_currentOption);
                             },
                           ),
                     SizedBox(
