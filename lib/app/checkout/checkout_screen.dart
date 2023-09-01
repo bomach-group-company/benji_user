@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:benji_user/app/home/home.dart';
 import 'package:benji_user/app/payment/payment_method.dart';
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/src/repo/models/address_model.dart';
@@ -8,7 +9,9 @@ import 'package:benji_user/src/repo/utils/cart.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
@@ -25,12 +28,19 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
+  //=================================== INITIAL STATE ==========================================\\
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
   //=================================== ALL VARIABLES ==========================================\\
 
   double deliveryFee = 700;
   double serviceFee = 0;
-  double insuranceFee = 0;
-  double discountFee = 0;
+  // double insuranceFee = 0;
+  // double discountFee = 0;
 
   //===================== GlobalKeys =======================\\
 
@@ -38,16 +48,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   //===================== CONTROLLERS =======================\\
 
-  ScrollController scrollController = ScrollController();
+  ScrollController _scrollController = ScrollController();
 
   //===================== BOOL VALUES =======================\\
   bool _isLoading = false;
 
   //===================== FUNCTIONS =======================\\
-  @override
-  void initState() {
-    super.initState();
-    _getData();
+
+  Future<void> _handleRefresh() async {
+    setState(() {
+      _data = null;
+    });
+    await _getData();
   }
 
   Map? _data;
@@ -82,8 +94,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       _subTotal += (item.price * cartItems[item.id]);
     }
 
-    totalPrice =
-        _subTotal + deliveryFee + insuranceFee + serviceFee + discountFee;
+    totalPrice = _subTotal + deliveryFee + serviceFee;
 
     setState(() {
       _data = {
@@ -112,6 +123,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
+  void _toHomeScreen() => Get.offAll(
+        () => const Home(),
+        routeName: 'Home',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: false,
+        predicate: (routes) => false,
+        transition: Transition.rightToLeft,
+      );
+
   void _toDeliverTo() => Get.to(
         () => const DeliverTo(toCheckout: true, inCheckout: true),
         routeName: 'DeliverTo',
@@ -135,280 +157,344 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         elevation: 0.0,
         backgroundColor: kPrimaryColor,
         title: "Checkout",
-        actions: [],
+        actions: [
+          IconButton(
+            onPressed: _toHomeScreen,
+            icon: FaIcon(
+              FontAwesomeIcons.house,
+              size: 18,
+              semanticLabel: "Home",
+              color: kAccentColor,
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         maintainBottomViewPadding: true,
-        child: Container(
-          margin: EdgeInsets.only(
-            top: kDefaultPadding,
-            left: kDefaultPadding,
-            right: kDefaultPadding,
-          ),
-          child: _data == null
-              ? Center(child: SpinKitChasingDots(color: kAccentColor))
-              : ListView(
-                  controller: scrollController,
-                  scrollDirection: Axis.vertical,
-                  physics: BouncingScrollPhysics(),
+        child: _data == null
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      child: Text(
-                        'Deliver to',
-                        style: TextStyle(
-                          color: kTextBlackColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                        ),
+                    SpinKitChasingDots(color: kAccentColor),
+                    kSizedBox,
+                    Text(
+                      "Loading...",
+                      style: TextStyle(
+                        color: kTextGreyColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    kSizedBox,
-                    InkWell(
-                      onTap: _toDeliverTo,
-                      child: Container(
-                        width: mediaWidth,
-                        padding: const EdgeInsets.all(kDefaultPadding / 2),
-                        decoration: ShapeDecoration(
-                          color: kPrimaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          shadows: [
-                            BoxShadow(
-                              color: Color(0x0F000000),
-                              blurRadius: 24,
-                              offset: Offset(0, 4),
-                              spreadRadius: 7,
+                  ],
+                ),
+              )
+            : RefreshIndicator(
+                onRefresh: _handleRefresh,
+                color: kAccentColor,
+                displacement: kDefaultPadding,
+                semanticsLabel: "Pull to refresh",
+                child: () {
+                  if (_data!['product'].isEmpty) {
+                    return Padding(
+                      padding: const EdgeInsets.all(kDefaultPadding),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            kSizedBox,
+                            Lottie.asset(
+                              "assets/animations/empty/frame_2.json",
+                            ),
+                            kSizedBox,
+                            Text(
+                              "Oops!, Your cart is empty",
+                              style: TextStyle(
+                                color: kTextGreyColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            kSizedBox,
+                            MyElevatedButton(
+                              title: "Start shopping",
+                              onPressed: _toHomeScreen,
                             ),
                           ],
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.deliverTo.title ?? 'Not Available',
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    color: kTextBlackColor,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kSizedBox,
-                                Text(
-                                  widget.deliverTo.streetAddress ??
-                                      'Not Available',
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    color: kTextGreyColor,
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                      ),
+                    );
+                  }
+                  return Scrollbar(
+                    controller: _scrollController,
+                    child: ListView(
+                      controller: _scrollController,
+                      physics: BouncingScrollPhysics(),
+                      padding: const EdgeInsets.all(kDefaultPadding),
+                      children: [
+                        Text(
+                          'Delivery location',
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        kSizedBox,
+                        InkWell(
+                          onTap: _toDeliverTo,
+                          borderRadius: BorderRadius.circular(10),
+                          child: Container(
+                            width: mediaWidth,
+                            padding: const EdgeInsets.all(10),
+                            decoration: ShapeDecoration(
+                              color: kPrimaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: [
+                                BoxShadow(
+                                  color: Color(0x0F000000),
+                                  blurRadius: 24,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: 7,
                                 ),
                               ],
                             ),
-                            Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              color: kAccentColor,
-                              size: 15,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: kDefaultPadding * 2,
-                    ),
-                    Container(
-                      child: Text(
-                        'Product Summary',
-                        style: TextStyle(
-                          color: kTextBlackColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                    kSizedBox,
-                    Container(
-                      width: mediaWidth,
-                      padding: EdgeInsets.all(kDefaultPadding),
-                      decoration: ShapeDecoration(
-                        color: kPrimaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        shadows: [
-                          BoxShadow(
-                            color: Color(0x0F000000),
-                            blurRadius: 24,
-                            offset: Offset(0, 4),
-                            spreadRadius: 7,
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListView.separated(
-                            shrinkWrap: true,
-                            itemCount: _data!['product'].length,
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return kHalfSizedBox;
-                            },
-                            itemBuilder: (BuildContext context, int index) {
-                              return SizedBox(
-                                width: mediaWidth,
-                                child: Text(
-                                  '${_data!['cartItems'][_data!['product'][index].id]}x  ${_data!['product'][index].name}',
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: kTextGreyColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.deliverTo.title ??
+                                          'Select location',
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        color: kTextBlackColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    Text(
+                                      widget.deliverTo.streetAddress ??
+                                          'Not Available',
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        color: kTextGreyColor,
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    kSizedBox,
-                    Container(
-                      width: mediaWidth,
-                      padding: EdgeInsets.all(
-                        kDefaultPadding,
-                      ),
-                      decoration: ShapeDecoration(
-                        color: kPrimaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            10,
+                                FaIcon(
+                                  FontAwesomeIcons.chevronRight,
+                                  color: kAccentColor,
+                                  size: 18,
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                        shadows: [
-                          BoxShadow(
-                            color: Color(0x0F000000),
-                            blurRadius: 24,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0,
+                        SizedBox(
+                          height: kDefaultPadding * 2,
+                        ),
+                        Container(
+                          child: Text(
+                            'Product Summary',
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ],
-                      ),
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              child: Text(
-                                'Payment Summary',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                        ),
+                        kSizedBox,
+                        Container(
+                          width: mediaWidth,
+                          padding: EdgeInsets.all(kDefaultPadding),
+                          decoration: ShapeDecoration(
+                            color: kPrimaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            shadows: [
+                              BoxShadow(
+                                color: Color(0x0F000000),
+                                blurRadius: 24,
+                                offset: Offset(0, 4),
+                                spreadRadius: 7,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ListView.separated(
+                                shrinkWrap: true,
+                                itemCount: _data!['product'].length,
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
+                                  return kHalfSizedBox;
+                                },
+                                itemBuilder: (BuildContext context, int index) {
+                                  return SizedBox(
+                                    width: mediaWidth,
+                                    child: Text(
+                                      '${_data!['cartItems'][_data!['product'][index].id]}x  ${_data!['product'][index].name}',
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: kTextGreyColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        kSizedBox,
+                        Container(
+                          width: mediaWidth,
+                          padding: EdgeInsets.all(
+                            kDefaultPadding,
+                          ),
+                          decoration: ShapeDecoration(
+                            color: kPrimaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                10,
                               ),
                             ),
-                            Divider(height: 20, color: kGreyColor1),
-                            Container(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Subtotal',
-                                          style: TextStyle(
-                                            color: kTextBlackColor,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                        Text(
-                                          '₦${formattedText(_subTotal)}',
-                                          style: TextStyle(
-                                            color: kTextGreyColor,
-                                            fontSize: 16,
-                                            fontFamily: 'Sen',
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ],
+                            shadows: [
+                              BoxShadow(
+                                color: Color(0x0F000000),
+                                blurRadius: 24,
+                                offset: Offset(0, 4),
+                                spreadRadius: 0,
+                              ),
+                            ],
+                          ),
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  child: Text(
+                                    'Payment Summary',
+                                    style: TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
-                                  kSizedBox,
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Delivery Fee',
-                                          style: TextStyle(
-                                            color: kTextBlackColor,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                          ),
+                                ),
+                                Divider(height: 20, color: kGreyColor1),
+                                Container(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'Subtotal',
+                                              style: TextStyle(
+                                                color: kTextBlackColor,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                            Text(
+                                              '₦${formattedText(_subTotal)}',
+                                              style: TextStyle(
+                                                color: kTextGreyColor,
+                                                fontSize: 16,
+                                                fontFamily: 'Sen',
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          '₦${formattedText(deliveryFee)}',
-                                          style: TextStyle(
-                                            color: kTextGreyColor,
-                                            fontSize: 16,
-                                            fontFamily: 'Sen',
-                                            fontWeight: FontWeight.w700,
-                                          ),
+                                      ),
+                                      kSizedBox,
+                                      Container(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'Delivery Fee',
+                                              style: TextStyle(
+                                                color: kTextBlackColor,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                            Text(
+                                              '₦${formattedText(deliveryFee)}',
+                                              style: TextStyle(
+                                                color: kTextGreyColor,
+                                                fontSize: 16,
+                                                fontFamily: 'Sen',
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                      kSizedBox,
+                                      Container(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'Service Fee',
+                                              style: TextStyle(
+                                                color: kTextBlackColor,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                            Text(
+                                              '₦${formattedText(serviceFee)}',
+                                              style: TextStyle(
+                                                color: kTextGreyColor,
+                                                fontSize: 16,
+                                                fontFamily: 'Sen',
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  kSizedBox,
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Service Fee',
-                                          style: TextStyle(
-                                            color: kTextBlackColor,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                        Text(
-                                          '₦${formattedText(serviceFee)}',
-                                          style: TextStyle(
-                                            color: kTextGreyColor,
-                                            fontSize: 16,
-                                            fontFamily: 'Sen',
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  kSizedBox,
-                                  Row(
+                                ),
+                                kHalfSizedBox,
+                                Divider(height: 4, color: kGreyColor1),
+                                kHalfSizedBox,
+                                Container(
+                                  child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        'Insurance Fee',
+                                        'Total',
                                         style: TextStyle(
                                           color: kTextBlackColor,
                                           fontSize: 16,
@@ -416,7 +502,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         ),
                                       ),
                                       Text(
-                                        '₦${formattedText(insuranceFee)}',
+                                        '₦${formattedText(totalPrice)}',
                                         style: TextStyle(
                                           color: kTextGreyColor,
                                           fontSize: 16,
@@ -426,86 +512,32 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       ),
                                     ],
                                   ),
-                                  kSizedBox,
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Discount',
-                                          style: TextStyle(
-                                            color: kTextBlackColor,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                        Text(
-                                          '₦${formattedText(discountFee)}',
-                                          style: TextStyle(
-                                            color: kTextGreyColor,
-                                            fontSize: 16,
-                                            fontFamily: 'Sen',
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                )
+                              ],
                             ),
-                            kHalfSizedBox,
-                            Divider(height: 4, color: kGreyColor1),
-                            kHalfSizedBox,
-                            Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Total',
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    '₦${formattedText(totalPrice)}',
-                                    style: TextStyle(
-                                      color: kTextGreyColor,
-                                      fontSize: 16,
-                                      fontFamily: 'Sen',
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: kDefaultPadding * 2),
-                    _isLoading
-                        ? Center(
-                            child: SpinKitChasingDots(
-                              color: kAccentColor,
-                              duration: const Duration(seconds: 1),
-                            ),
-                          )
-                        : MyElevatedButton(
-                            title:
-                                "Place Order - ₦${formattedText(totalPrice)}",
-                            onPressed: () {
-                              _placeOrder();
-                            },
                           ),
-                    kSizedBox,
-                  ],
-                ),
-        ),
+                        ),
+                        SizedBox(height: kDefaultPadding * 2),
+                        _isLoading
+                            ? Center(
+                                child: SpinKitChasingDots(
+                                  color: kAccentColor,
+                                  duration: const Duration(seconds: 1),
+                                ),
+                              )
+                            : MyElevatedButton(
+                                title:
+                                    "Place Order - ₦${formattedText(totalPrice)}",
+                                onPressed: () {
+                                  _placeOrder();
+                                },
+                              ),
+                        kSizedBox,
+                      ],
+                    ),
+                  );
+                }(),
+              ),
       ),
     );
   }
