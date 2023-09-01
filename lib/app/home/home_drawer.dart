@@ -61,8 +61,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
               leading: AnimatedContainer(
                 duration: Duration(milliseconds: 500),
                 curve: Curves.easeIn,
-                height: 60,
-                width: 60,
+                height: 50,
+                width: 50,
                 decoration: ShapeDecoration(
                   color: kPageSkeletonColor,
                   image: DecorationImage(
