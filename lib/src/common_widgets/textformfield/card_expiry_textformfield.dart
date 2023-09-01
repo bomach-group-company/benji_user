@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import '../../../theme/colors.dart';
 
 class MyCardExpiryTextFormField extends StatelessWidget {
+  final String hintText;
   final TextInputAction textInputAction;
   final dynamic onSaved;
   final dynamic validator;
@@ -16,6 +17,7 @@ class MyCardExpiryTextFormField extends StatelessWidget {
     required this.onSaved,
     required this.validator,
     this.onChanged,
+    required this.hintText,
   });
 
   @override
@@ -32,6 +34,7 @@ class MyCardExpiryTextFormField extends StatelessWidget {
       onChanged: onChanged,
       validator: validator,
       decoration: InputDecoration(
+        hintText: hintText,
         hintStyle: const TextStyle(
           fontSize: 17,
           fontWeight: FontWeight.w700,

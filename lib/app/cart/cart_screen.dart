@@ -157,12 +157,22 @@ class _CartScreenState extends State<CartScreen> {
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: _data == null
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    kSizedBox,
-                    SpinKitChasingDots(color: kAccentColor),
-                  ],
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SpinKitChasingDots(color: kAccentColor),
+                      kSizedBox,
+                      Text(
+                        "Loading...",
+                        style: TextStyle(
+                          color: kTextGreyColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )
+                    ],
+                  ),
                 )
               : Scrollbar(
                   controller: _scrollController,
