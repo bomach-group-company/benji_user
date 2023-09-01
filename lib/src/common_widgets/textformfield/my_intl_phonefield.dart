@@ -9,8 +9,7 @@ import '../../providers/constants.dart';
 
 class MyIntlPhoneField extends StatelessWidget {
   final TextEditingController controller;
-  final String? initialCountryCode;
-  final String? initialValue;
+  final String initialCountryCode;
   final String invalidNumberMessage;
   final IconPosition dropdownIconPosition;
   final bool showCountryFlag;
@@ -24,8 +23,7 @@ class MyIntlPhoneField extends StatelessWidget {
   const MyIntlPhoneField({
     super.key,
     required this.controller,
-    this.initialCountryCode,
-    this.initialValue,
+    required this.initialCountryCode,
     required this.invalidNumberMessage,
     required this.dropdownIconPosition,
     required this.showCountryFlag,
@@ -41,7 +39,39 @@ class MyIntlPhoneField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IntlPhoneField(
-      initialValue: initialValue,
+      countries: [
+        Country(
+          name: "Nigeria",
+          nameTranslations: {
+            "sk": "Nigéria",
+            "se": "Nigeria",
+            "pl": "Nigeria",
+            "no": "Nigeria",
+            "ja": "ナイジェリア",
+            "it": "Nigeria",
+            "zh": "尼日利亚",
+            "nl": "Nigeria",
+            "de": "Nigeria",
+            "fr": "Nigéria",
+            "es": "Nigeria",
+            "en": "Nigeria",
+            "pt_BR": "Nigéria",
+            "sr-Cyrl": "Нигерија",
+            "sr-Latn": "Nigerija",
+            "zh_TW": "奈及利亞",
+            "tr": "Nijerya",
+            "ro": "Nigeria",
+            "ar": "نيجيريا",
+            "fa": "نیجریه",
+            "yue": "尼日利亞"
+          },
+          flag: "🇳🇬",
+          code: "NG",
+          dialCode: "234",
+          minLength: 10,
+          maxLength: 11,
+        ),
+      ],
       controller: controller,
       initialCountryCode: initialCountryCode,
       invalidNumberMessage: invalidNumberMessage,
