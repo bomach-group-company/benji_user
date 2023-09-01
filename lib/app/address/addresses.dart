@@ -155,7 +155,7 @@ class _AddressesState extends State<Addresses> {
     await _getData();
   }
 
-  void _toEditAddressDetails(Address address) => Get.to(
+  void _toEditAddressDetails(Address address) => Get.off(
         () => EditAddressDetails(address: address),
         routeName: 'EditAddressDetails',
         duration: const Duration(milliseconds: 300),

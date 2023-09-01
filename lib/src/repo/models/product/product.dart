@@ -13,7 +13,7 @@ class Product {
   final String description;
   final double price;
   final int quantityAvailable;
-  final String productImage;
+  final String? productImage;
   final bool isAvailable;
   final bool isTrending;
   final bool isRecommended;

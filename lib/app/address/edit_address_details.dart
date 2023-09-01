@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:csc_picker/csc_picker.dart';
@@ -14,7 +16,6 @@ import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/common_widgets/textformfield/my textformfield.dart';
 import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
 import '../../src/providers/constants.dart';
-import '../../src/repo/models/user/user_model.dart';
 import '../../src/repo/utils/base_url.dart';
 import '../../theme/colors.dart';
 
@@ -49,19 +50,17 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   String? country;
   String? state;
   String? city;
-  String countryDialCode = '';
+  String countryDialCode = '234';
 
   //===================== BOOL VALUES =======================\\
   bool _isLoading = false;
   bool _isLoading2 = false;
 
   //===================== FUNCTIONS =======================\\
-  Future<bool> addAddress({bool is_current = true}) async {
-    await checkAuth(context);
+  Future<bool> updateAddress({bool is_current = true}) async {
     final url =
         Uri.parse('$baseURL/address/changeAddressDetails/${widget.address.id}');
     List<String> countryList = country!.split(' ');
-    final User user = (await getUser())!;
 
     final body = {
       'title': _addressTitleEC.text,
@@ -73,11 +72,17 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
       'state': state,
       'city': city,
     };
-    final response =
-        await http.put(url, body: body, headers: await authHeader(user.token));
-
-    return response.body == '"Address added successfully to ${user.email}"' &&
-        response.statusCode == 200;
+    final response = await http.put(url,
+        body: jsonEncode(body), headers: await authHeader());
+    try {
+      Address.fromJson(jsonDecode(response.body));
+      if (is_current) {
+        setCurrentAddress(widget.address.id!);
+      }
+      return response.statusCode == 200;
+    } catch (e) {
+      return false;
+    }
   }
 
   //SET DEFAULT ADDRESS
@@ -87,7 +92,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
       _isLoading = true;
     });
 
-    if (await addAddress(is_current: true)) {
+    if (await updateAddress(is_current: true)) {
       mySnackBar(
         context,
         kSuccessColor,
@@ -123,7 +128,8 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
     _addressTitleEC.text = widget.address.title ?? '';
     _streetAddressEC.text = widget.address.streetAddress ?? '';
     _apartmentDetailsEC.text = widget.address.details ?? '';
-    _phoneNumberEC.text = widget.address.phone ?? '';
+    _phoneNumberEC.text =
+        (widget.address.phone ?? '').replaceFirst('+$countryDialCode', '');
     _recipientNameEC.text = widget.address.recipientName ?? '';
     country = widget.address.country ?? '';
     state = widget.address.state ?? '';
@@ -131,13 +137,13 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   }
 
   //SAVE NEW ADDRESS
-  saveNewAddress() async {
+  updateUserAddress() async {
     await checkAuth(context);
     setState(() {
       _isLoading2 = true;
     });
 
-    if (await addAddress(is_current: false)) {
+    if (await updateAddress(is_current: false)) {
       mySnackBar(
         context,
         kSuccessColor,
@@ -365,7 +371,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                             onCountryChanged: (country) {
                               countryDialCode = country.dialCode;
                             },
-                            initialValue: widget.address.phone,
+                            initialCountryCode: countryDialCode,
                             invalidNumberMessage: "Invalid phone number",
                             dropdownIconPosition: IconPosition.trailing,
                             showCountryFlag: true,
@@ -465,7 +471,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                       title: "Save Changes",
                       onPressed: (() async {
                         if (_formKey.currentState!.validate()) {
-                          saveNewAddress();
+                          updateUserAddress();
                         }
                       }),
                     ),

@@ -25,6 +25,12 @@ class AddNewAddress extends StatefulWidget {
 }
 
 class _AddNewAddressState extends State<AddNewAddress> {
+  @override
+  void initState() {
+    super.initState();
+    checkAuth(context);
+  }
+
   //===================== KEYS =======================\\
   final _formKey = GlobalKey<FormState>();
   final _cscPickerKey = GlobalKey<CSCPickerState>();
@@ -72,7 +78,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
       'is_current': is_current.toString(),
     };
     final response =
-        await http.post(url, body: body, headers: await authHeader(user.token));
+        await http.post(url, body: body, headers: await authHeader());
 
     return response.body == '"Address added successfully to ${user.email}"' &&
         response.statusCode == 200;
@@ -112,12 +118,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
         _isLoading = false;
       });
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    checkAuth(context);
   }
 
   //SAVE NEW ADDRESS

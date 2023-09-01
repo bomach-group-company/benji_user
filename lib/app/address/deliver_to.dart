@@ -91,7 +91,31 @@ class _DeliverToState extends State<DeliverTo> {
       isLoading = true;
     });
 
-    Address address = await setCurrentAddress(addressId);
+    if (currentOption == '') {
+      Get.off(
+        () => AddNewAddress(),
+        routeName: 'AddNewAddress',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+    }
+    Address? address;
+    try {
+      address = await setCurrentAddress(addressId);
+    } catch (e) {
+      mySnackBar(
+        context,
+        kAccentColor,
+        "No address selected!",
+        "Select address to add as default or add address",
+        Duration(
+          seconds: 2,
+        ),
+      );
+    }
 
     if (!widget.toCheckout) {
       //Display snackBar
@@ -107,11 +131,11 @@ class _DeliverToState extends State<DeliverTo> {
     }
 
     if (widget.toCheckout) {
-      if (widget.inCheckout) {
+      if (widget.inCheckout && address != null) {
         Get.close(1);
       } else {
         Get.off(
-          () => CheckoutScreen(deliverTo: address),
+          () => CheckoutScreen(deliverTo: address!),
           routeName: 'CheckoutScreen',
           duration: const Duration(milliseconds: 300),
           fullscreenDialog: true,
