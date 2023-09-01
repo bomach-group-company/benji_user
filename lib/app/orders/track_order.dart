@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../call/call_screen.dart';
 import '../delivery/delivery_map.dart';
+import '../home/home.dart';
 
 class TrackOrder extends StatefulWidget {
   const TrackOrder({super.key});
@@ -15,6 +18,19 @@ class TrackOrder extends StatefulWidget {
 
 class _TrackOrderState extends State<TrackOrder> {
   //=============================== ALL VARIABLES ======================================\\
+
+  //=============================== FUNCTIONS ======================================\\
+  void _toHomeScreen() => Get.offAll(
+        () => const Home(),
+        routeName: 'Home',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: false,
+        predicate: (routes) => false,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +40,17 @@ class _TrackOrderState extends State<TrackOrder> {
         title: "Track Order",
         toolbarHeight: 80,
         backgroundColor: kPrimaryColor,
-        actions: [],
+        actions: [
+          IconButton(
+            onPressed: _toHomeScreen,
+            icon: FaIcon(
+              FontAwesomeIcons.house,
+              size: 18,
+              semanticLabel: "Home",
+              color: kAccentColor,
+            ),
+          ),
+        ],
       ),
       body: ListView(
         scrollDirection: Axis.vertical,
