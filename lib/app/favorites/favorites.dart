@@ -1,6 +1,4 @@
 // ignore_for_file: unused_local_variable
-
-import 'package:benji_user/app/cart/cart_screen.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/cart.dart';
 import 'package:benji_user/src/common_widgets/empty.dart';
@@ -13,10 +11,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../src/common_widgets/vendor/popular_vendors_card.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/my_liquid_refresh.dart';
 import '../../src/repo/models/product/product.dart';
 import '../../theme/colors.dart';
 import '../product/product_detail_screen.dart';
@@ -130,16 +128,6 @@ class _FavoritesState extends State<Favorites>
   }
 
   //===================== Navigation ==========================\\
-  void _toCartScreen() => Get.to(
-        () => const CartScreen(),
-        routeName: 'CartScreen',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
 
   void _toProductDetailsScreen(product) => Get.to(
         () => ProductDetailScreen(product: product),
@@ -161,14 +149,8 @@ class _FavoritesState extends State<Favorites>
 
 //====================================================================================\\
 
-    return LiquidPullToRefresh(
-      onRefresh: _handleRefresh,
-      color: kAccentColor,
-      borderWidth: 5.0,
-      backgroundColor: kPrimaryColor,
-      height: 150,
-      animSpeedFactor: 2,
-      showChildOpacityTransition: false,
+    return MyLiquidRefresh(
+      handleRefresh: _handleRefresh,
       child: Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,

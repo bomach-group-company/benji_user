@@ -10,6 +10,7 @@ import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/common_widgets/button/my_outlined_elevatedbutton.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/my_liquid_refresh.dart';
 import '../../theme/colors.dart';
 import 'add_new_address.dart';
 
@@ -131,178 +132,185 @@ class _DeliverToState extends State<DeliverTo> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kPrimaryColor,
-      appBar: MyAppBar(
-        elevation: 0.0,
-        title: "Deliver to ",
-        toolbarHeight: 80,
+    return MyLiquidRefresh(
+      handleRefresh: _handleRefresh,
+      child: Scaffold(
         backgroundColor: kPrimaryColor,
-        actions: [],
-      ),
-      body: Container(
-        margin: EdgeInsets.only(
-          top: kDefaultPadding,
-          left: kDefaultPadding,
-          right: kDefaultPadding,
+        appBar: MyAppBar(
+          elevation: 0.0,
+          title: "Deliver to ",
+          toolbarHeight: 80,
+          backgroundColor: kPrimaryColor,
+          actions: [],
         ),
-        child: addressData == null
-            ? Center(child: SpinKitChasingDots(color: kAccentColor))
-            : ListView(
-                scrollDirection: Axis.vertical,
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  Column(
-                    children: [
-                      ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: addressData!['addresses'].length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              padding: EdgeInsetsDirectional.symmetric(
-                                vertical: kDefaultPadding / 2,
-                              ),
-                              child: RadioListTile(
-                                value: addressData!['addresses'][index].id,
-                                groupValue: currentOption,
-                                activeColor: kAccentColor,
-                                enableFeedback: true,
-                                controlAffinity:
-                                    ListTileControlAffinity.trailing,
-                                fillColor: MaterialStatePropertyAll(
-                                  kAccentColor,
+        body: Container(
+          margin: EdgeInsets.only(
+            top: kDefaultPadding,
+            left: kDefaultPadding,
+            right: kDefaultPadding,
+          ),
+          child: addressData == null
+              ? Center(child: SpinKitChasingDots(color: kAccentColor))
+              : ListView(
+                  scrollDirection: Axis.vertical,
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    Column(
+                      children: [
+                        ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: addressData!['addresses'].length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                padding: EdgeInsetsDirectional.symmetric(
+                                  vertical: kDefaultPadding / 2,
                                 ),
-                                onChanged: ((value) {
-                                  setState(
-                                    () {
-                                      currentOption =
-                                          addressData!['addresses'][index].id;
-                                    },
-                                  );
-                                }),
-                                title: Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        addressData!['addresses'][index].title,
-                                        style: TextStyle(
-                                          color: Color(
-                                            0xFF151515,
-                                          ),
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      kWidthSizedBox,
-                                      Container(
-                                        width: 58,
-                                        height: 24,
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                          vertical: 4,
-                                        ),
-                                        decoration: ShapeDecoration(
-                                          color: currentOption ==
-                                                  addressData!['addresses']
-                                                          [index]
-                                                      .id
-                                              ? Color(
-                                                  0xFFFFCFCF,
-                                                )
-                                              : Color(
-                                                  0x00000000,
-                                                ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              8,
+                                child: RadioListTile(
+                                  value: addressData!['addresses'][index].id,
+                                  groupValue: currentOption,
+                                  activeColor: kAccentColor,
+                                  enableFeedback: true,
+                                  controlAffinity:
+                                      ListTileControlAffinity.trailing,
+                                  fillColor: MaterialStatePropertyAll(
+                                    kAccentColor,
+                                  ),
+                                  onChanged: ((value) {
+                                    setState(
+                                      () {
+                                        currentOption =
+                                            addressData!['addresses'][index].id;
+                                      },
+                                    );
+                                  }),
+                                  title: Container(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          addressData!['addresses'][index]
+                                              .title,
+                                          style: TextStyle(
+                                            color: Color(
+                                              0xFF151515,
                                             ),
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w700,
                                           ),
                                         ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              currentOption ==
-                                                      addressData!['addresses']
-                                                              [index]
-                                                          .id
-                                                  ? 'Default'
-                                                  : '',
-                                              textAlign: TextAlign.right,
-                                              style: TextStyle(
-                                                color: kAccentColor,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w400,
+                                        kWidthSizedBox,
+                                        Container(
+                                          width: 58,
+                                          height: 24,
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            vertical: 4,
+                                          ),
+                                          decoration: ShapeDecoration(
+                                            color: currentOption ==
+                                                    addressData!['addresses']
+                                                            [index]
+                                                        .id
+                                                ? Color(
+                                                    0xFFFFCFCF,
+                                                  )
+                                                : Color(
+                                                    0x00000000,
+                                                  ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                8,
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                currentOption ==
+                                                        addressData![
+                                                                    'addresses']
+                                                                [index]
+                                                            .id
+                                                    ? 'Default'
+                                                    : '',
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(
+                                                  color: kAccentColor,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                subtitle: Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: kDefaultPadding / 2,
-                                  ),
-                                  child: Container(
-                                    child: Text(
-                                      addressData!['addresses'][index]
-                                          .streetAddress,
-                                      style: TextStyle(
-                                        color: Color(
-                                          0xFF4C4C4C,
+                                  subtitle: Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: kDefaultPadding / 2,
+                                    ),
+                                    child: Container(
+                                      child: Text(
+                                        addressData!['addresses'][index]
+                                            .streetAddress,
+                                        style: TextStyle(
+                                          color: Color(
+                                            0xFF4C4C4C,
+                                          ),
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w400,
                                         ),
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            );
-                          }),
-                      SizedBox(
-                        height: kDefaultPadding * 2,
-                      ),
-                    ],
-                  ),
-                  MyOutlinedElevatedButton(
-                    title: "Add New Address",
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => AddNewAddress(),
+                              );
+                            }),
+                        SizedBox(
+                          height: kDefaultPadding * 2,
                         ),
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: kDefaultPadding,
-                  ),
-                  isLoading
-                      ? Center(
-                          child: SpinKitChasingDots(
-                            color: kAccentColor,
-                            duration: const Duration(seconds: 1),
+                      ],
+                    ),
+                    MyOutlinedElevatedButton(
+                      title: "Add New Address",
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AddNewAddress(),
                           ),
-                        )
-                      : MyElevatedButton(
-                          title: "Apply",
-                          onPressed: () {
-                            applyDeliveryAddress(currentOption);
-                          },
-                        ),
-                  SizedBox(
-                    height: kDefaultPadding * 2,
-                  ),
-                ],
-              ),
+                        );
+                      },
+                    ),
+                    SizedBox(
+                      height: kDefaultPadding,
+                    ),
+                    isLoading
+                        ? Center(
+                            child: SpinKitChasingDots(
+                              color: kAccentColor,
+                              duration: const Duration(seconds: 1),
+                            ),
+                          )
+                        : MyElevatedButton(
+                            title: "Apply",
+                            onPressed: () {
+                              applyDeliveryAddress(currentOption);
+                            },
+                          ),
+                    SizedBox(
+                      height: kDefaultPadding * 2,
+                    ),
+                  ],
+                ),
+        ),
       ),
     );
   }

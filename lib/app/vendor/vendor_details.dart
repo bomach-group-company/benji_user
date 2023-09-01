@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'package:benji_user/app/product/product_detail_screen.dart';
 import 'package:benji_user/src/common_widgets/section/category_button_section.dart';
 import 'package:benji_user/src/common_widgets/vendor/product_container.dart';
