@@ -27,6 +27,8 @@ class _CardPaymentState extends State<CardPayment> {
   TextEditingController expiryDateEC = TextEditingController();
   TextEditingController cvvEC = TextEditingController();
   TextEditingController cardHoldersFullNameEC = TextEditingController();
+  TextEditingController cardMonthEC = TextEditingController();
+  TextEditingController cardYearEC = TextEditingController();
 
   //=========================== FOCUS NODES ====================================\\
 
@@ -35,6 +37,8 @@ class _CardPaymentState extends State<CardPayment> {
   FocusNode cvvFN = FocusNode();
   FocusNode cardHoldersFullNameFN = FocusNode();
   FocusNode rateVendorFN = FocusNode();
+  FocusNode cardMonthFN = FocusNode();
+  FocusNode cardYearFN = FocusNode();
 
   //=========================== VARIABLES ====================================\\
 

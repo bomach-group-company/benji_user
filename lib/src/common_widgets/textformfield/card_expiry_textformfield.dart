@@ -5,39 +5,37 @@ import 'package:flutter/services.dart';
 
 import '../../../theme/colors.dart';
 
-class MyFlexTextFormField extends StatelessWidget {
+class MyCardExpiryTextFormField extends StatelessWidget {
   final TextInputAction textInputAction;
-  final TextEditingController controller;
-
   final dynamic onSaved;
   final dynamic validator;
   final dynamic onChanged;
-  final List<TextInputFormatter>? inputFormatters;
-  final String hintText;
-  const MyFlexTextFormField({
+  const MyCardExpiryTextFormField({
     super.key,
-    required this.controller,
     required this.textInputAction,
     required this.onSaved,
     required this.validator,
     this.onChanged,
-    this.inputFormatters,
-    required this.hintText,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       cursorColor: kSecondaryColor,
-      inputFormatters: inputFormatters,
-      controller: controller,
       keyboardType: TextInputType.number,
       textInputAction: textInputAction,
       onSaved: onSaved,
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(2),
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       onChanged: onChanged,
       validator: validator,
       decoration: InputDecoration(
-        hintText: hintText,
+        hintStyle: const TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.w700,
+        ),
         errorStyle: const TextStyle(
           color: kErrorColor,
         ),
