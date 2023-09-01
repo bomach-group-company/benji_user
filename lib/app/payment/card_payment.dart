@@ -56,7 +56,6 @@ class _CardPaymentState extends State<CardPayment> {
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
     return Container(
       padding: const EdgeInsets.all(kDefaultPadding),
       decoration: ShapeDecoration(
