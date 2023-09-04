@@ -154,27 +154,33 @@ class _AddressesState extends State<Addresses> {
     await _getData();
   }
 
-  void _toEditAddressDetails(Address address) => Get.off(
-        () => EditAddressDetails(address: address),
-        routeName: 'EditAddressDetails',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _toEditAddressDetails(Address address) async {
+    await Get.off(
+      () => EditAddressDetails(address: address),
+      routeName: 'EditAddressDetails',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    await _getData();
+  }
 
-  void _toAddNewAddress() => Get.to(
-        () => const AddNewAddress(),
-        routeName: 'AddNewAddress',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _toAddNewAddress() async {
+    await Get.to(
+      () => const AddNewAddress(),
+      routeName: 'AddNewAddress',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    await _getData();
+  }
 
   @override
   Widget build(BuildContext context) {

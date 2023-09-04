@@ -310,16 +310,19 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toProductDetailScreenPage(product) => Get.to(
-        () => ProductDetailScreen(product: product),
-        routeName: 'ProductDetailScreen',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _toProductDetailScreenPage(product) async {
+    await Get.to(
+      () => ProductDetailScreen(product: product),
+      routeName: 'ProductDetailScreen',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    setState(() {});
+  }
 
   void _toSeeAllHotDeals() => Get.to(
         () => const HotDealsPage(),
