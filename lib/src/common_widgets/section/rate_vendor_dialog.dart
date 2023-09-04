@@ -1,9 +1,15 @@
 import 'dart:math';
 
+import 'package:benji_user/src/repo/models/user/user_model.dart';
+import 'package:benji_user/src/repo/models/vendor/vendor.dart';
+import 'package:benji_user/src/repo/utils/base_url.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
@@ -11,7 +17,9 @@ import '../snackbar/my_floating_snackbar.dart';
 import '../textformfield/message_textformfield.dart';
 
 class RateVendorDialog extends StatefulWidget {
-  const RateVendorDialog({super.key});
+  final VendorModel vendor;
+
+  const RateVendorDialog({super.key, required this.vendor});
 
   @override
   State<RateVendorDialog> createState() => _RateVendorDialogState();
@@ -37,31 +45,60 @@ class _RateVendorDialogState extends State<RateVendorDialog> {
   var _myMessageFN = FocusNode();
 
 //===================================== FUNCTIONS ======================================\\
+  Future<bool> rate() async {
+    User? user = await getUser();
+    final url = Uri.parse('$baseURL/clients/clientRateVendor');
+
+    Map body = {
+      'client_id': user!.id.toString(),
+      'vendor_id': widget.vendor.id.toString(),
+      'rating_value': _rating.toString(),
+      'comment': _myMessageEC.text
+    };
+
+    final response =
+        await http.post(url, body: body, headers: await authHeader());
+    try {
+      bool res = response.statusCode == 200 && response.body == '"Review Made"';
+      return res;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<void> _submitRequest() async {
+    await checkAuth(context);
+
     setState(() {
       _submittingRequest = true;
     });
-
-    // Simulating a delay of 3 seconds
-    await Future.delayed(const Duration(seconds: 2));
-
-    //Display snackBar
-    mySnackBar(
-      context,
-      kSuccessColor,
-      "Success",
-      "Your review has been submitted successfully",
-      const Duration(seconds: 1),
-    );
-
-    Future.delayed(const Duration(seconds: 1), () {
+    bool res = await rate();
+    if (res) {
+      //Display snackBar
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success",
+        "Your review has been submitted successfully",
+        const Duration(seconds: 1),
+      );
       setState(() {
         _submittingRequest = false;
       });
-
       //Go back;
       Get.back();
-    });
+    } else {
+      mySnackBar(
+        context,
+        kAccentColor,
+        "Failed",
+        "An error occurred",
+        const Duration(seconds: 1),
+      );
+      setState(() {
+        _submittingRequest = false;
+      });
+    }
   }
 
   @override

@@ -89,7 +89,7 @@ Future<Map<String, String>> authHeader(
   Map<String, String> res = {
     'Authorization': 'Bearer $authToken',
   };
-  // 'Content-Type': 'application/json'
+  // 'Content-Type': 'application/json', 'application/x-www-form-urlencoded'
 
   if (contentType != null) {
     res['Content-Type'] = contentType;

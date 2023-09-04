@@ -10,7 +10,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/custom_showSearch.dart';
@@ -233,7 +233,7 @@ class _VendorDetailsState extends State<VendorDetails>
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(kDefaultPadding)),
           elevation: 50,
-          child: RateVendorDialog(),
+          child: RateVendorDialog(vendor: widget.vendor),
         );
       },
     );
@@ -514,7 +514,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                                     ),
                                                     const SizedBox(width: 5),
                                                     Text(
-                                                      '${widget.vendor.averageRating ?? 0}',
+                                                      '${(widget.vendor.averageRating ?? 0).toPrecision(1)}',
                                                       style: const TextStyle(
                                                         color: kBlackColor,
                                                         fontSize: 14,

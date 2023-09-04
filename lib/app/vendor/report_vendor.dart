@@ -42,15 +42,16 @@ class _ReportVendorState extends State<ReportVendor> {
 
   //============================================ FUNCTIONS ===========================================\\
   Future<bool> report() async {
-    User? user = await getUser();
-    final url = Uri.parse(
-        '$baseURL/clients/clientReportVendor/${user!.id}/${widget.vendor.id}?message=${_messageEC.text}');
-
-    Map body = {};
-
-    final response =
-        await http.post(url, body: body, headers: await authHeader());
     try {
+      User? user = await getUser();
+      final url = Uri.parse(
+          '$baseURL/clients/clientReportVendor/${user!.id}/${widget.vendor.id}?message=${_messageEC.text}');
+
+      Map body = {};
+
+      final response =
+          await http.post(url, body: body, headers: await authHeader());
+
       bool res = response.statusCode == 200 &&
           response.body == '"Report made successfully"';
       return res;
