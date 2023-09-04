@@ -39,12 +39,12 @@ class Ratings {
 Future<List<Ratings>> getRatingsByVendorId(int id,
     {start = 1, end = 10}) async {
   final response = await http.get(
-    Uri.parse('$baseURL/vendors/$id/getAllVendorRatings?start=$start&end=$end'),
+    Uri.parse('$baseURL/clients/filterReviewsByRating/${id}'),
     headers: await authHeader(),
   );
 
   if (response.statusCode == 200) {
-    return (jsonDecode(response.body)['items'] as List)
+    return (jsonDecode(response.body) as List)
         .map((item) => Ratings.fromJson(item))
         .toList();
   } else {
