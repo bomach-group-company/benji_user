@@ -5,7 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/product/hot_deals_card.dart';
+import '../../src/common_widgets/product/home_products_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/product/product.dart';
 import '../../src/repo/utils/helpers.dart';
@@ -83,7 +83,7 @@ class _HotDealsPageState extends State<HotDealsPage> {
                     padding: EdgeInsets.all(kDefaultPadding),
                     separatorBuilder: (context, index) => kHalfSizedBox,
                     itemBuilder: (BuildContext context, int index) =>
-                        HotDealsCard(
+                        HomeProductsCard(
                       OnTap: () {
                         Get.to(
                           () => ProductDetailScreen(

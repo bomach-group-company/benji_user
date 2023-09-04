@@ -15,7 +15,7 @@ import 'package:get/route_manager.dart';
 import '../../src/common_widgets/appbar/appBar_delivery_location.dart';
 import '../../src/common_widgets/button/category button.dart';
 import '../../src/common_widgets/cart.dart';
-import '../../src/common_widgets/product/hot_deals_card.dart';
+import '../../src/common_widgets/product/home_products_card.dart';
 import '../../src/common_widgets/section/custom_showSearch.dart';
 import '../../src/common_widgets/section/see_all_container.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
@@ -113,45 +113,12 @@ class _HomeState extends State<Home> {
   final _scrollController = ScrollController();
 
 //===================== POPULAR VENDORS =======================\\
-  final List<int> popularVendorsIndex = [0, 1, 2, 3, 4];
-
   final List<String> popularVendorImage = [
     "best-choice-restaurant.png",
     "golden-toast.png",
     "best-choice-restaurant.png",
     "best-choice-restaurant.png",
     "best-choice-restaurant.png",
-  ];
-
-  final List<String> popularVendorName = [
-    "Best Choice restaurant",
-    "Golden Toast",
-    "Best Choice restaurant",
-    "Best Choice restaurant",
-    "Best Choice restaurant",
-  ];
-
-  final List<String> popularVendorFood = [
-    "Food",
-    "Traditional",
-    "Food",
-    "Food",
-    "Food",
-  ];
-
-  final List<String> popularVendorRating = [
-    "3.6",
-    "3.6",
-    "3.6",
-    "3.6",
-    "3.6",
-  ];
-  final List<String> popularVendorNoOfUsersRating = [
-    "500",
-    "500",
-    "500",
-    "500",
-    "500",
   ];
 
   //===================== COPY TO CLIPBOARD =======================\\
@@ -432,10 +399,47 @@ class _HomeState extends State<Home> {
                     radius: Radius.circular(10),
                     scrollbarOrientation: ScrollbarOrientation.right,
                     child: ListView(
+                      controller: _scrollController,
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       padding: const EdgeInsets.all(kDefaultPadding / 2),
                       children: [
+                        // SearchBar(
+                        //   onTap: () {},
+                        //   onSubmitted: (value) {},
+                        //   onChanged: (value) {
+                        //     value = value;
+                        //   },
+                        //   elevation: MaterialStateProperty.resolveWith<double?>(
+                        //     (Set<MaterialState> states) {
+                        //       if (states.contains(MaterialState.pressed)) {
+                        //         return 4.0; // Elevation when pressed
+                        //       }
+                        //       if (states.contains(MaterialState.focused)) {
+                        //         return 4.0; // Elevation when pressed
+                        //       }
+                        //       if (states.contains(MaterialState.error)) {
+                        //         return 4.0; // Elevation when pressed
+                        //       }
+                        //       return 0.0; // Default elevation
+                        //     },
+                        //   ),
+                        //   controller: _searchController,
+                        //   backgroundColor:
+                        //       MaterialStatePropertyAll(kPrimaryColor),
+                        //   hintText: "Search for a product",
+                        //   hintStyle: MaterialStatePropertyAll(
+                        //     TextStyle(fontSize: 12, color: kTextGreyColor),
+                        //   ),
+                        //   padding: MaterialStatePropertyAll(
+                        //     EdgeInsets.symmetric(horizontal: 10),
+                        //   ),
+                        //   leading: FaIcon(
+                        //     FontAwesomeIcons.magnifyingGlass,
+                        //     color: kGreyColor1,
+                        //   ),
+                        // ),
+                        // kSizedBox,
                         SeeAllContainer(
                           title: "Vendors Near you",
                           onPressed: _toSeeAllVendorsNearYou,
@@ -499,7 +503,6 @@ class _HomeState extends State<Home> {
                                         children: [
                                           SizedBox(
                                             width: 200,
-                                            height: 26,
                                             child: Text(
                                               _data!['vendor'][index].shopName,
                                               style: TextStyle(
@@ -529,7 +532,6 @@ class _HomeState extends State<Home> {
                                           kHalfSizedBox,
                                           Container(
                                             width: 200,
-                                            height: 17,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
@@ -659,7 +661,7 @@ class _HomeState extends State<Home> {
                             shrinkWrap: true,
                             itemCount: _data!['product'].length,
                             separatorBuilder: (context, index) => kHalfSizedBox,
-                            itemBuilder: (context, index) => HotDealsCard(
+                            itemBuilder: (context, index) => HomeProductsCard(
                               product: _data!['product'][index],
                               OnTap: () => _toProductDetailScreenPage(
                                   _data!['product'][index]),

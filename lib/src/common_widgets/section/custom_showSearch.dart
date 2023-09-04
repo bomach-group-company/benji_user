@@ -1,9 +1,26 @@
+import 'package:benji_user/src/common_widgets/product/home_products_card.dart';
+import 'package:benji_user/src/providers/constants.dart';
+import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../theme/colors.dart';
+import '../../others/my_future_builder.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
   List<String> searchTerms = ["item", "item", "item", "item", "item", "item"];
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, null);
+      },
+      icon: FaIcon(FontAwesomeIcons.chevronLeft, color: kAccentColor),
+    );
+  }
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -12,59 +29,99 @@ class CustomSearchDelegate extends SearchDelegate {
         onPressed: () {
           query = '';
         },
-        icon: Icon(Icons.clear_rounded, color: kAccentColor),
+        icon: FaIcon(FontAwesomeIcons.xmark, color: kAccentColor),
       )
     ];
   }
 
   @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        close(context, null);
-      },
-      icon: Icon(Icons.arrow_back_ios_new_rounded, color: kAccentColor),
-    );
-  }
-
-  @override
   Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var items in searchTerms) {
-      if (items.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(items);
-      }
+    //==================================================== CONTROLLERS ===========================================================\\
+    final _scrollController = ScrollController();
+
+    //==================================================== FUNCTIONS ===========================================================\\
+    //===================== Get Data ==========================\\
+    Future<List<Product>> _getData() async {
+      List<Product> product = await getProducts();
+      return product;
     }
 
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
+    //========================================================================\\
+
+    return GestureDetector(
+      onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
+      child: MyFutureBuilder(
+        future: _getData(),
+        child: (data) {
+          return Scrollbar(
+            controller: _scrollController,
+            child: ListView.separated(
+              controller: _scrollController,
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(kDefaultPadding),
+              shrinkWrap: true,
+              itemCount: data.length,
+              separatorBuilder: (context, index) =>
+                  Divider(height: 10, color: kGreyColor),
+              itemBuilder: (context, index) => HomeProductsCard(
+                product: data[index],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var items in searchTerms) {
-      if (items.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(items);
-      }
+    //==================================================== FUNCTIONS ===========================================================\\
+    //===================== Get Data ==========================\\
+    Future<List<Product>> _getData() async {
+      List<Product> product = await getProducts();
+      return product;
     }
 
-    return ListView.builder(
-      physics: const BouncingScrollPhysics(),
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
+    //========================================================================\\
+
+    return GestureDetector(
+      onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
+      child: FutureBuilder(
+        future: _getData(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return ListView(
+              physics: NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(kDefaultPadding),
+              children: [
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Lottie.asset(
+                        "assets/animations/empty/frame_3.json",
+                        height: 300,
+                        fit: BoxFit.contain,
+                      ),
+                      kSizedBox,
+                      Text(
+                        "Search for a product",
+                        style: TextStyle(
+                          color: kTextGreyColor,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          }
+
+          return Center(child: SpinKitChasingDots(color: kAccentColor));
+        },
+      ),
     );
   }
 }

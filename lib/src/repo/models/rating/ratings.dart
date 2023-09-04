@@ -9,7 +9,7 @@ import '../../utils/helpers.dart';
 
 class Ratings {
   final String? id;
-  final int? ratingValue;
+  final double? ratingValue;
   final String? comment;
   final DateTime? created;
   final User client;

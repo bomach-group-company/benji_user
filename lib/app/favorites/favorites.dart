@@ -3,7 +3,7 @@ import 'package:benji_user/app/vendor/vendor_details.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/cart.dart';
 import 'package:benji_user/src/common_widgets/empty.dart';
-import 'package:benji_user/src/common_widgets/product/hot_deals_card.dart';
+import 'package:benji_user/src/common_widgets/product/home_products_card.dart';
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
@@ -277,7 +277,7 @@ class _FavoritesState extends State<Favorites>
                                                     (context, index) =>
                                                         kHalfSizedBox,
                                                 itemBuilder: (context, index) =>
-                                                    HotDealsCard(
+                                                    HomeProductsCard(
                                                   OnTap: () =>
                                                       _toProductDetailsScreen(
                                                           _dataProduct![index]),
