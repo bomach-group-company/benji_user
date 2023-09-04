@@ -1,6 +1,11 @@
+import 'package:benji_user/src/repo/models/user/user_model.dart';
+import 'package:benji_user/src/repo/models/vendor/vendor.dart';
+import 'package:benji_user/src/repo/utils/base_url.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../src/providers/constants.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -10,8 +15,10 @@ import '../../src/common_widgets/textformfield/message_textformfield.dart';
 import '../../theme/colors.dart';
 
 class ReportVendor extends StatefulWidget {
+  final VendorModel vendor;
   const ReportVendor({
     super.key,
+    required this.vendor,
   });
 
   @override
@@ -34,32 +41,60 @@ class _ReportVendorState extends State<ReportVendor> {
   GlobalKey<FormState> _formKey = GlobalKey();
 
   //============================================ FUNCTIONS ===========================================\\
-  //========================== Save data ==================================\\
+  Future<bool> report() async {
+    User? user = await getUser();
+    final url = Uri.parse(
+        '$baseURL/clients/clientReportVendor/${user!.id}/${widget.vendor.id}?message=${_messageEC.text}');
+
+    Map body = {};
+
+    final response =
+        await http.post(url, body: body, headers: await authHeader());
+    try {
+      bool res = response.statusCode == 200 &&
+          response.body == '"Report made successfully"';
+      return res;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<void> _submitRequest() async {
+    await checkAuth(context);
+
+    bool res = await report();
+
     setState(() {
       _submittingRequest = true;
     });
+    if (res) {
+      //Display snackBar
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success",
+        "Your report has been submitted successfully",
+        const Duration(seconds: 1),
+      );
 
-    // Simulating a delay of 3 seconds
-    await Future.delayed(const Duration(seconds: 1));
-
-    //Display snackBar
-    mySnackBar(
-      context,
-      kSuccessColor,
-      "Success",
-      "Your report has been submitted successfully",
-      const Duration(seconds: 1),
-    );
-
-    Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         _submittingRequest = false;
       });
 
       //Go back;
       Get.back();
-    });
+    } else {
+      setState(() {
+        _submittingRequest = false;
+      });
+      mySnackBar(
+        context,
+        kAccentColor,
+        "Failed",
+        "Something went wrong",
+        const Duration(seconds: 1),
+      );
+    }
   }
 
   @override

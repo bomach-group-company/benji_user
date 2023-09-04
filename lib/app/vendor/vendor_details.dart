@@ -208,7 +208,7 @@ class _VendorDetailsState extends State<VendorDetails>
             break;
           case 'report':
             Get.to(
-              () => ReportVendor(),
+              () => ReportVendor(vendor: widget.vendor),
               routeName: 'ReportVendor',
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,
