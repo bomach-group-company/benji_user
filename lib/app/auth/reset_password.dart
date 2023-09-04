@@ -1,11 +1,16 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, use_build_context_synchronously
 
+import 'dart:convert';
+
+import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/reusable_authentication_first_half.dart';
@@ -46,42 +51,71 @@ class _ResetPasswordState extends State<ResetPassword> {
   var _isObscured;
 
   //=========================== FUNCTIONS ====================================\\
+
+  Future<bool> resetPassword() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userEmail = await prefs.getString('email');
+    String? token = await prefs.getString('token');
+    final url = Uri.parse('$baseURL/auth/resetForgotPassword/${userEmail}');
+    Map body = {
+      'token': token,
+      'new_password': _userPasswordEC.text,
+      'repeat_password': confirmPasswordEC.text,
+    };
+    final response = await http.post(url, body: body);
+    try {
+      Map resp = jsonDecode(response.body);
+      bool res = response.statusCode == 200;
+
+      return res;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<void> loadData() async {
     setState(() {
       _isLoading = true;
     });
 
-    // Simulating a delay of 2 seconds
-    await Future.delayed(const Duration(seconds: 2));
+    bool res = await resetPassword();
 
     setState(() {
-      _validAuthCredentials = true;
+      _validAuthCredentials = res;
     });
 
-    //Display snackBar
-    myFixedSnackBar(
-      context,
-      "Password Reset successful",
-      kSuccessColor,
-      const Duration(
-        seconds: 2,
-      ),
-    );
+    if (res) {
+      //Display snackBar
+      myFixedSnackBar(
+        context,
+        "Password Reset successful",
+        kSuccessColor,
+        const Duration(
+          seconds: 2,
+        ),
+      );
 
-    // Simulating a delay of 2 seconds
-    await Future.delayed(const Duration(seconds: 2));
-
-    // Navigate to the new page
-    Get.offAll(
-      () => const Login(),
-      routeName: 'Login',
-      duration: const Duration(milliseconds: 300),
-      predicate: (routes) => false,
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
+      // Navigate to the new page
+      Get.offAll(
+        () => const Login(),
+        routeName: 'Login',
+        duration: const Duration(milliseconds: 300),
+        predicate: (routes) => false,
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+    } else {
+      myFixedSnackBar(
+        context,
+        "Invalid Password",
+        kAccentColor,
+        const Duration(
+          seconds: 2,
+        ),
+      );
+    }
 
     setState(() {
       _isLoading = false;

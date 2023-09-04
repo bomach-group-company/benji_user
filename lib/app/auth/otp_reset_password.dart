@@ -1,12 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:benji_user/app/auth/forgot_password.dart';
+import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/reusable_authentication_first_half.dart';
@@ -83,9 +88,39 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
   }
 
   //================= Resend OTP ======================\\
-  void _resendOTP() {
+  void _resendOTP() async {
     // Implement your resend OTP logic here
     // For example, you could restart the timer and reset the `_timerComplete` state.
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userEmail = await prefs.getString('email');
+
+    if (userEmail == null) {
+      myFixedSnackBar(
+        context,
+        "Something went wrong".toUpperCase(),
+        kSuccessColor,
+        const Duration(
+          seconds: 2,
+        ),
+      );
+
+      Get.to(
+        () => const ForgotPassword(),
+        routeName: 'ForgotPassword',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+    }
+
+    final url = Uri.parse('$baseURL/auth/requestForgotPassword/${userEmail}');
+
+    final body = {};
+    final response = await http.post(url, body: body);
+
     setState(() {
       _secondsRemaining = 60;
       _timerComplete = false;
@@ -101,42 +136,64 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
     return '$_minutesStr:$_secondsStr';
   }
 
+  Future<bool> otp() async {
+    final url = Uri.parse(
+        '$baseURL/auth/verify-token/${pin1EC.text}${pin2EC.text}${pin3EC.text}${pin4EC.text}');
+
+    final response = await http.get(url);
+    try {
+      Map resp = jsonDecode(response.body);
+      bool res = response.statusCode == 200 && resp['message'] != 'Failed';
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', resp['token']);
+      return res;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<void> loadData() async {
     setState(() {
       _isLoading = true;
     });
 
-    // Simulating a delay of 3 seconds
-    await Future.delayed(const Duration(seconds: 2));
+    bool res = await otp();
 
     setState(() {
-      _validAuthCredentials = true;
+      _validAuthCredentials = res;
     });
+    if (res) {
+      //Display snackBar
+      myFixedSnackBar(
+        context,
+        "OTP Verified".toUpperCase(),
+        kSuccessColor,
+        const Duration(
+          seconds: 2,
+        ),
+      );
 
-    //Display snackBar
-    myFixedSnackBar(
-      context,
-      "OTP Verified".toUpperCase(),
-      kSuccessColor,
-      const Duration(
-        seconds: 2,
-      ),
-    );
-
-    // Simulating a delay of 2 seconds
-    await Future.delayed(const Duration(seconds: 2));
-
-    // Navigate to the new page
-    Get.to(
-      () => const ResetPassword(),
-      routeName: 'ResetPassword',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
+      // Navigate to the new page
+      Get.to(
+        () => const ResetPassword(),
+        routeName: 'ResetPassword',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+    } else {
+      myFixedSnackBar(
+        context,
+        "Invalid OTP".toUpperCase(),
+        kAccentColor,
+        const Duration(
+          seconds: 2,
+        ),
+      );
+    }
 
     setState(() {
       _isLoading = false;
