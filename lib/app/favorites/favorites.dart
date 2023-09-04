@@ -1,9 +1,5 @@
 // ignore_for_file: unused_local_variable
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/route_manager.dart';
-
+import 'package:benji_user/app/vendor/vendor_details.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/cart.dart';
 import 'package:benji_user/src/common_widgets/empty.dart';
@@ -12,6 +8,10 @@ import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/vendor/popular_vendors_card.dart';
 import '../../src/providers/constants.dart';
@@ -313,7 +313,23 @@ class _FavoritesState extends State<Favorites>
                                                         kHalfSizedBox,
                                                 itemBuilder: (context, index) =>
                                                     PopularVendorsCard(
-                                                  onTap: () {},
+                                                  onTap: () {
+                                                    Get.to(
+                                                      () => VendorDetails(
+                                                          vendor: _dataVendor![
+                                                              index]),
+                                                      routeName:
+                                                          'VendorDetails',
+                                                      duration: const Duration(
+                                                          milliseconds: 300),
+                                                      fullscreenDialog: true,
+                                                      curve: Curves.easeIn,
+                                                      preventDuplicates: true,
+                                                      popGesture: true,
+                                                      transition: Transition
+                                                          .rightToLeft,
+                                                    );
+                                                  },
                                                   cardImage:
                                                       'best-choice-restaurant.png',
                                                   vendorName:
