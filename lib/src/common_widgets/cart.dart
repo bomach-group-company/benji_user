@@ -17,10 +17,7 @@ class _CartCardState extends State<CartCard> {
   @override
   void initState() {
     super.initState();
-    // countCartFunc();
   }
-
-  // String? cartCount;
 
   Future<String> countCartFunc() async {
     if (widget.cartCount == null) {
@@ -31,16 +28,19 @@ class _CartCardState extends State<CartCard> {
     }
   }
 
-  void _toCartScreen() => Get.to(
-        () => const CartScreen(),
-        routeName: 'CartScreen',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _toCartScreen() async {
+    await Get.to(
+      () => const CartScreen(),
+      routeName: 'CartScreen',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
