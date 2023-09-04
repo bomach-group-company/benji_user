@@ -8,7 +8,11 @@ import '../../app/home/home.dart';
 import 'button/my_elevatedbutton.dart';
 
 class EmptyCard extends StatelessWidget {
-  const EmptyCard({super.key});
+  final bool removeButton;
+  const EmptyCard({
+    super.key,
+    this.removeButton = false,
+  });
 
   void _toHomeScreen() => Get.offAll(
         () => const Home(),
@@ -38,10 +42,12 @@ class EmptyCard extends StatelessWidget {
           ),
         ),
         kSizedBox,
-        MyElevatedButton(
-          title: "Start shopping",
-          onPressed: _toHomeScreen,
-        ),
+        removeButton == true
+            ? SizedBox()
+            : MyElevatedButton(
+                title: "Start shopping",
+                onPressed: _toHomeScreen,
+              ),
       ],
     );
   }
