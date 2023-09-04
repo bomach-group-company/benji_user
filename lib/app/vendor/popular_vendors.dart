@@ -1,6 +1,8 @@
+import 'package:benji_user/app/vendor/vendor_details.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/vendor/popular_vendors_card.dart';
@@ -78,7 +80,18 @@ class _PopularVendorsState extends State<PopularVendors> {
                     separatorBuilder: (context, index) => kHalfSizedBox,
                     itemBuilder: (BuildContext context, int index) =>
                         PopularVendorsCard(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(
+                          () => VendorDetails(vendor: _data!['vendor'][index]),
+                          routeName: 'VendorDetails',
+                          duration: const Duration(milliseconds: 300),
+                          fullscreenDialog: true,
+                          curve: Curves.easeIn,
+                          preventDuplicates: true,
+                          popGesture: true,
+                          transition: Transition.rightToLeft,
+                        );
+                      },
                       cardImage: 'best-choice-restaurant.png',
                       vendorName: _data!['vendor'][index].shopName,
                       food: _data!['vendor'][index].shopType.name ??

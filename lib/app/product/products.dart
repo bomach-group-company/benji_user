@@ -1,6 +1,8 @@
+import 'package:benji_user/app/product/product_detail_screen.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/product/hot_deals_card.dart';
@@ -82,6 +84,19 @@ class _HotDealsPageState extends State<HotDealsPage> {
                     separatorBuilder: (context, index) => kHalfSizedBox,
                     itemBuilder: (BuildContext context, int index) =>
                         HotDealsCard(
+                      OnTap: () {
+                        Get.to(
+                          () => ProductDetailScreen(
+                              product: _data!['product'][index]),
+                          routeName: 'ProductDetailScreen',
+                          duration: const Duration(milliseconds: 300),
+                          fullscreenDialog: true,
+                          curve: Curves.easeIn,
+                          preventDuplicates: true,
+                          popGesture: true,
+                          transition: Transition.rightToLeft,
+                        );
+                      },
                       product: _data!['product'][index],
                     ),
                   ),

@@ -190,7 +190,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             break;
           case 'report':
             Get.to(
-              () => ReportProduct(),
+              () => ReportProduct(product: widget.product),
               routeName: 'ReportProduct',
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,
@@ -216,7 +216,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(kDefaultPadding)),
           elevation: 50,
-          child: RateProductDialog(),
+          child: RateProductDialog(product: widget.product),
         );
       },
     );

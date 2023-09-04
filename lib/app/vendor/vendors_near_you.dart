@@ -1,6 +1,8 @@
+import 'package:benji_user/app/vendor/vendor_details.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/vendor/all_vendors_near_you_card.dart';
@@ -80,7 +82,18 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                     itemCount: _data!['vendor'].length,
                     separatorBuilder: (context, index) => kHalfSizedBox,
                     itemBuilder: (context, index) => AllVendorsNearYouCard(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(
+                          () => VendorDetails(vendor: _data!['vendor'][index]),
+                          routeName: 'VendorDetails',
+                          duration: const Duration(milliseconds: 300),
+                          fullscreenDialog: true,
+                          curve: Curves.easeIn,
+                          preventDuplicates: true,
+                          popGesture: true,
+                          transition: Transition.rightToLeft,
+                        );
+                      },
                       cardImage: 'ntachi-osa.png',
                       vendorName: _data!['vendor'][index].shopName,
                       distance: "50 mins",
