@@ -1,6 +1,13 @@
+import 'dart:convert';
+
+import 'package:benji_user/src/repo/models/product/product.dart';
+import 'package:benji_user/src/repo/models/user/user_model.dart';
+import 'package:benji_user/src/repo/utils/base_url.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../src/providers/constants.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -10,8 +17,10 @@ import '../../src/common_widgets/textformfield/message_textformfield.dart';
 import '../../theme/colors.dart';
 
 class ReportProduct extends StatefulWidget {
+  final Product product;
   const ReportProduct({
     super.key,
+    required this.product,
   });
 
   @override
@@ -34,32 +43,63 @@ class _ReportProductState extends State<ReportProduct> {
   GlobalKey<FormState> _formKey = GlobalKey();
 
   //============================================ FUNCTIONS ===========================================\\
-  //========================== Save data ==================================\\
+  Future<bool> report() async {
+    User? user = await getUser();
+    final url = Uri.parse('$baseURL/products/reportProduct');
+
+    Map body = {
+      'client_id': user!.id,
+      'vendor_id': widget.product.vendorId.id,
+      'product_id': widget.product.id,
+      'comment': _messageEC.text,
+    };
+
+    final response =
+        await http.post(url, body: body, headers: await authHeader());
+    try {
+      Map resp = jsonDecode(response.body);
+      bool res = response.statusCode == 200;
+      return res;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<void> _submitRequest() async {
+    await checkAuth(context);
+
+    bool res = await report();
+
     setState(() {
-      _submittingRequest = true;
+      _submittingRequest = res;
     });
+    if (res) {
+      //Display snackBar
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success",
+        "Your report has been submitted successfully",
+        const Duration(seconds: 1),
+      );
 
-    // Simulating a delay of 3 seconds
-    await Future.delayed(const Duration(seconds: 1));
+      Future.delayed(const Duration(seconds: 2), () {
+        setState(() {
+          _submittingRequest = false;
+        });
 
-    //Display snackBar
-    mySnackBar(
-      context,
-      kSuccessColor,
-      "Success",
-      "Your report has been submitted successfully",
-      const Duration(seconds: 1),
-    );
-
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        _submittingRequest = false;
+        //Go back;
+        Get.back();
       });
-
-      //Go back;
-      Get.back();
-    });
+    } else {
+      mySnackBar(
+        context,
+        kAccentColor,
+        "Failed",
+        "Something went wrong",
+        const Duration(seconds: 1),
+      );
+    }
   }
 
   @override

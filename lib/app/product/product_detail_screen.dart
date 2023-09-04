@@ -190,7 +190,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             break;
           case 'report':
             Get.to(
-              () => ReportProduct(),
+              () => ReportProduct(product: widget.product),
               routeName: 'ReportProduct',
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,

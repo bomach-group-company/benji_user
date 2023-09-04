@@ -514,7 +514,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                                     ),
                                                     const SizedBox(width: 5),
                                                     Text(
-                                                      "4.8",
+                                                      '${widget.vendor.averageRating ?? 0}',
                                                       style: const TextStyle(
                                                         color: kBlackColor,
                                                         fontSize: 14,
