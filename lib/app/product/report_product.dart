@@ -71,7 +71,7 @@ class _ReportProductState extends State<ReportProduct> {
     bool res = await report();
 
     setState(() {
-      _submittingRequest = res;
+      _submittingRequest = true;
     });
     if (res) {
       //Display snackBar
@@ -83,15 +83,16 @@ class _ReportProductState extends State<ReportProduct> {
         const Duration(seconds: 1),
       );
 
-      Future.delayed(const Duration(seconds: 2), () {
-        setState(() {
-          _submittingRequest = false;
-        });
-
-        //Go back;
-        Get.back();
+      setState(() {
+        _submittingRequest = false;
       });
+
+      //Go back;
+      Get.back();
     } else {
+      setState(() {
+        _submittingRequest = false;
+      });
       mySnackBar(
         context,
         kAccentColor,

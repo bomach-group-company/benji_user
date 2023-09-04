@@ -216,7 +216,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(kDefaultPadding)),
           elevation: 50,
-          child: RateProductDialog(),
+          child: RateProductDialog(product: widget.product),
         );
       },
     );

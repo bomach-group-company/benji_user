@@ -1,9 +1,15 @@
+import 'dart:convert';
 import 'dart:math';
 
+import 'package:benji_user/src/repo/models/product/product.dart';
+import 'package:benji_user/src/repo/models/user/user_model.dart';
+import 'package:benji_user/src/repo/utils/base_url.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
@@ -11,7 +17,8 @@ import '../snackbar/my_floating_snackbar.dart';
 import '../textformfield/message_textformfield.dart';
 
 class RateProductDialog extends StatefulWidget {
-  const RateProductDialog({super.key});
+  final Product product;
+  const RateProductDialog({super.key, required this.product});
 
   @override
   State<RateProductDialog> createState() => _RateProductDialogState();
@@ -37,31 +44,64 @@ class _RateProductDialogState extends State<RateProductDialog> {
   var _myMessageFN = FocusNode();
 
 //===================================== FUNCTIONS ======================================\\
+  Future<bool> rate() async {
+    User? user = await getUser();
+    final url = Uri.parse('$baseURL/products/productReviewsRating');
+
+    Map body = {
+      'client_id': user!.id,
+      'vendor_id': widget.product.vendorId.id,
+      'rating_value': _rating,
+      'comment': _myMessageEC.text,
+    };
+    print(body);
+
+    final response =
+        await http.post(url, body: body, headers: await authHeader());
+    print(response.body);
+    print(response.statusCode);
+    try {
+      Map resp = jsonDecode(response.body);
+      bool res = response.statusCode == 200;
+      return res;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<void> _submitRequest() async {
+    await checkAuth(context);
+
     setState(() {
       _submittingRequest = true;
     });
-
-    // Simulating a delay of 3 seconds
-    await Future.delayed(const Duration(seconds: 2));
-
-    //Display snackBar
-    mySnackBar(
-      context,
-      kSuccessColor,
-      "Success",
-      "Your review has been submitted successfully",
-      const Duration(seconds: 1),
-    );
-
-    Future.delayed(const Duration(seconds: 1), () {
+    bool res = await rate();
+    if (res) {
+      //Display snackBar
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success",
+        "Your review has been submitted successfully",
+        const Duration(seconds: 1),
+      );
       setState(() {
         _submittingRequest = false;
       });
-
       //Go back;
       Get.back();
-    });
+    } else {
+      mySnackBar(
+        context,
+        kAccentColor,
+        "Failed",
+        "An error occurred",
+        const Duration(seconds: 1),
+      );
+      setState(() {
+        _submittingRequest = false;
+      });
+    }
   }
 
   @override
