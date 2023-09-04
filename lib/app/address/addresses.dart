@@ -219,7 +219,7 @@ class _AddressesState extends State<Addresses> {
                   radius: const Radius.circular(10),
                   scrollbarOrientation: ScrollbarOrientation.right,
                   child: (addressData!['addresses'] as List<Address>).isEmpty
-                      ? EmptyCard()
+                      ? EmptyCard(removeButton: true)
                       : ListView.builder(
                           controller: _scrollController,
                           itemCount: addressData!['addresses'].length,
