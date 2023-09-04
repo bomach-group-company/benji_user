@@ -64,12 +64,19 @@ class _CallPageState extends State<CallPage> {
   }
 
 //============================================= ALL VARAIBLES =========================================\\
+  int _callDuration = 0;
+  late Timer _callTimer;
+
+//============================================= BOOL VALUES =========================================\\
   late bool _phoneConnecting;
   late bool _phoneRinging;
   late bool _callConnected;
   late bool _callDropped;
-  int _callDuration = 0;
-  late Timer _callTimer;
+  // bool _bluetoothIconIsVisible = false;
+  bool _phoneSpeakerOn = false;
+  bool _phoneBluetoothOn = false;
+  bool _phoneMicOn = true;
+
 //============================================= CONTROLLERS =========================================\\
 
 //============================================= FUNCTIONS =========================================\\
@@ -86,6 +93,26 @@ class _CallPageState extends State<CallPage> {
     return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
 
+  void _phoneSpeakerFunc() {
+    setState(() {
+      _phoneSpeakerOn = !_phoneSpeakerOn;
+      _phoneBluetoothOn = false;
+    });
+  }
+
+  void _bluetoothFunc() {
+    setState(() {
+      _phoneBluetoothOn = !_phoneBluetoothOn;
+      _phoneSpeakerOn = false;
+    });
+  }
+
+  void _microphoneFunc() {
+    setState(() {
+      _phoneMicOn = !_phoneMicOn;
+    });
+  }
+
   Future<void> _endCallFunc() async {
     setState(() {
       _callConnected = false;
@@ -93,7 +120,7 @@ class _CallPageState extends State<CallPage> {
     });
 
     //Cause a delay before popping context
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(milliseconds: 300));
     //Pop context
     Get.back();
   }
@@ -135,7 +162,7 @@ class _CallPageState extends State<CallPage> {
                       color: kTextBlackColor,
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
-                      letterSpacing: 0.40,
+                      letterSpacing: 1,
                     ),
                   ),
                   kSizedBox,
@@ -145,12 +172,10 @@ class _CallPageState extends State<CallPage> {
                       color: kTextBlackColor,
                       fontSize: 15,
                       fontWeight: FontWeight.w200,
-                      letterSpacing: 0.40,
+                      letterSpacing: 1,
                     ),
                   ),
                   kSizedBox,
-
-                  //======================================== Call Connecting =========================================\\
                   if (_phoneConnecting)
                     Text(
                       "Connecting...",
@@ -161,31 +186,6 @@ class _CallPageState extends State<CallPage> {
                         letterSpacing: 0.32,
                       ),
                     ),
-                  if (_phoneConnecting)
-                    const SizedBox(height: kDefaultPadding * 6),
-                  if (_phoneConnecting)
-                    Container(
-                      height: 60,
-                      width: 60,
-                      decoration: ShapeDecoration(
-                        color: const Color(0xFFFDD5D5),
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                              width: 0.40, color: Color(0xFFD4DAF0)),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                      ),
-                      child: IconButton(
-                        splashRadius: 40,
-                        onPressed: _endCallFunc,
-                        icon: FaIcon(
-                          FontAwesomeIcons.phoneSlash,
-                          color: kAccentColor,
-                        ),
-                      ),
-                    ),
-
-                  //=========================================== Phone Ringing ============================================\\
                   if (_phoneRinging)
                     Text(
                       "Ringing...",
@@ -196,31 +196,6 @@ class _CallPageState extends State<CallPage> {
                         letterSpacing: 0.32,
                       ),
                     ),
-                  if (_callConnected)
-                    const SizedBox(height: kDefaultPadding * 6),
-                  if (_callConnected)
-                    Container(
-                      height: 60,
-                      width: 60,
-                      decoration: ShapeDecoration(
-                        color: const Color(0xFFFDD5D5),
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                              width: 0.40, color: Color(0xFFD4DAF0)),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                      ),
-                      child: IconButton(
-                        splashRadius: 40,
-                        onPressed: _endCallFunc,
-                        icon: FaIcon(
-                          FontAwesomeIcons.phoneSlash,
-                          color: kAccentColor,
-                        ),
-                      ),
-                    ),
-
-                  //=========================================== Call Connected ============================================\\
                   if (_callConnected)
                     Column(
                       children: [
@@ -237,57 +212,6 @@ class _CallPageState extends State<CallPage> {
                         Text('${_formatDuration()}'),
                       ],
                     ),
-                  const SizedBox(height: kDefaultPadding * 6),
-                  if (_callConnected)
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 60,
-                          width: 60,
-                          decoration: ShapeDecoration(
-                            color: const Color(0xFFFDD5D5),
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                  width: 0.40, color: Color(0xFFD4DAF0)),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                          ),
-                          child: IconButton(
-                            splashRadius: 40,
-                            onPressed: null,
-                            icon: FaIcon(
-                              FontAwesomeIcons.phoneVolume,
-                              color: kAccentColor,
-                            ),
-                          ),
-                        ),
-                        kWidthSizedBox,
-                        Container(
-                          height: 60,
-                          width: 60,
-                          decoration: ShapeDecoration(
-                            color: const Color(0xFFFDD5D5),
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                  width: 0.40, color: Color(0xFFD4DAF0)),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                          ),
-                          child: IconButton(
-                            splashRadius: 40,
-                            onPressed: _endCallFunc,
-                            icon: FaIcon(
-                              FontAwesomeIcons.phoneSlash,
-                              color: kAccentColor,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                  //=========================================== Call Dropped/Ended ============================================\\
                   if (_callDropped)
                     Text(
                       "Call ended",
@@ -304,7 +228,158 @@ class _CallPageState extends State<CallPage> {
                       "${_totalCallDuration()}",
                       style: TextStyle(color: kAccentColor),
                     ),
-                  if (_callDropped) const SizedBox(height: kDefaultPadding * 6),
+                  const SizedBox(height: kDefaultPadding * 6),
+                  if (_phoneConnecting)
+                    Container(
+                      height: 60,
+                      width: 60,
+                      decoration: ShapeDecoration(
+                        color: const Color(0xFFFDD5D5),
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(
+                              width: 1, color: Color(0xFFD4DAF0)),
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                      ),
+                      child: IconButton(
+                        splashRadius: 40,
+                        onPressed: _endCallFunc,
+                        icon: FaIcon(
+                          FontAwesomeIcons.phoneSlash,
+                          color: kAccentColor,
+                        ),
+                      ),
+                    ),
+                  if (_phoneRinging)
+                    Container(
+                      height: 60,
+                      width: 60,
+                      decoration: ShapeDecoration(
+                        color: const Color(0xFFFDD5D5),
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(
+                              width: 0.40, color: Color(0xFFD4DAF0)),
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                      ),
+                      child: IconButton(
+                        splashRadius: 40,
+                        onPressed: _endCallFunc,
+                        icon: FaIcon(
+                          FontAwesomeIcons.phoneSlash,
+                          color: kAccentColor,
+                        ),
+                      ),
+                    ),
+                  if (_callConnected)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 60,
+                          width: 60,
+                          decoration: ShapeDecoration(
+                            color: kPrimaryColor,
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                  width: 1, color: Color(0xFFD4DAF0)),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                          child: IconButton(
+                            splashRadius: 40,
+                            onPressed: _phoneSpeakerFunc,
+                            icon: _phoneSpeakerOn
+                                ? FaIcon(
+                                    FontAwesomeIcons.phoneVolume,
+                                    color: kSecondaryColor,
+                                  )
+                                : FaIcon(
+                                    FontAwesomeIcons.phoneVolume,
+                                    color: kGreyColor,
+                                  ),
+                          ),
+                        ),
+                        kWidthSizedBox,
+                        Container(
+                          height: 60,
+                          width: 60,
+                          decoration: ShapeDecoration(
+                            color: kPrimaryColor,
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                  width: 1, color: Color(0xFFD4DAF0)),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                          child: IconButton(
+                            splashRadius: 40,
+                            onPressed: _bluetoothFunc,
+                            icon: _phoneBluetoothOn
+                                ? FaIcon(
+                                    Icons.phone_bluetooth_speaker,
+                                    color: kSecondaryColor,
+                                    size: 32,
+                                  )
+                                : FaIcon(
+                                    Icons.phone_bluetooth_speaker,
+                                    color: kGreyColor,
+                                    size: 32,
+                                  ),
+                          ),
+                        ),
+                        kWidthSizedBox,
+                        Container(
+                          height: 60,
+                          width: 60,
+                          decoration: ShapeDecoration(
+                            color: kPrimaryColor,
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                  width: 1, color: Color(0xFFD4DAF0)),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                          child: IconButton(
+                            splashRadius: 40,
+                            onPressed: _microphoneFunc,
+                            icon: _phoneMicOn
+                                ? FaIcon(
+                                    FontAwesomeIcons.microphone,
+                                    color: kSecondaryColor,
+                                    size: 32,
+                                  )
+                                : FaIcon(
+                                    FontAwesomeIcons.microphoneSlash,
+                                    color: kGreyColor,
+                                    size: 32,
+                                  ),
+                          ),
+                        ),
+                        kWidthSizedBox,
+                        Container(
+                          height: 60,
+                          width: 60,
+                          decoration: ShapeDecoration(
+                            color: const Color(0xFFFDD5D5),
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                  width: 1, color: Color(0xFFD4DAF0)),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                          child: IconButton(
+                            splashRadius: 40,
+                            onPressed: _endCallFunc,
+                            icon: FaIcon(
+                              FontAwesomeIcons.phoneSlash,
+                              color: kAccentColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   if (_callDropped) kSizedBox,
                 ],
               ),
