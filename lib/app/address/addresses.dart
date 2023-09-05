@@ -203,7 +203,7 @@ class _AddressesState extends State<Addresses> {
           backgroundColor: kPrimaryColor,
           actions: [],
         ),
-        bottomNavigationBar: Container(
+        bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(10),
           child: MyElevatedButton(
             title: "Add new address",

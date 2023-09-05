@@ -11,14 +11,14 @@ import '../../src/repo/models/product/product.dart';
 import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 
-class HotDealsPage extends StatefulWidget {
-  const HotDealsPage({super.key});
+class HomePageProducts extends StatefulWidget {
+  const HomePageProducts({super.key});
 
   @override
-  State<HotDealsPage> createState() => _HotDealsPageState();
+  State<HomePageProducts> createState() => _HomePageProductsState();
 }
 
-class _HotDealsPageState extends State<HotDealsPage> {
+class _HomePageProductsState extends State<HomePageProducts> {
   //================================================= INITIAL STATE AND DISPOSE =====================================================\\
   @override
   void initState() {
@@ -64,7 +64,7 @@ class _HotDealsPageState extends State<HotDealsPage> {
         appBar: MyAppBar(
           elevation: 0.0,
           title: "Products",
-          toolbarHeight: 80,
+          toolbarHeight: kToolbarHeight,
           backgroundColor: kPrimaryColor,
           actions: [],
         ),
