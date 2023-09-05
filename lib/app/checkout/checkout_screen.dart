@@ -20,8 +20,7 @@ import '../../theme/colors.dart';
 import '../address/deliver_to.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  final Address deliverTo;
-  const CheckoutScreen({super.key, required this.deliverTo});
+  const CheckoutScreen({super.key});
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -134,15 +133,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         transition: Transition.rightToLeft,
       );
 
-  void _toDeliverTo() => Get.to(
-        () => const DeliverTo(toCheckout: true, inCheckout: true),
-        routeName: 'DeliverTo',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _toDeliverTo() async {
+    await Get.to(
+      () => const DeliverTo(inCheckout: true),
+      routeName: 'DeliverTo',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    await _getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -269,7 +271,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      widget.deliverTo.title ??
+                                      _data!['deliverTo'].title ??
                                           'Select location',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
@@ -282,7 +284,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     ),
                                     kSizedBox,
                                     Text(
-                                      widget.deliverTo.streetAddress ??
+                                      _data!['deliverTo'].streetAddress ??
                                           'Not Available',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,

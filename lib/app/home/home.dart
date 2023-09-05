@@ -225,7 +225,7 @@ class _HomeState extends State<Home> {
       );
 
   void _toCheckoutScreen() => Get.to(
-        () => const DeliverTo(toCheckout: true),
+        () => const DeliverTo(),
         routeName: 'DeliverTo',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -308,6 +308,9 @@ class _HomeState extends State<Home> {
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
+        onDrawerChanged: (isOpened) {
+          setState(() {});
+        },
         drawerDragStartBehavior: DragStartBehavior.start,
         drawerEnableOpenDragGesture: true,
         drawer: MyFutureBuilder(
@@ -547,7 +550,7 @@ class _HomeState extends State<Home> {
                                                 SizedBox(
                                                   width: 70,
                                                   child: Text(
-                                                    '${_data!['vendor'][index].averageRating ?? 0} (${_data!['vendor'][index].numberOfClientsReactions ?? 0}+)',
+                                                    '${((_data!['vendor'][index].averageRating as double?) ?? 0.0).toStringAsPrecision(2)} (${_data!['vendor'][index].numberOfClientsReactions ?? 0}+)',
                                                     style: TextStyle(
                                                       color: kTextBlackColor,
                                                       fontSize: 15,
@@ -613,9 +616,11 @@ class _HomeState extends State<Home> {
                               vendorName: _data!['vendor'][index].shopName,
                               food: _data!['vendor'][index].shopType.name ??
                                   'Not Available',
-                              rating:
-                                  (_data!['vendor'][index].averageRating ?? 0)
-                                      .toString(),
+                              rating: ((_data!['vendor'][index].averageRating
+                                          as double?) ??
+                                      0.0)
+                                  .toStringAsPrecision(2)
+                                  .toString(),
                               noOfUsersRated: (_data!['vendor'][index]
                                           .numberOfClientsReactions ??
                                       0)

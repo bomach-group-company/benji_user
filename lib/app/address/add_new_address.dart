@@ -394,6 +394,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                           ),
                           kHalfSizedBox,
                           CSCPicker(
+                            countryFilter: [CscCountry.Nigeria],
                             key: _cscPickerKey,
                             layout: Layout.vertical,
                             countryDropdownLabel: "Select country",

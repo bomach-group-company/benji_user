@@ -15,10 +15,8 @@ import '../../theme/colors.dart';
 import 'add_new_address.dart';
 
 class DeliverTo extends StatefulWidget {
-  final bool toCheckout;
   final bool inCheckout;
-  const DeliverTo(
-      {super.key, this.toCheckout = false, this.inCheckout = false});
+  const DeliverTo({super.key, this.inCheckout = false});
 
   @override
   State<DeliverTo> createState() => _DeliverToState();
@@ -85,6 +83,19 @@ class _DeliverToState extends State<DeliverTo> {
     await _getData();
   }
 
+  void _addAddress() async {
+    await Get.to(
+      () => const AddNewAddress(),
+      routeName: 'AddNewAddress',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    await _getData();
+  }
   //===================== FUNCTIONS =======================\\
 
   Future<void> applyDeliveryAddress(String addressId) async {
@@ -93,19 +104,34 @@ class _DeliverToState extends State<DeliverTo> {
     });
 
     if (_currentOption == '') {
-      Get.off(
+      await Get.off(
         () => AddNewAddress(),
         routeName: 'AddNewAddress',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
+        preventDuplicates: true,
         popGesture: true,
         transition: Transition.rightToLeft,
       );
+      await _getData();
     }
     Address? address;
     try {
       address = await setCurrentAddress(addressId);
+      if (widget.inCheckout) {
+        Get.back();
+      } else {
+        Get.off(
+          () => CheckoutScreen(),
+          routeName: 'CheckoutScreen',
+          duration: const Duration(milliseconds: 300),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          popGesture: true,
+          transition: Transition.rightToLeft,
+        );
+      }
     } catch (e) {
       mySnackBar(
         context,
@@ -118,36 +144,23 @@ class _DeliverToState extends State<DeliverTo> {
       );
     }
 
-    if (!widget.toCheckout) {
-      //Display snackBar
-      mySnackBar(
-        context,
-        kSuccessColor,
-        "Succcess!",
-        "Delivery address updated",
-        Duration(
-          seconds: 2,
-        ),
-      );
-    }
-
-    if (widget.toCheckout) {
-      if (widget.inCheckout && address != null) {
-        Get.close(1);
-      } else {
-        Get.off(
-          () => CheckoutScreen(deliverTo: address!),
-          routeName: 'CheckoutScreen',
-          duration: const Duration(milliseconds: 300),
-          fullscreenDialog: true,
-          curve: Curves.easeIn,
-          popGesture: true,
-          transition: Transition.rightToLeft,
-        );
-      }
-    } else {
-      Get.back();
-    }
+    // if (widget.toCheckout) {
+    //   if (widget.inCheckout && address != null) {
+    //     Get.close(1);
+    //   } else {
+    //     Get.off(
+    //       () => CheckoutScreen(deliverTo: address!),
+    //       routeName: 'CheckoutScreen',
+    //       duration: const Duration(milliseconds: 300),
+    //       fullscreenDialog: true,
+    //       curve: Curves.easeIn,
+    //       popGesture: true,
+    //       transition: Transition.rightToLeft,
+    //     );
+    //   }
+    // } else {
+    //   Get.back();
+    // }
 
     setState(() {
       _isLoading = false;
@@ -306,13 +319,7 @@ class _DeliverToState extends State<DeliverTo> {
                     ),
                     MyOutlinedElevatedButton(
                       title: "Add New Address",
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => AddNewAddress(),
-                          ),
-                        );
-                      },
+                      onPressed: _addAddress,
                     ),
                     SizedBox(
                       height: kDefaultPadding,
