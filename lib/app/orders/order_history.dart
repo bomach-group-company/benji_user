@@ -1,5 +1,7 @@
+import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/common_widgets/section/custom_showSearch.dart';
 import 'package:benji_user/src/repo/models/order/order.dart';
+import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -33,7 +35,8 @@ class _OrdersHistoryState extends State<OrdersHistory> {
 
   _getData() async {
     await checkAuth(context);
-    List<Order> order = await getOrders();
+    User? user = await getUser();
+    List<Order> order = await getOrders(user!.id);
 
     setState(() {
       _data = order;
@@ -83,16 +86,19 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                       ? Center(
                           child: SpinKitChasingDots(color: kAccentColor),
                         )
-                      : ListView.separated(
-                          itemCount: _data!.length,
-                          separatorBuilder: (context, index) => kHalfSizedBox,
-                          physics: const BouncingScrollPhysics(),
-                          scrollDirection: Axis.vertical,
-                          itemBuilder: (context, index) =>
-                              TrackOrderDetailsContainer(
-                            order: _data![index],
-                          ),
-                        ),
+                      : _data!.isEmpty
+                          ? EmptyCard()
+                          : ListView.separated(
+                              itemCount: _data!.length,
+                              separatorBuilder: (context, index) =>
+                                  kHalfSizedBox,
+                              physics: const BouncingScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (context, index) =>
+                                  TrackOrderDetailsContainer(
+                                order: _data![index],
+                              ),
+                            ),
                 ),
               ],
             ),
