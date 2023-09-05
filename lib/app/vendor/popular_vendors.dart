@@ -96,8 +96,11 @@ class _PopularVendorsState extends State<PopularVendors> {
                       vendorName: _data!['vendor'][index].shopName,
                       food: _data!['vendor'][index].shopType.name ??
                           'Not Available',
-                      rating: (_data!['vendor'][index].averageRating ?? 0)
-                          .toString(),
+                      rating:
+                          ((_data!['vendor'][index].averageRating as double?) ??
+                                  0.0)
+                              .toStringAsPrecision(2)
+                              .toString(),
                       noOfUsersRated:
                           (_data!['vendor'][index].numberOfClientsReactions ??
                                   0)

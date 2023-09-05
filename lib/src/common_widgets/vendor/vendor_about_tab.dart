@@ -16,11 +16,7 @@ class VendorsAboutTab extends StatefulWidget {
 class _VendorsAboutTabState extends State<VendorsAboutTab> {
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
-
     return SizedBox(
-      width: mediaWidth,
       child: widget.list,
     );
   }

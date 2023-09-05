@@ -550,7 +550,7 @@ class _HomeState extends State<Home> {
                                                 SizedBox(
                                                   width: 70,
                                                   child: Text(
-                                                    '${_data!['vendor'][index].averageRating ?? 0} (${_data!['vendor'][index].numberOfClientsReactions ?? 0}+)',
+                                                    '${((_data!['vendor'][index].averageRating as double?) ?? 0.0).toStringAsPrecision(2)} (${_data!['vendor'][index].numberOfClientsReactions ?? 0}+)',
                                                     style: TextStyle(
                                                       color: kTextBlackColor,
                                                       fontSize: 15,
@@ -616,9 +616,11 @@ class _HomeState extends State<Home> {
                               vendorName: _data!['vendor'][index].shopName,
                               food: _data!['vendor'][index].shopType.name ??
                                   'Not Available',
-                              rating:
-                                  (_data!['vendor'][index].averageRating ?? 0)
-                                      .toString(),
+                              rating: ((_data!['vendor'][index].averageRating
+                                          as double?) ??
+                                      0.0)
+                                  .toStringAsPrecision(2)
+                                  .toString(),
                               noOfUsersRated: (_data!['vendor'][index]
                                           .numberOfClientsReactions ??
                                       0)
