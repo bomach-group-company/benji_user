@@ -225,7 +225,7 @@ class _HomeState extends State<Home> {
       );
 
   void _toCheckoutScreen() => Get.to(
-        () => const DeliverTo(toCheckout: true),
+        () => const DeliverTo(),
         routeName: 'DeliverTo',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -308,6 +308,9 @@ class _HomeState extends State<Home> {
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
+        onDrawerChanged: (isOpened) {
+          setState(() {});
+        },
         drawerDragStartBehavior: DragStartBehavior.start,
         drawerEnableOpenDragGesture: true,
         drawer: MyFutureBuilder(

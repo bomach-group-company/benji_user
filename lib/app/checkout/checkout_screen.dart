@@ -20,8 +20,7 @@ import '../../theme/colors.dart';
 import '../address/deliver_to.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  final Address deliverTo;
-  const CheckoutScreen({super.key, required this.deliverTo});
+  const CheckoutScreen({super.key});
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -136,7 +135,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   void _toDeliverTo() async {
     await Get.to(
-      () => const DeliverTo(toCheckout: true, inCheckout: true),
+      () => const DeliverTo(inCheckout: true),
       routeName: 'DeliverTo',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
@@ -272,7 +271,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      widget.deliverTo.title ??
+                                      _data!['deliverTo'].title ??
                                           'Select location',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
@@ -285,7 +284,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     ),
                                     kSizedBox,
                                     Text(
-                                      widget.deliverTo.streetAddress ??
+                                      _data!['deliverTo'].streetAddress ??
                                           'Not Available',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,

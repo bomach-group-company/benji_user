@@ -115,7 +115,7 @@ class _CartScreenState extends State<CartScreen> {
       );
 
   void _toCheckoutScreen() => Get.to(
-        () => DeliverTo(toCheckout: true),
+        () => DeliverTo(),
         routeName: 'DeliverTo',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
