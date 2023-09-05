@@ -64,27 +64,33 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   //========================================================================\\
 
   //==================================================== Navigation ===========================================================\\
-  void _toEditProfile() => Get.to(
-        () => const EditProfile(),
-        routeName: 'EditProfile',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _toEditProfile() async {
+    await Get.to(
+      () => const EditProfile(),
+      routeName: 'EditProfile',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    setState(() {});
+  }
 
-  void _toChangePassword() => Get.to(
-        () => const EmailVerification(),
-        routeName: 'EmailVerification',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _toChangePassword() async {
+    await Get.to(
+      () => const EmailVerification(),
+      routeName: 'EmailVerification',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    setState(() {});
+  }
 
   void _logOut() => Get.offAll(
         () => const Login(logout: true),

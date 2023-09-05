@@ -169,16 +169,19 @@ class _HomeState extends State<Home> {
         transition: Transition.downToUp,
       );
 
-  void _toProfileSettings() => Get.to(
-        () => const ProfileSettings(),
-        routeName: 'ProfileSettings',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _toProfileSettings() async {
+    await Get.to(
+      () => const ProfileSettings(),
+      routeName: 'ProfileSettings',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    setState(() {});
+  }
 
   void _toAddressScreen() => Get.to(
         () => const Addresses(),

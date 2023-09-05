@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
@@ -15,7 +16,6 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
-import '../../src/common_widgets/snackbar/my_fixed_snackBar.dart';
 import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
 import '../../src/common_widgets/textformfield/name_textformfield.dart';
 import '../../src/providers/constants.dart';
@@ -207,24 +207,22 @@ class _EditProfileState extends State<EditProfile> {
 
     if (res) {
       //Display snackBar
-      myFixedSnackBar(
+      mySnackBar(
         context,
+        kSuccessColor,
+        "Success!",
         "Your changes have been saved successfully".toUpperCase(),
-        kSecondaryColor,
-        Duration(
-          seconds: 2,
-        ),
+        Duration(seconds: 2),
       );
 
       Get.back();
     } else {
-      myFixedSnackBar(
+      mySnackBar(
         context,
+        kSuccessColor,
+        "Failed!",
         "Something unexpected happened try again".toUpperCase(),
-        kAccentColor,
-        Duration(
-          seconds: 2,
-        ),
+        Duration(seconds: 2),
       );
     }
 
