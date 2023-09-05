@@ -410,6 +410,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                           ),
                           kHalfSizedBox,
                           CSCPicker(
+                            countryFilter: [CscCountry.Nigeria],
                             currentCity: city,
                             currentState: state,
                             currentCountry: country,

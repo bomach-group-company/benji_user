@@ -134,15 +134,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         transition: Transition.rightToLeft,
       );
 
-  void _toDeliverTo() => Get.to(
-        () => const DeliverTo(toCheckout: true, inCheckout: true),
-        routeName: 'DeliverTo',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _toDeliverTo() async {
+    await Get.to(
+      () => const DeliverTo(toCheckout: true, inCheckout: true),
+      routeName: 'DeliverTo',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    await _getData();
+  }
 
   @override
   Widget build(BuildContext context) {

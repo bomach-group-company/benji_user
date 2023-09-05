@@ -85,6 +85,19 @@ class _DeliverToState extends State<DeliverTo> {
     await _getData();
   }
 
+  void _addAddress() async {
+    await Get.to(
+      () => const AddNewAddress(),
+      routeName: 'AddNewAddress',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    await _getData();
+  }
   //===================== FUNCTIONS =======================\\
 
   Future<void> applyDeliveryAddress(String addressId) async {
@@ -93,15 +106,17 @@ class _DeliverToState extends State<DeliverTo> {
     });
 
     if (_currentOption == '') {
-      Get.off(
+      await Get.off(
         () => AddNewAddress(),
         routeName: 'AddNewAddress',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
+        preventDuplicates: true,
         popGesture: true,
         transition: Transition.rightToLeft,
       );
+      await _getData();
     }
     Address? address;
     try {
@@ -306,13 +321,7 @@ class _DeliverToState extends State<DeliverTo> {
                     ),
                     MyOutlinedElevatedButton(
                       title: "Add New Address",
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => AddNewAddress(),
-                          ),
-                        );
-                      },
+                      onPressed: _addAddress,
                     ),
                     SizedBox(
                       height: kDefaultPadding,
