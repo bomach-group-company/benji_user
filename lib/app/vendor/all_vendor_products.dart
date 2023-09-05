@@ -127,6 +127,7 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
           toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
+          maintainBottomViewPadding: true,
           child: Scrollbar(
             controller: _scrollController,
             child: _data == null

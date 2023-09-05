@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: unused_field
 
 import 'dart:async';
@@ -13,11 +14,16 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/providers/constants.dart';
+import '../../src/repo/models/vendor/vendor.dart';
 import '../../theme/colors.dart';
 import 'all_vendor_products.dart';
 
 class VendorLocation extends StatefulWidget {
-  const VendorLocation({super.key});
+  final VendorModel vendor;
+  const VendorLocation({
+    Key? key,
+    required this.vendor,
+  }) : super(key: key);
 
   @override
   State<VendorLocation> createState() => _VendorLocationState();
@@ -244,8 +250,9 @@ class _VendorLocationState extends State<VendorLocation> {
                   mapToolbarEnabled: true,
                   minMaxZoomPreference: MinMaxZoomPreference.unbounded,
                   tiltGesturesEnabled: true,
-                  zoomControlsEnabled: true,
+                  zoomControlsEnabled: false,
                   zoomGesturesEnabled: true,
+                  fortyFiveDegreeImageryEnabled: true,
                   myLocationButtonEnabled: true,
                   myLocationEnabled: true,
                   cameraTargetBounds: CameraTargetBounds.unbounded,
@@ -304,7 +311,7 @@ class _VendorLocationState extends State<VendorLocation> {
                   SizedBox(
                     width: mediaWidth - 200,
                     child: Text(
-                      "Ntachi Osa",
+                      widget.vendor.shopName ?? 'Not Available',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       textAlign: TextAlign.center,
@@ -385,7 +392,7 @@ class _VendorLocationState extends State<VendorLocation> {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              "4.8",
+                              '${(widget.vendor.averageRating ?? 0).toPrecision(1)}',
                               style: const TextStyle(
                                 color: kBlackColor,
                                 fontSize: 14,
@@ -409,10 +416,14 @@ class _VendorLocationState extends State<VendorLocation> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Online",
+                              widget.vendor.isOnline ?? false
+                                  ? "Online"
+                                  : 'Offline',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: kSuccessColor,
+                                color: widget.vendor.isOnline ?? false
+                                    ? kSuccessColor
+                                    : kAccentColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 letterSpacing: -0.36,
