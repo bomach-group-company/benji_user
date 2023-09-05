@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field
 
 import 'package:benji_user/app/favorites/favorites.dart';
+import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/others/my_future_builder.dart';
 import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/models/category/category.dart';
@@ -62,7 +63,7 @@ class _HomeState extends State<Home> {
   }
 
   Map? _data;
-
+  List<Product>? product;
   _getData() async {
     await checkAuth(context);
     String current = 'Select Address';
@@ -72,8 +73,13 @@ class _HomeState extends State<Home> {
       current = current;
     }
 
+    product = [];
     List<Category> category = await getCategories();
-    List<Product> product = await getProducts();
+    try {
+      product = await getProductsByCategory(category[activeCategory].id);
+    } catch (e) {
+      product = [];
+    }
     List<VendorModel> vendor = await getVendors();
     setState(() {
       _data = {
@@ -163,16 +169,19 @@ class _HomeState extends State<Home> {
         transition: Transition.downToUp,
       );
 
-  void _toProfileSettings() => Get.to(
-        () => const ProfileSettings(),
-        routeName: 'ProfileSettings',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _toProfileSettings() async {
+    await Get.to(
+      () => const ProfileSettings(),
+      routeName: 'ProfileSettings',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    setState(() {});
+  }
 
   void _toAddressScreen() => Get.to(
         () => const Addresses(),
@@ -611,6 +620,8 @@ class _HomeState extends State<Home> {
                                 onPressed: () {
                                   setState(() {
                                     activeCategory = index;
+                                    product = null;
+                                    _getData();
                                   });
                                 },
                                 title: _data!['category'][index].name,
@@ -626,17 +637,27 @@ class _HomeState extends State<Home> {
                         ),
                         kSizedBox,
                         Center(
-                          child: ListView.separated(
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: _data!['product'].length,
-                            separatorBuilder: (context, index) => kHalfSizedBox,
-                            itemBuilder: (context, index) => HomeProductsCard(
-                              product: _data!['product'][index],
-                              OnTap: () => _toProductDetailScreenPage(
-                                  _data!['product'][index]),
-                            ),
-                          ),
+                          child: product == null
+                              ? Center(
+                                  child:
+                                      SpinKitChasingDots(color: kAccentColor))
+                              : _data!['product'].isEmpty
+                                  ? EmptyCard(
+                                      removeButton: true,
+                                    )
+                                  : ListView.separated(
+                                      physics: const BouncingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: _data!['product'].length,
+                                      separatorBuilder: (context, index) =>
+                                          kHalfSizedBox,
+                                      itemBuilder: (context, index) =>
+                                          HomeProductsCard(
+                                        product: _data!['product'][index],
+                                        OnTap: () => _toProductDetailScreenPage(
+                                            _data!['product'][index]),
+                                      ),
+                                    ),
                         ),
                       ],
                     ),

@@ -48,14 +48,14 @@ class Order {
   }
 }
 
-Future<List<Order>> getOrders({start = 1, end = 10}) async {
+Future<List<Order>> getOrders(id) async {
   final response = await http.get(
-    Uri.parse('$baseURL/orders/list_order?start=$start&end=$end'),
+    Uri.parse('$baseURL/clients/listClientOrders/${id}'),
     headers: await authHeader(),
   );
 
   if (response.statusCode == 200) {
-    return (jsonDecode(response.body)['items'] as List)
+    return (jsonDecode(response.body) as List)
         .map((item) => Order.fromJson(item))
         .toList();
   } else {

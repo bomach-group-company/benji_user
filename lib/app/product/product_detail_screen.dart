@@ -432,7 +432,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       ),
                                       kHalfSizedBox,
                                       SizedBox(
-                                        width: mediaWidth / 2.4,
+                                        width: mediaWidth / 3,
                                         child: Text(
                                           "₦ ${formattedText(widget.product.price)}",
                                           overflow: TextOverflow.ellipsis,

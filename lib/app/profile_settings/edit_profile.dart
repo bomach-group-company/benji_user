@@ -1,15 +1,21 @@
 // ignore_for_file: unused_local_variable
 
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
+import 'package:benji_user/src/repo/models/user/user_model.dart';
+import 'package:benji_user/src/repo/utils/base_url.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
-import '../../src/common_widgets/snackbar/my_fixed_snackBar.dart';
 import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
 import '../../src/common_widgets/textformfield/name_textformfield.dart';
 import '../../src/providers/constants.dart';
@@ -24,7 +30,7 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
 //======================================== ALL VARIABLES ==============================================\\
-
+  final String countryDialCode = '234';
 //======================================== GLOBAL KEYS ==============================================\\
   final _formKey = GlobalKey<FormState>();
 
@@ -155,31 +161,70 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   //=========================== FUNCTIONS ====================================\\
-  Future<void> loadData() async {
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    checkAuth(context);
+    User? user = await getUser();
+
+    _userFirstNameEC.text = user!.firstName!;
+    _userLastNameEC.text = user.lastName!;
+    phoneNumberEC.text =
+        (user.phone ?? '').replaceFirst('+$countryDialCode', '');
+    ;
+  }
+
+  Future<bool> updateProfile({bool is_current = true}) async {
+    User? user = await getUser();
+
+    final url = Uri.parse('$baseURL/clients/changeClient/${user!.id}');
+    final body = {
+      'first_name': _userFirstNameEC.text,
+      'last_name': _userLastNameEC.text,
+      'phone': "+$countryDialCode${phoneNumberEC.text}",
+      // 'image': selectedImage!,
+    };
+    final response = await http.put(url,
+        body: jsonEncode(body), headers: await authHeader());
+    try {
+      await saveUser(response.body, user.token!);
+      return response.statusCode == 200;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<void> updateData() async {
     setState(() {
       isLoading = true;
     });
 
-    // Simulating a delay of 3 seconds
-    await Future.delayed(Duration(seconds: 2));
+    bool res = await updateProfile();
 
-    //Display snackBar
-    myFixedSnackBar(
-      context,
-      "Your changes have been saved successfully".toUpperCase(),
-      kSecondaryColor,
-      Duration(
-        seconds: 2,
-      ),
-    );
+    if (res) {
+      //Display snackBar
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Your changes have been saved successfully".toUpperCase(),
+        Duration(seconds: 2),
+      );
 
-    Future.delayed(
-        const Duration(
-          seconds: 2,
-        ), () {
-      // Navigate to the new page
-      Navigator.of(context).pop(context);
-    });
+      Get.back();
+    } else {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Failed!",
+        "Something unexpected happened try again".toUpperCase(),
+        Duration(seconds: 2),
+      );
+    }
 
     setState(() {
       isLoading = false;
@@ -229,7 +274,7 @@ class _EditProfileState extends State<EditProfile> {
                 child: MyElevatedButton(
                   onPressed: (() async {
                     if (_formKey.currentState!.validate()) {
-                      loadData();
+                      updateData();
                     }
                   }),
                   title: "Save",

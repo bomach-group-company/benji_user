@@ -1,9 +1,7 @@
+import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/repo/models/rating/ratings.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
-import 'package:benji_user/src/repo/utils/helpers.dart';
-import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../src/common_widgets/rating_view/customer_review_card.dart';
 import '../../src/common_widgets/rating_view/star_row.dart';
@@ -11,9 +9,11 @@ import '../../src/providers/constants.dart';
 
 class AboutVendor extends StatefulWidget {
   final VendorModel vendor;
+  final List<Ratings> ratings;
   const AboutVendor({
     super.key,
     required this.vendor,
+    required this.ratings,
   });
 
   @override
@@ -21,24 +21,6 @@ class AboutVendor extends StatefulWidget {
 }
 
 class _AboutVendorState extends State<AboutVendor> {
-//============================================= INITIAL STATE AND DISPOSE  ===================================================\\
-  @override
-  void initState() {
-    super.initState();
-    _getData();
-  }
-
-  Map? _data;
-
-  _getData() async {
-    await checkAuth(context);
-    List<Ratings> ratings = await getRatingsByVendorId(widget.vendor.id!);
-    setState(() {
-      _data = {'ratings': ratings};
-    });
-  }
-//============================================= FUNCTIONS  ===================================================\\
-
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
@@ -231,15 +213,17 @@ class _AboutVendorState extends State<AboutVendor> {
             ),
           ),
           kSizedBox,
-          _data == null
-              ? Center(child: SpinKitChasingDots(color: kAccentColor))
+          widget.ratings.isEmpty
+              ? EmptyCard(
+                  removeButton: true,
+                )
               : ListView.separated(
                   physics: BouncingScrollPhysics(),
                   separatorBuilder: (context, index) => kSizedBox,
                   shrinkWrap: true,
-                  itemCount: _data!['ratings'].length,
+                  itemCount: widget.ratings.length,
                   itemBuilder: (BuildContext context, int index) =>
-                      CostumerReviewCard(rating: _data!['ratings'][index]),
+                      CostumerReviewCard(rating: widget.ratings[index]),
                 ),
         ],
       ),
