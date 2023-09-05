@@ -361,7 +361,7 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
                             child: MyOTPTextFormField(
                               textInputAction: TextInputAction.next,
                               onSaved: (pin1) {
-                                pin1EC.text = pin1!;
+                                pin1EC.text = pin1;
                               },
                               onChanged: (value) {
                                 if (value.length == 1) {
@@ -382,7 +382,7 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
                             child: MyOTPTextFormField(
                               textInputAction: TextInputAction.next,
                               onSaved: (pin2) {
-                                pin2EC.text = pin2!;
+                                pin2EC.text = pin2;
                               },
                               onChanged: (value) {
                                 if (value.length == 1) {
@@ -403,7 +403,7 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
                             child: MyOTPTextFormField(
                               textInputAction: TextInputAction.next,
                               onSaved: (pin3) {
-                                pin3EC.text = pin3!;
+                                pin3EC.text = pin3;
                               },
                               onChanged: (value) {
                                 if (value.length == 1) {
@@ -424,7 +424,7 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
                             child: MyOTPTextFormField(
                               textInputAction: TextInputAction.done,
                               onSaved: (pin4) {
-                                pin4EC.text = pin4!;
+                                pin4EC.text = pin4;
                               },
                               onChanged: (value) {
                                 if (value.length == 1) {

@@ -1,12 +1,15 @@
 // ignore_for_file: unused_field
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/route_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
+import '../call/call_screen.dart';
 
 class DeliveryMap extends StatefulWidget {
   const DeliveryMap({super.key});
@@ -61,16 +64,32 @@ class _DeliveryMapState extends State<DeliveryMap> {
     _googleMapController = controller;
   }
 
+  //=============================== NAVIGATION ======================================\\
+  void _callCustomer() => Get.to(
+        () => CallPage(
+          userImage: "rider/martins-okafor.png",
+          userName: "Martins Okafor",
+          userPhoneNumber: "08125374562",
+        ),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "CallPage",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
+    double mediaWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: MyAppBar(
         title: "Track Order",
         toolbarHeight: 80,
         elevation: 0.0,
-        backgroundColor: kPrimaryColor.withOpacity(
-          0,
-        ),
+        backgroundColor: kPrimaryColor,
         actions: [],
       ),
       backgroundColor: kPrimaryColor,
@@ -104,14 +123,12 @@ class _DeliveryMapState extends State<DeliveryMap> {
             right: 20,
             bottom: 25,
             child: MyElevatedButton(
-              title: "Track Order",
+              title: "Order Details",
               onPressed: () {
                 showModalBottomSheet(
                   context: context,
                   backgroundColor: kPrimaryColor,
-                  barrierColor: kBlackColor.withOpacity(
-                    0.5,
-                  ),
+                  barrierColor: kBlackColor.withOpacity(0.5),
                   showDragHandle: true,
                   useSafeArea: true,
                   isScrollControlled: true,
@@ -125,319 +142,207 @@ class _DeliveryMapState extends State<DeliveryMap> {
                   ),
                   enableDrag: true,
                   builder: (context) => SingleChildScrollView(
+                    padding: EdgeInsets.only(
+                      left: kDefaultPadding,
+                      right: kDefaultPadding,
+                      bottom: kDefaultPadding,
+                    ),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: kDefaultPadding,
-                            right: kDefaultPadding,
-                            bottom: kDefaultPadding,
+                        Text(
+                          'Order Details',
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: 167,
-                                    child: Text(
-                                      'Status',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
+                        ),
+                        kSizedBox,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 100,
+                              height: 100,
+                              decoration: ShapeDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    "assets/images/products/chizzy's-food.png",
                                   ),
-                                  TextButton(
-                                    onPressed: () {
-                                      // Navigator.of(context).pushReplacement(
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) => TrackOrder(),
-                                      //   ),
-                                      // );
-                                    },
-                                    child: Text(
-                                      'See Details',
-                                      style: TextStyle(
-                                        color: Color(
-                                          0xFFEC2623,
-                                        ),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                  fit: BoxFit.cover,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
                               ),
-                              SizedBox(
-                                width: 264,
-                                child: Text(
-                                  'Order received by vendor',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xFF222222,
+                            ),
+                            kHalfWidthSizedBox,
+                            Column(
+                              children: [
+                                SizedBox(
+                                  width: mediaWidth / 2,
+                                  child: Text(
+                                    "Chizzy's Food",
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.start,
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
                                     ),
+                                  ),
+                                ),
+                                kSizedBox,
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: mediaWidth / 4,
+                                      child: Text(
+                                        '3 Item (s)',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                    kWidthSizedBox,
+                                    SizedBox(
+                                      width: mediaWidth / 5,
+                                      child: Text(
+                                        'Waiting',
+                                        style: TextStyle(
+                                          color: kSecondaryColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                kSizedBox,
+                                SizedBox(
+                                  width: mediaWidth / 2,
+                                  child: Row(
+                                    children: [
+                                      FaIcon(
+                                        FontAwesomeIcons.solidCircleCheck,
+                                        color: kSuccessColor,
+                                        size: 18,
+                                      ),
+                                      kHalfWidthSizedBox,
+                                      SizedBox(
+                                        width: mediaWidth / 5,
+                                        child: Text(
+                                          'Paid',
+                                          style: TextStyle(
+                                            color: kTextBlackColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        kHalfSizedBox,
+                        Divider(color: kGreyColor, thickness: 1),
+                        kHalfSizedBox,
+                        Text(
+                          'Delivery Officer',
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        kHalfSizedBox,
+                        ListTile(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                          onTap: null,
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: ShapeDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  "assets/images/rider/martins-okafor.png",
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          title: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: mediaWidth / 2.2,
+                                child: Text(
+                                  'Martins Okafor ',
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
                                     fontSize: 18,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
                               ),
-                              kSizedBox,
-                              Container(
-                                width: 280,
-                                height: 85,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      left: 0,
-                                      top: 0,
-                                      child: Container(
-                                        width: 280,
-                                        decoration: ShapeDecoration(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              6,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: 111,
-                                      top: 18,
-                                      child: Container(
-                                        width: 200,
-                                        height: 62,
-                                        child: Stack(
-                                          children: [
-                                            Positioned(
-                                              left: 0,
-                                              top: 0,
-                                              child: SizedBox(
-                                                width: 120,
-                                                height: 29,
-                                                child: Text(
-                                                  "Chizzy\'s Food",
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    color: Color(
-                                                      0xFF222222,
-                                                    ),
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Positioned(
-                                              left: 0,
-                                              top: 33,
-                                              child: SizedBox(
-                                                width: 64,
-                                                height: 29,
-                                                child: Text(
-                                                  '3 Items',
-                                                  style: TextStyle(
-                                                    color: Color(
-                                                      0xFF444343,
-                                                    ),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Positioned(
-                                              left: 100,
-                                              top: 33,
-                                              child: Text(
-                                                'Waiting',
-                                                style: TextStyle(
-                                                  color: Color(
-                                                    0xFF808080,
-                                                  ),
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: 0,
-                                      top: -6,
-                                      child: Container(
-                                        width: 80,
-                                        height: 96,
-                                        decoration: ShapeDecoration(
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                              "assets/images/products/chizzy's-food.png",
-                                            ),
-                                            fit: BoxFit.fill,
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              12,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               kHalfSizedBox,
-                              Divider(
-                                color: Color(
-                                  0xFFC4C4C4,
-                                ),
-                                thickness: 1.0,
-                              ),
-                              kHalfSizedBox,
-                              Text(
-                                'Delivery Officer',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              kHalfSizedBox,
-                              Container(
-                                width: 380,
-                                height: 85,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      left: 60,
-                                      top: 18,
-                                      child: Container(
-                                        width: 290,
-                                        height: 62,
-                                        child: Stack(
-                                          children: [
-                                            Positioned(
-                                              left: 0,
-                                              top: 0,
-                                              child: SizedBox(
-                                                width: 184,
-                                                height: 20,
-                                                child: Text(
-                                                  'Martins Okafor',
-                                                  style: TextStyle(
-                                                    color: kTextBlackColor,
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Positioned(
-                                              left: 0,
-                                              top: 24,
-                                              child: SizedBox(
-                                                width: 100,
-                                                height: 29,
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons
-                                                          .location_on_outlined,
-                                                      size: 14,
-                                                      color: Color(
-                                                        0xFF575757,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      '3.2km away',
-                                                      style: TextStyle(
-                                                        color: Color(
-                                                          0xFF575757,
-                                                        ),
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Positioned(
-                                              left: 200,
-                                              top: 8,
-                                              child: Container(
-                                                width: 40,
-                                                height: 40,
-                                                decoration: ShapeDecoration(
-                                                  color: Color(
-                                                    0xFFEC2623,
-                                                  ),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                      16,
-                                                    ),
-                                                  ),
-                                                  shadows: [
-                                                    BoxShadow(
-                                                      blurRadius: 4,
-                                                      spreadRadius: 0.7,
-                                                      color: kBlackColor
-                                                          .withOpacity(0.4),
-                                                      offset:
-                                                          const Offset(0, 4),
-                                                    )
-                                                  ],
-                                                ),
-                                                child: IconButton(
-                                                  onPressed: () {},
-                                                  icon: Icon(
-                                                    Icons.phone_rounded,
-                                                    color: kPrimaryColor,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                              Row(
+                                children: [
+                                  FaIcon(
+                                    FontAwesomeIcons.locationCrosshairs,
+                                    size: 14,
+                                    color: kGreyColor,
+                                  ),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    '3.2km away',
+                                    style: TextStyle(
+                                      color: kTextGreyColor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
                                     ),
-                                    Positioned(
-                                      left: 0,
-                                      top: 20,
-                                      child: Container(
-                                        width: 48,
-                                        height: 49,
-                                        decoration: ShapeDecoration(
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                              "assets/images/rider/martins-okafor.png",
-                                            ),
-                                            fit: BoxFit.fill,
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              6,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                  )
+                                ],
+                              )
                             ],
                           ),
+                          trailing: Container(
+                            height: 50,
+                            width: 50,
+                            decoration: ShapeDecoration(
+                              color: const Color(0xFFFDD5D5),
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                    width: 0.40, color: Color(0xFFD4DAF0)),
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                            ),
+                            child: IconButton(
+                              splashRadius: 30,
+                              onPressed: _callCustomer,
+                              icon: FaIcon(
+                                FontAwesomeIcons.phone,
+                                color: kAccentColor,
+                                size: 18,
+                              ),
+                            ),
+                          ),
                         ),
+                        kSizedBox,
                       ],
                     ),
                   ),

@@ -1,13 +1,21 @@
 import 'package:benji_user/src/common_widgets/textformfield/flex_textfield.dart';
+import 'package:benji_user/src/repo/models/credit_card/credit_card.dart';
+import 'package:benji_user/src/repo/models/user/user_model.dart';
+import 'package:benji_user/src/repo/utils/base_url.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
+import 'package:get/route_manager.dart';
+import 'package:http/http.dart' as http;
 
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/common_widgets/button/my_outlined_elevatedbutton.dart';
+import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/common_widgets/textformfield/card_expiry_textformfield.dart';
 import '../../src/common_widgets/textformfield/name_textformfield.dart';
+import '../../src/common_widgets/textformfield/number_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
@@ -26,7 +34,6 @@ class _CardPaymentState extends State<CardPayment> {
   GlobalKey<FormState> _formKey = GlobalKey();
 
   TextEditingController cardNumberEC = TextEditingController();
-  TextEditingController expiryDateEC = TextEditingController();
   TextEditingController cvvEC = TextEditingController();
   TextEditingController cardHoldersFullNameEC = TextEditingController();
   TextEditingController cardMonthEC = TextEditingController();
@@ -35,7 +42,6 @@ class _CardPaymentState extends State<CardPayment> {
   //=========================== FOCUS NODES ====================================\\
 
   FocusNode cardNumberFN = FocusNode();
-  FocusNode expiryDateFN = FocusNode();
   FocusNode cvvFN = FocusNode();
   FocusNode cardHoldersFullNameFN = FocusNode();
   FocusNode rateVendorFN = FocusNode();
@@ -46,10 +52,64 @@ class _CardPaymentState extends State<CardPayment> {
 
   int? _selectedOption = 0;
 
+  //=========================== BOOL VALUES ====================================\\
+  bool _isSavingCard = false;
+
   //=========================== FUNCTIONS ====================================\\
 
-  void _saveCard() {
-    Get.back();
+  Future<bool> addCard() async {
+    User? user = await getUser();
+    final url = Uri.parse('$baseURL/clients/saveUserCard/${user!.id}');
+    Map body = {
+      'card_name': cardHoldersFullNameEC.text,
+      'card_number': cardNumberEC.text,
+      'ccv': cvvEC.text,
+      'expiry_month': cardMonthEC.text,
+      'expiry_year': cardYearEC.text,
+    };
+    await createCreditCard(user.id, body);
+    final response =
+        await http.post(url, body: body, headers: await authHeader());
+
+    return response.body ==
+            '"Credit Card added successfully to ${user.email}"' &&
+        response.statusCode == 200;
+  }
+
+  //Save the card
+  _saveCard() async {
+    await checkAuth(context);
+    setState(() {
+      _isSavingCard = true;
+    });
+
+    if (await addCard()) {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Card has been added successfully",
+        Duration(seconds: 2),
+      );
+      Get.back();
+
+      setState(() {
+        _isSavingCard = false;
+      });
+    } else {
+      mySnackBar(
+        context,
+        kErrorColor,
+        "Failed!",
+        "Failed to add card",
+        Duration(seconds: 2),
+      );
+      Get.back();
+
+      setState(() {
+        _isSavingCard = false;
+      });
+    }
   }
 
   //=========================== WIDGETS ====================================\\
@@ -334,8 +394,12 @@ class _CardPaymentState extends State<CardPayment> {
                                 ),
                               ),
                               kSizedBox,
-                              NameTextFormField(
+                              NumberTextFormField(
                                 controller: cardNumberEC,
+                                inputFormatter: [
+                                  LengthLimitingTextInputFormatter(18),
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
                                 validator: (value) {
                                   RegExp cardPattern = RegExp(
                                     r"^(?:\d{4}-\d{4}-\d{4}-\d{4}|\d{16}|\d{18})$",
@@ -372,7 +436,7 @@ class _CardPaymentState extends State<CardPayment> {
                                               textInputAction:
                                                   TextInputAction.next,
                                               onSaved: (value) {
-                                                cardYearEC.text = value!;
+                                                cardYearEC.text = value;
                                               },
                                               onChanged: (value) {
                                                 if (value.length == 2) {
@@ -407,7 +471,7 @@ class _CardPaymentState extends State<CardPayment> {
                                               textInputAction:
                                                   TextInputAction.next,
                                               onSaved: (value) {
-                                                cardYearEC.text = value!;
+                                                cardYearEC.text = value;
                                               },
                                               onChanged: (value) {
                                                 if (value.length == 2) {
@@ -487,14 +551,16 @@ class _CardPaymentState extends State<CardPayment> {
                               SizedBox(
                                 height: kDefaultPadding * 2,
                               ),
-                              MyElevatedButton(
-                                title: "Continue",
-                                onPressed: (() async {
-                                  if (_formKey.currentState!.validate()) {
-                                    _saveCard;
-                                  }
-                                }),
-                              ),
+                              _isSavingCard
+                                  ? SpinKitChasingDots(color: kAccentColor)
+                                  : MyElevatedButton(
+                                      title: "Save card",
+                                      onPressed: (() async {
+                                        if (_formKey.currentState!.validate()) {
+                                          _saveCard;
+                                        }
+                                      }),
+                                    ),
                               SizedBox(
                                 height: kDefaultPadding * 2,
                               ),

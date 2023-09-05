@@ -228,11 +228,10 @@ class _DeliverToState extends State<DeliverTo> {
                                       children: [
                                         Text(
                                           _addressData!['addresses'][index]
-                                              .title,
+                                              .title
+                                              .toUpperCase(),
                                           style: TextStyle(
-                                            color: Color(
-                                              0xFF151515,
-                                            ),
+                                            color: kTextBlackColor,
                                             fontSize: 18,
                                             fontWeight: FontWeight.w700,
                                           ),
