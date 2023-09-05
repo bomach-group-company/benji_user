@@ -162,6 +162,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               '${snapshot.firstName} ${snapshot.lastName}',

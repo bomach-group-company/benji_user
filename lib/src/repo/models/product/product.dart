@@ -79,6 +79,21 @@ Future<List<Product>> getProducts({limit = 10}) async {
   }
 }
 
+Future<List<Product>> getProductsByCategory(categoryId) async {
+  final response = await http.get(
+    Uri.parse('$baseURL/clients/filterProductsByCategory/${categoryId}'),
+    headers: await authHeader(),
+  );
+
+  if (response.statusCode == 200) {
+    return (jsonDecode(response.body) as List)
+        .map((item) => Product.fromJson(item))
+        .toList();
+  } else {
+    throw Exception('Failed to load user product');
+  }
+}
+
 Future<List<Product>> getProductsByVendor(vendorId,
     {start = 0, end = 10}) async {
   final response = await http.get(
