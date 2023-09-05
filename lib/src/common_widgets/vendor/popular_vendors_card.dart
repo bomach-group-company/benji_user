@@ -6,15 +6,15 @@ import '../../providers/constants.dart';
 
 class PopularVendorsCard extends StatelessWidget {
   final Function() onTap;
-  final String cardImage, vendorName, food, rating, noOfUsersRated;
+  final String cardImage, vendorName, businessType, rating, noOfUsersRated;
   const PopularVendorsCard({
     super.key,
     required this.onTap,
     required this.vendorName,
-    required this.food,
     required this.rating,
     required this.noOfUsersRated,
     required this.cardImage,
+    required this.businessType,
   });
 
   @override
@@ -23,8 +23,6 @@ class PopularVendorsCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        // width: 355,
-        height: 130,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
@@ -40,6 +38,7 @@ class PopularVendorsCard extends StatelessWidget {
           ],
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: 120,
@@ -49,7 +48,7 @@ class PopularVendorsCard extends StatelessWidget {
                   image: AssetImage(
                     "assets/images/products/$cardImage",
                   ),
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -79,7 +78,7 @@ class PopularVendorsCard extends StatelessWidget {
                   kSizedBox,
                   SizedBox(
                     child: Text(
-                      food,
+                      businessType,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         color: kTextBlackColor,

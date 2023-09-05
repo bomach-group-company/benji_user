@@ -111,7 +111,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   void _placeOrder() async {
     Get.to(
-      () => const PaymentMethod(),
+      () => PaymentMethod(
+        totalPrice: totalPrice,
+      ),
       routeName: 'PaymentMethod',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
@@ -271,7 +273,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      _data!['deliverTo'].title ??
+                                      _data!['deliverTo'].title.toUpperCase() ??
                                           'Select location',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,

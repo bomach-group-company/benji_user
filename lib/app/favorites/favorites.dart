@@ -335,9 +335,10 @@ class _FavoritesState extends State<Favorites>
                                                   vendorName:
                                                       _dataVendor![index]
                                                           .shopName!,
-                                                  food: _dataVendor![index]
-                                                      .shopType!
-                                                      .name!,
+                                                  businessType:
+                                                      _dataVendor![index]
+                                                          .shopType!
+                                                          .name!,
                                                   rating: _dataVendor![index]
                                                       .averageRating
                                                       .toString(),

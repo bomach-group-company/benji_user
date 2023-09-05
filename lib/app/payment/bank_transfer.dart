@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
@@ -10,21 +11,27 @@ import '../../theme/colors.dart';
 import '../splash_screens/payment_successful_screen.dart';
 
 class BankTransfer extends StatefulWidget {
-  const BankTransfer({super.key});
+  final double totalPrice;
+  const BankTransfer({super.key, required this.totalPrice});
 
   @override
   State<BankTransfer> createState() => _BankTransferState();
 }
 
 class _BankTransferState extends State<BankTransfer> {
-//===================== COPY TO CLIPBOARD =======================\\
+//==================================================== ALL VARIABLES ======================================================\\
+
+//==================================================== BOOL VALUES ======================================================\\
+  bool _processingBankTransfer = false;
+
+//==================================================== COPY TO CLIPBOARD ======================================================\\
   final String _accountNumber = '9926374776';
   void _copyToClipboard(BuildContext context) {
     Clipboard.setData(
       ClipboardData(text: _accountNumber),
     );
 
-    //===================== SNACK BAR =======================\\
+    //==================================================== SNACK BAR ======================================================\\
 
     mySnackBar(
       context,
@@ -37,7 +44,18 @@ class _BankTransferState extends State<BankTransfer> {
     );
   }
 
-  void _paymentSuccess() {
+  void _paymentFunc() async {
+    setState(() {
+      _processingBankTransfer = true;
+    });
+
+    //Simulate a delay
+    await Future.delayed(Duration(seconds: 2));
+
+    setState(() {
+      _processingBankTransfer = false;
+    });
+
     Get.to(
       () => const PaymentSuccessful(),
       routeName: 'PaymentSuccessful',
@@ -223,8 +241,9 @@ class _BankTransferState extends State<BankTransfer> {
                           ),
                         ),
                         TextSpan(
-                          text: '${formattedText(2450)}',
+                          text: '₦ ${formattedText(widget.totalPrice)}',
                           style: TextStyle(
+                            fontFamily: 'sen',
                             color: kTextBlackColor,
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
@@ -234,8 +253,12 @@ class _BankTransferState extends State<BankTransfer> {
                     ),
                   )),
               kSizedBox,
-              MyOutlinedElevatedButton(
-                  onPressed: _paymentSuccess, title: 'I have made the transfer')
+              _processingBankTransfer
+                  ? SpinKitChasingDots(color: kAccentColor)
+                  : MyOutlinedElevatedButton(
+                      onPressed: _paymentFunc,
+                      title: 'I have made the transfer',
+                    ),
             ],
           )
         ],

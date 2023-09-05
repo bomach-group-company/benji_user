@@ -94,7 +94,7 @@ class _PopularVendorsState extends State<PopularVendors> {
                       },
                       cardImage: 'best-choice-restaurant.png',
                       vendorName: _data!['vendor'][index].shopName,
-                      food: _data!['vendor'][index].shopType.name ??
+                      businessType: _data!['vendor'][index].shopType.name ??
                           'Not Available',
                       rating:
                           ((_data!['vendor'][index].averageRating as double?) ??

@@ -1,18 +1,18 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/my_liquid_refresh.dart';
 import '../../theme/colors.dart';
 import 'bank_transfer.dart';
 import 'card_payment.dart';
 
 class PaymentMethod extends StatefulWidget {
-  const PaymentMethod({super.key});
+  final double totalPrice;
+  const PaymentMethod({super.key, required this.totalPrice});
 
   @override
   State<PaymentMethod> createState() => _PaymentMethodState();
@@ -99,14 +99,8 @@ class _PaymentMethodState extends State<PaymentMethod>
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
     double mediaHeight = MediaQuery.of(context).size.height;
-    return LiquidPullToRefresh(
-      onRefresh: _handleRefresh,
-      color: kAccentColor,
-      borderWidth: 5.0,
-      backgroundColor: kPrimaryColor,
-      height: 150,
-      animSpeedFactor: 2,
-      showChildOpacityTransition: false,
+    return MyLiquidRefresh(
+      handleRefresh: _handleRefresh,
       child: Scaffold(
         extendBody: true,
         appBar: MyAppBar(
@@ -119,113 +113,88 @@ class _PaymentMethodState extends State<PaymentMethod>
         extendBodyBehindAppBar: true,
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: FutureBuilder(
-              future: null,
-              // future: null,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  Center(child: SpinKitChasingDots(color: kAccentColor));
-                }
-                if (snapshot.connectionState == ConnectionState.none) {
-                  const Center(
-                    child: Text("Please connect to the internet"),
-                  );
-                }
-                // if (snapshot.connectionState == snapshot.requireData) {
-                //   SpinKitChasingDots(color: kAccentColor);
-                // }
-                if (snapshot.connectionState == snapshot.error) {
-                  const Center(
-                    child: Text("Error, Please try again later"),
-                  );
-                }
-                return _loadingScreen
-                    ? Center(child: SpinKitChasingDots(color: kAccentColor))
-                    : Scrollbar(
-                        controller: _scrollController,
-                        radius: const Radius.circular(10),
-                        scrollbarOrientation: ScrollbarOrientation.right,
-                        child: ListView(
-                          physics: const BouncingScrollPhysics(),
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: kDefaultPadding,
-                                vertical: kDefaultPadding,
-                              ),
-                              child: Container(
-                                width: mediaWidth,
-                                decoration: BoxDecoration(
-                                  color: kDefaultCategoryBackgroundColor,
-                                  borderRadius: BorderRadius.circular(50),
-                                  border: Border.all(
-                                    color: kLightGreyColor,
-                                    style: BorderStyle.solid,
-                                    strokeAlign: BorderSide.strokeAlignOutside,
+          child: _loadingScreen
+              ? Center(child: SpinKitChasingDots(color: kAccentColor))
+              : Scrollbar(
+                  controller: _scrollController,
+                  radius: const Radius.circular(10),
+                  scrollbarOrientation: ScrollbarOrientation.right,
+                  child: ListView(
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: kDefaultPadding,
+                          vertical: kDefaultPadding,
+                        ),
+                        child: Container(
+                          width: mediaWidth,
+                          decoration: BoxDecoration(
+                            color: kDefaultCategoryBackgroundColor,
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(
+                              color: kLightGreyColor,
+                              style: BorderStyle.solid,
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: TabBar(
+                                  controller: _tabBarController,
+                                  onTap: (value) => _clickOnTabBarOption(),
+                                  enableFeedback: true,
+                                  mouseCursor: SystemMouseCursors.click,
+                                  automaticIndicatorColorAdjustment: true,
+                                  overlayColor:
+                                      MaterialStatePropertyAll(kAccentColor),
+                                  labelColor: kPrimaryColor,
+                                  unselectedLabelColor: kTextGreyColor,
+                                  indicatorColor: kAccentColor,
+                                  indicatorWeight: 2,
+                                  splashBorderRadius: BorderRadius.circular(50),
+                                  indicator: BoxDecoration(
+                                    color: kAccentColor,
+                                    borderRadius: BorderRadius.circular(50),
                                   ),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: TabBar(
-                                        controller: _tabBarController,
-                                        onTap: (value) =>
-                                            _clickOnTabBarOption(),
-                                        enableFeedback: true,
-                                        mouseCursor: SystemMouseCursors.click,
-                                        automaticIndicatorColorAdjustment: true,
-                                        overlayColor: MaterialStatePropertyAll(
-                                            kAccentColor),
-                                        labelColor: kPrimaryColor,
-                                        unselectedLabelColor: kTextGreyColor,
-                                        indicatorColor: kAccentColor,
-                                        indicatorWeight: 2,
-                                        splashBorderRadius:
-                                            BorderRadius.circular(50),
-                                        indicator: BoxDecoration(
-                                          color: kAccentColor,
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                        ),
-                                        tabs: const [
-                                          Tab(text: "Bank Transfer"),
-                                          Tab(text: "Card payment"),
-                                        ],
-                                      ),
-                                    ),
+                                  tabs: const [
+                                    Tab(text: "Bank Transfer"),
+                                    Tab(text: "Card payment"),
                                   ],
                                 ),
                               ),
-                            ),
-                            kSizedBox,
-                            Container(
-                              height: mediaHeight,
-                              padding: const EdgeInsets.only(
-                                left: kDefaultPadding / 2,
-                                right: kDefaultPadding / 2,
-                              ),
-                              child: Column(
+                            ],
+                          ),
+                        ),
+                      ),
+                      kSizedBox,
+                      Container(
+                        height: mediaHeight,
+                        padding: const EdgeInsets.only(
+                          left: kDefaultPadding / 2,
+                          right: kDefaultPadding / 2,
+                        ),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: TabBarView(
+                                controller: _tabBarController,
+                                physics: const BouncingScrollPhysics(),
                                 children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: TabBarView(
-                                      controller: _tabBarController,
-                                      physics: const BouncingScrollPhysics(),
-                                      dragStartBehavior: DragStartBehavior.down,
-                                      children: [
-                                        BankTransfer(),
-                                        CardPayment(),
-                                      ],
-                                    ),
-                                  )
+                                  BankTransfer(totalPrice: widget.totalPrice),
+                                  CardPayment(),
                                 ],
                               ),
-                            ),
+                            )
                           ],
                         ),
-                      );
-              }),
+                      ),
+                    ],
+                  ),
+                ),
         ),
       ),
     );

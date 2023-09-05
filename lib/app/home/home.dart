@@ -407,42 +407,6 @@ class _HomeState extends State<Home> {
                       scrollDirection: Axis.vertical,
                       padding: const EdgeInsets.all(kDefaultPadding / 2),
                       children: [
-                        // SearchBar(
-                        //   onTap: () {},
-                        //   onSubmitted: (value) {},
-                        //   onChanged: (value) {
-                        //     value = value;
-                        //   },
-                        //   elevation: MaterialStateProperty.resolveWith<double?>(
-                        //     (Set<MaterialState> states) {
-                        //       if (states.contains(MaterialState.pressed)) {
-                        //         return 4.0; // Elevation when pressed
-                        //       }
-                        //       if (states.contains(MaterialState.focused)) {
-                        //         return 4.0; // Elevation when pressed
-                        //       }
-                        //       if (states.contains(MaterialState.error)) {
-                        //         return 4.0; // Elevation when pressed
-                        //       }
-                        //       return 0.0; // Default elevation
-                        //     },
-                        //   ),
-                        //   controller: _searchController,
-                        //   backgroundColor:
-                        //       MaterialStatePropertyAll(kPrimaryColor),
-                        //   hintText: "Search for a product",
-                        //   hintStyle: MaterialStatePropertyAll(
-                        //     TextStyle(fontSize: 12, color: kTextGreyColor),
-                        //   ),
-                        //   padding: MaterialStatePropertyAll(
-                        //     EdgeInsets.symmetric(horizontal: 10),
-                        //   ),
-                        //   leading: FaIcon(
-                        //     FontAwesomeIcons.magnifyingGlass,
-                        //     color: kGreyColor1,
-                        //   ),
-                        // ),
-                        // kSizedBox,
                         SeeAllContainer(
                           title: "Vendors Near you",
                           onPressed: _toSeeAllVendorsNearYou,
@@ -614,8 +578,9 @@ class _HomeState extends State<Home> {
                               },
                               cardImage: popularVendorImage[index],
                               vendorName: _data!['vendor'][index].shopName,
-                              food: _data!['vendor'][index].shopType.name ??
-                                  'Not Available',
+                              businessType:
+                                  _data!['vendor'][index].shopType.name ??
+                                      'Not Available',
                               rating: ((_data!['vendor'][index].averageRating
                                           as double?) ??
                                       0.0)
