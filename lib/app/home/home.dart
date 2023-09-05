@@ -291,9 +291,9 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
-  void _toSeeAllHotDeals() => Get.to(
-        () => const HotDealsPage(),
-        routeName: 'HotDealsPage',
+  void _toSeeProducts() => Get.to(
+        () => const HomePageProducts(),
+        routeName: 'HomePageProducts',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -304,7 +304,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // double mediaWidth = MediaQuery.of(context).size.width;
+    double mediaWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -447,7 +447,7 @@ class _HomeState extends State<Home> {
                         kSizedBox,
                         SizedBox(
                           height: 250,
-                          width: MediaQuery.of(context).size.width,
+                          width: mediaWidth,
                           child: ListView.separated(
                             itemCount: _data!['vendor'].length,
                             scrollDirection: Axis.horizontal,
@@ -626,7 +626,7 @@ class _HomeState extends State<Home> {
                         kSizedBox,
                         SeeAllContainer(
                           title: "Products",
-                          onPressed: _toSeeAllHotDeals,
+                          onPressed: _toSeeProducts,
                         ),
                         SizedBox(
                           height: 60,
