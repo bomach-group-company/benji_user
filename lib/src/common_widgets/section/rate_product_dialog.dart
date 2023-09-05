@@ -54,8 +54,11 @@ class _RateProductDialogState extends State<RateProductDialog> {
       'rating_value': _rating,
       'comment': _myMessageEC.text,
     };
+    print(body);
     final response =
         await http.post(url, body: body, headers: await authHeader());
+    print(response.body);
+    print(response.statusCode);
     try {
       Map resp = jsonDecode(response.body);
       bool res = response.statusCode == 200;
