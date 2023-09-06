@@ -600,9 +600,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                         style: TextStyle(
                                                           color:
                                                               kTextWhiteColor,
-                                                          fontSize: 32,
+                                                          fontSize: 24,
                                                           fontWeight:
-                                                              FontWeight.w400,
+                                                              FontWeight.w700,
                                                         ),
                                                       ),
                                                     ),

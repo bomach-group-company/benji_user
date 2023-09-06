@@ -90,6 +90,11 @@ class MyIntlPhoneField extends StatelessWidget {
         print(phone.completeNumber);
       },
       onCountryChanged: onCountryChanged,
+        style: TextStyle(
+        color: kSecondaryColor,
+        fontSize: 20,
+        fontWeight: FontWeight.w400,
+      ),
       decoration: InputDecoration(
         hintText: "Enter phone Number",
         errorStyle: const TextStyle(

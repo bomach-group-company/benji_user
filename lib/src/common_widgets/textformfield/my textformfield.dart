@@ -40,22 +40,16 @@ class MyTextFormField extends StatelessWidget {
       maxLines: 1,
       style: TextStyle(
         color: kSecondaryColor,
-        fontSize: 14,
+        fontSize: 20,
         fontWeight: FontWeight.w400,
       ),
       decoration: InputDecoration(
         hintText: hintText,
         filled: true,
-        fillColor: const Color(
-          0xFFF6F6F7,
-        ),
-        focusColor: const Color(
-          0xFFF6F6F7,
-        ),
+        fillColor: const Color(0xFFF6F6F7),
+        focusColor: const Color(0xFFF6F6F7),
         hintStyle: const TextStyle(
-          color: Color(
-            0xFF979797,
-          ),
+          color: Color(0xFF979797),
           fontSize: 14,
           fontWeight: FontWeight.w400,
         ),
@@ -63,25 +57,19 @@ class MyTextFormField extends StatelessWidget {
           color: kErrorColor,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
             color: Colors.blue.shade50,
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
             color: Colors.blue.shade50,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
             color: Colors.blue.shade50,
           ),

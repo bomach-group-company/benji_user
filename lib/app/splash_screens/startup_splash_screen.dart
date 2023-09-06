@@ -66,8 +66,8 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
     double mediaWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: ListView(
-        padding: const EdgeInsets.all(kDefaultPadding / 2),
-        physics: const BouncingScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(kDefaultPadding),
         children: [
           SizedBox(
             height: mediaHeight,

@@ -18,7 +18,7 @@ class MyOutlinedElevatedButton extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: kPrimaryColor,
-        elevation: 20.0,
+        elevation: 0,
         shape: RoundedRectangleBorder(
           side: BorderSide(color: kAccentColor),
           borderRadius: BorderRadius.circular(20),

@@ -50,7 +50,7 @@ class MyMessageTextFormField extends StatelessWidget {
       textCapitalization: TextCapitalization.sentences,
       style: TextStyle(
         color: kSecondaryColor,
-        fontSize: 14,
+        fontSize: 18,
         fontWeight: FontWeight.w400,
       ),
       decoration: InputDecoration(

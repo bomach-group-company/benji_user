@@ -67,11 +67,11 @@ class _RateVendorDialogState extends State<RateVendorDialog> {
   }
 
   Future<void> _submitRequest() async {
-    await checkAuth(context);
-
     setState(() {
       _submittingRequest = true;
     });
+    await checkAuth(context);
+
     bool res = await rate();
     if (res) {
       //Display snackBar
@@ -118,7 +118,7 @@ class _RateVendorDialogState extends State<RateVendorDialog> {
               duration: Duration(milliseconds: 300),
               curve: Curves.easeIn,
               height: _pageChanged
-                  ? max(300, mediaHeight * 0.5)
+                  ? max(300, mediaHeight * 0.6)
                   : max(300, mediaHeight * 0.3),
               padding: EdgeInsets.all(kDefaultPadding),
               child: PageView(
@@ -159,7 +159,7 @@ class _RateVendorDialogState extends State<RateVendorDialog> {
                         enableFeedback: true,
                         onPressed: null,
                         child: Text(
-                          "Done",
+                          "Submit",
                           style: TextStyle(color: kPrimaryColor),
                         ),
                         disabledElevation: 0.0,
@@ -181,7 +181,7 @@ class _RateVendorDialogState extends State<RateVendorDialog> {
                           }
                         }),
                         child: Text(
-                          "Done",
+                          "Submit",
                           style: TextStyle(color: kPrimaryColor),
                         ),
                         mouseCursor: SystemMouseCursors.click,
@@ -277,6 +277,8 @@ _causeOfRating(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              kSizedBox,
+              kSizedBox,
               Text("What could be better?"),
               kHalfSizedBox,
               MyMessageTextFormField(
