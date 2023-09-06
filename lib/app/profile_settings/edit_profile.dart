@@ -188,7 +188,7 @@ class _EditProfileState extends State<EditProfile> {
       'phone': "+$countryDialCode${phoneNumberEC.text}",
       // 'image': selectedImage!,
     };
-    final response = await http.put(url,
+    final response = await http.post(url,
         body: jsonEncode(body), headers: await authHeader());
     try {
       await saveUser(response.body, user.token!);

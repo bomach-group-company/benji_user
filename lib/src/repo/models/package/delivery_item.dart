@@ -2,12 +2,14 @@ import 'dart:convert';
 
 import 'package:benji_user/src/repo/models/package/item_category.dart';
 import 'package:benji_user/src/repo/models/package/item_weight.dart';
+import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:http/http.dart' as http;
 
 class DeliveryItem {
   final String id;
+  final User clientId;
   final String pickUpAddress;
   final String senderName;
   final String senderPhoneNumber;
@@ -23,6 +25,7 @@ class DeliveryItem {
 
   DeliveryItem({
     required this.id,
+    required this.clientId,
     required this.pickUpAddress,
     required this.senderName,
     required this.senderPhoneNumber,
@@ -40,6 +43,7 @@ class DeliveryItem {
   factory DeliveryItem.fromJson(Map<String, dynamic> json) {
     return DeliveryItem(
       id: json['id'],
+      clientId: User.fromJson(json['client_id']),
       pickUpAddress: json['pickUpAddress'],
       senderName: json['senderName'],
       senderPhoneNumber: json['senderPhoneNumber'],
@@ -47,8 +51,8 @@ class DeliveryItem {
       receiverName: json['receiverName'],
       receiverPhoneNumber: json['receiverPhoneNumber'],
       itemName: json['itemName'],
-      itemCategory: ItemCategory.fromJson(json['itemCategory']),
-      itemWeight: ItemWeight.fromJson(json['itemWeight']),
+      itemCategory: ItemCategory.fromJson(json['itemCategory_id']),
+      itemWeight: ItemWeight.fromJson(json['itemWeight_id']),
       itemQuantity: json['itemQuantity'],
       itemValue: json['itemValue'],
       itemImage: json['itemImage'],
@@ -57,18 +61,18 @@ class DeliveryItem {
 }
 
 Future<DeliveryItem> createDeliveryItem({
-  clientId,
-  pickUpAddress,
-  senderName,
-  senderPhoneNumber,
-  dropOffAddress,
-  receiverName,
-  receiverPhoneNumber,
-  itemName,
-  itemCategoryId,
-  itemWeightId,
-  itemQuantity,
-  itemValue,
+  required clientId,
+  required pickUpAddress,
+  required senderName,
+  required senderPhoneNumber,
+  required dropOffAddress,
+  required receiverName,
+  required receiverPhoneNumber,
+  required itemName,
+  required itemCategoryId,
+  required itemWeightId,
+  required itemQuantity,
+  required itemValue,
 }) async {
   Map body = {
     'client_id': clientId,
@@ -80,18 +84,20 @@ Future<DeliveryItem> createDeliveryItem({
     'receiverPhoneNumber': receiverPhoneNumber,
     'itemName': itemName,
     'itemCategory_id': itemCategoryId,
-    'itemWeight': itemWeightId,
+    'itemWeight_id': itemWeightId,
     'itemQuantity': itemQuantity,
     'itemValue': itemValue,
     // 'itemImage': itemImage,
   };
+  print(body);
 
   final response = await http.post(
     Uri.parse('$baseURL/sendPackage/createItemPackage/'),
     body: body,
     headers: await authHeader(),
   );
-
+  print(response.body);
+  print(response.statusCode);
   if (response.statusCode == 200) {
     return DeliveryItem.fromJson(jsonDecode(response.body));
   } else {
