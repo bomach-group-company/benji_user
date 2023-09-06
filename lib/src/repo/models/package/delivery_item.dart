@@ -2,12 +2,14 @@ import 'dart:convert';
 
 import 'package:benji_user/src/repo/models/package/item_category.dart';
 import 'package:benji_user/src/repo/models/package/item_weight.dart';
+import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:http/http.dart' as http;
 
 class DeliveryItem {
   final String id;
+  final User clientId;
   final String pickUpAddress;
   final String senderName;
   final String senderPhoneNumber;
@@ -23,6 +25,7 @@ class DeliveryItem {
 
   DeliveryItem({
     required this.id,
+    required this.clientId,
     required this.pickUpAddress,
     required this.senderName,
     required this.senderPhoneNumber,
@@ -40,6 +43,7 @@ class DeliveryItem {
   factory DeliveryItem.fromJson(Map<String, dynamic> json) {
     return DeliveryItem(
       id: json['id'],
+      clientId: json['client_id'],
       pickUpAddress: json['pickUpAddress'],
       senderName: json['senderName'],
       senderPhoneNumber: json['senderPhoneNumber'],
@@ -57,18 +61,18 @@ class DeliveryItem {
 }
 
 Future<DeliveryItem> createDeliveryItem({
-  clientId,
-  pickUpAddress,
-  senderName,
-  senderPhoneNumber,
-  dropOffAddress,
-  receiverName,
-  receiverPhoneNumber,
-  itemName,
-  itemCategoryId,
-  itemWeightId,
-  itemQuantity,
-  itemValue,
+  required clientId,
+  required pickUpAddress,
+  required senderName,
+  required senderPhoneNumber,
+  required dropOffAddress,
+  required receiverName,
+  required receiverPhoneNumber,
+  required itemName,
+  required itemCategoryId,
+  required itemWeightId,
+  required itemQuantity,
+  required itemValue,
 }) async {
   Map body = {
     'client_id': clientId,

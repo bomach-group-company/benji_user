@@ -1,3 +1,9 @@
+import 'dart:convert';
+
+import 'package:benji_user/src/repo/utils/base_url.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:http/http.dart' as http;
+
 class ItemWeight {
   final String id;
   final int start;
@@ -15,5 +21,19 @@ class ItemWeight {
       start: json['start'],
       end: json['end'],
     );
+  }
+}
+
+Future<List<ItemWeight>> getPackageWeight() async {
+  final response = await http.get(
+      Uri.parse('$baseURL/sendPackage/getPackageWeight/'),
+      headers: await authHeader());
+
+  if (response.statusCode == 200) {
+    return (jsonDecode(response.body) as List)
+        .map((item) => ItemWeight.fromJson(item))
+        .toList();
+  } else {
+    throw Exception('Failed to load items weight');
   }
 }

@@ -1,4 +1,11 @@
+import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
+import 'package:benji_user/src/repo/models/package/delivery_item.dart';
+import 'package:benji_user/src/repo/models/package/item_category.dart';
+import 'package:benji_user/src/repo/models/package/item_weight.dart';
+import 'package:benji_user/src/repo/models/user/user_model.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -38,7 +45,8 @@ class _SendPackageState extends State<SendPackage> {
   var _itemCategoryEC = TextEditingController();
   var _itemWeightEC = TextEditingController();
   var _itemQuantityEC = TextEditingController();
-  var _AddressesState = TextEditingController();
+  // var _AddressesState = TextEditingController();
+  var _itemValueEC = TextEditingController();
 
   //=============================== FOCUS NODES ==================================\\
   var _pickupFN = FocusNode();
@@ -52,6 +60,73 @@ class _SendPackageState extends State<SendPackage> {
   var itemValueFN = FocusNode();
 
   //=============================== FUNCTIONS ==================================\\
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
+  List<ItemCategory> _category = [];
+  List<ItemWeight> _weight = [];
+
+  _getData() async {
+    await checkAuth(context);
+    List<ItemCategory> category = await getPackageCategory();
+    List<ItemWeight> weight = await getPackageWeight();
+
+    setState(() {
+      _category = category;
+      _weight = weight;
+    });
+  }
+
+  _postData() async {
+    await checkAuth(context);
+    User? user = await getUser();
+    try {
+      DeliveryItem deliveryItem = await createDeliveryItem(
+        clientId: user!.id,
+        dropOffAddress: _dropOffEC.text,
+        itemCategoryId: _itemCategoryEC.text,
+        itemName: _itemNameEC.text,
+        itemQuantity: _itemQuantityEC.text,
+        itemValue: _itemValueEC.text,
+        itemWeightId: _itemWeightEC.text,
+        pickUpAddress: _pickupEC.text,
+        receiverName: _receiverNameEC.text,
+        receiverPhoneNumber: _receiverPhoneEC.text,
+        senderName: _senderNameEC.text,
+        senderPhoneNumber: _senderPhoneEC.text,
+      );
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Now choose a rider",
+        Duration(seconds: 2),
+      );
+
+      Get.to(
+        () => const ChooseRider(),
+        routeName: 'ChooseRider',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+    } catch (e) {
+      mySnackBar(
+        context,
+        kErrorColor,
+        "Failed!",
+        "Failed to Send package",
+        Duration(seconds: 2),
+      );
+    }
+  }
+
   _continueStep() {
     if (_currentStep < 2) {
       setState(() {
@@ -116,13 +191,7 @@ class _SendPackageState extends State<SendPackage> {
             ? Row(
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => ChooseRider(),
-                        ),
-                      );
-                    },
+                    onPressed: _postData,
                     child: Text("Continue"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: kAccentColor,
@@ -478,15 +547,12 @@ class _SendPackageState extends State<SendPackage> {
                 itemEC: _itemCategoryEC,
                 mediaWidth: mediaWidth,
                 hintText: "Choose category",
-                dropdownMenuEntries2: <DropdownMenuEntry<String>>[
-                  DropdownMenuEntry(value: "Clothes", label: "Furnitures"),
-                  DropdownMenuEntry(value: "Drinks", label: "Drinks"),
-                  DropdownMenuEntry(value: "Electronics", label: "Electronics"),
-                  DropdownMenuEntry(value: "Fabrics", label: "Fabrics"),
-                  DropdownMenuEntry(value: "Food", label: "Food"),
-                  DropdownMenuEntry(value: "Furnitures", label: "Furnitures"),
-                  DropdownMenuEntry(value: "Groceries", label: "Groceries"),
-                ],
+                dropdownMenuEntries2: _category
+                    .map(
+                      (item) =>
+                          DropdownMenuEntry(value: item.id, label: item.name),
+                    )
+                    .toList(),
               ),
               kSizedBox,
               Text(
@@ -501,13 +567,12 @@ class _SendPackageState extends State<SendPackage> {
                 itemEC: _itemWeightEC,
                 mediaWidth: mediaWidth,
                 hintText: "Choose weight",
-                dropdownMenuEntries2: <DropdownMenuEntry<String>>[
-                  DropdownMenuEntry(value: "1", label: "Less than 1 KG"),
-                  DropdownMenuEntry(value: "2", label: "Less than 2 KG"),
-                  DropdownMenuEntry(value: "3", label: "Less than 3 KG"),
-                  DropdownMenuEntry(value: "4", label: "Less than 4 KG"),
-                  DropdownMenuEntry(value: "5", label: "Less than 5 KG"),
-                ],
+                dropdownMenuEntries2: _weight
+                    .map(
+                      (item) => DropdownMenuEntry(
+                          value: item.id, label: '${item.start} - ${item.end}'),
+                    )
+                    .toList(),
               ),
               kSizedBox,
               Text(
@@ -545,7 +610,7 @@ class _SendPackageState extends State<SendPackage> {
               ),
               kHalfSizedBox,
               MyTextFormField(
-                controller: _AddressesState,
+                controller: _itemValueEC,
                 validator: (value) {
                   if (value == null || value!.isEmpty) {
                     itemValueFN.requestFocus();
@@ -554,7 +619,7 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  _AddressesState.text = value;
+                  _itemValueEC.text = value;
                 },
                 textInputAction: TextInputAction.done,
                 focusNode: itemValueFN,
