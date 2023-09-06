@@ -15,6 +15,7 @@ class HomeDrawer extends StatefulWidget {
   final Function() toOrdersPage;
   final Function() toAddressesPage;
   final Function() toSendPackagePage;
+  final Function() toMyPackagesPage;
   final Function() logOut;
 
   final String userID;
@@ -29,6 +30,7 @@ class HomeDrawer extends StatefulWidget {
     required this.logOut,
     required this.toFavoritesPage,
     required this.toProfileSettings,
+    required this.toMyPackagesPage,
     required this.toCheckoutScreen,
   });
 
@@ -178,6 +180,26 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
             title: Text(
               'Send Package',
+              style: TextStyle(
+                color: kTextBlackColor,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+              color: kTextBlackColor,
+            ),
+          ),
+          ListTile(
+            onTap: widget.toMyPackagesPage,
+            leading: FaIcon(
+              FontAwesomeIcons.boxesStacked,
+              color: kAccentColor,
+            ),
+            title: Text(
+              'My Packages',
               style: TextStyle(
                 color: kTextBlackColor,
                 fontSize: 12,

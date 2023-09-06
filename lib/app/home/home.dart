@@ -311,6 +311,8 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
+  void _toMyPackagesPage() {}
+
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
@@ -331,6 +333,7 @@ class _HomeState extends State<Home> {
               _copyToClipboard(context, data.code);
             },
             toAddressesPage: _toAddressScreen,
+            toMyPackagesPage: _toMyPackagesPage,
             toSendPackagePage: _toSendPackageScreen,
             toFavoritesPage: _toFavoritesScreen,
             toCheckoutScreen: _toCheckoutScreen,

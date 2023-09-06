@@ -27,7 +27,7 @@ class RateVendorDialog extends StatefulWidget {
 
 class _RateVendorDialogState extends State<RateVendorDialog> {
 //===================================== ALL VARIABLES ======================================\\
-  var _starPosition = 200.0;
+  var _starPosition = 210.0;
   var _rating = 0.0;
 
 //===================================== BOOL VALUES ======================================\\
@@ -118,8 +118,8 @@ class _RateVendorDialogState extends State<RateVendorDialog> {
               duration: Duration(milliseconds: 300),
               curve: Curves.easeIn,
               height: _pageChanged
-                  ? max(300, mediaHeight * 0.6)
-                  : max(300, mediaHeight * 0.3),
+                  ? max(340, mediaHeight * 0.6)
+                  : max(340, mediaHeight * 0.34),
               padding: EdgeInsets.all(kDefaultPadding),
               child: PageView(
                 controller: _ratingPageController,
