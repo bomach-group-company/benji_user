@@ -61,13 +61,13 @@ class _ReportVendorState extends State<ReportVendor> {
   }
 
   Future<void> _submitRequest() async {
+    setState(() {
+      _submittingRequest = true;
+    });
     await checkAuth(context);
 
     bool res = await report();
 
-    setState(() {
-      _submittingRequest = true;
-    });
     if (res) {
       //Display snackBar
       mySnackBar(

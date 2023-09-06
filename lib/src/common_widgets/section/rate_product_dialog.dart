@@ -69,11 +69,10 @@ class _RateProductDialogState extends State<RateProductDialog> {
   }
 
   Future<void> _submitRequest() async {
-    await checkAuth(context);
-
     setState(() {
       _submittingRequest = true;
     });
+    await checkAuth(context);
     bool res = await rate();
     if (res) {
       //Display snackBar
@@ -120,7 +119,7 @@ class _RateProductDialogState extends State<RateProductDialog> {
               duration: Duration(milliseconds: 300),
               curve: Curves.easeIn,
               height: _pageChanged
-                  ? max(300, mediaHeight * 0.5)
+                  ? max(300, mediaHeight * 0.6)
                   : max(300, mediaHeight * 0.3),
               padding: EdgeInsets.all(kDefaultPadding),
               child: PageView(
@@ -161,7 +160,7 @@ class _RateProductDialogState extends State<RateProductDialog> {
                         enableFeedback: true,
                         onPressed: null,
                         child: Text(
-                          "Done",
+                          "Submit",
                           style: TextStyle(color: kPrimaryColor),
                         ),
                         disabledElevation: 0.0,
@@ -183,7 +182,7 @@ class _RateProductDialogState extends State<RateProductDialog> {
                           }
                         }),
                         child: Text(
-                          "Done",
+                          "Submit",
                           style: TextStyle(color: kPrimaryColor),
                         ),
                         mouseCursor: SystemMouseCursors.click,
