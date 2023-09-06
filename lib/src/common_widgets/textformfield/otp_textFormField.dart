@@ -31,6 +31,11 @@ class MyOTPTextFormField extends StatelessWidget {
       ],
       onChanged: onChanged,
       validator: validator,
+      style: TextStyle(
+        color: kSecondaryColor,
+        fontSize: 20,
+        fontWeight: FontWeight.w400,
+      ),
       decoration: InputDecoration(
         hintText: "0",
         hintStyle: const TextStyle(
@@ -44,33 +49,25 @@ class MyOTPTextFormField extends StatelessWidget {
         fillColor: Colors.blue.shade50,
         focusColor: Colors.blue.shade50,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
             color: Colors.blue.shade50,
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
             color: Colors.blue.shade50,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
             color: Colors.blue.shade50,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: const BorderSide(
             color: kErrorBorderColor,
             width: 2.0,

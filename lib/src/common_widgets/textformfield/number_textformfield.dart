@@ -41,11 +41,9 @@ class NumberTextFormField extends StatelessWidget {
       keyboardType: TextInputType.number,
       inputFormatters: inputFormatter,
       maxLines: 1,
-      maxLength: 18,
-      maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
       style: TextStyle(
         color: kSecondaryColor,
-        fontSize: 14,
+        fontSize: 20,
         fontWeight: FontWeight.w400,
       ),
       decoration: InputDecoration(

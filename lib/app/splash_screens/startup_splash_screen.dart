@@ -69,29 +69,19 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
         padding: const EdgeInsets.all(kDefaultPadding / 2),
         physics: const BouncingScrollPhysics(),
         children: [
-          SizedBox(
-            height: mediaHeight,
-            width: mediaWidth,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: mediaHeight / 4,
-                  width: mediaWidth / 2,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image:
-                          AssetImage("assets/images/splash_screen/frame_1.png"),
-                    ),
-                  ),
-                ),
-                kSizedBox,
-                SpinKitThreeInOut(
-                  color: kSecondaryColor,
-                  size: 20,
-                ),
-              ],
+          Container(
+            height: mediaHeight / 4,
+            width: mediaWidth / 2,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/splash_screen/frame_1.png"),
+              ),
             ),
+          ),
+          kSizedBox,
+          SpinKitThreeInOut(
+            color: kSecondaryColor,
+            size: 20,
           ),
         ],
       ),
