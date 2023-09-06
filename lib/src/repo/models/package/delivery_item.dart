@@ -43,7 +43,7 @@ class DeliveryItem {
   factory DeliveryItem.fromJson(Map<String, dynamic> json) {
     return DeliveryItem(
       id: json['id'],
-      clientId: json['client_id'],
+      clientId: User.fromJson(json['client_id']),
       pickUpAddress: json['pickUpAddress'],
       senderName: json['senderName'],
       senderPhoneNumber: json['senderPhoneNumber'],
@@ -51,8 +51,8 @@ class DeliveryItem {
       receiverName: json['receiverName'],
       receiverPhoneNumber: json['receiverPhoneNumber'],
       itemName: json['itemName'],
-      itemCategory: ItemCategory.fromJson(json['itemCategory']),
-      itemWeight: ItemWeight.fromJson(json['itemWeight']),
+      itemCategory: ItemCategory.fromJson(json['itemCategory_id']),
+      itemWeight: ItemWeight.fromJson(json['itemWeight_id']),
       itemQuantity: json['itemQuantity'],
       itemValue: json['itemValue'],
       itemImage: json['itemImage'],
@@ -84,18 +84,20 @@ Future<DeliveryItem> createDeliveryItem({
     'receiverPhoneNumber': receiverPhoneNumber,
     'itemName': itemName,
     'itemCategory_id': itemCategoryId,
-    'itemWeight': itemWeightId,
+    'itemWeight_id': itemWeightId,
     'itemQuantity': itemQuantity,
     'itemValue': itemValue,
     // 'itemImage': itemImage,
   };
+  print(body);
 
   final response = await http.post(
     Uri.parse('$baseURL/sendPackage/createItemPackage/'),
     body: body,
     headers: await authHeader(),
   );
-
+  print(response.body);
+  print(response.statusCode);
   if (response.statusCode == 200) {
     return DeliveryItem.fromJson(jsonDecode(response.body));
   } else {

@@ -66,6 +66,7 @@ class _SendPackageState extends State<SendPackage> {
     _getData();
   }
 
+  String countryDialCode = '234';
   List<ItemCategory> _category = [];
   List<ItemWeight> _weight = [];
 
@@ -83,48 +84,49 @@ class _SendPackageState extends State<SendPackage> {
   _postData() async {
     await checkAuth(context);
     User? user = await getUser();
-    try {
-      DeliveryItem deliveryItem = await createDeliveryItem(
-        clientId: user!.id,
-        dropOffAddress: _dropOffEC.text,
-        itemCategoryId: _itemCategoryEC.text,
-        itemName: _itemNameEC.text,
-        itemQuantity: _itemQuantityEC.text,
-        itemValue: _itemValueEC.text,
-        itemWeightId: _itemWeightEC.text,
-        pickUpAddress: _pickupEC.text,
-        receiverName: _receiverNameEC.text,
-        receiverPhoneNumber: _receiverPhoneEC.text,
-        senderName: _senderNameEC.text,
-        senderPhoneNumber: _senderPhoneEC.text,
-      );
-      mySnackBar(
-        context,
-        kSuccessColor,
-        "Success!",
-        "Now choose a rider",
-        Duration(seconds: 2),
-      );
+    // try {
+    print('did the _postData');
+    DeliveryItem deliveryItem = await createDeliveryItem(
+      clientId: 'emma', //user!.id,
+      dropOffAddress: _dropOffEC.text,
+      itemCategoryId: _itemCategoryEC.text,
+      itemName: _itemNameEC.text,
+      itemQuantity: int.parse(_itemQuantityEC.text),
+      itemValue: int.parse(_itemValueEC.text),
+      itemWeightId: _itemWeightEC.text,
+      pickUpAddress: _pickupEC.text,
+      receiverName: _receiverNameEC.text,
+      receiverPhoneNumber: '+$countryDialCode${_receiverPhoneEC.text}',
+      senderName: _senderNameEC.text,
+      senderPhoneNumber: '+$countryDialCode${_senderPhoneEC.text}',
+    );
+    mySnackBar(
+      context,
+      kSuccessColor,
+      "Success!",
+      "Now choose a rider",
+      Duration(seconds: 2),
+    );
 
-      Get.to(
-        () => const ChooseRider(),
-        routeName: 'ChooseRider',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
-    } catch (e) {
-      mySnackBar(
-        context,
-        kErrorColor,
-        "Failed!",
-        "Failed to Send package",
-        Duration(seconds: 2),
-      );
-    }
+    Get.to(
+      () => const ChooseRider(),
+      routeName: 'ChooseRider',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    // } catch (e) {
+    //   mySnackBar(
+    //     context,
+    //     kErrorColor,
+    //     "Failed!",
+    //     "Failed to Send package",
+    //     Duration(seconds: 2),
+    //   );
+    // }
   }
 
   _continueStep() {
@@ -550,7 +552,7 @@ class _SendPackageState extends State<SendPackage> {
                 dropdownMenuEntries2: _category
                     .map(
                       (item) =>
-                          DropdownMenuEntry(value: item.id, label: item.name),
+                          DropdownMenuEntry(value: item.id, label: item.id),
                     )
                     .toList(),
               ),
@@ -570,7 +572,8 @@ class _SendPackageState extends State<SendPackage> {
                 dropdownMenuEntries2: _weight
                     .map(
                       (item) => DropdownMenuEntry(
-                          value: item.id, label: '${item.start} - ${item.end}'),
+                          value: item.id,
+                          label: item.id), //'${item.start} - ${item.end}'),
                     )
                     .toList(),
               ),

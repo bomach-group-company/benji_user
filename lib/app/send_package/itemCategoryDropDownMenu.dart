@@ -19,6 +19,9 @@ class ItemDropDownMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownMenu(
+      // onSelected: (value) {
+      //   itemEC.text = value!.toString();
+      // },
       controller: itemEC,
       width: mediaWidth / 1.28,
       hintText: hintText,
