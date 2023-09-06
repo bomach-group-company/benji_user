@@ -190,6 +190,7 @@ class _EditProfileState extends State<EditProfile> {
     };
     final response = await http.post(url,
         body: jsonEncode(body), headers: await authHeader());
+
     try {
       await saveUser(response.body, user.token!);
       return response.statusCode == 200;

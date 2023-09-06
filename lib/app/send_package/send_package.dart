@@ -710,7 +710,7 @@ class _SendPackageState extends State<SendPackage> {
                 currentStep: _currentStep,
                 onStepContinue: _continueStep,
                 onStepCancel: _cancelStep,
-                onStepTapped: _onStepTapped,
+                onStepTapped: null,
                 controlsBuilder: _controlsBuilder,
                 elevation: 0.0,
                 // stepIconBuilder: stepIconBuilder,

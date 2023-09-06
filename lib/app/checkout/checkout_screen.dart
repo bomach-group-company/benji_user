@@ -145,7 +145,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    await _getData();
+    Address? deliverTo;
+    try {
+      deliverTo = await getCurrentAddress();
+    } catch (e) {
+      deliverTo = null;
+    }
+    setState(() {
+      _data!['deliverTo'] = deliverTo;
+    });
+    // await _getData();
   }
 
   @override
