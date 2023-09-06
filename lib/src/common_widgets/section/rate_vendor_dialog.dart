@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
@@ -115,11 +113,9 @@ class _RateVendorDialogState extends State<RateVendorDialog> {
         child: Stack(
           children: [
             AnimatedContainer(
+              height: _pageChanged ? mediaHeight * 0.6 : mediaHeight * 0.45,
               duration: Duration(milliseconds: 300),
               curve: Curves.easeIn,
-              height: _pageChanged
-                  ? max(340, mediaHeight * 0.6)
-                  : max(340, mediaHeight * 0.34),
               padding: EdgeInsets.all(kDefaultPadding),
               child: PageView(
                 controller: _ratingPageController,
@@ -272,25 +268,36 @@ _causeOfRating(
     children: [
       Visibility(
         visible: true,
+        maintainSize: true,
+        maintainAnimation: true,
+        maintainState: true,
+        maintainInteractivity: true,
+        maintainSemantics: true,
         child: Form(
           key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
             children: [
               kSizedBox,
               kSizedBox,
-              Text("What could be better?"),
+              SizedBox(height: 20, child: Text("What could be better?")),
               kHalfSizedBox,
-              MyMessageTextFormField(
-                controller: controller,
-                validator: validator,
-                textInputAction: TextInputAction.newline,
-                focusNode: focusNode,
-                hintText: "Enter your review (required)",
-                maxLines: 8,
-                keyboardType: TextInputType.multiline,
-                maxLength: 6000,
+              SizedBox(
+                height: 250,
+                child: MyMessageTextFormField(
+                  controller: controller,
+                  validator: validator,
+                  textInputAction: TextInputAction.newline,
+                  focusNode: focusNode,
+                  hintText: "Enter your review (required)",
+                  maxLines: 8,
+                  keyboardType: TextInputType.multiline,
+                  maxLength: 6000,
+                ),
               ),
+              kSizedBox,
+              kSizedBox,
             ],
           ),
         ),
