@@ -87,10 +87,11 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
 
   //SET DEFAULT ADDRESS
   setDefaultAddress() async {
-    await checkAuth(context);
     setState(() {
       _isLoading = true;
     });
+
+    await checkAuth(context);
 
     if (await updateAddress(is_current: true)) {
       mySnackBar(
@@ -138,10 +139,10 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
 
   //SAVE NEW ADDRESS
   updateUserAddress() async {
-    await checkAuth(context);
     setState(() {
       _isLoading2 = true;
     });
+    await checkAuth(context);
 
     if (await updateAddress(is_current: false)) {
       mySnackBar(
