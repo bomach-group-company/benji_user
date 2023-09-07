@@ -147,8 +147,8 @@ class _VendorDetailsState extends State<VendorDetails>
       kSuccessColor,
       "Success",
       _isAddedToFavorites
-          ? "Product has been added to favorites"
-          : "Product been removed from favorites",
+          ? "Vendor has been added to favorites"
+          : "Vendor been removed from favorites",
       Duration(milliseconds: 500),
     );
   }
