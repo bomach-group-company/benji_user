@@ -614,7 +614,6 @@ class _VendorDetailsState extends State<VendorDetails>
                         child: AutoScaleTabBarView(
                           controller: _tabBarController,
                           physics: const BouncingScrollPhysics(),
-                          dragStartBehavior: DragStartBehavior.down,
                           children: [
                             VendorsProductsTab(
                               list: Column(

@@ -46,13 +46,13 @@ class _RateProductDialogState extends State<RateProductDialog> {
   Future<bool> rate() async {
     User? user = await getUser();
     final url = Uri.parse('$baseURL/products/productReviewsRating');
-
     Map body = {
-      'client_id': user!.id,
-      'vendor_id': widget.product.vendorId.id,
-      'rating_value': _rating,
-      'comment': _myMessageEC.text,
+      'client_id': user!.id.toString(),
+      'vendor_id': widget.product.vendorId.id.toString(),
+      'rating_value': _rating.toInt().toString(),
+      'comment': _myMessageEC.text
     };
+
     print(body);
     final response =
         await http.post(url, body: body, headers: await authHeader());

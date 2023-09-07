@@ -340,8 +340,8 @@ class _FavoritesState extends State<Favorites>
                                                           .shopType!
                                                           .name!,
                                                   rating: _dataVendor![index]
-                                                      .averageRating
-                                                      .toString(),
+                                                      .averageRating!
+                                                      .toStringAsPrecision(2),
                                                   noOfUsersRated: (_dataVendor![
                                                                   index]
                                                               .numberOfClientsReactions ??
