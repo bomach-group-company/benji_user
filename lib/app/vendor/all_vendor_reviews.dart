@@ -121,6 +121,7 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
             child: _data == null
                 ? SpinKitChasingDots(color: kAccentColor)
                 : ListView(
+                    controller: _scrollController,
                     padding: const EdgeInsets.all(kDefaultPadding / 2),
                     dragStartBehavior: DragStartBehavior.down,
                     physics: const BouncingScrollPhysics(),

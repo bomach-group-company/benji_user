@@ -57,24 +57,34 @@ class CostumerReviewCard extends StatelessWidget {
                 ),
               ),
               kHalfWidthSizedBox,
-              Text(
-                rating.client.username!,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFF131514),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
+              SizedBox(
+                width: mediaWidth / 2.5,
+                child: Text(
+                  "${rating.client.firstName!} ${rating.client.lastName!}",
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    color: Color(0xFF131514),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               )
             ],
           ),
           kSizedBox,
-          Text(
-            rating.comment!,
-            style: TextStyle(
-              color: kTextGreyColor,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
+          SizedBox(
+            width: mediaWidth / 2.5,
+            child: Text(
+              rating.comment!,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 5,
+              style: TextStyle(
+                color: kTextGreyColor,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
           kSizedBox,

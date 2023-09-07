@@ -102,7 +102,7 @@ class _VendorDetailsState extends State<VendorDetails>
     kTextGreyColor
   ];
 
-//=================================================== FUNCTIONS =====================================================\\
+//================================================= FUNCTIONS ===================================================\\
   Map? _data;
 
   _getData() async {
@@ -113,18 +113,6 @@ class _VendorDetailsState extends State<VendorDetails>
     setState(() {
       _data = {'product': product, 'ratings': ratings};
     });
-  }
-
-  void validate() {
-    mySnackBar(
-      context,
-      kSuccessColor,
-      "Success!",
-      "Thank you for your feedback!",
-      Duration(seconds: 1),
-    );
-
-    Get.back();
   }
 
   Future<void> _handleRefresh() async {
@@ -332,6 +320,7 @@ class _VendorDetailsState extends State<VendorDetails>
                   radius: const Radius.circular(10),
                   scrollbarOrientation: ScrollbarOrientation.right,
                   child: ListView(
+                    controller: _scrollController,
                     physics: const ScrollPhysics(),
                     children: [
                       SizedBox(
