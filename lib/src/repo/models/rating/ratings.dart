@@ -37,7 +37,7 @@ class Ratings {
 }
 
 Future<List<Ratings>> getRatingsByVendorId(int id,
-    {start = 1, end = 10}) async {
+    {start = 0, end = 20}) async {
   final response = await http.get(
     Uri.parse('$baseURL/clients/filterReviewsByRating/${id}'),
     headers: await authHeader(),
