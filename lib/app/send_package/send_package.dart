@@ -612,7 +612,8 @@ class _SendPackageState extends State<SendPackage> {
                 dropdownMenuEntries2: _weight
                     .map(
                       (item) => DropdownMenuEntry(
-                          value: item.id, label: '${item.start} - ${item.end}'),
+                          value: item.id,
+                          label: '${item.start}KG - ${item.end}KG'),
                     )
                     .toList(),
               ),

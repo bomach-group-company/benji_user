@@ -1,6 +1,5 @@
 // ignore_for_file: unused_local_variable
 
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
@@ -188,8 +187,11 @@ class _EditProfileState extends State<EditProfile> {
       'phone': "+$countryDialCode${phoneNumberEC.text}",
       // 'image': selectedImage!,
     };
-    final response = await http.post(url,
-        body: jsonEncode(body), headers: await authHeader());
+    final response = await http.post(
+      url,
+      body: body,
+      headers: await authHeader(),
+    );
 
     try {
       await saveUser(response.body, user.token!);
@@ -308,9 +310,7 @@ class _EditProfileState extends State<EditProfile> {
                                 )
                               : CircleAvatar(
                                   radius: 80,
-                                  backgroundImage: FileImage(
-                                    selectedImage!,
-                                  ),
+                                  backgroundImage: FileImage(selectedImage!),
                                 ),
                         ),
                         Positioned(
@@ -321,9 +321,7 @@ class _EditProfileState extends State<EditProfile> {
                               showModalBottomSheet(
                                 context: context,
                                 elevation: 20,
-                                barrierColor: kBlackColor.withOpacity(
-                                  0.8,
-                                ),
+                                barrierColor: kBlackColor.withOpacity(0.8),
                                 showDragHandle: true,
                                 useSafeArea: true,
                                 isDismissible: true,

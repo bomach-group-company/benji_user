@@ -1,3 +1,4 @@
+import 'package:autoscale_tabbarview/autoscale_tabbarview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
@@ -171,27 +172,25 @@ class _PaymentMethodState extends State<PaymentMethod>
                       ),
                       kSizedBox,
                       Container(
-                        height: mediaHeight,
+                        // height: mediaHeight,
                         padding: const EdgeInsets.only(
                           left: kDefaultPadding / 2,
                           right: kDefaultPadding / 2,
                         ),
                         child: Column(
                           children: [
-                            Expanded(
-                              flex: 1,
-                              child: TabBarView(
-                                controller: _tabBarController,
-                                physics: const BouncingScrollPhysics(),
-                                children: [
-                                  BankTransfer(totalPrice: widget.totalPrice),
-                                  CardPayment(),
-                                ],
-                              ),
+                            AutoScaleTabBarView(
+                              controller: _tabBarController,
+                              physics: const BouncingScrollPhysics(),
+                              children: [
+                                BankTransfer(totalPrice: widget.totalPrice),
+                                CardPayment(),
+                              ],
                             )
                           ],
                         ),
                       ),
+                      kSizedBox,
                     ],
                   ),
                 ),
