@@ -1,6 +1,5 @@
 // ignore_for_file: unused_local_variable
 
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
@@ -188,8 +187,8 @@ class _EditProfileState extends State<EditProfile> {
       'phone': "+$countryDialCode${phoneNumberEC.text}",
       // 'image': selectedImage!,
     };
-    final response = await http.post(url,
-        body: jsonEncode(body), headers: await authHeader());
+    final response =
+        await http.post(url, body: body, headers: await authHeader());
 
     try {
       await saveUser(response.body, user.token!);
