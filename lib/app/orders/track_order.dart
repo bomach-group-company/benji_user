@@ -344,7 +344,6 @@ class _TrackOrderState extends State<TrackOrder> {
               ),
               kSizedBox,
               Container(
-                width: mediaWidth,
                 padding: EdgeInsets.all(kDefaultPadding),
                 decoration: ShapeDecoration(
                   color: kPrimaryColor,
@@ -376,8 +375,8 @@ class _TrackOrderState extends State<TrackOrder> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: 100,
-                          height: 100,
+                          width: 90,
+                          height: 90,
                           decoration: ShapeDecoration(
                             image: DecorationImage(
                               image: AssetImage(

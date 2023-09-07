@@ -29,6 +29,7 @@ import '../../theme/colors.dart';
 import '../address/addresses.dart';
 import '../address/deliver_to.dart';
 import '../auth/login.dart';
+import '../my_packages/my_packages.dart';
 import '../orders/order_history.dart';
 import '../product/home_page_products.dart';
 import '../product/product_detail_screen.dart';
@@ -311,7 +312,16 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toMyPackagesPage() {}
+  void _toMyPackagesPage() => Get.to(
+        () => const MyPackages(),
+        routeName: 'MyPackages',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 
   @override
   Widget build(BuildContext context) {

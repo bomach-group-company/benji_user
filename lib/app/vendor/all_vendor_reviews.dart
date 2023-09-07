@@ -60,7 +60,8 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
 
   _getData() async {
     await checkAuth(context);
-    List<Ratings> ratings = await getRatingsByVendorId(widget.vendor.id!);
+    List<Ratings> ratings =
+        await getRatingsByVendorId(widget.vendor.id!, start: 0, end: 1000000);
     setState(() {
       _data = {'ratings': ratings};
     });
@@ -121,6 +122,7 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
             child: _data == null
                 ? SpinKitChasingDots(color: kAccentColor)
                 : ListView(
+                    controller: _scrollController,
                     padding: const EdgeInsets.all(kDefaultPadding / 2),
                     dragStartBehavior: DragStartBehavior.down,
                     physics: const BouncingScrollPhysics(),

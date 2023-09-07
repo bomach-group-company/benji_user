@@ -50,12 +50,12 @@ class _RateVendorDialogState extends State<RateVendorDialog> {
     Map body = {
       'client_id': user!.id.toString(),
       'vendor_id': widget.vendor.id.toString(),
-      'rating_value': _rating.toString(),
+      'rating_value': _rating.toInt().toString(),
       'comment': _myMessageEC.text
     };
-
     final response =
         await http.post(url, body: body, headers: await authHeader());
+
     try {
       bool res = response.statusCode == 200 && response.body == '"Review Made"';
       return res;
