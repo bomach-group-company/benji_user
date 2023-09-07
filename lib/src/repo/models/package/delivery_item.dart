@@ -60,51 +60,6 @@ class DeliveryItem {
   }
 }
 
-Future<DeliveryItem> createDeliveryItem({
-  required clientId,
-  required pickUpAddress,
-  required senderName,
-  required senderPhoneNumber,
-  required dropOffAddress,
-  required receiverName,
-  required receiverPhoneNumber,
-  required itemName,
-  required itemCategoryId,
-  required itemWeightId,
-  required itemQuantity,
-  required itemValue,
-}) async {
-  Map body = {
-    'client_id': clientId,
-    'pickUpAddress': pickUpAddress,
-    'senderName': senderName,
-    'senderPhoneNumber': senderPhoneNumber,
-    'dropOffAddress': dropOffAddress,
-    'receiverName': receiverName,
-    'receiverPhoneNumber': receiverPhoneNumber,
-    'itemName': itemName,
-    'itemCategory_id': itemCategoryId,
-    'itemWeight_id': itemWeightId,
-    'itemQuantity': itemQuantity,
-    'itemValue': itemValue,
-    // 'itemImage': itemImage,
-  };
-  print(body);
-
-  final response = await http.post(
-    Uri.parse('$baseURL/sendPackage/createItemPackage/'),
-    body: body,
-    headers: await authHeader(),
-  );
-  print(response.body);
-  print(response.statusCode);
-  if (response.statusCode == 200) {
-    return DeliveryItem.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Failed to create delivery item');
-  }
-}
-
 Future<List<DeliveryItem>> getDeliveryItems() async {
   final response = await http.get(
       Uri.parse('$baseURL/sendPackage/getAllItemPackage/'),
