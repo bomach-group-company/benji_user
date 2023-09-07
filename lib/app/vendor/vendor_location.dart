@@ -35,6 +35,11 @@ class _VendorLocationState extends State<VendorLocation> {
   void initState() {
     super.initState();
     // _getPolyPoints();
+    _markerTitle = <String>["Me", widget.vendor.shopName ?? 'Not Available'];
+    _markerSnippet = <String>[
+      "My Location",
+      "${(widget.vendor.averageRating ?? 0).toPrecision(1)} Rating"
+    ];
     _loadMapData();
   }
 
@@ -51,8 +56,8 @@ class _VendorLocationState extends State<VendorLocation> {
   Uint8List? _markerImage;
   List<Marker> _markers = <Marker>[];
   List<MarkerId> _markerId = <MarkerId>[MarkerId("0"), MarkerId("1")];
-  List<String> _markerTitle = <String>["Me", "Ntachi Osa"];
-  List<String> _markerSnippet = <String>["My Location", "4.7 Star Rating"];
+  List<String>? _markerTitle;
+  List<String>? _markerSnippet;
   List<String> _customMarkers = <String>[
     "assets/icons/person_location.png",
     "assets/icons/store.png",
@@ -166,8 +171,8 @@ class _VendorLocationState extends State<VendorLocation> {
           icon: BitmapDescriptor.fromBytes(_markerIcon),
           position: _latLng[i],
           infoWindow: InfoWindow(
-            title: "${_markerTitle[i]}",
-            snippet: "${_markerSnippet[i]}",
+            title: "${_markerTitle![i]}",
+            snippet: "${_markerSnippet![i]}",
           ),
         ),
       );
