@@ -1,4 +1,5 @@
 // ignore_for_file: unused_local_variable
+import 'package:autoscale_tabbarview/autoscale_tabbarview.dart';
 import 'package:benji_user/app/vendor/vendor_details.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/cart.dart';
@@ -243,116 +244,109 @@ class _FavoritesState extends State<Favorites>
                     width: mediaWidth,
                     child: Column(
                       children: [
-                        Expanded(
-                          child: TabBarView(
-                            controller: _tabBarController,
-                            clipBehavior: Clip.hardEdge,
-                            physics: const BouncingScrollPhysics(),
-                            dragStartBehavior: DragStartBehavior.down,
-                            children: [
-                              _dataProduct == null
-                                  ? Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        SpinKitChasingDots(
-                                          color: kAccentColor,
-                                        ),
-                                      ],
-                                    )
-                                  : Scrollbar(
+                        AutoScaleTabBarView(
+                          controller: _tabBarController,
+                          physics: const BouncingScrollPhysics(),
+                          dragStartBehavior: DragStartBehavior.down,
+                          children: [
+                            _dataProduct == null
+                                ? Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SpinKitChasingDots(
+                                        color: kAccentColor,
+                                      ),
+                                    ],
+                                  )
+                                : Scrollbar(
+                                    controller: _scrollController,
+                                    radius: const Radius.circular(10),
+                                    child: FavoriteProductsTab(
+                                      list: _dataProduct!.isEmpty
+                                          ? EmptyCard()
+                                          : ListView.separated(
+                                              controller: _scrollController,
+                                              scrollDirection: Axis.vertical,
+                                              itemCount: _dataProduct!.length,
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const BouncingScrollPhysics(),
+                                              separatorBuilder:
+                                                  (context, index) =>
+                                                      kHalfSizedBox,
+                                              itemBuilder: (context, index) =>
+                                                  HomeProductsCard(
+                                                OnTap: () =>
+                                                    _toProductDetailsScreen(
+                                                        _dataProduct![index]),
+                                                product: _dataProduct![index],
+                                              ),
+                                            ),
+                                    ),
+                                  ),
+                            _dataVendor == null
+                                ? Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SpinKitChasingDots(
+                                        color: kAccentColor,
+                                      ),
+                                    ],
+                                  )
+                                : FavoriteVendorsTab(
+                                    list: Scrollbar(
                                       controller: _scrollController,
                                       radius: const Radius.circular(10),
-                                      child: FavoriteProductsTab(
-                                        list: _dataProduct!.isEmpty
-                                            ? EmptyCard()
-                                            : ListView.separated(
-                                                controller: _scrollController,
-                                                scrollDirection: Axis.vertical,
-                                                itemCount: _dataProduct!.length,
-                                                shrinkWrap: true,
-                                                physics:
-                                                    const BouncingScrollPhysics(),
-                                                separatorBuilder:
-                                                    (context, index) =>
-                                                        kHalfSizedBox,
-                                                itemBuilder: (context, index) =>
-                                                    HomeProductsCard(
-                                                  OnTap: () =>
-                                                      _toProductDetailsScreen(
-                                                          _dataProduct![index]),
-                                                  product: _dataProduct![index],
-                                                ),
+                                      child: _dataVendor!.isEmpty
+                                          ? EmptyCard()
+                                          : ListView.separated(
+                                              controller: _scrollController,
+                                              itemCount: _dataVendor!.length,
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const BouncingScrollPhysics(),
+                                              separatorBuilder:
+                                                  (context, index) =>
+                                                      kHalfSizedBox,
+                                              itemBuilder: (context, index) =>
+                                                  PopularVendorsCard(
+                                                onTap: () {
+                                                  Get.to(
+                                                    () => VendorDetails(
+                                                        vendor: _dataVendor![
+                                                            index]),
+                                                    routeName: 'VendorDetails',
+                                                    duration: const Duration(
+                                                        milliseconds: 300),
+                                                    fullscreenDialog: true,
+                                                    curve: Curves.easeIn,
+                                                    preventDuplicates: true,
+                                                    popGesture: true,
+                                                    transition:
+                                                        Transition.rightToLeft,
+                                                  );
+                                                },
+                                                cardImage:
+                                                    'best-choice-restaurant.png',
+                                                vendorName: _dataVendor![index]
+                                                    .shopName!,
+                                                businessType:
+                                                    _dataVendor![index]
+                                                        .shopType!
+                                                        .name!,
+                                                rating: _dataVendor![index]
+                                                    .averageRating
+                                                    .toString(),
+                                                noOfUsersRated: (_dataVendor![
+                                                                index]
+                                                            .numberOfClientsReactions ??
+                                                        0)
+                                                    .toString(),
                                               ),
-                                      ),
+                                            ),
                                     ),
-                              _dataVendor == null
-                                  ? Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        SpinKitChasingDots(
-                                          color: kAccentColor,
-                                        ),
-                                      ],
-                                    )
-                                  : FavoriteVendorsTab(
-                                      list: Scrollbar(
-                                        controller: _scrollController,
-                                        radius: const Radius.circular(10),
-                                        child: _dataVendor!.isEmpty
-                                            ? EmptyCard()
-                                            : ListView.separated(
-                                                controller: _scrollController,
-                                                itemCount: _dataVendor!.length,
-                                                shrinkWrap: true,
-                                                physics:
-                                                    const BouncingScrollPhysics(),
-                                                separatorBuilder:
-                                                    (context, index) =>
-                                                        kHalfSizedBox,
-                                                itemBuilder: (context, index) =>
-                                                    PopularVendorsCard(
-                                                  onTap: () {
-                                                    Get.to(
-                                                      () => VendorDetails(
-                                                          vendor: _dataVendor![
-                                                              index]),
-                                                      routeName:
-                                                          'VendorDetails',
-                                                      duration: const Duration(
-                                                          milliseconds: 300),
-                                                      fullscreenDialog: true,
-                                                      curve: Curves.easeIn,
-                                                      preventDuplicates: true,
-                                                      popGesture: true,
-                                                      transition: Transition
-                                                          .rightToLeft,
-                                                    );
-                                                  },
-                                                  cardImage:
-                                                      'best-choice-restaurant.png',
-                                                  vendorName:
-                                                      _dataVendor![index]
-                                                          .shopName!,
-                                                  businessType:
-                                                      _dataVendor![index]
-                                                          .shopType!
-                                                          .name!,
-                                                  rating: _dataVendor![index]
-                                                      .averageRating
-                                                      .toString(),
-                                                  noOfUsersRated: (_dataVendor![
-                                                                  index]
-                                                              .numberOfClientsReactions ??
-                                                          0)
-                                                      .toString(),
-                                                ),
-                                              ),
-                                      ),
-                                    ),
-                            ],
-                          ),
+                                  ),
+                          ],
                         ),
                         kHalfSizedBox,
                       ],
