@@ -1,11 +1,12 @@
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
-import 'package:benji_user/src/repo/models/package/delivery_item.dart';
 import 'package:benji_user/src/repo/models/package/item_category.dart';
 import 'package:benji_user/src/repo/models/package/item_weight.dart';
 import 'package:benji_user/src/repo/models/user/user_model.dart';
+import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -81,18 +82,56 @@ class _SendPackageState extends State<SendPackage> {
     });
   }
 
+  Future<bool> createDeliveryItem({
+    required clientId,
+    required pickUpAddress,
+    required senderName,
+    required senderPhoneNumber,
+    required dropOffAddress,
+    required receiverName,
+    required receiverPhoneNumber,
+    required itemName,
+    required itemCategoryId,
+    required itemWeightId,
+    required itemQuantity,
+    required itemValue,
+  }) async {
+    Map body = {
+      'client_id': clientId,
+      'pickUpAddress': pickUpAddress,
+      'senderName': senderName,
+      'senderPhoneNumber': senderPhoneNumber,
+      'dropOffAddress': dropOffAddress,
+      'receiverName': receiverName,
+      'receiverPhoneNumber': receiverPhoneNumber,
+      'itemName': itemName,
+      'itemCategory_id': itemCategoryId,
+      'itemWeight_id': itemWeightId,
+      'itemQuantity': itemQuantity,
+      'itemValue': itemValue,
+    };
+    print(body);
+
+    final response = await http.post(
+      Uri.parse('$baseURL/sendPackage/createItemPackage/'),
+      body: body,
+      headers: await authHeader(),
+    );
+
+    return response.statusCode == 200 && response.body == '"Package Created."';
+  }
+
   _postData() async {
     await checkAuth(context);
     User? user = await getUser();
     // try {
-    print('did the _postData');
-    DeliveryItem deliveryItem = await createDeliveryItem(
-      clientId: 'emma', //user!.id,
+    bool res = await createDeliveryItem(
+      clientId: user!.id.toString(),
       dropOffAddress: _dropOffEC.text,
       itemCategoryId: _itemCategoryEC.text,
       itemName: _itemNameEC.text,
-      itemQuantity: int.parse(_itemQuantityEC.text),
-      itemValue: int.parse(_itemValueEC.text),
+      itemQuantity: _itemQuantityEC.text,
+      itemValue: _itemValueEC.text,
       itemWeightId: _itemWeightEC.text,
       pickUpAddress: _pickupEC.text,
       receiverName: _receiverNameEC.text,
@@ -100,33 +139,34 @@ class _SendPackageState extends State<SendPackage> {
       senderName: _senderNameEC.text,
       senderPhoneNumber: '+$countryDialCode${_senderPhoneEC.text}',
     );
-    mySnackBar(
-      context,
-      kSuccessColor,
-      "Success!",
-      "Now choose a rider",
-      Duration(seconds: 2),
-    );
+    if (res) {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Now choose a rider",
+        Duration(seconds: 2),
+      );
 
-    Get.to(
-      () => const ChooseRider(),
-      routeName: 'ChooseRider',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
-    // } catch (e) {
-    //   mySnackBar(
-    //     context,
-    //     kErrorColor,
-    //     "Failed!",
-    //     "Failed to Send package",
-    //     Duration(seconds: 2),
-    //   );
-    // }
+      Get.to(
+        () => const ChooseRider(),
+        routeName: 'ChooseRider',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+    } else {
+      mySnackBar(
+        context,
+        kErrorColor,
+        "Failed!",
+        "Failed to Send package",
+        Duration(seconds: 2),
+      );
+    }
   }
 
   _continueStep() {
@@ -552,7 +592,7 @@ class _SendPackageState extends State<SendPackage> {
                 dropdownMenuEntries2: _category
                     .map(
                       (item) =>
-                          DropdownMenuEntry(value: item.id, label: item.id),
+                          DropdownMenuEntry(value: item.id, label: item.name),
                     )
                     .toList(),
               ),
@@ -573,7 +613,7 @@ class _SendPackageState extends State<SendPackage> {
                     .map(
                       (item) => DropdownMenuEntry(
                           value: item.id,
-                          label: item.id), //'${item.start} - ${item.end}'),
+                          label: '${item.start}KG - ${item.end}KG'),
                     )
                     .toList(),
               ),
