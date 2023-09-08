@@ -451,34 +451,34 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 ],
                               ),
                             ),
-                            // kSizedBox,
-                            // SizedBox(
-                            //   width: mediaWidth / 3,
-                            //   child: Text.rich(
-                            //     TextSpan(
-                            //       children: [
-                            //         TextSpan(
-                            //           text: "Qty: ",
-                            //           style: TextStyle(
-                            //             color: kTextGreyColor,
-                            //             fontSize: 15,
-                            //             fontWeight: FontWeight.w400,
-                            //           ),
-                            //         ),
-                            //         TextSpan(
-                            //           text: formattedText(widget
-                            //               .product.quantityAvailable
-                            //               .toDouble()),
-                            //           style: TextStyle(
-                            //             color: kTextBlackColor,
-                            //             fontSize: 15,
-                            //             fontWeight: FontWeight.w700,
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     ),
-                            //   ),
-                            // ),
+                            kSizedBox,
+                            SizedBox(
+                              width: mediaWidth / 3,
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "Qty: ",
+                                      style: TextStyle(
+                                        color: kTextGreyColor,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: formattedText(widget
+                                          .product.quantityAvailable
+                                          .toDouble()),
+                                      style: TextStyle(
+                                        color: kTextBlackColor,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                             kSizedBox,
                             Container(
                               width: mediaWidth,
