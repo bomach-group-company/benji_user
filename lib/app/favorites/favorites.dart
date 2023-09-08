@@ -142,14 +142,14 @@ class _FavoritesState extends State<Favorites>
           child: FutureBuilder(
             future: _getData(),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting ||
-                  !snapshot.hasData) {
-                return Center(child: SpinKitChasingDots(color: kAccentColor));
-              }
               if (snapshot.connectionState == ConnectionState.none) {
                 return Center(
                   child: Text("Please connect to the internet"),
                 );
+              }
+              if (snapshot.connectionState == ConnectionState.waiting ||
+                  !snapshot.hasData) {
+                return Center(child: SpinKitChasingDots(color: kAccentColor));
               }
               // if (snapshot.connectionState == snapshot.requireData) {
               //   SpinKitChasingDots(color: kAccentColor);
