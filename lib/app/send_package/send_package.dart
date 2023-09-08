@@ -199,11 +199,6 @@ class _SendPackageState extends State<SendPackage> {
     }
   }
 
-  _onStepTapped(int value) {
-    setState(() {
-      _currentStep = value;
-    });
-  }
 
   //=============================== WIDGETS ==================================\\
 

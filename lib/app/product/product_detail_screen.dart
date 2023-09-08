@@ -112,12 +112,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     }
   }
 
-  //===================== Number format ==========================\\
-  String formattedText(double value) {
-    final numberFormat = NumberFormat('#,##0');
-    return numberFormat.format(value);
-  }
-
   //============================ Favorite ================================\\
 
   void _addToFavorites() async {
