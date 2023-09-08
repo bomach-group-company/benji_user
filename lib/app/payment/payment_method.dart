@@ -99,7 +99,6 @@ class _PaymentMethodState extends State<PaymentMethod>
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(

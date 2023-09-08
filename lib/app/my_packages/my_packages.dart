@@ -5,8 +5,10 @@ import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/route_manager.dart';
 
 import '../../src/providers/constants.dart';
+import 'view_package.dart';
 
 class MyPackages extends StatefulWidget {
   const MyPackages({super.key});
@@ -57,6 +59,30 @@ class _MyPackagesState extends State<MyPackages>
       _loadingTabBarContent = false;
     });
   }
+
+//================================================= Navigation ===================================================\\
+
+  void _viewPendingPackage() => Get.to(
+        () => ViewPackage(packageIcon: "package-waiting", isDelivered: false),
+        routeName: 'ViewPackage',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.size,
+      );
+
+  void _viewDeliveredPackage() => Get.to(
+        () => ViewPackage(packageIcon: "package-success", isDelivered: true),
+        routeName: 'ViewPackage',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.size,
+      );
 
   //========================================================================\\
 
@@ -150,7 +176,7 @@ class _MyPackagesState extends State<MyPackages>
                               physics: const BouncingScrollPhysics(),
                               itemBuilder: (context, index) => Container(
                                 child: ListTile(
-                                  onTap: () {},
+                                  onTap: _viewPendingPackage,
                                   contentPadding: EdgeInsets.all(0),
                                   enableFeedback: true,
                                   dense: true,
@@ -206,7 +232,7 @@ class _MyPackagesState extends State<MyPackages>
                               physics: const BouncingScrollPhysics(),
                               itemBuilder: (context, index) => Container(
                                 child: ListTile(
-                                  onTap: () {},
+                                  onTap: _viewDeliveredPackage,
                                   contentPadding: EdgeInsets.all(0),
                                   enableFeedback: true,
                                   dense: true,

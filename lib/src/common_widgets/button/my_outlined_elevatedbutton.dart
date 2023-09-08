@@ -14,6 +14,7 @@ class MyOutlinedElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double mediaWidth = MediaQuery.of(context).size.width;
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
@@ -24,8 +25,8 @@ class MyOutlinedElevatedButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         shadowColor: kBlackColor.withOpacity(0.4),
-        minimumSize: Size(MediaQuery.of(context).size.width, 60),
-        maximumSize: Size(MediaQuery.of(context).size.width, 60),
+        minimumSize: Size(mediaWidth, 60),
+        maximumSize: Size(mediaWidth, 60),
       ),
       child: SizedBox(
         child: Text(
