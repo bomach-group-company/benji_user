@@ -8,11 +8,13 @@ class ItemWeight {
   final String id;
   final int start;
   final int end;
+  final String title;
 
   ItemWeight({
     required this.id,
     required this.start,
     required this.end,
+    required this.title,
   });
 
   factory ItemWeight.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class ItemWeight {
       id: json['id'],
       start: json['start'],
       end: json['end'],
+      title: json['title'],
     );
   }
 }
