@@ -17,7 +17,6 @@ class _FavoriteVendorsTabState extends State<FavoriteVendorsTab> {
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
 
     return SizedBox(width: mediaWidth, child: widget.list);
   }

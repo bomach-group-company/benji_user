@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
+
+
 
 class User {
   final int? id;
@@ -9,7 +10,7 @@ class User {
   final String? firstName;
   final String? lastName;
   final String? gender;
-  final File? image;
+  final String? image;
   final String? token;
   final String? code;
 
