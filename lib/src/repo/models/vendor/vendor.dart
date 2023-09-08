@@ -16,6 +16,7 @@ class VendorModel {
   final String? firstName;
   final String? lastName;
   final String? gender;
+  final String? address;
   final String? shopName;
   final double? averageRating;
   final int? numberOfClientsReactions;
@@ -32,6 +33,7 @@ class VendorModel {
     this.firstName,
     this.lastName,
     this.gender,
+    this.address,
     this.shopName,
     this.averageRating,
     this.numberOfClientsReactions,
@@ -50,6 +52,7 @@ class VendorModel {
       firstName: json['first_name'],
       lastName: json['last_name'],
       gender: json['gender'],
+      address: json['address'],
       shopName: json['shop_name'],
       averageRating: json['average_rating'],
       numberOfClientsReactions: json['number_of_clients_reactions'],
