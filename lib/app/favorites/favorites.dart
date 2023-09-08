@@ -50,18 +50,9 @@ class _FavoritesState extends State<Favorites>
   void initState() {
     super.initState();
     _tabBarController = TabController(length: 2, vsync: this);
-
-    if (_tabBarController.index == 0) {
-      _getDataProduct();
-    } else {
-      _getDataVendor();
-    }
   }
 
-  List<Product>? _dataProduct;
-  List<VendorModel>? _dataVendor;
-
-  _getDataProduct() async {
+  Future<Map> _getData() async {
     await checkAuth(context);
     List<Product> product = await getFavoriteProduct(
       (data) => mySnackBar(
@@ -75,13 +66,6 @@ class _FavoritesState extends State<Favorites>
       ),
     );
 
-    setState(() {
-      _dataProduct = product;
-    });
-  }
-
-  _getDataVendor() async {
-    await checkAuth(context);
     List<VendorModel> vendor = await getFavoriteVendor(
       (data) => mySnackBar(
         context,
@@ -94,17 +78,11 @@ class _FavoritesState extends State<Favorites>
       ),
     );
 
-    setState(() {
-      _dataVendor = vendor;
-    });
+    return {'product': product, 'vendor': vendor};
   }
 
   Future<void> _handleRefresh() async {
-    if (_tabBarController.index == 0) {
-      _getDataProduct();
-    } else {
-      _getDataVendor();
-    }
+    // setState(() {});
   }
 
   @override
@@ -121,13 +99,7 @@ class _FavoritesState extends State<Favorites>
 
 //===================== Handle refresh ==========================\\
 
-  void _clickOnTabBarOption() async {
-    if (_tabBarController.index == 0) {
-      _getDataProduct();
-    } else {
-      _getDataVendor();
-    }
-  }
+  void _clickOnTabBarOption() async {}
 
   //===================== Navigation ==========================\\
 
@@ -168,13 +140,14 @@ class _FavoritesState extends State<Favorites>
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: FutureBuilder(
-            future: null,
+            future: _getData(),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                Center(child: SpinKitChasingDots(color: kAccentColor));
+              if (snapshot.connectionState == ConnectionState.waiting ||
+                  !snapshot.hasData) {
+                return Center(child: SpinKitChasingDots(color: kAccentColor));
               }
               if (snapshot.connectionState == ConnectionState.none) {
-                const Center(
+                return Center(
                   child: Text("Please connect to the internet"),
                 );
               }
@@ -182,7 +155,7 @@ class _FavoritesState extends State<Favorites>
               //   SpinKitChasingDots(color: kAccentColor);
               // }
               if (snapshot.connectionState == snapshot.error) {
-                const Center(
+                return Center(
                   child: Text("Error, Please try again later"),
                 );
               }
@@ -240,7 +213,6 @@ class _FavoritesState extends State<Favorites>
                     padding: EdgeInsets.symmetric(
                       horizontal: kDefaultPadding / 2,
                     ),
-                    height: mediaHeight - 170,
                     width: mediaWidth,
                     child: Column(
                       children: [
@@ -249,102 +221,85 @@ class _FavoritesState extends State<Favorites>
                           physics: const BouncingScrollPhysics(),
                           dragStartBehavior: DragStartBehavior.down,
                           children: [
-                            _dataProduct == null
-                                ? Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      SpinKitChasingDots(
-                                        color: kAccentColor,
+                            Scrollbar(
+                                controller: _scrollController,
+                                radius: const Radius.circular(10),
+                                child: FavoriteProductsTab(
+                                  list: snapshot.data!['product'].isEmpty
+                                      ? EmptyCard()
+                                      : ListView.separated(
+                                          controller: _scrollController,
+                                          scrollDirection: Axis.vertical,
+                                          itemCount:
+                                              snapshot.data!['product'].length,
+                                          shrinkWrap: true,
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          separatorBuilder: (context, index) =>
+                                              kHalfSizedBox,
+                                          itemBuilder: (context, index) =>
+                                              HomeProductsCard(
+                                            OnTap: () =>
+                                                _toProductDetailsScreen(snapshot
+                                                    .data!['product'][index]),
+                                            product: snapshot.data!['product']
+                                                [index],
+                                          ),
+                                        ),
+                                )),
+                            FavoriteVendorsTab(
+                              list: Scrollbar(
+                                controller: _scrollController,
+                                radius: const Radius.circular(10),
+                                child: snapshot.data!['vendor'].isEmpty
+                                    ? EmptyCard()
+                                    : ListView.separated(
+                                        controller: _scrollController,
+                                        itemCount:
+                                            snapshot.data!['vendor'].length,
+                                        shrinkWrap: true,
+                                        physics: const BouncingScrollPhysics(),
+                                        separatorBuilder: (context, index) =>
+                                            kHalfSizedBox,
+                                        itemBuilder: (context, index) =>
+                                            PopularVendorsCard(
+                                          onTap: () {
+                                            Get.to(
+                                              () => VendorDetails(
+                                                  vendor: snapshot
+                                                      .data!['vendor'][index]),
+                                              routeName: 'VendorDetails',
+                                              duration: const Duration(
+                                                  milliseconds: 300),
+                                              fullscreenDialog: true,
+                                              curve: Curves.easeIn,
+                                              preventDuplicates: true,
+                                              popGesture: true,
+                                              transition:
+                                                  Transition.rightToLeft,
+                                            );
+                                          },
+                                          cardImage:
+                                              'best-choice-restaurant.png',
+                                          vendorName: snapshot
+                                              .data!['vendor'][index].shopName!,
+                                          businessType: snapshot
+                                              .data!['vendor'][index]
+                                              .shopType!
+                                              .name!,
+                                          rating: snapshot
+                                              .data!['vendor'][index]
+                                              .averageRating!
+                                              .toStringAsPrecision(2),
+                                          noOfUsersRated: (snapshot
+                                                      .data!['vendor'][index]
+                                                      .numberOfClientsReactions ??
+                                                  0)
+                                              .toString(),
+                                        ),
                                       ),
-                                    ],
-                                  )
-                                : Scrollbar(
-                                    controller: _scrollController,
-                                    radius: const Radius.circular(10),
-                                    child: FavoriteProductsTab(
-                                      list: _dataProduct!.isEmpty
-                                          ? EmptyCard()
-                                          : ListView.separated(
-                                              controller: _scrollController,
-                                              scrollDirection: Axis.vertical,
-                                              itemCount: _dataProduct!.length,
-                                              shrinkWrap: true,
-                                              physics:
-                                                  const BouncingScrollPhysics(),
-                                              separatorBuilder:
-                                                  (context, index) =>
-                                                      kHalfSizedBox,
-                                              itemBuilder: (context, index) =>
-                                                  HomeProductsCard(
-                                                OnTap: () =>
-                                                    _toProductDetailsScreen(
-                                                        _dataProduct![index]),
-                                                product: _dataProduct![index],
-                                              ),
-                                            ),
-                                    )),
-                            _dataVendor == null
-                                ? Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      SpinKitChasingDots(
-                                        color: kAccentColor,
-                                      ),
-                                    ],
-                                  )
-                                : FavoriteVendorsTab(
-                                    list: Scrollbar(
-                                      controller: _scrollController,
-                                      radius: const Radius.circular(10),
-                                      child: _dataVendor!.isEmpty
-                                          ? EmptyCard()
-                                          : ListView.separated(
-                                              controller: _scrollController,
-                                              itemCount: _dataVendor!.length,
-                                              shrinkWrap: true,
-                                              physics:
-                                                  const BouncingScrollPhysics(),
-                                              separatorBuilder:
-                                                  (context, index) =>
-                                                      kHalfSizedBox,
-                                              itemBuilder: (context, index) =>
-                                                  PopularVendorsCard(
-                                                onTap: () {
-                                                  Get.to(
-                                                    () => VendorDetails(
-                                                        vendor: _dataVendor![
-                                                            index]),
-                                                    routeName: 'VendorDetails',
-                                                    duration: const Duration(
-                                                        milliseconds: 300),
-                                                    fullscreenDialog: true,
-                                                    curve: Curves.easeIn,
-                                                    preventDuplicates: true,
-                                                    popGesture: true,
-                                                    transition:
-                                                        Transition.rightToLeft,
-                                                  );
-                                                },
-                                                cardImage:
-                                                    'best-choice-restaurant.png',
-                                                vendorName: _dataVendor![index]
-                                                    .shopName!,
-                                                businessType:
-                                                    _dataVendor![index]
-                                                        .shopType!
-                                                        .name!,
-                                                rating: _dataVendor![index]
-                                                    .averageRating!
-                                                    .toStringAsPrecision(2),
-                                                noOfUsersRated: (_dataVendor![
-                                                                index]
-                                                            .numberOfClientsReactions ??
-                                                        0)
-                                                    .toString(),
-                                              ),
-                                            ),
-                                    ),
-                                  ),
+                              ),
+                            ),
                           ],
                         ),
                         kHalfSizedBox,
