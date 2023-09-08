@@ -328,27 +328,29 @@ class _VendorLocationState extends State<VendorLocation> {
                     ),
                   ),
                   kHalfSizedBox,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.locationDot,
-                        color: kAccentColor,
-                        size: 15,
-                      ),
-                      kHalfWidthSizedBox,
-                      SizedBox(
-                        width: mediaWidth - 100,
-                        child: Text(
-                          "Old Abakaliki Rd, Thinkers Corner 400103, Enugu",
+                  Container(
+                    width: mediaWidth - 90,
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.locationDot,
+                          color: kAccentColor,
+                          size: 15,
+                        ),
+                        kHalfWidthSizedBox,
+                        Text(
+                          widget.vendor.address ?? 'Not Available',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   kHalfSizedBox,
                   InkWell(
