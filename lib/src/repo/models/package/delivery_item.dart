@@ -21,7 +21,7 @@ class DeliveryItem {
   final ItemWeight itemWeight;
   final int itemQuantity;
   final int itemValue;
-  final String itemImage;
+  final String? itemImage;
 
   DeliveryItem({
     required this.id,
@@ -43,7 +43,7 @@ class DeliveryItem {
   factory DeliveryItem.fromJson(Map<String, dynamic> json) {
     return DeliveryItem(
       id: json['id'],
-      clientId: User.fromJson(json['client_id']),
+      clientId: User.fromJson(json['client']),
       pickUpAddress: json['pickUpAddress'],
       senderName: json['senderName'],
       senderPhoneNumber: json['senderPhoneNumber'],
@@ -51,8 +51,8 @@ class DeliveryItem {
       receiverName: json['receiverName'],
       receiverPhoneNumber: json['receiverPhoneNumber'],
       itemName: json['itemName'],
-      itemCategory: ItemCategory.fromJson(json['itemCategory_id']),
-      itemWeight: ItemWeight.fromJson(json['itemWeight_id']),
+      itemCategory: ItemCategory.fromJson(json['itemCategory']),
+      itemWeight: ItemWeight.fromJson(json['itemWeight']),
       itemQuantity: json['itemQuantity'],
       itemValue: json['itemValue'],
       itemImage: json['itemImage'],
@@ -60,11 +60,11 @@ class DeliveryItem {
   }
 }
 
-Future<List<DeliveryItem>> getDeliveryItems() async {
+Future<List<DeliveryItem>> getDeliveryItemsByClient() async {
+  User? user = await getUser();
   final response = await http.get(
-      Uri.parse('$baseURL/sendPackage/getAllItemPackage/'),
+      Uri.parse('$baseURL/sendPackage/gettemPackageByClientId/${user!.id}/'),
       headers: await authHeader());
-
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => DeliveryItem.fromJson(item))

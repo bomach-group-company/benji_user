@@ -1,4 +1,5 @@
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji_user/src/repo/models/package/delivery_item.dart';
 import 'package:benji_user/theme/colors.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,12 @@ import 'report_package.dart';
 
 class ViewPackage extends StatefulWidget {
   final String packageIcon;
+  final DeliveryItem deliveryItem;
   final bool isDelivered;
   const ViewPackage({
     super.key,
     required this.packageIcon,
+    required this.deliveryItem,
     this.isDelivered = false,
   });
 
@@ -28,17 +31,16 @@ class _ViewPackageState extends State<ViewPackage> {
     super.initState();
     _packageData = <String>[
       widget.isDelivered ? "Completed" : "Pending",
-      "Sender",
-      "07036485732",
-      "Ogui, Enugu",
-      "Receiver",
-      "08136362859",
-      "Nsukka, Enugu",
-      "Important Documents",
-      "${formattedText(10)}",
-      "KG - KG",
-      "₦ ${formattedText(4800)}",
-      "₦ ${formattedText(2500)}",
+      widget.deliveryItem.senderName,
+      widget.deliveryItem.senderPhoneNumber,
+      widget.deliveryItem.receiverName,
+      widget.deliveryItem.receiverPhoneNumber,
+      widget.deliveryItem.dropOffAddress,
+      widget.deliveryItem.itemName,
+      "${formattedText(widget.deliveryItem.itemQuantity.toDouble())}",
+      "${widget.deliveryItem.itemWeight.start} KG - ${widget.deliveryItem.itemWeight.end} KG",
+      "₦ ${formattedText(widget.deliveryItem.itemValue.toDouble())}",
+      "₦ ${formattedText(10)}",
     ];
   }
 
@@ -47,7 +49,6 @@ class _ViewPackageState extends State<ViewPackage> {
     "Status",
     "Sender's name",
     "Sender's phone number",
-    "Sender's location",
     "Receiver's name",
     "Receiver's phone number",
     "Receiver's location",
