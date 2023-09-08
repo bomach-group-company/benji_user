@@ -34,6 +34,7 @@ class _EditProfileState extends State<EditProfile> {
   final _formKey = GlobalKey<FormState>();
 
   //=========================== CONTROLLERS ====================================\\
+  final _scrollController = ScrollController();
 
   TextEditingController _userFirstNameEC = TextEditingController();
   TextEditingController _userLastNameEC = TextEditingController();
@@ -53,7 +54,7 @@ class _EditProfileState extends State<EditProfile> {
   File? selectedImage;
 
   //=========================== WIDGETS ====================================\\
-  Widget profilePicBottomSheet() {
+  Widget _profilePicBottomSheet() {
     return Container(
       height: 140,
       width: MediaQuery.of(context).size.width,
@@ -285,38 +286,21 @@ class _EditProfileState extends State<EditProfile> {
               ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.only(
-              left: kDefaultPadding,
-              right: kDefaultPadding,
-              bottom: kDefaultPadding,
-            ),
-            children: [
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Stack(
-                      children: [
-                        InkWell(
-                          onTap: () {},
-                          borderRadius: BorderRadius.circular(100),
-                          child: selectedImage == null
-                              ? CircleAvatar(
-                                  radius: 80,
-                                  backgroundColor: Color(0xFFF8D1D1),
-                                )
-                              : CircleAvatar(
-                                  radius: 80,
-                                  backgroundImage: FileImage(selectedImage!),
-                                ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 5,
-                          child: InkWell(
+          child: Scrollbar(
+            controller: _scrollController,
+            child: ListView(
+              controller: _scrollController,
+              scrollDirection: Axis.vertical,
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(kDefaultPadding),
+              children: [
+                Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Stack(
+                        children: [
+                          InkWell(
                             onTap: () {
                               showModalBottomSheet(
                                 context: context,
@@ -334,136 +318,191 @@ class _EditProfileState extends State<EditProfile> {
                                   ),
                                 ),
                                 enableDrag: true,
-                                builder: (builder) => profilePicBottomSheet(),
+                                builder: (builder) => _profilePicBottomSheet(),
                               );
                             },
                             borderRadius: BorderRadius.circular(100),
-                            child: Container(
-                              width: 50,
-                              height: 50,
-                              decoration: ShapeDecoration(
-                                color: kAccentColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(100),
+                            child: selectedImage == null
+                                ? Container(
+                                    height: 150,
+                                    width: 150,
+                                    decoration: ShapeDecoration(
+                                      color: kPageSkeletonColor,
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          "assets/images/profile/avatar-image.jpg",
+                                        ),
+                                        fit: BoxFit.contain,
+                                      ),
+                                      shape: OvalBorder(),
+                                    ),
+                                  )
+                                : Container(
+                                    height: 150,
+                                    width: 150,
+                                    decoration: ShapeDecoration(
+                                      color: kPageSkeletonColor,
+                                      image: DecorationImage(
+                                        image: FileImage(selectedImage!),
+                                        fit: BoxFit.contain,
+                                      ),
+                                      shape: OvalBorder(),
+                                    ),
+                                  ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 5,
+                            child: InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  elevation: 20,
+                                  barrierColor: kBlackColor.withOpacity(0.8),
+                                  showDragHandle: true,
+                                  useSafeArea: true,
+                                  isDismissible: true,
+                                  isScrollControlled: true,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(
+                                        kDefaultPadding,
+                                      ),
+                                    ),
+                                  ),
+                                  enableDrag: true,
+                                  builder: (builder) =>
+                                      _profilePicBottomSheet(),
+                                );
+                              },
+                              borderRadius: BorderRadius.circular(100),
+                              child: Container(
+                                width: 50,
+                                height: 50,
+                                decoration: ShapeDecoration(
+                                  color: kAccentColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
                                 ),
-                              ),
-                              child: Icon(
-                                Icons.edit_outlined,
-                                color: kPrimaryColor,
+                                child: Icon(
+                                  Icons.edit_outlined,
+                                  color: kPrimaryColor,
+                                ),
                               ),
                             ),
                           ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                kSizedBox,
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "First Name".toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                      kHalfSizedBox,
+                      NameTextFormField(
+                        controller: _userFirstNameEC,
+                        validator: (value) {
+                          RegExp userNamePattern = RegExp(
+                            r'^.{3,}$', //Min. of 3 characters
+                          );
+                          if (value == null || value!.isEmpty) {
+                            userFirstNameFN.requestFocus();
+                            return "Enter your first name";
+                          } else if (!userNamePattern.hasMatch(value)) {
+                            userFirstNameFN.requestFocus();
+                            return "Name must be at least 3 characters";
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _userFirstNameEC.text = value;
+                        },
+                        textInputAction: TextInputAction.next,
+                        nameFocusNode: userFirstNameFN,
+                        hintText: "Enter first name",
+                      ),
+                      kSizedBox,
+                      Text(
+                        "Last Name".toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      kHalfSizedBox,
+                      NameTextFormField(
+                        controller: _userLastNameEC,
+                        hintText: "Enter last name",
+                        validator: (value) {
+                          RegExp userNamePattern = RegExp(
+                            r'^.{3,}$', //Min. of 3 characters
+                          );
+                          if (value == null || value!.isEmpty) {
+                            userLastNameFN.requestFocus();
+                            return "Enter your last name";
+                          } else if (!userNamePattern.hasMatch(value)) {
+                            userLastNameFN.requestFocus();
+                            return "Name must be at least 3 characters";
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _userLastNameEC.text = value;
+                        },
+                        textInputAction: TextInputAction.next,
+                        nameFocusNode: userLastNameFN,
+                      ),
+                      kSizedBox,
+                      Text(
+                        "Phone Number".toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      kHalfSizedBox,
+                      MyIntlPhoneField(
+                        initialCountryCode: "NG",
+                        invalidNumberMessage: "Invalid phone number",
+                        dropdownIconPosition: IconPosition.trailing,
+                        showCountryFlag: true,
+                        showDropdownIcon: true,
+                        dropdownIcon: Icon(
+                          Icons.arrow_drop_down_rounded,
+                          color: kAccentColor,
+                        ),
+                        controller: phoneNumberEC,
+                        textInputAction: TextInputAction.next,
+                        focusNode: phoneNumberFN,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            phoneNumberFN.requestFocus();
+                            return "Enter your phone number";
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          phoneNumberEC.text = value;
+                        },
+                      ),
+                      kSizedBox,
+                    ],
+                  ),
                 ),
-              ),
-              kSizedBox,
-              Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "First Name".toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    kHalfSizedBox,
-                    NameTextFormField(
-                      controller: _userFirstNameEC,
-                      validator: (value) {
-                        RegExp userNamePattern = RegExp(
-                          r'^.{3,}$', //Min. of 3 characters
-                        );
-                        if (value == null || value!.isEmpty) {
-                          userFirstNameFN.requestFocus();
-                          return "Enter your first name";
-                        } else if (!userNamePattern.hasMatch(value)) {
-                          userFirstNameFN.requestFocus();
-                          return "Name must be at least 3 characters";
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _userFirstNameEC.text = value;
-                      },
-                      textInputAction: TextInputAction.next,
-                      nameFocusNode: userFirstNameFN,
-                      hintText: "Enter first name",
-                    ),
-                    kSizedBox,
-                    Text(
-                      "Last Name".toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    kHalfSizedBox,
-                    NameTextFormField(
-                      controller: _userLastNameEC,
-                      hintText: "Enter last name",
-                      validator: (value) {
-                        RegExp userNamePattern = RegExp(
-                          r'^.{3,}$', //Min. of 3 characters
-                        );
-                        if (value == null || value!.isEmpty) {
-                          userLastNameFN.requestFocus();
-                          return "Enter your last name";
-                        } else if (!userNamePattern.hasMatch(value)) {
-                          userLastNameFN.requestFocus();
-                          return "Name must be at least 3 characters";
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _userLastNameEC.text = value;
-                      },
-                      textInputAction: TextInputAction.next,
-                      nameFocusNode: userLastNameFN,
-                    ),
-                    kSizedBox,
-                    Text(
-                      "Phone Number".toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    kHalfSizedBox,
-                    MyIntlPhoneField(
-                      initialCountryCode: "NG",
-                      invalidNumberMessage: "Invalid phone number",
-                      dropdownIconPosition: IconPosition.trailing,
-                      showCountryFlag: true,
-                      showDropdownIcon: true,
-                      dropdownIcon: Icon(
-                        Icons.arrow_drop_down_rounded,
-                        color: kAccentColor,
-                      ),
-                      controller: phoneNumberEC,
-                      textInputAction: TextInputAction.next,
-                      focusNode: phoneNumberFN,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          phoneNumberFN.requestFocus();
-                          return "Enter your phone number";
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        phoneNumberEC.text = value;
-                      },
-                    ),
-                    kSizedBox,
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
