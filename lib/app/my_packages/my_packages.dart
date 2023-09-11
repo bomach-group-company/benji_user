@@ -58,7 +58,6 @@ class _MyPackagesState extends State<MyPackages>
       'pending': generic,
       'completed': generic,
     };
-    print(data);
     return data;
   }
 
@@ -81,10 +80,7 @@ class _MyPackagesState extends State<MyPackages>
 //================================================= Navigation ===================================================\\
 
   void _viewPendingPackage(deliveryItem) => Get.to(
-        () => ViewPackage(
-            packageIcon: "package-waiting",
-            isDelivered: false,
-            deliveryItem: deliveryItem),
+        () => ViewPackage(deliveryItem: deliveryItem),
         routeName: 'ViewPackage',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -95,10 +91,7 @@ class _MyPackagesState extends State<MyPackages>
       );
 
   void _viewDeliveredPackage(deliveryItem) => Get.to(
-        () => ViewPackage(
-            packageIcon: "package-success",
-            isDelivered: true,
-            deliveryItem: deliveryItem),
+        () => ViewPackage(deliveryItem: deliveryItem),
         routeName: 'ViewPackage',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
