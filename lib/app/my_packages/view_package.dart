@@ -26,7 +26,8 @@ class _ViewPackageState extends State<ViewPackage> {
   void initState() {
     super.initState();
     _packageData = <String>[
-      widget.deliveryItem.status,
+      widget.deliveryItem.status[0].toUpperCase() +
+          widget.deliveryItem.status.substring(1).toLowerCase(),
       widget.deliveryItem.senderName,
       widget.deliveryItem.senderPhoneNumber,
       widget.deliveryItem.receiverName,
