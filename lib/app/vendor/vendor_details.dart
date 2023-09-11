@@ -1,6 +1,5 @@
 // ignore_for_file: unused_field
 
-import 'package:benji_user/app/vendor/product_vendor.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendor_about_tab.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendor_products_tab.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
@@ -513,13 +512,10 @@ class _VendorDetailsState extends State<VendorDetails>
                 ),
                 kSizedBox,
                 Container(
-                  // height: 2000,
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: _selectedtabbar == 0
                       ? VendorsProductsTab(
-                          list: ProductVendor(
-                            vendor: widget.vendor,
-                          ),
+                          vendor: widget.vendor,
                         )
                       : VendorsAboutTab(
                           vendor: widget.vendor,
