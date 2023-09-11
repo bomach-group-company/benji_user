@@ -89,7 +89,9 @@ class _AboutVendorState extends State<AboutVendor> {
               ],
             ),
             child: Text(
-              widget.vendor.shopType!.description ?? 'Not Available',
+              widget.vendor.shopType == null
+                  ? 'Not Available'
+                  : widget.vendor.shopType!.description ?? 'Not Available',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,

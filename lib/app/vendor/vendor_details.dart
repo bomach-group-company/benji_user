@@ -1,6 +1,5 @@
 // ignore_for_file: unused_field
 
-import 'package:autoscale_tabbarview/autoscale_tabbarview.dart';
 import 'package:benji_user/app/vendor/product_vendor.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendor_about_tab.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendor_products_tab.dart';
@@ -73,7 +72,6 @@ class _VendorDetailsState extends State<VendorDetails>
   FocusNode rateVendorFN = FocusNode();
 
 //===================== BOOL VALUES =======================\\
-  bool _loadingTabBarContent = false;
   bool _isAddedToFavorites = false;
 
 //================================================= FUNCTIONS ===================================================\\
@@ -95,15 +93,10 @@ class _VendorDetailsState extends State<VendorDetails>
     );
   }
 
-  void _clickOnTabBarOption() async {
+  int _selectedtabbar = 0;
+  void _clickOnTabBarOption(value) async {
     setState(() {
-      _loadingTabBarContent = true;
-    });
-
-    await Future.delayed(const Duration(milliseconds: 1000));
-
-    setState(() {
-      _loadingTabBarContent = false;
+      _selectedtabbar = value;
     });
   }
 
@@ -492,7 +485,7 @@ class _VendorDetailsState extends State<VendorDetails>
                           padding: const EdgeInsets.all(5.0),
                           child: TabBar(
                             controller: _tabBarController,
-                            onTap: (value) => _clickOnTabBarOption(),
+                            onTap: (value) => _clickOnTabBarOption(value),
                             enableFeedback: true,
                             dragStartBehavior: DragStartBehavior.start,
                             mouseCursor: SystemMouseCursors.click,
@@ -520,21 +513,17 @@ class _VendorDetailsState extends State<VendorDetails>
                 ),
                 kSizedBox,
                 Container(
+                  // height: 2000,
                   padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: AutoScaleTabBarView(
-                    controller: _tabBarController,
-                    physics: const BouncingScrollPhysics(),
-                    children: [
-                      VendorsProductsTab(
-                        list: ProductVendor(
+                  child: _selectedtabbar == 0
+                      ? VendorsProductsTab(
+                          list: ProductVendor(
+                            vendor: widget.vendor,
+                          ),
+                        )
+                      : VendorsAboutTab(
                           vendor: widget.vendor,
                         ),
-                      ),
-                      VendorsAboutTab(
-                        vendor: widget.vendor,
-                      ),
-                    ],
-                  ),
                 ),
               ],
             ),

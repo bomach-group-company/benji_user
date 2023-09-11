@@ -76,12 +76,10 @@ class _ProductVendorState extends State<ProductVendor> {
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
     // double mediaHeight = MediaQuery.of(context).size.height;
-
+    print(_data);
     return _data == null
         ? Center(
-            child: Center(
-              child: SpinKitChasingDots(color: kAccentColor),
-            ),
+            child: SpinKitChasingDots(color: kAccentColor),
           )
         : Container(
             padding: const EdgeInsets.all(kDefaultPadding / 2),
