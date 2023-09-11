@@ -9,7 +9,6 @@ import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
-import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';

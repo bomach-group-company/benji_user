@@ -5,6 +5,7 @@ import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -29,6 +30,7 @@ class _SendPackageState extends State<SendPackage> {
   int _currentStep = 0;
   bool _nextPage = false;
   bool _continuePage = false;
+  bool _processingRequest = false;
   get mediaWidth => MediaQuery.of(context).size.width;
 
   //=============================== CONTROLLERS ==================================\\
@@ -122,6 +124,9 @@ class _SendPackageState extends State<SendPackage> {
   }
 
   _postData() async {
+    setState(() {
+      _processingRequest = true;
+    });
     await checkAuth(context);
     User? user = await getUser();
     // try {
@@ -144,10 +149,13 @@ class _SendPackageState extends State<SendPackage> {
         context,
         kSuccessColor,
         "Success!",
-        "Now choose a rider",
+        "Your delivery request has been submitted",
         Duration(seconds: 2),
       );
 
+      setState(() {
+        _processingRequest = false;
+      });
       Get.to(
         () => const ChooseRider(),
         routeName: 'ChooseRider',
@@ -166,6 +174,9 @@ class _SendPackageState extends State<SendPackage> {
         "Failed to Send package",
         Duration(seconds: 2),
       );
+      setState(() {
+        _processingRequest = true;
+      });
     }
   }
 
@@ -199,7 +210,6 @@ class _SendPackageState extends State<SendPackage> {
     }
   }
 
-
   //=============================== WIDGETS ==================================\\
 
   // Widget stepIconBuilder(context, details) {
@@ -225,41 +235,43 @@ class _SendPackageState extends State<SendPackage> {
             ),
           )
         : _continuePage == true
-            ? Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: _postData,
-                    child: Text("Continue"),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: kAccentColor,
-                      elevation: 20.0,
-                      fixedSize:
-                          Size(MediaQuery.of(context).size.width / 2, 60),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+            ? _processingRequest
+                ? Center(child: SpinKitChasingDots(color: kAccentColor))
+                : Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: _postData,
+                        child: Text("Continue"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: kAccentColor,
+                          elevation: 20.0,
+                          fixedSize:
+                              Size(MediaQuery.of(context).size.width / 2, 60),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  kWidthSizedBox,
-                  OutlinedButton(
-                    onPressed: details.onStepCancel,
-                    child: Text(
-                      "Back",
-                      style: TextStyle(color: kAccentColor),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: kPrimaryColor,
-                      elevation: 20.0,
-                      side: BorderSide(color: kAccentColor, width: 1.2),
-                      fixedSize:
-                          Size(MediaQuery.of(context).size.width / 5, 60),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
+                      kWidthSizedBox,
+                      OutlinedButton(
+                        onPressed: details.onStepCancel,
+                        child: Text(
+                          "Back",
+                          style: TextStyle(color: kAccentColor),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: kPrimaryColor,
+                          elevation: 20.0,
+                          side: BorderSide(color: kAccentColor, width: 1.2),
+                          fixedSize:
+                              Size(MediaQuery.of(context).size.width / 5, 60),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      )
+                    ],
                   )
-                ],
-              )
             : Row(
                 children: [
                   ElevatedButton(
@@ -661,7 +673,7 @@ class _SendPackageState extends State<SendPackage> {
                 },
                 textInputAction: TextInputAction.done,
                 focusNode: itemValueFN,
-                hintText: "Enter the value",
+                hintText: "Enter the value (in Naira)",
                 textInputType: TextInputType.number,
               ),
               kSizedBox,
@@ -680,9 +692,7 @@ class _SendPackageState extends State<SendPackage> {
                         width: 1,
                         style: BorderStyle.solid,
                         strokeAlign: BorderSide.strokeAlignOutside,
-                        color: Color(
-                          0xFFE6E6E6,
-                        ),
+                        color: Color(0xFFE6E6E6),
                       ),
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -697,12 +707,10 @@ class _SendPackageState extends State<SendPackage> {
                         //   "assets/icons/image-upload.png",
                         // ),
                         kHalfSizedBox,
-                        const Text(
+                        Text(
                           'Upload an image of the item',
                           style: TextStyle(
-                            color: Color(
-                              0xFF808080,
-                            ),
+                            color: kTextGreyColor,
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                           ),

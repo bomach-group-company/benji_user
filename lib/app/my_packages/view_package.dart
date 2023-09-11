@@ -75,7 +75,71 @@ class _ViewPackageState extends State<ViewPackage> {
         transition: Transition.rightToLeft,
       );
 
-  void _toSharePackage() {}
+  void _sharePackage() {
+    showModalBottomSheet(
+      context: context,
+      elevation: 20,
+      barrierColor: kBlackColor.withOpacity(0.8),
+      showDragHandle: true,
+      useSafeArea: true,
+      isDismissible: true,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(
+            kDefaultPadding,
+          ),
+        ),
+      ),
+      enableDrag: true,
+      builder: (builder) => shareBottomSheet(),
+    );
+  }
+
+  //=================================================  Widgets =====================================================\\
+  Widget shareBottomSheet() {
+    return Container(
+      height: 140,
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.only(
+        left: kDefaultPadding,
+        right: kDefaultPadding,
+        bottom: kDefaultPadding,
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ListTile(
+              onTap: () {},
+              title: Text(
+                "Share PDF",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: kTextGreyColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            Divider(height: 1, color: kGreyColor),
+            ListTile(
+              onTap: () {},
+              title: Text(
+                "Share Image",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: kTextGreyColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +270,7 @@ class _ViewPackageState extends State<ViewPackage> {
                         ),
                         kWidthSizedBox,
                         ElevatedButton(
-                          onPressed: _toSharePackage,
+                          onPressed: _sharePackage,
                           style: ElevatedButton.styleFrom(
                               backgroundColor: kAccentColor,
                               padding: EdgeInsets.all(kDefaultPadding)),
