@@ -42,7 +42,7 @@ class CustomSearchDelegate extends SearchDelegate {
     //==================================================== FUNCTIONS ===========================================================\\
     //===================== Get Data ==========================\\
     Future<List<Product>> _getData() async {
-      List<Product> product = await getProducts();
+      List<Product> product = await getProductsBySearching(query);
       return product;
     }
 
@@ -78,7 +78,7 @@ class CustomSearchDelegate extends SearchDelegate {
     //==================================================== FUNCTIONS ===========================================================\\
     //===================== Get Data ==========================\\
     Future<List<Product>> _getData() async {
-      List<Product> product = await getProducts();
+      List<Product> product = await getProductsBySearching(query);
       return product;
     }
 

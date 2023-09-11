@@ -110,3 +110,20 @@ Future<List<Product>> getProductsByVendor(vendorId,
     throw Exception('Failed to load user product');
   }
 }
+
+Future<List<Product>> getProductsBySearching(query) async {
+  final response = await http.get(
+    Uri.parse('$baseURL/clients/searchProducts?query=${query}'),
+    headers: await authHeader(),
+  );
+
+  if (response.statusCode == 200 && response.body != '"No matching query"') {
+    return (jsonDecode(response.body) as List)
+        .map((item) => Product.fromJson(item))
+        .toList();
+  } else if (response.body == "No matching query") {
+    return [];
+  } else {
+    throw Exception('Failed to load user product');
+  }
+}
