@@ -11,12 +11,10 @@ import 'package:get/route_manager.dart';
 
 class VendorsAboutTab extends StatefulWidget {
   final VendorModel vendor;
-  final List<Ratings> ratings;
 
   const VendorsAboutTab({
     super.key,
     required this.vendor,
-    required this.ratings,
   });
 
   @override
@@ -42,7 +40,6 @@ class _VendorsAboutTabState extends State<VendorsAboutTab> {
           Expanded(
             flex: 0,
             child: AboutVendor(
-              // ratings: widget.ratings,
               vendor: widget.vendor,
             ),
           ),

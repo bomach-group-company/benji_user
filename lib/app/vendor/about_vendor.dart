@@ -10,11 +10,9 @@ import '../../src/providers/constants.dart';
 
 class AboutVendor extends StatefulWidget {
   final VendorModel vendor;
-  // final List<Ratings> ratings;
   const AboutVendor({
     super.key,
     required this.vendor,
-    // required this.ratings,
   });
 
   @override

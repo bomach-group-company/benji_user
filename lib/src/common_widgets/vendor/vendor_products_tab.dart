@@ -21,7 +21,6 @@ class _VendorsProductsTabState extends State<VendorsProductsTab> {
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
 
     return SizedBox(
       width: mediaWidth,

@@ -1,18 +1,13 @@
 // ignore_for_file: unused_field
 
 import 'package:autoscale_tabbarview/autoscale_tabbarview.dart';
-import 'package:benji_user/app/product/product_detail_screen.dart';
-import 'package:benji_user/src/common_widgets/section/category_button_section.dart';
-import 'package:benji_user/src/common_widgets/vendor/product_container.dart';
+import 'package:benji_user/app/vendor/product_vendor.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendor_about_tab.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendor_products_tab.dart';
-import 'package:benji_user/src/repo/models/rating/ratings.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
-import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -22,9 +17,7 @@ import '../../src/common_widgets/section/rate_vendor_dialog.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
-import '../../src/repo/models/product/product.dart';
 import '../../theme/colors.dart';
-import 'all_vendor_products.dart';
 import 'report_vendor.dart';
 import 'vendor_location.dart';
 
@@ -45,7 +38,7 @@ class _VendorDetailsState extends State<VendorDetails>
   @override
   void initState() {
     super.initState();
-    _getData();
+
     _tabBarController = TabController(length: 2, vsync: this);
     getFavoriteVSingle(widget.vendor.id.toString()).then(
       (value) {
@@ -59,6 +52,11 @@ class _VendorDetailsState extends State<VendorDetails>
     _tabBarController.dispose();
     super.dispose();
   }
+
+  Future<void> _handleRefresh() async {
+    setState(() {});
+  }
+
 //==========================================================================================\\
 
   //=================================== ALL VARIABLES ====================================\\
@@ -78,52 +76,7 @@ class _VendorDetailsState extends State<VendorDetails>
   bool _loadingTabBarContent = false;
   bool _isAddedToFavorites = false;
 
-//===================== CATEGORY BUTTONS =======================\\
-  final List _categoryButtonText = [
-    "Pasta",
-    "Burgers",
-    "Rice Dishes",
-    "Chicken",
-    "Snacks"
-  ];
-
-  final List<Color> _categoryButtonBgColor = [
-    kAccentColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor
-  ];
-  final List<Color> _categoryButtonFontColor = [
-    kPrimaryColor,
-    kTextGreyColor,
-    kTextGreyColor,
-    kTextGreyColor,
-    kTextGreyColor
-  ];
-
 //================================================= FUNCTIONS ===================================================\\
-  Map? _data;
-
-  _getData() async {
-    await checkAuth(context);
-
-    List<Ratings> ratings = await getRatingsByVendorId(widget.vendor.id!);
-    List<Product> product = await getProductsByVendor(widget.vendor.id!);
-
-    setState(() {
-      _data = {'product': product, 'ratings': ratings};
-    });
-  }
-
-  Future<void> _handleRefresh() async {
-    setState(() {
-      _data = null;
-    });
-    await _getData();
-  }
-
-  //========================================================================\\
 
   void _addToFavorites() async {
     bool val = await favoriteItV(widget.vendor.id.toString());
@@ -231,33 +184,12 @@ class _VendorDetailsState extends State<VendorDetails>
   }
 
 //=================================== Navigation =====================================\\
-  void _toProductDetailScreen(product) => Get.to(
-        () => ProductDetailScreen(product: product),
-        routeName: 'ProductDetailScreen',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
 
   void _toVendorLocation() => Get.to(
         () => VendorLocation(
           vendor: widget.vendor,
         ),
         routeName: 'VendorLocation',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
-
-  void _viewProducts() => Get.to(
-        () => AllVendorProducts(),
-        routeName: 'AllVendorProducts',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -283,10 +215,7 @@ class _VendorDetailsState extends State<VendorDetails>
           actions: [
             IconButton(
               onPressed: () {
-                _data == null
-                    ? null
-                    : showSearch(
-                        context: context, delegate: CustomSearchDelegate());
+                showSearch(context: context, delegate: CustomSearchDelegate());
               },
               icon: FaIcon(
                 FontAwesomeIcons.magnifyingGlass,
@@ -294,7 +223,7 @@ class _VendorDetailsState extends State<VendorDetails>
               ),
             ),
             IconButton(
-              onPressed: _data == null ? null : _addToFavorites,
+              onPressed: _addToFavorites,
               icon: FaIcon(
                 _isAddedToFavorites
                     ? FontAwesomeIcons.solidHeart
@@ -303,7 +232,7 @@ class _VendorDetailsState extends State<VendorDetails>
               ),
             ),
             IconButton(
-              onPressed: () => _data == null ? null : showPopupMenu(context),
+              onPressed: () => showPopupMenu(context),
               icon: FaIcon(
                 FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,
@@ -314,363 +243,302 @@ class _VendorDetailsState extends State<VendorDetails>
         extendBodyBehindAppBar: true,
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: _data == null
-              ? Center(child: SpinKitChasingDots(color: kAccentColor))
-              : Scrollbar(
-                  controller: _scrollController,
-                  radius: const Radius.circular(10),
-                  scrollbarOrientation: ScrollbarOrientation.right,
-                  child: ListView(
-                    controller: _scrollController,
-                    physics: const ScrollPhysics(),
+          child: Scrollbar(
+            controller: _scrollController,
+            radius: const Radius.circular(10),
+            scrollbarOrientation: ScrollbarOrientation.right,
+            child: ListView(
+              controller: _scrollController,
+              physics: const ScrollPhysics(),
+              children: [
+                SizedBox(
+                  height: 370,
+                  child: Stack(
                     children: [
-                      SizedBox(
-                        height: 370,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 0,
-                              left: 0,
-                              right: 0,
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.3,
-                                decoration: BoxDecoration(
-                                  color: kPageSkeletonColor,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(
-                                      "assets/images/vendors/ntachi-osa.png",
-                                    ),
-                                  ),
-                                ),
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          decoration: BoxDecoration(
+                            color: kPageSkeletonColor,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage(
+                                "assets/images/vendors/ntachi-osa.png",
                               ),
                             ),
-                            Positioned(
-                              top: MediaQuery.of(context).size.height * 0.13,
-                              left: kDefaultPadding,
-                              right: kDefaultPadding,
-                              child: Container(
-                                width: 200,
-                                padding:
-                                    const EdgeInsets.all(kDefaultPadding / 2),
-                                decoration: ShapeDecoration(
-                                  shadows: [
-                                    BoxShadow(
-                                      color: kBlackColor.withOpacity(0.1),
-                                      blurRadius: 5,
-                                      spreadRadius: 2,
-                                      blurStyle: BlurStyle.normal,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: MediaQuery.of(context).size.height * 0.13,
+                        left: kDefaultPadding,
+                        right: kDefaultPadding,
+                        child: Container(
+                          width: 200,
+                          padding: const EdgeInsets.all(kDefaultPadding / 2),
+                          decoration: ShapeDecoration(
+                            shadows: [
+                              BoxShadow(
+                                color: kBlackColor.withOpacity(0.1),
+                                blurRadius: 5,
+                                spreadRadius: 2,
+                                blurStyle: BlurStyle.normal,
+                              ),
+                            ],
+                            color: const Color(0xFFFEF8F8),
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                width: 0.50,
+                                color: Color(0xFFFDEDED),
+                              ),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: kDefaultPadding * 2.6),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: mediaWidth - 200,
+                                  child: Text(
+                                    widget.vendor.shopName ?? 'Not Available',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w700,
                                     ),
-                                  ],
-                                  color: const Color(0xFFFEF8F8),
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      width: 0.50,
-                                      color: Color(0xFFFDEDED),
-                                    ),
-                                    borderRadius: BorderRadius.circular(25),
                                   ),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: kDefaultPadding * 2.6),
-                                  child: Column(
+                                kHalfSizedBox,
+                                Container(
+                                  width: mediaWidth - 90,
+                                  alignment: Alignment.center,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      SizedBox(
-                                        width: mediaWidth - 200,
-                                        child: Text(
-                                          widget.vendor.shopName ??
-                                              'Not Available',
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: kTextBlackColor,
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w700,
-                                          ),
+                                      FaIcon(
+                                        FontAwesomeIcons.locationDot,
+                                        color: kAccentColor,
+                                        size: 15,
+                                      ),
+                                      kHalfWidthSizedBox,
+                                      Text(
+                                        widget.vendor.address ??
+                                            'Not Available',
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
                                         ),
                                       ),
-                                      kHalfSizedBox,
-                                      Container(
-                                        width: mediaWidth - 90,
-                                        alignment: Alignment.center,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            FaIcon(
-                                              FontAwesomeIcons.locationDot,
-                                              color: kAccentColor,
-                                              size: 15,
-                                            ),
-                                            kHalfWidthSizedBox,
-                                            Text(
-                                              widget.vendor.address ??
-                                                  'Not Available',
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      kHalfSizedBox,
-                                      InkWell(
-                                        onTap: _toVendorLocation,
-
-                                        // (() async {
-                                        //   final websiteurl = Uri.parse(
-                                        //     "https://goo.gl/maps/8pKoBVCsew5oqjU49",
-                                        //   );
-                                        //   if (await canLaunchUrl(
-                                        //     websiteurl,
-                                        //   )) {
-                                        //     launchUrl(
-                                        //       websiteurl,
-                                        //       mode: LaunchMode
-                                        //           .externalNonBrowserApplication,
-                                        //     );
-                                        //   } else {
-                                        //     throw "An unexpected error occured and $websiteurl cannot be loaded";
-                                        //   }
-                                        // }),
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Container(
-                                          padding: const EdgeInsets.all(
-                                              kDefaultPadding / 4),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                              color: kAccentColor,
-                                              width: 1,
-                                            ),
-                                          ),
-                                          child: const Text(
-                                            "Show on map",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      kHalfSizedBox,
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            width: mediaWidth * 0.23,
-                                            height: 57,
-                                            decoration: ShapeDecoration(
-                                              color: kPrimaryColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(19),
-                                              ),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                FaIcon(
-                                                  FontAwesomeIcons.solidStar,
-                                                  color: kStarColor,
-                                                  size: 17,
-                                                ),
-                                                const SizedBox(width: 5),
-                                                Text(
-                                                  '${(widget.vendor.averageRating ?? 0).toPrecision(1)}',
-                                                  style: const TextStyle(
-                                                    color: kBlackColor,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    letterSpacing: -0.28,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            width: mediaWidth * 0.25,
-                                            height: 57,
-                                            decoration: ShapeDecoration(
-                                              color: kPrimaryColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(19),
-                                              ),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  widget.vendor.isOnline ??
-                                                          false
-                                                      ? "Online"
-                                                      : 'Offline',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    color: widget.vendor
-                                                                .isOnline ??
-                                                            false
-                                                        ? kSuccessColor
-                                                        : kAccentColor,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    letterSpacing: -0.36,
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 5),
-                                                FaIcon(
-                                                  Icons.info,
-                                                  color: kAccentColor,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      )
                                     ],
                                   ),
                                 ),
-                              ),
-                            ),
-                            Positioned(
-                              top: mediaHeight * 0.07,
-                              left: mediaWidth / 2.7,
-                              child: Container(
-                                width: 100,
-                                height: 100,
-                                decoration: ShapeDecoration(
-                                  color: kPageSkeletonColor,
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                      "assets/images/vendors/ntachi-osa-logo.png",
-                                    ),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  shape: OvalBorder(),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding,
-                        ),
-                        child: Container(
-                          width: mediaWidth,
-                          decoration: BoxDecoration(
-                            color: kDefaultCategoryBackgroundColor,
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(
-                              color: kLightGreyColor,
-                              style: BorderStyle.solid,
-                              strokeAlign: BorderSide.strokeAlignOutside,
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: TabBar(
-                                  controller: _tabBarController,
-                                  onTap: (value) => _clickOnTabBarOption(),
-                                  enableFeedback: true,
-                                  dragStartBehavior: DragStartBehavior.start,
-                                  mouseCursor: SystemMouseCursors.click,
-                                  automaticIndicatorColorAdjustment: true,
-                                  overlayColor:
-                                      MaterialStatePropertyAll(kAccentColor),
-                                  labelColor: kPrimaryColor,
-                                  unselectedLabelColor: kTextGreyColor,
-                                  indicatorColor: kAccentColor,
-                                  indicatorWeight: 2,
-                                  splashBorderRadius: BorderRadius.circular(50),
-                                  indicator: BoxDecoration(
-                                    color: kAccentColor,
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  tabs: const [
-                                    Tab(text: "Products"),
-                                    Tab(text: "About"),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      kSizedBox,
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: AutoScaleTabBarView(
-                          controller: _tabBarController,
-                          physics: const BouncingScrollPhysics(),
-                          children: [
-                            VendorsProductsTab(
-                              list: Column(
-                                children: [
-                                  CategoryButtonSection(
-                                    category: _categoryButtonText,
-                                    categorybgColor: _categoryButtonBgColor,
-                                    categoryFontColor: _categoryButtonFontColor,
-                                  ),
-                                  kHalfSizedBox,
-                                  ListView.separated(
-                                    itemCount: _data!['product'].length,
-                                    shrinkWrap: true,
-                                    physics: const BouncingScrollPhysics(),
-                                    separatorBuilder: (context, index) =>
-                                        kHalfSizedBox,
-                                    itemBuilder: (context, index) =>
-                                        ProductContainer(
-                                      product: _data!['product'][index],
-                                      onTap: () => _toProductDetailScreen(
-                                          _data!['product'][index]),
-                                    ),
-                                  ),
-                                  kSizedBox,
-                                  TextButton(
-                                    onPressed: _viewProducts,
-                                    child: Text(
-                                      "See all",
-                                      style: TextStyle(
+                                kHalfSizedBox,
+                                InkWell(
+                                  onTap: _toVendorLocation,
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(
+                                        kDefaultPadding / 4),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
                                         color: kAccentColor,
-                                        fontSize: 14,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      "Show on map",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 13,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
                                   ),
-                                  kHalfSizedBox,
-                                ],
+                                ),
+                                kHalfSizedBox,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      width: mediaWidth * 0.23,
+                                      height: 57,
+                                      decoration: ShapeDecoration(
+                                        color: kPrimaryColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(19),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          FaIcon(
+                                            FontAwesomeIcons.solidStar,
+                                            color: kStarColor,
+                                            size: 17,
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Text(
+                                            '${(widget.vendor.averageRating ?? 0).toPrecision(1)}',
+                                            style: const TextStyle(
+                                              color: kBlackColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              letterSpacing: -0.28,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      width: mediaWidth * 0.25,
+                                      height: 57,
+                                      decoration: ShapeDecoration(
+                                        color: kPrimaryColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(19),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            widget.vendor.isOnline ?? false
+                                                ? "Online"
+                                                : 'Offline',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: widget.vendor.isOnline ??
+                                                      false
+                                                  ? kSuccessColor
+                                                  : kAccentColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              letterSpacing: -0.36,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 5),
+                                          FaIcon(
+                                            Icons.info,
+                                            color: kAccentColor,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: mediaHeight * 0.07,
+                        left: mediaWidth / 2.7,
+                        child: Container(
+                          width: 100,
+                          height: 100,
+                          decoration: ShapeDecoration(
+                            color: kPageSkeletonColor,
+                            image: const DecorationImage(
+                              image: AssetImage(
+                                "assets/images/vendors/ntachi-osa-logo.png",
                               ),
+                              fit: BoxFit.cover,
                             ),
-                            VendorsAboutTab(
-                              vendor: widget.vendor,
-                              ratings: _data!['ratings'],
-                            ),
-                          ],
+                            shape: OvalBorder(),
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: kDefaultPadding,
+                  ),
+                  child: Container(
+                    width: mediaWidth,
+                    decoration: BoxDecoration(
+                      color: kDefaultCategoryBackgroundColor,
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(
+                        color: kLightGreyColor,
+                        style: BorderStyle.solid,
+                        strokeAlign: BorderSide.strokeAlignOutside,
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: TabBar(
+                            controller: _tabBarController,
+                            onTap: (value) => _clickOnTabBarOption(),
+                            enableFeedback: true,
+                            dragStartBehavior: DragStartBehavior.start,
+                            mouseCursor: SystemMouseCursors.click,
+                            automaticIndicatorColorAdjustment: true,
+                            overlayColor:
+                                MaterialStatePropertyAll(kAccentColor),
+                            labelColor: kPrimaryColor,
+                            unselectedLabelColor: kTextGreyColor,
+                            indicatorColor: kAccentColor,
+                            indicatorWeight: 2,
+                            splashBorderRadius: BorderRadius.circular(50),
+                            indicator: BoxDecoration(
+                              color: kAccentColor,
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            tabs: const [
+                              Tab(text: "Products"),
+                              Tab(text: "About"),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                kSizedBox,
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: AutoScaleTabBarView(
+                    controller: _tabBarController,
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      VendorsProductsTab(
+                        list: ProductVendor(
+                          vendor: widget.vendor,
+                        ),
+                      ),
+                      VendorsAboutTab(
+                        vendor: widget.vendor,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

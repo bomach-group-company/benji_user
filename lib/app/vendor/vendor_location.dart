@@ -212,7 +212,7 @@ class _VendorLocationState extends State<VendorLocation> {
 
 //========================================================== Navigation =============================================================\\
   void _viewProducts() => Get.off(
-        () => AllVendorProducts(),
+        () => AllVendorProducts(vendor: widget.vendor),
         routeName: 'AllVendorProducts',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
