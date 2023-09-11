@@ -79,16 +79,35 @@ Future<List<Product>> getProducts({limit = 10}) async {
   }
 }
 
-Future<List<Product>> getProductsByCategory(categoryId) async {
+Future<List<Product>> getProductsBySubCategory(sub_category_id) async {
   final response = await http.get(
-    Uri.parse('$baseURL/clients/filterProductsByCategory/${categoryId}'),
+    Uri.parse(
+        '$baseURL/clients/filterProductsBySubCategory/${sub_category_id}'),
     headers: await authHeader(),
   );
-
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => Product.fromJson(item))
         .toList();
+  } else {
+    throw Exception('Failed to load user product');
+  }
+}
+
+Future<List<Product>> getProductsByVendorSubCategory(
+    vendor_id, sub_category_id) async {
+  final response = await http.get(
+    Uri.parse(
+        '$baseURL/clients/filterVendorsProductsBySubCategory/$vendor_id/$sub_category_id'),
+    headers: await authHeader(),
+  );
+
+  if (response.statusCode == 200 && response.body != '"No matching query"') {
+    return (jsonDecode(response.body) as List)
+        .map((item) => Product.fromJson(item))
+        .toList();
+  } else if (response.body == '"No matching query"') {
+    return [];
   } else {
     throw Exception('Failed to load user product');
   }
@@ -106,6 +125,23 @@ Future<List<Product>> getProductsByVendor(vendorId,
     return (jsonDecode(response.body)["items"] as List)
         .map((item) => Product.fromJson(item))
         .toList();
+  } else {
+    throw Exception('Failed to load user product');
+  }
+}
+
+Future<List<Product>> getProductsBySearching(query) async {
+  final response = await http.get(
+    Uri.parse('$baseURL/clients/searchProducts?query=${query}'),
+    headers: await authHeader(),
+  );
+
+  if (response.statusCode == 200 && response.body != '"No matching query"') {
+    return (jsonDecode(response.body) as List)
+        .map((item) => Product.fromJson(item))
+        .toList();
+  } else if (response.body == "No matching query") {
+    return [];
   } else {
     throw Exception('Failed to load user product');
   }

@@ -1,19 +1,18 @@
 import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/repo/models/rating/ratings.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
+import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../src/common_widgets/rating_view/customer_review_card.dart';
-import '../../src/common_widgets/rating_view/star_row.dart';
 import '../../src/providers/constants.dart';
 
 class AboutVendor extends StatefulWidget {
   final VendorModel vendor;
-  final List<Ratings> ratings;
   const AboutVendor({
     super.key,
     required this.vendor,
-    required this.ratings,
   });
 
   @override
@@ -21,6 +20,34 @@ class AboutVendor extends StatefulWidget {
 }
 
 class _AboutVendorState extends State<AboutVendor> {
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
+  final List<String> stars = ['5', '4', '3', '2', '1'];
+  String active = 'all';
+
+  List<Ratings>? ratings = [];
+  _getData() async {
+    setState(() {
+      ratings = null;
+    });
+
+    List<Ratings> _ratings;
+    if (active == 'all') {
+      _ratings = await getRatingsByVendorId(widget.vendor.id!);
+    } else {
+      _ratings = await getRatingsByVendorIdAndRating(
+          widget.vendor.id!, int.parse(active));
+    }
+
+    setState(() {
+      ratings = _ratings;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
@@ -62,7 +89,9 @@ class _AboutVendorState extends State<AboutVendor> {
               ],
             ),
             child: Text(
-              widget.vendor.shopType!.description ?? 'Not Available',
+              widget.vendor.shopType == null
+                  ? 'Not Available'
+                  : widget.vendor.shopType!.description ?? 'Not Available',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -207,24 +236,130 @@ class _AboutVendorState extends State<AboutVendor> {
                     vertical: kDefaultPadding,
                     horizontal: kDefaultPadding * 0.5,
                   ),
-                  child: StarRow(),
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(
+                              color: active == 'all'
+                                  ? kAccentColor
+                                  : Color(
+                                      0xFFA9AAB1,
+                                    ),
+                            ),
+                            backgroundColor:
+                                active == 'all' ? kAccentColor : kPrimaryColor,
+                            foregroundColor: active == 'all'
+                                ? kPrimaryColor
+                                : Color(0xFFA9AAB1),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              active = 'all';
+                            });
+                          },
+                          child: Text(
+                            'All',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: stars
+                              .map(
+                                (item) => Row(
+                                  children: [
+                                    kHalfWidthSizedBox,
+                                    OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        side: BorderSide(
+                                          color: active == item
+                                              ? kStarColor
+                                              : Color(0xFFA9AAB1),
+                                        ),
+                                        foregroundColor: active == item
+                                            ? kStarColor
+                                            : Color(0xFFA9AAB1),
+                                      ),
+                                      onPressed: () async {
+                                        active = item;
+
+                                        setState(() {
+                                          ratings = null;
+                                        });
+
+                                        List<Ratings> _ratings;
+                                        if (active == 'all') {
+                                          _ratings = await getRatingsByVendorId(
+                                              widget.vendor.id!);
+                                        } else {
+                                          _ratings =
+                                              await getRatingsByVendorIdAndRating(
+                                                  widget.vendor.id!,
+                                                  int.parse(active));
+                                        }
+
+                                        setState(() {
+                                          ratings = _ratings;
+                                        });
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.star,
+                                            size: 20,
+                                          ),
+                                          SizedBox(
+                                            width: kDefaultPadding * 0.2,
+                                          ),
+                                          Text(
+                                            '$item',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                              .toList(),
+                        ),
+                        kHalfWidthSizedBox,
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
           kSizedBox,
-          widget.ratings.isEmpty
-              ? EmptyCard(
-                  removeButton: true,
+          ratings == null
+              ? Center(
+                  child: SpinKitChasingDots(
+                    color: kAccentColor,
+                    duration: const Duration(seconds: 1),
+                  ),
                 )
-              : ListView.separated(
-                  physics: BouncingScrollPhysics(),
-                  separatorBuilder: (context, index) => kSizedBox,
-                  shrinkWrap: true,
-                  itemCount: widget.ratings.length,
-                  itemBuilder: (BuildContext context, int index) =>
-                      CostumerReviewCard(rating: widget.ratings[index]),
-                ),
+              : ratings!.isEmpty
+                  ? EmptyCard(
+                      removeButton: true,
+                    )
+                  : ListView.separated(
+                      physics: BouncingScrollPhysics(),
+                      separatorBuilder: (context, index) => kSizedBox,
+                      shrinkWrap: true,
+                      itemCount: ratings!.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          CostumerReviewCard(rating: ratings![index]),
+                    ),
         ],
       ),
     );

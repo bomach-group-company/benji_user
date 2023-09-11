@@ -1,7 +1,10 @@
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
-import 'package:benji_user/src/common_widgets/section/category_button_section.dart';
+import 'package:benji_user/src/common_widgets/button/category%20button.dart';
 import 'package:benji_user/src/common_widgets/vendor/product_container.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
+import 'package:benji_user/src/repo/models/category/category.dart';
+import 'package:benji_user/src/repo/models/vendor/vendor.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -14,7 +17,12 @@ import '../../theme/colors.dart';
 import '../product/product_detail_screen.dart';
 
 class AllVendorProducts extends StatefulWidget {
-  const AllVendorProducts({super.key});
+  final VendorModel vendor;
+
+  const AllVendorProducts({
+    super.key,
+    required this.vendor,
+  });
 
   @override
   State<AllVendorProducts> createState() => _AllVendorProductsState();
@@ -34,7 +42,31 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
   }
 //==========================================================================================\\
 
-  //=================================== ALL VARIABLES ====================================\\
+  //=================================== LOGIC ====================================\\
+  Map? _data;
+
+  String activeCategory = '';
+
+  _getData() async {
+    await checkAuth(context);
+
+    List<Category> categories = await getCategories();
+    List<Product> product = await getProductsByVendor(widget.vendor.id!);
+    try {
+      activeCategory = categories[0].id;
+    } catch (e) {}
+
+    setState(() {
+      _data = {'product': product, 'categories': categories};
+    });
+  }
+
+  Future<void> _handleRefresh() async {
+    setState(() {
+      _data = null;
+    });
+    await _getData();
+  }
 
   //=================================== CONTROLLERS ====================================\\
   final ScrollController _scrollController = ScrollController();
@@ -82,22 +114,6 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
     Get.back();
   }
 
-  Map? _data;
-
-  _getData() async {
-    List<Product> product = await getProducts();
-    setState(() {
-      _data = {'product': product};
-    });
-  }
-
-  Future<void> _handleRefresh() async {
-    setState(() {
-      _data = null;
-    });
-    await _getData();
-  }
-
   //========================================================================\\
 
   //============================================= Navigation =======================================\\
@@ -137,10 +153,34 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
                     dragStartBehavior: DragStartBehavior.down,
                     physics: const BouncingScrollPhysics(),
                     children: [
-                      CategoryButtonSection(
-                        category: _categoryButtonText,
-                        categorybgColor: _categoryButtonBgColor,
-                        categoryFontColor: _categoryButtonFontColor,
+                      SizedBox(
+                        height: 60,
+                        child: ListView.builder(
+                          itemCount: _data!['categories'].length,
+                          scrollDirection: Axis.horizontal,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) =>
+                              Padding(
+                            padding: const EdgeInsets.all(kDefaultPadding / 2),
+                            child: CategoryButton(
+                              onPressed: () {
+                                setState(() {
+                                  activeCategory =
+                                      _data!['categories'][index].id;
+                                });
+                              },
+                              title: _data!['categories'][index].name,
+                              bgColor: activeCategory ==
+                                      _data!['categories'][index].id
+                                  ? kAccentColor
+                                  : kDefaultCategoryBackgroundColor,
+                              categoryFontColor: activeCategory ==
+                                      _data!['categories'][index].id
+                                  ? kPrimaryColor
+                                  : kTextGreyColor,
+                            ),
+                          ),
+                        ),
                       ),
                       kHalfSizedBox,
                       ListView.separated(

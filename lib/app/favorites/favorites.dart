@@ -1,5 +1,4 @@
 // ignore_for_file: unused_local_variable
-import 'package:autoscale_tabbarview/autoscale_tabbarview.dart';
 import 'package:benji_user/app/vendor/vendor_details.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/cart.dart';
@@ -9,7 +8,6 @@ import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
@@ -49,11 +47,11 @@ class _FavoritesState extends State<Favorites>
   @override
   void initState() {
     super.initState();
+    checkAuth(context);
     _tabBarController = TabController(length: 2, vsync: this);
   }
 
-  Future<Map> _getData() async {
-    await checkAuth(context);
+  Future<List<Product>> _getDataProduct() async {
     List<Product> product = await getFavoriteProduct(
       (data) => mySnackBar(
         context,
@@ -66,6 +64,10 @@ class _FavoritesState extends State<Favorites>
       ),
     );
 
+    return product;
+  }
+
+  Future<List<VendorModel>> _getDataVendor() async {
     List<VendorModel> vendor = await getFavoriteVendor(
       (data) => mySnackBar(
         context,
@@ -78,7 +80,7 @@ class _FavoritesState extends State<Favorites>
       ),
     );
 
-    return {'product': product, 'vendor': vendor};
+    return vendor;
   }
 
   Future<void> _handleRefresh() async {
@@ -97,10 +99,13 @@ class _FavoritesState extends State<Favorites>
   late TabController _tabBarController;
   final ScrollController _scrollController = ScrollController();
 
-//===================== Handle refresh ==========================\\
-
-  void _clickOnTabBarOption() async {}
-
+//===================== Tabs ==========================\\
+  int _selectedtabbar = 0;
+  void _clickOnTabBarOption(value) async {
+    setState(() {
+      _selectedtabbar = value;
+    });
+  }
   //===================== Navigation ==========================\\
 
   void _toProductDetailsScreen(product) => Get.to(
@@ -113,6 +118,7 @@ class _FavoritesState extends State<Favorites>
         popGesture: true,
         transition: Transition.rightToLeft,
       );
+//====================================================================================\\
 
   @override
   Widget build(BuildContext context) {
@@ -139,124 +145,109 @@ class _FavoritesState extends State<Favorites>
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: FutureBuilder(
-            future: _getData(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.none) {
-                return Center(
-                  child: Text("Please connect to the internet"),
-                );
-              }
-              if (snapshot.connectionState == ConnectionState.waiting ||
-                  !snapshot.hasData) {
-                return Center(child: SpinKitChasingDots(color: kAccentColor));
-              }
-              // if (snapshot.connectionState == snapshot.requireData) {
-              //   SpinKitChasingDots(color: kAccentColor);
-              // }
-              if (snapshot.connectionState == snapshot.error) {
-                return Center(
-                  child: Text("Error, Please try again later"),
-                );
-              }
-              return Column(
-                children: [
-                  kSizedBox,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: kDefaultPadding,
-                    ),
-                    child: Container(
-                      width: mediaWidth,
-                      decoration: BoxDecoration(
-                        color: kDefaultCategoryBackgroundColor,
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(
-                          color: kGreyColor1,
-                          style: BorderStyle.solid,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: TabBar(
-                              controller: _tabBarController,
-                              onTap: (value) => _clickOnTabBarOption(),
-                              enableFeedback: true,
-                              mouseCursor: SystemMouseCursors.click,
-                              automaticIndicatorColorAdjustment: true,
-                              overlayColor:
-                                  MaterialStatePropertyAll(kAccentColor),
-                              labelColor: kPrimaryColor,
-                              unselectedLabelColor: kTextGreyColor,
-                              indicatorColor: kAccentColor,
-                              indicatorWeight: 2,
-                              splashBorderRadius: BorderRadius.circular(50),
-                              indicator: BoxDecoration(
-                                color: kAccentColor,
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              tabs: const [
-                                Tab(text: "Products"),
-                                Tab(text: "Vendors"),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+          child: Column(
+            children: [
+              kSizedBox,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: kDefaultPadding,
+                ),
+                child: Container(
+                  width: mediaWidth,
+                  decoration: BoxDecoration(
+                    color: kDefaultCategoryBackgroundColor,
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border.all(
+                      color: kGreyColor1,
+                      style: BorderStyle.solid,
+                      strokeAlign: BorderSide.strokeAlignOutside,
                     ),
                   ),
-                  kSizedBox,
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: kDefaultPadding / 2,
-                    ),
-                    width: mediaWidth,
-                    child: Column(
-                      children: [
-                        AutoScaleTabBarView(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: TabBar(
                           controller: _tabBarController,
-                          physics: const BouncingScrollPhysics(),
-                          dragStartBehavior: DragStartBehavior.down,
-                          children: [
-                            Scrollbar(
-                                controller: _scrollController,
-                                radius: const Radius.circular(10),
-                                child: FavoriteProductsTab(
-                                  list: snapshot.data!['product'].isEmpty
-                                      ? EmptyCard()
-                                      : ListView.separated(
-                                          controller: _scrollController,
-                                          scrollDirection: Axis.vertical,
-                                          itemCount:
-                                              snapshot.data!['product'].length,
-                                          shrinkWrap: true,
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          separatorBuilder: (context, index) =>
-                                              kHalfSizedBox,
-                                          itemBuilder: (context, index) =>
-                                              HomeProductsCard(
-                                            OnTap: () =>
-                                                _toProductDetailsScreen(snapshot
-                                                    .data!['product'][index]),
-                                            product: snapshot.data!['product']
-                                                [index],
-                                          ),
-                                        ),
-                                )),
-                            FavoriteVendorsTab(
-                              list: Scrollbar(
-                                controller: _scrollController,
-                                radius: const Radius.circular(10),
-                                child: snapshot.data!['vendor'].isEmpty
+                          onTap: (value) => _clickOnTabBarOption(value),
+                          enableFeedback: true,
+                          mouseCursor: SystemMouseCursors.click,
+                          automaticIndicatorColorAdjustment: true,
+                          overlayColor: MaterialStatePropertyAll(kAccentColor),
+                          labelColor: kPrimaryColor,
+                          unselectedLabelColor: kTextGreyColor,
+                          indicatorColor: kAccentColor,
+                          indicatorWeight: 2,
+                          splashBorderRadius: BorderRadius.circular(50),
+                          indicator: BoxDecoration(
+                            color: kAccentColor,
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          tabs: const [
+                            Tab(text: "Products"),
+                            Tab(text: "Vendors"),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              kSizedBox,
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: kDefaultPadding / 2,
+                ),
+                width: mediaWidth,
+                child: _selectedtabbar == 0
+                    ? FutureBuilder(
+                        future: _getDataProduct(),
+                        builder: (context, snapshot) {
+                          if (snapshot.data != null) {
+                            return Scrollbar(
+                              controller: _scrollController,
+                              radius: const Radius.circular(10),
+                              child: FavoriteProductsTab(
+                                list: snapshot.data!.isEmpty
                                     ? EmptyCard()
                                     : ListView.separated(
                                         controller: _scrollController,
-                                        itemCount:
-                                            snapshot.data!['vendor'].length,
+                                        scrollDirection: Axis.vertical,
+                                        itemCount: snapshot.data!.length,
+                                        shrinkWrap: true,
+                                        physics: const BouncingScrollPhysics(),
+                                        separatorBuilder: (context, index) =>
+                                            kHalfSizedBox,
+                                        itemBuilder: (context, index) =>
+                                            HomeProductsCard(
+                                          OnTap: () => _toProductDetailsScreen(
+                                              snapshot.data![index]),
+                                          product: snapshot.data![index],
+                                        ),
+                                      ),
+                              ),
+                            );
+                          }
+                          return Center(
+                            child: SpinKitChasingDots(
+                              color: kAccentColor,
+                            ),
+                          );
+                        },
+                      )
+                    : FutureBuilder(
+                        future: _getDataVendor(),
+                        builder: (context, snapshot) {
+                          if (snapshot.data != null) {
+                            return FavoriteVendorsTab(
+                              list: Scrollbar(
+                                controller: _scrollController,
+                                radius: const Radius.circular(10),
+                                child: snapshot.data!.isEmpty
+                                    ? EmptyCard()
+                                    : ListView.separated(
+                                        controller: _scrollController,
+                                        itemCount: snapshot.data!.length,
                                         shrinkWrap: true,
                                         physics: const BouncingScrollPhysics(),
                                         separatorBuilder: (context, index) =>
@@ -266,8 +257,8 @@ class _FavoritesState extends State<Favorites>
                                           onTap: () {
                                             Get.to(
                                               () => VendorDetails(
-                                                  vendor: snapshot
-                                                      .data!['vendor'][index]),
+                                                  vendor:
+                                                      snapshot.data![index]),
                                               routeName: 'VendorDetails',
                                               duration: const Duration(
                                                   milliseconds: 300),
@@ -281,34 +272,31 @@ class _FavoritesState extends State<Favorites>
                                           },
                                           cardImage:
                                               'best-choice-restaurant.png',
-                                          vendorName: snapshot
-                                              .data!['vendor'][index].shopName!,
+                                          vendorName:
+                                              snapshot.data![index].shopName!,
                                           businessType: snapshot
-                                              .data!['vendor'][index]
-                                              .shopType!
-                                              .name!,
+                                              .data![index].shopType!.name!,
                                           rating: snapshot
-                                              .data!['vendor'][index]
-                                              .averageRating!
+                                              .data![index].averageRating!
                                               .toStringAsPrecision(2),
-                                          noOfUsersRated: (snapshot
-                                                      .data!['vendor'][index]
+                                          noOfUsersRated: (snapshot.data![index]
                                                       .numberOfClientsReactions ??
                                                   0)
                                               .toString(),
                                         ),
                                       ),
                               ),
+                            );
+                          }
+                          return Center(
+                            child: SpinKitChasingDots(
+                              color: kAccentColor,
                             ),
-                          ],
-                        ),
-                        kHalfSizedBox,
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            },
+                          );
+                        }),
+              ),
+              kHalfSizedBox,
+            ],
           ),
         ),
       ),

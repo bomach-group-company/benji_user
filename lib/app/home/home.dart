@@ -4,7 +4,7 @@ import 'package:benji_user/app/favorites/favorites.dart';
 import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/others/my_future_builder.dart';
 import 'package:benji_user/src/repo/models/address_model.dart';
-import 'package:benji_user/src/repo/models/category/category.dart';
+import 'package:benji_user/src/repo/models/category/sub_category.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -75,9 +75,9 @@ class _HomeState extends State<Home> {
     }
 
     product = [];
-    List<Category> category = await getCategories();
+    List<SubCategory> category = await getSubCategories();
     try {
-      product = await getProductsByCategory(category[activeCategory].id);
+      product = await getProductsBySubCategory(category[activeCategory].id);
     } catch (e) {
       product = [];
     }

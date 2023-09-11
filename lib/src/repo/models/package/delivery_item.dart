@@ -66,10 +66,12 @@ class DeliveryItem {
   }
 }
 
-Future<List<DeliveryItem>> getDeliveryItemsByClient() async {
+Future<List<DeliveryItem>> getDeliveryItemsByClientAndStatus(
+    String status) async {
   User? user = await getUser();
   final response = await http.get(
-      Uri.parse('$baseURL/sendPackage/gettemPackageByClientId/${user!.id}/'),
+      Uri.parse(
+          '$baseURL/sendPackage/gettemPackageByClientId/${user!.id}/${status}'),
       headers: await authHeader());
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
