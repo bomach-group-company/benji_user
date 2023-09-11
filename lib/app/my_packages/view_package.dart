@@ -10,14 +10,10 @@ import '../../src/providers/constants.dart';
 import 'report_package.dart';
 
 class ViewPackage extends StatefulWidget {
-  final String packageIcon;
   final DeliveryItem deliveryItem;
-  final bool isDelivered;
   const ViewPackage({
     super.key,
-    required this.packageIcon,
     required this.deliveryItem,
-    this.isDelivered = false,
   });
 
   @override
@@ -30,7 +26,8 @@ class _ViewPackageState extends State<ViewPackage> {
   void initState() {
     super.initState();
     _packageData = <String>[
-      widget.isDelivered ? "Completed" : "Pending",
+      widget.deliveryItem.status[0].toUpperCase() +
+          widget.deliveryItem.status.substring(1).toLowerCase(),
       widget.deliveryItem.senderName,
       widget.deliveryItem.senderPhoneNumber,
       widget.deliveryItem.receiverName,
@@ -104,8 +101,8 @@ class _ViewPackageState extends State<ViewPackage> {
                   height: 100,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image:
-                          AssetImage('assets/icons/${widget.packageIcon}.png'),
+                      image: AssetImage(
+                          'assets/icons/${widget.deliveryItem.status.toLowerCase() == "pending" ? "package-waiting" : "package-success"}.png'),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -157,7 +154,8 @@ class _ViewPackageState extends State<ViewPackage> {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: TextStyle(
-                            color: widget.isDelivered
+                            color: widget.deliveryItem.status.toLowerCase() !=
+                                    "pending"
                                 ? kSuccessColor
                                 : kSecondaryColor,
                             fontSize: 14,
@@ -171,7 +169,7 @@ class _ViewPackageState extends State<ViewPackage> {
                 ),
               ),
               kSizedBox,
-              widget.isDelivered
+              widget.deliveryItem.status.toLowerCase() != "pending"
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

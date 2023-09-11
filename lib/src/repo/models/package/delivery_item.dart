@@ -22,6 +22,8 @@ class DeliveryItem {
   final int itemQuantity;
   final int itemValue;
   final String? itemImage;
+  final double prices;
+  final String status;
 
   DeliveryItem({
     required this.id,
@@ -38,6 +40,8 @@ class DeliveryItem {
     required this.itemQuantity,
     required this.itemValue,
     required this.itemImage,
+    required this.prices,
+    required this.status,
   });
 
   factory DeliveryItem.fromJson(Map<String, dynamic> json) {
@@ -56,6 +60,8 @@ class DeliveryItem {
       itemQuantity: json['itemQuantity'],
       itemValue: json['itemValue'],
       itemImage: json['itemImage'],
+      prices: json['prices'],
+      status: json['status'],
     );
   }
 }

@@ -199,7 +199,6 @@ class _SendPackageState extends State<SendPackage> {
     }
   }
 
-
   //=============================== WIDGETS ==================================\\
 
   // Widget stepIconBuilder(context, details) {
