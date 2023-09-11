@@ -99,7 +99,7 @@ class _FavoritesState extends State<Favorites>
   late TabController _tabBarController;
   final ScrollController _scrollController = ScrollController();
 
-//===================== Handle refresh ==========================\\
+//===================== Tabs ==========================\\
   int _selectedtabbar = 0;
   void _clickOnTabBarOption(value) async {
     setState(() {
