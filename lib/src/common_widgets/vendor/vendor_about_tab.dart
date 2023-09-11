@@ -42,7 +42,7 @@ class _VendorsAboutTabState extends State<VendorsAboutTab> {
           Expanded(
             flex: 0,
             child: AboutVendor(
-              ratings: widget.ratings,
+              // ratings: widget.ratings,
               vendor: widget.vendor,
             ),
           ),
