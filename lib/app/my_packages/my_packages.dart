@@ -1,5 +1,6 @@
 import 'package:autoscale_tabbarview/autoscale_tabbarview.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:benji_user/src/repo/models/package/delivery_item.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
@@ -49,14 +50,14 @@ class _MyPackagesState extends State<MyPackages>
 //================================================= FUNCTIONS ===================================================\\
 
   Future<Map> _getData() async {
-    // List<DeliveryItem> pending = await getDeliveryItemsByClient();
-    // List<DeliveryItem> completed = await getDeliveryItemsByClient();
-    List<DeliveryItem> generic = await getDeliveryItemsByClient();
-    print(generic);
+    List<DeliveryItem> pending =
+        await getDeliveryItemsByClientAndStatus('pending');
+    List<DeliveryItem> completed =
+        await getDeliveryItemsByClientAndStatus('completed');
 
     Map data = {
-      'pending': generic,
-      'completed': generic,
+      'pending': pending,
+      'completed': completed,
     };
     return data;
   }
@@ -190,60 +191,73 @@ class _MyPackagesState extends State<MyPackages>
                                 width: mediaWidth,
                                 child: Column(
                                   children: [
-                                    ListView.separated(
-                                      separatorBuilder: (context, index) =>
-                                          Divider(color: kGreyColor),
-                                      itemCount:
-                                          snapshot.data!['pending'].length,
-                                      shrinkWrap: true,
-                                      physics: const BouncingScrollPhysics(),
-                                      itemBuilder: (context, index) =>
-                                          Container(
-                                        child: ListTile(
-                                          onTap: () => _viewPendingPackage(
-                                              snapshot.data!['pending'][index]),
-                                          contentPadding: EdgeInsets.all(0),
-                                          enableFeedback: true,
-                                          dense: true,
-                                          leading: FaIcon(
-                                            FontAwesomeIcons.boxesStacked,
-                                            color: kAccentColor,
-                                          ),
-                                          title: Text(
-                                            snapshot.data!['pending'][index]
-                                                .itemName,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                              color: kTextBlackColor,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                          subtitle: Text.rich(
-                                            TextSpan(
-                                              children: [
-                                                TextSpan(text: "Price:"),
-                                                TextSpan(text: " "),
-                                                TextSpan(
-                                                  text:
-                                                      "₦${formattedText(4000)}",
+                                    snapshot.data!['pending'].isEmpty
+                                        ? EmptyCard(
+                                            removeButton: true,
+                                          )
+                                        : ListView.separated(
+                                            separatorBuilder:
+                                                (context, index) =>
+                                                    Divider(color: kGreyColor),
+                                            itemCount: snapshot
+                                                .data!['pending'].length,
+                                            shrinkWrap: true,
+                                            physics:
+                                                const BouncingScrollPhysics(),
+                                            itemBuilder: (context, index) =>
+                                                Container(
+                                              child: ListTile(
+                                                onTap: () =>
+                                                    _viewPendingPackage(snapshot
+                                                            .data!['pending']
+                                                        [index]),
+                                                contentPadding:
+                                                    EdgeInsets.all(0),
+                                                enableFeedback: true,
+                                                dense: true,
+                                                leading: FaIcon(
+                                                  FontAwesomeIcons.boxesStacked,
+                                                  color: kAccentColor,
+                                                ),
+                                                title: Text(
+                                                  snapshot
+                                                      .data!['pending'][index]
+                                                      .itemName,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
                                                   style: TextStyle(
+                                                    color: kTextBlackColor,
+                                                    fontSize: 14,
                                                     fontWeight: FontWeight.w700,
-                                                    fontFamily: 'sen',
                                                   ),
                                                 ),
-                                              ],
+                                                subtitle: Text.rich(
+                                                  TextSpan(
+                                                    children: [
+                                                      TextSpan(text: "Price:"),
+                                                      TextSpan(text: " "),
+                                                      TextSpan(
+                                                        text:
+                                                            "₦${formattedText(4000)}",
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontFamily: 'sen',
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                trailing: FaIcon(
+                                                  FontAwesomeIcons
+                                                      .hourglassHalf,
+                                                  color: kSecondaryColor,
+                                                  size: 18,
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                          trailing: FaIcon(
-                                            FontAwesomeIcons.hourglassHalf,
-                                            color: kSecondaryColor,
-                                            size: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
                                   ],
                                 ),
                               ),
@@ -251,61 +265,74 @@ class _MyPackagesState extends State<MyPackages>
                                 width: mediaWidth,
                                 child: Column(
                                   children: [
-                                    ListView.separated(
-                                      separatorBuilder: (context, index) =>
-                                          Divider(color: kGreyColor),
-                                      itemCount:
-                                          snapshot.data!['pending'].length,
-                                      shrinkWrap: true,
-                                      physics: const BouncingScrollPhysics(),
-                                      itemBuilder: (context, index) =>
-                                          Container(
-                                        child: ListTile(
-                                          onTap: () => _viewDeliveredPackage(
-                                              (snapshot.data!['completed']
-                                                  [index])),
-                                          contentPadding: EdgeInsets.all(0),
-                                          enableFeedback: true,
-                                          dense: true,
-                                          leading: FaIcon(
-                                            FontAwesomeIcons.boxesStacked,
-                                            color: kAccentColor,
-                                          ),
-                                          title: Text(
-                                            snapshot.data!['completed'][index]
-                                                .itemName,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                              color: kTextBlackColor,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                          subtitle: Text.rich(
-                                            TextSpan(
-                                              children: [
-                                                TextSpan(text: "Price:"),
-                                                TextSpan(text: " "),
-                                                TextSpan(
-                                                  text:
-                                                      "₦${formattedText(4000)}",
+                                    snapshot.data!['completed'].isEmpty
+                                        ? EmptyCard(
+                                            removeButton: true,
+                                          )
+                                        : ListView.separated(
+                                            separatorBuilder:
+                                                (context, index) =>
+                                                    Divider(color: kGreyColor),
+                                            itemCount: snapshot
+                                                .data!['completed'].length,
+                                            shrinkWrap: true,
+                                            physics:
+                                                const BouncingScrollPhysics(),
+                                            itemBuilder: (context, index) =>
+                                                Container(
+                                              child: ListTile(
+                                                onTap: () =>
+                                                    _viewDeliveredPackage(
+                                                        (snapshot.data![
+                                                                'completed']
+                                                            [index])),
+                                                contentPadding:
+                                                    EdgeInsets.all(0),
+                                                enableFeedback: true,
+                                                dense: true,
+                                                leading: FaIcon(
+                                                  FontAwesomeIcons.boxesStacked,
+                                                  color: kAccentColor,
+                                                ),
+                                                title: Text(
+                                                  snapshot
+                                                      .data!['completed'][index]
+                                                      .itemName,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
                                                   style: TextStyle(
+                                                    color: kTextBlackColor,
+                                                    fontSize: 14,
                                                     fontWeight: FontWeight.w700,
-                                                    fontFamily: 'sen',
                                                   ),
                                                 ),
-                                              ],
+                                                subtitle: Text.rich(
+                                                  TextSpan(
+                                                    children: [
+                                                      TextSpan(text: "Price:"),
+                                                      TextSpan(text: " "),
+                                                      TextSpan(
+                                                        text:
+                                                            "₦${formattedText(4000)}",
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontFamily: 'sen',
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                trailing: FaIcon(
+                                                  FontAwesomeIcons
+                                                      .solidCircleCheck,
+                                                  color: kSuccessColor,
+                                                  size: 18,
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                          trailing: FaIcon(
-                                            FontAwesomeIcons.solidCircleCheck,
-                                            color: kSuccessColor,
-                                            size: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
                                   ],
                                 ),
                               ),
