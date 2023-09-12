@@ -55,8 +55,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     });
     List<Ratings> _ratings;
     if (active == 'all') {
-      _ratings = [];
-      // _ratings = await getRatingsByProductId(widget.product.id);
+      _ratings = await getRatingsByProductId(widget.product.id);
     } else {
       _ratings = await getRatingsByProductIdAndRating(
           widget.product.id, int.parse(active));
