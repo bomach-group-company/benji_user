@@ -46,7 +46,7 @@ class _RateProductDialogState extends State<RateProductDialog> {
     final url = Uri.parse('$baseURL/clients/clientRateProduct');
     Map body = {
       'client_id': user!.id.toString(),
-      'vendor_id': widget.product.vendorId.id.toString(),
+      'product_id': widget.product.id.toString(),
       'rating_value': _rating.toInt().toString(),
       'comment': _myMessageEC.text
     };

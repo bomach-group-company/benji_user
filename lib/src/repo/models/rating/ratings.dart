@@ -13,7 +13,7 @@ class Ratings {
   final String? comment;
   final DateTime? created;
   final User client;
-  final VendorModel vendor;
+  final VendorModel? vendor;
 
   Ratings({
     this.id,
@@ -31,7 +31,8 @@ class Ratings {
       comment: json['comment'],
       created: DateTime.parse(json['created']),
       client: User.fromJson(json['client']),
-      vendor: VendorModel.fromJson(json['vendor']),
+      vendor:
+          json['vendor'] == null ? null : VendorModel.fromJson(json['vendor']),
     );
   }
 }
@@ -70,16 +71,14 @@ Future<List<Ratings>> getRatingsByVendorIdAndRating(int id, int rating,
   }
 }
 
-// Endpoint not available
 Future<List<Ratings>> getRatingsByProductId(String id,
     {start = 0, end = 20}) async {
   final response = await http.get(
-    Uri.parse(''), // no url because no endpoint for this
+    Uri.parse('$baseURL/clients/listAllProductRatings/$id'),
     headers: await authHeader(),
   );
-
   if (response.statusCode == 200) {
-    return (jsonDecode(response.body)['items'] as List)
+    return (jsonDecode(response.body) as List)
         .map((item) => Ratings.fromJson(item))
         .toList();
   } else {
