@@ -83,16 +83,19 @@ class _CardPaymentState extends State<CardPayment> {
   }
 
   //=========================== Navigation ====================================\\
-  void _addNewCard() => Get.to(
-        () => const AddNewCard(),
-        routeName: 'AddNewCard',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _addNewCard() async {
+    await Get.to(
+      () => const AddNewCard(),
+      routeName: 'AddNewCard',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    await _getCreditCards();
+  }
 
   @override
   Widget build(BuildContext context) {

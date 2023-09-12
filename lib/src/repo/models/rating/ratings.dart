@@ -69,3 +69,37 @@ Future<List<Ratings>> getRatingsByVendorIdAndRating(int id, int rating,
     throw Exception('Failed to load ratings');
   }
 }
+
+// Endpoint not available
+Future<List<Ratings>> getRatingsByProductId(String id,
+    {start = 0, end = 20}) async {
+  final response = await http.get(
+    Uri.parse(''), // no url because no endpoint for this
+    headers: await authHeader(),
+  );
+
+  if (response.statusCode == 200) {
+    return (jsonDecode(response.body)['items'] as List)
+        .map((item) => Ratings.fromJson(item))
+        .toList();
+  } else {
+    throw Exception('Failed to load ratings');
+  }
+}
+
+Future<List<Ratings>> getRatingsByProductIdAndRating(String id, int rating,
+    {start = 0, end = 20}) async {
+  final response = await http.get(
+    Uri.parse(
+        '$baseURL/clients/filterProductReviewsByRating/$id?rating_value=$rating'),
+    headers: await authHeader(),
+  );
+
+  if (response.statusCode == 200) {
+    return (jsonDecode(response.body) as List)
+        .map((item) => Ratings.fromJson(item))
+        .toList();
+  } else {
+    throw Exception('Failed to load ratings');
+  }
+}
