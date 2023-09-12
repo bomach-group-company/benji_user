@@ -256,9 +256,17 @@ class _AboutVendorState extends State<AboutVendor> {
                                 ? kPrimaryColor
                                 : Color(0xFFA9AAB1),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
+                            setState(() {
+                              ratings = null;
+                            });
+
+                            List<Ratings> _ratings =
+                                await getRatingsByVendorId(widget.vendor.id!);
+
                             setState(() {
                               active = 'all';
+                              ratings = _ratings;
                             });
                           },
                           child: Text(
@@ -293,16 +301,10 @@ class _AboutVendorState extends State<AboutVendor> {
                                           ratings = null;
                                         });
 
-                                        List<Ratings> _ratings;
-                                        if (active == 'all') {
-                                          _ratings = await getRatingsByVendorId(
-                                              widget.vendor.id!);
-                                        } else {
-                                          _ratings =
-                                              await getRatingsByVendorIdAndRating(
-                                                  widget.vendor.id!,
-                                                  int.parse(active));
-                                        }
+                                        List<Ratings> _ratings =
+                                            await getRatingsByVendorIdAndRating(
+                                                widget.vendor.id!,
+                                                int.parse(active));
 
                                         setState(() {
                                           ratings = _ratings;
