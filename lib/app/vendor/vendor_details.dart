@@ -36,11 +36,13 @@ class _VendorDetailsState extends State<VendorDetails>
   @override
   void initState() {
     super.initState();
-
+    print('hola llll');
     _tabBarController = TabController(length: 2, vsync: this);
     getFavoriteVSingle(widget.vendor.id.toString()).then(
       (value) {
-        _isAddedToFavorites = value;
+        setState(() {
+          _isAddedToFavorites = value;
+        });
       },
     );
   }
@@ -339,7 +341,9 @@ class _VendorDetailsState extends State<VendorDetails>
                                 ),
                                 kHalfSizedBox,
                                 InkWell(
-                                  onTap: _toVendorLocation,
+                                  onTap: widget.vendor.address == null
+                                      ? null
+                                      : _toVendorLocation,
                                   borderRadius: BorderRadius.circular(10),
                                   child: Container(
                                     padding: const EdgeInsets.all(
@@ -351,8 +355,10 @@ class _VendorDetailsState extends State<VendorDetails>
                                         width: 1,
                                       ),
                                     ),
-                                    child: const Text(
-                                      "Show on map",
+                                    child: Text(
+                                      widget.vendor.address == null
+                                          ? "Not Available"
+                                          : "Show on map",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 13,

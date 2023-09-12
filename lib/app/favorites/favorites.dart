@@ -145,7 +145,9 @@ class _FavoritesState extends State<Favorites>
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: Column(
+          child: ListView(
+            physics: BouncingScrollPhysics(),
+            shrinkWrap: true,
             children: [
               kSizedBox,
               Padding(

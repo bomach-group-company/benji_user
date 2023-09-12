@@ -38,7 +38,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     super.initState();
     getFavoritePSingle(widget.product.id).then(
       (value) {
-        _isAddedToFavorites = value;
+        setState(() {
+          _isAddedToFavorites = value;
+        });
       },
     );
     checkCart();
