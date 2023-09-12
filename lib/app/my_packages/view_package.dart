@@ -10,6 +10,7 @@ import 'package:get/route_manager.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../src/providers/constants.dart';
 import 'report_package.dart';
@@ -143,7 +144,7 @@ class _ViewPackageState extends State<ViewPackage> {
     final pdfBytes = await _generatePdf();
 
     final appDir = await getTemporaryDirectory();
-    final pdfName = "Benji Express Delivery ${formatDateAndTime(now)}";
+    final pdfName = "Benji Delivery ${formatDateAndTime(now)}";
     final pdfPath = '${appDir.path}/$pdfName.pdf';
     await File(pdfPath).writeAsBytes(pdfBytes);
 
@@ -156,7 +157,7 @@ class _ViewPackageState extends State<ViewPackage> {
 
     if (imageFile != null) {
       final appDir = await getTemporaryDirectory();
-      final fileName = "Benji Express Delivery ${formatDateAndTime(now)}";
+      final fileName = "Benji Delivery ${formatDateAndTime(now)}";
       final filePath = '${appDir.path}/$fileName.png';
 
       // Write the image data to the file
