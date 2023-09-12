@@ -94,12 +94,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   checkCart() async {
     await checkAuth(context);
     String count = await countCart();
-    String countAll = await countCart(all: true);
+    String countAll = await countSingleCart(widget.product.id);
 
     setState(() {
       cartCount = count;
       cartCountAll = countAll;
-      if (count != '0') {
+      if (countAll != '0') {
         _isAddedToCart = true;
       } else {
         _isAddedToCart = false;
@@ -295,7 +295,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: cartCount == false
+          child: _isAddedToCart == false
               ? Center(child: SpinKitChasingDots(color: kAccentColor))
               : Scrollbar(
                   controller: _scrollController,

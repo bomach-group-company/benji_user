@@ -48,7 +48,7 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
 
   checkCart() async {
     String count = await countCart();
-    String countAll = await countCart(all: true);
+    String countAll = await countSingleCart(widget.product.id);
 
     setState(() {
       cartCount = count;
