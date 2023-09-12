@@ -77,30 +77,6 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
 //===================== FOCUS NODES =======================\\
   FocusNode rateVendorFN = FocusNode();
 
-//===================== CATEGORY BUTTONS =======================\\
-  final List _categoryButtonText = [
-    "Pasta",
-    "Burgers",
-    "Rice Dishes",
-    "Chicken",
-    "Snacks"
-  ];
-
-  final List<Color> _categoryButtonBgColor = [
-    kAccentColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor
-  ];
-  final List<Color> _categoryButtonFontColor = [
-    kPrimaryColor,
-    kTextGreyColor,
-    kTextGreyColor,
-    kTextGreyColor,
-    kTextGreyColor
-  ];
-
 //=================================================== FUNCTIONS =====================================================\\
   void validate() {
     mySnackBar(

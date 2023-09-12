@@ -3,7 +3,6 @@
 import 'package:benji_user/app/vendor/about_vendor.dart';
 import 'package:benji_user/app/vendor/all_vendor_reviews.dart';
 import 'package:benji_user/src/providers/constants.dart';
-import 'package:benji_user/src/repo/models/rating/ratings.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
