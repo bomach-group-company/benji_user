@@ -1,6 +1,7 @@
 import 'package:benji_user/app/product/product_detail_screen.dart';
 import 'package:benji_user/app/vendor/all_vendor_products.dart';
 import 'package:benji_user/src/common_widgets/button/category%20button.dart';
+import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/common_widgets/vendor/product_container.dart';
 import 'package:benji_user/src/repo/models/category/sub_category.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
@@ -93,9 +94,16 @@ class _ProductVendorState extends State<ProductVendor> {
                     itemBuilder: (BuildContext context, int index) => Padding(
                       padding: const EdgeInsets.all(kDefaultPadding / 2),
                       child: CategoryButton(
-                        onPressed: () {
+                        onPressed: () async {
                           setState(() {
                             activeCategory = _data!['categories'][index].id;
+                            _data!['product'] = null;
+                          });
+                          List<Product> product =
+                              await getProductsByVendorSubCategory(
+                                  widget.vendor.id!, activeCategory);
+                          setState(() {
+                            _data!['product'] = product;
                           });
                         },
                         title: _data!['categories'][index].name,
@@ -112,17 +120,28 @@ class _ProductVendorState extends State<ProductVendor> {
                   ),
                 ),
                 kHalfSizedBox,
-                ListView.separated(
-                  itemCount: _data!['product'].length,
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  separatorBuilder: (context, index) => kHalfSizedBox,
-                  itemBuilder: (context, index) => ProductContainer(
-                    product: _data!['product'][index],
-                    onTap: () =>
-                        _toProductDetailScreen(_data!['product'][index]),
-                  ),
-                ),
+                _data!['product'] == null
+                    ? Center(
+                        child: SpinKitChasingDots(
+                          color: kAccentColor,
+                          duration: const Duration(seconds: 1),
+                        ),
+                      )
+                    : _data!['product'].isEmpty
+                        ? EmptyCard(
+                            removeButton: true,
+                          )
+                        : ListView.separated(
+                            itemCount: _data!['product'].length,
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            separatorBuilder: (context, index) => kHalfSizedBox,
+                            itemBuilder: (context, index) => ProductContainer(
+                              product: _data!['product'][index],
+                              onTap: () => _toProductDetailScreen(
+                                  _data!['product'][index]),
+                            ),
+                          ),
                 kSizedBox,
                 TextButton(
                   onPressed: _viewProducts,
