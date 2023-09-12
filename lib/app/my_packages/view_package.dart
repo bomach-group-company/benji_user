@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/repo/models/package/delivery_item.dart';
 import 'package:benji_user/theme/colors.dart';
@@ -5,6 +7,9 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../src/providers/constants.dart';
 import 'report_package.dart';
@@ -59,6 +64,7 @@ class _ViewPackageState extends State<ViewPackage> {
   List<String>? _packageData;
   //=================================================  CONTROLLERS =====================================================\\
   final _scrollController = ScrollController();
+  final _screenshotController = ScreenshotController();
 
   //=================================================  Navigation =====================================================\\
   void _toReportPackage() => Get.to(
@@ -83,14 +89,28 @@ class _ViewPackageState extends State<ViewPackage> {
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(
-            kDefaultPadding,
-          ),
+          top: Radius.circular(kDefaultPadding),
         ),
       ),
       enableDrag: true,
       builder: (builder) => shareBottomSheet(),
     );
+  }
+
+  _shareImage() async {
+    final imageFile = await _screenshotController.capture();
+
+    if (imageFile != null) {
+      final appDir = await getTemporaryDirectory();
+      final fileName = DateTime.now().toIso8601String();
+      final filePath = '${appDir.path}/$fileName.png';
+
+      // Write the image data to the file
+      await File(filePath).writeAsBytes(imageFile);
+
+      // Share the image using its file path
+      // await Share.shareXFiles([filePath], text: 'Check out this image!');
+    }
   }
 
   //=================================================  Widgets =====================================================\\
@@ -121,7 +141,7 @@ class _ViewPackageState extends State<ViewPackage> {
             ),
             Divider(height: 1, color: kGreyColor),
             ListTile(
-              onTap: () {},
+              onTap: _shareImage,
               title: Text(
                 "Share Image",
                 textAlign: TextAlign.center,
@@ -173,159 +193,151 @@ class _ViewPackageState extends State<ViewPackage> {
                 ),
               ),
               kSizedBox,
-              DottedBorder(
-                borderType: BorderType.RRect,
-                radius: Radius.circular(12),
-                strokeCap: StrokeCap.round,
-                dashPattern: [2],
-                padding: EdgeInsets.all(6),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  child: ListView.separated(
-                    itemCount: _titles.length,
-                    shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(),
-                    separatorBuilder: (BuildContext context, int index) =>
-                        Divider(
-                      height: 1,
-                      color: kGreyColor,
-                    ),
-                    itemBuilder: (BuildContext context, int index) => ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: Container(
-                        height: 100,
-                        width: mediaWidth / 3,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(color: kLightGreyColor),
-                        child: Text(
-                          _titles[index],
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
+              Screenshot(
+                controller: _screenshotController,
+                child: DottedBorder(
+                  borderType: BorderType.RRect,
+                  radius: Radius.circular(12),
+                  strokeCap: StrokeCap.round,
+                  dashPattern: [2],
+                  padding: EdgeInsets.all(6),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 40,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                'assets/images/logo/benji_full_logo.png',
+                              ),
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
-                      ),
-                      trailing: Container(
-                        width: mediaWidth / 2,
-                        padding: const EdgeInsets.all(10),
-                        child: Text(
-                          _packageData![index],
-                          textAlign: TextAlign.end,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: TextStyle(
-                            color: widget.deliveryItem.status.toLowerCase() !=
-                                    "pending"
-                                ? kSuccessColor
-                                : kSecondaryColor,
-                            fontSize: 14,
-                            fontFamily: 'sen',
-                            fontWeight: FontWeight.w700,
+                        Divider(color: kGreyColor),
+                        ListView.separated(
+                          itemCount: _titles.length,
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          separatorBuilder: (BuildContext context, int index) =>
+                              Divider(
+                            height: 1,
+                            color: kGreyColor,
+                          ),
+                          itemBuilder: (BuildContext context, int index) =>
+                              ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: Container(
+                              height: 100,
+                              width: mediaWidth / 3,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(color: kLightGreyColor),
+                              child: Text(
+                                _titles[index],
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            trailing: Container(
+                              width: mediaWidth / 2,
+                              padding: const EdgeInsets.all(10),
+                              child: Text(
+                                _packageData![index],
+                                textAlign: TextAlign.end,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: TextStyle(
+                                  color: widget.deliveryItem.status
+                                              .toLowerCase() !=
+                                          "pending"
+                                      ? kSuccessColor
+                                      : kSecondaryColor,
+                                  fontSize: 14,
+                                  fontFamily: 'sen',
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
               ),
               kSizedBox,
-              widget.deliveryItem.status.toLowerCase() != "pending"
-                  ? Row(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  OutlinedButton(
+                    onPressed: _toReportPackage,
+                    style: OutlinedButton.styleFrom(
+                        enableFeedback: true,
+                        backgroundColor: kPrimaryColor,
+                        padding: EdgeInsets.all(kDefaultPadding)),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        OutlinedButton(
-                          onPressed: _toReportPackage,
-                          style: OutlinedButton.styleFrom(
-                              enableFeedback: true,
-                              backgroundColor: kPrimaryColor,
-                              padding: EdgeInsets.all(kDefaultPadding)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              FaIcon(
-                                FontAwesomeIcons.solidFlag,
-                                color: kAccentColor,
-                                size: 16,
-                              ),
-                              kWidthSizedBox,
-                              Center(
-                                child: Text(
-                                  "Report",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: kAccentColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                        FaIcon(
+                          FontAwesomeIcons.solidFlag,
+                          color: kAccentColor,
+                          size: 16,
                         ),
                         kWidthSizedBox,
-                        ElevatedButton(
-                          onPressed: _sharePackage,
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: kAccentColor,
-                              padding: EdgeInsets.all(kDefaultPadding)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              FaIcon(
-                                FontAwesomeIcons.shareNodes,
-                                color: kPrimaryColor,
-                                size: 18,
-                              ),
-                              kWidthSizedBox,
-                              SizedBox(
-                                child: Text(
-                                  "Share",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: kPrimaryColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                            ],
+                        Center(
+                          child: Text(
+                            "Report",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: kAccentColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ],
-                    )
-                  : OutlinedButton(
-                      onPressed: _toReportPackage,
-                      style: OutlinedButton.styleFrom(
-                          enableFeedback: true,
-                          backgroundColor: kPrimaryColor,
-                          padding: EdgeInsets.all(kDefaultPadding)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FaIcon(
-                            FontAwesomeIcons.solidFlag,
-                            color: kAccentColor,
-                            size: 16,
-                          ),
-                          kWidthSizedBox,
-                          SizedBox(
-                            child: Text(
-                              "Report",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: kAccentColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
+                    ),
+                  ),
+                  kWidthSizedBox,
+                  ElevatedButton(
+                    onPressed: _sharePackage,
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: kAccentColor,
+                        padding: EdgeInsets.all(kDefaultPadding)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.shareNodes,
+                          color: kPrimaryColor,
+                          size: 18,
+                        ),
+                        kWidthSizedBox,
+                        SizedBox(
+                          child: Text(
+                            "Share",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: kPrimaryColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
+                  ),
+                ],
+              ),
               kSizedBox,
             ],
           ),
