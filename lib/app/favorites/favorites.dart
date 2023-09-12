@@ -108,16 +108,33 @@ class _FavoritesState extends State<Favorites>
   }
   //===================== Navigation ==========================\\
 
-  void _toProductDetailsScreen(product) => Get.to(
-        () => ProductDetailScreen(product: product),
-        routeName: 'ProductDetailScreen',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _toProductDetailsScreen(product) async {
+    await Get.to(
+      () => ProductDetailScreen(product: product),
+      routeName: 'ProductDetailScreen',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    setState(() {});
+  }
+
+  void _vendorDetailPage(vendor) async {
+    await Get.to(
+      () => VendorDetails(vendor: vendor),
+      routeName: 'VendorDetails',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    setState(() {});
+  }
 //====================================================================================\\
 
   @override
@@ -256,22 +273,8 @@ class _FavoritesState extends State<Favorites>
                                             kHalfSizedBox,
                                         itemBuilder: (context, index) =>
                                             PopularVendorsCard(
-                                          onTap: () {
-                                            Get.to(
-                                              () => VendorDetails(
-                                                  vendor:
-                                                      snapshot.data![index]),
-                                              routeName: 'VendorDetails',
-                                              duration: const Duration(
-                                                  milliseconds: 300),
-                                              fullscreenDialog: true,
-                                              curve: Curves.easeIn,
-                                              preventDuplicates: true,
-                                              popGesture: true,
-                                              transition:
-                                                  Transition.rightToLeft,
-                                            );
-                                          },
+                                          onTap: () => _vendorDetailPage(
+                                              snapshot.data![index]),
                                           cardImage:
                                               'best-choice-restaurant.png',
                                           vendorName:
