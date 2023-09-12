@@ -141,7 +141,7 @@ Future<List<Product>> getProductsBySearching(query) async {
     return (jsonDecode(response.body) as List)
         .map((item) => Product.fromJson(item))
         .toList();
-  } else if (response.body == "No matching query") {
+  } else if (response.body == '"No matching query"') {
     return [];
   } else {
     throw Exception('Failed to load user product');
