@@ -54,26 +54,31 @@ class CustomSearchDelegate extends SearchDelegate {
         future: _getData(),
         child: (data) {
           return data.isEmpty
-              ? Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Lottie.asset(
-                        "assets/animations/empty/frame_3.json",
-                        height: 300,
-                        fit: BoxFit.contain,
+              ? ListView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Lottie.asset(
+                            "assets/animations/empty/frame_3.json",
+                            height: 300,
+                            fit: BoxFit.contain,
+                          ),
+                          kSizedBox,
+                          Text(
+                            "No product found",
+                            style: TextStyle(
+                              color: kTextGreyColor,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
                       ),
-                      kSizedBox,
-                      Text(
-                        "No product found",
-                        style: TextStyle(
-                          color: kTextGreyColor,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 )
               : Scrollbar(
                   controller: _scrollController,
@@ -97,22 +102,30 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+    return GestureDetector(
+      onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
+      child: ListView(
+        physics: const NeverScrollableScrollPhysics(),
         children: [
-          Lottie.asset(
-            "assets/animations/empty/frame_3.json",
-            height: 300,
-            fit: BoxFit.contain,
-          ),
-          kSizedBox,
-          Text(
-            "Search for a product",
-            style: TextStyle(
-              color: kTextGreyColor,
-              fontSize: 18,
+          Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Lottie.asset(
+                  "assets/animations/empty/frame_3.json",
+                  height: 300,
+                  fit: BoxFit.contain,
+                ),
+                kSizedBox,
+                Text(
+                  "Search for a product",
+                  style: TextStyle(
+                    color: kTextGreyColor,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
