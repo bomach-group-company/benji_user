@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
@@ -57,9 +55,7 @@ class _ReportProductState extends State<ReportProduct> {
     final response =
         await http.post(url, body: body, headers: await authHeader());
     try {
-      Map resp = jsonDecode(response.body);
-      bool res = response.statusCode == 200;
-      return res;
+      return response.statusCode == 200;
     } catch (e) {
       return false;
     }
