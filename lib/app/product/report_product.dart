@@ -46,10 +46,10 @@ class _ReportProductState extends State<ReportProduct> {
     final url = Uri.parse('$baseURL/products/reportProduct');
 
     Map body = {
-      'client_id': user!.id,
-      'vendor_id': widget.product.vendorId.id,
-      'product_id': widget.product.id,
-      'comment': _messageEC.text,
+      'client_id': user!.id.toString(),
+      'vendor_id': widget.product.vendorId.id.toString(),
+      'product_id': widget.product.id.toString(),
+      'comment': _messageEC.text.toString(),
     };
 
     final response =
@@ -62,13 +62,13 @@ class _ReportProductState extends State<ReportProduct> {
   }
 
   Future<void> _submitRequest() async {
+    setState(() {
+      _submittingRequest = true;
+    });
     await checkAuth(context);
 
     bool res = await report();
 
-    setState(() {
-      _submittingRequest = true;
-    });
     if (res) {
       //Display snackBar
       mySnackBar(

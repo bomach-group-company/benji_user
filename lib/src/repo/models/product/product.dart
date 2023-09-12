@@ -45,8 +45,8 @@ class Product {
       isAvailable: json['is_available'],
       isTrending: json['is_trending'],
       isRecommended: json['is_recommended'],
-      vendorId: VendorModel.fromJson(json['vendor_id']),
-      subCategoryId: SubCategory.fromJson(json['sub_category_id']),
+      vendorId: VendorModel.fromJson(json['vendor']),
+      subCategoryId: SubCategory.fromJson(json['sub_category']),
     );
   }
 }
@@ -66,12 +66,12 @@ Future<Product> getProductById(String id) async {
 
 Future<List<Product>> getProducts({limit = 10}) async {
   final response = await http.get(
-    Uri.parse('$baseURL/products/listProduct?limit=$limit'),
+    Uri.parse('$baseURL/products/listProduct'),
     headers: await authHeader(),
   );
 
   if (response.statusCode == 200) {
-    return (jsonDecode(response.body)["items"] as List)
+    return (jsonDecode(response.body) as List)
         .map((item) => Product.fromJson(item))
         .toList();
   } else {
@@ -85,6 +85,7 @@ Future<List<Product>> getProductsBySubCategory(sub_category_id) async {
         '$baseURL/clients/filterProductsBySubCategory/${sub_category_id}'),
     headers: await authHeader(),
   );
+
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => Product.fromJson(item))
