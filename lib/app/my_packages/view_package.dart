@@ -1,13 +1,14 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/repo/models/package/delivery_item.dart';
 import 'package:benji_user/theme/colors.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pdf/widgets.dart' as pw;
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -42,11 +43,12 @@ class _ViewPackageState extends State<ViewPackage> {
       "${formattedText(widget.deliveryItem.itemQuantity.toDouble())}",
       "${widget.deliveryItem.itemWeight.start} KG - ${widget.deliveryItem.itemWeight.end} KG",
       "₦ ${formattedText(widget.deliveryItem.itemValue.toDouble())}",
-      "₦ ${formattedText(10)}",
+      "₦ ${formattedText(widget.deliveryItem.prices)}",
     ];
   }
 
   //================================================= ALL VARIABLES =====================================================\\
+  DateTime now = DateTime.now();
   List<String> _titles = <String>[
     "Status",
     "Sender's name",
@@ -97,19 +99,72 @@ class _ViewPackageState extends State<ViewPackage> {
     );
   }
 
+  Future<Uint8List> _generatePdf() async {
+    // Create a PDF document
+    final pdf = pw.Document();
+
+    // Capture the screenshot
+    final imageFile = await _screenshotController.capture();
+
+    // Convert the image data to bytes
+    final imgData = Uint8List.fromList(imageFile!);
+
+    // Create a MemoryImage from the bytes
+    final pdfImage = pw.MemoryImage(imgData);
+
+    // Add the image to the PDF document
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) {
+          return pw.Container(
+            height: 1000,
+            width: 1000,
+            child: pw.Align(
+              alignment: pw.Alignment.center,
+              child: pw.Image(
+                pdfImage,
+                fit: pw.BoxFit.contain,
+                alignment: pw.Alignment.center,
+                height: 800,
+                width: 800,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+
+    // Save the PDF as bytes
+    final pdfBytes = await pdf.save();
+
+    return pdfBytes;
+  }
+
+  Future<void> _sharePDF() async {
+    final pdfBytes = await _generatePdf();
+
+    final appDir = await getTemporaryDirectory();
+    final pdfName = "Benji Express Delivery ${formatDateAndTime(now)}";
+    final pdfPath = '${appDir.path}/$pdfName.pdf';
+    await File(pdfPath).writeAsBytes(pdfBytes);
+
+    // Share the PDF file using share_plus
+    await Share.shareXFiles([XFile(pdfPath)]);
+  }
+
   _shareImage() async {
     final imageFile = await _screenshotController.capture();
 
     if (imageFile != null) {
       final appDir = await getTemporaryDirectory();
-      final fileName = DateTime.now().toIso8601String();
+      final fileName = "Benji Express Delivery ${formatDateAndTime(now)}";
       final filePath = '${appDir.path}/$fileName.png';
 
       // Write the image data to the file
       await File(filePath).writeAsBytes(imageFile);
 
-      // Share the image using its file path
-      // await Share.shareXFiles([filePath], text: 'Check out this image!');
+      //Share the file on any platform
+      await Share.shareXFiles([XFile(filePath)], text: 'Shared from Benji');
     }
   }
 
@@ -128,7 +183,7 @@ class _ViewPackageState extends State<ViewPackage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ListTile(
-              onTap: () {},
+              onTap: _sharePDF,
               title: Text(
                 "Share PDF",
                 textAlign: TextAlign.center,
@@ -162,6 +217,7 @@ class _ViewPackageState extends State<ViewPackage> {
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
         title: "View Package",
         elevation: 0,
@@ -192,84 +248,140 @@ class _ViewPackageState extends State<ViewPackage> {
                   ),
                 ),
               ),
-              kSizedBox,
+              kHalfSizedBox,
               Screenshot(
                 controller: _screenshotController,
-                child: DottedBorder(
-                  borderType: BorderType.RRect,
-                  radius: Radius.circular(12),
-                  strokeCap: StrokeCap.round,
-                  dashPattern: [2],
-                  padding: EdgeInsets.all(6),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 40,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/logo/benji_full_logo.png',
+                child: Card(
+                  borderOnForeground: true,
+                  elevation: 20,
+                  color: kPrimaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: kPrimaryColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 50),
+                          Container(
+                            height: 40,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: kPrimaryColor,
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  'assets/images/logo/benji_full_logo.png',
+                                ),
+                                fit: BoxFit.contain,
                               ),
-                              fit: BoxFit.contain,
                             ),
                           ),
-                        ),
-                        Divider(color: kGreyColor),
-                        ListView.separated(
-                          itemCount: _titles.length,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          separatorBuilder: (BuildContext context, int index) =>
-                              Divider(
-                            height: 1,
-                            color: kGreyColor,
-                          ),
-                          itemBuilder: (BuildContext context, int index) =>
-                              ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            leading: Container(
-                              height: 100,
-                              width: mediaWidth / 3,
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(color: kLightGreyColor),
-                              child: Text(
-                                _titles[index],
-                                textAlign: TextAlign.start,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
+                          SizedBox(height: 50),
+                          Divider(color: kGreyColor, height: 0),
+                          ListView.separated(
+                            itemCount: _titles.length,
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            separatorBuilder:
+                                (BuildContext context, int index) => Divider(
+                              height: 1,
+                              color: kGreyColor,
+                            ),
+                            itemBuilder: (BuildContext context, int index) =>
+                                ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              leading: Container(
+                                height: 100,
+                                width: mediaWidth / 3,
+                                padding: const EdgeInsets.all(10),
+                                decoration:
+                                    BoxDecoration(color: kLightGreyColor),
+                                child: Text(
+                                  _titles[index],
+                                  textAlign: TextAlign.start,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                              trailing: Container(
+                                width: mediaWidth / 2,
+                                padding: const EdgeInsets.all(10),
+                                child: Text(
+                                  _packageData![index],
+                                  textAlign: TextAlign.end,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                    color: widget.deliveryItem.status
+                                                .toLowerCase() !=
+                                            "pending"
+                                        ? kSuccessColor
+                                        : kSecondaryColor,
+                                    fontSize: 12,
+                                    fontFamily: 'sen',
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                             ),
-                            trailing: Container(
-                              width: mediaWidth / 2,
-                              padding: const EdgeInsets.all(10),
-                              child: Text(
-                                _packageData![index],
-                                textAlign: TextAlign.end,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                                style: TextStyle(
-                                  color: widget.deliveryItem.status
-                                              .toLowerCase() !=
-                                          "pending"
-                                      ? kSuccessColor
-                                      : kSecondaryColor,
-                                  fontSize: 14,
-                                  fontFamily: 'sen',
-                                  fontWeight: FontWeight.w700,
+                          ),
+                          Divider(color: kGreyColor, height: 0),
+                          kSizedBox,
+                          widget.deliveryItem.status.toLowerCase() != "pending"
+                              ? Text(
+                                  "Thanks for choosing our service",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: kTextGreyColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                )
+                              : SizedBox(),
+                          Text.rich(
+                            softWrap: true,
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: "Generated by ",
+                                  style: TextStyle(
+                                    color: kTextGreyColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                              ),
+                                TextSpan(
+                                  text: "Ben",
+                                  style: TextStyle(
+                                    color: kSecondaryColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: "ji",
+                                  style: TextStyle(
+                                    color: kAccentColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      ],
+                          kSizedBox,
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -281,9 +393,11 @@ class _ViewPackageState extends State<ViewPackage> {
                   OutlinedButton(
                     onPressed: _toReportPackage,
                     style: OutlinedButton.styleFrom(
-                        enableFeedback: true,
-                        backgroundColor: kPrimaryColor,
-                        padding: EdgeInsets.all(kDefaultPadding)),
+                      elevation: 20,
+                      enableFeedback: true,
+                      backgroundColor: kPrimaryColor,
+                      padding: EdgeInsets.all(kDefaultPadding),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -311,8 +425,10 @@ class _ViewPackageState extends State<ViewPackage> {
                   ElevatedButton(
                     onPressed: _sharePackage,
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: kAccentColor,
-                        padding: EdgeInsets.all(kDefaultPadding)),
+                      elevation: 20,
+                      backgroundColor: kAccentColor,
+                      padding: EdgeInsets.all(kDefaultPadding),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

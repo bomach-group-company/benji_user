@@ -171,11 +171,11 @@ class _SendPackageState extends State<SendPackage> {
         context,
         kErrorColor,
         "Failed!",
-        "Failed to Send package",
+        "Failed to submit",
         Duration(seconds: 2),
       );
       setState(() {
-        _processingRequest = true;
+        _processingRequest = false;
       });
     }
   }
