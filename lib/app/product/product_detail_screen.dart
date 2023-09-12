@@ -689,6 +689,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                 : Color(0xFFA9AAB1),
                                           ),
                                           onPressed: () async {
+                                            active = 'all';
+
                                             setState(() {
                                               ratings = null;
                                             });
@@ -698,7 +700,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                     widget.product.id);
 
                                             setState(() {
-                                              active = 'all';
                                               ratings = _ratings;
                                             });
                                           },

@@ -257,6 +257,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                 : Color(0xFFA9AAB1),
                           ),
                           onPressed: () async {
+                            active = 'all';
                             setState(() {
                               ratings = null;
                             });
@@ -265,7 +266,6 @@ class _AboutVendorState extends State<AboutVendor> {
                                 await getRatingsByVendorId(widget.vendor.id!);
 
                             setState(() {
-                              active = 'all';
                               ratings = _ratings;
                             });
                           },

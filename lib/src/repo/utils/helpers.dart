@@ -53,8 +53,8 @@ checkAuth(context) async {
       context,
       kAccentColor,
       "No Internet!",
-      "Try refreshing",
-      Duration(seconds: 1),
+      "Please Connect to the internet",
+      Duration(seconds: 3),
     );
   }
   if (haveUser == null || isAuth == false) {
