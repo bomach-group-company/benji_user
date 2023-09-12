@@ -65,7 +65,7 @@ void mySnackBar(
       margin: EdgeInsets.only(
         left: kDefaultPadding * 2,
         right: kDefaultPadding * 2,
-        bottom: MediaQuery.of(context).size.height - 160,
+        bottom: MediaQuery.of(context).size.height - 170,
       ),
       showCloseIcon: true,
       closeIconColor: kAccentColor,

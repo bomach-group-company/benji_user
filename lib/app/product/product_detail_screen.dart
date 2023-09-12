@@ -55,7 +55,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     });
     List<Ratings> _ratings;
     if (active == 'all') {
-      _ratings = await getRatingsByProductId(widget.product.id);
+      _ratings = [];
+      // _ratings = await getRatingsByProductId(widget.product.id);
     } else {
       _ratings = await getRatingsByProductIdAndRating(
           widget.product.id, int.parse(active));
@@ -68,7 +69,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   //============================================================ ALL VARIABLES ===================================================================\\
   String cartCount = '1';
-  String cartCountAll = '1';
+  String? cartCountAll;
   List<String> _carouselImages = <String>[
     "assets/images/products/best-choice-restaurant.png",
     "assets/images/products/burgers.png",
@@ -295,528 +296,511 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: _isAddedToCart == false
-              ? Center(child: SpinKitChasingDots(color: kAccentColor))
-              : Scrollbar(
-                  controller: _scrollController,
-                  radius: const Radius.circular(10),
-                  scrollbarOrientation: ScrollbarOrientation.right,
-                  child: ListView(
-                    physics: const ScrollPhysics(),
-                    dragStartBehavior: DragStartBehavior.down,
-                    children: [
-                      FlutterCarousel.builder(
-                        options: CarouselOptions(
-                          height: mediaHeight * 0.42,
-                          aspectRatio: 16 / 9,
-                          viewportFraction: 1.0,
-                          initialPage: 0,
-                          enableInfiniteScroll: true,
-                          autoPlay: true,
-                          autoPlayInterval: const Duration(seconds: 2),
-                          autoPlayAnimationDuration:
-                              const Duration(milliseconds: 800),
-                          autoPlayCurve: Curves.easeInOut,
-                          enlargeCenterPage: true,
-                          controller: _carouselController,
-                          onPageChanged: (index, value) {},
-                          pageSnapping: true,
-                          scrollDirection: Axis.horizontal,
-                          physics: BouncingScrollPhysics(),
-                          scrollBehavior: ScrollBehavior(),
-                          pauseAutoPlayOnTouch: true,
-                          pauseAutoPlayOnManualNavigate: true,
-                          pauseAutoPlayInFiniteScroll: false,
-                          enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                          disableCenter: false,
-                          showIndicator: true,
-                          floatingIndicator: true,
-                          slideIndicator: CircularSlideIndicator(
-                            alignment: Alignment.bottomCenter,
-                            currentIndicatorColor: kAccentColor,
-                            indicatorBackgroundColor: kPrimaryColor,
-                            indicatorRadius: 5,
-                            padding: EdgeInsets.all(10),
+          child: Scrollbar(
+            controller: _scrollController,
+            radius: const Radius.circular(10),
+            scrollbarOrientation: ScrollbarOrientation.right,
+            child: ListView(
+              physics: const ScrollPhysics(),
+              dragStartBehavior: DragStartBehavior.down,
+              children: [
+                FlutterCarousel.builder(
+                  options: CarouselOptions(
+                    height: mediaHeight * 0.42,
+                    aspectRatio: 16 / 9,
+                    viewportFraction: 1.0,
+                    initialPage: 0,
+                    enableInfiniteScroll: true,
+                    autoPlay: true,
+                    autoPlayInterval: const Duration(seconds: 2),
+                    autoPlayAnimationDuration:
+                        const Duration(milliseconds: 800),
+                    autoPlayCurve: Curves.easeInOut,
+                    enlargeCenterPage: true,
+                    controller: _carouselController,
+                    onPageChanged: (index, value) {},
+                    pageSnapping: true,
+                    scrollDirection: Axis.horizontal,
+                    physics: BouncingScrollPhysics(),
+                    scrollBehavior: ScrollBehavior(),
+                    pauseAutoPlayOnTouch: true,
+                    pauseAutoPlayOnManualNavigate: true,
+                    pauseAutoPlayInFiniteScroll: false,
+                    enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                    disableCenter: false,
+                    showIndicator: true,
+                    floatingIndicator: true,
+                    slideIndicator: CircularSlideIndicator(
+                      alignment: Alignment.bottomCenter,
+                      currentIndicatorColor: kAccentColor,
+                      indicatorBackgroundColor: kPrimaryColor,
+                      indicatorRadius: 5,
+                      padding: EdgeInsets.all(10),
+                    ),
+                  ),
+                  itemCount: _carouselImages.length,
+                  itemBuilder: (BuildContext context, int itemIndex,
+                          int pageViewIndex) =>
+                      Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Container(
+                      width: mediaWidth,
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage(
+                            _carouselImages[itemIndex],
                           ),
                         ),
-                        itemCount: _carouselImages.length,
-                        itemBuilder: (BuildContext context, int itemIndex,
-                                int pageViewIndex) =>
-                            Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Container(
-                            width: mediaWidth,
-                            decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage(
-                                  _carouselImages[itemIndex],
+                      ),
+                    ),
+                  ),
+                ),
+                kSizedBox,
+                Padding(
+                  padding: EdgeInsets.all(kDefaultPadding / 2),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: mediaWidth,
+                        padding: const EdgeInsets.all(kDefaultPadding),
+                        decoration: ShapeDecoration(
+                          color: const Color(0xFFFEF8F8),
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              width: 0.50,
+                              color: Color(0xFFFDEDED),
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          shadows: const [
+                            BoxShadow(
+                              color: Color(0x0F000000),
+                              blurRadius: 24,
+                              offset: Offset(0, 4),
+                              spreadRadius: 0,
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Product Name",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    color: kTextGreyColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                kHalfSizedBox,
+                                SizedBox(
+                                  width: mediaWidth / 2.3,
+                                  child: Text(
+                                    widget.product.name,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "Product price",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    color: kTextGreyColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                kHalfSizedBox,
+                                SizedBox(
+                                  width: mediaWidth / 3,
+                                  child: Text(
+                                    "₦ ${formattedText(widget.product.price)}",
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.end,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 22,
+                                      fontFamily: 'sen',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      kSizedBox,
+                      SizedBox(
+                        width: mediaWidth / 3,
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Qty: ",
+                                style: TextStyle(
+                                  color: kTextGreyColor,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
-                            ),
+                              TextSpan(
+                                text: formattedText(widget
+                                    .product.quantityAvailable
+                                    .toDouble()),
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                       kSizedBox,
-                      Padding(
-                        padding: EdgeInsets.all(kDefaultPadding / 2),
+                      Container(
+                        width: mediaWidth,
+                        padding: const EdgeInsets.all(kDefaultPadding),
+                        decoration: ShapeDecoration(
+                          color: const Color(0xFFFEF8F8),
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              width: 0.50,
+                              color: Color(0xFFFDEDED),
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          shadows: const [
+                            BoxShadow(
+                              color: Color(0x0F000000),
+                              blurRadius: 24,
+                              offset: Offset(0, 4),
+                              spreadRadius: 0,
+                            ),
+                          ],
+                        ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              width: mediaWidth,
-                              padding: const EdgeInsets.all(kDefaultPadding),
-                              decoration: ShapeDecoration(
-                                color: const Color(0xFFFEF8F8),
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                    width: 0.50,
-                                    color: Color(0xFFFDEDED),
-                                  ),
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                shadows: const [
-                                  BoxShadow(
-                                    color: Color(0x0F000000),
-                                    blurRadius: 24,
-                                    offset: Offset(0, 4),
-                                    spreadRadius: 0,
-                                  ),
-                                ],
+                            Text(
+                              "Product Description",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                color: kTextGreyColor,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Product Name",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: kTextGreyColor,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      kHalfSizedBox,
-                                      SizedBox(
-                                        width: mediaWidth / 2.3,
-                                        child: Text(
-                                          widget.product.name,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                            color: kTextBlackColor,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                            ),
+                            kHalfSizedBox,
+                            ReadMoreText(
+                              widget.product.description,
+                              callback: (value) {},
+                              colorClickableText: kAccentColor,
+                              moreStyle: TextStyle(color: kAccentColor),
+                              lessStyle: TextStyle(color: kAccentColor),
+                              delimiter: "...",
+                              delimiterStyle: TextStyle(color: kAccentColor),
+                              trimMode: TrimMode.Line,
+                              trimLines: 4,
+                            ),
+                          ],
+                        ),
+                      ),
+                      kSizedBox,
+                      cartCountAll == null
+                          ? Column(
+                              children: [
+                                Center(
+                                  child: SpinKitChasingDots(
+                                    color: kAccentColor,
+                                    duration: const Duration(seconds: 1),
                                   ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        "Product price",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          color: kTextGreyColor,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      kHalfSizedBox,
-                                      SizedBox(
-                                        width: mediaWidth / 3,
-                                        child: Text(
-                                          "₦ ${formattedText(widget.product.price)}",
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.end,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            color: kTextBlackColor,
-                                            fontSize: 22,
-                                            fontFamily: 'sen',
-                                            fontWeight: FontWeight.w700,
+                                ),
+                                kSizedBox,
+                              ],
+                            )
+                          : Container(
+                              margin: EdgeInsets.only(
+                                bottom: kDefaultPadding * 2,
+                              ),
+                              child: _isAddedToCart
+                                  ? Container(
+                                      width: mediaWidth,
+                                      height: 70,
+                                      decoration: ShapeDecoration(
+                                        color: Color(0xFFFAFAFA),
+                                        shadows: [
+                                          BoxShadow(
+                                            color: kBlackColor.withOpacity(0.1),
+                                            blurRadius: 5,
+                                            spreadRadius: 2,
+                                            blurStyle: BlurStyle.normal,
                                           ),
+                                        ],
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(19),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ],
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              decrementQuantity();
+                                            },
+                                            splashRadius: 50,
+                                            icon: Icon(
+                                              Icons.remove_rounded,
+                                              color: kBlackColor,
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            decoration: ShapeDecoration(
+                                              color: kAccentColor,
+                                              shape: OvalBorder(),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal:
+                                                          kDefaultPadding / 2),
+                                              child: Center(
+                                                child: Text(
+                                                  '${cartCountAll!}',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: kTextWhiteColor,
+                                                    fontSize: 24,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              incrementQuantity();
+                                            },
+                                            splashRadius: 50,
+                                            icon: Icon(
+                                              Icons.add_rounded,
+                                              color: kAccentColor,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : MyElevatedButton(
+                                      onPressed: () {
+                                        _cartAddFunction();
+                                      },
+                                      title:
+                                          "Add to Cart (₦${formattedText(widget.product.price)})",
+                                    ),
+                            ),
+                      kSizedBox,
+                      Container(
+                        width: mediaWidth,
+                        padding: const EdgeInsets.all(kDefaultPadding),
+                        decoration: ShapeDecoration(
+                          color: const Color(0xFFFEF8F8),
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              width: 0.50,
+                              color: Color(0xFFFDEDED),
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          shadows: const [
+                            BoxShadow(
+                              color: Color(0x0F000000),
+                              blurRadius: 24,
+                              offset: Offset(0, 4),
+                              spreadRadius: 0,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Reviews View & Ratings",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
                             kSizedBox,
-                            SizedBox(
-                              width: mediaWidth / 3,
-                              child: Text.rich(
-                                TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: "Qty: ",
+                            SingleChildScrollView(
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      side: BorderSide(
+                                        color: active == 'all'
+                                            ? kAccentColor
+                                            : Color(
+                                                0xFFA9AAB1,
+                                              ),
+                                      ),
+                                      backgroundColor: active == 'all'
+                                          ? kAccentColor
+                                          : kPrimaryColor,
+                                      foregroundColor: active == 'all'
+                                          ? kPrimaryColor
+                                          : Color(0xFFA9AAB1),
+                                    ),
+                                    onPressed: () async {
+                                      active = 'all';
+
+                                      setState(() {
+                                        ratings = null;
+                                      });
+
+                                      List<Ratings> _ratings =
+                                          await getRatingsByProductId(
+                                              widget.product.id);
+
+                                      setState(() {
+                                        ratings = _ratings;
+                                      });
+                                    },
+                                    child: Text(
+                                      'All',
                                       style: TextStyle(
-                                        color: kTextGreyColor,
                                         fontSize: 15,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
-                                    TextSpan(
-                                      text: formattedText(widget
-                                          .product.quantityAvailable
-                                          .toDouble()),
-                                      style: TextStyle(
-                                        color: kTextBlackColor,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            kSizedBox,
-                            Container(
-                              width: mediaWidth,
-                              padding: const EdgeInsets.all(kDefaultPadding),
-                              decoration: ShapeDecoration(
-                                color: const Color(0xFFFEF8F8),
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                    width: 0.50,
-                                    color: Color(0xFFFDEDED),
                                   ),
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                shadows: const [
-                                  BoxShadow(
-                                    color: Color(0x0F000000),
-                                    blurRadius: 24,
-                                    offset: Offset(0, 4),
-                                    spreadRadius: 0,
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Product Description",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      color: kTextGreyColor,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  kHalfSizedBox,
-                                  ReadMoreText(
-                                    widget.product.description,
-                                    callback: (value) {},
-                                    colorClickableText: kAccentColor,
-                                    moreStyle: TextStyle(color: kAccentColor),
-                                    lessStyle: TextStyle(color: kAccentColor),
-                                    delimiter: "...",
-                                    delimiterStyle:
-                                        TextStyle(color: kAccentColor),
-                                    trimMode: TrimMode.Line,
-                                    trimLines: 4,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            kSizedBox,
-                            isLoading
-                                ? Column(
-                                    children: [
-                                      Center(
-                                        child: SpinKitChasingDots(
-                                          color: kAccentColor,
-                                          duration: const Duration(seconds: 1),
-                                        ),
-                                      ),
-                                      kSizedBox,
-                                    ],
-                                  )
-                                : Container(
-                                    margin: EdgeInsets.only(
-                                      bottom: kDefaultPadding * 2,
-                                    ),
-                                    child: _isAddedToCart
-                                        ? Container(
-                                            width: mediaWidth,
-                                            height: 70,
-                                            decoration: ShapeDecoration(
-                                              color: Color(0xFFFAFAFA),
-                                              shadows: [
-                                                BoxShadow(
-                                                  color: kBlackColor
-                                                      .withOpacity(0.1),
-                                                  blurRadius: 5,
-                                                  spreadRadius: 2,
-                                                  blurStyle: BlurStyle.normal,
-                                                ),
-                                              ],
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(19),
-                                              ),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                IconButton(
-                                                  onPressed: () {
-                                                    decrementQuantity();
-                                                  },
-                                                  splashRadius: 50,
-                                                  icon: Icon(
-                                                    Icons.remove_rounded,
-                                                    color: kBlackColor,
+                                  Row(
+                                    children: stars
+                                        .map(
+                                          (item) => Row(
+                                            children: [
+                                              kHalfWidthSizedBox,
+                                              OutlinedButton(
+                                                style: OutlinedButton.styleFrom(
+                                                  side: BorderSide(
+                                                    color: active == item
+                                                        ? kStarColor
+                                                        : Color(0xFFA9AAB1),
                                                   ),
+                                                  foregroundColor:
+                                                      active == item
+                                                          ? kStarColor
+                                                          : Color(0xFFA9AAB1),
                                                 ),
-                                                Container(
-                                                  height: 50,
-                                                  decoration: ShapeDecoration(
-                                                    color: kAccentColor,
-                                                    shape: OvalBorder(),
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal:
-                                                            kDefaultPadding /
-                                                                2),
-                                                    child: Center(
-                                                      child: Text(
-                                                        '$cartCountAll',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          color:
-                                                              kTextWhiteColor,
-                                                          fontSize: 24,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                IconButton(
-                                                  onPressed: () {
-                                                    incrementQuantity();
-                                                  },
-                                                  splashRadius: 50,
-                                                  icon: Icon(
-                                                    Icons.add_rounded,
-                                                    color: kAccentColor,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        : MyElevatedButton(
-                                            onPressed: () {
-                                              _cartAddFunction();
-                                            },
-                                            title:
-                                                "Add to Cart (₦${formattedText(widget.product.price)})",
-                                          ),
-                                  ),
-                            kSizedBox,
-                            Container(
-                              width: mediaWidth,
-                              padding: const EdgeInsets.all(kDefaultPadding),
-                              decoration: ShapeDecoration(
-                                color: const Color(0xFFFEF8F8),
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                    width: 0.50,
-                                    color: Color(0xFFFDEDED),
-                                  ),
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                shadows: const [
-                                  BoxShadow(
-                                    color: Color(0x0F000000),
-                                    blurRadius: 24,
-                                    offset: Offset(0, 4),
-                                    spreadRadius: 0,
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Reviews View & Ratings",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  kSizedBox,
-                                  SingleChildScrollView(
-                                    physics: BouncingScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      children: [
-                                        OutlinedButton(
-                                          style: OutlinedButton.styleFrom(
-                                            side: BorderSide(
-                                              color: active == 'all'
-                                                  ? kAccentColor
-                                                  : Color(
-                                                      0xFFA9AAB1,
-                                                    ),
-                                            ),
-                                            backgroundColor: active == 'all'
-                                                ? kAccentColor
-                                                : kPrimaryColor,
-                                            foregroundColor: active == 'all'
-                                                ? kPrimaryColor
-                                                : Color(0xFFA9AAB1),
-                                          ),
-                                          onPressed: () async {
-                                            active = 'all';
+                                                onPressed: () async {
+                                                  active = item;
 
-                                            setState(() {
-                                              ratings = null;
-                                            });
+                                                  setState(() {
+                                                    ratings = null;
+                                                  });
 
-                                            List<Ratings> _ratings =
-                                                await getRatingsByProductId(
-                                                    widget.product.id);
+                                                  List<Ratings> _ratings =
+                                                      await getRatingsByProductIdAndRating(
+                                                          widget.product.id,
+                                                          int.parse(active));
 
-                                            setState(() {
-                                              ratings = _ratings;
-                                            });
-                                          },
-                                          child: Text(
-                                            'All',
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                        Row(
-                                          children: stars
-                                              .map(
-                                                (item) => Row(
+                                                  setState(() {
+                                                    ratings = _ratings;
+                                                  });
+                                                },
+                                                child: Row(
                                                   children: [
-                                                    kHalfWidthSizedBox,
-                                                    OutlinedButton(
-                                                      style: OutlinedButton
-                                                          .styleFrom(
-                                                        side: BorderSide(
-                                                          color: active == item
-                                                              ? kStarColor
-                                                              : Color(
-                                                                  0xFFA9AAB1),
-                                                        ),
-                                                        foregroundColor:
-                                                            active == item
-                                                                ? kStarColor
-                                                                : Color(
-                                                                    0xFFA9AAB1),
-                                                      ),
-                                                      onPressed: () async {
-                                                        active = item;
-
-                                                        setState(() {
-                                                          ratings = null;
-                                                        });
-
-                                                        List<Ratings> _ratings =
-                                                            await getRatingsByProductIdAndRating(
-                                                                widget
-                                                                    .product.id,
-                                                                int.parse(
-                                                                    active));
-
-                                                        setState(() {
-                                                          ratings = _ratings;
-                                                        });
-                                                      },
-                                                      child: Row(
-                                                        children: [
-                                                          Icon(
-                                                            Icons.star,
-                                                            size: 20,
-                                                          ),
-                                                          SizedBox(
-                                                            width:
-                                                                kDefaultPadding *
-                                                                    0.2,
-                                                          ),
-                                                          Text(
-                                                            '$item',
-                                                            style: TextStyle(
-                                                              fontSize: 15,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ),
-                                                          ),
-                                                        ],
+                                                    Icon(
+                                                      Icons.star,
+                                                      size: 20,
+                                                    ),
+                                                    SizedBox(
+                                                      width:
+                                                          kDefaultPadding * 0.2,
+                                                    ),
+                                                    Text(
+                                                      '$item',
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                       ),
                                                     ),
                                                   ],
                                                 ),
-                                              )
-                                              .toList(),
-                                        ),
-                                        kHalfWidthSizedBox,
-                                      ],
-                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                        .toList(),
                                   ),
+                                  kHalfWidthSizedBox,
                                 ],
                               ),
                             ),
-                            kSizedBox,
-                            ratings == null
-                                ? Center(
-                                    child: SpinKitChasingDots(
-                                      color: kAccentColor,
-                                      duration: const Duration(seconds: 1),
-                                    ),
-                                  )
-                                : ratings!.isEmpty
-                                    ? EmptyCard(
-                                        removeButton: true,
-                                      )
-                                    : ListView.separated(
-                                        physics: BouncingScrollPhysics(),
-                                        separatorBuilder: (context, index) =>
-                                            kSizedBox,
-                                        shrinkWrap: true,
-                                        itemCount: ratings!.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) =>
-                                                CostumerReviewCard(
-                                                    rating: ratings![index]),
-                                      ),
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: kDefaultPadding * 3,
-                      ),
+                      kSizedBox,
+                      ratings == null
+                          ? Center(
+                              child: SpinKitChasingDots(
+                                color: kAccentColor,
+                                duration: const Duration(seconds: 1),
+                              ),
+                            )
+                          : ratings!.isEmpty
+                              ? EmptyCard(
+                                  removeButton: true,
+                                )
+                              : ListView.separated(
+                                  physics: BouncingScrollPhysics(),
+                                  separatorBuilder: (context, index) =>
+                                      kSizedBox,
+                                  shrinkWrap: true,
+                                  itemCount: ratings!.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) =>
+                                          CostumerReviewCard(
+                                              rating: ratings![index]),
+                                ),
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: kDefaultPadding * 3,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
