@@ -581,7 +581,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             ),
                                           ),
                                           Container(
-                                            height: 50,
+                                            height: 40,
                                             decoration: ShapeDecoration(
                                               color: kAccentColor,
                                               shape: OvalBorder(),
