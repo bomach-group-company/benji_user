@@ -119,7 +119,7 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
     final url = Uri.parse('$baseURL/auth/requestForgotPassword/${userEmail}');
 
     final body = {};
-    final response = await http.post(url, body: body);
+    await http.post(url, body: body);
 
     setState(() {
       _secondsRemaining = 60;
