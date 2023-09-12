@@ -218,7 +218,7 @@ class _MyPackagesState extends State<MyPackages>
                                                       TextSpan(text: " "),
                                                       TextSpan(
                                                         text:
-                                                            "₦${formattedText(4000)}",
+                                                            "₦${formattedText(snapshot.data![index].prices)}",
                                                         style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w700,
@@ -302,7 +302,7 @@ class _MyPackagesState extends State<MyPackages>
                                                       TextSpan(text: " "),
                                                       TextSpan(
                                                         text:
-                                                            "₦${formattedText(4000)}",
+                                                            "₦${formattedText(snapshot.data![index].prices)}",
                                                         style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w700,

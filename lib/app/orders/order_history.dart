@@ -1,11 +1,9 @@
 import 'package:benji_user/src/common_widgets/empty.dart';
-import 'package:benji_user/src/common_widgets/section/custom_showSearch.dart';
 import 'package:benji_user/src/repo/models/order/order.dart';
 import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/track_order_details_container.dart';
@@ -54,20 +52,7 @@ class _OrdersHistoryState extends State<OrdersHistory> {
           title: "My Orders ",
           toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
-          actions: [
-            IconButton(
-              onPressed: () {
-                _data == null
-                    ? null
-                    : showSearch(
-                        context: context, delegate: CustomSearchDelegate());
-              },
-              icon: FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
-                color: kAccentColor,
-              ),
-            ),
-          ],
+          actions: [],
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
