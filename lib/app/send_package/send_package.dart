@@ -112,7 +112,6 @@ class _SendPackageState extends State<SendPackage> {
       'itemQuantity': itemQuantity,
       'itemValue': itemValue,
     };
-    print(body);
 
     final response = await http.post(
       Uri.parse('$baseURL/sendPackage/createItemPackage/'),

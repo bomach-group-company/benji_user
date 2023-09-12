@@ -76,9 +76,6 @@ class _ProductVendorState extends State<ProductVendor> {
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
-    // double mediaHeight = MediaQuery.of(context).size.height;
-    print(_data);
     return _data == null
         ? Center(
             child: SpinKitChasingDots(color: kAccentColor),

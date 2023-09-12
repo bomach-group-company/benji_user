@@ -116,9 +116,8 @@ class _DeliverToState extends State<DeliverTo> {
       );
       await _getData();
     }
-    Address? address;
     try {
-      address = await setCurrentAddress(addressId);
+      await setCurrentAddress(addressId);
       if (widget.inCheckout) {
         Get.back();
       } else {

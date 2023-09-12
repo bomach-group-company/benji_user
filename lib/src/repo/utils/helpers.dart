@@ -47,8 +47,17 @@ checkUserAuth() async {
 
 checkAuth(context) async {
   User? haveUser = await getUser();
-  bool isAuth = await isAuthorized();
-  if (haveUser == null || !isAuth) {
+  bool? isAuth = await isAuthorized();
+  if (isAuth == null) {
+    mySnackBar(
+      context,
+      kAccentColor,
+      "No Internet!",
+      "Try refreshing",
+      Duration(seconds: 1),
+    );
+  }
+  if (haveUser == null || isAuth == false) {
     mySnackBar(
       context,
       kAccentColor,
@@ -97,17 +106,21 @@ Future<Map<String, String>> authHeader(
   return res;
 }
 
-Future<bool> isAuthorized() async {
-  final response = await http.get(
-    Uri.parse('$baseURL/auth/'),
-    headers: await authHeader(),
-  );
-  if (response.statusCode == 200) {
-    dynamic data = jsonDecode(response.body);
-    if (data["detail"] == "Unauthorized") {
-      return false;
+Future<bool?> isAuthorized() async {
+  try {
+    final response = await http.get(
+      Uri.parse('$baseURL/auth/'),
+      headers: await authHeader(),
+    );
+    if (response.statusCode == 200) {
+      dynamic data = jsonDecode(response.body);
+      if (data["detail"] == "Unauthorized") {
+        return false;
+      }
+      return true;
     }
-    return true;
+    return false;
+  } catch (e) {
+    return null;
   }
-  return false;
 }

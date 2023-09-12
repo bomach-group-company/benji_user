@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
@@ -48,31 +46,29 @@ class _ReportProductState extends State<ReportProduct> {
     final url = Uri.parse('$baseURL/products/reportProduct');
 
     Map body = {
-      'client_id': user!.id,
-      'vendor_id': widget.product.vendorId.id,
-      'product_id': widget.product.id,
-      'comment': _messageEC.text,
+      'client_id': user!.id.toString(),
+      'vendor_id': widget.product.vendorId.id.toString(),
+      'product_id': widget.product.id.toString(),
+      'comment': _messageEC.text.toString(),
     };
 
     final response =
         await http.post(url, body: body, headers: await authHeader());
     try {
-      Map resp = jsonDecode(response.body);
-      bool res = response.statusCode == 200;
-      return res;
+      return response.statusCode == 200;
     } catch (e) {
       return false;
     }
   }
 
   Future<void> _submitRequest() async {
+    setState(() {
+      _submittingRequest = true;
+    });
     await checkAuth(context);
 
     bool res = await report();
 
-    setState(() {
-      _submittingRequest = true;
-    });
     if (res) {
       //Display snackBar
       mySnackBar(

@@ -21,6 +21,7 @@ class VendorModel {
   final double? averageRating;
   final int? numberOfClientsReactions;
   final String? shopImage;
+  final String? profileLogo;
   final ShopTypeModel? shopType;
 
   VendorModel({
@@ -38,6 +39,7 @@ class VendorModel {
     this.averageRating,
     this.numberOfClientsReactions,
     this.shopImage,
+    this.profileLogo,
     this.shopType,
   });
 
@@ -56,7 +58,8 @@ class VendorModel {
       shopName: json['shop_name'],
       averageRating: json['average_rating'],
       numberOfClientsReactions: json['number_of_clients_reactions'],
-      shopImage: json['shopImage'],
+      shopImage: json['shop_image'],
+      profileLogo: json['profileLogo'],
       shopType: json['shop_type'] == null
           ? null
           : ShopTypeModel.fromJson(json['shop_type']),

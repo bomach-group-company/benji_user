@@ -30,7 +30,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
 
   _getData() async {
     await checkAuth(context);
-    List<Product> product = await getProducts();
+    List<Product> product = await getProducts(limit: 1000000);
     setState(() {
       _data = {
         'product': product,

@@ -62,7 +62,6 @@ class _AddNewCardState extends State<AddNewCard> {
       'expiry_month': cardMonthEC.text,
       'expiry_year': cardYearEC.text,
     };
-    print(body);
 
     try {
       await createCreditCard(user!.id, body);

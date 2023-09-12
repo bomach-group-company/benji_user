@@ -1,6 +1,8 @@
+import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/providers/constants.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
+import 'package:benji_user/src/repo/models/rating/ratings.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
@@ -15,7 +17,6 @@ import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/common_widgets/cart.dart';
 import '../../src/common_widgets/rating_view/customer_review_card.dart';
-import '../../src/common_widgets/rating_view/star_row.dart';
 import '../../src/common_widgets/section/rate_product_dialog.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/repo/utils/cart.dart';
@@ -44,14 +45,25 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     _getData();
   }
 
-  Map? _data;
+  final List<String> stars = ['5', '4', '3', '2', '1'];
+  String active = 'all';
 
+  List<Ratings>? ratings = [];
   _getData() async {
-    await checkAuth(context);
-    // List<Ratings> ratings = await getRatingsByVendorId(widget.vendor.id!);
-    // setState(() {
-    //   _data = {'ratings': ratings};
-    // });
+    setState(() {
+      ratings = null;
+    });
+    List<Ratings> _ratings;
+    if (active == 'all') {
+      _ratings = await getRatingsByProductId(widget.product.id);
+    } else {
+      _ratings = await getRatingsByProductIdAndRating(
+          widget.product.id, int.parse(active));
+    }
+
+    setState(() {
+      ratings = _ratings;
+    });
   }
 
   //============================================================ ALL VARIABLES ===================================================================\\
@@ -82,12 +94,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   checkCart() async {
     await checkAuth(context);
     String count = await countCart();
-    String countAll = await countCart(all: true);
+    String countAll = await countSingleCart(widget.product.id);
 
     setState(() {
       cartCount = count;
       cartCountAll = countAll;
-      if (count != '0') {
+      if (countAll != '0') {
         _isAddedToCart = true;
       } else {
         _isAddedToCart = false;
@@ -283,7 +295,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: cartCount == false
+          child: _isAddedToCart == false
               ? Center(child: SpinKitChasingDots(color: kAccentColor))
               : Scrollbar(
                   controller: _scrollController,
@@ -654,37 +666,152 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: kDefaultPadding,
-                                      horizontal: kDefaultPadding * 0.5,
+                                  kSizedBox,
+                                  SingleChildScrollView(
+                                    physics: BouncingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        OutlinedButton(
+                                          style: OutlinedButton.styleFrom(
+                                            side: BorderSide(
+                                              color: active == 'all'
+                                                  ? kAccentColor
+                                                  : Color(
+                                                      0xFFA9AAB1,
+                                                    ),
+                                            ),
+                                            backgroundColor: active == 'all'
+                                                ? kAccentColor
+                                                : kPrimaryColor,
+                                            foregroundColor: active == 'all'
+                                                ? kPrimaryColor
+                                                : Color(0xFFA9AAB1),
+                                          ),
+                                          onPressed: () async {
+                                            setState(() {
+                                              ratings = null;
+                                            });
+
+                                            List<Ratings> _ratings =
+                                                await getRatingsByProductId(
+                                                    widget.product.id);
+
+                                            setState(() {
+                                              active = 'all';
+                                              ratings = _ratings;
+                                            });
+                                          },
+                                          child: Text(
+                                            'All',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                        Row(
+                                          children: stars
+                                              .map(
+                                                (item) => Row(
+                                                  children: [
+                                                    kHalfWidthSizedBox,
+                                                    OutlinedButton(
+                                                      style: OutlinedButton
+                                                          .styleFrom(
+                                                        side: BorderSide(
+                                                          color: active == item
+                                                              ? kStarColor
+                                                              : Color(
+                                                                  0xFFA9AAB1),
+                                                        ),
+                                                        foregroundColor:
+                                                            active == item
+                                                                ? kStarColor
+                                                                : Color(
+                                                                    0xFFA9AAB1),
+                                                      ),
+                                                      onPressed: () async {
+                                                        active = item;
+
+                                                        setState(() {
+                                                          ratings = null;
+                                                        });
+
+                                                        List<Ratings> _ratings =
+                                                            await getRatingsByProductIdAndRating(
+                                                                widget
+                                                                    .product.id,
+                                                                int.parse(
+                                                                    active));
+
+                                                        setState(() {
+                                                          ratings = _ratings;
+                                                        });
+                                                      },
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.star,
+                                                            size: 20,
+                                                          ),
+                                                          SizedBox(
+                                                            width:
+                                                                kDefaultPadding *
+                                                                    0.2,
+                                                          ),
+                                                          Text(
+                                                            '$item',
+                                                            style: TextStyle(
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                              .toList(),
+                                        ),
+                                        kHalfWidthSizedBox,
+                                      ],
                                     ),
-                                    child: StarRow(),
                                   ),
                                 ],
                               ),
                             ),
                             kSizedBox,
-                            _data == null
+                            ratings == null
                                 ? Center(
-                                    child:
-                                        SpinKitChasingDots(color: kAccentColor))
-                                : ListView.separated(
-                                    physics: BouncingScrollPhysics(),
-                                    separatorBuilder: (context, index) =>
-                                        kSizedBox,
-                                    shrinkWrap: true,
-                                    itemCount: _data!['ratings'].length,
-                                    itemBuilder: (BuildContext context,
-                                            int index) =>
-                                        CostumerReviewCard(
-                                            rating: _data!['ratings'][index]),
-                                  ),
-                            SizedBox(
-                              height: kDefaultPadding * 3,
-                            ),
+                                    child: SpinKitChasingDots(
+                                      color: kAccentColor,
+                                      duration: const Duration(seconds: 1),
+                                    ),
+                                  )
+                                : ratings!.isEmpty
+                                    ? EmptyCard(
+                                        removeButton: true,
+                                      )
+                                    : ListView.separated(
+                                        physics: BouncingScrollPhysics(),
+                                        separatorBuilder: (context, index) =>
+                                            kSizedBox,
+                                        shrinkWrap: true,
+                                        itemCount: ratings!.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) =>
+                                                CostumerReviewCard(
+                                                    rating: ratings![index]),
+                                      ),
                           ],
                         ),
+                      ),
+                      SizedBox(
+                        height: kDefaultPadding * 3,
                       ),
                     ],
                   ),

@@ -57,7 +57,7 @@ class _RateVendorDialogState extends State<RateVendorDialog> {
         await http.post(url, body: body, headers: await authHeader());
 
     try {
-      bool res = response.statusCode == 200 && response.body == '"Review Made"';
+      bool res = response.statusCode == 200;
       return res;
     } catch (e) {
       return false;

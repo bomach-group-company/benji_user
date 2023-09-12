@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
@@ -45,7 +43,7 @@ class _RateProductDialogState extends State<RateProductDialog> {
 //===================================== FUNCTIONS ======================================\\
   Future<bool> rate() async {
     User? user = await getUser();
-    final url = Uri.parse('$baseURL/products/productReviewsRating');
+    final url = Uri.parse('$baseURL/clients/clientRateProduct');
     Map body = {
       'client_id': user!.id.toString(),
       'vendor_id': widget.product.vendorId.id.toString(),
@@ -53,15 +51,10 @@ class _RateProductDialogState extends State<RateProductDialog> {
       'comment': _myMessageEC.text
     };
 
-    print(body);
     final response =
         await http.post(url, body: body, headers: await authHeader());
-    print(response.body);
-    print(response.statusCode);
     try {
-      Map resp = jsonDecode(response.body);
-      bool res = response.statusCode == 200;
-      return res;
+      return response.statusCode == 200;
     } catch (e) {
       return false;
     }

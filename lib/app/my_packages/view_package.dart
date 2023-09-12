@@ -10,7 +10,6 @@ import 'package:get/route_manager.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:screenshot/screenshot.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../src/providers/constants.dart';
 import 'report_package.dart';

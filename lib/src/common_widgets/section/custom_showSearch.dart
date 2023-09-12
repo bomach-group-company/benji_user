@@ -10,8 +10,6 @@ import '../../../theme/colors.dart';
 import '../../others/my_future_builder.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
-  List<String> searchTerms = ["item", "item", "item", "item", "item", "item"];
-
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(

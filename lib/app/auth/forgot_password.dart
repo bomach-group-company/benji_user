@@ -250,9 +250,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               : ElevatedButton(
                                   onPressed: (() async {
                                     if (_formKey.currentState!.validate()) {
-                                      print('in lo');
                                       loadData();
-                                      print('in lo data');
                                     }
                                   }),
                                   style: ElevatedButton.styleFrom(

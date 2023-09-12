@@ -64,7 +64,7 @@ class _ResetPasswordState extends State<ResetPassword> {
     };
     final response = await http.post(url, body: body);
     try {
-      Map resp = jsonDecode(response.body);
+      jsonDecode(response.body);
       bool res = response.statusCode == 200;
 
       return res;

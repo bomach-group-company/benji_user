@@ -26,3 +26,7 @@ Future<String> countCart({all = false}) async {
 Future<int> countItemCart() async {
   return await countItemInstance(cartName);
 }
+
+Future<String> countSingleCart(String id) async {
+  return await countSingleInstance(cartName, id);
+}

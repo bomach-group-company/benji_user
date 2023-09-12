@@ -2,7 +2,7 @@ import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/button/category%20button.dart';
 import 'package:benji_user/src/common_widgets/vendor/product_container.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
-import 'package:benji_user/src/repo/models/category/category.dart';
+import 'package:benji_user/src/repo/models/category/sub_category.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
@@ -50,10 +50,12 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
   _getData() async {
     await checkAuth(context);
 
-    List<Category> categories = await getCategories();
-    List<Product> product = await getProductsByVendor(widget.vendor.id!);
+    List<SubCategory> categories = await getSubCategories();
+    List<Product> product = [];
     try {
       activeCategory = categories[0].id;
+      product = await getProductsByVendorSubCategory(
+          widget.vendor.id!, activeCategory);
     } catch (e) {}
 
     setState(() {
@@ -76,30 +78,6 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
 
 //===================== FOCUS NODES =======================\\
   FocusNode rateVendorFN = FocusNode();
-
-//===================== CATEGORY BUTTONS =======================\\
-  final List _categoryButtonText = [
-    "Pasta",
-    "Burgers",
-    "Rice Dishes",
-    "Chicken",
-    "Snacks"
-  ];
-
-  final List<Color> _categoryButtonBgColor = [
-    kAccentColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor
-  ];
-  final List<Color> _categoryButtonFontColor = [
-    kPrimaryColor,
-    kTextGreyColor,
-    kTextGreyColor,
-    kTextGreyColor,
-    kTextGreyColor
-  ];
 
 //=================================================== FUNCTIONS =====================================================\\
   void validate() {

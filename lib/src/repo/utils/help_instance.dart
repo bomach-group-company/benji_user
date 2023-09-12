@@ -83,3 +83,11 @@ Future<int> countItemInstance(String instanceName) async {
 
   return instance.length;
 }
+
+Future<String> countSingleInstance(String instanceName, String id) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  Map instance = jsonDecode(prefs.getString(instanceName) ?? '{}');
+  int? total = instance[id];
+
+  return (total ?? 0).toString();
+}

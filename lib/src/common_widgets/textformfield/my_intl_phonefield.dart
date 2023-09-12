@@ -86,11 +86,9 @@ class MyIntlPhoneField extends StatelessWidget {
       onSaved: onSaved,
       flagsButtonPadding: const EdgeInsets.all(kDefaultPadding / 2),
       cursorColor: kSecondaryColor,
-      onChanged: (phone) {
-        print(phone.completeNumber);
-      },
+      onChanged: (phone) {},
       onCountryChanged: onCountryChanged,
-        style: TextStyle(
+      style: TextStyle(
         color: kSecondaryColor,
         fontSize: 20,
         fontWeight: FontWeight.w400,

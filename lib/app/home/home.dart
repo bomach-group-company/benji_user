@@ -76,11 +76,11 @@ class _HomeState extends State<Home> {
 
     product = [];
     List<SubCategory> category = await getSubCategories();
-    try {
-      product = await getProductsBySubCategory(category[activeCategory].id);
-    } catch (e) {
-      product = [];
-    }
+    // try {
+    product = await getProductsBySubCategory(category[activeCategory].id);
+    // } catch (e) {
+    //   product = [];
+    // }
     List<VendorModel> vendor = await getVendors();
     setState(() {
       _data = {
