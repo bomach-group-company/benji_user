@@ -2,7 +2,6 @@ import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/button/category%20button.dart';
 import 'package:benji_user/src/common_widgets/vendor/product_container.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
-import 'package:benji_user/src/repo/models/category/sub_category.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
@@ -43,29 +42,26 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
 //==========================================================================================\\
 
   //=================================== LOGIC ====================================\\
-  Map? _data;
-
+  Map<String, List<Product>>? _productAndSubCategoryName;
   String activeCategory = '';
 
   _getData() async {
     await checkAuth(context);
 
-    List<SubCategory> categories = await getSubCategories();
-    List<Product> product = [];
+    Map<String, List<Product>> productAndSubCategoryName =
+        await getVendorProductsAndSubCategoryName(widget.vendor.id);
     try {
-      activeCategory = categories[0].id;
-      product = await getProductsByVendorSubCategory(
-          widget.vendor.id!, activeCategory);
+      activeCategory = productAndSubCategoryName.keys.toList()[0];
     } catch (e) {}
 
     setState(() {
-      _data = {'product': product, 'categories': categories};
+      _productAndSubCategoryName = productAndSubCategoryName;
     });
   }
 
   Future<void> _handleRefresh() async {
     setState(() {
-      _data = null;
+      _productAndSubCategoryName = null;
     });
     await _getData();
   }
@@ -124,7 +120,7 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
           maintainBottomViewPadding: true,
           child: Scrollbar(
             controller: _scrollController,
-            child: _data == null
+            child: _productAndSubCategoryName == null
                 ? SpinKitChasingDots(color: kAccentColor)
                 : ListView(
                     padding: const EdgeInsets.all(kDefaultPadding / 2),
@@ -134,7 +130,8 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
                       SizedBox(
                         height: 60,
                         child: ListView.builder(
-                          itemCount: _data!['categories'].length,
+                          itemCount:
+                              _productAndSubCategoryName!.keys.toList().length,
                           scrollDirection: Axis.horizontal,
                           physics: BouncingScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) =>
@@ -143,17 +140,21 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
                             child: CategoryButton(
                               onPressed: () {
                                 setState(() {
-                                  activeCategory =
-                                      _data!['categories'][index].id;
+                                  activeCategory = _productAndSubCategoryName!
+                                      .keys
+                                      .toList()[index];
                                 });
                               },
-                              title: _data!['categories'][index].name,
+                              title: _productAndSubCategoryName!.keys
+                                  .toList()[index],
                               bgColor: activeCategory ==
-                                      _data!['categories'][index].id
+                                      _productAndSubCategoryName!.keys
+                                          .toList()[index]
                                   ? kAccentColor
                                   : kDefaultCategoryBackgroundColor,
                               categoryFontColor: activeCategory ==
-                                      _data!['categories'][index].id
+                                      _productAndSubCategoryName!.keys
+                                          .toList()[index]
                                   ? kPrimaryColor
                                   : kTextGreyColor,
                             ),
@@ -162,14 +163,17 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
                       ),
                       kHalfSizedBox,
                       ListView.separated(
-                        itemCount: _data!['product'].length,
+                        itemCount:
+                            _productAndSubCategoryName![activeCategory]!.length,
                         separatorBuilder: (context, index) => kHalfSizedBox,
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (context, index) => ProductContainer(
-                          product: _data!['product'][index],
-                          onTap: () =>
-                              _toProductDetailScreen(_data!['product'][index]),
+                          product: _productAndSubCategoryName![activeCategory]![
+                              index],
+                          onTap: () => _toProductDetailScreen(
+                              _productAndSubCategoryName![activeCategory]![
+                                  index]),
                         ),
                       ),
                       kSizedBox

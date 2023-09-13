@@ -36,7 +36,6 @@ class _VendorDetailsState extends State<VendorDetails>
   @override
   void initState() {
     super.initState();
-    print('hola llll');
     _tabBarController = TabController(length: 2, vsync: this);
     getFavoriteVSingle(widget.vendor.id.toString()).then(
       (value) {
