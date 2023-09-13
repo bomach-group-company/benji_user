@@ -104,7 +104,7 @@ class _DeliverToState extends State<DeliverTo> {
     });
 
     if (_currentOption == '') {
-      await Get.off(
+      await Get.to(
         () => AddNewAddress(),
         routeName: 'AddNewAddress',
         duration: const Duration(milliseconds: 300),
