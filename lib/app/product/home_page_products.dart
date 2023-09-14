@@ -84,7 +84,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                     separatorBuilder: (context, index) => kHalfSizedBox,
                     itemBuilder: (BuildContext context, int index) =>
                         HomeProductsCard(
-                      OnTap: () {
+                      onTap: () {
                         Get.to(
                           () => ProductDetailScreen(
                               product: _data!['product'][index]),

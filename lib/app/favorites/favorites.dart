@@ -239,7 +239,7 @@ class _FavoritesState extends State<Favorites>
                                             kHalfSizedBox,
                                         itemBuilder: (context, index) =>
                                             HomeProductsCard(
-                                          OnTap: () => _toProductDetailsScreen(
+                                          onTap: () => _toProductDetailsScreen(
                                               snapshot.data![index]),
                                           product: snapshot.data![index],
                                         ),
