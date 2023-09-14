@@ -38,11 +38,11 @@ class _ResetPasswordState extends State<ResetPassword> {
   //=========================== CONTROLLERS ====================================\\
 
   TextEditingController _userPasswordEC = TextEditingController();
-  TextEditingController confirmPasswordEC = TextEditingController();
+  TextEditingController _confirmPasswordEC = TextEditingController();
 
   //=========================== FOCUS NODES ====================================\\
   FocusNode _userPasswordFN = FocusNode();
-  FocusNode confirmPasswordFN = FocusNode();
+  FocusNode _confirmPasswordFN = FocusNode();
 
   //=========================== BOOL VALUES====================================\\
   bool _isLoading = false;
@@ -60,7 +60,7 @@ class _ResetPasswordState extends State<ResetPassword> {
     Map body = {
       'token': token,
       'new_password': _userPasswordEC.text,
-      'repeat_password': confirmPasswordEC.text,
+      'repeat_password': _confirmPasswordEC.text,
     };
     final response = await http.post(url, body: body);
     try {
@@ -229,9 +229,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                               'Enter New Password',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Color(
-                                  0xFF31343D,
-                                ),
+                                color: kTextBlackColor,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -300,9 +298,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                               'Confirm Password',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Color(
-                                  0xFF31343D,
-                                ),
+                                color: kTextBlackColor,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -310,8 +306,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                           ),
                           kHalfSizedBox,
                           PasswordTextFormField(
-                            controller: confirmPasswordEC,
-                            passwordFocusNode: confirmPasswordFN,
+                            controller: _confirmPasswordEC,
+                            passwordFocusNode: _confirmPasswordFN,
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: _isObscured,
                             textInputAction: TextInputAction.done,
@@ -320,7 +316,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 r'^.{8,}$',
                               );
                               if (value == null || value!.isEmpty) {
-                                confirmPasswordFN.requestFocus();
+                                _confirmPasswordFN.requestFocus();
                                 return "Confirm your password";
                               }
                               if (value != _userPasswordEC.text) {
@@ -331,7 +327,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                               return null;
                             },
                             onSaved: (value) {
-                              confirmPasswordEC.text = value;
+                              _confirmPasswordEC.text = value;
                             },
                             suffixIcon: const IconButton(
                               onPressed: null,
