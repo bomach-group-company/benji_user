@@ -6,13 +6,13 @@ import 'package:intl/intl.dart';
 import '../../providers/constants.dart';
 
 class HomeProductsCard extends StatelessWidget {
-  final Function()? OnTap;
+  final Function()? onTap;
   final Product product;
 
   const HomeProductsCard({
     super.key,
     required this.product,
-    this.OnTap,
+    this.onTap,
   });
 
 //===================== Number format ==========================\\
@@ -24,7 +24,7 @@ class HomeProductsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: OnTap,
+      onTap: onTap,
       child: Container(
         width: 349.82,
         height: 325.29,

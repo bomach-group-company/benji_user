@@ -1,14 +1,29 @@
+import 'package:benji_user/app/product/product_detail_screen.dart';
 import 'package:benji_user/src/common_widgets/product/home_products_card.dart';
 import 'package:benji_user/src/providers/constants.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../theme/colors.dart';
 import '../../others/my_future_builder.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
+  void _toProductDetailScreenPage(product) {
+    Get.to(
+      () => ProductDetailScreen(product: product),
+      routeName: 'ProductDetailScreen',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
+
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
@@ -92,6 +107,7 @@ class CustomSearchDelegate extends SearchDelegate {
                         Divider(height: 10, color: kGreyColor),
                     itemBuilder: (context, index) => HomeProductsCard(
                       product: data[index],
+                      onTap: () => _toProductDetailScreenPage(data[index]),
                     ),
                   ),
                 );

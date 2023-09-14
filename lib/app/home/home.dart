@@ -667,7 +667,7 @@ class _HomeState extends State<Home> {
                                       itemBuilder: (context, index) =>
                                           HomeProductsCard(
                                         product: _data!['product'][index],
-                                        OnTap: () => _toProductDetailScreenPage(
+                                        onTap: () => _toProductDetailScreenPage(
                                             _data!['product'][index]),
                                       ),
                                     ),
