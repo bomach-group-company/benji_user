@@ -130,17 +130,19 @@ class _ProductVendorState extends State<ProductVendor> {
                         ),
                       ),
                 kSizedBox,
-                TextButton(
-                  onPressed: _viewProducts,
-                  child: Text(
-                    "See all",
-                    style: TextStyle(
-                      color: kAccentColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
+                _productAndSubCategoryName!.isEmpty
+                    ? SizedBox()
+                    : TextButton(
+                        onPressed: _viewProducts,
+                        child: Text(
+                          "See all",
+                          style: TextStyle(
+                            color: kAccentColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
                 kHalfSizedBox,
               ],
             ),

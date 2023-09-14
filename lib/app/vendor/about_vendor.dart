@@ -4,9 +4,11 @@ import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/rating_view/customer_review_card.dart';
 import '../../src/providers/constants.dart';
+import 'all_vendor_reviews.dart';
 
 class AboutVendor extends StatefulWidget {
   final VendorModel vendor;
@@ -47,6 +49,17 @@ class _AboutVendorState extends State<AboutVendor> {
       ratings = _ratings;
     });
   }
+
+  void _viewAllReviews() => Get.to(
+        () => AllVendorReviews(vendor: widget.vendor),
+        routeName: 'AllVendorReviews',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -354,13 +367,32 @@ class _AboutVendorState extends State<AboutVendor> {
                   ? EmptyCard(
                       removeButton: true,
                     )
-                  : ListView.separated(
-                      physics: BouncingScrollPhysics(),
-                      separatorBuilder: (context, index) => kSizedBox,
-                      shrinkWrap: true,
-                      itemCount: ratings!.length,
-                      itemBuilder: (BuildContext context, int index) =>
-                          CostumerReviewCard(rating: ratings![index]),
+                  : Column(
+                      children: [
+                        ListView.separated(
+                          physics: BouncingScrollPhysics(),
+                          separatorBuilder: (context, index) => kSizedBox,
+                          shrinkWrap: true,
+                          itemCount: ratings!.length,
+                          itemBuilder: (BuildContext context, int index) =>
+                              CostumerReviewCard(rating: ratings![index]),
+                        ),
+                        kSizedBox,
+                        ratings!.isEmpty
+                            ? SizedBox()
+                            : TextButton(
+                                onPressed: _viewAllReviews,
+                                child: Text(
+                                  "See all",
+                                  style: TextStyle(
+                                    color: kAccentColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                        kSizedBox,
+                      ],
                     ),
         ],
       ),
