@@ -51,6 +51,26 @@ class Product {
   }
 }
 
+Future<Map<String, List<Product>>> getVendorProductsAndSubCategoryName(
+    vendor_id) async {
+  final response = await http.get(
+    Uri.parse(
+        '$baseURL/clients/sortVendorsAvailableProductsBySubCategory/$vendor_id'),
+    headers: await authHeader(),
+  );
+  if (response.statusCode == 200) {
+    Map jsonObject = jsonDecode(response.body);
+    return jsonObject.map(
+      (key, value) {
+        return MapEntry(key,
+            (value as List).map((item) => Product.fromJson(item)).toList());
+      },
+    );
+  } else {
+    throw Exception('Failed to load user product');
+  }
+}
+
 Future<Product> getProductById(String id) async {
   final response = await http.get(
     Uri.parse('$baseURL/products/product/$id'),
