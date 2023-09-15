@@ -1,5 +1,9 @@
 import 'package:benji_user/app/product/product_detail_screen.dart';
+import 'package:benji_user/src/common_widgets/button/category%20button.dart';
+import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
+import 'package:benji_user/src/repo/models/address_model.dart';
+import 'package:benji_user/src/repo/models/category/sub_category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
@@ -26,13 +30,34 @@ class _HomePageProductsState extends State<HomePageProducts> {
     _getData();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
   Map? _data;
+  int activeCategory = 0;
 
   _getData() async {
     await checkAuth(context);
-    List<Product> product = await getProducts(limit: 1000000);
+    String current = 'Select Address';
+    try {
+      current = (await getCurrentAddress()).streetAddress ?? current;
+    } catch (e) {
+      current = current;
+    }
+
+    List<Product> product = [];
+    List<SubCategory> category = await getSubCategories();
+    try {
+      product = await getProductsBySubCategory(category[activeCategory].id);
+    } catch (e) {
+      product = [];
+    }
     setState(() {
       _data = {
+        'category': category,
         'product': product,
       };
     });
@@ -76,29 +101,74 @@ class _HomePageProductsState extends State<HomePageProducts> {
                   controller: _scrollController,
                   radius: Radius.circular(10),
                   scrollbarOrientation: ScrollbarOrientation.right,
-                  child: ListView.separated(
-                    physics: BouncingScrollPhysics(),
-                    itemCount: _data!['product'].length,
+                  child: ListView(
                     shrinkWrap: true,
-                    padding: EdgeInsets.all(kDefaultPadding),
-                    separatorBuilder: (context, index) => kHalfSizedBox,
-                    itemBuilder: (BuildContext context, int index) =>
-                        HomeProductsCard(
-                      onTap: () {
-                        Get.to(
-                          () => ProductDetailScreen(
-                              product: _data!['product'][index]),
-                          routeName: 'ProductDetailScreen',
-                          duration: const Duration(milliseconds: 300),
-                          fullscreenDialog: true,
-                          curve: Curves.easeIn,
-                          preventDuplicates: true,
-                          popGesture: true,
-                          transition: Transition.rightToLeft,
-                        );
-                      },
-                      product: _data!['product'][index],
-                    ),
+                    physics: BouncingScrollPhysics(),
+                    children: [
+                      SizedBox(
+                        height: 60,
+                        child: ListView.builder(
+                          itemCount: _data!['category'].length,
+                          scrollDirection: Axis.horizontal,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) =>
+                              Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: CategoryButton(
+                              onPressed: () {
+                                setState(() {
+                                  activeCategory = index;
+                                  _data!['product'] = null;
+                                  _getData();
+                                });
+                              },
+                              title: _data!['category'][index].name,
+                              bgColor: index == activeCategory
+                                  ? kAccentColor
+                                  : kDefaultCategoryBackgroundColor,
+                              categoryFontColor: index == activeCategory
+                                  ? kPrimaryColor
+                                  : kTextGreyColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                      kSizedBox,
+                      _data!['product'] == null
+                          ? Center(
+                              child: SpinKitChasingDots(color: kAccentColor))
+                          : _data!['product'].isEmpty
+                              ? EmptyCard(
+                                  removeButton: true,
+                                )
+                              : ListView.separated(
+                                  physics: BouncingScrollPhysics(),
+                                  itemCount: _data!['product'].length,
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.all(kDefaultPadding),
+                                  separatorBuilder: (context, index) =>
+                                      kHalfSizedBox,
+                                  itemBuilder:
+                                      (BuildContext context, int index) =>
+                                          HomeProductsCard(
+                                    onTap: () {
+                                      Get.to(
+                                        () => ProductDetailScreen(
+                                            product: _data!['product'][index]),
+                                        routeName: 'ProductDetailScreen',
+                                        duration:
+                                            const Duration(milliseconds: 300),
+                                        fullscreenDialog: true,
+                                        curve: Curves.easeIn,
+                                        preventDuplicates: true,
+                                        popGesture: true,
+                                        transition: Transition.rightToLeft,
+                                      );
+                                    },
+                                    product: _data!['product'][index],
+                                  ),
+                                ),
+                    ],
                   ),
                 ),
         ),
