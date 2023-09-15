@@ -34,6 +34,18 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
   }
 
   Future<void> _scrollListener() async {
+    if (_scrollController.position.pixels >= 200 &&
+        _isScrollToTopBtnVisible != true) {
+      setState(() {
+        _isScrollToTopBtnVisible = true;
+      });
+    }
+    if (_scrollController.position.pixels < 200 &&
+        _isScrollToTopBtnVisible == true) {
+      setState(() {
+        _isScrollToTopBtnVisible = false;
+      });
+    }
     if (loadMore || thatsAllData) return;
 
     if (_scrollController.offset >=
@@ -59,10 +71,22 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
     }
   }
 
+  Future<void> _scrollToTop() async {
+    await _scrollController.animateTo(
+      0.0,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+    setState(() {
+      _isScrollToTopBtnVisible = false;
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
     _scrollController.dispose();
+    _scrollController.removeListener(() {});
   }
 //==========================================================================================\\
 
@@ -84,6 +108,7 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
     Get.back();
   }
 
+  bool _isScrollToTopBtnVisible = false;
   Map? _data;
   int start = 0;
   int end = 5;
@@ -154,6 +179,19 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
             },
           ),
         ),
+        floatingActionButton: _isScrollToTopBtnVisible
+            ? FloatingActionButton(
+                onPressed: _scrollToTop,
+                mini: true,
+                backgroundColor: kAccentColor,
+                enableFeedback: true,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Scroll to top",
+                hoverColor: kAccentColor,
+                hoverElevation: 50.0,
+                child: const Icon(Icons.keyboard_arrow_up),
+              )
+            : SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
