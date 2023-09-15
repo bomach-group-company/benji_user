@@ -30,11 +30,63 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
   void initState() {
     super.initState();
     _getData();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  Future<void> _scrollListener() async {
+    if (_scrollController.position.pixels >= 200 &&
+        _isScrollToTopBtnVisible != true) {
+      setState(() {
+        _isScrollToTopBtnVisible = true;
+      });
+    }
+    if (_scrollController.position.pixels < 200 &&
+        _isScrollToTopBtnVisible == true) {
+      setState(() {
+        _isScrollToTopBtnVisible = false;
+      });
+    }
+    if (loadMore || thatsAllData) return;
+
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      setState(() {
+        loadMore = true;
+        start = end;
+        end = end + 5;
+      });
+
+      await Future.delayed(Duration(microseconds: 100));
+      await _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 25),
+        curve: Curves.easeInOut,
+      );
+      await _getData();
+
+      setState(() {
+        loadMore = false;
+      });
+    }
+  }
+
+  Future<void> _scrollToTop() async {
+    await _scrollController.animateTo(
+      0.0,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+    setState(() {
+      _isScrollToTopBtnVisible = false;
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
+    _scrollController.dispose();
+    _scrollController.removeListener(() {});
   }
 //==========================================================================================\\
 
@@ -56,20 +108,32 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
     Get.back();
   }
 
+  bool _isScrollToTopBtnVisible = false;
   Map? _data;
+  int start = 0;
+  int end = 5;
+  bool loadMore = false;
+  bool thatsAllData = false;
 
   _getData() async {
     await checkAuth(context);
     List<Ratings> ratings =
-        await getRatingsByVendorId(widget.vendor.id!, start: 0, end: 1000000);
+        await getRatingsByVendorId(widget.vendor.id!, start: start, end: end);
+
+    if (_data == null) {
+      _data = {'ratings': []};
+    }
     setState(() {
-      _data = {'ratings': ratings};
+      thatsAllData = ratings.isEmpty;
+      _data = {'ratings': _data!['ratings'] + ratings};
     });
   }
 
   Future<void> _handleRefresh() async {
     setState(() {
       _data = null;
+      start = 0;
+      end = 5;
     });
     await _getData();
   }
@@ -115,6 +179,19 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
             },
           ),
         ),
+        floatingActionButton: _isScrollToTopBtnVisible
+            ? FloatingActionButton(
+                onPressed: _scrollToTop,
+                mini: true,
+                backgroundColor: kAccentColor,
+                enableFeedback: true,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Scroll to top",
+                hoverColor: kAccentColor,
+                hoverElevation: 50.0,
+                child: const Icon(Icons.keyboard_arrow_up),
+              )
+            : SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
@@ -129,14 +206,33 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
                     children: [
                       kHalfSizedBox,
                       ListView.separated(
-                        shrinkWrap: true,
-                        physics: BouncingScrollPhysics(),
-                        separatorBuilder: (context, index) => kSizedBox,
-                        itemCount: _data!['ratings'].length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            CostumerReviewCard(
-                                rating: _data!['ratings'][index]),
-                      ),
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          separatorBuilder: (context, index) => kSizedBox,
+                          itemCount: loadMore
+                              ? _data!['ratings'].length + 1
+                              : _data!['ratings'].length,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (_data!['ratings'].length == index) {
+                              return Column(
+                                children: [
+                                  SpinKitChasingDots(color: kAccentColor),
+                                ],
+                              );
+                            }
+                            return CostumerReviewCard(
+                                rating: _data!['ratings'][index]);
+                          }),
+                      thatsAllData
+                          ? Container(
+                              margin: EdgeInsets.only(top: 20),
+                              height: 10,
+                              width: 10,
+                              decoration: ShapeDecoration(
+                                  shape: CircleBorder(),
+                                  color: kPageSkeletonColor),
+                            )
+                          : SizedBox(),
                       SizedBox(height: kDefaultPadding * 4),
                     ],
                   ),
