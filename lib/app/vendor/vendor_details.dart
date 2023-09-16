@@ -161,8 +161,8 @@ class _VendorDetailsState extends State<VendorDetails>
   }
 
 //================================ Rating Dialog ======================================\\
-  openRatingDialog(BuildContext context) {
-    showDialog(
+  openRatingDialog(BuildContext context) async {
+    await showDialog(
       context: context,
       builder: (context) {
         return Dialog(
@@ -174,6 +174,7 @@ class _VendorDetailsState extends State<VendorDetails>
         );
       },
     );
+    setState(() {});
   }
 
 //=================================== Navigation =====================================\\

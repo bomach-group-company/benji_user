@@ -238,8 +238,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
 //================================ Rating Dialog ======================================\\
 
-  openRatingDialog(BuildContext context) {
-    showDialog(
+  openRatingDialog(BuildContext context) async {
+    await showDialog(
       context: context,
       builder: (context) {
         return Dialog(
@@ -251,6 +251,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         );
       },
     );
+    await _getData();
   }
 
   @override
