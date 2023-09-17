@@ -39,18 +39,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   //=========================== CONTROLLERS ====================================\\
 
-  TextEditingController emailController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
 
   //=========================== FOCUS NODES ====================================\\
-  FocusNode emailFocusNode = FocusNode();
+  FocusNode _emailFocusNode = FocusNode();
 
   //=========================== FUNCTIONS ====================================\\
   Future<bool> forgotPassword() async {
     final url = Uri.parse(
-        '$baseURL/auth/requestForgotPassword/${emailController.text}');
+        '$baseURL/auth/requestForgotPassword/${_emailController.text}');
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('email', emailController.text);
+    await prefs.setString('email', _emailController.text);
     final body = {};
     final response = await http.post(url, body: body);
 
@@ -218,15 +218,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           ),
                           kHalfSizedBox,
                           EmailTextFormField(
-                            controller: emailController,
-                            emailFocusNode: emailFocusNode,
+                            controller: _emailController,
+                            emailFocusNode: _emailFocusNode,
                             textInputAction: TextInputAction.done,
                             validator: (value) {
                               RegExp emailPattern = RegExp(
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
                               );
                               if (value == null || value!.isEmpty) {
-                                emailFocusNode.requestFocus();
+                                _emailFocusNode.requestFocus();
                                 return "Enter your email address";
                               } else if (!emailPattern.hasMatch(value)) {
                                 return "Please enter a valid email address";
@@ -234,7 +234,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               return null;
                             },
                             onSaved: (value) {
-                              emailController.text = value;
+                              _emailController.text = value;
                             },
                           ),
                           const SizedBox(
