@@ -14,17 +14,17 @@ class MyElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double mediaWidth = MediaQuery.of(context).size.width;
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: kAccentColor,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(20),
         ),
         shadowColor: kBlackColor.withOpacity(0.4),
-        minimumSize: Size(MediaQuery.of(context).size.width, 60),
-        maximumSize: Size(MediaQuery.of(context).size.width, 60),
+        minimumSize: Size(mediaWidth, 60),
       ),
       child: Text(
         title.toUpperCase(),

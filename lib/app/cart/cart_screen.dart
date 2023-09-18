@@ -141,17 +141,16 @@ class _CartScreenState extends State<CartScreen> {
         ),
         extendBody: true,
         extendBodyBehindAppBar: true,
-        bottomNavigationBar: Container(
+        bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(kDefaultPadding / 2),
-          decoration: BoxDecoration(
-              color: kPrimaryColor,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10), topRight: Radius.circular(10))),
           child: _itemCount == 0
               ? SizedBox()
-              : MyElevatedButton(
-                  onPressed: _toCheckoutScreen,
-                  title: "Checkout (₦ ${formattedText(_subTotal)})",
+              : Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: MyElevatedButton(
+                    onPressed: _toCheckoutScreen,
+                    title: "Checkout (₦ ${formattedText(_subTotal)})",
+                  ),
                 ),
         ),
         body: SafeArea(

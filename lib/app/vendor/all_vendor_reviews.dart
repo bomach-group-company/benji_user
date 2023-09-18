@@ -54,7 +54,7 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
       setState(() {
         loadMore = true;
         start = end;
-        end = end + 5;
+        end = end + 10;
       });
 
       await Future.delayed(Duration(microseconds: 100));
@@ -111,7 +111,7 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
   bool _isScrollToTopBtnVisible = false;
   Map? _data;
   int start = 0;
-  int end = 5;
+  int end = 10;
   bool loadMore = false;
   bool thatsAllData = false;
 
@@ -133,7 +133,7 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
     setState(() {
       _data = null;
       start = 0;
-      end = 5;
+      end = 10;
     });
     await _getData();
   }
@@ -177,7 +177,7 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
           toolbarHeight: kToolbarHeight,
         ),
         bottomNavigationBar: Padding(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(20),
           child: MyElevatedButton(
             title: "Add a review",
             onPressed: () {
