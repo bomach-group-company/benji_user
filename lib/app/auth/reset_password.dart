@@ -56,7 +56,7 @@ class _ResetPasswordState extends State<ResetPassword> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userEmail = await prefs.getString('email');
     String? token = await prefs.getString('token');
-    final url = Uri.parse('$baseURL/auth/resetForgotPassword/${userEmail}');
+    final url = Uri.parse('$baseURL/auth/resetForgotPassword/${userEmail}/');
     Map body = {
       'token': token,
       'new_password': _userPasswordEC.text,
@@ -64,10 +64,9 @@ class _ResetPasswordState extends State<ResetPassword> {
     };
     final response = await http.post(url, body: body);
     try {
-      jsonDecode(response.body);
-      bool res = response.statusCode == 200;
-
-      return res;
+      Map res = jsonDecode(response.body);
+      return response.statusCode == 200 &&
+          res["message"] == "Password successfully changed.";
     } catch (e) {
       return false;
     }
