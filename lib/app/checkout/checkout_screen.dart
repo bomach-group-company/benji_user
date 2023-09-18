@@ -351,28 +351,33 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ListView.separated(
-                                shrinkWrap: true,
-                                itemCount: _data!['product'].length,
-                                separatorBuilder:
-                                    (BuildContext context, int index) {
-                                  return kHalfSizedBox;
-                                },
-                                itemBuilder: (BuildContext context, int index) {
-                                  return SizedBox(
-                                    width: mediaWidth,
-                                    child: Text(
-                                      '${_data!['cartItems'][_data!['product'][index].id]}x  ${_data!['product'][index].name}',
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: kTextGreyColor,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
+                              Scrollbar(
+                                controller: _scrollController,
+                                child: ListView.separated(
+                                  controller: _scrollController,
+                                  shrinkWrap: true,
+                                  itemCount: _data!['product'].length,
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return kHalfSizedBox;
+                                  },
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return SizedBox(
+                                      width: mediaWidth,
+                                      child: Text(
+                                        '${_data!['cartItems'][_data!['product'][index].id]}x  ${_data!['product'][index].name}',
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: kTextGreyColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
                             ],
                           ),

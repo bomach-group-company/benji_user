@@ -41,6 +41,7 @@ class _ProductContainerState extends State<ProductContainer> {
 
     return InkWell(
       onTap: widget.onTap,
+      borderRadius: BorderRadius.circular(12),
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
         curve: Curves.easeInOut,

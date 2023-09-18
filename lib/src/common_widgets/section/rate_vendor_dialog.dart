@@ -25,7 +25,7 @@ class RateVendorDialog extends StatefulWidget {
 
 class _RateVendorDialogState extends State<RateVendorDialog> {
 //===================================== ALL VARIABLES ======================================\\
-  var _starPosition = 225.0;
+  var _starPosition = 250.0;
   var _rating = 0.0;
 
 //===================================== BOOL VALUES ======================================\\

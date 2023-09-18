@@ -141,30 +141,8 @@ class _CardPaymentState extends State<CardPayment> {
                               TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: "Mastercard",
-                                    style: TextStyle(
-                                      color: _selectedOption == index
-                                          ? kTextBlackColor
-                                          : kTextGreyColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                      letterSpacing: -0.35,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: " ",
-                                    style: TextStyle(
-                                      color: _selectedOption == index
-                                          ? kTextBlackColor
-                                          : kTextGreyColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                      letterSpacing: -0.35,
-                                    ),
-                                  ),
-                                  TextSpan(
                                     text:
-                                        "****${(cardData!['cards'][index] as CreditCard).cardNumber.substring((cardData!['cards'][index] as CreditCard).cardNumber.length - 4)}",
+                                        "${(cardData!['cards'][index] as CreditCard).cardNumber.substring((cardData!['cards'][index] as CreditCard).cardNumber.length - 3)}****${(cardData!['cards'][index] as CreditCard).cardNumber.substring((cardData!['cards'][index] as CreditCard).cardNumber.length - 4)}",
                                     style: TextStyle(
                                       color: _selectedOption == index
                                           ? kTextBlackColor

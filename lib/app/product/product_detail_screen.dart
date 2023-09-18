@@ -45,6 +45,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
     checkCart();
     _getData();
+    _scrollController.addListener(_scrollListener);
   }
 
   final List<String> stars = ['5', '4', '3', '2', '1'];
@@ -82,6 +83,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   ];
 
 //====================================================== BOOL VALUES ========================================================\\
+  bool _isScrollToTopBtnVisible = false;
   bool _isAddedToFavorites = false;
   bool _isAddedToCart = false;
   bool isLoading = false;
@@ -92,6 +94,32 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   CarouselController _carouselController = CarouselController();
 
   //==================================================== FUNCTIONS ======================================================\\
+
+  Future<void> _scrollToTop() async {
+    await _scrollController.animateTo(
+      0.0,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+    setState(() {
+      _isScrollToTopBtnVisible = false;
+    });
+  }
+
+  Future<void> _scrollListener() async {
+    if (_scrollController.position.pixels >= 200 &&
+        _isScrollToTopBtnVisible != true) {
+      setState(() {
+        _isScrollToTopBtnVisible = true;
+      });
+    }
+    if (_scrollController.position.pixels < 200 &&
+        _isScrollToTopBtnVisible == true) {
+      setState(() {
+        _isScrollToTopBtnVisible = false;
+      });
+    }
+  }
 
   checkCart() async {
     await checkAuth(context);
@@ -296,6 +324,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
+        floatingActionButton: _isScrollToTopBtnVisible
+            ? FloatingActionButton(
+                onPressed: _scrollToTop,
+                mini: true,
+                backgroundColor: kAccentColor,
+                enableFeedback: true,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Scroll to top",
+                hoverColor: kAccentColor,
+                hoverElevation: 50.0,
+                child: const Icon(Icons.keyboard_arrow_up),
+              )
+            : SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
@@ -303,13 +344,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             radius: const Radius.circular(10),
             scrollbarOrientation: ScrollbarOrientation.right,
             child: ListView(
+              controller: _scrollController,
               physics: const ScrollPhysics(),
               dragStartBehavior: DragStartBehavior.down,
               children: [
                 FlutterCarousel.builder(
                   options: CarouselOptions(
                     height: mediaHeight * 0.42,
-                    aspectRatio: 16 / 9,
                     viewportFraction: 1.0,
                     initialPage: 0,
                     enableInfiniteScroll: true,
@@ -320,7 +361,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     autoPlayCurve: Curves.easeInOut,
                     enlargeCenterPage: true,
                     controller: _carouselController,
-                    onPageChanged: (index, value) {},
+                    onPageChanged: (index, value) {
+                      setState(() {});
+                    },
                     pageSnapping: true,
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(),

@@ -26,7 +26,7 @@ class MyOutlinedElevatedButton extends StatelessWidget {
         ),
         shadowColor: kBlackColor.withOpacity(0.4),
         minimumSize: Size(mediaWidth, 60),
-        maximumSize: Size(mediaWidth, 60),
+        // maximumSize: Size(mediaWidth, 60),
       ),
       child: SizedBox(
         child: Text(
