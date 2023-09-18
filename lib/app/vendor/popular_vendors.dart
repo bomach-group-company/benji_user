@@ -93,7 +93,7 @@ class _PopularVendorsState extends State<PopularVendors> {
 
   _getData() async {
     await checkAuth(context);
-    List<VendorModel> vendor = await getVendors(start: start, end: end);
+    List<VendorModel> vendor = await getPopularVendors(start: start, end: end);
 
     if (_data == null) {
       _data = {'vendor': []};
