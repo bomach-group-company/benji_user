@@ -143,9 +143,10 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
     final response = await http.get(url);
     try {
       Map resp = jsonDecode(response.body);
-      bool res = response.statusCode == 200 && resp['message'] != 'Failed';
+      bool res =
+          response.statusCode == 200 && resp['message'].toString() == 'true';
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('token', resp['token']);
+      await prefs.setString('token', resp['otp']);
       return res;
     } catch (e) {
       return false;
@@ -359,10 +360,9 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
                             height: 90,
                             width: 68,
                             child: MyOTPTextFormField(
+                              controller: pin1EC,
                               textInputAction: TextInputAction.next,
-                              onSaved: (pin1) {
-                                pin1EC.text = pin1;
-                              },
+                              onSaved: (pin1) {},
                               onChanged: (value) {
                                 if (value.length == 1) {
                                   FocusScope.of(context).nextFocus();
@@ -380,10 +380,9 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
                             height: 90,
                             width: 68,
                             child: MyOTPTextFormField(
+                              controller: pin2EC,
                               textInputAction: TextInputAction.next,
-                              onSaved: (pin2) {
-                                pin2EC.text = pin2;
-                              },
+                              onSaved: (pin2) {},
                               onChanged: (value) {
                                 if (value.length == 1) {
                                   FocusScope.of(context).nextFocus();
@@ -401,10 +400,9 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
                             height: 90,
                             width: 70,
                             child: MyOTPTextFormField(
+                              controller: pin3EC,
                               textInputAction: TextInputAction.next,
-                              onSaved: (pin3) {
-                                pin3EC.text = pin3;
-                              },
+                              onSaved: (pin3) {},
                               onChanged: (value) {
                                 if (value.length == 1) {
                                   FocusScope.of(context).nextFocus();
@@ -422,10 +420,9 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
                             height: 90,
                             width: 68,
                             child: MyOTPTextFormField(
+                              controller: pin4EC,
                               textInputAction: TextInputAction.done,
-                              onSaved: (pin4) {
-                                pin4EC.text = pin4;
-                              },
+                              onSaved: (pin4) {},
                               onChanged: (value) {
                                 if (value.length == 1) {
                                   FocusScope.of(context).nearestScope;

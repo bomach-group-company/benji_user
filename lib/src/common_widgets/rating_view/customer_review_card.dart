@@ -11,6 +11,30 @@ class CostumerReviewCard extends StatelessWidget {
     required this.rating,
   });
 
+  String intToMonth(int monthNumber) {
+    List<String> months = [
+      "",
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+
+    if (monthNumber >= 1 && monthNumber <= 12) {
+      return months[monthNumber];
+    } else {
+      throw Exception("Invalid month number");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
@@ -89,22 +113,36 @@ class CostumerReviewCard extends StatelessWidget {
           ),
           kSizedBox,
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(
-                Icons.star,
-                size: 20,
-                color: kStarColor,
+              Row(
+                children: [
+                  Icon(
+                    Icons.star,
+                    size: 20,
+                    color: kStarColor,
+                  ),
+                  kHalfWidthSizedBox,
+                  Text(
+                    '${rating.ratingValue} Rating',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: kTextGreyColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )
+                ],
               ),
-              kHalfWidthSizedBox,
               Text(
-                '${rating.ratingValue} Rating',
+                ' ${rating.created!.day} ${intToMonth(rating.created!.month)}, ${rating.created!.year}',
                 textAlign: TextAlign.right,
                 style: TextStyle(
                   color: kTextGreyColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
                 ),
-              )
+              ),
             ],
           ),
         ],

@@ -181,18 +181,39 @@ class _EditProfileState extends State<EditProfile> {
   Future<bool> updateProfile({bool is_current = true}) async {
     User? user = await getUser();
 
+    // User data update
     final url = Uri.parse('$baseURL/clients/changeClient/${user!.id}');
     final body = {
       'first_name': _userFirstNameEC.text,
       'last_name': _userLastNameEC.text,
       'phone': "+$countryDialCode${phoneNumberEC.text}",
-      // 'image': selectedImage!,
     };
+    print(body);
     final response = await http.post(
       url,
       body: body,
       headers: await authHeader(),
     );
+    print(response.body);
+    print(response.statusCode);
+
+    // Image update
+    // final url2 =
+    //     Uri.parse('$baseURL/clients/changeClientProfileImage/${user.id}');
+
+    // final body2 = {
+    //   'image': selectedImage!,
+    // };
+    // print(body2);
+
+    // final response2 = await http.put(
+    //   url2,
+    //   body: body2,
+    //   headers: await authHeader(null, 'multipart/form-data'),
+    // );
+
+    // print(response2.body);
+    // print(response2.statusCode);
 
     try {
       await saveUser(response.body, user.token!);
@@ -223,7 +244,7 @@ class _EditProfileState extends State<EditProfile> {
     } else {
       mySnackBar(
         context,
-        kSuccessColor,
+        kAccentColor,
         "Failed!",
         "Something unexpected happened try again".toUpperCase(),
         Duration(seconds: 2),

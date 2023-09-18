@@ -10,17 +10,20 @@ class MyOTPTextFormField extends StatelessWidget {
   final dynamic onSaved;
   final dynamic validator;
   final dynamic onChanged;
+  final dynamic controller;
   const MyOTPTextFormField({
     super.key,
     required this.textInputAction,
     required this.onSaved,
     required this.validator,
     this.onChanged,
+    this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       keyboardType: TextInputType.number,
       textAlign: TextAlign.center,
       textInputAction: textInputAction,

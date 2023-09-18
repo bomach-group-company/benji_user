@@ -82,11 +82,14 @@ class _HomeState extends State<Home> {
       product = [];
     }
     List<VendorModel> vendor = await getVendors();
+    List<VendorModel> popularVendor = await getPopularVendors();
+
     setState(() {
       _data = {
         'category': category,
         'product': product,
         'vendor': vendor,
+        'popularVendor': popularVendor,
         'currentAddress': current,
       };
     });
@@ -590,25 +593,27 @@ class _HomeState extends State<Home> {
                           child: ListView.separated(
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: _data!['vendor'].length,
+                            itemCount: _data!['popularVendor'].length,
                             separatorBuilder: (context, index) => kHalfSizedBox,
                             itemBuilder: (context, index) => PopularVendorsCard(
                               onTap: () {
                                 _toVendorPage(
-                                  _data!['vendor'][index],
+                                  _data!['popularVendor'][index],
                                 );
                               },
                               cardImage: popularVendorImage[index],
-                              vendorName: _data!['vendor'][index].shopName,
-                              businessType:
-                                  _data!['vendor'][index].shopType.name ??
-                                      'Not Available',
+                              vendorName:
+                                  _data!['popularVendor'][index].shopName,
+                              businessType: _data!['popularVendor'][index]
+                                      .shopType
+                                      .name ??
+                                  'Not Available',
                               rating: ((_data!['vendor'][index].averageRating
                                           as double?) ??
                                       0.0)
                                   .toStringAsPrecision(2)
                                   .toString(),
-                              noOfUsersRated: (_data!['vendor'][index]
+                              noOfUsersRated: (_data!['popularVendor'][index]
                                           .numberOfClientsReactions ??
                                       0)
                                   .toString(),

@@ -141,8 +141,8 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
   //========================================================================\\
 
 //================================ Rating Dialog ======================================\\
-  openRatingDialog(BuildContext context) {
-    showDialog(
+  openRatingDialog(BuildContext context) async {
+    await showDialog(
       context: context,
       builder: (context) {
         return Dialog(
@@ -154,6 +154,12 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
         );
       },
     );
+    setState(() {
+      start = 0;
+      end = 5;
+      _data = {'ratings': []};
+    });
+    await _getData();
   }
 
   @override
