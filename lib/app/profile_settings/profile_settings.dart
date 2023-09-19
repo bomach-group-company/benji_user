@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:benji_user/app/auth/forgot_password.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,6 @@ import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import '../auth/login.dart';
 import 'edit_profile.dart';
-import 'email_verification.dart';
 
 class ProfileSettings extends StatefulWidget {
   const ProfileSettings({super.key});
@@ -243,8 +243,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   void _toChangePassword() async {
     await Get.to(
-      () => const EmailVerification(),
-      routeName: 'EmailVerification',
+      () => const ForgotPassword(
+          title: "Email",
+          subTitle:
+              "Enter your email below and we will send you a code via which you need to change your password"),
+      routeName: 'ForgotPassword',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,
