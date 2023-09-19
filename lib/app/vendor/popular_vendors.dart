@@ -6,7 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/vendor/popular_vendors_card.dart';
+import '../../src/common_widgets/vendor/vendors_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/vendor/vendor.dart';
 import '../../src/repo/utils/helpers.dart';
@@ -184,7 +184,7 @@ class _PopularVendorsState extends State<PopularVendors> {
                                 ],
                               );
                             }
-                            return PopularVendorsCard(
+                            return VendorsCard(
                               onTap: () {
                                 Get.to(
                                   () => VendorDetails(
@@ -200,18 +200,11 @@ class _PopularVendorsState extends State<PopularVendors> {
                               },
                               cardImage: 'best-choice-restaurant.png',
                               vendorName: _data!['vendor'][index].shopName,
-                              businessType:
+                              typeOfBusiness:
                                   _data!['vendor'][index].shopType.name ??
                                       'Not Available',
-                              rating: ((_data!['vendor'][index].averageRating
-                                          as double?) ??
-                                      0.0)
-                                  .toStringAsPrecision(2)
-                                  .toString(),
-                              noOfUsersRated: (_data!['vendor'][index]
-                                          .numberOfClientsReactions ??
-                                      0)
-                                  .toString(),
+                              rating:
+                                  "${((_data!['vendor'][index].averageRating as double?) ?? 0.0).toStringAsPrecision(2).toString()} (${(_data!['vendor'][index].numberOfClientsReactions ?? 0).toString()})",
                             );
                           }),
                       thatsAllData

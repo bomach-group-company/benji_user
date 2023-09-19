@@ -6,7 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/vendor/all_vendors_near_you_card.dart';
+import '../../src/common_widgets/vendor/vendors_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/vendor/vendor.dart';
 import '../../src/repo/utils/helpers.dart';
@@ -168,51 +168,46 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                     shrinkWrap: true,
                     children: [
                       ListView.separated(
-                          physics: BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.all(kDefaultPadding),
-                          itemCount: loadMore
-                              ? _data!['vendor'].length + 1
-                              : _data!['vendor'].length,
-                          separatorBuilder: (context, index) => kHalfSizedBox,
-                          itemBuilder: (context, index) {
-                            if (_data!['vendor'].length == index) {
-                              return Column(
-                                children: [
-                                  SpinKitChasingDots(color: kAccentColor),
-                                ],
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.all(kDefaultPadding),
+                        itemCount: loadMore
+                            ? _data!['vendor'].length + 1
+                            : _data!['vendor'].length,
+                        separatorBuilder: (context, index) => kHalfSizedBox,
+                        itemBuilder: (context, index) {
+                          if (_data!['vendor'].length == index) {
+                            return Column(
+                              children: [
+                                SpinKitChasingDots(color: kAccentColor),
+                              ],
+                            );
+                          }
+                          return VendorsCard(
+                            onTap: () {
+                              Get.to(
+                                () => VendorDetails(
+                                    vendor: _data!['vendor'][index]),
+                                routeName: 'VendorDetails',
+                                duration: const Duration(milliseconds: 300),
+                                fullscreenDialog: true,
+                                curve: Curves.easeIn,
+                                preventDuplicates: true,
+                                popGesture: true,
+                                transition: Transition.rightToLeft,
                               );
-                            }
-                            return AllVendorsNearYouCard(
-                                onTap: () {
-                                  Get.to(
-                                    () => VendorDetails(
-                                        vendor: _data!['vendor'][index]),
-                                    routeName: 'VendorDetails',
-                                    duration: const Duration(milliseconds: 300),
-                                    fullscreenDialog: true,
-                                    curve: Curves.easeIn,
-                                    preventDuplicates: true,
-                                    popGesture: true,
-                                    transition: Transition.rightToLeft,
-                                  );
-                                },
-                                cardImage: 'ntachi-osa.png',
-                                vendorName: _data!['vendor'][index].shopName,
-                                distance: "50 mins",
-                                typeOfBusiness:
-                                    _data!['vendor'][index].shopType.name ??
-                                        'Not Available',
-                                rating: ((_data!['vendor'][index].averageRating
-                                            as double?) ??
-                                        0.0)
-                                    .toStringAsPrecision(2)
-                                    .toString(),
-                                noOfUsersRated: (_data!['vendor'][index]
-                                            .numberOfClientsReactions ??
-                                        0)
-                                    .toString());
-                          }),
+                            },
+                            cardImage: 'ntachi-osa.png',
+                            vendorName: _data!['vendor'][index].shopName,
+                            distance: "50 mins",
+                            typeOfBusiness:
+                                _data!['vendor'][index].shopType.name ??
+                                    'Not Available',
+                            rating:
+                                "${((_data!['vendor'][index].averageRating as double?) ?? 0.0).toStringAsPrecision(2).toString()} (${(_data!['vendor'][index].numberOfClientsReactions ?? 0).toString()})",
+                          );
+                        },
+                      ),
                       thatsAllData
                           ? Container(
                               margin: EdgeInsets.only(top: 20, bottom: 20),

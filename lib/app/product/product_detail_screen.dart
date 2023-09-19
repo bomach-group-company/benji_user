@@ -15,7 +15,7 @@ import 'package:readmore/readmore.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
-import '../../src/common_widgets/cart.dart';
+import '../../src/common_widgets/cart_card.dart';
 import '../../src/common_widgets/rating_view/customer_review_card.dart';
 import '../../src/common_widgets/section/rate_product_dialog.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';

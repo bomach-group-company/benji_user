@@ -202,13 +202,24 @@ class _SignUpState extends State<SignUp> {
           maintainBottomViewPadding: true,
           child: LayoutGrid(
             columnSizes: breakPointDynamic(
-                media.width, [1.fr], [1.fr], [1.fr, 1.fr], [1.fr, 1.fr]),
-            rowSizes: [auto, 1.fr],
+              media.width,
+              [1.fr],
+              [1.fr],
+              [1.fr, 1.fr],
+              [1.fr, 1.fr],
+            ),
+            rowSizes: breakPointDynamic(
+              media.width,
+              [auto, 1.fr],
+              [auto, 1.fr],
+              [1.fr],
+              [1.fr],
+            ),
             children: [
               Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    flex: 0,
                     child: () {
                       if (_validAuthCredentials) {
                         return ReusableAuthenticationFirstHalf(
@@ -281,6 +292,7 @@ class _SignUpState extends State<SignUp> {
                 ],
               ),
               Container(
+                height: media.height,
                 width: media.width,
                 padding: const EdgeInsets.only(
                   top: kDefaultPadding / 2,

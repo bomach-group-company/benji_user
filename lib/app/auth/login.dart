@@ -181,8 +181,19 @@ class _LoginState extends State<Login> {
           maintainBottomViewPadding: true,
           child: LayoutGrid(
             columnSizes: breakPointDynamic(
-                media.width, [1.fr], [1.fr], [1.fr, 1.fr], [1.fr, 1.fr]),
-            rowSizes: [auto, 1.fr],
+              media.width,
+              [1.fr],
+              [1.fr],
+              [1.fr, 1.fr],
+              [1.fr, 1.fr],
+            ),
+            rowSizes: breakPointDynamic(
+              media.width,
+              [auto, 1.fr],
+              [auto, 1.fr],
+              [1.fr],
+              [1.fr],
+            ),
             children: [
               Column(
                 children: [
@@ -259,6 +270,7 @@ class _LoginState extends State<Login> {
                 ],
               ),
               Container(
+                height: media.height,
                 width: media.width,
                 padding: const EdgeInsets.only(
                   top: kDefaultPadding / 2,
@@ -289,7 +301,7 @@ class _LoginState extends State<Login> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: kTextBlackColor,
-                                fontSize: 13,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
@@ -321,7 +333,7 @@ class _LoginState extends State<Login> {
                               'Password',
                               style: TextStyle(
                                 color: kTextBlackColor,
-                                fontSize: 13,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
