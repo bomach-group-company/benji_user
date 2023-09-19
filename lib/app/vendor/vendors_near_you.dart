@@ -162,8 +162,8 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
               : Scrollbar(
                   controller: _scrollController,
                   child: ListView(
-                    dragStartBehavior: DragStartBehavior.down,
                     controller: _scrollController,
+                    dragStartBehavior: DragStartBehavior.down,
                     physics: BouncingScrollPhysics(),
                     shrinkWrap: true,
                     children: [

@@ -142,7 +142,7 @@ class _CartScreenState extends State<CartScreen> {
         extendBody: true,
         extendBodyBehindAppBar: true,
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(kDefaultPadding / 2),
+          padding: const EdgeInsets.all(kDefaultPadding),
           child: _itemCount == 0
               ? SizedBox()
               : Padding(
@@ -178,6 +178,7 @@ class _CartScreenState extends State<CartScreen> {
                   radius: const Radius.circular(10),
                   scrollbarOrientation: ScrollbarOrientation.right,
                   child: ListView(
+                    controller: _scrollController,
                     padding: const EdgeInsets.all(kDefaultPadding / 2),
                     physics: const BouncingScrollPhysics(),
                     children: [
@@ -229,12 +230,39 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                       ),
                       kSizedBox,
-                      Text(
-                        "Cart (${formattedText(_itemCount.toDouble())})"
-                            .toUpperCase(),
-                        style: TextStyle(
-                          color: kTextGreyColor,
-                          fontWeight: FontWeight.w400,
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "Cart".toUpperCase(),
+                              style: TextStyle(
+                                color: kTextGreyColor,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "(",
+                              style: TextStyle(
+                                color: kTextGreyColor,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "${formattedText(_itemCount.toDouble())}"
+                                  .toUpperCase(),
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            TextSpan(
+                              text: ")",
+                              style: TextStyle(
+                                color: kTextGreyColor,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       kSizedBox,

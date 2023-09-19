@@ -245,7 +245,8 @@ class _CallPageState extends State<CallPage> {
                         splashRadius: 40,
                         onPressed: _endCallFunc,
                         icon: FaIcon(
-                          FontAwesomeIcons.phoneSlash,
+                          Icons.call_end,
+                          size: 36,
                           color: kAccentColor,
                         ),
                       ),
@@ -266,7 +267,8 @@ class _CallPageState extends State<CallPage> {
                         splashRadius: 40,
                         onPressed: _endCallFunc,
                         icon: FaIcon(
-                          FontAwesomeIcons.phoneSlash,
+                          Icons.call_end,
+                          size: 36,
                           color: kAccentColor,
                         ),
                       ),
@@ -373,7 +375,8 @@ class _CallPageState extends State<CallPage> {
                             splashRadius: 40,
                             onPressed: _endCallFunc,
                             icon: FaIcon(
-                              FontAwesomeIcons.phoneSlash,
+                              Icons.call_end,
+                              size: 36,
                               color: kAccentColor,
                             ),
                           ),

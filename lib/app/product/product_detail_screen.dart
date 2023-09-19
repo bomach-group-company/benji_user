@@ -48,6 +48,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     _scrollController.addListener(_scrollListener);
   }
 
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _scrollController.removeListener(() {});
+    super.dispose();
+  }
+
   final List<String> stars = ['5', '4', '3', '2', '1'];
   String active = 'all';
 

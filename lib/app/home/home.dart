@@ -54,6 +54,14 @@ class _HomeState extends State<Home> {
     super.initState();
     _getData();
     countCartFunc();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _scrollController.removeListener(() {});
+    super.dispose();
   }
 
   countCartFunc() async {
@@ -102,6 +110,7 @@ class _HomeState extends State<Home> {
   String cartCount = '';
 //============================================== BOOL VALUES =================================================\\
   bool _vendorStatus = true;
+  bool _isScrollToTopBtnVisible = false;
 
   //Online Vendors
   final String _onlineVendorsName = "Ntachi Osa";
@@ -151,6 +160,34 @@ class _HomeState extends State<Home> {
   }
 
   //==================================================== FUNCTIONS ===========================================================\\
+
+  //===================== Scroll to Top ==========================\\
+  Future<void> _scrollToTop() async {
+    await _scrollController.animateTo(
+      0.0,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+    setState(() {
+      _isScrollToTopBtnVisible = false;
+    });
+  }
+
+  Future<void> _scrollListener() async {
+    if (_scrollController.position.pixels >= 200 &&
+        _isScrollToTopBtnVisible != true) {
+      setState(() {
+        _isScrollToTopBtnVisible = true;
+      });
+    }
+    if (_scrollController.position.pixels < 200 &&
+        _isScrollToTopBtnVisible == true) {
+      setState(() {
+        _isScrollToTopBtnVisible = false;
+      });
+    }
+  }
+
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
@@ -378,24 +415,34 @@ class _HomeState extends State<Home> {
               AppBarDeliveryLocation(
                 deliveryLocation:
                     _data != null ? _data!['currentAddress'] : 'Select Address',
-                toDeliverToPage: _toAddressesPage,
+                toDeliverToPage: _data != null ? _toAddressesPage : () {},
               ),
             ],
           ),
           actions: [
-            IconButton(
-              onPressed: () {
-                showSearch(
-                  context: context,
-                  delegate: CustomSearchDelegate(),
-                );
-              },
-              icon: FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
-                color: kAccentColor,
-              ),
-            ),
-            CartCard()
+            _data != null
+                ? IconButton(
+                    onPressed: () {
+                      showSearch(
+                        context: context,
+                        delegate: CustomSearchDelegate(),
+                      );
+                    },
+                    icon: FaIcon(
+                      FontAwesomeIcons.magnifyingGlass,
+                      color: kAccentColor,
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SpinKitDoubleBounce(color: kAccentColor, size: 12),
+                  ),
+            _data != null
+                ? CartCard()
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SpinKitDoubleBounce(color: kAccentColor, size: 12),
+                  ),
           ],
         ),
         body: SafeArea(
