@@ -1,7 +1,5 @@
 // ignore_for_file: unused_local_variable
 
-import 'dart:io';
-
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
@@ -10,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
+
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';

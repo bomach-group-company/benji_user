@@ -391,6 +391,19 @@ class _HomeState extends State<Home> {
             logOut: _logOut,
           ),
         ),
+        floatingActionButton: _isScrollToTopBtnVisible
+            ? FloatingActionButton(
+                onPressed: _scrollToTop,
+                mini: true,
+                backgroundColor: kAccentColor,
+                enableFeedback: true,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Scroll to top",
+                hoverColor: kAccentColor,
+                hoverElevation: 50.0,
+                child: const Icon(Icons.keyboard_arrow_up),
+              )
+            : SizedBox(),
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
           automaticallyImplyLeading: false,
