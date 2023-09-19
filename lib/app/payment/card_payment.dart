@@ -219,14 +219,16 @@ class _CardPaymentState extends State<CardPayment> {
           ),
         ),
         SizedBox(height: kDefaultPadding * 2),
-        cardData!['cards'].isEmpty
+        cardData == null
             ? SizedBox()
-            : _processingPayment
-                ? SpinKitChasingDots(color: kAccentColor)
-                : MyElevatedButton(
-                    title: "Make payment",
-                    onPressed: _paymentFunc,
-                  ),
+            : cardData!['cards'].isEmpty
+                ? SizedBox()
+                : _processingPayment
+                    ? SpinKitChasingDots(color: kAccentColor)
+                    : MyElevatedButton(
+                        title: "Make payment",
+                        onPressed: _paymentFunc,
+                      ),
         kSizedBox,
         MyOutlinedElevatedButton(
           title: 'Add a new Card',

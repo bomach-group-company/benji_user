@@ -30,7 +30,7 @@ class PaymentSuccessful extends StatelessWidget {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(kDefaultPadding),
         child: MyElevatedButton(title: "Done", onPressed: _toTrackOrder),
       ),
       body: SafeArea(

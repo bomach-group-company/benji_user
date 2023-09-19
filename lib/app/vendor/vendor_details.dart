@@ -15,6 +15,7 @@ import '../../src/common_widgets/section/rate_vendor_dialog.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
+import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
 import 'report_vendor.dart';
 import 'vendor_location.dart';
@@ -194,8 +195,7 @@ class _VendorDetailsState extends State<VendorDetails>
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
+    var media = MediaQuery.of(context).size;
 
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
@@ -246,7 +246,12 @@ class _VendorDetailsState extends State<VendorDetails>
               physics: const ScrollPhysics(),
               children: [
                 SizedBox(
-                  height: 370,
+                  height:
+                      deviceType(media.width) > 2 && deviceType(media.width) < 4
+                          ? 540
+                          : deviceType(media.width) > 2
+                              ? 470
+                              : 370,
                   child: Stack(
                     children: [
                       Positioned(
@@ -254,11 +259,16 @@ class _VendorDetailsState extends State<VendorDetails>
                         left: 0,
                         right: 0,
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.3,
+                          height: deviceType(media.width) > 3 &&
+                                  deviceType(media.width) < 5
+                              ? media.height * 0.325
+                              : deviceType(media.width) > 2
+                                  ? media.height * 0.305
+                                  : media.height * 0.28,
                           decoration: BoxDecoration(
                             color: kPageSkeletonColor,
                             image: DecorationImage(
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                               image: AssetImage(
                                 "assets/images/vendors/ntachi-osa.png",
                               ),
@@ -267,7 +277,9 @@ class _VendorDetailsState extends State<VendorDetails>
                         ),
                       ),
                       Positioned(
-                        top: MediaQuery.of(context).size.height * 0.13,
+                        top: deviceType(media.width) > 2
+                            ? media.height * 0.21
+                            : media.height * 0.13,
                         left: kDefaultPadding,
                         right: kDefaultPadding,
                         child: Container(
@@ -299,7 +311,7 @@ class _VendorDetailsState extends State<VendorDetails>
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  width: mediaWidth - 200,
+                                  width: media.width - 200,
                                   child: Text(
                                     widget.vendor.shopName ?? 'Not Available',
                                     overflow: TextOverflow.ellipsis,
@@ -314,7 +326,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                 ),
                                 kHalfSizedBox,
                                 Container(
-                                  width: mediaWidth - 90,
+                                  width: media.width - 90,
                                   alignment: Alignment.center,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -373,7 +385,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Container(
-                                      width: mediaWidth * 0.23,
+                                      width: media.width * 0.23,
                                       height: 57,
                                       decoration: ShapeDecoration(
                                         color: kPrimaryColor,
@@ -405,7 +417,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                       ),
                                     ),
                                     Container(
-                                      width: mediaWidth * 0.25,
+                                      width: media.width * 0.25,
                                       height: 57,
                                       decoration: ShapeDecoration(
                                         color: kPrimaryColor,
@@ -449,11 +461,21 @@ class _VendorDetailsState extends State<VendorDetails>
                         ),
                       ),
                       Positioned(
-                        top: mediaHeight * 0.07,
-                        left: mediaWidth / 2.7,
+                        top: deviceType(media.width) > 3 &&
+                                deviceType(media.width) < 5
+                            ? media.height * 0.12
+                            : deviceType(media.width) > 2
+                                ? media.height * 0.14
+                                : media.height * 0.08,
+                        left: deviceType(media.width) > 3 &&
+                                deviceType(media.width) < 5
+                            ? media.width / 2.24
+                            : deviceType(media.width) > 2
+                                ? media.width / 2.36
+                                : media.width / 2.7,
                         child: Container(
-                          width: 100,
-                          height: 100,
+                          width: deviceType(media.width) > 2 ? 150 : 100,
+                          height: deviceType(media.width) > 2 ? 150 : 100,
                           decoration: ShapeDecoration(
                             color: kPageSkeletonColor,
                             image: const DecorationImage(
@@ -470,11 +492,13 @@ class _VendorDetailsState extends State<VendorDetails>
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: kDefaultPadding,
-                  ),
+                  padding: deviceType(media.width) > 2
+                      ? const EdgeInsets.symmetric(
+                          horizontal: kDefaultPadding * 6)
+                      : const EdgeInsets.symmetric(
+                          horizontal: kDefaultPadding * 1.5),
                   child: Container(
-                    width: mediaWidth,
+                    width: media.width,
                     decoration: BoxDecoration(
                       color: kDefaultCategoryBackgroundColor,
                       borderRadius: BorderRadius.circular(50),
@@ -518,7 +542,9 @@ class _VendorDetailsState extends State<VendorDetails>
                 ),
                 kSizedBox,
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: deviceType(media.width) > 2
+                      ? const EdgeInsets.symmetric(horizontal: 20)
+                      : const EdgeInsets.symmetric(horizontal: 10),
                   child: _selectedtabbar == 0
                       ? VendorsProductsTab(
                           vendor: widget.vendor,

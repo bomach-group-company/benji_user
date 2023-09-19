@@ -12,6 +12,7 @@ import '../../src/common_widgets/textformfield/flex_textfield.dart';
 import '../../src/common_widgets/textformfield/name_textformfield.dart';
 import '../../src/common_widgets/textformfield/number_textformfield.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/credit_card/credit_card.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../src/repo/utils/helpers.dart';
@@ -112,6 +113,7 @@ class _AddNewCardState extends State<AddNewCard> {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -131,11 +133,16 @@ class _AddNewCardState extends State<AddNewCard> {
           child: Scrollbar(
             controller: _scrollController,
             child: ListView(
+              controller: _scrollController,
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
               padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
               children: [
-                Lottie.asset("assets/animations/credit_card/frame_1.json"),
+                deviceType(media.width) > 3 && deviceType(media.width) < 5
+                    ? Lottie.asset("assets/animations/credit_card/frame_1.json",
+                        height: 250)
+                    : Lottie.asset(
+                        "assets/animations/credit_card/frame_1.json"),
                 kSizedBox,
                 Form(
                   key: _formKey,

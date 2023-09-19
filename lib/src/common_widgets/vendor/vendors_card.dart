@@ -51,6 +51,7 @@ class VendorsCard extends StatelessWidget {
                   : media.width / 2,
               height: 128,
               decoration: BoxDecoration(
+                color: kPageSkeletonColor,
                 image: DecorationImage(
                   image: AssetImage("$cardImage"),
                   fit: BoxFit.cover,

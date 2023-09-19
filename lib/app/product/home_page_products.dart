@@ -9,8 +9,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/product/home_products_card.dart';
+import '../../src/common_widgets/product/product_card.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
 import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
@@ -82,6 +83,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
@@ -142,16 +144,25 @@ class _HomePageProductsState extends State<HomePageProducts> {
                               ? EmptyCard(
                                   removeButton: true,
                                 )
-                              : ListView.separated(
+                              : GridView.builder(
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount:
+                                        deviceType(media.width) > 2 ? 2 : 1,
+                                    crossAxisSpacing:
+                                        deviceType(media.width) > 2 ? 20 : 1,
+                                    mainAxisSpacing:
+                                        deviceType(media.width) > 2 ? 25 : 15,
+                                    childAspectRatio:
+                                        deviceType(media.width) > 2 ? 1.4 : 1.2,
+                                  ),
                                   physics: BouncingScrollPhysics(),
                                   itemCount: _data!['product'].length,
                                   shrinkWrap: true,
                                   padding: EdgeInsets.all(kDefaultPadding),
-                                  separatorBuilder: (context, index) =>
-                                      kHalfSizedBox,
                                   itemBuilder:
                                       (BuildContext context, int index) =>
-                                          HomeProductsCard(
+                                          ProductCard(
                                     onTap: () {
                                       Get.to(
                                         () => ProductDetailScreen(

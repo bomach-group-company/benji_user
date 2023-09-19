@@ -1,6 +1,5 @@
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/button/category%20button.dart';
-import 'package:benji_user/src/common_widgets/vendor/product_container.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
@@ -9,8 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
+import '../../src/common_widgets/product/product_card.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
 import '../../theme/colors.dart';
 import '../product/product_detail_screen.dart';
@@ -104,6 +105,7 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
@@ -162,13 +164,21 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
                         ),
                       ),
                       kHalfSizedBox,
-                      ListView.separated(
+                      GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: deviceType(media.width) > 2 ? 2 : 1,
+                          crossAxisSpacing:
+                              deviceType(media.width) > 2 ? 20 : 1,
+                          mainAxisSpacing:
+                              deviceType(media.width) > 2 ? 25 : 15,
+                          childAspectRatio:
+                              deviceType(media.width) > 2 ? 1.4 : 1.2,
+                        ),
                         itemCount:
                             _productAndSubCategoryName![activeCategory]!.length,
-                        separatorBuilder: (context, index) => kHalfSizedBox,
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
-                        itemBuilder: (context, index) => ProductContainer(
+                        itemBuilder: (context, index) => ProductCard(
                           product: _productAndSubCategoryName![activeCategory]![
                               index],
                           onTap: () => _toProductDetailScreen(

@@ -1,9 +1,7 @@
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../theme/colors.dart';
@@ -51,17 +49,7 @@ class _PaymentMethodState extends State<PaymentMethod>
   FocusNode rateVendorFN = FocusNode();
 
 //===================== FUNCTIONS =======================\\
-  void validate() {
-    mySnackBar(
-      context,
-      kSuccessColor,
-      "Success!",
-      "Thank you for your feedback!",
-      Duration(seconds: 1),
-    );
 
-    Get.back();
-  }
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {}

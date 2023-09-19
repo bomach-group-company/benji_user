@@ -5,11 +5,11 @@ import 'package:intl/intl.dart';
 
 import '../../providers/constants.dart';
 
-class HomeProductsCard extends StatelessWidget {
+class ProductCard extends StatelessWidget {
   final Function()? onTap;
   final Product product;
 
-  const HomeProductsCard({
+  const ProductCard({
     super.key,
     required this.product,
     this.onTap,

@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
+import '../../providers/responsive_constant.dart';
 import '../snackbar/my_floating_snackbar.dart';
 import '../textformfield/message_textformfield.dart';
 
@@ -24,6 +25,8 @@ class RateProductDialog extends StatefulWidget {
 class _RateProductDialogState extends State<RateProductDialog> {
 //===================================== ALL VARIABLES ======================================\\
   var _starPosition = 250.0;
+  var _starPosition2 = 200.0;
+  var _starPosition3 = 210.0;
   var _rating = 0.0;
 
 //===================================== BOOL VALUES ======================================\\
@@ -97,6 +100,7 @@ class _RateProductDialogState extends State<RateProductDialog> {
   @override
   Widget build(BuildContext context) {
     double mediaHeight = MediaQuery.of(context).size.height;
+    double mediaWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: AnimatedContainer(
@@ -110,7 +114,17 @@ class _RateProductDialogState extends State<RateProductDialog> {
             AnimatedContainer(
               duration: Duration(milliseconds: 300),
               curve: Curves.easeIn,
-              height: _pageChanged ? mediaHeight * 0.6 : mediaHeight * 0.45,
+              height: _pageChanged
+                  ? deviceType(mediaWidth) > 3 && deviceType(mediaWidth) < 5
+                      ? mediaHeight * 0.75
+                      : deviceType(mediaWidth) > 2
+                          ? mediaHeight * 0.58
+                          : mediaHeight * 0.5
+                  : deviceType(mediaWidth) > 3 && deviceType(mediaWidth) < 5
+                      ? mediaHeight * 0.35
+                      : deviceType(mediaWidth) > 2
+                          ? mediaHeight * 0.25
+                          : mediaHeight * 0.45,
               padding: EdgeInsets.all(kDefaultPadding),
               child: PageView(
                 controller: _ratingPageController,
@@ -192,7 +206,11 @@ class _RateProductDialogState extends State<RateProductDialog> {
               ),
             ),
             AnimatedPositioned(
-              top: _starPosition,
+              top: deviceType(mediaWidth) > 3 && deviceType(mediaWidth) < 5
+                  ? _starPosition3
+                  : deviceType(mediaWidth) > 2
+                      ? _starPosition2
+                      : _starPosition,
               left: 0,
               right: 0,
               duration: Duration(milliseconds: 500),
@@ -209,7 +227,10 @@ class _RateProductDialogState extends State<RateProductDialog> {
 
                       setState(
                         () {
-                          _starPosition = 10.0;
+                          _starPosition = deviceType(mediaWidth) > 2 &&
+                                  deviceType(mediaWidth) < 5
+                              ? 1
+                              : 10;
                           _rating = index + 1;
                           _pageChanged = true;
                         },

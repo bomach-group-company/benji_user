@@ -17,7 +17,7 @@ import 'package:get/route_manager.dart';
 import '../../src/common_widgets/appbar/appBar_delivery_location.dart';
 import '../../src/common_widgets/button/category button.dart';
 import '../../src/common_widgets/cart_card.dart';
-import '../../src/common_widgets/product/home_products_card.dart';
+import '../../src/common_widgets/product/product_card.dart';
 import '../../src/common_widgets/section/custom_showSearch.dart';
 import '../../src/common_widgets/section/see_all_container.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
@@ -524,7 +524,7 @@ class _HomeState extends State<Home> {
                                     _data!['vendor'][index].shopType.name ??
                                         'Not Available',
                                 rating:
-                                    '${((_data!['vendor'][index].averageRating as double?) ?? 0.0).toStringAsPrecision(2)} (${_data!['vendor'][index].numberOfClientsReactions ?? 0}+)',
+                                    '${((_data!['vendor'][index].averageRating as double?) ?? 0.0).toStringAsPrecision(2)} (${_data!['vendor'][index].numberOfClientsReactions ?? 0})',
                                 distance: "30 mins",
                               ),
                             ),
@@ -545,7 +545,7 @@ class _HomeState extends State<Home> {
                               crossAxisCount:
                                   deviceType(mediaWidth) > 2 ? 3 : 2,
                               crossAxisSpacing:
-                                  deviceType(mediaWidth) > 2 ? 25 : 10,
+                                  deviceType(mediaWidth) > 2 ? 20 : 10,
                               mainAxisSpacing:
                                   deviceType(mediaWidth) > 2 ? 25 : 15,
                               childAspectRatio:
@@ -553,6 +553,7 @@ class _HomeState extends State<Home> {
                             ),
                             itemCount: _data!['popularVendor'].length,
                             itemBuilder: (context, index) => VendorsCard(
+                                removeDistance: true,
                                 onTap: () {
                                   _toVendorPage(_data!['popularVendor'][index]);
                                 },
@@ -610,14 +611,27 @@ class _HomeState extends State<Home> {
                                   ? EmptyCard(
                                       removeButton: true,
                                     )
-                                  : ListView.separated(
+                                  : GridView.builder(
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount:
+                                            deviceType(mediaWidth) > 2 ? 2 : 1,
+                                        crossAxisSpacing:
+                                            deviceType(mediaWidth) > 2 ? 20 : 1,
+                                        mainAxisSpacing:
+                                            deviceType(mediaWidth) > 2
+                                                ? 25
+                                                : 15,
+                                        childAspectRatio:
+                                            deviceType(mediaWidth) > 2
+                                                ? 1.4
+                                                : 1.2,
+                                      ),
                                       physics: const BouncingScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: _data!['product'].length,
-                                      separatorBuilder: (context, index) =>
-                                          kHalfSizedBox,
                                       itemBuilder: (context, index) =>
-                                          HomeProductsCard(
+                                          ProductCard(
                                         product: _data!['product'][index],
                                         onTap: () => _toProductDetailScreenPage(
                                             _data!['product'][index]),

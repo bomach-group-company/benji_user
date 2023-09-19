@@ -8,6 +8,7 @@ import 'package:get/route_manager.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/vendor/vendors_card.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/vendor/vendor.dart';
 import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
@@ -125,6 +126,7 @@ class _PopularVendorsState extends State<PopularVendors> {
   //========================================================================\\
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
@@ -165,17 +167,28 @@ class _PopularVendorsState extends State<PopularVendors> {
                   child: ListView(
                     dragStartBehavior: DragStartBehavior.down,
                     controller: _scrollController,
+                    padding: deviceType(media.width) > 2
+                        ? const EdgeInsets.all(kDefaultPadding)
+                        : const EdgeInsets.all(kDefaultPadding / 2),
                     physics: BouncingScrollPhysics(),
                     shrinkWrap: true,
                     children: [
-                      ListView.separated(
+                      GridView.builder(
                           shrinkWrap: true,
                           physics: BouncingScrollPhysics(),
-                          padding: const EdgeInsets.all(kDefaultPadding),
                           itemCount: loadMore
                               ? _data!['vendor'].length + 1
                               : _data!['vendor'].length,
-                          separatorBuilder: (context, index) => kHalfSizedBox,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: deviceType(media.width) > 2 ? 3 : 2,
+                            crossAxisSpacing:
+                                deviceType(media.width) > 2 ? 20 : 10,
+                            mainAxisSpacing:
+                                deviceType(media.width) > 2 ? 25 : 15,
+                            childAspectRatio:
+                                deviceType(media.width) > 2 ? 1.28 : 0.8,
+                          ),
                           itemBuilder: (context, index) {
                             if (_data!['vendor'].length == index) {
                               return Column(
@@ -198,7 +211,7 @@ class _PopularVendorsState extends State<PopularVendors> {
                                   transition: Transition.rightToLeft,
                                 );
                               },
-                              cardImage: 'best-choice-restaurant.png',
+                              cardImage: 'assets/images/vendors/ntachi-osa.png',
                               vendorName: _data!['vendor'][index].shopName,
                               typeOfBusiness:
                                   _data!['vendor'][index].shopType.name ??
