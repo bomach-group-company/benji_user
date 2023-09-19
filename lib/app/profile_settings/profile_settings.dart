@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/others/my_future_builder.dart';
@@ -36,6 +40,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 //============================================== ALL VARIABLES =================================================\\
   int activeCategory = 0;
   String cartCount = '';
+
+  //=========================== IMAGE PICKER ====================================\\
+
+  final ImagePicker _picker = ImagePicker();
+  File? selectedImage;
+
 //============================================== BOOL VALUES =================================================\\
 
   //===================== COPY TO CLIPBOARD =======================\\
@@ -57,7 +67,160 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     );
   }
 
+  //=========================== WIDGETS ====================================\\
+  Widget _profilePicBottomSheet() {
+    return selectedImage == null
+        ? Container(
+            height: 140,
+            width: MediaQuery.of(context).size.width,
+            margin: const EdgeInsets.only(
+              left: kDefaultPadding,
+              right: kDefaultPadding,
+              bottom: kDefaultPadding,
+            ),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Profile photo",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+                kSizedBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            pickProfilePic(ImageSource.camera);
+                          },
+                          borderRadius: BorderRadius.circular(100),
+                          child: Container(
+                            height: 60,
+                            width: 60,
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100),
+                                side: BorderSide(
+                                  width: 0.5,
+                                  color: kGreyColor1,
+                                ),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.camera_alt_rounded,
+                              color: kAccentColor,
+                            ),
+                          ),
+                        ),
+                        kHalfSizedBox,
+                        Text(
+                          "Camera",
+                        ),
+                      ],
+                    ),
+                    kWidthSizedBox,
+                    Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            pickProfilePic(ImageSource.gallery);
+                          },
+                          borderRadius: BorderRadius.circular(100),
+                          child: Container(
+                            height: 60,
+                            width: 60,
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100),
+                                side: BorderSide(
+                                  width: 0.5,
+                                  color: kGreyColor1,
+                                ),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.image,
+                              color: kAccentColor,
+                            ),
+                          ),
+                        ),
+                        kHalfSizedBox,
+                        Text(
+                          "Gallery",
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )
+        : Container(
+            height: 140,
+            width: MediaQuery.of(context).size.width,
+            margin: const EdgeInsets.only(
+              left: kDefaultPadding,
+              right: kDefaultPadding,
+              bottom: kDefaultPadding,
+            ),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Profile photo",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    InkWell(
+                      borderRadius: BorderRadius.circular(80),
+                      onTap: () {},
+                      child: FaIcon(
+                        FontAwesomeIcons.solidTrashCan,
+                        color: kAccentColor,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 30),
+                MyElevatedButton(
+                  title: "Upload Image",
+                  onPressed: _uploadImage,
+                ),
+              ],
+            ),
+          );
+  }
+
   //==================================================== FUNCTIONS ===========================================================\\
+
+  //===================== Profile Picture ==========================\\
+  _uploadImage() async {}
+
+  pickProfilePic(ImageSource source) async {
+    final XFile? image = await _picker.pickImage(
+      source: source,
+    );
+    if (image != null) {
+      selectedImage = File(image.path);
+      setState(() {});
+    }
+  }
+
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {}
@@ -153,17 +316,111 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Container(
-                          height: 100,
-                          width: 100,
-                          decoration: ShapeDecoration(
-                            color: kPageSkeletonColor,
-                            image: DecorationImage(
-                              image: AssetImage(
-                                "assets/images/profile/avatar-image.jpg",
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Stack(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        elevation: 20,
+                                        barrierColor:
+                                            kBlackColor.withOpacity(0.8),
+                                        showDragHandle: true,
+                                        useSafeArea: true,
+                                        isDismissible: true,
+                                        isScrollControlled: true,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(
+                                              kDefaultPadding,
+                                            ),
+                                          ),
+                                        ),
+                                        enableDrag: true,
+                                        builder: (builder) =>
+                                            _profilePicBottomSheet(),
+                                      );
+                                    },
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: selectedImage == null
+                                        ? Container(
+                                            height: 150,
+                                            width: 150,
+                                            decoration: ShapeDecoration(
+                                              color: kPageSkeletonColor,
+                                              image: DecorationImage(
+                                                image: AssetImage(
+                                                  "assets/images/profile/avatar-image.jpg",
+                                                ),
+                                                fit: BoxFit.contain,
+                                              ),
+                                              shape: OvalBorder(),
+                                            ),
+                                          )
+                                        : Container(
+                                            height: 150,
+                                            width: 150,
+                                            decoration: ShapeDecoration(
+                                              color: kPageSkeletonColor,
+                                              image: DecorationImage(
+                                                image:
+                                                    FileImage(selectedImage!),
+                                                fit: BoxFit.contain,
+                                              ),
+                                              shape: OvalBorder(),
+                                            ),
+                                          ),
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    right: 5,
+                                    child: InkWell(
+                                      onTap: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          elevation: 20,
+                                          barrierColor:
+                                              kBlackColor.withOpacity(0.8),
+                                          showDragHandle: true,
+                                          useSafeArea: true,
+                                          isDismissible: true,
+                                          isScrollControlled: true,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(
+                                                kDefaultPadding,
+                                              ),
+                                            ),
+                                          ),
+                                          enableDrag: true,
+                                          builder: (builder) =>
+                                              _profilePicBottomSheet(),
+                                        );
+                                      },
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Container(
+                                        width: 50,
+                                        height: 50,
+                                        decoration: ShapeDecoration(
+                                          color: kAccentColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                          ),
+                                        ),
+                                        child: Icon(
+                                          Icons.edit_outlined,
+                                          color: kPrimaryColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              fit: BoxFit.cover,
-                            ),
-                            shape: OvalBorder(),
+                            ],
                           ),
                         ),
                         Column(

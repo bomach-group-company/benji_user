@@ -102,6 +102,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                   radius: Radius.circular(10),
                   scrollbarOrientation: ScrollbarOrientation.right,
                   child: ListView(
+                    controller: _scrollController,
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
                     children: [
