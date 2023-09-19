@@ -9,8 +9,8 @@ import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/section/reusable_authentication_first_half.dart';
 import '../../src/common_widgets/snackbar/my_fixed_snackBar.dart';
@@ -208,6 +208,7 @@ class _SignUpState extends State<SignUp> {
               Column(
                 children: [
                   Expanded(
+                    flex: 0,
                     child: () {
                       if (_validAuthCredentials) {
                         return ReusableAuthenticationFirstHalf(
@@ -280,12 +281,12 @@ class _SignUpState extends State<SignUp> {
                 ],
               ),
               Container(
-                height: media.height,
                 width: media.width,
                 padding: const EdgeInsets.only(
                   top: kDefaultPadding / 2,
                   left: kDefaultPadding,
                   right: kDefaultPadding,
+                  bottom: kDefaultPadding,
                 ),
                 decoration: BoxDecoration(
                   color: kPrimaryColor,

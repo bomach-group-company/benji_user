@@ -32,7 +32,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
               () => _obtainedUserDetails == null || _obtainedUserDetails == ""
                   ? const OnboardingScreen()
                   : Home(),
-              duration: const Duration(seconds: 2),
+              duration: const Duration(seconds: 1),
               fullscreenDialog: true,
               curve: Curves.easeIn,
               routeName:
