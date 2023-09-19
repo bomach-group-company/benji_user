@@ -2,6 +2,7 @@
 
 import 'package:benji_user/app/favorites/favorites.dart';
 import 'package:benji_user/src/common_widgets/empty.dart';
+import 'package:benji_user/src/common_widgets/vendor/vendors_card.dart';
 import 'package:benji_user/src/others/my_future_builder.dart';
 import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/models/category/sub_category.dart';
@@ -15,13 +16,13 @@ import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/appBar_delivery_location.dart';
 import '../../src/common_widgets/button/category button.dart';
-import '../../src/common_widgets/cart.dart';
-import '../../src/common_widgets/product/home_products_card.dart';
+import '../../src/common_widgets/cart_card.dart';
+import '../../src/common_widgets/product/product_card.dart';
 import '../../src/common_widgets/section/custom_showSearch.dart';
 import '../../src/common_widgets/section/see_all_container.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
-import '../../src/common_widgets/vendor/popular_vendors_card.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
 import '../../src/repo/models/vendor/vendor.dart';
 import '../../src/repo/utils/cart.dart';
@@ -133,11 +134,11 @@ class _HomeState extends State<Home> {
 
 //===================== POPULAR VENDORS =======================\\
   final List<String> popularVendorImage = [
-    "best-choice-restaurant.png",
-    "golden-toast.png",
-    "best-choice-restaurant.png",
-    "best-choice-restaurant.png",
-    "best-choice-restaurant.png",
+    "assets/images/vendors/ntachi-osa.png",
+    "assets/images/vendors/ntachi-osa.png",
+    "assets/images/vendors/ntachi-osa.png",
+    "assets/images/vendors/ntachi-osa.png",
+    "assets/images/vendors/ntachi-osa.png",
   ];
 
   //===================== COPY TO CLIPBOARD =======================\\
@@ -394,7 +395,7 @@ class _HomeState extends State<Home> {
         floatingActionButton: _isScrollToTopBtnVisible
             ? FloatingActionButton(
                 onPressed: _scrollToTop,
-                mini: true,
+                mini: deviceType(mediaWidth) > 2 ? false : true,
                 backgroundColor: kAccentColor,
                 enableFeedback: true,
                 mouseCursor: SystemMouseCursors.click,
@@ -421,7 +422,7 @@ class _HomeState extends State<Home> {
                     "assets/icons/drawer-icon.png",
                     color: kAccentColor,
                     fit: BoxFit.cover,
-                    height: 20,
+                    height: deviceType(mediaWidth) > 2 ? 36 : 20,
                   ),
                 ),
               ),
@@ -444,6 +445,7 @@ class _HomeState extends State<Home> {
                     icon: FaIcon(
                       FontAwesomeIcons.magnifyingGlass,
                       color: kAccentColor,
+                      size: deviceType(mediaWidth) > 2 ? 30 : 24,
                     ),
                   )
                 : Padding(
@@ -471,7 +473,7 @@ class _HomeState extends State<Home> {
                         "Loading...",
                         style: TextStyle(
                           color: kTextGreyColor,
-                          fontSize: 20,
+                          fontSize: deviceType(mediaWidth) > 2 ? 30 : 20,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -484,13 +486,13 @@ class _HomeState extends State<Home> {
                   semanticsLabel: "Pull to refresh",
                   child: Scrollbar(
                     controller: _scrollController,
-                    radius: Radius.circular(10),
-                    scrollbarOrientation: ScrollbarOrientation.right,
                     child: ListView(
                       controller: _scrollController,
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.vertical,
-                      padding: const EdgeInsets.all(kDefaultPadding / 2),
+                      padding: deviceType(mediaWidth) > 2
+                          ? const EdgeInsets.all(kDefaultPadding)
+                          : const EdgeInsets.all(kDefaultPadding / 2),
                       children: [
                         SeeAllContainer(
                           title: "Vendors Near you",
@@ -505,179 +507,65 @@ class _HomeState extends State<Home> {
                             scrollDirection: Axis.horizontal,
                             physics: BouncingScrollPhysics(),
                             separatorBuilder: (context, index) =>
-                                kHalfWidthSizedBox,
+                                deviceType(mediaWidth) > 2
+                                    ? kWidthSizedBox
+                                    : kHalfWidthSizedBox,
                             itemBuilder: (context, index) => InkWell(
-                              onTap: () {
-                                _toVendorPage(_data!['vendor'][index]);
-                              },
-                              child: Container(
-                                decoration: ShapeDecoration(
-                                  color: kPrimaryColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  shadows: [
-                                    BoxShadow(
-                                      color: Color(0x0F000000),
-                                      blurRadius: 24,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 0,
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: 224,
-                                      height: 128,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            "assets/images/vendors/ntachi-osa.png",
-                                          ),
-                                          fit: BoxFit.cover,
-                                        ),
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(7.20),
-                                          topRight: Radius.circular(7.20),
-                                        ),
-                                      ),
-                                    ),
-                                    kHalfSizedBox,
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, right: 8.0),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: 200,
-                                            child: Text(
-                                              _data!['vendor'][index].shopName,
-                                              style: TextStyle(
-                                                color: kTextBlackColor,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w700,
-                                                letterSpacing: -0.40,
-                                              ),
-                                            ),
-                                          ),
-                                          kHalfSizedBox,
-                                          SizedBox(
-                                            width: 200,
-                                            child: Text(
-                                              _data!['vendor'][index]
-                                                      .shopType
-                                                      .name ??
-                                                  'Not Available',
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                color: kTextGreyColor,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                          ),
-                                          kHalfSizedBox,
-                                          Container(
-                                            width: 200,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                FaIcon(
-                                                  FontAwesomeIcons.solidStar,
-                                                  color: kStarColor,
-                                                  size: 15,
-                                                ),
-                                                const SizedBox(width: 4.0),
-                                                SizedBox(
-                                                  width: 70,
-                                                  child: Text(
-                                                    '${((_data!['vendor'][index].averageRating as double?) ?? 0.0).toStringAsPrecision(2)} (${_data!['vendor'][index].numberOfClientsReactions ?? 0}+)',
-                                                    style: TextStyle(
-                                                      color: kTextBlackColor,
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      letterSpacing: -0.28,
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 10.0),
-                                                FaIcon(
-                                                  FontAwesomeIcons.solidClock,
-                                                  color: kAccentColor,
-                                                  size: 15,
-                                                ),
-                                                const SizedBox(width: 4.0),
-                                                SizedBox(
-                                                  width: 60,
-                                                  child: Text(
-                                                    '30 mins',
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      color: kTextBlackColor,
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      letterSpacing: -0.28,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              child: VendorsCard(
+                                removeDistance: false,
+                                onTap: () {
+                                  _toVendorPage(_data!['vendor'][index]);
+                                },
+                                cardImage:
+                                    "assets/images/vendors/ntachi-osa.png",
+                                vendorName: _data!['vendor'][index].shopName ??
+                                    "Not Available",
+                                typeOfBusiness:
+                                    _data!['vendor'][index].shopType.name ??
+                                        'Not Available',
+                                rating:
+                                    '${((_data!['vendor'][index].averageRating as double?) ?? 0.0).toStringAsPrecision(2)} (${_data!['vendor'][index].numberOfClientsReactions ?? 0})',
+                                distance: "30 mins",
                               ),
                             ),
                           ),
                         ),
-                        kHalfSizedBox,
+                        kSizedBox,
                         SeeAllContainer(
                           title: "Popular Vendors",
                           onPressed: _toSeeAllPopularVendors,
                         ),
                         kSizedBox,
                         Center(
-                          child: ListView.separated(
+                          child: GridView.builder(
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: _data!['popularVendor'].length,
-                            separatorBuilder: (context, index) => kHalfSizedBox,
-                            itemBuilder: (context, index) => PopularVendorsCard(
-                              onTap: () {
-                                _toVendorPage(
-                                  _data!['popularVendor'][index],
-                                );
-                              },
-                              cardImage: popularVendorImage[index],
-                              vendorName:
-                                  _data!['popularVendor'][index].shopName,
-                              businessType: _data!['popularVendor'][index]
-                                      .shopType
-                                      .name ??
-                                  'Not Available',
-                              rating: ((_data!['vendor'][index].averageRating
-                                          as double?) ??
-                                      0.0)
-                                  .toStringAsPrecision(2)
-                                  .toString(),
-                              noOfUsersRated: (_data!['popularVendor'][index]
-                                          .numberOfClientsReactions ??
-                                      0)
-                                  .toString(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount:
+                                  deviceType(mediaWidth) > 2 ? 3 : 2,
+                              crossAxisSpacing:
+                                  deviceType(mediaWidth) > 2 ? 20 : 10,
+                              mainAxisSpacing:
+                                  deviceType(mediaWidth) > 2 ? 25 : 15,
+                              childAspectRatio:
+                                  deviceType(mediaWidth) > 2 ? 1.28 : 0.86,
                             ),
+                            itemCount: _data!['popularVendor'].length,
+                            itemBuilder: (context, index) => VendorsCard(
+                                removeDistance: true,
+                                onTap: () {
+                                  _toVendorPage(_data!['popularVendor'][index]);
+                                },
+                                vendorName:
+                                    _data!['popularVendor'][index].shopName,
+                                typeOfBusiness: _data!['popularVendor'][index]
+                                        .shopType
+                                        .name ??
+                                    'Not Available',
+                                rating:
+                                    " ${((_data!['vendor'][index].averageRating as double?) ?? 0.0).toStringAsPrecision(2).toString()} (${(_data!['popularVendor'][index].numberOfClientsReactions ?? 0).toString()})",
+                                cardImage: popularVendorImage[index]),
                           ),
                         ),
                         kSizedBox,
@@ -723,14 +611,27 @@ class _HomeState extends State<Home> {
                                   ? EmptyCard(
                                       removeButton: true,
                                     )
-                                  : ListView.separated(
+                                  : GridView.builder(
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount:
+                                            deviceType(mediaWidth) > 2 ? 2 : 1,
+                                        crossAxisSpacing:
+                                            deviceType(mediaWidth) > 2 ? 20 : 1,
+                                        mainAxisSpacing:
+                                            deviceType(mediaWidth) > 2
+                                                ? 25
+                                                : 15,
+                                        childAspectRatio:
+                                            deviceType(mediaWidth) > 2
+                                                ? 1.4
+                                                : 1.2,
+                                      ),
                                       physics: const BouncingScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: _data!['product'].length,
-                                      separatorBuilder: (context, index) =>
-                                          kHalfSizedBox,
                                       itemBuilder: (context, index) =>
-                                          HomeProductsCard(
+                                          ProductCard(
                                         product: _data!['product'][index],
                                         onTap: () => _toProductDetailScreenPage(
                                             _data!['product'][index]),

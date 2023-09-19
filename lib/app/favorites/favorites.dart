@@ -1,9 +1,9 @@
 // ignore_for_file: unused_local_variable
 import 'package:benji_user/app/vendor/vendor_details.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
-import 'package:benji_user/src/common_widgets/cart.dart';
+import 'package:benji_user/src/common_widgets/cart_card.dart';
 import 'package:benji_user/src/common_widgets/empty.dart';
-import 'package:benji_user/src/common_widgets/product/home_products_card.dart';
+import 'package:benji_user/src/common_widgets/product/product_card.dart';
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/vendor/popular_vendors_card.dart';
+import '../../src/common_widgets/vendor/vendors_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../src/repo/models/product/product.dart';
@@ -238,7 +238,7 @@ class _FavoritesState extends State<Favorites>
                                         separatorBuilder: (context, index) =>
                                             kHalfSizedBox,
                                         itemBuilder: (context, index) =>
-                                            HomeProductsCard(
+                                            ProductCard(
                                           onTap: () => _toProductDetailsScreen(
                                               snapshot.data![index]),
                                           product: snapshot.data![index],
@@ -272,22 +272,18 @@ class _FavoritesState extends State<Favorites>
                                         separatorBuilder: (context, index) =>
                                             kHalfSizedBox,
                                         itemBuilder: (context, index) =>
-                                            PopularVendorsCard(
+                                            VendorsCard(
                                           onTap: () => _vendorDetailPage(
                                               snapshot.data![index]),
                                           cardImage:
                                               'best-choice-restaurant.png',
                                           vendorName:
                                               snapshot.data![index].shopName!,
-                                          businessType: snapshot
+                                          typeOfBusiness: snapshot
                                               .data![index].shopType!.name!,
-                                          rating: snapshot
-                                              .data![index].averageRating!
-                                              .toStringAsPrecision(2),
-                                          noOfUsersRated: (snapshot.data![index]
-                                                      .numberOfClientsReactions ??
-                                                  0)
-                                              .toString(),
+                                          rating:
+                                              "${snapshot.data![index].averageRating!.toStringAsPrecision(2)} (${(snapshot.data![index].numberOfClientsReactions ?? 0).toString()}",
+                                          removeDistance: true,
                                         ),
                                       ),
                               ),

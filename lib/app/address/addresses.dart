@@ -204,7 +204,7 @@ class _AddressesState extends State<Addresses> {
           actions: [],
         ),
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(kDefaultPadding),
           child: MyElevatedButton(
             title: "Add new address",
             onPressed: _toAddNewAddress,

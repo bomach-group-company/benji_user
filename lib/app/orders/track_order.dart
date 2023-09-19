@@ -4,6 +4,7 @@ import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
 import '../call/call_screen.dart';
 import '../delivery/delivery_map.dart';
@@ -304,21 +305,20 @@ class _TrackOrderState extends State<TrackOrder> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: 167,
-                        child: Text(
-                          'Status',
-                          style: TextStyle(
-                            color: kTextGreyColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
+                      Text(
+                        'Status',
+                        style: TextStyle(
+                          color: kTextGreyColor,
+                          fontSize: deviceType(mediaWidth) > 2 ? 18 : 16,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                       Row(
                         children: [
                           SizedBox(
-                            width: mediaWidth / 1.5,
+                            width: deviceType(mediaWidth) > 2
+                                ? mediaWidth / 3
+                                : mediaWidth / 1.5,
                             child: Text(
                               'Order received by vendor',
                               overflow: TextOverflow.ellipsis,

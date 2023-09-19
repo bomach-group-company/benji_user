@@ -15,10 +15,11 @@ import 'package:readmore/readmore.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
-import '../../src/common_widgets/cart.dart';
+import '../../src/common_widgets/cart_card.dart';
 import '../../src/common_widgets/rating_view/customer_review_card.dart';
 import '../../src/common_widgets/section/rate_product_dialog.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
+import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/utils/cart.dart';
 import '../../theme/colors.dart';
 import 'report_product.dart';
@@ -357,7 +358,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               children: [
                 FlutterCarousel.builder(
                   options: CarouselOptions(
-                    height: mediaHeight * 0.42,
+                    height:
+                        deviceType(mediaWidth) > 3 && deviceType(mediaWidth) < 5
+                            ? mediaHeight * 0.5
+                            : mediaHeight * 0.42,
                     viewportFraction: 1.0,
                     initialPage: 0,
                     enableInfiniteScroll: true,

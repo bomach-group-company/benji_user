@@ -3,6 +3,7 @@ import 'package:get/route_manager.dart';
 
 import '../../app/cart/cart_screen.dart';
 import '../../theme/colors.dart';
+import '../providers/responsive_constant.dart';
 import '../repo/utils/cart.dart';
 
 class CartCard extends StatefulWidget {
@@ -44,6 +45,7 @@ class _CartCardState extends State<CartCard> {
 
   @override
   Widget build(BuildContext context) {
+    double mediaWidth = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: _toCartScreen,
       child: Stack(
@@ -55,7 +57,7 @@ class _CartCardState extends State<CartCard> {
               splashRadius: 20,
               icon: Icon(
                 Icons.shopping_cart_outlined,
-                size: 28,
+                size: deviceType(mediaWidth) > 2 ? 36 : 28,
                 color: kAccentColor,
               ),
             ),
@@ -64,8 +66,8 @@ class _CartCardState extends State<CartCard> {
             top: 5,
             right: 5,
             child: Container(
-              height: 20,
-              width: 20,
+              height: deviceType(mediaWidth) > 2 ? 22 : 20,
+              width: deviceType(mediaWidth) > 2 ? 22 : 20,
               decoration: ShapeDecoration(
                 color: kAccentColor,
                 shape: RoundedRectangleBorder(
@@ -83,7 +85,7 @@ class _CartCardState extends State<CartCard> {
                         snapshot.data!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 9,
+                          fontSize: deviceType(mediaWidth) > 2 ? 12 : 9,
                           fontWeight: FontWeight.w400,
                         ),
                       );

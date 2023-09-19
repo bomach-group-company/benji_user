@@ -125,8 +125,19 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           maintainBottomViewPadding: true,
           child: LayoutGrid(
             columnSizes: breakPointDynamic(
-                media.size.width, [1.fr], [1.fr], [1.fr, 1.fr], [1.fr, 1.fr]),
-            rowSizes: [auto, 1.fr],
+              media.size.width,
+              [1.fr],
+              [1.fr],
+              [1.fr, 1.fr],
+              [1.fr, 1.fr],
+            ),
+            rowSizes: breakPointDynamic(
+              media.size.width,
+              [auto, 1.fr],
+              [auto, 1.fr],
+              [1.fr],
+              [1.fr],
+            ),
             children: [
               Column(
                 children: [

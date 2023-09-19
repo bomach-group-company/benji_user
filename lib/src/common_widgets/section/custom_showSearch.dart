@@ -1,5 +1,5 @@
 import 'package:benji_user/app/product/product_detail_screen.dart';
-import 'package:benji_user/src/common_widgets/product/home_products_card.dart';
+import 'package:benji_user/src/common_widgets/product/product_card.dart';
 import 'package:benji_user/src/providers/constants.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../../theme/colors.dart';
 import '../../others/my_future_builder.dart';
+import '../../providers/responsive_constant.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
   void _toProductDetailScreenPage(product) {
@@ -97,15 +98,31 @@ class CustomSearchDelegate extends SearchDelegate {
                 )
               : Scrollbar(
                   controller: _scrollController,
-                  child: ListView.separated(
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount:
+                          deviceType(MediaQuery.of(context).size.width) > 2
+                              ? 2
+                              : 1,
+                      crossAxisSpacing:
+                          deviceType(MediaQuery.of(context).size.width) > 2
+                              ? 20
+                              : 1,
+                      mainAxisSpacing:
+                          deviceType(MediaQuery.of(context).size.width) > 2
+                              ? 25
+                              : 15,
+                      childAspectRatio:
+                          deviceType(MediaQuery.of(context).size.width) > 2
+                              ? 1.4
+                              : 1.2,
+                    ),
                     controller: _scrollController,
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(kDefaultPadding),
                     shrinkWrap: true,
                     itemCount: data.length,
-                    separatorBuilder: (context, index) =>
-                        Divider(height: 10, color: kGreyColor),
-                    itemBuilder: (context, index) => HomeProductsCard(
+                    itemBuilder: (context, index) => ProductCard(
                       product: data[index],
                       onTap: () => _toProductDetailScreenPage(data[index]),
                     ),
