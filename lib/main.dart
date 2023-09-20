@@ -1,8 +1,8 @@
-import 'package:benji_user/app/splash_screens/startup_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import 'app/payment/monnify_payment.dart';
 import 'theme/app theme.dart';
 import 'theme/colors.dart';
 
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       //This is the home route
-      home: StartupSplashscreen(),
+      home: MonnifyPaymentSDK(),
     );
   }
 }
