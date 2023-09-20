@@ -10,7 +10,7 @@ class NumberTextFormField extends StatelessWidget {
   final FormFieldValidator validator;
   final dynamic onSaved;
   final TextInputAction textInputAction;
-  final FocusNode nameFocusNode;
+  final FocusNode focusNode;
   final String hintText;
   final List<TextInputFormatter> inputFormatter;
 
@@ -20,7 +20,7 @@ class NumberTextFormField extends StatelessWidget {
     required this.validator,
     this.onSaved,
     required this.textInputAction,
-    required this.nameFocusNode,
+    required this.focusNode,
     required this.hintText,
     required this.inputFormatter,
   });
@@ -29,7 +29,7 @@ class NumberTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       // onTap: onTap,
-      focusNode: nameFocusNode,
+      focusNode: focusNode,
       controller: controller,
       validator: validator,
       onSaved: onSaved,

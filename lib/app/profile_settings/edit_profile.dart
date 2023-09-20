@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -340,7 +339,7 @@ class _EditProfileState extends State<EditProfile> {
                           _userFirstNameEC.text = value;
                         },
                         textInputAction: TextInputAction.next,
-                        nameFocusNode: userFirstNameFN,
+                        focusNode: userFirstNameFN,
                         hintText: "Enter first name",
                       ),
                       kSizedBox,
@@ -372,7 +371,7 @@ class _EditProfileState extends State<EditProfile> {
                           _userLastNameEC.text = value;
                         },
                         textInputAction: TextInputAction.next,
-                        nameFocusNode: userLastNameFN,
+                        focusNode: userLastNameFN,
                       ),
                       kSizedBox,
                       Text(
