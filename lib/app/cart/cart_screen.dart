@@ -2,8 +2,8 @@ import 'package:benji_user/app/address/deliver_to.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:benji_user/src/common_widgets/empty.dart';
+import 'package:benji_user/src/common_widgets/product/cart_product_container.dart';
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
-import 'package:benji_user/src/common_widgets/vendor/cart_product_container.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:benji_user/src/repo/utils/cart.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
@@ -14,6 +14,7 @@ import 'package:get/route_manager.dart';
 import 'package:intl/intl.dart';
 
 import '../../src/providers/constants.dart';
+import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
 import '../product/product_detail_screen.dart';
 
@@ -266,8 +267,18 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                       ),
                       kSizedBox,
-                      ListView.separated(
-                        separatorBuilder: (context, index) => kHalfSizedBox,
+                      GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: deviceType(mediaWidth) > 2 ? 2 : 1,
+                          crossAxisSpacing: deviceType(mediaWidth) > 2 ? 20 : 1,
+                          mainAxisSpacing: deviceType(mediaWidth) > 2 ? 25 : 15,
+                          childAspectRatio: deviceType(mediaWidth) > 3 &&
+                                  deviceType(mediaWidth) < 5
+                              ? 1.9
+                              : deviceType(mediaWidth) > 2
+                                  ? 1.4
+                                  : 1.2,
+                        ),
                         itemCount: _data!.length,
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
@@ -283,7 +294,7 @@ class _CartScreenState extends State<CartScreen> {
                         },
                       ),
                       _data!.isEmpty ? EmptyCard() : SizedBox(),
-                      SizedBox(height: kDefaultPadding * 4),
+                      SizedBox(height: kDefaultPadding * 5),
                     ],
                   ),
                 ),

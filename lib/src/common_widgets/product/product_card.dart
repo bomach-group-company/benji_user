@@ -23,14 +23,12 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: 349.82,
-        height: 325.29,
-        margin: EdgeInsets.only(
-          bottom: 10,
-        ),
+        width: media.width / 2.5,
+        margin: EdgeInsets.only(bottom: 10),
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
@@ -50,7 +48,7 @@ class ProductCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              height: 186.64,
+              height: 186,
               decoration: ShapeDecoration(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -59,9 +57,7 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
                 image: DecorationImage(
-                  image: AssetImage(
-                    "assets/images/products/okra-soup.png",
-                  ),
+                  image: AssetImage("assets/images/products/okra-soup.png"),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -77,7 +73,7 @@ class ProductCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 313,
+                      width: media.width - 200,
                       child: Text(
                         product.name,
                         style: TextStyle(
@@ -89,7 +85,7 @@ class ProductCard extends StatelessWidget {
                     ),
                     kHalfSizedBox,
                     SizedBox(
-                      width: 313,
+                      width: media.width - 200,
                       child: Text(
                         product.vendorId.shopName!,
                         style: TextStyle(
@@ -108,7 +104,7 @@ class ProductCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: SizedBox(
-                width: 313,
+                width: media.width - 200,
                 child: Text(
                   '₦${formattedText(product.price)}',
                   style: TextStyle(
