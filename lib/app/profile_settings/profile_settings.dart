@@ -316,7 +316,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ],
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           child: Column(
@@ -426,6 +426,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             ],
                           ),
                         ),
+                        kWidthSizedBox,
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.start,

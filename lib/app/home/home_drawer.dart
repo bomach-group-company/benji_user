@@ -44,9 +44,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
     return Drawer(
       backgroundColor: kPrimaryColor,
       elevation: 10.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5.0),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
       width: MediaQuery.of(context).size.width * 0.8,
       child: ListView(
         children: [

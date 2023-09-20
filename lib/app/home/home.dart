@@ -375,6 +375,8 @@ class _HomeState extends State<Home> {
         },
         drawerDragStartBehavior: DragStartBehavior.start,
         drawerEnableOpenDragGesture: true,
+        endDrawerEnableOpenDragGesture: true,
+        resizeToAvoidBottomInset: true,
         drawer: MyFutureBuilder(
           future: getUser(),
           child: (data) => HomeDrawer(
@@ -548,8 +550,12 @@ class _HomeState extends State<Home> {
                                   deviceType(mediaWidth) > 2 ? 20 : 10,
                               mainAxisSpacing:
                                   deviceType(mediaWidth) > 2 ? 25 : 15,
-                              childAspectRatio:
-                                  deviceType(mediaWidth) > 2 ? 1.28 : 0.86,
+                              childAspectRatio: deviceType(mediaWidth) > 3 &&
+                                      deviceType(mediaWidth) < 5
+                                  ? 1.8
+                                  : deviceType(mediaWidth) > 2
+                                      ? 1.28
+                                      : 0.86,
                             ),
                             itemCount: _data!['popularVendor'].length,
                             itemBuilder: (context, index) => VendorsCard(
@@ -623,9 +629,12 @@ class _HomeState extends State<Home> {
                                                 ? 25
                                                 : 15,
                                         childAspectRatio:
-                                            deviceType(mediaWidth) > 2
-                                                ? 1.4
-                                                : 1.2,
+                                            deviceType(mediaWidth) > 3 &&
+                                                    deviceType(mediaWidth) < 5
+                                                ? 1.9
+                                                : deviceType(mediaWidth) > 2
+                                                    ? 1.4
+                                                    : 1.2,
                                       ),
                                       physics: const BouncingScrollPhysics(),
                                       shrinkWrap: true,

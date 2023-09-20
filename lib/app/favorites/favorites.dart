@@ -15,6 +15,7 @@ import 'package:get/route_manager.dart';
 import '../../src/common_widgets/vendor/vendors_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
+import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
 import '../../theme/colors.dart';
 import '../product/product_detail_screen.dart';
@@ -229,14 +230,34 @@ class _FavoritesState extends State<Favorites>
                               child: FavoriteProductsTab(
                                 list: snapshot.data!.isEmpty
                                     ? EmptyCard()
-                                    : ListView.separated(
+                                    : GridView.builder(
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount:
+                                              deviceType(mediaWidth) > 2
+                                                  ? 2
+                                                  : 1,
+                                          crossAxisSpacing:
+                                              deviceType(mediaWidth) > 2
+                                                  ? 20
+                                                  : 1,
+                                          mainAxisSpacing:
+                                              deviceType(mediaWidth) > 2
+                                                  ? 25
+                                                  : 15,
+                                          childAspectRatio:
+                                              deviceType(mediaWidth) > 3 &&
+                                                      deviceType(mediaWidth) < 5
+                                                  ? 1.9
+                                                  : deviceType(mediaWidth) > 2
+                                                      ? 1.4
+                                                      : 1.2,
+                                        ),
                                         controller: _scrollController,
                                         scrollDirection: Axis.vertical,
                                         itemCount: snapshot.data!.length,
                                         shrinkWrap: true,
                                         physics: const BouncingScrollPhysics(),
-                                        separatorBuilder: (context, index) =>
-                                            kHalfSizedBox,
                                         itemBuilder: (context, index) =>
                                             ProductCard(
                                           onTap: () => _toProductDetailsScreen(
@@ -264,19 +285,39 @@ class _FavoritesState extends State<Favorites>
                                 radius: const Radius.circular(10),
                                 child: snapshot.data!.isEmpty
                                     ? EmptyCard()
-                                    : ListView.separated(
+                                    : GridView.builder(
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount:
+                                              deviceType(mediaWidth) > 2
+                                                  ? 3
+                                                  : 2,
+                                          crossAxisSpacing:
+                                              deviceType(mediaWidth) > 2
+                                                  ? 20
+                                                  : 10,
+                                          mainAxisSpacing:
+                                              deviceType(mediaWidth) > 2
+                                                  ? 25
+                                                  : 15,
+                                          childAspectRatio:
+                                              deviceType(mediaWidth) > 3 &&
+                                                      deviceType(mediaWidth) < 5
+                                                  ? 1.8
+                                                  : deviceType(mediaWidth) > 2
+                                                      ? 1.28
+                                                      : 0.86,
+                                        ),
                                         controller: _scrollController,
                                         itemCount: snapshot.data!.length,
                                         shrinkWrap: true,
                                         physics: const BouncingScrollPhysics(),
-                                        separatorBuilder: (context, index) =>
-                                            kHalfSizedBox,
                                         itemBuilder: (context, index) =>
                                             VendorsCard(
                                           onTap: () => _vendorDetailPage(
                                               snapshot.data![index]),
                                           cardImage:
-                                              'best-choice-restaurant.png',
+                                              'assets/images/vendors/ntachi-osa.png',
                                           vendorName:
                                               snapshot.data![index].shopName!,
                                           typeOfBusiness: snapshot
