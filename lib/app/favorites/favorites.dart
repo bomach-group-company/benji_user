@@ -251,7 +251,7 @@ class _FavoritesState extends State<Favorites>
                                                   ? 1.9
                                                   : deviceType(mediaWidth) > 2
                                                       ? 1.4
-                                                      : 1.2,
+                                                      : 1.1,
                                         ),
                                         controller: _scrollController,
                                         scrollDirection: Axis.vertical,

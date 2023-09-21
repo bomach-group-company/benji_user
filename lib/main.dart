@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import 'app/splash_screens/startup_splash_screen.dart';
-import 'theme/app theme.dart';
-import 'theme/colors.dart';
+import 'app/payment/monnify_payment_sdk.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(statusBarColor: kTransparentColor),
+    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   );
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -23,15 +21,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return const GetMaterialApp(
       title: "Benji",
-      color: kPrimaryColor,
+      color: Colors.white,
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
+      // theme: AppTheme.lightTheme,
+      // darkTheme: AppTheme.darkTheme,
       //This is the home route
-      home: StartupSplashscreen(),
+      home: PayWithMonnify(),
     );
   }
 }

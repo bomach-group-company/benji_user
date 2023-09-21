@@ -37,6 +37,8 @@ class _VendorDetailsState extends State<VendorDetails>
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_scrollListener);
+
     _tabBarController = TabController(length: 2, vsync: this);
     getFavoriteVSingle(widget.vendor.id.toString()).then(
       (value) {
@@ -49,6 +51,8 @@ class _VendorDetailsState extends State<VendorDetails>
 
   @override
   void dispose() {
+    _scrollController.dispose();
+    _scrollController.removeListener(() {});
     _tabBarController.dispose();
     super.dispose();
   }
@@ -58,6 +62,8 @@ class _VendorDetailsState extends State<VendorDetails>
   }
 
 //==========================================================================================\\
+
+  bool _isScrollToTopBtnVisible = false;
 
   //=================================== ALL VARIABLES ====================================\\
   int selectedRating = 0;
@@ -76,6 +82,31 @@ class _VendorDetailsState extends State<VendorDetails>
   bool _isAddedToFavorites = false;
 
 //================================================= FUNCTIONS ===================================================\\
+  Future<void> _scrollToTop() async {
+    await _scrollController.animateTo(
+      0.0,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+    setState(() {
+      _isScrollToTopBtnVisible = false;
+    });
+  }
+
+  Future<void> _scrollListener() async {
+    if (_scrollController.position.pixels >= 200 &&
+        _isScrollToTopBtnVisible != true) {
+      setState(() {
+        _isScrollToTopBtnVisible = true;
+      });
+    }
+    if (_scrollController.position.pixels < 200 &&
+        _isScrollToTopBtnVisible == true) {
+      setState(() {
+        _isScrollToTopBtnVisible = false;
+      });
+    }
+  }
 
   void _addToFavorites() async {
     bool val = await favoriteItV(widget.vendor.id.toString());
@@ -235,6 +266,19 @@ class _VendorDetailsState extends State<VendorDetails>
           ],
         ),
         extendBodyBehindAppBar: true,
+        floatingActionButton: _isScrollToTopBtnVisible
+            ? FloatingActionButton(
+                onPressed: _scrollToTop,
+                mini: true,
+                backgroundColor: kAccentColor,
+                enableFeedback: true,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Scroll to top",
+                hoverColor: kAccentColor,
+                hoverElevation: 50.0,
+                child: const Icon(Icons.keyboard_arrow_up),
+              )
+            : SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
