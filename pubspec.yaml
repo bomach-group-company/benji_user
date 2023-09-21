@@ -41,8 +41,6 @@ dependencies:
   share_plus: ^7.1.0
   screenshot: ^2.1.0
   path_provider: ^2.1.1
-  plugin_platform_interface:
-  monnify_payment_sdk:
   pdf: ^3.10.4
 
 dev_dependencies:
