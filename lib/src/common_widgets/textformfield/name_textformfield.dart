@@ -9,7 +9,7 @@ class NameTextFormField extends StatelessWidget {
   final FormFieldValidator validator;
   final dynamic onSaved;
   final TextInputAction textInputAction;
-  final FocusNode nameFocusNode;
+  final FocusNode focusNode;
   final String hintText;
 
   const NameTextFormField({
@@ -18,7 +18,7 @@ class NameTextFormField extends StatelessWidget {
     required this.validator,
     this.onSaved,
     required this.textInputAction,
-    required this.nameFocusNode,
+    required this.focusNode,
     required this.hintText,
   });
 
@@ -26,7 +26,7 @@ class NameTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       // onTap: onTap,
-      focusNode: nameFocusNode,
+      focusNode: focusNode,
       controller: controller,
       validator: validator,
       onSaved: onSaved,

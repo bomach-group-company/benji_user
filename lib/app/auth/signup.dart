@@ -349,7 +349,7 @@ class _SignUpState extends State<SignUp> {
                               _userFirstNameEC.text = value;
                             },
                             textInputAction: TextInputAction.next,
-                            nameFocusNode: userFirstNameFN,
+                            focusNode: userFirstNameFN,
                             hintText: "Enter first name",
                           ),
                           kSizedBox,
@@ -384,7 +384,7 @@ class _SignUpState extends State<SignUp> {
                               _userLastNameEC.text = value;
                             },
                             textInputAction: TextInputAction.next,
-                            nameFocusNode: userLastNameFN,
+                            focusNode: userLastNameFN,
                             hintText: "Enter last name",
                           ),
                           kSizedBox,
