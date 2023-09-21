@@ -1,8 +1,9 @@
+import 'package:benji_user/app/splash_screens/startup_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import 'app/payment/monnify_payment_sdk.dart';
+import 'theme/app theme.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
@@ -21,15 +22,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
       title: "Benji",
       color: Colors.white,
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
-      // theme: AppTheme.lightTheme,
-      // darkTheme: AppTheme.darkTheme,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       //This is the home route
-      home: PayWithMonnify(),
+      home: const StartupSplashscreen(),
     );
   }
 }

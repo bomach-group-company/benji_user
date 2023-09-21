@@ -61,7 +61,7 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
         kSuccessColor,
         "Success!",
         "Item has been removed from cart.",
-        Duration(
+        const Duration(
           seconds: 1,
         ),
       );
@@ -83,18 +83,18 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
     var media = MediaQuery.of(context).size;
 
     return cartCountAll == '0'
-        ? SizedBox()
+        ? const SizedBox()
         : InkWell(
             onTap: widget.onTap,
             child: Container(
               width: media.width / 2.5,
-              margin: EdgeInsets.only(bottom: 10),
+              margin: const EdgeInsets.only(bottom: 10),
               decoration: ShapeDecoration(
                 color: kPrimaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14.19),
                 ),
-                shadows: [
+                shadows: const [
                   BoxShadow(
                     color: Color(0x19616161),
                     blurRadius: 24,
@@ -109,7 +109,7 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
                 children: [
                   Container(
                     height: 186,
-                    decoration: ShapeDecoration(
+                    decoration: const ShapeDecoration(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
@@ -126,7 +126,7 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
                   kSizedBox,
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: Container(
+                    child: SizedBox(
                       height: 57.06,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -137,7 +137,7 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
                             width: media.width - 200,
                             child: Text(
                               widget.product.name,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: kTextBlackColor,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
@@ -175,7 +175,7 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
                                   : media.width / 1.6,
                           child: Text(
                             "₦${formattedText(_productPrice)}",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: kTextBlackColor,
                               fontSize: 20,
                               fontFamily: 'Sen',
@@ -198,8 +198,8 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
                               ),
                             ),
                             Text(
-                              "$cartCountAll",
-                              style: TextStyle(
+                              cartCountAll,
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w700,
                               ),
                             ),

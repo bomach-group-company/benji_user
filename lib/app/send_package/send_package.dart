@@ -35,25 +35,25 @@ class _SendPackageState extends State<SendPackage> {
 
   //=============================== CONTROLLERS ==================================\\
 
-  var _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   //=============================== CONTROLLERS ==================================\\
-  var _pickupEC = TextEditingController();
-  var _senderNameEC = TextEditingController();
-  var _senderPhoneEC = TextEditingController();
-  var _dropOffEC = TextEditingController();
-  var _receiverNameEC = TextEditingController();
-  var _receiverPhoneEC = TextEditingController();
-  var _itemNameEC = TextEditingController();
-  var _itemCategoryEC = TextEditingController();
-  var _itemWeightEC = TextEditingController();
-  var _itemQuantityEC = TextEditingController();
+  final _pickupEC = TextEditingController();
+  final _senderNameEC = TextEditingController();
+  final _senderPhoneEC = TextEditingController();
+  final _dropOffEC = TextEditingController();
+  final _receiverNameEC = TextEditingController();
+  final _receiverPhoneEC = TextEditingController();
+  final _itemNameEC = TextEditingController();
+  final _itemCategoryEC = TextEditingController();
+  final _itemWeightEC = TextEditingController();
+  final _itemQuantityEC = TextEditingController();
   // var _AddressesState = TextEditingController();
-  var _itemValueEC = TextEditingController();
+  final _itemValueEC = TextEditingController();
 
   //=============================== FOCUS NODES ==================================\\
-  var _pickupFN = FocusNode();
-  var _senderNameFN = FocusNode();
+  final _pickupFN = FocusNode();
+  final _senderNameFN = FocusNode();
   var senderPhoneFN = FocusNode();
   var dropOffFN = FocusNode();
   var receiverNameFN = FocusNode();
@@ -149,7 +149,7 @@ class _SendPackageState extends State<SendPackage> {
         kSuccessColor,
         "Success!",
         "Your delivery request has been submitted",
-        Duration(seconds: 2),
+        const Duration(seconds: 2),
       );
 
       setState(() {
@@ -171,7 +171,7 @@ class _SendPackageState extends State<SendPackage> {
         kErrorColor,
         "Failed!",
         "Failed to submit",
-        Duration(seconds: 2),
+        const Duration(seconds: 2),
       );
       setState(() {
         _processingRequest = false;
@@ -223,7 +223,6 @@ class _SendPackageState extends State<SendPackage> {
     return _nextPage == false
         ? ElevatedButton(
             onPressed: details.onStepContinue,
-            child: Text("Next"),
             style: ElevatedButton.styleFrom(
               backgroundColor: kAccentColor,
               elevation: 20.0,
@@ -232,6 +231,7 @@ class _SendPackageState extends State<SendPackage> {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
+            child: const Text("Next"),
           )
         : _continuePage == true
             ? _processingRequest
@@ -240,7 +240,6 @@ class _SendPackageState extends State<SendPackage> {
                     children: [
                       ElevatedButton(
                         onPressed: _postData,
-                        child: Text("Continue"),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: kAccentColor,
                           elevation: 20.0,
@@ -250,14 +249,11 @@ class _SendPackageState extends State<SendPackage> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
+                        child: const Text("Continue"),
                       ),
                       kWidthSizedBox,
                       OutlinedButton(
                         onPressed: details.onStepCancel,
-                        child: Text(
-                          "Back",
-                          style: TextStyle(color: kAccentColor),
-                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: kPrimaryColor,
                           elevation: 20.0,
@@ -268,6 +264,10 @@ class _SendPackageState extends State<SendPackage> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
+                        child: Text(
+                          "Back",
+                          style: TextStyle(color: kAccentColor),
+                        ),
                       )
                     ],
                   )
@@ -275,7 +275,6 @@ class _SendPackageState extends State<SendPackage> {
                 children: [
                   ElevatedButton(
                     onPressed: details.onStepContinue,
-                    child: Text("Next"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: kAccentColor,
                       elevation: 20.0,
@@ -285,14 +284,11 @@ class _SendPackageState extends State<SendPackage> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
+                    child: const Text("Next"),
                   ),
                   kWidthSizedBox,
                   OutlinedButton(
                     onPressed: details.onStepCancel,
-                    child: Text(
-                      "Back",
-                      style: TextStyle(color: kAccentColor),
-                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: kPrimaryColor,
                       elevation: 20.0,
@@ -303,6 +299,10 @@ class _SendPackageState extends State<SendPackage> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
+                    child: Text(
+                      "Back",
+                      style: TextStyle(color: kAccentColor),
+                    ),
                   )
                 ],
               );
@@ -310,10 +310,10 @@ class _SendPackageState extends State<SendPackage> {
 
   List<Step> steps() => [
         Step(
-          subtitle: Text("details"),
+          subtitle: const Text("details"),
           isActive: _currentStep >= 0,
           state: _currentStep > 0 ? StepState.complete : StepState.indexed,
-          title: Text(
+          title: const Text(
             "Sender's",
             style: TextStyle(
               fontSize: 12,
@@ -324,7 +324,7 @@ class _SendPackageState extends State<SendPackage> {
             // mainAxisAlignment: MainAxis,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Pickup Address",
                 style: TextStyle(
                   fontSize: 17.6,
@@ -354,7 +354,7 @@ class _SendPackageState extends State<SendPackage> {
                 textInputType: TextInputType.streetAddress,
               ),
               kHalfSizedBox,
-              Text(
+              const Text(
                 "Sender's Name",
                 style: TextStyle(
                   fontSize: 17.6,
@@ -386,7 +386,7 @@ class _SendPackageState extends State<SendPackage> {
                 textInputType: TextInputType.name,
               ),
               kHalfSizedBox,
-              Text(
+              const Text(
                 "Phone Number",
                 style: TextStyle(
                   fontSize: 17.6,
@@ -423,10 +423,10 @@ class _SendPackageState extends State<SendPackage> {
           ),
         ),
         Step(
-          subtitle: Text("details"),
+          subtitle: const Text("details"),
           isActive: _currentStep >= 1,
           state: _currentStep > 1 ? StepState.complete : StepState.indexed,
-          title: Text(
+          title: const Text(
             "Receiver's",
             style: TextStyle(
               fontSize: 12,
@@ -437,7 +437,7 @@ class _SendPackageState extends State<SendPackage> {
             // mainAxisAlignment: MainAxis,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Drop-off Address",
                 style: TextStyle(
                   fontSize: 17.6,
@@ -467,7 +467,7 @@ class _SendPackageState extends State<SendPackage> {
                 textInputType: TextInputType.streetAddress,
               ),
               kHalfSizedBox,
-              Text(
+              const Text(
                 "Receiver's Name",
                 style: TextStyle(
                   fontSize: 17.6,
@@ -499,7 +499,7 @@ class _SendPackageState extends State<SendPackage> {
                 textInputType: TextInputType.name,
               ),
               kHalfSizedBox,
-              Text(
+              const Text(
                 "Phone Number",
                 style: TextStyle(
                   fontSize: 17.6,
@@ -538,10 +538,10 @@ class _SendPackageState extends State<SendPackage> {
           ),
         ),
         Step(
-          subtitle: Text("details"),
+          subtitle: const Text("details"),
           isActive: _currentStep >= 2,
           state: _currentStep > 2 ? StepState.complete : StepState.indexed,
-          title: Text(
+          title: const Text(
             "Item",
             style: TextStyle(
               fontSize: 12,
@@ -551,7 +551,7 @@ class _SendPackageState extends State<SendPackage> {
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Item Name",
                 style: TextStyle(
                   fontSize: 17.6,
@@ -583,7 +583,7 @@ class _SendPackageState extends State<SendPackage> {
                 textInputType: TextInputType.name,
               ),
               kHalfSizedBox,
-              Text(
+              const Text(
                 "Item Category",
                 style: TextStyle(
                   fontSize: 17.6,
@@ -603,7 +603,7 @@ class _SendPackageState extends State<SendPackage> {
                     .toList(),
               ),
               kSizedBox,
-              Text(
+              const Text(
                 "Item Weight",
                 style: TextStyle(
                   fontSize: 17.6,
@@ -624,7 +624,7 @@ class _SendPackageState extends State<SendPackage> {
                     .toList(),
               ),
               kSizedBox,
-              Text(
+              const Text(
                 "Item Quantity",
                 style: TextStyle(
                   fontSize: 17.6,
@@ -650,7 +650,7 @@ class _SendPackageState extends State<SendPackage> {
                 textInputType: TextInputType.number,
               ),
               kSizedBox,
-              Text(
+              const Text(
                 "Item Value",
                 style: TextStyle(
                   fontSize: 17.6,
@@ -701,7 +701,7 @@ class _SendPackageState extends State<SendPackage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.cloud_upload),
+                        const Icon(Icons.cloud_upload),
                         // Image.asset(
                         //   "assets/icons/image-upload.png",
                         // ),
@@ -733,19 +733,19 @@ class _SendPackageState extends State<SendPackage> {
         appBar: MyAppBar(
           title: "Send Package",
           elevation: 0.0,
-          actions: [],
+          actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Container(
-            padding: EdgeInsets.all(kDefaultPadding),
+            padding: const EdgeInsets.all(kDefaultPadding),
             child: Form(
               key: _formKey,
               child: Stepper(
-                physics: BouncingScrollPhysics(),
-                margin: EdgeInsets.only(
+                physics: const BouncingScrollPhysics(),
+                margin: const EdgeInsets.only(
                   left: kDefaultPadding,
                   right: kDefaultPadding,
                 ),

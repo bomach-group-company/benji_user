@@ -40,8 +40,8 @@ class _EditProfileState extends State<EditProfile> {
   //=========================== CONTROLLERS ====================================\\
   final _scrollController = ScrollController();
 
-  TextEditingController _userFirstNameEC = TextEditingController();
-  TextEditingController _userLastNameEC = TextEditingController();
+  final TextEditingController _userFirstNameEC = TextEditingController();
+  final TextEditingController _userLastNameEC = TextEditingController();
   TextEditingController phoneNumberEC = TextEditingController();
 
   //=========================== FOCUS NODES ====================================\\
@@ -172,7 +172,6 @@ class _EditProfileState extends State<EditProfile> {
     _userLastNameEC.text = user.lastName!;
     phoneNumberEC.text =
         (user.phone ?? '').replaceFirst('+$countryDialCode', '');
-    ;
   }
 
   Future<bool> updateProfile({bool is_current = true}) async {
@@ -234,7 +233,7 @@ class _EditProfileState extends State<EditProfile> {
         kSuccessColor,
         "Success!",
         "Your changes have been saved successfully".toUpperCase(),
-        Duration(seconds: 2),
+        const Duration(seconds: 2),
       );
 
       Get.back();
@@ -244,7 +243,7 @@ class _EditProfileState extends State<EditProfile> {
         kAccentColor,
         "Failed!",
         "Something unexpected happened, please try again later".toUpperCase(),
-        Duration(seconds: 2),
+        const Duration(seconds: 2),
       );
     }
 
@@ -275,7 +274,7 @@ class _EditProfileState extends State<EditProfile> {
         appBar: MyAppBar(
           title: "Edit Profile",
           elevation: 0.0,
-          actions: [],
+          actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
@@ -314,7 +313,7 @@ class _EditProfileState extends State<EditProfile> {
                     children: [
                       Text(
                         "First Name".toUpperCase(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),
@@ -345,7 +344,7 @@ class _EditProfileState extends State<EditProfile> {
                       kSizedBox,
                       Text(
                         "Last Name".toUpperCase(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),
@@ -376,7 +375,7 @@ class _EditProfileState extends State<EditProfile> {
                       kSizedBox,
                       Text(
                         "Phone Number".toUpperCase(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),

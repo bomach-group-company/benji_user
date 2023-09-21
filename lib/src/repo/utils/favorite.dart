@@ -11,7 +11,7 @@ String instanceNameVendor = 'favoriteVendors';
 
 Future<bool> favoriteItP(String id) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  Map products = jsonDecode(await prefs.getString(instanceNameProduct) ?? '{}');
+  Map products = jsonDecode(prefs.getString(instanceNameProduct) ?? '{}');
 
   bool? res;
   bool val = products[id] == null || products[id] == false;
@@ -35,7 +35,7 @@ Future<bool> favoriteItP(String id) async {
 
 Future<Map> getFavoriteP() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  Map products = jsonDecode(await prefs.getString(instanceNameProduct) ?? '{}');
+  Map products = jsonDecode(prefs.getString(instanceNameProduct) ?? '{}');
   return products;
 }
 
@@ -63,7 +63,7 @@ Future<List<Product>> getFavoriteProduct([Function(String)? whenError]) async {
 //================================ VENDOR =========================//
 Future<bool> favoriteItV(String id) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  Map vendors = jsonDecode(await prefs.getString(instanceNameVendor) ?? '{}');
+  Map vendors = jsonDecode(prefs.getString(instanceNameVendor) ?? '{}');
 
   bool? res;
   bool val = vendors[id] == null || vendors[id] == false;
@@ -87,7 +87,7 @@ Future<bool> favoriteItV(String id) async {
 
 Future<Map> getFavoriteV() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  Map vendors = jsonDecode(await prefs.getString(instanceNameVendor) ?? '{}');
+  Map vendors = jsonDecode(prefs.getString(instanceNameVendor) ?? '{}');
   return vendors;
 }
 

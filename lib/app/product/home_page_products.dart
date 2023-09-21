@@ -79,7 +79,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
   Future<void> _scrollToTop() async {
     await _scrollController.animateTo(
       0.0,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
     setState(() {
@@ -124,7 +124,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
           title: "Products",
           toolbarHeight: kToolbarHeight,
           backgroundColor: kPrimaryColor,
-          actions: [],
+          actions: const [],
         ),
         floatingActionButton: _isScrollToTopBtnVisible
             ? FloatingActionButton(
@@ -138,26 +138,26 @@ class _HomePageProductsState extends State<HomePageProducts> {
                 hoverElevation: 50.0,
                 child: const Icon(Icons.keyboard_arrow_up),
               )
-            : SizedBox(),
+            : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: _data == null
               ? SpinKitChasingDots(color: kAccentColor)
               : Scrollbar(
                   controller: _scrollController,
-                  radius: Radius.circular(10),
+                  radius: const Radius.circular(10),
                   scrollbarOrientation: ScrollbarOrientation.right,
                   child: ListView(
                     controller: _scrollController,
                     shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     children: [
                       SizedBox(
                         height: 60,
                         child: ListView.builder(
                           itemCount: _data!['category'].length,
                           scrollDirection: Axis.horizontal,
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) =>
                               Padding(
                             padding: const EdgeInsets.all(10),
@@ -185,7 +185,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                           ? Center(
                               child: SpinKitChasingDots(color: kAccentColor))
                           : _data!['product'].isEmpty
-                              ? EmptyCard(
+                              ? const EmptyCard(
                                   removeButton: true,
                                 )
                               : GridView.builder(
@@ -205,10 +205,10 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                                 ? 1.4
                                                 : 1.1,
                                   ),
-                                  physics: BouncingScrollPhysics(),
+                                  physics: const BouncingScrollPhysics(),
                                   itemCount: _data!['product'].length,
                                   shrinkWrap: true,
-                                  padding: EdgeInsets.all(kDefaultPadding),
+                                  padding: const EdgeInsets.all(kDefaultPadding),
                                   itemBuilder:
                                       (BuildContext context, int index) =>
                                           ProductCard(

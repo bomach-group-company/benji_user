@@ -47,10 +47,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   //===================== CONTROLLERS =======================\\
 
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   //===================== BOOL VALUES =======================\\
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   //===================== FUNCTIONS =======================\\
 
@@ -74,7 +74,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         kAccentColor,
         "Error!",
         "Item with id $data not found",
-        Duration(
+        const Duration(
           seconds: 1,
         ),
       ),
@@ -243,10 +243,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       controller: _scrollController,
                       child: ListView(
                         controller: _scrollController,
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         padding: const EdgeInsets.all(kDefaultPadding),
                         children: [
-                          Text(
+                          const Text(
                             'Delivery location',
                             style: TextStyle(
                               color: kTextBlackColor,
@@ -266,7 +266,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                shadows: [
+                                shadows: const [
                                   BoxShadow(
                                     color: Color(0x0F000000),
                                     blurRadius: 24,
@@ -292,7 +292,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             'Select location',
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           overflow: TextOverflow.ellipsis,
                                           color: kTextBlackColor,
                                           fontSize: 20,
@@ -323,11 +323,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: kDefaultPadding * 2,
                           ),
                           Container(
-                            child: Text(
+                            child: const Text(
                               'Product Summary',
                               style: TextStyle(
                                 color: kTextBlackColor,
@@ -339,13 +339,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           kSizedBox,
                           Container(
                             width: mediaWidth,
-                            padding: EdgeInsets.all(kDefaultPadding),
+                            padding: const EdgeInsets.all(kDefaultPadding),
                             decoration: ShapeDecoration(
                               color: kPrimaryColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              shadows: [
+                              shadows: const [
                                 BoxShadow(
                                   color: Color(0x0F000000),
                                   blurRadius: 24,
@@ -391,7 +391,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           kSizedBox,
                           Container(
                             width: mediaWidth,
-                            padding: EdgeInsets.all(
+                            padding: const EdgeInsets.all(
                               kDefaultPadding,
                             ),
                             decoration: ShapeDecoration(
@@ -401,7 +401,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   10,
                                 ),
                               ),
-                              shadows: [
+                              shadows: const [
                                 BoxShadow(
                                   color: Color(0x0F000000),
                                   blurRadius: 24,
@@ -416,7 +416,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     child: Text(
                                       'Payment Summary',
                                       style: TextStyle(
@@ -426,7 +426,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       ),
                                     ),
                                   ),
-                                  Divider(height: 20, color: kGreyColor1),
+                                  const Divider(height: 20, color: kGreyColor1),
                                   Container(
                                     child: Column(
                                       children: [
@@ -435,7 +435,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
+                                              const Text(
                                                 'Subtotal',
                                                 style: TextStyle(
                                                   color: kTextBlackColor,
@@ -461,7 +461,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
+                                              const Text(
                                                 'Delivery Fee',
                                                 style: TextStyle(
                                                   color: kTextBlackColor,
@@ -487,7 +487,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
+                                              const Text(
                                                 'Service Fee',
                                                 style: TextStyle(
                                                   color: kTextBlackColor,
@@ -511,14 +511,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     ),
                                   ),
                                   kHalfSizedBox,
-                                  Divider(height: 4, color: kGreyColor1),
+                                  const Divider(height: 4, color: kGreyColor1),
                                   kHalfSizedBox,
                                   Container(
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
+                                        const Text(
                                           'Total',
                                           style: TextStyle(
                                             color: kTextBlackColor,
@@ -542,7 +542,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(height: kDefaultPadding * 2),
+                          const SizedBox(height: kDefaultPadding * 2),
                           _isLoading
                               ? Center(
                                   child: SpinKitChasingDots(

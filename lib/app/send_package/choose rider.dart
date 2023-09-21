@@ -34,7 +34,7 @@ class _ChooseRiderState extends State<ChooseRider> {
       appBar: MyAppBar(
         title: "Choose a rider",
         elevation: 0.0,
-        actions: [],
+        actions: const [],
         backgroundColor: kPrimaryColor,
         toolbarHeight: kToolbarHeight,
       ),

@@ -44,7 +44,7 @@ class _CartScreenState extends State<CartScreen> {
         kAccentColor,
         "Error!",
         "Item with id $data not found",
-        Duration(
+        const Duration(
           seconds: 1,
         ),
       ),
@@ -72,7 +72,7 @@ class _CartScreenState extends State<CartScreen> {
   int _itemCount = 0;
   double _subTotal = 0;
   //==================================================== CONTROLLERS ======================================================\\
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
 //==================================================== FUNCTIONS ==========================================================\\
 
@@ -116,7 +116,7 @@ class _CartScreenState extends State<CartScreen> {
       );
 
   void _toCheckoutScreen() => Get.to(
-        () => DeliverTo(),
+        () => const DeliverTo(),
         routeName: 'DeliverTo',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -136,7 +136,7 @@ class _CartScreenState extends State<CartScreen> {
         appBar: MyAppBar(
           title: "Cart",
           elevation: 0.0,
-          actions: [],
+          actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
@@ -145,7 +145,7 @@ class _CartScreenState extends State<CartScreen> {
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(kDefaultPadding),
           child: _itemCount == 0
-              ? SizedBox()
+              ? const SizedBox()
               : Padding(
                   padding: const EdgeInsets.all(10),
                   child: MyElevatedButton(
@@ -200,7 +200,7 @@ class _CartScreenState extends State<CartScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          shadows: [
+                          shadows: const [
                             BoxShadow(
                               color: Color(0x0F000000),
                               blurRadius: 24,
@@ -212,7 +212,7 @@ class _CartScreenState extends State<CartScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               "Subtotal",
                               style: TextStyle(
                                 color: kTextBlackColor,
@@ -221,7 +221,7 @@ class _CartScreenState extends State<CartScreen> {
                             ),
                             Text(
                               "₦ ${formattedText(_subTotal)}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: kTextBlackColor,
                                 fontFamily: 'sen',
                                 fontWeight: FontWeight.w700,
@@ -249,9 +249,9 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                             ),
                             TextSpan(
-                              text: "${formattedText(_itemCount.toDouble())}"
+                              text: formattedText(_itemCount.toDouble())
                                   .toUpperCase(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: kTextBlackColor,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -293,8 +293,8 @@ class _CartScreenState extends State<CartScreen> {
                           );
                         },
                       ),
-                      _data!.isEmpty ? EmptyCard() : SizedBox(),
-                      SizedBox(height: kDefaultPadding * 5),
+                      _data!.isEmpty ? const EmptyCard() : const SizedBox(),
+                      const SizedBox(height: kDefaultPadding * 5),
                     ],
                   ),
                 ),

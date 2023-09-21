@@ -59,7 +59,7 @@ class _FavoritesState extends State<Favorites>
         kAccentColor,
         "Error!",
         "Item with id $data not found",
-        Duration(
+        const Duration(
           seconds: 1,
         ),
       ),
@@ -75,7 +75,7 @@ class _FavoritesState extends State<Favorites>
         kAccentColor,
         "Error!",
         "Item with id $data not found",
-        Duration(
+        const Duration(
           seconds: 1,
         ),
       ),
@@ -155,7 +155,7 @@ class _FavoritesState extends State<Favorites>
         appBar: MyAppBar(
           title: "Favorites",
           elevation: 0.0,
-          actions: [
+          actions: const [
             CartCard(),
           ],
           backgroundColor: kPrimaryColor,
@@ -164,7 +164,7 @@ class _FavoritesState extends State<Favorites>
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: ListView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             shrinkWrap: true,
             children: [
               kSizedBox,
@@ -215,7 +215,7 @@ class _FavoritesState extends State<Favorites>
               ),
               kSizedBox,
               Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: kDefaultPadding / 2,
                 ),
                 width: mediaWidth,
@@ -229,7 +229,7 @@ class _FavoritesState extends State<Favorites>
                               radius: const Radius.circular(10),
                               child: FavoriteProductsTab(
                                 list: snapshot.data!.isEmpty
-                                    ? EmptyCard()
+                                    ? const EmptyCard()
                                     : GridView.builder(
                                         gridDelegate:
                                             SliverGridDelegateWithFixedCrossAxisCount(
@@ -284,7 +284,7 @@ class _FavoritesState extends State<Favorites>
                                 controller: _scrollController,
                                 radius: const Radius.circular(10),
                                 child: snapshot.data!.isEmpty
-                                    ? EmptyCard()
+                                    ? const EmptyCard()
                                     : GridView.builder(
                                         gridDelegate:
                                             SliverGridDelegateWithFixedCrossAxisCount(

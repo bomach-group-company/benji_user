@@ -44,8 +44,8 @@ class _LoginState extends State<Login> {
 
   //=========================== CONTROLLERS ====================================\\
 
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   //=========================== KEYS ====================================\\
 
@@ -61,8 +61,8 @@ class _LoginState extends State<Login> {
   //=========================== STYLE ====================================\\
 
   //=========================== FOCUS NODES ====================================\\
-  FocusNode _emailFocusNode = FocusNode();
-  FocusNode _passwordFocusNode = FocusNode();
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
 
   //=========================== FUNCTIONS ====================================\\
 
@@ -119,7 +119,7 @@ class _LoginState extends State<Login> {
       );
 
       //Simulating a delay
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
 
       Get.offAll(
         () => const LoginSplashScreen(),
@@ -204,8 +204,8 @@ class _LoginState extends State<Login> {
                           title: "Log In",
                           subtitle: "Please log in to your existing account",
                           curves: Curves.easeInOut,
-                          duration: Duration(milliseconds: 300),
-                          containerChild: Center(
+                          duration: const Duration(milliseconds: 300),
+                          containerChild: const Center(
                             child: FaIcon(
                               FontAwesomeIcons.unlockKeyhole,
                               color: kSuccessColor,
@@ -215,7 +215,7 @@ class _LoginState extends State<Login> {
                           ),
                           decoration: ShapeDecoration(
                             color: kPrimaryColor,
-                            shape: OvalBorder(),
+                            shape: const OvalBorder(),
                           ),
                           imageContainerHeight:
                               deviceType(media.width) > 2 ? 200 : 120,
@@ -226,7 +226,7 @@ class _LoginState extends State<Login> {
                             title: "Log In",
                             subtitle: "Please log in to your existing account",
                             curves: Curves.easeInOut,
-                            duration: Duration(milliseconds: 300),
+                            duration: const Duration(milliseconds: 300),
                             containerChild: Center(
                               child: FaIcon(
                                 FontAwesomeIcons.lock,
@@ -237,7 +237,7 @@ class _LoginState extends State<Login> {
                             ),
                             decoration: ShapeDecoration(
                               color: kPrimaryColor,
-                              shape: OvalBorder(),
+                              shape: const OvalBorder(),
                             ),
                             imageContainerHeight:
                                 deviceType(media.width) > 2 ? 200 : 120,
@@ -247,7 +247,7 @@ class _LoginState extends State<Login> {
                             title: "Log In",
                             subtitle: "Please log in to your existing account",
                             curves: Curves.easeInOut,
-                            duration: Duration(milliseconds: 300),
+                            duration: const Duration(milliseconds: 300),
                             containerChild: Center(
                               child: FaIcon(
                                 FontAwesomeIcons.lock,
@@ -258,7 +258,7 @@ class _LoginState extends State<Login> {
                             ),
                             decoration: ShapeDecoration(
                               color: kPrimaryColor,
-                              shape: OvalBorder(),
+                              shape: const OvalBorder(),
                             ),
                             imageContainerHeight:
                                 deviceType(media.width) > 2 ? 200 : 120,

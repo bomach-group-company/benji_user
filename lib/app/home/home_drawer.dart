@@ -53,31 +53,31 @@ class _HomeDrawerState extends State<HomeDrawer> {
             title: "",
             toolbarHeight: kToolbarHeight,
             backgroundColor: kPrimaryColor,
-            actions: [],
+            actions: const [],
           ),
           MyFutureBuilder(
             future: getUser(),
             child: (data) => ListTile(
               leading: AnimatedContainer(
-                duration: Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 500),
                 curve: Curves.easeIn,
                 height: 50,
                 width: 50,
                 decoration: ShapeDecoration(
                   color: kPageSkeletonColor,
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     image: AssetImage(
                       "assets/images/profile/avatar-image.jpg",
                     ),
                     fit: BoxFit.cover,
                   ),
-                  shape: OvalBorder(),
+                  shape: const OvalBorder(),
                 ),
               ),
               title: Text(
                 '${data.firstName} ${data.lastName}',
                 textAlign: TextAlign.start,
-                style: TextStyle(
+                style: const TextStyle(
                   color: kTextBlackColor,
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
@@ -91,7 +91,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     Text(
                       data.email,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: kTextBlackColor,
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
@@ -102,7 +102,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         Text(
                           widget.userID,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: kTextBlackColor,
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -126,7 +126,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
           ),
           kHalfSizedBox,
-          Divider(
+          const Divider(
             color: kTextBlackColor,
           ),
           kHalfSizedBox,
@@ -136,7 +136,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
               FontAwesomeIcons.gear,
               color: kAccentColor,
             ),
-            title: Text(
+            title: const Text(
               'Profile Settings',
               style: TextStyle(
                 color: kTextBlackColor,
@@ -144,7 +144,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
               color: kTextBlackColor,
@@ -156,7 +156,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
               FontAwesomeIcons.locationDot,
               color: kAccentColor,
             ),
-            title: Text(
+            title: const Text(
               'Addresses',
               style: TextStyle(
                 color: kTextBlackColor,
@@ -164,7 +164,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
               color: kTextBlackColor,
@@ -176,7 +176,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
               FontAwesomeIcons.bicycle,
               color: kAccentColor,
             ),
-            title: Text(
+            title: const Text(
               'Send Package',
               style: TextStyle(
                 color: kTextBlackColor,
@@ -184,7 +184,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
               color: kTextBlackColor,
@@ -196,7 +196,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
               FontAwesomeIcons.boxesStacked,
               color: kAccentColor,
             ),
-            title: Text(
+            title: const Text(
               'My Packages',
               style: TextStyle(
                 color: kTextBlackColor,
@@ -204,7 +204,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
               color: kTextBlackColor,
@@ -216,7 +216,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
               FontAwesomeIcons.solidHeart,
               color: kAccentColor,
             ),
-            title: Text(
+            title: const Text(
               'Favorites',
               style: TextStyle(
                 color: kTextBlackColor,
@@ -224,7 +224,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
               color: kTextBlackColor,
@@ -237,7 +237,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
               size: 28,
               color: kAccentColor,
             ),
-            title: Text(
+            title: const Text(
               'Checkout',
               style: TextStyle(
                 color: kTextBlackColor,
@@ -245,7 +245,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
               color: kTextBlackColor,
@@ -257,7 +257,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
               FontAwesomeIcons.boxOpen,
               color: kAccentColor,
             ),
-            title: Text(
+            title: const Text(
               'My Orders',
               style: TextStyle(
                 color: kTextBlackColor,
@@ -265,7 +265,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
               color: kTextBlackColor,
@@ -277,7 +277,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
               FontAwesomeIcons.rightFromBracket,
               color: kAccentColor,
             ),
-            title: Text(
+            title: const Text(
               'Logout',
               style: TextStyle(
                 color: kTextBlackColor,
@@ -285,7 +285,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
               color: kTextBlackColor,

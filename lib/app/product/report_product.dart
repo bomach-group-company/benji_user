@@ -32,13 +32,13 @@ class _ReportProductState extends State<ReportProduct> {
   bool _submittingRequest = false;
 
   //============================================ CONTROLLERS ===========================================\\
-  TextEditingController _messageEC = TextEditingController();
+  final TextEditingController _messageEC = TextEditingController();
 
   //============================================ FOCUS NODES ===========================================\\
-  FocusNode _messageFN = FocusNode();
+  final FocusNode _messageFN = FocusNode();
 
   //============================================ KEYS ===========================================\\
-  GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   //============================================ FUNCTIONS ===========================================\\
   Future<bool> report() async {
@@ -84,7 +84,7 @@ class _ReportProductState extends State<ReportProduct> {
       });
 
       //Go back;
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       Get.back();
     } else {
       setState(() {
@@ -111,17 +111,17 @@ class _ReportProductState extends State<ReportProduct> {
         appBar: MyAppBar(
           title: "Help and support",
           elevation: 0.0,
-          actions: [],
+          actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
         bottomSheet: _submittingRequest
-            ? Container(
+            ? SizedBox(
                 height: 100,
                 child: SpinKitChasingDots(color: kAccentColor),
               )
             : AnimatedContainer(
-                duration: Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 500),
                 curve: Curves.easeInOut,
                 color: kPrimaryColor,
                 padding: const EdgeInsets.only(
@@ -163,7 +163,7 @@ class _ReportProductState extends State<ReportProduct> {
                 padding: const EdgeInsets.all(kDefaultPadding),
                 physics: const BouncingScrollPhysics(),
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 292,
                     child: Text(
                       'We will like to hear from you',
@@ -186,7 +186,7 @@ class _ReportProductState extends State<ReportProduct> {
                       ),
                     ),
                   ),
-                  SizedBox(height: kDefaultPadding * 2),
+                  const SizedBox(height: kDefaultPadding * 2),
                   Form(
                     key: _formKey,
                     child: Column(
@@ -212,7 +212,7 @@ class _ReportProductState extends State<ReportProduct> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 100,
                   ),
                 ],

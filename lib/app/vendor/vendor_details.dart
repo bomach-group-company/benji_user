@@ -85,7 +85,7 @@ class _VendorDetailsState extends State<VendorDetails>
   Future<void> _scrollToTop() async {
     await _scrollController.animateTo(
       0.0,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
     setState(() {
@@ -121,7 +121,7 @@ class _VendorDetailsState extends State<VendorDetails>
       _isAddedToFavorites
           ? "Vendor has been added to favorites"
           : "Vendor been removed from favorites",
-      Duration(milliseconds: 500),
+      const Duration(milliseconds: 500),
     );
   }
 
@@ -152,7 +152,7 @@ class _VendorDetailsState extends State<VendorDetails>
             children: [
               FaIcon(FontAwesomeIcons.solidStar, color: kStarColor),
               kWidthSizedBox,
-              Text("Rate this vendor"),
+              const Text("Rate this vendor"),
             ],
           ),
         ),
@@ -163,7 +163,7 @@ class _VendorDetailsState extends State<VendorDetails>
             children: [
               FaIcon(FontAwesomeIcons.solidFlag, color: kAccentColor),
               kWidthSizedBox,
-              Text("Report this vendor"),
+              const Text("Report this vendor"),
             ],
           ),
         ),
@@ -278,7 +278,7 @@ class _VendorDetailsState extends State<VendorDetails>
                 hoverElevation: 50.0,
                 child: const Icon(Icons.keyboard_arrow_up),
               )
-            : SizedBox(),
+            : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
@@ -311,7 +311,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                   : media.height * 0.28,
                           decoration: BoxDecoration(
                             color: kPageSkeletonColor,
-                            image: DecorationImage(
+                            image: const DecorationImage(
                               fit: BoxFit.fill,
                               image: AssetImage(
                                 "assets/images/vendors/ntachi-osa.png",
@@ -361,7 +361,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: kTextBlackColor,
                                       fontSize: 24,
                                       fontWeight: FontWeight.w700,
@@ -387,7 +387,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                         widget.vendor.address ??
                                             'Not Available',
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -416,7 +416,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                           ? "Not Available"
                                           : "Show on map",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -528,7 +528,7 @@ class _VendorDetailsState extends State<VendorDetails>
                               ),
                               fit: BoxFit.cover,
                             ),
-                            shape: OvalBorder(),
+                            shape: const OvalBorder(),
                           ),
                         ),
                       ),

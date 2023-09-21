@@ -35,8 +35,8 @@ class ReusableAuthenticationFirstHalf extends StatelessWidget {
             height: imageContainerHeight,
             width: imageContainerHeight,
             decoration: decoration,
-            child: containerChild,
             margin: const EdgeInsets.only(bottom: kDefaultPadding / 3),
+            child: containerChild,
           ),
           Container(
             color: kSecondaryColor,

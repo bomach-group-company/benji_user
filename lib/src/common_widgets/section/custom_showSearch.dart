@@ -50,7 +50,7 @@ class CustomSearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     //==================================================== CONTROLLERS ===========================================================\\
-    final _scrollController = ScrollController();
+    final scrollController = ScrollController();
 
     //==================================================== FUNCTIONS ===========================================================\\
     //===================== Get Data ==========================\\
@@ -97,7 +97,7 @@ class CustomSearchDelegate extends SearchDelegate {
                   ],
                 )
               : Scrollbar(
-                  controller: _scrollController,
+                  controller: scrollController,
                   child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount:
@@ -121,7 +121,7 @@ class CustomSearchDelegate extends SearchDelegate {
                               ? 1.4
                               : 1.1,
                     ),
-                    controller: _scrollController,
+                    controller: scrollController,
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(kDefaultPadding),
                     shrinkWrap: true,
