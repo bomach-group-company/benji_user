@@ -171,7 +171,7 @@ class _AddNewCardState extends State<AddNewCard> {
                           cardNumberEC.text = value;
                         },
                         textInputAction: TextInputAction.next,
-                        nameFocusNode: cardNumberFN,
+                        focusNode: cardNumberFN,
                         hintText: "Card Number",
                       ),
                       kSizedBox,
@@ -282,7 +282,7 @@ class _AddNewCardState extends State<AddNewCard> {
                       NameTextFormField(
                         controller: cardHoldersFullNameEC,
                         textInputAction: TextInputAction.go,
-                        nameFocusNode: cardHoldersFullNameFN,
+                        focusNode: cardHoldersFullNameFN,
                         hintText: "Card Holder's full name",
                         validator: (value) {
                           // RegExp cardPattern = RegExp(
