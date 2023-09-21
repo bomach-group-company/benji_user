@@ -28,7 +28,7 @@ dependencies:
   shared_preferences: ^2.2.1
   font_awesome_flutter: ^10.5.0
   lottie: ^2.6.0
-  get_it: ^7.6.4
+  get: ^4.6.6
   intl: ^0.18.1
   flutter_layout_grid: ^2.0.5
   dotted_border: ^2.0.0+3
