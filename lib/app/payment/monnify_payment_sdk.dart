@@ -46,12 +46,13 @@ class _MonnifyPaymentSDKState extends State<MonnifyPaymentSDK> {
                     ],
                   ),
                   MyElevatedButton(
-                      title: "Pay",
-                      onPressed: (() async {
-                        if (_formKey.currentState!.validate()) {
-                          await _initializePayment();
-                        }
-                      }))
+                    title: "Pay",
+                    onPressed: (() async {
+                      if (_formKey.currentState!.validate()) {
+                        await _initializePayment();
+                      }
+                    }),
+                  ),
                 ],
               ),
             )
