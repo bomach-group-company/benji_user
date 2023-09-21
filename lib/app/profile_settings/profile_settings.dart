@@ -61,7 +61,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       kSuccessColor,
       "Success!",
       "ID copied to clipboard",
-      Duration(
+      const Duration(
         seconds: 2,
       ),
     );
@@ -80,7 +80,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             ),
             child: Column(
               children: <Widget>[
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -110,7 +110,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             decoration: ShapeDecoration(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(100),
-                                side: BorderSide(
+                                side: const BorderSide(
                                   width: 0.5,
                                   color: kGreyColor1,
                                 ),
@@ -123,7 +123,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           ),
                         ),
                         kHalfSizedBox,
-                        Text(
+                        const Text(
                           "Camera",
                         ),
                       ],
@@ -142,7 +142,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             decoration: ShapeDecoration(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(100),
-                                side: BorderSide(
+                                side: const BorderSide(
                                   width: 0.5,
                                   color: kGreyColor1,
                                 ),
@@ -155,7 +155,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           ),
                         ),
                         kHalfSizedBox,
-                        Text(
+                        const Text(
                           "Gallery",
                         ),
                       ],
@@ -179,7 +179,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Profile photo",
                       style: TextStyle(
                         fontSize: 18,
@@ -196,7 +196,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     ),
                   ],
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 MyElevatedButton(
                   title: "Upload Image",
                   onPressed: _uploadImage,
@@ -279,7 +279,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         appBar: MyAppBar(
           title: "Profile Settings",
           elevation: 0.0,
-          actions: [],
+          actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
@@ -289,7 +289,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           maintainBottomViewPadding: true,
           child: Scrollbar(
             controller: _scrollController,
-            radius: Radius.circular(10),
+            radius: const Radius.circular(10),
             scrollbarOrientation: ScrollbarOrientation.right,
             child: ListView(
               controller: _scrollController,
@@ -306,7 +306,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      shadows: [
+                      shadows: const [
                         BoxShadow(
                           color: Color(0x0F000000),
                           blurRadius: 24,
@@ -335,7 +335,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                         useSafeArea: true,
                                         isDismissible: true,
                                         isScrollControlled: true,
-                                        shape: RoundedRectangleBorder(
+                                        shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.vertical(
                                             top: Radius.circular(
                                               kDefaultPadding,
@@ -354,13 +354,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                             width: 150,
                                             decoration: ShapeDecoration(
                                               color: kPageSkeletonColor,
-                                              image: DecorationImage(
+                                              image: const DecorationImage(
                                                 image: AssetImage(
                                                   "assets/images/profile/avatar-image.jpg",
                                                 ),
                                                 fit: BoxFit.contain,
                                               ),
-                                              shape: OvalBorder(),
+                                              shape: const OvalBorder(),
                                             ),
                                           )
                                         : Container(
@@ -373,7 +373,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                     FileImage(selectedImage!),
                                                 fit: BoxFit.contain,
                                               ),
-                                              shape: OvalBorder(),
+                                              shape: const OvalBorder(),
                                             ),
                                           ),
                                   ),
@@ -391,7 +391,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                           useSafeArea: true,
                                           isDismissible: true,
                                           isScrollControlled: true,
-                                          shape: RoundedRectangleBorder(
+                                          shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.vertical(
                                               top: Radius.circular(
                                                 kDefaultPadding,
@@ -434,7 +434,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             Text(
                               '${snapshot.firstName} ${snapshot.lastName}',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: kTextBlackColor,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
@@ -443,7 +443,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             Text(
                               snapshot.email,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: kTextBlackColor,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
@@ -454,7 +454,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 Text(
                                   snapshot.code,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: kTextBlackColor,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -491,7 +491,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      shadows: [
+                      shadows: const [
                         BoxShadow(
                           color: Color(0x0F000000),
                           blurRadius: 24,
@@ -506,7 +506,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         FontAwesomeIcons.userPen,
                         color: kAccentColor,
                       ),
-                      title: Text(
+                      title: const Text(
                         'Edit profile',
                         style: TextStyle(
                           color: kTextBlackColor,
@@ -514,7 +514,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      trailing: Icon(
+                      trailing: const Icon(
                         Icons.arrow_forward_ios_rounded,
                         size: 16,
                         color: kTextBlackColor,
@@ -533,7 +533,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      shadows: [
+                      shadows: const [
                         BoxShadow(
                           color: Color(0x0F000000),
                           blurRadius: 24,
@@ -548,7 +548,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         FontAwesomeIcons.solidPenToSquare,
                         color: kAccentColor,
                       ),
-                      title: Text(
+                      title: const Text(
                         'Change Password',
                         style: TextStyle(
                           color: kTextBlackColor,
@@ -556,7 +556,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      trailing: Icon(
+                      trailing: const Icon(
                         Icons.arrow_forward_ios_rounded,
                         size: 16,
                         color: kTextBlackColor,
@@ -575,7 +575,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      shadows: [
+                      shadows: const [
                         BoxShadow(
                           color: Color(0x0F000000),
                           blurRadius: 24,
@@ -590,7 +590,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         FontAwesomeIcons.rightFromBracket,
                         color: kAccentColor,
                       ),
-                      title: Text(
+                      title: const Text(
                         'Log out',
                         style: TextStyle(
                           color: kTextBlackColor,
@@ -598,7 +598,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      trailing: Icon(
+                      trailing: const Icon(
                         Icons.arrow_forward_ios_rounded,
                         size: 16,
                         color: kTextBlackColor,

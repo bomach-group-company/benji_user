@@ -1,64 +1,71 @@
-import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
-import 'package:benji_user/src/common_widgets/textformfield/number_textformfield.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_monnify/flutter_monnify.dart';
 
-import '../../src/providers/constants.dart';
-
-class MonnifyPaymentSDK extends StatefulWidget {
-  const MonnifyPaymentSDK({super.key});
+class PayWithMonnify extends StatefulWidget {
+  const PayWithMonnify({super.key});
 
   @override
-  State<MonnifyPaymentSDK> createState() => _MonnifyPaymentSDKState();
+  State<PayWithMonnify> createState() => _PayWithMonnifyState();
 }
 
-class _MonnifyPaymentSDKState extends State<MonnifyPaymentSDK> {
-  final _priceEC = TextEditingController();
-  final _priceFN = FocusNode();
-  final _formKey = GlobalKey<FormState>();
-
-  Future<void> _initializePayment() async {}
-
+class _PayWithMonnifyState extends State<PayWithMonnify> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.all(kDefaultPadding),
-          children: [
-            Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  NumberTextFormField(
-                    controller: _priceEC,
-                    validator: (value) {
-                      return null;
-                    },
-                    textInputAction: TextInputAction.go,
-                    focusNode: _priceFN,
-                    hintText: "Enter an amount",
-                    inputFormatter: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                  ),
-                  MyElevatedButton(
-                    title: "Pay",
-                    onPressed: (() async {
-                      if (_formKey.currentState!.validate()) {
-                        await _initializePayment();
-                      }
-                    }),
-                  ),
-                ],
-              ),
-            )
-          ],
+        body: SizedBox(
+      width: width,
+      height: height,
+      child: Center(
+        child: TextButton(
+          child: const Text("Pay With Monnify SDK"),
+          onPressed: () async {
+            TransactionResponse? response = await Monnify().checkout(
+                context, monnifyPayload(),
+                appBar: AppBarConfig(
+                    titleColor: Colors.white, backgroundColor: Colors.red),
+                toast: ToastConfig(
+                    color: Colors.black, backgroundColor: Colors.red));
+
+            //call the backend to verify transaction status before providing value
+            if (kDebugMode) {
+              print("Future completed======>${response?.toJson().toString()}");
+              print("Future completed11======>${response?.message.toString()}");
+            }
+          },
         ),
       ),
-    );
+    ));
+  }
+
+  Map<String, dynamic> monnifyPayload() {
+    return {
+      "amount": 13468229,
+      "currency": "NGN",
+      "reference": DateTime.now().toIso8601String(),
+      "customerFullName": "Chukwuoma Gideon",
+      "customerEmail": "gideon@gmail.com",
+      "apiKey": "MK_TEST_2VKR6NJEEL",
+      "contractCode": "6942520260",
+      "paymentDescription": "Benji Express",
+      "metadata": {"name": "Gideon Chukwuoma", "age": 23},
+      // "incomeSplitConfig": [
+      //   {
+      //     "subAccountCode": "MFY_SUB_342113621921",
+      //     "feePercentage": 50,
+      //     "splitAmount": 1900,
+      //     "feeBearer": true
+      //   },
+      //   {
+      //     "subAccountCode": "MFY_SUB_342113621922",
+      //     "feePercentage": 50,
+      //     "splitAmount": 2100,
+      //     "feeBearer": true
+      //   }
+      // ],
+      "paymentMethod": ["CARD", "ACCOUNT_TRANSFER", "USSD", "PHONE_NUMBER"],
+    };
   }
 }

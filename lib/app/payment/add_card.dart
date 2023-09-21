@@ -30,7 +30,7 @@ class _AddNewCardState extends State<AddNewCard> {
   final _scrollController = ScrollController();
 
   //=========================== KEYS ====================================\\
-  GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   TextEditingController cardNumberEC = TextEditingController();
   TextEditingController cvvEC = TextEditingController();
@@ -86,9 +86,9 @@ class _AddNewCardState extends State<AddNewCard> {
         kSuccessColor,
         "Success!",
         "Card has been added successfully",
-        Duration(seconds: 1),
+        const Duration(seconds: 1),
       );
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
       Get.back();
 
       setState(() {
@@ -100,9 +100,9 @@ class _AddNewCardState extends State<AddNewCard> {
         kErrorColor,
         "Failed!",
         "Failed to add card",
-        Duration(seconds: 1),
+        const Duration(seconds: 1),
       );
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
       Get.back();
 
       setState(() {
@@ -122,7 +122,7 @@ class _AddNewCardState extends State<AddNewCard> {
         appBar: MyAppBar(
           title: "Add New Card",
           elevation: 0,
-          actions: [],
+          actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
@@ -136,7 +136,7 @@ class _AddNewCardState extends State<AddNewCard> {
               controller: _scrollController,
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
-              padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+              padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
               children: [
                 deviceType(media.width) > 3 && deviceType(media.width) < 5
                     ? Lottie.asset("assets/animations/credit_card/frame_1.json",
@@ -208,7 +208,7 @@ class _AddNewCardState extends State<AddNewCard> {
                                 Container(
                                   height: 50,
                                   alignment: Alignment.center,
-                                  child: Text(
+                                  child: const Text(
                                     ' / ',
                                     style: TextStyle(
                                       fontSize: 25,
@@ -241,7 +241,7 @@ class _AddNewCardState extends State<AddNewCard> {
                               ],
                             ),
                           ),
-                          Spacer(flex: 1),
+                          const Spacer(flex: 1),
                           Expanded(
                             flex: 10,
                             child: MyFlexTextFormField(
@@ -303,7 +303,7 @@ class _AddNewCardState extends State<AddNewCard> {
                           cardHoldersFullNameEC.text = value;
                         },
                       ),
-                      SizedBox(height: kDefaultPadding * 2),
+                      const SizedBox(height: kDefaultPadding * 2),
                       _isSavingCard
                           ? Center(
                               child: SpinKitChasingDots(color: kAccentColor),
@@ -316,7 +316,7 @@ class _AddNewCardState extends State<AddNewCard> {
                                 }
                               }),
                             ),
-                      SizedBox(height: kDefaultPadding * 2),
+                      const SizedBox(height: kDefaultPadding * 2),
                     ],
                   ),
                 ),

@@ -32,11 +32,11 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   //=========================== CONTROLLERS ====================================\\
 
-  TextEditingController _userPasswordEC = TextEditingController();
+  final TextEditingController _userPasswordEC = TextEditingController();
   TextEditingController confirmPasswordEC = TextEditingController();
 
   //=========================== FOCUS NODES ====================================\\
-  FocusNode _userPasswordFN = FocusNode();
+  final FocusNode _userPasswordFN = FocusNode();
   FocusNode confirmPasswordFN = FocusNode();
 
   //=========================== BOOL VALUES====================================\\
@@ -103,7 +103,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         backgroundColor: kSecondaryColor,
-        appBar: MyAppBar(
+        appBar: const MyAppBar(
           title: "",
           elevation: 0.0,
           actions: [],
@@ -127,8 +127,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                           subtitle:
                               "Just enter a new password here and you are good to go!",
                           curves: Curves.easeInOut,
-                          duration: Duration(),
-                          containerChild: Center(
+                          duration: const Duration(),
+                          containerChild: const Center(
                             child: FaIcon(
                               FontAwesomeIcons.solidCircleCheck,
                               color: kSuccessColor,
@@ -136,7 +136,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             ),
                           ),
                           decoration: ShapeDecoration(
-                              color: kPrimaryColor, shape: OvalBorder()),
+                              color: kPrimaryColor, shape: const OvalBorder()),
                           imageContainerHeight:
                               deviceType(media.size.width) > 2 ? 200 : 100,
                         );
@@ -146,7 +146,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           subtitle:
                               "Just enter a new password here and you are good to go!",
                           curves: Curves.easeInOut,
-                          duration: Duration(),
+                          duration: const Duration(),
                           containerChild: Center(
                             child: FaIcon(
                               FontAwesomeIcons.key,
@@ -155,7 +155,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             ),
                           ),
                           decoration: ShapeDecoration(
-                              color: kPrimaryColor, shape: OvalBorder()),
+                              color: kPrimaryColor, shape: const OvalBorder()),
                           imageContainerHeight:
                               deviceType(media.size.width) > 2 ? 200 : 100,
                         );

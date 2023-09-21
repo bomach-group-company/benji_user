@@ -50,7 +50,7 @@ class CustomSearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     //==================================================== CONTROLLERS ===========================================================\\
-    final _scrollController = ScrollController();
+    final scrollController = ScrollController();
 
     //==================================================== FUNCTIONS ===========================================================\\
     //===================== Get Data ==========================\\
@@ -97,7 +97,7 @@ class CustomSearchDelegate extends SearchDelegate {
                   ],
                 )
               : Scrollbar(
-                  controller: _scrollController,
+                  controller: scrollController,
                   child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount:
@@ -112,12 +112,16 @@ class CustomSearchDelegate extends SearchDelegate {
                           deviceType(MediaQuery.of(context).size.width) > 2
                               ? 25
                               : 15,
-                      childAspectRatio:
-                          deviceType(MediaQuery.of(context).size.width) > 2
+                      childAspectRatio: deviceType(
+                                      MediaQuery.of(context).size.width) >
+                                  3 &&
+                              deviceType(MediaQuery.of(context).size.width) < 5
+                          ? 1.9
+                          : deviceType(MediaQuery.of(context).size.width) > 2
                               ? 1.4
-                              : 1.2,
+                              : 1.1,
                     ),
-                    controller: _scrollController,
+                    controller: scrollController,
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(kDefaultPadding),
                     shrinkWrap: true,

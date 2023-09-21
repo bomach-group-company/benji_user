@@ -13,7 +13,7 @@ void myFixedSnackBar(
       content: Text(
         text,
         textAlign: TextAlign.start,
-        style: TextStyle(
+        style: const TextStyle(
           fontWeight: FontWeight.w700,
         ),
       ),

@@ -38,7 +38,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
     });
 
     // Simulating a delay of 3 seconds
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
     Future.delayed(
         const Duration(
@@ -66,10 +66,10 @@ class _ApplyCouponState extends State<ApplyCoupon> {
           title: "Apply Coupon",
           backgroundColor: kPrimaryColor,
           toolbarHeight: 80,
-          actions: [],
+          actions: const [],
         ),
         body: Container(
-          margin: EdgeInsets.only(
+          margin: const EdgeInsets.only(
             top: kDefaultPadding,
             left: kDefaultPadding,
             right: kDefaultPadding,
@@ -82,7 +82,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    child: Text(
+                    child: const Text(
                       'Coupon Code',
                       style: TextStyle(
                         color: Color(
@@ -116,7 +116,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: kDefaultPadding * 4,
               ),
               isLoaded
@@ -135,7 +135,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             "Coupon applied successfully",
                             textAlign: TextAlign.center,

@@ -71,7 +71,7 @@ class CostumerReviewCard extends StatelessWidget {
               Container(
                 height: 45,
                 width: 45,
-                decoration: ShapeDecoration(
+                decoration: const ShapeDecoration(
                   shape: OvalBorder(),
                   image: DecorationImage(
                     image:
@@ -88,7 +88,7 @@ class CostumerReviewCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   textAlign: TextAlign.start,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF131514),
                     fontSize: 14,
                     fontWeight: FontWeight.w700,

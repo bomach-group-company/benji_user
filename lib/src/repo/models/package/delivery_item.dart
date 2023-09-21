@@ -71,7 +71,7 @@ Future<List<DeliveryItem>> getDeliveryItemsByClientAndStatus(
   User? user = await getUser();
   final response = await http.get(
       Uri.parse(
-          '$baseURL/sendPackage/gettemPackageByClientId/${user!.id}/${status}'),
+          '$baseURL/sendPackage/gettemPackageByClientId/${user!.id}/$status'),
       headers: await authHeader());
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
@@ -84,7 +84,7 @@ Future<List<DeliveryItem>> getDeliveryItemsByClientAndStatus(
 
 Future<DeliveryItem> getDeliveryItemById(id) async {
   final response = await http.get(
-      Uri.parse('$baseURL/sendPackage/gettemPackageById/${id}/'),
+      Uri.parse('$baseURL/sendPackage/gettemPackageById/$id/'),
       headers: await authHeader());
 
   if (response.statusCode == 200) {

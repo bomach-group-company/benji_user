@@ -22,7 +22,7 @@ void mySnackBar(
               width: 10,
               decoration: ShapeDecoration(
                 color: indicatorColor,
-                shape: RoundedRectangleBorder(
+                shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(20.0),
                     bottom: Radius.circular(20.0),
@@ -37,7 +37,7 @@ void mySnackBar(
             children: [
               Text(
                 title.toUpperCase(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: kTextBlackColor,
@@ -49,7 +49,7 @@ void mySnackBar(
                   message.toUpperCase(),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: kGreyColor1,
@@ -72,7 +72,7 @@ void mySnackBar(
       behavior: SnackBarBehavior.floating,
       backgroundColor: kPrimaryColor,
       elevation: 20.0,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(20.0),
           bottom: Radius.circular(20.0),

@@ -89,7 +89,7 @@ class _ProductVendorState extends State<ProductVendor> {
                   child: ListView.builder(
                     itemCount: _productAndSubCategoryName!.keys.toList().length,
                     scrollDirection: Axis.horizontal,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) => Padding(
                       padding: const EdgeInsets.all(kDefaultPadding / 2),
                       child: CategoryButton(
@@ -114,7 +114,7 @@ class _ProductVendorState extends State<ProductVendor> {
                 ),
                 kHalfSizedBox,
                 _productAndSubCategoryName!.isEmpty
-                    ? EmptyCard(
+                    ? const EmptyCard(
                         removeButton: true,
                       )
                     : GridView.builder(
@@ -128,8 +128,12 @@ class _ProductVendorState extends State<ProductVendor> {
                               deviceType(media.width) > 2 ? 20 : 1,
                           mainAxisSpacing:
                               deviceType(media.width) > 2 ? 25 : 15,
-                          childAspectRatio:
-                              deviceType(media.width) > 2 ? 1.4 : 1.2,
+                          childAspectRatio: deviceType(media.width) > 3 &&
+                                  deviceType(media.width) < 5
+                              ? 1.9
+                              : deviceType(media.width) > 2
+                                  ? 1.4
+                                  : 1.1,
                         ),
                         itemBuilder: (context, index) => ProductCard(
                           product: _productAndSubCategoryName![activeCategory]![
@@ -141,7 +145,7 @@ class _ProductVendorState extends State<ProductVendor> {
                       ),
                 kSizedBox,
                 _productAndSubCategoryName!.isEmpty
-                    ? SizedBox()
+                    ? const SizedBox()
                     : TextButton(
                         onPressed: _viewProducts,
                         child: Text(
