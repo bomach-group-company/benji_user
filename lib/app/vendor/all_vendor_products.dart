@@ -171,8 +171,12 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
                               deviceType(media.width) > 2 ? 20 : 1,
                           mainAxisSpacing:
                               deviceType(media.width) > 2 ? 25 : 15,
-                          childAspectRatio:
-                              deviceType(media.width) > 2 ? 1.4 : 1.2,
+                          childAspectRatio: deviceType(media.width) > 3 &&
+                                  deviceType(media.width) < 5
+                              ? 1.9
+                              : deviceType(media.width) > 2
+                                  ? 1.4
+                                  : 1.1,
                         ),
                         itemCount:
                             _productAndSubCategoryName![activeCategory]!.length,

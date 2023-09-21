@@ -277,7 +277,7 @@ class _CartScreenState extends State<CartScreen> {
                               ? 1.9
                               : deviceType(mediaWidth) > 2
                                   ? 1.4
-                                  : 1.2,
+                                  : 1.1,
                         ),
                         itemCount: _data!.length,
                         shrinkWrap: true,
