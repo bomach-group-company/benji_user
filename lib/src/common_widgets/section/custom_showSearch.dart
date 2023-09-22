@@ -79,7 +79,7 @@ class CustomSearchDelegate extends SearchDelegate {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Lottie.asset(
-                            "assets/animations/empty/frame_3.json",
+                            "animations/empty/frame_3.json",
                             height: 300,
                             fit: BoxFit.contain,
                           ),
@@ -150,7 +150,7 @@ class CustomSearchDelegate extends SearchDelegate {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Lottie.asset(
-                  "assets/animations/empty/frame_3.json",
+                  "animations/empty/frame_3.json",
                   height: 300,
                   fit: BoxFit.contain,
                 ),

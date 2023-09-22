@@ -380,7 +380,7 @@ class _TrackOrderState extends State<TrackOrder> {
                           decoration: ShapeDecoration(
                             image: const DecorationImage(
                               image: AssetImage(
-                                "assets/images/products/chizzy's-food.png",
+                                "images/products/chizzy's-food.png",
                               ),
                               fit: BoxFit.cover,
                             ),
@@ -485,7 +485,7 @@ class _TrackOrderState extends State<TrackOrder> {
                         decoration: ShapeDecoration(
                           image: const DecorationImage(
                             image: AssetImage(
-                              "assets/images/rider/martins-okafor.png",
+                              "images/rider/martins-okafor.png",
                             ),
                             fit: BoxFit.cover,
                           ),

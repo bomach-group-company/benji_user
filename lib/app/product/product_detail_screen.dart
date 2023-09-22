@@ -82,13 +82,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String cartCount = '1';
   String? cartCountAll;
   final List<String> _carouselImages = <String>[
-    "assets/images/products/best-choice-restaurant.png",
-    "assets/images/products/burgers.png",
-    "assets/images/products/chizzy's-food.png",
-    "assets/images/products/golden-toast.png",
-    "assets/images/products/new-food.png",
-    "assets/images/products/okra-soup.png",
-    "assets/images/products/pasta.png"
+    "images/products/best-choice-restaurant.png",
+    "images/products/burgers.png",
+    "images/products/chizzy's-food.png",
+    "images/products/golden-toast.png",
+    "images/products/new-food.png",
+    "images/products/okra-soup.png",
+    "images/products/pasta.png"
   ];
 
 //====================================================== BOOL VALUES ========================================================\\

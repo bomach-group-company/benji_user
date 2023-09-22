@@ -75,7 +75,7 @@ class CostumerReviewCard extends StatelessWidget {
                   shape: OvalBorder(),
                   image: DecorationImage(
                     image:
-                        AssetImage('assets/images/customers/ebuka_henry.png'),
+                        AssetImage('images/customers/ebuka_henry.png'),
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -206,7 +206,7 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                                 transition: Transition.rightToLeft,
                               );
                             },
-                            cardImage: 'assets/images/vendors/ntachi-osa.png',
+                            cardImage: 'images/vendors/ntachi-osa.png',
                             vendorName: _data!['vendor'][index].shopName,
                             distance: "50 mins",
                             typeOfBusiness:

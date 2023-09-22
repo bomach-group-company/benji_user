@@ -49,7 +49,7 @@ class _SignUpSplashScreenState extends State<SignUpSplashScreen> {
             const Spacer(),
             Center(
               child: Lottie.asset(
-                "assets/animations/signup/frame_1.json",
+                "animations/signup/frame_1.json",
                 height: 300,
               ),
             ),
