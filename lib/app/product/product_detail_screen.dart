@@ -318,7 +318,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         color: kAccentColor,
                       ),
                     ),
-                    const CartCard()
+                    CartCard(),
                   ],
                 )),
             IconButton(
