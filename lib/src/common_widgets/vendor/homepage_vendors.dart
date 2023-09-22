@@ -19,7 +19,7 @@ class HomePageVendorsNearYou extends StatelessWidget {
       child: ListView.separated(
         itemCount: 10,
         scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         separatorBuilder: (context, index) => kHalfWidthSizedBox,
         itemBuilder: (context, index) => InkWell(
           onTap: onTap,
@@ -29,7 +29,7 @@ class HomePageVendorsNearYou extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              shadows: const [
+              shadows: [
                 BoxShadow(
                   color: Color(0x0F000000),
                   blurRadius: 24,
@@ -45,10 +45,10 @@ class HomePageVendorsNearYou extends StatelessWidget {
                 Container(
                   width: 224,
                   height: 128,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                        "images/vendors/ntachi-osa.png",
+                        "assets/images/vendors/ntachi-osa.png",
                       ),
                       fit: BoxFit.cover,
                     ),
@@ -64,7 +64,7 @@ class HomePageVendorsNearYou extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const SizedBox(
+                      SizedBox(
                         width: 200,
                         height: 26,
                         child: Text(
@@ -91,7 +91,7 @@ class HomePageVendorsNearYou extends StatelessWidget {
                         ),
                       ),
                       kHalfSizedBox,
-                      SizedBox(
+                      Container(
                         width: 200,
                         height: 17,
                         child: Row(
@@ -104,7 +104,7 @@ class HomePageVendorsNearYou extends StatelessWidget {
                               size: 15,
                             ),
                             const SizedBox(width: 4.0),
-                            const SizedBox(
+                            SizedBox(
                               width: 70,
                               child: Text(
                                 '3.6 (100+)',
@@ -123,7 +123,7 @@ class HomePageVendorsNearYou extends StatelessWidget {
                               size: 15,
                             ),
                             const SizedBox(width: 4.0),
-                            const SizedBox(
+                            SizedBox(
                               width: 60,
                               child: Text(
                                 '30 mins',

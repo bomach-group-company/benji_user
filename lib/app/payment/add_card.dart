@@ -30,7 +30,7 @@ class _AddNewCardState extends State<AddNewCard> {
   final _scrollController = ScrollController();
 
   //=========================== KEYS ====================================\\
-  final GlobalKey<FormState> _formKey = GlobalKey();
+  GlobalKey<FormState> _formKey = GlobalKey();
 
   TextEditingController cardNumberEC = TextEditingController();
   TextEditingController cvvEC = TextEditingController();
@@ -86,9 +86,9 @@ class _AddNewCardState extends State<AddNewCard> {
         kSuccessColor,
         "Success!",
         "Card has been added successfully",
-        const Duration(seconds: 1),
+        Duration(seconds: 1),
       );
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 2));
       Get.back();
 
       setState(() {
@@ -100,9 +100,9 @@ class _AddNewCardState extends State<AddNewCard> {
         kErrorColor,
         "Failed!",
         "Failed to add card",
-        const Duration(seconds: 1),
+        Duration(seconds: 1),
       );
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 2));
       Get.back();
 
       setState(() {
@@ -122,7 +122,7 @@ class _AddNewCardState extends State<AddNewCard> {
         appBar: MyAppBar(
           title: "Add New Card",
           elevation: 0,
-          actions: const [],
+          actions: [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
@@ -136,13 +136,13 @@ class _AddNewCardState extends State<AddNewCard> {
               controller: _scrollController,
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
-              padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+              padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
               children: [
                 deviceType(media.width) > 3 && deviceType(media.width) < 5
-                    ? Lottie.asset("animations/credit_card/frame_1.json",
+                    ? Lottie.asset("assets/animations/credit_card/frame_1.json",
                         height: 250)
                     : Lottie.asset(
-                        "animations/credit_card/frame_1.json"),
+                        "assets/animations/credit_card/frame_1.json"),
                 kSizedBox,
                 Form(
                   key: _formKey,
@@ -171,7 +171,7 @@ class _AddNewCardState extends State<AddNewCard> {
                           cardNumberEC.text = value;
                         },
                         textInputAction: TextInputAction.next,
-                        focusNode: cardNumberFN,
+                        nameFocusNode: cardNumberFN,
                         hintText: "Card Number",
                       ),
                       kSizedBox,
@@ -208,7 +208,7 @@ class _AddNewCardState extends State<AddNewCard> {
                                 Container(
                                   height: 50,
                                   alignment: Alignment.center,
-                                  child: const Text(
+                                  child: Text(
                                     ' / ',
                                     style: TextStyle(
                                       fontSize: 25,
@@ -241,7 +241,7 @@ class _AddNewCardState extends State<AddNewCard> {
                               ],
                             ),
                           ),
-                          const Spacer(flex: 1),
+                          Spacer(flex: 1),
                           Expanded(
                             flex: 10,
                             child: MyFlexTextFormField(
@@ -282,7 +282,7 @@ class _AddNewCardState extends State<AddNewCard> {
                       NameTextFormField(
                         controller: cardHoldersFullNameEC,
                         textInputAction: TextInputAction.go,
-                        focusNode: cardHoldersFullNameFN,
+                        nameFocusNode: cardHoldersFullNameFN,
                         hintText: "Card Holder's full name",
                         validator: (value) {
                           // RegExp cardPattern = RegExp(
@@ -303,7 +303,7 @@ class _AddNewCardState extends State<AddNewCard> {
                           cardHoldersFullNameEC.text = value;
                         },
                       ),
-                      const SizedBox(height: kDefaultPadding * 2),
+                      SizedBox(height: kDefaultPadding * 2),
                       _isSavingCard
                           ? Center(
                               child: SpinKitChasingDots(color: kAccentColor),
@@ -316,7 +316,7 @@ class _AddNewCardState extends State<AddNewCard> {
                                 }
                               }),
                             ),
-                      const SizedBox(height: kDefaultPadding * 2),
+                      SizedBox(height: kDefaultPadding * 2),
                     ],
                   ),
                 ),

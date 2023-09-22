@@ -40,7 +40,7 @@ class _ViewPackageState extends State<ViewPackage> {
       widget.deliveryItem.receiverPhoneNumber,
       widget.deliveryItem.dropOffAddress,
       widget.deliveryItem.itemName,
-      (formattedText(widget.deliveryItem.itemQuantity.toDouble())),
+      "${formattedText(widget.deliveryItem.itemQuantity.toDouble())}",
       "${widget.deliveryItem.itemWeight.start} KG - ${widget.deliveryItem.itemWeight.end} KG",
       "₦ ${formattedText(widget.deliveryItem.itemValue.toDouble())}",
       "₦ ${formattedText(widget.deliveryItem.prices)}",
@@ -49,7 +49,7 @@ class _ViewPackageState extends State<ViewPackage> {
 
   //================================================= ALL VARIABLES =====================================================\\
   DateTime now = DateTime.now();
-  final List<String> _titles = <String>[
+  List<String> _titles = <String>[
     "Status",
     "Sender's name",
     "Sender's phone number",
@@ -70,7 +70,7 @@ class _ViewPackageState extends State<ViewPackage> {
 
   //=================================================  Navigation =====================================================\\
   void _toReportPackage() => Get.to(
-        () => const ReportPackage(),
+        () => ReportPackage(),
         routeName: 'ReportPackage',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -89,7 +89,7 @@ class _ViewPackageState extends State<ViewPackage> {
       useSafeArea: true,
       isDismissible: true,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(kDefaultPadding),
         ),
@@ -221,7 +221,7 @@ class _ViewPackageState extends State<ViewPackage> {
       appBar: MyAppBar(
         title: "View Package",
         elevation: 0,
-        actions: const [],
+        actions: [],
         backgroundColor: kPrimaryColor,
         toolbarHeight: kToolbarHeight,
       ),
@@ -242,7 +242,7 @@ class _ViewPackageState extends State<ViewPackage> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                          'icons/${widget.deliveryItem.status.toLowerCase() == "pending" ? "package-waiting" : "package-success"}.png'),
+                          'assets/icons/${widget.deliveryItem.status.toLowerCase() == "pending" ? "package-waiting" : "package-success"}.png'),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -264,24 +264,24 @@ class _ViewPackageState extends State<ViewPackage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
                       child: Column(
                         children: [
-                          const SizedBox(height: 50),
+                          SizedBox(height: 50),
                           Container(
                             height: 40,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               color: kPrimaryColor,
-                              image: const DecorationImage(
+                              image: DecorationImage(
                                 image: AssetImage(
-                                  'images/logo/benji_full_logo.png',
+                                  'assets/images/logo/benji_full_logo.png',
                                 ),
                                 fit: BoxFit.contain,
                               ),
                             ),
                           ),
-                          const SizedBox(height: 50),
+                          SizedBox(height: 50),
                           Divider(color: kGreyColor, height: 0),
                           ListView.separated(
                             itemCount: _titles.length,
@@ -306,7 +306,7 @@ class _ViewPackageState extends State<ViewPackage> {
                                   textAlign: TextAlign.start,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: kTextBlackColor,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w700,
@@ -347,7 +347,7 @@ class _ViewPackageState extends State<ViewPackage> {
                                     fontWeight: FontWeight.normal,
                                   ),
                                 )
-                              : const SizedBox(),
+                              : SizedBox(),
                           Text.rich(
                             softWrap: true,
                             TextSpan(
@@ -396,7 +396,7 @@ class _ViewPackageState extends State<ViewPackage> {
                       elevation: 20,
                       enableFeedback: true,
                       backgroundColor: kPrimaryColor,
-                      padding: const EdgeInsets.all(kDefaultPadding),
+                      padding: EdgeInsets.all(kDefaultPadding),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -427,7 +427,7 @@ class _ViewPackageState extends State<ViewPackage> {
                     style: ElevatedButton.styleFrom(
                       elevation: 20,
                       backgroundColor: kAccentColor,
-                      padding: const EdgeInsets.all(kDefaultPadding),
+                      padding: EdgeInsets.all(kDefaultPadding),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

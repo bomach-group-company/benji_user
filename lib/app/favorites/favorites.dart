@@ -59,7 +59,7 @@ class _FavoritesState extends State<Favorites>
         kAccentColor,
         "Error!",
         "Item with id $data not found",
-        const Duration(
+        Duration(
           seconds: 1,
         ),
       ),
@@ -75,7 +75,7 @@ class _FavoritesState extends State<Favorites>
         kAccentColor,
         "Error!",
         "Item with id $data not found",
-        const Duration(
+        Duration(
           seconds: 1,
         ),
       ),
@@ -155,7 +155,7 @@ class _FavoritesState extends State<Favorites>
         appBar: MyAppBar(
           title: "Favorites",
           elevation: 0.0,
-          actions: const [
+          actions: [
             CartCard(),
           ],
           backgroundColor: kPrimaryColor,
@@ -164,7 +164,7 @@ class _FavoritesState extends State<Favorites>
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: ListView(
-            physics: const BouncingScrollPhysics(),
+            physics: BouncingScrollPhysics(),
             shrinkWrap: true,
             children: [
               kSizedBox,
@@ -215,7 +215,7 @@ class _FavoritesState extends State<Favorites>
               ),
               kSizedBox,
               Container(
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: kDefaultPadding / 2,
                 ),
                 width: mediaWidth,
@@ -229,7 +229,7 @@ class _FavoritesState extends State<Favorites>
                               radius: const Radius.circular(10),
                               child: FavoriteProductsTab(
                                 list: snapshot.data!.isEmpty
-                                    ? const EmptyCard()
+                                    ? EmptyCard()
                                     : GridView.builder(
                                         gridDelegate:
                                             SliverGridDelegateWithFixedCrossAxisCount(
@@ -251,7 +251,7 @@ class _FavoritesState extends State<Favorites>
                                                   ? 1.9
                                                   : deviceType(mediaWidth) > 2
                                                       ? 1.4
-                                                      : 1.1,
+                                                      : 1.2,
                                         ),
                                         controller: _scrollController,
                                         scrollDirection: Axis.vertical,
@@ -284,7 +284,7 @@ class _FavoritesState extends State<Favorites>
                                 controller: _scrollController,
                                 radius: const Radius.circular(10),
                                 child: snapshot.data!.isEmpty
-                                    ? const EmptyCard()
+                                    ? EmptyCard()
                                     : GridView.builder(
                                         gridDelegate:
                                             SliverGridDelegateWithFixedCrossAxisCount(
@@ -317,7 +317,7 @@ class _FavoritesState extends State<Favorites>
                                           onTap: () => _vendorDetailPage(
                                               snapshot.data![index]),
                                           cardImage:
-                                              'images/vendors/ntachi-osa.png',
+                                              'assets/images/vendors/ntachi-osa.png',
                                           vendorName:
                                               snapshot.data![index].shopName!,
                                           typeOfBusiness: snapshot

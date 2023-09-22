@@ -13,7 +13,7 @@ class PaymentSuccessful extends StatelessWidget {
   const PaymentSuccessful({super.key});
 
   void _toTrackOrder() => Get.off(
-        () => const TrackOrder(),
+        () => TrackOrder(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -36,7 +36,7 @@ class PaymentSuccessful extends StatelessWidget {
       body: SafeArea(
         maintainBottomViewPadding: true,
         child: Container(
-          margin: const EdgeInsets.only(
+          margin: EdgeInsets.only(
             top: kDefaultPadding,
             left: kDefaultPadding,
             right: kDefaultPadding,
@@ -50,7 +50,7 @@ class PaymentSuccessful extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Lottie.asset(
-                    "animations/payment/frame_1.json",
+                    "assets/animations/payment/frame_1.json",
                     alignment: Alignment.center,
                     fit: BoxFit.contain,
                     height: mediaHeight / 2,

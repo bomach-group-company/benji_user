@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -40,8 +41,8 @@ class _EditProfileState extends State<EditProfile> {
   //=========================== CONTROLLERS ====================================\\
   final _scrollController = ScrollController();
 
-  final TextEditingController _userFirstNameEC = TextEditingController();
-  final TextEditingController _userLastNameEC = TextEditingController();
+  TextEditingController _userFirstNameEC = TextEditingController();
+  TextEditingController _userLastNameEC = TextEditingController();
   TextEditingController phoneNumberEC = TextEditingController();
 
   //=========================== FOCUS NODES ====================================\\
@@ -172,6 +173,7 @@ class _EditProfileState extends State<EditProfile> {
     _userLastNameEC.text = user.lastName!;
     phoneNumberEC.text =
         (user.phone ?? '').replaceFirst('+$countryDialCode', '');
+    ;
   }
 
   Future<bool> updateProfile({bool is_current = true}) async {
@@ -233,7 +235,7 @@ class _EditProfileState extends State<EditProfile> {
         kSuccessColor,
         "Success!",
         "Your changes have been saved successfully".toUpperCase(),
-        const Duration(seconds: 2),
+        Duration(seconds: 2),
       );
 
       Get.back();
@@ -243,7 +245,7 @@ class _EditProfileState extends State<EditProfile> {
         kAccentColor,
         "Failed!",
         "Something unexpected happened, please try again later".toUpperCase(),
-        const Duration(seconds: 2),
+        Duration(seconds: 2),
       );
     }
 
@@ -274,7 +276,7 @@ class _EditProfileState extends State<EditProfile> {
         appBar: MyAppBar(
           title: "Edit Profile",
           elevation: 0.0,
-          actions: const [],
+          actions: [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
@@ -313,7 +315,7 @@ class _EditProfileState extends State<EditProfile> {
                     children: [
                       Text(
                         "First Name".toUpperCase(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),
@@ -338,13 +340,13 @@ class _EditProfileState extends State<EditProfile> {
                           _userFirstNameEC.text = value;
                         },
                         textInputAction: TextInputAction.next,
-                        focusNode: userFirstNameFN,
+                        nameFocusNode: userFirstNameFN,
                         hintText: "Enter first name",
                       ),
                       kSizedBox,
                       Text(
                         "Last Name".toUpperCase(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),
@@ -370,12 +372,12 @@ class _EditProfileState extends State<EditProfile> {
                           _userLastNameEC.text = value;
                         },
                         textInputAction: TextInputAction.next,
-                        focusNode: userLastNameFN,
+                        nameFocusNode: userLastNameFN,
                       ),
                       kSizedBox,
                       Text(
                         "Phone Number".toUpperCase(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),

@@ -50,7 +50,7 @@ class Order {
 
 Future<List<Order>> getOrders(id) async {
   final response = await http.get(
-    Uri.parse('$baseURL/clients/listClientOrders/$id'),
+    Uri.parse('$baseURL/clients/listClientOrders/${id}'),
     headers: await authHeader(),
   );
 

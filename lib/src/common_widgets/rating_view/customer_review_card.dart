@@ -71,11 +71,11 @@ class CostumerReviewCard extends StatelessWidget {
               Container(
                 height: 45,
                 width: 45,
-                decoration: const ShapeDecoration(
+                decoration: ShapeDecoration(
                   shape: OvalBorder(),
                   image: DecorationImage(
                     image:
-                        AssetImage('images/customers/ebuka_henry.png'),
+                        AssetImage('assets/images/customers/ebuka_henry.png'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -88,7 +88,7 @@ class CostumerReviewCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   textAlign: TextAlign.start,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xFF131514),
                     fontSize: 14,
                     fontWeight: FontWeight.w700,

@@ -46,7 +46,7 @@ class _CardPaymentState extends State<CardPayment> {
     });
 
     //Simulate a delay
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 2));
 
     setState(() {
       _processingPayment = false;
@@ -115,7 +115,7 @@ class _CardPaymentState extends State<CardPayment> {
             child: cardData == null
                 ? Center(child: SpinKitChasingDots(color: kAccentColor))
                 : cardData!['cards'].isEmpty
-                    ? const EmptyCard(removeButton: true)
+                    ? EmptyCard(removeButton: true)
                     : ListView.separated(
                         controller: _scrollController,
                         padding: const EdgeInsets.all(kDefaultPadding),
@@ -218,11 +218,11 @@ class _CardPaymentState extends State<CardPayment> {
                       ),
           ),
         ),
-        const SizedBox(height: kDefaultPadding * 2),
+        SizedBox(height: kDefaultPadding * 2),
         cardData == null
-            ? const SizedBox()
+            ? SizedBox()
             : cardData!['cards'].isEmpty
-                ? const SizedBox()
+                ? SizedBox()
                 : _processingPayment
                     ? SpinKitChasingDots(color: kAccentColor)
                     : MyElevatedButton(

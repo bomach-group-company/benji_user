@@ -50,7 +50,7 @@ class CustomSearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     //==================================================== CONTROLLERS ===========================================================\\
-    final scrollController = ScrollController();
+    final _scrollController = ScrollController();
 
     //==================================================== FUNCTIONS ===========================================================\\
     //===================== Get Data ==========================\\
@@ -79,7 +79,7 @@ class CustomSearchDelegate extends SearchDelegate {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Lottie.asset(
-                            "animations/empty/frame_3.json",
+                            "assets/animations/empty/frame_3.json",
                             height: 300,
                             fit: BoxFit.contain,
                           ),
@@ -97,7 +97,7 @@ class CustomSearchDelegate extends SearchDelegate {
                   ],
                 )
               : Scrollbar(
-                  controller: scrollController,
+                  controller: _scrollController,
                   child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount:
@@ -112,16 +112,12 @@ class CustomSearchDelegate extends SearchDelegate {
                           deviceType(MediaQuery.of(context).size.width) > 2
                               ? 25
                               : 15,
-                      childAspectRatio: deviceType(
-                                      MediaQuery.of(context).size.width) >
-                                  3 &&
-                              deviceType(MediaQuery.of(context).size.width) < 5
-                          ? 1.9
-                          : deviceType(MediaQuery.of(context).size.width) > 2
+                      childAspectRatio:
+                          deviceType(MediaQuery.of(context).size.width) > 2
                               ? 1.4
-                              : 1.1,
+                              : 1.2,
                     ),
-                    controller: scrollController,
+                    controller: _scrollController,
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(kDefaultPadding),
                     shrinkWrap: true,
@@ -150,7 +146,7 @@ class CustomSearchDelegate extends SearchDelegate {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Lottie.asset(
-                  "animations/empty/frame_3.json",
+                  "assets/animations/empty/frame_3.json",
                   height: 300,
                   fit: BoxFit.contain,
                 ),

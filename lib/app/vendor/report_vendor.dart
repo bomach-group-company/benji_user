@@ -32,13 +32,13 @@ class _ReportVendorState extends State<ReportVendor> {
   bool _submittingRequest = false;
 
   //============================================ CONTROLLERS ===========================================\\
-  final TextEditingController _messageEC = TextEditingController();
+  TextEditingController _messageEC = TextEditingController();
 
   //============================================ FOCUS NODES ===========================================\\
-  final FocusNode _messageFN = FocusNode();
+  FocusNode _messageFN = FocusNode();
 
   //============================================ KEYS ===========================================\\
-  final GlobalKey<FormState> _formKey = GlobalKey();
+  GlobalKey<FormState> _formKey = GlobalKey();
 
   //============================================ FUNCTIONS ===========================================\\
   Future<bool> report() async {
@@ -109,17 +109,17 @@ class _ReportVendorState extends State<ReportVendor> {
         appBar: MyAppBar(
           title: "Help and support",
           elevation: 0.0,
-          actions: const [],
+          actions: [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
         bottomSheet: _submittingRequest
-            ? SizedBox(
+            ? Container(
                 height: 100,
                 child: SpinKitChasingDots(color: kAccentColor),
               )
             : AnimatedContainer(
-                duration: const Duration(milliseconds: 500),
+                duration: Duration(milliseconds: 500),
                 curve: Curves.easeInOut,
                 color: kPrimaryColor,
                 padding: const EdgeInsets.only(
@@ -161,7 +161,7 @@ class _ReportVendorState extends State<ReportVendor> {
                 padding: const EdgeInsets.all(kDefaultPadding),
                 physics: const BouncingScrollPhysics(),
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 292,
                     child: Text(
                       'We will like to hear from you',
@@ -184,7 +184,7 @@ class _ReportVendorState extends State<ReportVendor> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: kDefaultPadding * 2),
+                  SizedBox(height: kDefaultPadding * 2),
                   Form(
                     key: _formKey,
                     child: Column(
@@ -210,7 +210,7 @@ class _ReportVendorState extends State<ReportVendor> {
                       ],
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 100,
                   ),
                 ],

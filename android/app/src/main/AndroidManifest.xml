@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -62,8 +63,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-             <meta-data
+            <meta-data
                 android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyAtbHOL3DbQD613UEmh0WYd68y0pY5h03E" /> 
+                android:value="AIzaSyAtbHOL3DbQD613UEmh0WYd68y0pY5h03E" />   
     </application>
 </manifest>

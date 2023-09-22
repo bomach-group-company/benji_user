@@ -33,7 +33,7 @@ class _AddressesState extends State<Addresses> {
   //============================================================ BOOL VALUES ===================================================================\\
 
   //==================================================== CONTROLLERS ======================================================\\
-  final ScrollController _scrollController = ScrollController();
+  ScrollController _scrollController = ScrollController();
 
   //================================================= Logic ===================================================\\
   Map? addressData;
@@ -50,10 +50,8 @@ class _AddressesState extends State<Addresses> {
     List<Address> addresses = await getAddressesByUser();
 
     if (current != '') {
-      Address? itemToMove = addresses.firstWhere(
-        (elem) => elem.id == current,
-// orElse: ()=> null,
-      );
+      Address? itemToMove =
+          addresses.firstWhere((elem) => elem.id == current, orElse: null);
 
       addresses.remove(itemToMove);
       addresses.insert(0, itemToMove);
@@ -88,12 +86,12 @@ class _AddressesState extends State<Addresses> {
 
   void _pickOption(Address address) => Get.defaultDialog(
         title: "What do you want to do?",
-        titleStyle: const TextStyle(
+        titleStyle: TextStyle(
           fontSize: 20,
           color: kTextBlackColor,
           fontWeight: FontWeight.w700,
         ),
-        content: const SizedBox(height: 0),
+        content: SizedBox(height: 0),
         cancel: ElevatedButton(
           onPressed: () => _deleteAddress(address.id!),
           style: ElevatedButton.styleFrom(
@@ -203,7 +201,7 @@ class _AddressesState extends State<Addresses> {
           title: "Addresses",
           toolbarHeight: kToolbarHeight,
           backgroundColor: kPrimaryColor,
-          actions: const [],
+          actions: [],
         ),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(kDefaultPadding),
@@ -221,7 +219,7 @@ class _AddressesState extends State<Addresses> {
                   radius: const Radius.circular(10),
                   scrollbarOrientation: ScrollbarOrientation.right,
                   child: (addressData!['addresses'] as List<Address>).isEmpty
-                      ? const EmptyCard(removeButton: true)
+                      ? EmptyCard(removeButton: true)
                       : ListView.builder(
                           controller: _scrollController,
                           itemCount: addressData!['addresses'].length,
@@ -229,7 +227,7 @@ class _AddressesState extends State<Addresses> {
                           scrollDirection: Axis.vertical,
                           itemBuilder: (BuildContext context, int index) {
                             return Container(
-                              padding: const EdgeInsetsDirectional.symmetric(
+                              padding: EdgeInsetsDirectional.symmetric(
                                 vertical: kDefaultPadding / 2,
                               ),
                               child: ListTile(
@@ -250,7 +248,7 @@ class _AddressesState extends State<Addresses> {
                                                 .title
                                                 .toUpperCase() ??
                                             '',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           color: kTextBlackColor,
                                           fontSize: 18,
                                           fontWeight: FontWeight.w700,
@@ -261,7 +259,7 @@ class _AddressesState extends State<Addresses> {
                                               addressData!['addresses'][index]
                                                   .id
                                           ? Container(
-                                              width: 60,
+                                              width: 58,
                                               height: 24,
                                               padding:
                                                   const EdgeInsets.symmetric(
@@ -295,7 +293,7 @@ class _AddressesState extends State<Addresses> {
                                                 ],
                                               ),
                                             )
-                                          : const SizedBox(),
+                                          : SizedBox(),
                                     ],
                                   ),
                                 ),

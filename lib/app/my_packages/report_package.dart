@@ -26,13 +26,13 @@ class _ReportPackageState extends State<ReportPackage> {
   bool _submittingReport = false;
 
   //============================================ CONTROLLERS ===========================================\\
-  final TextEditingController _messageEC = TextEditingController();
+  TextEditingController _messageEC = TextEditingController();
 
   //============================================ FOCUS NODES ===========================================\\
-  final FocusNode _messageFN = FocusNode();
+  FocusNode _messageFN = FocusNode();
 
   //============================================ KEYS ===========================================\\
-  final GlobalKey<FormState> _formKey = GlobalKey();
+  GlobalKey<FormState> _formKey = GlobalKey();
 
   //============================================ FUNCTIONS ===========================================\\
   // Future<bool> report() async {
@@ -61,7 +61,7 @@ class _ReportPackageState extends State<ReportPackage> {
 
     await checkAuth(context);
 
-    await Future.delayed(const Duration(milliseconds: 300));
+    await Future.delayed(Duration(milliseconds: 300));
 
     setState(() {
       _submittingReport = false;
@@ -72,7 +72,7 @@ class _ReportPackageState extends State<ReportPackage> {
       kSuccessColor,
       "Success",
       "Report submitted successfully",
-      const Duration(seconds: 1),
+      Duration(seconds: 1),
     );
 
     Get.back();
@@ -120,17 +120,17 @@ class _ReportPackageState extends State<ReportPackage> {
         appBar: MyAppBar(
           title: "Help and support",
           elevation: 0.0,
-          actions: const [],
+          actions: [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
         bottomSheet: _submittingReport
-            ? SizedBox(
+            ? Container(
                 height: 100,
                 child: SpinKitChasingDots(color: kAccentColor),
               )
             : AnimatedContainer(
-                duration: const Duration(milliseconds: 500),
+                duration: Duration(milliseconds: 500),
                 curve: Curves.easeInOut,
                 color: kPrimaryColor,
                 padding: const EdgeInsets.only(
@@ -172,7 +172,7 @@ class _ReportPackageState extends State<ReportPackage> {
                 padding: const EdgeInsets.all(kDefaultPadding),
                 physics: const BouncingScrollPhysics(),
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 292,
                     child: Text(
                       'We will like to hear from you',
@@ -195,7 +195,7 @@ class _ReportPackageState extends State<ReportPackage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: kDefaultPadding * 2),
+                  SizedBox(height: kDefaultPadding * 2),
                   Form(
                     key: _formKey,
                     child: Column(
@@ -221,7 +221,7 @@ class _ReportPackageState extends State<ReportPackage> {
                       ],
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 100,
                   ),
                 ],

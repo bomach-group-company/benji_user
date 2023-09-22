@@ -38,7 +38,7 @@ class _BankTransferState extends State<BankTransfer> {
       kSuccessColor,
       "Success!",
       "Copied to clipboard",
-      const Duration(
+      Duration(
         seconds: 2,
       ),
     );
@@ -50,7 +50,7 @@ class _BankTransferState extends State<BankTransfer> {
     });
 
     //Simulate a delay
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 2));
 
     setState(() {
       _processingBankTransfer = false;
@@ -86,7 +86,7 @@ class _BankTransferState extends State<BankTransfer> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Bank Transfer',
                   style: TextStyle(
                     color: kTextBlackColor,
@@ -117,7 +117,7 @@ class _BankTransferState extends State<BankTransfer> {
                   subtitle: SizedBox(
                     width: mediaWidth / 1.2,
                     child: Text(
-                      _accountNumber,
+                      '$_accountNumber',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: kAccentColor,
@@ -161,7 +161,7 @@ class _BankTransferState extends State<BankTransfer> {
                     ),
                   ),
                 ),
-                const Divider(color: kGreyColor1),
+                Divider(color: kGreyColor1),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: Icon(
@@ -179,7 +179,7 @@ class _BankTransferState extends State<BankTransfer> {
                   ),
                   subtitle: SizedBox(
                     width: mediaWidth / 1.2,
-                    child: const Text(
+                    child: Text(
                       'Guarantee Trust Bank',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -202,7 +202,7 @@ class _BankTransferState extends State<BankTransfer> {
                   ),
                   subtitle: SizedBox(
                     width: mediaWidth / 1.2,
-                    child: const Text(
+                    child: Text(
                       'Leticia Ikaegbu',
                       style: TextStyle(
                         color: kTextBlackColor,
@@ -242,7 +242,7 @@ class _BankTransferState extends State<BankTransfer> {
                         ),
                         TextSpan(
                           text: '₦ ${formattedText(widget.totalPrice)}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontFamily: 'sen',
                             color: kTextBlackColor,
                             fontSize: 18,

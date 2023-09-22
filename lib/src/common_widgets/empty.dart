@@ -30,7 +30,7 @@ class EmptyCard extends StatelessWidget {
     return Column(
       children: [
         Lottie.asset(
-          "animations/empty/frame_1.json",
+          "assets/animations/empty/frame_1.json",
         ),
         kSizedBox,
         Text(
@@ -43,7 +43,7 @@ class EmptyCard extends StatelessWidget {
         ),
         kSizedBox,
         removeButton == true
-            ? const SizedBox()
+            ? SizedBox()
             : MyElevatedButton(
                 title: "Start shopping",
                 onPressed: _toHomeScreen,

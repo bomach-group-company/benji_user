@@ -68,7 +68,7 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
 
   //================= Start Timer ======================\\
   void startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (_secondsRemaining > 0) {
         setState(() {
           _secondsRemaining--;
@@ -94,11 +94,11 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
   }
 
   String formatTime(int seconds) {
-    int minutes = seconds ~/ 60;
-    int remainingSeconds = seconds % 60;
-    String minutesStr = minutes.toString().padLeft(2, '0');
-    String secondsStr = remainingSeconds.toString().padLeft(2, '0');
-    return '$minutesStr:$secondsStr';
+    int _minutes = seconds ~/ 60;
+    int _remainingSeconds = seconds % 60;
+    String _minutesStr = _minutes.toString().padLeft(2, '0');
+    String _secondsStr = _remainingSeconds.toString().padLeft(2, '0');
+    return '$_minutesStr:$_secondsStr';
   }
 
   Future<void> loadData() async {
@@ -150,7 +150,7 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         backgroundColor: kSecondaryColor,
-        appBar: const MyAppBar(
+        appBar: MyAppBar(
           title: "",
           elevation: 0.0,
           actions: [],
@@ -173,8 +173,8 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
                           title: "Verification",
                           subtitle: "Enter the code we sent to your email",
                           curves: Curves.easeInOut,
-                          duration: const Duration(),
-                          containerChild: const Center(
+                          duration: Duration(),
+                          containerChild: Center(
                             child: FaIcon(
                               FontAwesomeIcons.solidCircleCheck,
                               color: kSuccessColor,
@@ -182,7 +182,7 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
                             ),
                           ),
                           decoration: ShapeDecoration(
-                              color: kPrimaryColor, shape: const OvalBorder()),
+                              color: kPrimaryColor, shape: OvalBorder()),
                           imageContainerHeight:
                               deviceType(media.size.width) > 2 ? 200 : 100,
                         );
@@ -191,7 +191,7 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
                           title: "Verification",
                           subtitle: "Enter the code we sent to your email",
                           curves: Curves.easeInOut,
-                          duration: const Duration(),
+                          duration: Duration(),
                           containerChild: Center(
                             child: FaIcon(
                               FontAwesomeIcons.shieldHalved,
@@ -200,7 +200,7 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
                             ),
                           ),
                           decoration: ShapeDecoration(
-                              color: kPrimaryColor, shape: const OvalBorder()),
+                              color: kPrimaryColor, shape: OvalBorder()),
                           imageContainerHeight:
                               deviceType(media.size.width) > 2 ? 200 : 100,
                         );
@@ -236,7 +236,8 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           AnimatedDefaultTextStyle(
-                            duration: const Duration(milliseconds: 300),
+                            child: Text('Code'.toUpperCase()),
+                            duration: Duration(milliseconds: 300),
                             style: TextStyle(
                               color: _timerComplete
                                   ? kAccentColor
@@ -246,13 +247,13 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
                                   ? FontWeight.w700
                                   : FontWeight.w400,
                             ),
-                            child: Text('Code'.toUpperCase()),
                           ),
                           Row(
                             children: [
                               TextButton(
                                 onPressed: _timerComplete ? _resendOTP : null,
                                 child: AnimatedDefaultTextStyle(
+                                  child: Text("Resend"),
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: _timerComplete
@@ -261,9 +262,8 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
                                     fontWeight: FontWeight.w600,
                                     decoration: TextDecoration.underline,
                                   ),
-                                  duration: const Duration(milliseconds: 300),
+                                  duration: Duration(milliseconds: 300),
                                   curve: Curves.easeIn,
-                                  child: const Text("Resend"),
                                 ),
                               ),
                               const Text(

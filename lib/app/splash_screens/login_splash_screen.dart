@@ -21,10 +21,10 @@ class _LoginSplashScreenState extends State<LoginSplashScreen> {
   void initState() {
     super.initState();
     Timer(
-      const Duration(seconds: 2),
+      Duration(seconds: 2),
       () {
         Get.offAll(
-          () => const Home(),
+          () => Home(),
           duration: const Duration(seconds: 2),
           fullscreenDialog: true,
           curve: Curves.easeIn,
@@ -50,7 +50,7 @@ class _LoginSplashScreenState extends State<LoginSplashScreen> {
             const Spacer(),
             Center(
               child: Lottie.asset(
-                "animations/login/frame_1.json",
+                "assets/animations/login/frame_1.json",
                 height: 300,
                 fit: BoxFit.cover,
               ),

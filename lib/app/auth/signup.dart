@@ -48,11 +48,11 @@ class _SignUpState extends State<SignUp> {
   String countryDialCode = '234';
   //=========================== CONTROLLER ====================================\\
 
-  final TextEditingController _userFirstNameEC = TextEditingController();
-  final TextEditingController _userLastNameEC = TextEditingController();
-  final TextEditingController _userEmailEC = TextEditingController();
-  final TextEditingController _userPhoneNumberEC = TextEditingController();
-  final TextEditingController _userPasswordEC = TextEditingController();
+  TextEditingController _userFirstNameEC = TextEditingController();
+  TextEditingController _userLastNameEC = TextEditingController();
+  TextEditingController _userEmailEC = TextEditingController();
+  TextEditingController _userPhoneNumberEC = TextEditingController();
+  TextEditingController _userPasswordEC = TextEditingController();
 
   //=========================== KEYS ====================================\\
   final _formKey = GlobalKey<FormState>();
@@ -68,9 +68,9 @@ class _SignUpState extends State<SignUp> {
   //=========================== FOCUS NODES ====================================\\
   FocusNode userFirstNameFN = FocusNode();
   FocusNode userLastNameFN = FocusNode();
-  final FocusNode _userPhoneNumberFN = FocusNode();
-  final FocusNode _userEmailFN = FocusNode();
-  final FocusNode _userPasswordFN = FocusNode();
+  FocusNode _userPhoneNumberFN = FocusNode();
+  FocusNode _userEmailFN = FocusNode();
+  FocusNode _userPasswordFN = FocusNode();
 
   //=========================== FUNCTIONS ====================================\\
   void _toLoginPage() => Get.offAll(
@@ -151,18 +151,18 @@ class _SignUpState extends State<SignUp> {
       });
 
       //Simulating a delay
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 2));
 
       //Display snackBar
       myFixedSnackBar(
         context,
         "Signup Successful".toUpperCase(),
         kSuccessColor,
-        const Duration(seconds: 2),
+        Duration(seconds: 2),
       );
 
       //Simulating a delay
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 2));
 
       // Navigate to the new page
       Get.offAll(
@@ -226,8 +226,8 @@ class _SignUpState extends State<SignUp> {
                           title: "Sign up",
                           subtitle: "Please sign up to get started",
                           curves: Curves.easeInOut,
-                          duration: const Duration(milliseconds: 300),
-                          containerChild: const Center(
+                          duration: Duration(milliseconds: 300),
+                          containerChild: Center(
                             child: FaIcon(
                               FontAwesomeIcons.unlockKeyhole,
                               color: kSuccessColor,
@@ -237,7 +237,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                           decoration: ShapeDecoration(
                             color: kPrimaryColor,
-                            shape: const OvalBorder(),
+                            shape: OvalBorder(),
                           ),
                           imageContainerHeight:
                               deviceType(media.width) > 2 ? 200 : 120,
@@ -248,7 +248,7 @@ class _SignUpState extends State<SignUp> {
                             title: "Sign up",
                             subtitle: "Please sign up to get started",
                             curves: Curves.easeInOut,
-                            duration: const Duration(milliseconds: 300),
+                            duration: Duration(milliseconds: 300),
                             containerChild: Center(
                               child: FaIcon(
                                 FontAwesomeIcons.lock,
@@ -259,7 +259,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             decoration: ShapeDecoration(
                               color: kPrimaryColor,
-                              shape: const OvalBorder(),
+                              shape: OvalBorder(),
                             ),
                             imageContainerHeight:
                                 deviceType(media.width) > 2 ? 200 : 120,
@@ -269,7 +269,7 @@ class _SignUpState extends State<SignUp> {
                             title: "Sign up",
                             subtitle: "Please sign up to get started",
                             curves: Curves.easeInOut,
-                            duration: const Duration(milliseconds: 300),
+                            duration: Duration(milliseconds: 300),
                             containerChild: Center(
                               child: FaIcon(
                                 FontAwesomeIcons.lock,
@@ -280,7 +280,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             decoration: ShapeDecoration(
                               color: kPrimaryColor,
-                              shape: const OvalBorder(),
+                              shape: OvalBorder(),
                             ),
                             imageContainerHeight:
                                 deviceType(media.width) > 2 ? 200 : 120,
@@ -349,7 +349,7 @@ class _SignUpState extends State<SignUp> {
                               _userFirstNameEC.text = value;
                             },
                             textInputAction: TextInputAction.next,
-                            focusNode: userFirstNameFN,
+                            nameFocusNode: userFirstNameFN,
                             hintText: "Enter first name",
                           ),
                           kSizedBox,
@@ -384,7 +384,7 @@ class _SignUpState extends State<SignUp> {
                               _userLastNameEC.text = value;
                             },
                             textInputAction: TextInputAction.next,
-                            focusNode: userLastNameFN,
+                            nameFocusNode: userLastNameFN,
                             hintText: "Enter last name",
                           ),
                           kSizedBox,
@@ -528,7 +528,7 @@ class _SignUpState extends State<SignUp> {
                           context,
                           "Password matches requirement",
                           kSuccessColor,
-                          const Duration(
+                          Duration(
                             seconds: 1,
                           ),
                         );

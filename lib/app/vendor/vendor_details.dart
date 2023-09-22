@@ -37,8 +37,6 @@ class _VendorDetailsState extends State<VendorDetails>
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_scrollListener);
-
     _tabBarController = TabController(length: 2, vsync: this);
     getFavoriteVSingle(widget.vendor.id.toString()).then(
       (value) {
@@ -51,8 +49,6 @@ class _VendorDetailsState extends State<VendorDetails>
 
   @override
   void dispose() {
-    _scrollController.dispose();
-    _scrollController.removeListener(() {});
     _tabBarController.dispose();
     super.dispose();
   }
@@ -62,8 +58,6 @@ class _VendorDetailsState extends State<VendorDetails>
   }
 
 //==========================================================================================\\
-
-  bool _isScrollToTopBtnVisible = false;
 
   //=================================== ALL VARIABLES ====================================\\
   int selectedRating = 0;
@@ -82,31 +76,6 @@ class _VendorDetailsState extends State<VendorDetails>
   bool _isAddedToFavorites = false;
 
 //================================================= FUNCTIONS ===================================================\\
-  Future<void> _scrollToTop() async {
-    await _scrollController.animateTo(
-      0.0,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
-    setState(() {
-      _isScrollToTopBtnVisible = false;
-    });
-  }
-
-  Future<void> _scrollListener() async {
-    if (_scrollController.position.pixels >= 200 &&
-        _isScrollToTopBtnVisible != true) {
-      setState(() {
-        _isScrollToTopBtnVisible = true;
-      });
-    }
-    if (_scrollController.position.pixels < 200 &&
-        _isScrollToTopBtnVisible == true) {
-      setState(() {
-        _isScrollToTopBtnVisible = false;
-      });
-    }
-  }
 
   void _addToFavorites() async {
     bool val = await favoriteItV(widget.vendor.id.toString());
@@ -121,7 +90,7 @@ class _VendorDetailsState extends State<VendorDetails>
       _isAddedToFavorites
           ? "Vendor has been added to favorites"
           : "Vendor been removed from favorites",
-      const Duration(milliseconds: 500),
+      Duration(milliseconds: 500),
     );
   }
 
@@ -152,7 +121,7 @@ class _VendorDetailsState extends State<VendorDetails>
             children: [
               FaIcon(FontAwesomeIcons.solidStar, color: kStarColor),
               kWidthSizedBox,
-              const Text("Rate this vendor"),
+              Text("Rate this vendor"),
             ],
           ),
         ),
@@ -163,7 +132,7 @@ class _VendorDetailsState extends State<VendorDetails>
             children: [
               FaIcon(FontAwesomeIcons.solidFlag, color: kAccentColor),
               kWidthSizedBox,
-              const Text("Report this vendor"),
+              Text("Report this vendor"),
             ],
           ),
         ),
@@ -266,19 +235,6 @@ class _VendorDetailsState extends State<VendorDetails>
           ],
         ),
         extendBodyBehindAppBar: true,
-        floatingActionButton: _isScrollToTopBtnVisible
-            ? FloatingActionButton(
-                onPressed: _scrollToTop,
-                mini: true,
-                backgroundColor: kAccentColor,
-                enableFeedback: true,
-                mouseCursor: SystemMouseCursors.click,
-                tooltip: "Scroll to top",
-                hoverColor: kAccentColor,
-                hoverElevation: 50.0,
-                child: const Icon(Icons.keyboard_arrow_up),
-              )
-            : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
@@ -311,10 +267,10 @@ class _VendorDetailsState extends State<VendorDetails>
                                   : media.height * 0.28,
                           decoration: BoxDecoration(
                             color: kPageSkeletonColor,
-                            image: const DecorationImage(
+                            image: DecorationImage(
                               fit: BoxFit.fill,
                               image: AssetImage(
-                                "images/vendors/ntachi-osa.png",
+                                "assets/images/vendors/ntachi-osa.png",
                               ),
                             ),
                           ),
@@ -361,7 +317,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       color: kTextBlackColor,
                                       fontSize: 24,
                                       fontWeight: FontWeight.w700,
@@ -387,7 +343,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                         widget.vendor.address ??
                                             'Not Available',
                                         overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -416,7 +372,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                           ? "Not Available"
                                           : "Show on map",
                                       textAlign: TextAlign.center,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -524,11 +480,11 @@ class _VendorDetailsState extends State<VendorDetails>
                             color: kPageSkeletonColor,
                             image: const DecorationImage(
                               image: AssetImage(
-                                "images/vendors/ntachi-osa-logo.png",
+                                "assets/images/vendors/ntachi-osa-logo.png",
                               ),
                               fit: BoxFit.cover,
                             ),
-                            shape: const OvalBorder(),
+                            shape: OvalBorder(),
                           ),
                         ),
                       ),

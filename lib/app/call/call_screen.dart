@@ -32,7 +32,7 @@ class _CallPageState extends State<CallPage> {
     _callConnected = false;
     _callDropped = false;
 
-    _callTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _callTimer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (_callConnected) {
         setState(() {
           _callDuration++;
@@ -40,14 +40,14 @@ class _CallPageState extends State<CallPage> {
       }
     });
 
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 2), () {
       setState(() {
         _phoneConnecting = false;
         _phoneRinging = true;
       });
     });
 
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(Duration(seconds: 4), () {
       setState(() {
         _phoneRinging = false;
         _callConnected = true;
@@ -120,7 +120,7 @@ class _CallPageState extends State<CallPage> {
     });
 
     //Cause a delay before popping context
-    await Future.delayed(const Duration(milliseconds: 300));
+    await Future.delayed(Duration(milliseconds: 300));
     //Pop context
     Get.back();
   }
@@ -131,7 +131,7 @@ class _CallPageState extends State<CallPage> {
       appBar: MyAppBar(
         title: "",
         elevation: 0,
-        actions: const [],
+        actions: [],
         backgroundColor: kPrimaryColor,
         toolbarHeight: kToolbarHeight,
       ),
@@ -149,7 +149,7 @@ class _CallPageState extends State<CallPage> {
                     decoration: ShapeDecoration(
                       color: kPageSkeletonColor,
                       image: DecorationImage(
-                        image: AssetImage("images/${widget.userImage}"),
+                        image: AssetImage("assets/images/${widget.userImage}"),
                         fit: BoxFit.cover,
                       ),
                       shape: const OvalBorder(),
@@ -158,7 +158,7 @@ class _CallPageState extends State<CallPage> {
                   kSizedBox,
                   Text(
                     widget.userName,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: kTextBlackColor,
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
@@ -168,7 +168,7 @@ class _CallPageState extends State<CallPage> {
                   kSizedBox,
                   Text(
                     widget.userPhoneNumber,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: kTextBlackColor,
                       fontSize: 15,
                       fontWeight: FontWeight.w200,
@@ -199,7 +199,7 @@ class _CallPageState extends State<CallPage> {
                   if (_callConnected)
                     Column(
                       children: [
-                        const Text(
+                        Text(
                           "Call connected",
                           style: TextStyle(
                             color: kSuccessColor,
@@ -209,7 +209,7 @@ class _CallPageState extends State<CallPage> {
                           ),
                         ),
                         kSizedBox,
-                        Text(_formatDuration()),
+                        Text('${_formatDuration()}'),
                       ],
                     ),
                   if (_callDropped)
@@ -225,7 +225,7 @@ class _CallPageState extends State<CallPage> {
                   kSizedBox,
                   if (_callDropped)
                     Text(
-                      _totalCallDuration(),
+                      "${_totalCallDuration()}",
                       style: TextStyle(color: kAccentColor),
                     ),
                   const SizedBox(height: kDefaultPadding * 6),

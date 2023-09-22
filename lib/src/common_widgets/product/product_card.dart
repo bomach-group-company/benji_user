@@ -28,13 +28,13 @@ class ProductCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: media.width / 2.5,
-        margin: const EdgeInsets.only(bottom: 10),
+        margin: EdgeInsets.only(bottom: 10),
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14.19),
           ),
-          shadows: const [
+          shadows: [
             BoxShadow(
               color: Color(0x19616161),
               blurRadius: 24,
@@ -49,7 +49,7 @@ class ProductCard extends StatelessWidget {
           children: [
             Container(
               height: 186,
-              decoration: const ShapeDecoration(
+              decoration: ShapeDecoration(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -57,7 +57,7 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
                 image: DecorationImage(
-                  image: AssetImage("images/products/okra-soup.png"),
+                  image: AssetImage("assets/images/products/okra-soup.png"),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -65,7 +65,7 @@ class ProductCard extends StatelessWidget {
             kSizedBox,
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
-              child: SizedBox(
+              child: Container(
                 height: 57.06,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -76,7 +76,7 @@ class ProductCard extends StatelessWidget {
                       width: media.width - 200,
                       child: Text(
                         product.name,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: kTextBlackColor,
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
@@ -107,7 +107,7 @@ class ProductCard extends StatelessWidget {
                 width: media.width - 200,
                 child: Text(
                   '₦${formattedText(product.price)}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: kTextBlackColor,
                     fontSize: 20,
                     fontFamily: 'Sen',

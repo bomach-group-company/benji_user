@@ -32,7 +32,7 @@ class VendorsCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          shadows: const [
+          shadows: [
             BoxShadow(
               color: Color(0x0F000000),
               blurRadius: 24,
@@ -53,10 +53,10 @@ class VendorsCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: kPageSkeletonColor,
                 image: DecorationImage(
-                  image: AssetImage(cardImage),
+                  image: AssetImage("$cardImage"),
                   fit: BoxFit.cover,
                 ),
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(7.20),
                   topRight: Radius.circular(7.20),
                 ),
@@ -73,8 +73,8 @@ class VendorsCard extends StatelessWidget {
                         ? media.width / 5.5
                         : media.width / 2.5,
                     child: Text(
-                      vendorName,
-                      style: const TextStyle(
+                      "$vendorName",
+                      style: TextStyle(
                         color: kTextBlackColor,
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
@@ -88,7 +88,7 @@ class VendorsCard extends StatelessWidget {
                         ? media.width / 5.5
                         : media.width / 2.5,
                     child: Text(
-                      typeOfBusiness,
+                      "$typeOfBusiness",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: kTextGreyColor,
@@ -98,7 +98,7 @@ class VendorsCard extends StatelessWidget {
                     ),
                   ),
                   kHalfSizedBox,
-                  SizedBox(
+                  Container(
                     width: deviceType(media.width) > 2
                         ? media.width / 5.5
                         : media.width / 2.5,
@@ -114,8 +114,8 @@ class VendorsCard extends StatelessWidget {
                         const SizedBox(width: 4.0),
                         SizedBox(
                           child: Text(
-                            rating,
-                            style: const TextStyle(
+                            '$rating',
+                            style: TextStyle(
                               color: kTextBlackColor,
                               fontSize: 15,
                               fontWeight: FontWeight.w400,
@@ -125,23 +125,23 @@ class VendorsCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 10.0),
                         removeDistance == true
-                            ? const SizedBox()
+                            ? SizedBox()
                             : FaIcon(
                                 FontAwesomeIcons.solidClock,
                                 color: kAccentColor,
                                 size: 15,
                               ),
                         removeDistance == true
-                            ? const SizedBox()
+                            ? SizedBox()
                             : const SizedBox(width: 4.0),
                         removeDistance == true
-                            ? const SizedBox()
+                            ? SizedBox()
                             : SizedBox(
                                 width: deviceType(media.width) > 2 ? 80 : 60,
                                 child: Text(
-                                  distance,
+                                  '$distance',
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: kTextBlackColor,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,

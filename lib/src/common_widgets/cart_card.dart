@@ -79,7 +79,7 @@ class _CartCardState extends State<CartCard> {
                     future: countCartFunc(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return const Text('');
+                        return Text('');
                       }
                       return Text(
                         snapshot.data!,

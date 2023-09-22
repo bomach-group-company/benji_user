@@ -39,7 +39,7 @@ class MyIntlPhoneField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IntlPhoneField(
-      countries: const [
+      countries: [
         Country(
           name: "Nigeria",
           nameTranslations: {

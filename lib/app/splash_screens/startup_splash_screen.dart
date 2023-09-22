@@ -26,12 +26,12 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
     rememberUser().whenComplete(
       () async {
         Timer(
-          const Duration(days: 3),
+          Duration(seconds: 3),
           () {
             Get.offAll(
               () => _obtainedUserDetails == null || _obtainedUserDetails == ""
                   ? const OnboardingScreen()
-                  : const Home(),
+                  : Home(),
               duration: const Duration(seconds: 1),
               fullscreenDialog: true,
               curve: Curves.easeIn,

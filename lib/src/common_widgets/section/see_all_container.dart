@@ -21,7 +21,7 @@ class SeeAllContainer extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: Color(
                 0xFF222222,
               ),
@@ -37,7 +37,7 @@ class SeeAllContainer extends StatelessWidget {
             ),
             enableFeedback: true,
             child: Container(
-              padding: const EdgeInsets.all(kDefaultPadding / 2),
+              padding: EdgeInsets.all(kDefaultPadding / 2),
               decoration: BoxDecoration(
                 color: const Color(
                   0xFFFEF8F8,
@@ -57,7 +57,7 @@ class SeeAllContainer extends StatelessWidget {
                       letterSpacing: -0.28,
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Icon(
                     Icons.arrow_forward_ios_rounded,
                     size: 14,

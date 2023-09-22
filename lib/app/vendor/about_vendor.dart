@@ -31,23 +31,22 @@ class _AboutVendorState extends State<AboutVendor> {
   final List<String> stars = ['5', '4', '3', '2', '1'];
   String active = 'all';
 
-  List<Ratings>? _ratings = [];
-
+  List<Ratings>? ratings = [];
   _getData() async {
     setState(() {
-      _ratings = null;
+      ratings = null;
     });
 
-    List<Ratings> ratings = [];
+    List<Ratings> _ratings;
     if (active == 'all') {
-      ratings = await getRatingsByVendorId(widget.vendor.id!);
+      _ratings = await getRatingsByVendorId(widget.vendor.id!);
     } else {
-      ratings = await getRatingsByVendorIdAndRating(
+      _ratings = await getRatingsByVendorIdAndRating(
           widget.vendor.id!, int.parse(active));
     }
 
     setState(() {
-      _ratings = ratings;
+      ratings = _ratings;
     });
   }
 
@@ -106,7 +105,7 @@ class _AboutVendorState extends State<AboutVendor> {
               widget.vendor.shopType == null
                   ? 'Not Available'
                   : widget.vendor.shopType!.description ?? 'Not Available',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
               ),
@@ -142,7 +141,7 @@ class _AboutVendorState extends State<AboutVendor> {
                 ),
               ],
             ),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
@@ -238,7 +237,7 @@ class _AboutVendorState extends State<AboutVendor> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   "Reviews View & Ratings",
                   style: TextStyle(
                     fontSize: 16,
@@ -246,12 +245,12 @@ class _AboutVendorState extends State<AboutVendor> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     vertical: kDefaultPadding,
                     horizontal: kDefaultPadding * 0.5,
                   ),
                   child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
+                    physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
@@ -260,7 +259,7 @@ class _AboutVendorState extends State<AboutVendor> {
                             side: BorderSide(
                               color: active == 'all'
                                   ? kAccentColor
-                                  : const Color(
+                                  : Color(
                                       0xFFA9AAB1,
                                     ),
                             ),
@@ -268,13 +267,22 @@ class _AboutVendorState extends State<AboutVendor> {
                                 active == 'all' ? kAccentColor : kPrimaryColor,
                             foregroundColor: active == 'all'
                                 ? kPrimaryColor
-                                : const Color(0xFFA9AAB1),
+                                : Color(0xFFA9AAB1),
                           ),
                           onPressed: () async {
                             active = 'all';
-                          await _getData();
+                            setState(() {
+                              ratings = null;
+                            });
+
+                            List<Ratings> _ratings =
+                                await getRatingsByVendorId(widget.vendor.id!);
+
+                            setState(() {
+                              ratings = _ratings;
+                            });
                           },
-                          child: const Text(
+                          child: Text(
                             'All',
                             style: TextStyle(
                               fontSize: 15,
@@ -293,28 +301,40 @@ class _AboutVendorState extends State<AboutVendor> {
                                         side: BorderSide(
                                           color: active == item
                                               ? kStarColor
-                                              : const Color(0xFFA9AAB1),
+                                              : Color(0xFFA9AAB1),
                                         ),
                                         foregroundColor: active == item
                                             ? kStarColor
-                                            : const Color(0xFFA9AAB1),
+                                            : Color(0xFFA9AAB1),
                                       ),
                                       onPressed: () async {
                                         active = item;
-                                        await _getData();
+
+                                        setState(() {
+                                          ratings = null;
+                                        });
+
+                                        List<Ratings> _ratings =
+                                            await getRatingsByVendorIdAndRating(
+                                                widget.vendor.id!,
+                                                int.parse(active));
+
+                                        setState(() {
+                                          ratings = _ratings;
+                                        });
                                       },
                                       child: Row(
                                         children: [
-                                          const Icon(
+                                          Icon(
                                             Icons.star,
                                             size: 20,
                                           ),
-                                          const SizedBox(
+                                          SizedBox(
                                             width: kDefaultPadding * 0.2,
                                           ),
                                           Text(
-                                            item,
-                                            style: const TextStyle(
+                                            '$item',
+                                            style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.w400,
                                             ),
@@ -336,30 +356,30 @@ class _AboutVendorState extends State<AboutVendor> {
             ),
           ),
           kSizedBox,
-          _ratings == null
+          ratings == null
               ? Center(
                   child: SpinKitChasingDots(
                     color: kAccentColor,
                     duration: const Duration(seconds: 1),
                   ),
                 )
-              : _ratings!.isEmpty
-                  ? const EmptyCard(
+              : ratings!.isEmpty
+                  ? EmptyCard(
                       removeButton: true,
                     )
                   : Column(
                       children: [
                         ListView.separated(
-                          physics: const BouncingScrollPhysics(),
+                          physics: BouncingScrollPhysics(),
                           separatorBuilder: (context, index) => kSizedBox,
                           shrinkWrap: true,
-                          itemCount: _ratings!.length,
+                          itemCount: ratings!.length,
                           itemBuilder: (BuildContext context, int index) =>
-                              CostumerReviewCard(rating: _ratings![index]),
+                              CostumerReviewCard(rating: ratings![index]),
                         ),
                         kSizedBox,
-                        _ratings!.isEmpty
-                            ? const SizedBox()
+                        ratings!.isEmpty
+                            ? SizedBox()
                             : TextButton(
                                 onPressed: _viewAllReviews,
                                 child: Text(

@@ -36,18 +36,18 @@ class _AddNewAddressState extends State<AddNewAddress> {
   final _cscPickerKey = GlobalKey<CSCPickerState>();
 
   //===================== CONTROLLERS =======================\\
-  final TextEditingController _addressTitleEC = TextEditingController();
-  final TextEditingController _recipientNameEC = TextEditingController();
-  final TextEditingController _streetAddressEC = TextEditingController();
-  final TextEditingController _apartmentDetailsEC = TextEditingController();
-  final TextEditingController _phoneNumberEC = TextEditingController();
+  TextEditingController _addressTitleEC = TextEditingController();
+  TextEditingController _recipientNameEC = TextEditingController();
+  TextEditingController _streetAddressEC = TextEditingController();
+  TextEditingController _apartmentDetailsEC = TextEditingController();
+  TextEditingController _phoneNumberEC = TextEditingController();
 
   //===================== FOCUS NODES =======================\\
-  final FocusNode _addressTitleFN = FocusNode();
-  final FocusNode _recipientNameFN = FocusNode();
-  final FocusNode _streetAddressFN = FocusNode();
-  final FocusNode _apartmentDetailsFN = FocusNode();
-  final FocusNode _phoneNumberFN = FocusNode();
+  FocusNode _addressTitleFN = FocusNode();
+  FocusNode _recipientNameFN = FocusNode();
+  FocusNode _streetAddressFN = FocusNode();
+  FocusNode _apartmentDetailsFN = FocusNode();
+  FocusNode _phoneNumberFN = FocusNode();
 
   //===================== ALL VARIABLES =======================\\
   String? country;
@@ -98,7 +98,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
         kSuccessColor,
         "Success!",
         "Set As Default Address",
-        const Duration(seconds: 2),
+        Duration(seconds: 2),
       );
       Get.back();
 
@@ -111,7 +111,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
         kErrorColor,
         "Failed!",
         "Failed to Set as Default Address",
-        const Duration(seconds: 2),
+        Duration(seconds: 2),
       );
       Get.back();
 
@@ -135,7 +135,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
         kSuccessColor,
         "Success!",
         "Added Address",
-        const Duration(seconds: 2),
+        Duration(seconds: 2),
       );
       Get.back();
 
@@ -148,7 +148,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
         kErrorColor,
         "Failed!",
         "Failed to Add Address",
-        const Duration(seconds: 2),
+        Duration(seconds: 2),
       );
       Get.back();
 
@@ -169,10 +169,10 @@ class _AddNewAddressState extends State<AddNewAddress> {
           title: "New Address ",
           toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
-          actions: const [],
+          actions: [],
         ),
         body: Container(
-          margin: const EdgeInsets.only(
+          margin: EdgeInsets.only(
             top: kDefaultPadding,
             left: kDefaultPadding,
             right: kDefaultPadding,
@@ -190,7 +190,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'Title (My Home, My Office)',
                             style: TextStyle(
                               color: kTextBlackColor,
@@ -222,7 +222,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                             },
                           ),
                           kHalfSizedBox,
-                          const Text(
+                          Text(
                             'Name tag of this address e.g my work, my apartment',
                             style: TextStyle(
                               color: kTextBlackColor,
@@ -236,7 +236,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'Recipient Name',
                             style: TextStyle(
                               color: kTextBlackColor,
@@ -274,7 +274,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'Street Address',
                             style: TextStyle(
                               color: kTextBlackColor,
@@ -312,7 +312,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'Details (Door, Apartment Number)',
                             style: TextStyle(
                               color: kTextBlackColor,
@@ -344,7 +344,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'Phone Number',
                             style: TextStyle(
                               color: kTextBlackColor,
@@ -386,7 +386,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'Localization',
                             style: TextStyle(
                               color: kTextBlackColor,
@@ -396,7 +396,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                           ),
                           kHalfSizedBox,
                           CSCPicker(
-                            countryFilter: const [CscCountry.Nigeria],
+                            countryFilter: [CscCountry.Nigeria],
                             key: _cscPickerKey,
                             layout: Layout.vertical,
                             countryDropdownLabel: "Select country",
@@ -425,7 +425,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                   ),
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: kDefaultPadding * 2,
               ),
               _isLoading
@@ -459,7 +459,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         }
                       }),
                     ),
-              const SizedBox(
+              SizedBox(
                 height: kDefaultPadding * 2,
               ),
             ],

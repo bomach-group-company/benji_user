@@ -57,10 +57,10 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
         end = end + 10;
       });
 
-      await Future.delayed(const Duration(microseconds: 100));
+      await Future.delayed(Duration(microseconds: 100));
       await _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 25),
+        duration: Duration(milliseconds: 25),
         curve: Curves.easeInOut,
       );
       await _getData();
@@ -74,7 +74,7 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
   Future<void> _scrollToTop() async {
     await _scrollController.animateTo(
       0.0,
-      duration: const Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
     setState(() {
@@ -102,7 +102,7 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
       kSuccessColor,
       "Success!",
       "Thank you for your feedback!",
-      const Duration(seconds: 1),
+      Duration(seconds: 1),
     );
 
     Get.back();
@@ -120,7 +120,9 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
     List<Ratings> ratings =
         await getRatingsByVendorId(widget.vendor.id!, start: start, end: end);
 
-    _data ??= {'ratings': []};
+    if (_data == null) {
+      _data = {'ratings': []};
+    }
     setState(() {
       thatsAllData = ratings.isEmpty;
       _data = {'ratings': _data!['ratings'] + ratings};
@@ -170,12 +172,12 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
         appBar: MyAppBar(
           title: "All Reviews",
           elevation: 0.0,
-          actions: const [],
+          actions: [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           child: MyElevatedButton(
             title: "Add a review",
             onPressed: () {
@@ -195,7 +197,7 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
                 hoverElevation: 50.0,
                 child: const Icon(Icons.keyboard_arrow_up),
               )
-            : const SizedBox(),
+            : SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
@@ -211,7 +213,7 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
                       kHalfSizedBox,
                       ListView.separated(
                           shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
+                          physics: BouncingScrollPhysics(),
                           separatorBuilder: (context, index) => kSizedBox,
                           itemCount: loadMore
                               ? _data!['ratings'].length + 1
@@ -229,15 +231,15 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
                           }),
                       thatsAllData
                           ? Container(
-                              margin: const EdgeInsets.only(top: 20),
+                              margin: EdgeInsets.only(top: 20),
                               height: 10,
                               width: 10,
                               decoration: ShapeDecoration(
-                                  shape: const CircleBorder(),
+                                  shape: CircleBorder(),
                                   color: kPageSkeletonColor),
                             )
-                          : const SizedBox(),
-                      const SizedBox(height: kDefaultPadding * 4),
+                          : SizedBox(),
+                      SizedBox(height: kDefaultPadding * 4),
                     ],
                   ),
           ),

@@ -53,10 +53,10 @@ class _PopularVendorsState extends State<PopularVendors> {
         end = end + 10;
       });
 
-      await Future.delayed(const Duration(microseconds: 100));
+      await Future.delayed(Duration(microseconds: 100));
       await _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 25),
+        duration: Duration(milliseconds: 25),
         curve: Curves.easeInOut,
       );
       await _getData();
@@ -70,7 +70,7 @@ class _PopularVendorsState extends State<PopularVendors> {
   Future<void> _scrollToTop() async {
     await _scrollController.animateTo(
       0.0,
-      duration: const Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
     setState(() {
@@ -96,7 +96,9 @@ class _PopularVendorsState extends State<PopularVendors> {
     await checkAuth(context);
     List<VendorModel> vendor = await getPopularVendors(start: start, end: end);
 
-    _data ??= {'vendor': []};
+    if (_data == null) {
+      _data = {'vendor': []};
+    }
 
     setState(() {
       thatsAllData = vendor.isEmpty;
@@ -134,7 +136,7 @@ class _PopularVendorsState extends State<PopularVendors> {
           title: "Popular Vendors ",
           toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
-          actions: const [],
+          actions: [],
         ),
         floatingActionButton: _isScrollToTopBtnVisible
             ? FloatingActionButton(
@@ -148,7 +150,7 @@ class _PopularVendorsState extends State<PopularVendors> {
                 hoverElevation: 50.0,
                 child: const Icon(Icons.keyboard_arrow_up),
               )
-            : const SizedBox(),
+            : SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: _data == null
@@ -161,19 +163,19 @@ class _PopularVendorsState extends State<PopularVendors> {
               : Scrollbar(
                   controller: _scrollController,
                   scrollbarOrientation: ScrollbarOrientation.right,
-                  radius: const Radius.circular(10),
+                  radius: Radius.circular(10),
                   child: ListView(
                     dragStartBehavior: DragStartBehavior.down,
                     controller: _scrollController,
                     padding: deviceType(media.width) > 2
                         ? const EdgeInsets.all(kDefaultPadding)
                         : const EdgeInsets.all(kDefaultPadding / 2),
-                    physics: const BouncingScrollPhysics(),
+                    physics: BouncingScrollPhysics(),
                     shrinkWrap: true,
                     children: [
                       GridView.builder(
                           shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
+                          physics: BouncingScrollPhysics(),
                           itemCount: loadMore
                               ? _data!['vendor'].length + 1
                               : _data!['vendor'].length,
@@ -209,7 +211,7 @@ class _PopularVendorsState extends State<PopularVendors> {
                                   transition: Transition.rightToLeft,
                                 );
                               },
-                              cardImage: 'images/vendors/ntachi-osa.png',
+                              cardImage: 'assets/images/vendors/ntachi-osa.png',
                               vendorName: _data!['vendor'][index].shopName,
                               typeOfBusiness:
                                   _data!['vendor'][index].shopType.name ??
@@ -220,14 +222,14 @@ class _PopularVendorsState extends State<PopularVendors> {
                           }),
                       thatsAllData
                           ? Container(
-                              margin: const EdgeInsets.only(top: 20, bottom: 20),
+                              margin: EdgeInsets.only(top: 20, bottom: 20),
                               height: 10,
                               width: 10,
                               decoration: ShapeDecoration(
-                                  shape: const CircleBorder(),
+                                  shape: CircleBorder(),
                                   color: kPageSkeletonColor),
                             )
-                          : const SizedBox(),
+                          : SizedBox(),
                     ],
                   ),
                 ),

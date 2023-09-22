@@ -37,12 +37,12 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   //=========================== CONTROLLERS ====================================\\
 
-  final TextEditingController _userPasswordEC = TextEditingController();
-  final TextEditingController _confirmPasswordEC = TextEditingController();
+  TextEditingController _userPasswordEC = TextEditingController();
+  TextEditingController _confirmPasswordEC = TextEditingController();
 
   //=========================== FOCUS NODES ====================================\\
-  final FocusNode _userPasswordFN = FocusNode();
-  final FocusNode _confirmPasswordFN = FocusNode();
+  FocusNode _userPasswordFN = FocusNode();
+  FocusNode _confirmPasswordFN = FocusNode();
 
   //=========================== BOOL VALUES====================================\\
   bool _isLoading = false;
@@ -54,9 +54,9 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   Future<bool> resetPassword() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? userEmail = prefs.getString('email');
-    String? token = prefs.getString('token');
-    final url = Uri.parse('$baseURL/auth/resetForgotPassword/$userEmail/');
+    String? userEmail = await prefs.getString('email');
+    String? token = await prefs.getString('token');
+    final url = Uri.parse('$baseURL/auth/resetForgotPassword/${userEmail}/');
     Map body = {
       'token': token,
       'new_password': _userPasswordEC.text,
@@ -136,7 +136,7 @@ class _ResetPasswordState extends State<ResetPassword> {
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         backgroundColor: kSecondaryColor,
-        appBar: const MyAppBar(
+        appBar: MyAppBar(
           title: "",
           elevation: 0.0,
           actions: [],
@@ -171,8 +171,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                           subtitle:
                               "Just enter a new password here and you are good to go!",
                           curves: Curves.easeInOut,
-                          duration: const Duration(),
-                          containerChild: const Center(
+                          duration: Duration(),
+                          containerChild: Center(
                             child: FaIcon(
                               FontAwesomeIcons.solidCircleCheck,
                               color: kSuccessColor,
@@ -180,7 +180,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                             ),
                           ),
                           decoration: ShapeDecoration(
-                              color: kPrimaryColor, shape: const OvalBorder()),
+                              color: kPrimaryColor, shape: OvalBorder()),
                           imageContainerHeight:
                               deviceType(media.size.width) > 2 ? 200 : 100,
                         );
@@ -190,7 +190,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           subtitle:
                               "Just enter a new password here and you are good to go!",
                           curves: Curves.easeInOut,
-                          duration: const Duration(),
+                          duration: Duration(),
                           containerChild: Center(
                             child: FaIcon(
                               FontAwesomeIcons.rotateLeft,
@@ -199,7 +199,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                             ),
                           ),
                           decoration: ShapeDecoration(
-                              color: kPrimaryColor, shape: const OvalBorder()),
+                              color: kPrimaryColor, shape: OvalBorder()),
                           imageContainerHeight:
                               deviceType(media.size.width) > 2 ? 200 : 100,
                         );

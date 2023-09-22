@@ -52,10 +52,10 @@ class Product {
 }
 
 Future<Map<String, List<Product>>> getVendorProductsAndSubCategoryName(
-    vendorId) async {
+    vendor_id) async {
   final response = await http.get(
     Uri.parse(
-        '$baseURL/clients/sortVendorsAvailableProductsBySubCategory/$vendorId'),
+        '$baseURL/clients/sortVendorsAvailableProductsBySubCategory/$vendor_id'),
     headers: await authHeader(),
   );
   if (response.statusCode == 200) {
@@ -99,10 +99,10 @@ Future<List<Product>> getProducts({limit = 10}) async {
   }
 }
 
-Future<List<Product>> getProductsBySubCategory(subCategoryId) async {
+Future<List<Product>> getProductsBySubCategory(sub_category_id) async {
   final response = await http.get(
     Uri.parse(
-        '$baseURL/clients/filterProductsBySubCategory/$subCategoryId'),
+        '$baseURL/clients/filterProductsBySubCategory/${sub_category_id}'),
     headers: await authHeader(),
   );
 
@@ -116,10 +116,10 @@ Future<List<Product>> getProductsBySubCategory(subCategoryId) async {
 }
 
 Future<List<Product>> getProductsByVendorSubCategory(
-    vendorId, subCategoryId) async {
+    vendor_id, sub_category_id) async {
   final response = await http.get(
     Uri.parse(
-        '$baseURL/clients/filterVendorsProductsBySubCategory/$vendorId/$subCategoryId'),
+        '$baseURL/clients/filterVendorsProductsBySubCategory/$vendor_id/$sub_category_id'),
     headers: await authHeader(),
   );
 
@@ -153,7 +153,7 @@ Future<List<Product>> getProductsByVendor(vendorId,
 
 Future<List<Product>> getProductsBySearching(query) async {
   final response = await http.get(
-    Uri.parse('$baseURL/clients/searchProducts?query=$query'),
+    Uri.parse('$baseURL/clients/searchProducts?query=${query}'),
     headers: await authHeader(),
   );
 

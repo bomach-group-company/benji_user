@@ -92,7 +92,7 @@ class _EmailVerificationState extends State<EmailVerification> {
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         backgroundColor: kSecondaryColor,
-        appBar: const MyAppBar(
+        appBar: MyAppBar(
           title: "",
           elevation: 0.0,
           actions: [],
@@ -118,8 +118,8 @@ class _EmailVerificationState extends State<EmailVerification> {
                           subtitle:
                               "Enter your email below and we will send you a code via which you need to change your password",
                           curves: Curves.easeInOut,
-                          duration: const Duration(),
-                          containerChild: const Center(
+                          duration: Duration(),
+                          containerChild: Center(
                             child: FaIcon(
                               FontAwesomeIcons.solidCircleCheck,
                               color: kSuccessColor,
@@ -128,7 +128,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                           ),
                           decoration: ShapeDecoration(
                             color: kPrimaryColor,
-                            shape: const OvalBorder(),
+                            shape: OvalBorder(),
                           ),
                           imageContainerHeight:
                               deviceType(media.size.width) > 2 ? 200 : 100,
@@ -139,7 +139,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                           subtitle:
                               "Enter your email below and we will send you a code via which you need to change your password",
                           curves: Curves.easeInOut,
-                          duration: const Duration(),
+                          duration: Duration(),
                           containerChild: Center(
                             child: FaIcon(
                               FontAwesomeIcons.solidEnvelope,
@@ -149,7 +149,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                           ),
                           decoration: ShapeDecoration(
                             color: kPrimaryColor,
-                            shape: const OvalBorder(),
+                            shape: OvalBorder(),
                           ),
                           imageContainerHeight:
                               deviceType(media.size.width) > 2 ? 200 : 100,
