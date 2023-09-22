@@ -48,7 +48,7 @@ class HomePageVendorsNearYou extends StatelessWidget {
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                        "assets/images/vendors/ntachi-osa.png",
+                        "images/vendors/ntachi-osa.png",
                       ),
                       fit: BoxFit.cover,
                     ),

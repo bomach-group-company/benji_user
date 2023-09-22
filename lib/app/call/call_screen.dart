@@ -149,7 +149,7 @@ class _CallPageState extends State<CallPage> {
                     decoration: ShapeDecoration(
                       color: kPageSkeletonColor,
                       image: DecorationImage(
-                        image: AssetImage("assets/images/${widget.userImage}"),
+                        image: AssetImage("images/${widget.userImage}"),
                         fit: BoxFit.cover,
                       ),
                       shape: const OvalBorder(),

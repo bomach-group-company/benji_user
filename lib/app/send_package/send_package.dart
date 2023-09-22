@@ -703,7 +703,7 @@ class _SendPackageState extends State<SendPackage> {
                       children: [
                         const Icon(Icons.cloud_upload),
                         // Image.asset(
-                        //   "assets/icons/image-upload.png",
+                        //   "icons/image-upload.png",
                         // ),
                         kHalfSizedBox,
                         Text(

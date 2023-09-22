@@ -31,14 +31,14 @@ class _AboutVendorState extends State<AboutVendor> {
   final List<String> stars = ['5', '4', '3', '2', '1'];
   String active = 'all';
 
-  List<Ratings>? _ratings;
+  List<Ratings>? _ratings = [];
 
   _getData() async {
     setState(() {
       _ratings = null;
     });
 
-    List<Ratings> ratings;
+    List<Ratings> ratings = [];
     if (active == 'all') {
       ratings = await getRatingsByVendorId(widget.vendor.id!);
     } else {
@@ -47,7 +47,7 @@ class _AboutVendorState extends State<AboutVendor> {
     }
 
     setState(() {
-      ratings = ratings;
+      _ratings = ratings;
     });
   }
 
@@ -272,16 +272,7 @@ class _AboutVendorState extends State<AboutVendor> {
                           ),
                           onPressed: () async {
                             active = 'all';
-                            setState(() {
-                              _ratings = null;
-                            });
-
-                            List<Ratings> ratings =
-                                await getRatingsByVendorId(widget.vendor.id!);
-
-                            setState(() {
-                              ratings = ratings;
-                            });
+                          await _getData();
                           },
                           child: const Text(
                             'All',
@@ -310,19 +301,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                       ),
                                       onPressed: () async {
                                         active = item;
-
-                                        setState(() {
-                                          _ratings = null;
-                                        });
-
-                                        List<Ratings> ratings =
-                                            await getRatingsByVendorIdAndRating(
-                                                widget.vendor.id!,
-                                                int.parse(active));
-
-                                        setState(() {
-                                          ratings = ratings;
-                                        });
+                                        await _getData();
                                       },
                                       child: Row(
                                         children: [

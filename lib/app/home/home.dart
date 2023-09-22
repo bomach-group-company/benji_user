@@ -134,11 +134,11 @@ class _HomeState extends State<Home> {
 
 //===================== POPULAR VENDORS =======================\\
   final List<String> popularVendorImage = [
-    "assets/images/vendors/ntachi-osa.png",
-    "assets/images/vendors/ntachi-osa.png",
-    "assets/images/vendors/ntachi-osa.png",
-    "assets/images/vendors/ntachi-osa.png",
-    "assets/images/vendors/ntachi-osa.png",
+    "images/vendors/ntachi-osa.png",
+    "images/vendors/ntachi-osa.png",
+    "images/vendors/ntachi-osa.png",
+    "images/vendors/ntachi-osa.png",
+    "images/vendors/ntachi-osa.png",
   ];
 
   //===================== COPY TO CLIPBOARD =======================\\
@@ -421,7 +421,7 @@ class _HomeState extends State<Home> {
                     Scaffold.of(context).openDrawer();
                   },
                   icon: Image.asset(
-                    "assets/icons/drawer-icon.png",
+                    "icons/drawer-icon.png",
                     color: kAccentColor,
                     fit: BoxFit.cover,
                     height: deviceType(mediaWidth) > 2 ? 36 : 20,
@@ -519,7 +519,7 @@ class _HomeState extends State<Home> {
                                   _toVendorPage(_data!['vendor'][index]);
                                 },
                                 cardImage:
-                                    "assets/images/vendors/ntachi-osa.png",
+                                    "images/vendors/ntachi-osa.png",
                                 vendorName: _data!['vendor'][index].shopName ??
                                     "Not Available",
                                 typeOfBusiness:

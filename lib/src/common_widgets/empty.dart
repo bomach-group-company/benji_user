@@ -30,7 +30,7 @@ class EmptyCard extends StatelessWidget {
     return Column(
       children: [
         Lottie.asset(
-          "assets/animations/empty/frame_1.json",
+          "animations/empty/frame_1.json",
         ),
         kSizedBox,
         Text(

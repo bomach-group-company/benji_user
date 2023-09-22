@@ -50,7 +50,7 @@ class PaymentSuccessful extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Lottie.asset(
-                    "assets/animations/payment/frame_1.json",
+                    "animations/payment/frame_1.json",
                     alignment: Alignment.center,
                     fit: BoxFit.contain,
                     height: mediaHeight / 2,

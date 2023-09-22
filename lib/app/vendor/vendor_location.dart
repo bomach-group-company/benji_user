@@ -59,8 +59,8 @@ class _VendorLocationState extends State<VendorLocation> {
   List<String>? _markerTitle;
   List<String>? _markerSnippet;
   final List<String> _customMarkers = <String>[
-    "assets/icons/person_location.png",
-    "assets/icons/store.png",
+    "icons/person_location.png",
+    "icons/store.png",
   ];
   //============================================================= BOOL VALUES ======================================================================\\
   bool _isExpanded = false;
@@ -462,7 +462,7 @@ class _VendorLocationState extends State<VendorLocation> {
                 color: kPageSkeletonColor,
                 image: const DecorationImage(
                   image: AssetImage(
-                    "assets/images/vendors/ntachi-osa-logo.png",
+                    "images/vendors/ntachi-osa-logo.png",
                   ),
                   fit: BoxFit.cover,
                 ),

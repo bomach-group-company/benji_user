@@ -356,7 +356,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                               color: kPageSkeletonColor,
                                               image: const DecorationImage(
                                                 image: AssetImage(
-                                                  "assets/images/profile/avatar-image.jpg",
+                                                  "images/profile/avatar-image.jpg",
                                                 ),
                                                 fit: BoxFit.contain,
                                               ),

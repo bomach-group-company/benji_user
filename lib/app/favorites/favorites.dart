@@ -317,7 +317,7 @@ class _FavoritesState extends State<Favorites>
                                           onTap: () => _vendorDetailPage(
                                               snapshot.data![index]),
                                           cardImage:
-                                              'assets/images/vendors/ntachi-osa.png',
+                                              'images/vendors/ntachi-osa.png',
                                           vendorName:
                                               snapshot.data![index].shopName!,
                                           typeOfBusiness: snapshot

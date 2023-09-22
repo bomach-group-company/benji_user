@@ -139,10 +139,10 @@ class _AddNewCardState extends State<AddNewCard> {
               padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
               children: [
                 deviceType(media.width) > 3 && deviceType(media.width) < 5
-                    ? Lottie.asset("assets/animations/credit_card/frame_1.json",
+                    ? Lottie.asset("animations/credit_card/frame_1.json",
                         height: 250)
                     : Lottie.asset(
-                        "assets/animations/credit_card/frame_1.json"),
+                        "animations/credit_card/frame_1.json"),
                 kSizedBox,
                 Form(
                   key: _formKey,

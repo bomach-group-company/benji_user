@@ -67,7 +67,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   color: kPageSkeletonColor,
                   image: const DecorationImage(
                     image: AssetImage(
-                      "assets/images/profile/avatar-image.jpg",
+                      "images/profile/avatar-image.jpg",
                     ),
                     fit: BoxFit.cover,
                   ),
