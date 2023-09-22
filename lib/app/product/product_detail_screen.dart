@@ -65,7 +65,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       _ratings = null;
     });
 
-    List<Ratings> ratings;
+    List<Ratings> ratings = [];
     if (active == 'all') {
       ratings = await getRatingsByProductId(widget.product.id);
     } else {
@@ -74,7 +74,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     }
 
     setState(() {
-      ratings = ratings;
+      _ratings = ratings;
     });
   }
 
@@ -738,18 +738,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     ),
                                     onPressed: () async {
                                       active = 'all';
-
-                                      setState(() {
-                                        _ratings = null;
-                                      });
-
-                                      List<Ratings> ratings =
-                                          await getRatingsByProductId(
-                                              widget.product.id);
-
-                                      setState(() {
-                                        ratings = ratings;
-                                      });
+                                     await _getData();
                                     },
                                     child: const Text(
                                       'All',
@@ -780,19 +769,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                 ),
                                                 onPressed: () async {
                                                   active = item;
-
-                                                  setState(() {
-                                                    _ratings = null;
-                                                  });
-
-                                                  List<Ratings> ratings =
-                                                      await getRatingsByProductIdAndRating(
-                                                          widget.product.id,
-                                                          int.parse(active));
-
-                                                  setState(() {
-                                                    ratings = ratings;
-                                                  });
+                                                  await _getData();
                                                 },
                                                 child: Row(
                                                   children: [
