@@ -50,7 +50,7 @@ class _LoginSplashScreenState extends State<LoginSplashScreen> {
             const Spacer(),
             Center(
               child: Lottie.asset(
-                "assets/animations/login/frame_1.json",
+                "animations/login/frame_1.json",
                 height: 300,
                 fit: BoxFit.cover,
               ),

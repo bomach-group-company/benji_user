@@ -118,7 +118,7 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
                       ),
                       image: DecorationImage(
                         image:
-                            AssetImage("assets/images/products/okra-soup.png"),
+                            AssetImage("images/products/okra-soup.png"),
                         fit: BoxFit.fill,
                       ),
                     ),

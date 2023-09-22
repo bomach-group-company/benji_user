@@ -57,7 +57,7 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
                 image: DecorationImage(
-                  image: AssetImage("assets/images/products/okra-soup.png"),
+                  image: AssetImage("images/products/okra-soup.png"),
                   fit: BoxFit.fill,
                 ),
               ),

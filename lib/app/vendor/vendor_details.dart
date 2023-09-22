@@ -314,7 +314,7 @@ class _VendorDetailsState extends State<VendorDetails>
                             image: const DecorationImage(
                               fit: BoxFit.fill,
                               image: AssetImage(
-                                "assets/images/vendors/ntachi-osa.png",
+                                "images/vendors/ntachi-osa.png",
                               ),
                             ),
                           ),
@@ -524,7 +524,7 @@ class _VendorDetailsState extends State<VendorDetails>
                             color: kPageSkeletonColor,
                             image: const DecorationImage(
                               image: AssetImage(
-                                "assets/images/vendors/ntachi-osa-logo.png",
+                                "images/vendors/ntachi-osa-logo.png",
                               ),
                               fit: BoxFit.cover,
                             ),

@@ -209,7 +209,7 @@ class _PopularVendorsState extends State<PopularVendors> {
                                   transition: Transition.rightToLeft,
                                 );
                               },
-                              cardImage: 'assets/images/vendors/ntachi-osa.png',
+                              cardImage: 'images/vendors/ntachi-osa.png',
                               vendorName: _data!['vendor'][index].shopName,
                               typeOfBusiness:
                                   _data!['vendor'][index].shopType.name ??

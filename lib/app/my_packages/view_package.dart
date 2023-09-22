@@ -242,7 +242,7 @@ class _ViewPackageState extends State<ViewPackage> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                          'assets/icons/${widget.deliveryItem.status.toLowerCase() == "pending" ? "package-waiting" : "package-success"}.png'),
+                          'icons/${widget.deliveryItem.status.toLowerCase() == "pending" ? "package-waiting" : "package-success"}.png'),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -275,7 +275,7 @@ class _ViewPackageState extends State<ViewPackage> {
                               color: kPrimaryColor,
                               image: const DecorationImage(
                                 image: AssetImage(
-                                  'assets/images/logo/benji_full_logo.png',
+                                  'images/logo/benji_full_logo.png',
                                 ),
                                 fit: BoxFit.contain,
                               ),

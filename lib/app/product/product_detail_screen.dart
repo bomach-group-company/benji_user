@@ -65,7 +65,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       _ratings = null;
     });
 
-    List<Ratings> ratings;
+    List<Ratings> ratings = [];
     if (active == 'all') {
       ratings = await getRatingsByProductId(widget.product.id);
     } else {
@@ -74,7 +74,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     }
 
     setState(() {
-      ratings = ratings;
+      _ratings = ratings;
     });
   }
 
@@ -82,13 +82,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String cartCount = '1';
   String? cartCountAll;
   final List<String> _carouselImages = <String>[
-    "assets/images/products/best-choice-restaurant.png",
-    "assets/images/products/burgers.png",
-    "assets/images/products/chizzy's-food.png",
-    "assets/images/products/golden-toast.png",
-    "assets/images/products/new-food.png",
-    "assets/images/products/okra-soup.png",
-    "assets/images/products/pasta.png"
+    "images/products/best-choice-restaurant.png",
+    "images/products/burgers.png",
+    "images/products/chizzy's-food.png",
+    "images/products/golden-toast.png",
+    "images/products/new-food.png",
+    "images/products/okra-soup.png",
+    "images/products/pasta.png"
   ];
 
 //====================================================== BOOL VALUES ========================================================\\
@@ -738,18 +738,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     ),
                                     onPressed: () async {
                                       active = 'all';
-
-                                      setState(() {
-                                        _ratings = null;
-                                      });
-
-                                      List<Ratings> ratings =
-                                          await getRatingsByProductId(
-                                              widget.product.id);
-
-                                      setState(() {
-                                        ratings = ratings;
-                                      });
+                                     await _getData();
                                     },
                                     child: const Text(
                                       'All',
@@ -780,19 +769,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                 ),
                                                 onPressed: () async {
                                                   active = item;
-
-                                                  setState(() {
-                                                    _ratings = null;
-                                                  });
-
-                                                  List<Ratings> ratings =
-                                                      await getRatingsByProductIdAndRating(
-                                                          widget.product.id,
-                                                          int.parse(active));
-
-                                                  setState(() {
-                                                    ratings = ratings;
-                                                  });
+                                                  await _getData();
                                                 },
                                                 child: Row(
                                                   children: [
