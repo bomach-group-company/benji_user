@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       //This is the home route
-      home: StartupSplashscreen(),
+      home: const StartupSplashscreen(),
     );
   }
 }
