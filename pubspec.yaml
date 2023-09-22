@@ -87,6 +87,7 @@ assets:
   - assets/animations/error/
   - assets/animations/empty/
   - assets/animations/credit_card/
+  - assets/images/splash_screen/frame_1.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
