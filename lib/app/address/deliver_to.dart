@@ -56,7 +56,7 @@ class _DeliverToState extends State<DeliverTo> {
 
     if (current != '') {
       Address? itemToMove =
-          addresses.firstWhere((elem) => elem.id == current, orElse: null);
+          addresses.firstWhere((elem) => elem.id == current, orElse: () => null);
 
       addresses.remove(itemToMove);
       addresses.insert(0, itemToMove);
@@ -107,7 +107,7 @@ class _DeliverToState extends State<DeliverTo> {
 
     if (_currentOption == '') {
       await Get.to(
-        () => AddNewAddress(),
+        () => const AddNewAddress(),
         routeName: 'AddNewAddress',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -124,7 +124,7 @@ class _DeliverToState extends State<DeliverTo> {
         Get.back();
       } else {
         Get.off(
-          () => CheckoutScreen(),
+          () => const CheckoutScreen(),
           routeName: 'CheckoutScreen',
           duration: const Duration(milliseconds: 300),
           fullscreenDialog: true,
@@ -139,7 +139,7 @@ class _DeliverToState extends State<DeliverTo> {
         kAccentColor,
         "No address selected!",
         "Select address to add as default or add address",
-        Duration(
+        const Duration(
           seconds: 2,
         ),
       );
@@ -179,7 +179,7 @@ class _DeliverToState extends State<DeliverTo> {
           title: "Add a delivery location",
           toolbarHeight: kToolbarHeight,
           backgroundColor: kPrimaryColor,
-          actions: [],
+          actions: const [],
         ),
         body: _addressData == null
             ? Center(child: SpinKitChasingDots(color: kAccentColor))
@@ -191,13 +191,13 @@ class _DeliverToState extends State<DeliverTo> {
                   Column(
                     children: [
                       _addressData!['addresses']!.isEmpty
-                          ? EmptyCard(removeButton: true)
+                          ? const EmptyCard(removeButton: true)
                           : ListView.builder(
                               shrinkWrap: true,
                               itemCount: _addressData!['addresses'].length,
                               itemBuilder: (context, index) {
                                 return Container(
-                                  padding: EdgeInsetsDirectional.symmetric(
+                                  padding: const EdgeInsetsDirectional.symmetric(
                                     vertical: kDefaultPadding / 2,
                                   ),
                                   child: RadioListTile(
@@ -228,7 +228,7 @@ class _DeliverToState extends State<DeliverTo> {
                                             _addressData!['addresses'][index]
                                                 .title
                                                 .toUpperCase(),
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: kTextBlackColor,
                                               fontSize: 18,
                                               fontWeight: FontWeight.w700,
@@ -247,7 +247,7 @@ class _DeliverToState extends State<DeliverTo> {
                                                       _addressData!['addresses']
                                                               [index]
                                                           .id
-                                                  ? Color(0xFFFFCFCF)
+                                                  ? const Color(0xFFFFCFCF)
                                                   : kTransparentColor,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -301,7 +301,7 @@ class _DeliverToState extends State<DeliverTo> {
                                   ),
                                 );
                               }),
-                      SizedBox(
+                      const SizedBox(
                         height: kDefaultPadding * 2,
                       ),
                     ],
@@ -310,9 +310,9 @@ class _DeliverToState extends State<DeliverTo> {
                     title: "Add New Address",
                     onPressed: _addAddress,
                   ),
-                  SizedBox(height: kDefaultPadding),
+                  const SizedBox(height: kDefaultPadding),
                   _addressData!['addresses']!.isEmpty
-                      ? SizedBox()
+                      ? const SizedBox()
                       : _isLoading
                           ? Center(
                               child: SpinKitChasingDots(
@@ -326,7 +326,7 @@ class _DeliverToState extends State<DeliverTo> {
                                 applyDeliveryAddress(_currentOption);
                               },
                             ),
-                  SizedBox(height: kDefaultPadding * 2),
+                  const SizedBox(height: kDefaultPadding * 2),
                 ],
               ),
       ),

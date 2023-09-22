@@ -41,10 +41,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   //=========================== CONTROLLERS ====================================\\
 
-  TextEditingController _emailController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
   //=========================== FOCUS NODES ====================================\\
-  FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _emailFocusNode = FocusNode();
 
   //=========================== FUNCTIONS ====================================\\
   Future<bool> forgotPassword() async {
@@ -112,7 +112,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         backgroundColor: kSecondaryColor,
-        appBar: MyAppBar(
+        appBar: const MyAppBar(
           title: "",
           elevation: 0.0,
           actions: [],
@@ -152,8 +152,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               ? widget.subTitle!
                               : "Simply enter your email below and we will send you a code via which you need to reset your password",
                           curves: Curves.easeInOut,
-                          duration: Duration(),
-                          containerChild: Center(
+                          duration: const Duration(),
+                          containerChild: const Center(
                             child: FaIcon(
                               FontAwesomeIcons.solidCircleCheck,
                               color: kSuccessColor,
@@ -162,7 +162,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           ),
                           decoration: ShapeDecoration(
                             color: kPrimaryColor,
-                            shape: OvalBorder(),
+                            shape: const OvalBorder(),
                           ),
                           imageContainerHeight:
                               deviceType(media.size.width) > 2 ? 200 : 100,
@@ -176,7 +176,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               ? widget.subTitle!
                               : "Simply enter your email below and we will send you a code via which you need to reset your password",
                           curves: Curves.easeInOut,
-                          duration: Duration(),
+                          duration: const Duration(),
                           containerChild: Center(
                             child: FaIcon(
                               FontAwesomeIcons.question,
@@ -186,7 +186,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           ),
                           decoration: ShapeDecoration(
                             color: kPrimaryColor,
-                            shape: OvalBorder(),
+                            shape: const OvalBorder(),
                           ),
                           imageContainerHeight:
                               deviceType(media.size.width) > 2 ? 200 : 100,

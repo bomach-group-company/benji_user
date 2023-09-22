@@ -83,7 +83,7 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
       kSuccessColor,
       "Success!",
       "Thank you for your feedback!",
-      Duration(seconds: 1),
+      const Duration(seconds: 1),
     );
 
     Get.back();
@@ -114,7 +114,7 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
         appBar: MyAppBar(
           title: "All Products",
           elevation: 0.0,
-          actions: [],
+          actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
@@ -135,7 +135,7 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
                           itemCount:
                               _productAndSubCategoryName!.keys.toList().length,
                           scrollDirection: Axis.horizontal,
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) =>
                               Padding(
                             padding: const EdgeInsets.all(kDefaultPadding / 2),

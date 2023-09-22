@@ -25,8 +25,8 @@ class RateProductDialog extends StatefulWidget {
 class _RateProductDialogState extends State<RateProductDialog> {
 //===================================== ALL VARIABLES ======================================\\
   var _starPosition = 250.0;
-  var _starPosition2 = 200.0;
-  var _starPosition3 = 210.0;
+  final _starPosition2 = 200.0;
+  final _starPosition3 = 210.0;
   var _rating = 0.0;
 
 //===================================== BOOL VALUES ======================================\\
@@ -34,14 +34,14 @@ class _RateProductDialogState extends State<RateProductDialog> {
   bool _submittingRequest = false;
 
 //===================================== KEYS ======================================\\
-  var _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
 //===================================== CONTROLLERS ======================================\\
-  var _ratingPageController = PageController();
-  var _myMessageEC = TextEditingController();
+  final _ratingPageController = PageController();
+  final _myMessageEC = TextEditingController();
 
 //===================================== FOCUS NODES ======================================\\
-  var _myMessageFN = FocusNode();
+  final _myMessageFN = FocusNode();
 
 //===================================== FUNCTIONS ======================================\\
   Future<bool> rate() async {
@@ -104,7 +104,7 @@ class _RateProductDialogState extends State<RateProductDialog> {
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeIn,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(kDefaultPadding),
@@ -112,7 +112,7 @@ class _RateProductDialogState extends State<RateProductDialog> {
         child: Stack(
           children: [
             AnimatedContainer(
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               curve: Curves.easeIn,
               height: _pageChanged
                   ? deviceType(mediaWidth) > 3 && deviceType(mediaWidth) < 5
@@ -125,10 +125,10 @@ class _RateProductDialogState extends State<RateProductDialog> {
                       : deviceType(mediaWidth) > 2
                           ? mediaHeight * 0.25
                           : mediaHeight * 0.45,
-              padding: EdgeInsets.all(kDefaultPadding),
+              padding: const EdgeInsets.all(kDefaultPadding),
               child: PageView(
                 controller: _ratingPageController,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 children: [
                   _buildThanksNote(),
                   _submittingRequest
@@ -154,7 +154,7 @@ class _RateProductDialogState extends State<RateProductDialog> {
               child: Container(
                 decoration: BoxDecoration(
                   color: _pageChanged == false ? kGreyColor1 : kAccentColor,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(kDefaultPadding),
                     bottomRight: Radius.circular(kDefaultPadding),
                   ),
@@ -163,19 +163,19 @@ class _RateProductDialogState extends State<RateProductDialog> {
                     ? MaterialButton(
                         enableFeedback: true,
                         onPressed: null,
-                        child: Text(
-                          "Submit",
-                          style: TextStyle(color: kPrimaryColor),
-                        ),
                         disabledElevation: 0.0,
                         disabledColor: kGreyColor1,
                         disabledTextColor: kTextBlackColor,
                         mouseCursor: SystemMouseCursors.click,
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(kDefaultPadding),
                             bottomRight: Radius.circular(kDefaultPadding),
                           ),
+                        ),
+                        child: Text(
+                          "Submit",
+                          style: TextStyle(color: kPrimaryColor),
                         ),
                       )
                     : MaterialButton(
@@ -185,10 +185,6 @@ class _RateProductDialogState extends State<RateProductDialog> {
                             _submitRequest();
                           }
                         }),
-                        child: Text(
-                          "Submit",
-                          style: TextStyle(color: kPrimaryColor),
-                        ),
                         mouseCursor: SystemMouseCursors.click,
                         color: kAccentColor,
                         height: 50,
@@ -196,11 +192,15 @@ class _RateProductDialogState extends State<RateProductDialog> {
                         focusColor: kAccentColor,
                         hoverElevation: 10.0,
                         hoverColor: kAccentColor,
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(kDefaultPadding),
                             bottomRight: Radius.circular(kDefaultPadding),
                           ),
+                        ),
+                        child: Text(
+                          "Submit",
+                          style: TextStyle(color: kPrimaryColor),
                         ),
                       ),
               ),
@@ -213,7 +213,7 @@ class _RateProductDialogState extends State<RateProductDialog> {
                       : _starPosition,
               left: 0,
               right: 0,
-              duration: Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
@@ -221,7 +221,7 @@ class _RateProductDialogState extends State<RateProductDialog> {
                   (index) => IconButton(
                     onPressed: () {
                       _ratingPageController.nextPage(
-                        duration: Duration(milliseconds: 500),
+                        duration: const Duration(milliseconds: 500),
                         curve: Curves.easeIn,
                       );
 
@@ -238,8 +238,8 @@ class _RateProductDialogState extends State<RateProductDialog> {
                     },
                     color: kStarColor,
                     icon: index < _rating
-                        ? FaIcon(FontAwesomeIcons.solidStar, size: 30)
-                        : FaIcon(FontAwesomeIcons.star, size: 26),
+                        ? const FaIcon(FontAwesomeIcons.solidStar, size: 30)
+                        : const FaIcon(FontAwesomeIcons.star, size: 26),
                   ),
                 ),
               ),
@@ -266,7 +266,7 @@ _buildThanksNote() {
         ),
       ),
       kHalfSizedBox,
-      Text(
+      const Text(
         "Rate this product",
       ),
     ],
@@ -277,7 +277,7 @@ _causeOfRating(
   final TextEditingController controller,
   final FormFieldValidator validator,
   final FocusNode focusNode,
-  final Key _formKey,
+  final Key formKey,
 ) {
   return Stack(
     alignment: Alignment.center,
@@ -290,14 +290,14 @@ _causeOfRating(
         maintainInteractivity: true,
         maintainSemantics: true,
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: ListView(
             shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
             children: [
               kSizedBox,
               kSizedBox,
-              SizedBox(height: 20, child: Text("What could be better?")),
+              const SizedBox(height: 20, child: Text("What could be better?")),
               kHalfSizedBox,
               SizedBox(
                 height: 250,
