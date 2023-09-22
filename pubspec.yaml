@@ -50,6 +50,7 @@ dev_dependencies:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.3.2
+  flutter_lints: ^2.0.0
 
 flutter_native_splash:
   image: assets/images/splash_screen/frame_1.png
@@ -62,7 +63,6 @@ flutter_launcher_icons:
   remove_alpha_ios: true
   ios: true
   image_path: "assets/images/logo/benji_blue_logo_icon.jpg"
-  flutter_lints: ^2.0.0
 
 # The following section is specific to Flutter packages.
 flutter:
