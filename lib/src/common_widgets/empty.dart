@@ -43,7 +43,7 @@ class EmptyCard extends StatelessWidget {
         ),
         kSizedBox,
         removeButton == true
-            ? SizedBox()
+            ? const SizedBox()
             : MyElevatedButton(
                 title: "Start shopping",
                 onPressed: _toHomeScreen,

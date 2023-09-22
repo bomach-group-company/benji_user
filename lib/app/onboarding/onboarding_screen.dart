@@ -121,12 +121,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 10.0,
                   child: ListView.builder(
                     itemCount: screens.length,
                     shrinkWrap: false,
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       left: kDefaultPadding,
                     ),
                     scrollDirection: Axis.horizontal,
@@ -175,8 +175,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: kAccentColor,
-                    maximumSize: Size(354, 56),
-                    minimumSize: Size(354, 56),
+                    maximumSize: const Size(354, 56),
+                    minimumSize: const Size(354, 56),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),

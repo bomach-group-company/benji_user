@@ -13,7 +13,7 @@ class PaymentSuccessful extends StatelessWidget {
   const PaymentSuccessful({super.key});
 
   void _toTrackOrder() => Get.off(
-        () => TrackOrder(),
+        () => const TrackOrder(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -36,7 +36,7 @@ class PaymentSuccessful extends StatelessWidget {
       body: SafeArea(
         maintainBottomViewPadding: true,
         child: Container(
-          margin: EdgeInsets.only(
+          margin: const EdgeInsets.only(
             top: kDefaultPadding,
             left: kDefaultPadding,
             right: kDefaultPadding,

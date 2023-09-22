@@ -89,7 +89,7 @@ class _ProductVendorState extends State<ProductVendor> {
                   child: ListView.builder(
                     itemCount: _productAndSubCategoryName!.keys.toList().length,
                     scrollDirection: Axis.horizontal,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) => Padding(
                       padding: const EdgeInsets.all(kDefaultPadding / 2),
                       child: CategoryButton(
@@ -114,7 +114,7 @@ class _ProductVendorState extends State<ProductVendor> {
                 ),
                 kHalfSizedBox,
                 _productAndSubCategoryName!.isEmpty
-                    ? EmptyCard(
+                    ? const EmptyCard(
                         removeButton: true,
                       )
                     : GridView.builder(
@@ -141,7 +141,7 @@ class _ProductVendorState extends State<ProductVendor> {
                       ),
                 kSizedBox,
                 _productAndSubCategoryName!.isEmpty
-                    ? SizedBox()
+                    ? const SizedBox()
                     : TextButton(
                         onPressed: _viewProducts,
                         child: Text(

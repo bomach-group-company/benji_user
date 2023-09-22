@@ -33,18 +33,18 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   final _cscPickerKey = GlobalKey<CSCPickerState>();
 
   //===================== CONTROLLERS =======================\\
-  TextEditingController _addressTitleEC = TextEditingController();
-  TextEditingController _recipientNameEC = TextEditingController();
-  TextEditingController _streetAddressEC = TextEditingController();
-  TextEditingController _apartmentDetailsEC = TextEditingController();
-  TextEditingController _phoneNumberEC = TextEditingController();
+  final TextEditingController _addressTitleEC = TextEditingController();
+  final TextEditingController _recipientNameEC = TextEditingController();
+  final TextEditingController _streetAddressEC = TextEditingController();
+  final TextEditingController _apartmentDetailsEC = TextEditingController();
+  final TextEditingController _phoneNumberEC = TextEditingController();
 
   //===================== FOCUS NODES =======================\\
-  FocusNode _addressTitleFN = FocusNode();
-  FocusNode _recipientNameFN = FocusNode();
-  FocusNode _streetAddressFN = FocusNode();
-  FocusNode _apartmentDetailsFN = FocusNode();
-  FocusNode _phoneNumberFN = FocusNode();
+  final FocusNode _addressTitleFN = FocusNode();
+  final FocusNode _recipientNameFN = FocusNode();
+  final FocusNode _streetAddressFN = FocusNode();
+  final FocusNode _apartmentDetailsFN = FocusNode();
+  final FocusNode _phoneNumberFN = FocusNode();
 
   //===================== ALL VARIABLES =======================\\
   String? country;
@@ -99,7 +99,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
         kSuccessColor,
         "Success!",
         "Set As Default Address",
-        Duration(seconds: 2),
+        const Duration(seconds: 2),
       );
       Get.back();
 
@@ -112,7 +112,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
         kErrorColor,
         "Failed!",
         "Failed to Set as Default Address",
-        Duration(seconds: 2),
+        const Duration(seconds: 2),
       );
       Get.back();
 
@@ -150,7 +150,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
         kSuccessColor,
         "Success!",
         "Added Address",
-        Duration(seconds: 2),
+        const Duration(seconds: 2),
       );
       Get.back();
 
@@ -163,7 +163,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
         kErrorColor,
         "Failed!",
         "Failed to Add Address",
-        Duration(seconds: 2),
+        const Duration(seconds: 2),
       );
       Get.back();
 
@@ -184,10 +184,10 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
           title: "Edit Address ",
           toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
-          actions: [],
+          actions: const [],
         ),
         body: Container(
-          margin: EdgeInsets.only(
+          margin: const EdgeInsets.only(
             top: kDefaultPadding,
             left: kDefaultPadding,
             right: kDefaultPadding,
@@ -205,7 +205,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Title (My Home, My Office)',
                             style: TextStyle(
                               color: kTextBlackColor,
@@ -237,7 +237,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                             },
                           ),
                           kHalfSizedBox,
-                          Text(
+                          const Text(
                             'Name tag of this address e.g my work, my apartment',
                             style: TextStyle(
                               color: kTextBlackColor,
@@ -251,7 +251,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Recipient Name',
                             style: TextStyle(
                               color: kTextBlackColor,
@@ -289,7 +289,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Street Address',
                             style: TextStyle(
                               color: kTextBlackColor,
@@ -327,7 +327,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Details (Door, Apartment Number)',
                             style: TextStyle(
                               color: kTextBlackColor,
@@ -359,7 +359,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Phone Number',
                             style: TextStyle(
                               color: kTextBlackColor,
@@ -401,7 +401,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Localization',
                             style: TextStyle(
                               color: kTextBlackColor,
@@ -411,7 +411,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                           ),
                           kHalfSizedBox,
                           CSCPicker(
-                            countryFilter: [CscCountry.Nigeria],
+                            countryFilter: const [CscCountry.Nigeria],
                             currentCity: city,
                             currentState: state,
                             currentCountry: country,
@@ -443,7 +443,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: kDefaultPadding * 2,
               ),
               _isLoading
@@ -477,7 +477,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                         }
                       }),
                     ),
-              SizedBox(
+              const SizedBox(
                 height: kDefaultPadding * 2,
               ),
             ],

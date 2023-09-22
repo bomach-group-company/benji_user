@@ -31,7 +31,7 @@ checkUserAuth() async {
   User? haveUser = await getUser();
   if (haveUser == null) {
     return Get.offAll(
-      () => Login(
+      () => const Login(
         logout: true,
       ),
       routeName: 'Login',
@@ -54,7 +54,7 @@ checkAuth(context) async {
       kAccentColor,
       "No Internet!",
       "Please Connect to the internet",
-      Duration(seconds: 3),
+      const Duration(seconds: 3),
     );
   }
   if (haveUser == null || isAuth == false) {
@@ -63,10 +63,10 @@ checkAuth(context) async {
       kAccentColor,
       "Login to continue!",
       "Please login to continue",
-      Duration(seconds: 2),
+      const Duration(seconds: 2),
     );
     return Get.offAll(
-      () => Login(
+      () => const Login(
         logout: true,
       ),
       routeName: 'Login',

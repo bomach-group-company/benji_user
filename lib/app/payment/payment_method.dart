@@ -74,7 +74,7 @@ class _PaymentMethodState extends State<PaymentMethod>
           elevation: 0,
           backgroundColor: kPrimaryColor,
           toolbarHeight: 40,
-          actions: [],
+          actions: const [],
         ),
         extendBodyBehindAppBar: true,
         body: SafeArea(
@@ -142,7 +142,7 @@ class _PaymentMethodState extends State<PaymentMethod>
                   ),
                   child: _activeTab == 0
                       ? BankTransfer(totalPrice: widget.totalPrice)
-                      : CardPayment(),
+                      : const CardPayment(),
                 ),
                 kSizedBox,
               ],

@@ -93,7 +93,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
           title: "Products",
           toolbarHeight: kToolbarHeight,
           backgroundColor: kPrimaryColor,
-          actions: [],
+          actions: const [],
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
@@ -101,19 +101,19 @@ class _HomePageProductsState extends State<HomePageProducts> {
               ? SpinKitChasingDots(color: kAccentColor)
               : Scrollbar(
                   controller: _scrollController,
-                  radius: Radius.circular(10),
+                  radius: const Radius.circular(10),
                   scrollbarOrientation: ScrollbarOrientation.right,
                   child: ListView(
                     controller: _scrollController,
                     shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     children: [
                       SizedBox(
                         height: 60,
                         child: ListView.builder(
                           itemCount: _data!['category'].length,
                           scrollDirection: Axis.horizontal,
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) =>
                               Padding(
                             padding: const EdgeInsets.all(10),
@@ -141,7 +141,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                           ? Center(
                               child: SpinKitChasingDots(color: kAccentColor))
                           : _data!['product'].isEmpty
-                              ? EmptyCard(
+                              ? const EmptyCard(
                                   removeButton: true,
                                 )
                               : GridView.builder(
@@ -156,10 +156,10 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                     childAspectRatio:
                                         deviceType(media.width) > 2 ? 1.4 : 1.2,
                                   ),
-                                  physics: BouncingScrollPhysics(),
+                                  physics: const BouncingScrollPhysics(),
                                   itemCount: _data!['product'].length,
                                   shrinkWrap: true,
-                                  padding: EdgeInsets.all(kDefaultPadding),
+                                  padding: const EdgeInsets.all(kDefaultPadding),
                                   itemBuilder:
                                       (BuildContext context, int index) =>
                                           ProductCard(

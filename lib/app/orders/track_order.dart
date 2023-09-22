@@ -42,7 +42,7 @@ class _TrackOrderState extends State<TrackOrder> {
         transition: Transition.rightToLeft,
       );
   void _callCustomer() => Get.to(
-        () => CallPage(
+        () => const CallPage(
           userImage: "rider/martins-okafor.png",
           userName: "Martins Okafor",
           userPhoneNumber: "08125374562",
@@ -56,7 +56,7 @@ class _TrackOrderState extends State<TrackOrder> {
         transition: Transition.rightToLeft,
       );
   void _toDeliveryMap() => Get.to(
-        () => DeliveryMap(),
+        () => const DeliveryMap(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -101,13 +101,13 @@ class _TrackOrderState extends State<TrackOrder> {
               Container(
                 width: mediaWidth,
                 height: 105,
-                padding: EdgeInsets.all(kDefaultPadding / 2),
+                padding: const EdgeInsets.all(kDefaultPadding / 2),
                 decoration: ShapeDecoration(
                   color: kPrimaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  shadows: [
+                  shadows: const [
                     BoxShadow(
                       color: Color(0x0F000000),
                       blurRadius: 24,
@@ -120,7 +120,7 @@ class _TrackOrderState extends State<TrackOrder> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -173,7 +173,7 @@ class _TrackOrderState extends State<TrackOrder> {
                             clipBehavior: Clip.antiAlias,
                             decoration: ShapeDecoration(
                               color: kAccentColor,
-                              shape: OvalBorder(),
+                              shape: const OvalBorder(),
                             ),
                             child: Stack(
                               children: [
@@ -199,7 +199,7 @@ class _TrackOrderState extends State<TrackOrder> {
                               color: kAccentColor,
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             width: 26,
                             height: 26,
                             child: Stack(
@@ -212,7 +212,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                     height: 18,
                                     decoration: ShapeDecoration(
                                       color: kAccentColor,
-                                      shape: OvalBorder(),
+                                      shape: const OvalBorder(),
                                     ),
                                   ),
                                 ),
@@ -239,13 +239,13 @@ class _TrackOrderState extends State<TrackOrder> {
                             flex: 1,
                             child: Container(
                               height: 1,
-                              color: Color(0xFFC4C4C4),
+                              color: const Color(0xFFC4C4C4),
                             ),
                           ),
                           Container(
                             width: 18,
                             height: 18,
-                            decoration: ShapeDecoration(
+                            decoration: const ShapeDecoration(
                               shape: OvalBorder(
                                 side: BorderSide(
                                   width: 0.50,
@@ -258,7 +258,7 @@ class _TrackOrderState extends State<TrackOrder> {
                             flex: 1,
                             child: Container(
                               height: 1,
-                              color: Color(
+                              color: const Color(
                                 0xFFC4C4C4,
                               ),
                             ),
@@ -266,7 +266,7 @@ class _TrackOrderState extends State<TrackOrder> {
                           Container(
                             width: 18,
                             height: 18,
-                            decoration: ShapeDecoration(
+                            decoration: const ShapeDecoration(
                               shape: OvalBorder(
                                 side: BorderSide(
                                   width: 0.50,
@@ -290,7 +290,7 @@ class _TrackOrderState extends State<TrackOrder> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  shadows: [
+                  shadows: const [
                     BoxShadow(
                       color: Color(0x0F000000),
                       blurRadius: 24,
@@ -300,7 +300,7 @@ class _TrackOrderState extends State<TrackOrder> {
                   ],
                 ),
                 child: Container(
-                  padding: EdgeInsets.all(kDefaultPadding),
+                  padding: const EdgeInsets.all(kDefaultPadding),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -319,7 +319,7 @@ class _TrackOrderState extends State<TrackOrder> {
                             width: deviceType(mediaWidth) > 2
                                 ? mediaWidth / 3
                                 : mediaWidth / 1.5,
-                            child: Text(
+                            child: const Text(
                               'Order received by vendor',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
@@ -344,13 +344,13 @@ class _TrackOrderState extends State<TrackOrder> {
               ),
               kSizedBox,
               Container(
-                padding: EdgeInsets.all(kDefaultPadding),
+                padding: const EdgeInsets.all(kDefaultPadding),
                 decoration: ShapeDecoration(
                   color: kPrimaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  shadows: [
+                  shadows: const [
                     BoxShadow(
                       color: Color(0x0F000000),
                       blurRadius: 24,
@@ -362,7 +362,7 @@ class _TrackOrderState extends State<TrackOrder> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Order Details',
                       style: TextStyle(
                         color: kTextBlackColor,
@@ -378,7 +378,7 @@ class _TrackOrderState extends State<TrackOrder> {
                           width: 90,
                           height: 90,
                           decoration: ShapeDecoration(
-                            image: DecorationImage(
+                            image: const DecorationImage(
                               image: AssetImage(
                                 "assets/images/products/chizzy's-food.png",
                               ),
@@ -394,7 +394,7 @@ class _TrackOrderState extends State<TrackOrder> {
                           children: [
                             SizedBox(
                               width: mediaWidth / 2,
-                              child: Text(
+                              child: const Text(
                                 "Chizzy's Food",
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.start,
@@ -411,7 +411,7 @@ class _TrackOrderState extends State<TrackOrder> {
                               children: [
                                 SizedBox(
                                   width: mediaWidth / 4,
-                                  child: Text(
+                                  child: const Text(
                                     '3 Item (s)',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
@@ -440,7 +440,7 @@ class _TrackOrderState extends State<TrackOrder> {
                               width: mediaWidth / 2,
                               child: Row(
                                 children: [
-                                  FaIcon(
+                                  const FaIcon(
                                     FontAwesomeIcons.solidCircleCheck,
                                     color: kSuccessColor,
                                     size: 18,
@@ -448,7 +448,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                   kHalfWidthSizedBox,
                                   SizedBox(
                                     width: mediaWidth / 5,
-                                    child: Text(
+                                    child: const Text(
                                       'Paid',
                                       style: TextStyle(
                                         color: kTextBlackColor,
@@ -467,7 +467,7 @@ class _TrackOrderState extends State<TrackOrder> {
                     kHalfSizedBox,
                     Divider(color: kGreyColor, thickness: 1),
                     kHalfSizedBox,
-                    Text(
+                    const Text(
                       'Delivery Officer',
                       style: TextStyle(
                         color: kTextBlackColor,
@@ -477,13 +477,13 @@ class _TrackOrderState extends State<TrackOrder> {
                     ),
                     kHalfSizedBox,
                     ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 0),
                       onTap: null,
                       leading: Container(
                         width: 50,
                         height: 50,
                         decoration: ShapeDecoration(
-                          image: DecorationImage(
+                          image: const DecorationImage(
                             image: AssetImage(
                               "assets/images/rider/martins-okafor.png",
                             ),
@@ -500,7 +500,7 @@ class _TrackOrderState extends State<TrackOrder> {
                         children: [
                           SizedBox(
                             width: mediaWidth / 2.2,
-                            child: Text(
+                            child: const Text(
                               'Martins Okafor ',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -519,7 +519,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                 size: 14,
                                 color: kGreyColor,
                               ),
-                              SizedBox(width: 4),
+                              const SizedBox(width: 4),
                               Text(
                                 '3.2km away',
                                 style: TextStyle(
@@ -562,7 +562,7 @@ class _TrackOrderState extends State<TrackOrder> {
                         height: 50,
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
-                            side: BorderSide(
+                            side: const BorderSide(
                               width: 0.50,
                               color: Color(0xFFDADADA),
                             ),
@@ -578,7 +578,7 @@ class _TrackOrderState extends State<TrackOrder> {
                               color: kGreyColor,
                             ),
                             kHalfWidthSizedBox,
-                            SizedBox(
+                            const SizedBox(
                               width: 90,
                               child: Text(
                                 'View on map',
@@ -597,7 +597,7 @@ class _TrackOrderState extends State<TrackOrder> {
                 ),
               ),
               kSizedBox,
-              SizedBox(
+              const SizedBox(
                 height: kDefaultPadding * 2,
               ),
             ],

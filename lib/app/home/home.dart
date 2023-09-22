@@ -110,7 +110,7 @@ class _HomeState extends State<Home> {
   int activeCategory = 0;
   String cartCount = '';
 //============================================== BOOL VALUES =================================================\\
-  bool _vendorStatus = true;
+  final bool _vendorStatus = true;
   bool _isScrollToTopBtnVisible = false;
 
   //Online Vendors
@@ -129,7 +129,7 @@ class _HomeState extends State<Home> {
   final double _offlineVendorsRating = 4.0;
 
   //==================================================== CONTROLLERS ======================================================\\
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   final _scrollController = ScrollController();
 
 //===================== POPULAR VENDORS =======================\\
@@ -154,7 +154,7 @@ class _HomeState extends State<Home> {
       kSuccessColor,
       "Success!",
       "ID copied to clipboard",
-      Duration(
+      const Duration(
         seconds: 2,
       ),
     );
@@ -166,7 +166,7 @@ class _HomeState extends State<Home> {
   Future<void> _scrollToTop() async {
     await _scrollController.animateTo(
       0.0,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
     setState(() {
@@ -406,7 +406,7 @@ class _HomeState extends State<Home> {
                 hoverElevation: 50.0,
                 child: const Icon(Icons.keyboard_arrow_up),
               )
-            : SizedBox(),
+            : const SizedBox(),
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
           automaticallyImplyLeading: false,
@@ -455,7 +455,7 @@ class _HomeState extends State<Home> {
                     child: SpinKitDoubleBounce(color: kAccentColor, size: 12),
                   ),
             _data != null
-                ? CartCard()
+                ? const CartCard()
                 : Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SpinKitDoubleBounce(color: kAccentColor, size: 12),
@@ -507,7 +507,7 @@ class _HomeState extends State<Home> {
                           child: ListView.separated(
                             itemCount: _data!['vendor'].length,
                             scrollDirection: Axis.horizontal,
-                            physics: BouncingScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             separatorBuilder: (context, index) =>
                                 deviceType(mediaWidth) > 2
                                     ? kWidthSizedBox
@@ -584,7 +584,7 @@ class _HomeState extends State<Home> {
                           child: ListView.builder(
                             itemCount: _data!['category'].length,
                             scrollDirection: Axis.horizontal,
-                            physics: BouncingScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             itemBuilder: (BuildContext context, int index) =>
                                 Padding(
                               padding: const EdgeInsets.all(10),
@@ -614,7 +614,7 @@ class _HomeState extends State<Home> {
                                   child:
                                       SpinKitChasingDots(color: kAccentColor))
                               : _data!['product'].isEmpty
-                                  ? EmptyCard(
+                                  ? const EmptyCard(
                                       removeButton: true,
                                     )
                                   : GridView.builder(

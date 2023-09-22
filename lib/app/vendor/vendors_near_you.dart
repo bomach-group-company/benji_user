@@ -53,10 +53,10 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
         end = end + 10;
       });
 
-      await Future.delayed(Duration(microseconds: 100));
+      await Future.delayed(const Duration(microseconds: 100));
       await _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 25),
+        duration: const Duration(milliseconds: 25),
         curve: Curves.easeInOut,
       );
       await _getData();
@@ -70,7 +70,7 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
   Future<void> _scrollToTop() async {
     await _scrollController.animateTo(
       0.0,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
     setState(() {
@@ -96,9 +96,7 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
     await checkAuth(context);
     List<VendorModel> vendor = await getVendors(start: start, end: end);
 
-    if (_data == null) {
-      _data = {'vendor': []};
-    }
+    _data ??= {'vendor': []};
 
     setState(() {
       thatsAllData = vendor.isEmpty;
@@ -138,7 +136,7 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
           title: "Vendors Near You",
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
-          actions: [],
+          actions: const [],
         ),
         floatingActionButton: _isScrollToTopBtnVisible
             ? FloatingActionButton(
@@ -152,7 +150,7 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                 hoverElevation: 50.0,
                 child: const Icon(Icons.keyboard_arrow_up),
               )
-            : SizedBox(),
+            : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: _data == null
@@ -167,11 +165,11 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                   child: ListView(
                     controller: _scrollController,
                     dragStartBehavior: DragStartBehavior.down,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
                     children: [
                       GridView.builder(
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
                         padding: const EdgeInsets.all(kDefaultPadding),
                         itemCount: loadMore
@@ -221,15 +219,15 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                       ),
                       thatsAllData
                           ? Container(
-                              margin: EdgeInsets.only(top: 20, bottom: 20),
+                              margin: const EdgeInsets.only(top: 20, bottom: 20),
                               height: 10,
                               width: 10,
                               decoration: ShapeDecoration(
-                                shape: CircleBorder(),
+                                shape: const CircleBorder(),
                                 color: kPageSkeletonColor,
                               ),
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                     ],
                   ),
                 ),

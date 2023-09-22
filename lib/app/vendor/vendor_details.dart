@@ -90,7 +90,7 @@ class _VendorDetailsState extends State<VendorDetails>
       _isAddedToFavorites
           ? "Vendor has been added to favorites"
           : "Vendor been removed from favorites",
-      Duration(milliseconds: 500),
+      const Duration(milliseconds: 500),
     );
   }
 
@@ -121,7 +121,7 @@ class _VendorDetailsState extends State<VendorDetails>
             children: [
               FaIcon(FontAwesomeIcons.solidStar, color: kStarColor),
               kWidthSizedBox,
-              Text("Rate this vendor"),
+              const Text("Rate this vendor"),
             ],
           ),
         ),
@@ -132,7 +132,7 @@ class _VendorDetailsState extends State<VendorDetails>
             children: [
               FaIcon(FontAwesomeIcons.solidFlag, color: kAccentColor),
               kWidthSizedBox,
-              Text("Report this vendor"),
+              const Text("Report this vendor"),
             ],
           ),
         ),
@@ -267,7 +267,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                   : media.height * 0.28,
                           decoration: BoxDecoration(
                             color: kPageSkeletonColor,
-                            image: DecorationImage(
+                            image: const DecorationImage(
                               fit: BoxFit.fill,
                               image: AssetImage(
                                 "assets/images/vendors/ntachi-osa.png",
@@ -317,7 +317,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: kTextBlackColor,
                                       fontSize: 24,
                                       fontWeight: FontWeight.w700,
@@ -343,7 +343,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                         widget.vendor.address ??
                                             'Not Available',
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -372,7 +372,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                           ? "Not Available"
                                           : "Show on map",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -484,7 +484,7 @@ class _VendorDetailsState extends State<VendorDetails>
                               ),
                               fit: BoxFit.cover,
                             ),
-                            shape: OvalBorder(),
+                            shape: const OvalBorder(),
                           ),
                         ),
                       ),

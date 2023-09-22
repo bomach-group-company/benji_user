@@ -41,7 +41,7 @@ Future<List<Ratings>> getRatingsByVendorId(int id,
     {start = 0, end = 20}) async {
   final response = await http.get(
     Uri.parse(
-        '$baseURL/vendors/${id}/getAllVendorRatings?start=${start}&end=${end}'),
+        '$baseURL/vendors/$id/getAllVendorRatings?start=$start&end=$end'),
     headers: await authHeader(),
   );
 
@@ -60,7 +60,7 @@ Future<List<Ratings>> getRatingsByVendorIdAndRating(int id, int rating,
     {start = 0, end = 20}) async {
   final response = await http.get(
     Uri.parse(
-        '$baseURL/clients/filterVendorReviewsByRating/${id}?rating_value=${rating}'),
+        '$baseURL/clients/filterVendorReviewsByRating/$id?rating_value=$rating'),
     headers: await authHeader(),
   );
 

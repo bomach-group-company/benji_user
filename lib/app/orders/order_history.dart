@@ -52,12 +52,12 @@ class _OrdersHistoryState extends State<OrdersHistory> {
           title: "My Orders ",
           toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
-          actions: [],
+          actions: const [],
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Container(
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               top: kDefaultPadding,
               left: kDefaultPadding,
               right: kDefaultPadding,
@@ -72,7 +72,7 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                           child: SpinKitChasingDots(color: kAccentColor),
                         )
                       : _data!.isEmpty
-                          ? EmptyCard()
+                          ? const EmptyCard()
                           : ListView.separated(
                               itemCount: _data!.length,
                               separatorBuilder: (context, index) =>
