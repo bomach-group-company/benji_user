@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<String> addToInstance(String instanceName, String id,
     {int qty = 1}) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  Map instance = jsonDecode(prefs.getString(instanceName) ?? '{}');
+  Map instance = jsonDecode(await prefs.getString(instanceName) ?? '{}');
 
   if (instance[id] != null) {
     instance[id] += qty;
@@ -22,7 +22,7 @@ Future<String> removeFromInstance(String instanceName, String id,
     {bool removeAll = false}) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  Map instance = jsonDecode(prefs.getString(instanceName) ?? '{}');
+  Map instance = jsonDecode(await prefs.getString(instanceName) ?? '{}');
   if (instance[id] != null) {
     if (instance[id] == 1 || removeAll) {
       instance.remove(id);

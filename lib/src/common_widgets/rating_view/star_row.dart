@@ -13,7 +13,7 @@ class StarRow extends StatefulWidget {
 
 class _StarRowState extends State<StarRow> {
   final List<String> stars = ['5', '4', '3', '2', '1'];
-  String? active;
+  String? active = null;
 
   @override
   void initState() {
@@ -24,7 +24,7 @@ class _StarRowState extends State<StarRow> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
+      physics: BouncingScrollPhysics(),
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
@@ -33,20 +33,20 @@ class _StarRowState extends State<StarRow> {
               side: BorderSide(
                 color: active == 'all'
                     ? kAccentColor
-                    : const Color(
+                    : Color(
                         0xFFA9AAB1,
                       ),
               ),
               backgroundColor: active == 'all' ? kAccentColor : kPrimaryColor,
               foregroundColor:
-                  active == 'all' ? kPrimaryColor : const Color(0xFFA9AAB1),
+                  active == 'all' ? kPrimaryColor : Color(0xFFA9AAB1),
             ),
             onPressed: () {
               setState(() {
                 active = 'all';
               });
             },
-            child: const Text(
+            child: Text(
               'All',
               style: TextStyle(
                 fontSize: 15,
@@ -64,10 +64,10 @@ class _StarRowState extends State<StarRow> {
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(
                             color:
-                                active == item ? kStarColor : const Color(0xFFA9AAB1),
+                                active == item ? kStarColor : Color(0xFFA9AAB1),
                           ),
                           foregroundColor:
-                              active == item ? kStarColor : const Color(0xFFA9AAB1),
+                              active == item ? kStarColor : Color(0xFFA9AAB1),
                         ),
                         onPressed: () {
                           setState(() {
@@ -76,16 +76,16 @@ class _StarRowState extends State<StarRow> {
                         },
                         child: Row(
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.star,
                               size: 20,
                             ),
-                            const SizedBox(
+                            SizedBox(
                               width: kDefaultPadding * 0.2,
                             ),
                             Text(
-                              item,
-                              style: const TextStyle(
+                              '$item',
+                              style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                               ),

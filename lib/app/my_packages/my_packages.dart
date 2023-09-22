@@ -99,7 +99,7 @@ class _MyPackagesState extends State<MyPackages>
         appBar: MyAppBar(
           title: "My Packages",
           elevation: 0,
-          actions: const [],
+          actions: [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
@@ -174,7 +174,7 @@ class _MyPackagesState extends State<MyPackages>
                                 child: Column(
                                   children: [
                                     snapshot.data!.isEmpty
-                                        ? const EmptyCard(
+                                        ? EmptyCard(
                                             removeButton: true,
                                           )
                                         : ListView.separated(
@@ -192,7 +192,7 @@ class _MyPackagesState extends State<MyPackages>
                                                     _viewPendingPackage(
                                                         snapshot.data![index]),
                                                 contentPadding:
-                                                    const EdgeInsets.all(0),
+                                                    EdgeInsets.all(0),
                                                 enableFeedback: true,
                                                 dense: true,
                                                 leading: FaIcon(
@@ -205,7 +205,7 @@ class _MyPackagesState extends State<MyPackages>
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 1,
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                     color: kTextBlackColor,
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w700,
@@ -214,12 +214,12 @@ class _MyPackagesState extends State<MyPackages>
                                                 subtitle: Text.rich(
                                                   TextSpan(
                                                     children: [
-                                                      const TextSpan(text: "Price:"),
-                                                      const TextSpan(text: " "),
+                                                      TextSpan(text: "Price:"),
+                                                      TextSpan(text: " "),
                                                       TextSpan(
                                                         text:
                                                             "₦${formattedText(snapshot.data![index].prices)}",
-                                                        style: const TextStyle(
+                                                        style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w700,
                                                           fontFamily: 'sen',
@@ -257,7 +257,7 @@ class _MyPackagesState extends State<MyPackages>
                                 child: Column(
                                   children: [
                                     snapshot.data!.isEmpty
-                                        ? const EmptyCard(
+                                        ? EmptyCard(
                                             removeButton: true,
                                           )
                                         : ListView.separated(
@@ -276,7 +276,7 @@ class _MyPackagesState extends State<MyPackages>
                                                         (snapshot
                                                             .data![index])),
                                                 contentPadding:
-                                                    const EdgeInsets.all(0),
+                                                    EdgeInsets.all(0),
                                                 enableFeedback: true,
                                                 dense: true,
                                                 leading: FaIcon(
@@ -289,7 +289,7 @@ class _MyPackagesState extends State<MyPackages>
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 1,
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                     color: kTextBlackColor,
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w700,
@@ -298,12 +298,12 @@ class _MyPackagesState extends State<MyPackages>
                                                 subtitle: Text.rich(
                                                   TextSpan(
                                                     children: [
-                                                      const TextSpan(text: "Price:"),
-                                                      const TextSpan(text: " "),
+                                                      TextSpan(text: "Price:"),
+                                                      TextSpan(text: " "),
                                                       TextSpan(
                                                         text:
                                                             "₦${formattedText(snapshot.data![index].prices)}",
-                                                        style: const TextStyle(
+                                                        style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w700,
                                                           fontFamily: 'sen',
@@ -312,7 +312,7 @@ class _MyPackagesState extends State<MyPackages>
                                                     ],
                                                   ),
                                                 ),
-                                                trailing: const FaIcon(
+                                                trailing: FaIcon(
                                                   FontAwesomeIcons
                                                       .solidCircleCheck,
                                                   color: kSuccessColor,

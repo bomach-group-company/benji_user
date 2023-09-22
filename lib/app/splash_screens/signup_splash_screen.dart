@@ -21,10 +21,10 @@ class _SignUpSplashScreenState extends State<SignUpSplashScreen> {
   void initState() {
     super.initState();
     Timer(
-      const Duration(seconds: 2),
+      Duration(seconds: 2),
       () {
         Get.offAll(
-          () => const Home(),
+          () => Home(),
           duration: const Duration(seconds: 2),
           fullscreenDialog: true,
           curve: Curves.easeIn,
@@ -49,7 +49,7 @@ class _SignUpSplashScreenState extends State<SignUpSplashScreen> {
             const Spacer(),
             Center(
               child: Lottie.asset(
-                "animations/signup/frame_1.json",
+                "assets/animations/signup/frame_1.json",
                 height: 300,
               ),
             ),

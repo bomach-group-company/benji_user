@@ -28,29 +28,17 @@ class _HomePageProductsState extends State<HomePageProducts> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_scrollListener);
     _getData();
   }
 
   @override
   void dispose() {
     super.dispose();
-
     _scrollController.dispose();
-    _scrollController.removeListener(() {});
   }
 
-  //==================================================== ALL VARIABLES ===========================================================\\
   Map? _data;
   int activeCategory = 0;
-
-  //==================================================== BOOL VALUES ===========================================================\\
-  bool _isScrollToTopBtnVisible = false;
-
-  //==================================================== CONTROLLERS ======================================================\\
-  final _scrollController = ScrollController();
-
-  //==================================================== FUNCTIONS ===========================================================\\
 
   _getData() async {
     await checkAuth(context);
@@ -75,33 +63,14 @@ class _HomePageProductsState extends State<HomePageProducts> {
       };
     });
   }
+  //==================================================== ALL VARIABLES ===========================================================\\
 
-  Future<void> _scrollToTop() async {
-    await _scrollController.animateTo(
-      0.0,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
-    setState(() {
-      _isScrollToTopBtnVisible = false;
-    });
-  }
+  //==================================================== BOOL VALUES ===========================================================\\
 
-  Future<void> _scrollListener() async {
-    if (_scrollController.position.pixels >= 200 &&
-        _isScrollToTopBtnVisible != true) {
-      setState(() {
-        _isScrollToTopBtnVisible = true;
-      });
-    }
-    if (_scrollController.position.pixels < 200 &&
-        _isScrollToTopBtnVisible == true) {
-      setState(() {
-        _isScrollToTopBtnVisible = false;
-      });
-    }
-  }
+  //==================================================== CONTROLLERS ======================================================\\
+  final _scrollController = ScrollController();
 
+  //==================================================== FUNCTIONS ===========================================================\\
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
@@ -124,40 +93,27 @@ class _HomePageProductsState extends State<HomePageProducts> {
           title: "Products",
           toolbarHeight: kToolbarHeight,
           backgroundColor: kPrimaryColor,
-          actions: const [],
+          actions: [],
         ),
-        floatingActionButton: _isScrollToTopBtnVisible
-            ? FloatingActionButton(
-                onPressed: _scrollToTop,
-                mini: true,
-                backgroundColor: kAccentColor,
-                enableFeedback: true,
-                mouseCursor: SystemMouseCursors.click,
-                tooltip: "Scroll to top",
-                hoverColor: kAccentColor,
-                hoverElevation: 50.0,
-                child: const Icon(Icons.keyboard_arrow_up),
-              )
-            : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: _data == null
               ? SpinKitChasingDots(color: kAccentColor)
               : Scrollbar(
                   controller: _scrollController,
-                  radius: const Radius.circular(10),
+                  radius: Radius.circular(10),
                   scrollbarOrientation: ScrollbarOrientation.right,
                   child: ListView(
                     controller: _scrollController,
                     shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(),
+                    physics: BouncingScrollPhysics(),
                     children: [
                       SizedBox(
                         height: 60,
                         child: ListView.builder(
                           itemCount: _data!['category'].length,
                           scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
+                          physics: BouncingScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) =>
                               Padding(
                             padding: const EdgeInsets.all(10),
@@ -185,7 +141,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                           ? Center(
                               child: SpinKitChasingDots(color: kAccentColor))
                           : _data!['product'].isEmpty
-                              ? const EmptyCard(
+                              ? EmptyCard(
                                   removeButton: true,
                                 )
                               : GridView.builder(
@@ -198,17 +154,12 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                     mainAxisSpacing:
                                         deviceType(media.width) > 2 ? 25 : 15,
                                     childAspectRatio:
-                                        deviceType(media.width) > 3 &&
-                                                deviceType(media.width) < 5
-                                            ? 1.9
-                                            : deviceType(media.width) > 2
-                                                ? 1.4
-                                                : 1.1,
+                                        deviceType(media.width) > 2 ? 1.4 : 1.2,
                                   ),
-                                  physics: const BouncingScrollPhysics(),
+                                  physics: BouncingScrollPhysics(),
                                   itemCount: _data!['product'].length,
                                   shrinkWrap: true,
-                                  padding: const EdgeInsets.all(kDefaultPadding),
+                                  padding: EdgeInsets.all(kDefaultPadding),
                                   itemBuilder:
                                       (BuildContext context, int index) =>
                                           ProductCard(

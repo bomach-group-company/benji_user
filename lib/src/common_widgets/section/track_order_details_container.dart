@@ -12,7 +12,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
   });
 
   String shortenUuid(String uuid) {
-    const int truncationLength = 6; // Number of characters to keep on each end
+    final int truncationLength = 6; // Number of characters to keep on each end
     final String shortenedUuid =
         "${uuid.substring(0, truncationLength)}...${uuid.substring(uuid.length - truncationLength)}";
     return shortenedUuid;
@@ -62,13 +62,13 @@ class TrackOrderDetailsContainer extends StatelessWidget {
       decoration: ShapeDecoration(
         color: kPrimaryColor,
         shape: RoundedRectangleBorder(
-          side: const BorderSide(
+          side: BorderSide(
             width: 0.50,
             color: Color(0xFFF0F0F0),
           ),
           borderRadius: BorderRadius.circular(10),
         ),
-        shadows: const [
+        shadows: [
           BoxShadow(
             color: Color(0x0F000000),
             blurRadius: 24,
@@ -90,9 +90,15 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      status[order.deliveryStatus.toLowerCase()] ?? "Not Available",
+                      status[order.deliveryStatus.toLowerCase()] != null
+                          ? status[order.deliveryStatus.toLowerCase()]
+                          : "Not Available",
                       style: TextStyle(
-                        color: statusColor[order.deliveryStatus.toLowerCase()] ?? kSecondaryColor,
+                        color: statusColor[
+                                    order.deliveryStatus.toLowerCase()] !=
+                                null
+                            ? statusColor[order.deliveryStatus.toLowerCase()]
+                            : kSecondaryColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),
@@ -101,7 +107,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                     Container(
                       width: 4,
                       height: 4,
-                      decoration: const ShapeDecoration(
+                      decoration: ShapeDecoration(
                         color: Color(0xFFC4C4C4),
                         shape: OvalBorder(),
                       ),
@@ -132,7 +138,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                     Container(
                       width: 4,
                       height: 4,
-                      decoration: const ShapeDecoration(
+                      decoration: ShapeDecoration(
                         color: Color(0xFFC4C4C4),
                         shape: OvalBorder(),
                       ),

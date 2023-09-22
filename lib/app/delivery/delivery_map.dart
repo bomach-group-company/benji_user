@@ -66,7 +66,7 @@ class _DeliveryMapState extends State<DeliveryMap> {
 
   //=============================== NAVIGATION ======================================\\
   void _callCustomer() => Get.to(
-        () => const CallPage(
+        () => CallPage(
           userImage: "rider/martins-okafor.png",
           userName: "Martins Okafor",
           userPhoneNumber: "08125374562",
@@ -90,7 +90,7 @@ class _DeliveryMapState extends State<DeliveryMap> {
         toolbarHeight: 80,
         elevation: 0.0,
         backgroundColor: kPrimaryColor,
-        actions: const [],
+        actions: [],
       ),
       backgroundColor: kPrimaryColor,
       body: Stack(
@@ -133,7 +133,7 @@ class _DeliveryMapState extends State<DeliveryMap> {
                   useSafeArea: true,
                   isScrollControlled: true,
                   isDismissible: true,
-                  shape: const RoundedRectangleBorder(
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(
                         kDefaultPadding,
@@ -142,7 +142,7 @@ class _DeliveryMapState extends State<DeliveryMap> {
                   ),
                   enableDrag: true,
                   builder: (context) => SingleChildScrollView(
-                    padding: const EdgeInsets.only(
+                    padding: EdgeInsets.only(
                       left: kDefaultPadding,
                       right: kDefaultPadding,
                       bottom: kDefaultPadding,
@@ -150,7 +150,7 @@ class _DeliveryMapState extends State<DeliveryMap> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Order Details',
                           style: TextStyle(
                             color: kTextBlackColor,
@@ -166,9 +166,9 @@ class _DeliveryMapState extends State<DeliveryMap> {
                               width: 100,
                               height: 100,
                               decoration: ShapeDecoration(
-                                image: const DecorationImage(
+                                image: DecorationImage(
                                   image: AssetImage(
-                                    "images/products/chizzy's-food.png",
+                                    "assets/images/products/chizzy's-food.png",
                                   ),
                                   fit: BoxFit.cover,
                                 ),
@@ -182,7 +182,7 @@ class _DeliveryMapState extends State<DeliveryMap> {
                               children: [
                                 SizedBox(
                                   width: mediaWidth / 2,
-                                  child: const Text(
+                                  child: Text(
                                     "Chizzy's Food",
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.start,
@@ -199,7 +199,7 @@ class _DeliveryMapState extends State<DeliveryMap> {
                                   children: [
                                     SizedBox(
                                       width: mediaWidth / 4,
-                                      child: const Text(
+                                      child: Text(
                                         '3 Item (s)',
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
@@ -228,7 +228,7 @@ class _DeliveryMapState extends State<DeliveryMap> {
                                   width: mediaWidth / 2,
                                   child: Row(
                                     children: [
-                                      const FaIcon(
+                                      FaIcon(
                                         FontAwesomeIcons.solidCircleCheck,
                                         color: kSuccessColor,
                                         size: 18,
@@ -236,7 +236,7 @@ class _DeliveryMapState extends State<DeliveryMap> {
                                       kHalfWidthSizedBox,
                                       SizedBox(
                                         width: mediaWidth / 5,
-                                        child: const Text(
+                                        child: Text(
                                           'Paid',
                                           style: TextStyle(
                                             color: kTextBlackColor,
@@ -255,7 +255,7 @@ class _DeliveryMapState extends State<DeliveryMap> {
                         kHalfSizedBox,
                         Divider(color: kGreyColor, thickness: 1),
                         kHalfSizedBox,
-                        const Text(
+                        Text(
                           'Delivery Officer',
                           style: TextStyle(
                             color: kTextBlackColor,
@@ -265,15 +265,15 @@ class _DeliveryMapState extends State<DeliveryMap> {
                         ),
                         kHalfSizedBox,
                         ListTile(
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 0),
                           onTap: null,
                           leading: Container(
                             width: 50,
                             height: 50,
                             decoration: ShapeDecoration(
-                              image: const DecorationImage(
+                              image: DecorationImage(
                                 image: AssetImage(
-                                  "images/rider/martins-okafor.png",
+                                  "assets/images/rider/martins-okafor.png",
                                 ),
                                 fit: BoxFit.cover,
                               ),
@@ -288,7 +288,7 @@ class _DeliveryMapState extends State<DeliveryMap> {
                             children: [
                               SizedBox(
                                 width: mediaWidth / 2.2,
-                                child: const Text(
+                                child: Text(
                                   'Martins Okafor ',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
@@ -307,7 +307,7 @@ class _DeliveryMapState extends State<DeliveryMap> {
                                     size: 14,
                                     color: kGreyColor,
                                   ),
-                                  const SizedBox(width: 4),
+                                  SizedBox(width: 4),
                                   Text(
                                     '3.2km away',
                                     style: TextStyle(

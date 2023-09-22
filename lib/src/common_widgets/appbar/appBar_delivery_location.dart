@@ -36,7 +36,7 @@ class AppBarDeliveryLocation extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(
+                Container(
                   width: deviceType(media.width) > 2
                       ? max(100, media.width - 700)
                       : max(100, media.width - 250),

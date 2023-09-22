@@ -17,12 +17,6 @@ class CategoryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: bgColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-      ),
       child: Text(
         title.toUpperCase(),
         textAlign: TextAlign.center,
@@ -31,6 +25,12 @@ class CategoryButton extends StatelessWidget {
           fontSize: 14,
           color: categoryFontColor,
           fontWeight: FontWeight.w700,
+        ),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: bgColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
         ),
       ),
     );

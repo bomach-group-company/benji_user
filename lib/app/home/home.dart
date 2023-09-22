@@ -110,7 +110,7 @@ class _HomeState extends State<Home> {
   int activeCategory = 0;
   String cartCount = '';
 //============================================== BOOL VALUES =================================================\\
-  final bool _vendorStatus = true;
+  bool _vendorStatus = true;
   bool _isScrollToTopBtnVisible = false;
 
   //Online Vendors
@@ -129,16 +129,16 @@ class _HomeState extends State<Home> {
   final double _offlineVendorsRating = 4.0;
 
   //==================================================== CONTROLLERS ======================================================\\
-  final TextEditingController _searchController = TextEditingController();
+  TextEditingController _searchController = TextEditingController();
   final _scrollController = ScrollController();
 
 //===================== POPULAR VENDORS =======================\\
   final List<String> popularVendorImage = [
-    "images/vendors/ntachi-osa.png",
-    "images/vendors/ntachi-osa.png",
-    "images/vendors/ntachi-osa.png",
-    "images/vendors/ntachi-osa.png",
-    "images/vendors/ntachi-osa.png",
+    "assets/images/vendors/ntachi-osa.png",
+    "assets/images/vendors/ntachi-osa.png",
+    "assets/images/vendors/ntachi-osa.png",
+    "assets/images/vendors/ntachi-osa.png",
+    "assets/images/vendors/ntachi-osa.png",
   ];
 
   //===================== COPY TO CLIPBOARD =======================\\
@@ -154,7 +154,7 @@ class _HomeState extends State<Home> {
       kSuccessColor,
       "Success!",
       "ID copied to clipboard",
-      const Duration(
+      Duration(
         seconds: 2,
       ),
     );
@@ -166,7 +166,7 @@ class _HomeState extends State<Home> {
   Future<void> _scrollToTop() async {
     await _scrollController.animateTo(
       0.0,
-      duration: const Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
     setState(() {
@@ -406,7 +406,7 @@ class _HomeState extends State<Home> {
                 hoverElevation: 50.0,
                 child: const Icon(Icons.keyboard_arrow_up),
               )
-            : const SizedBox(),
+            : SizedBox(),
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
           automaticallyImplyLeading: false,
@@ -421,7 +421,7 @@ class _HomeState extends State<Home> {
                     Scaffold.of(context).openDrawer();
                   },
                   icon: Image.asset(
-                    "icons/drawer-icon.png",
+                    "assets/icons/drawer-icon.png",
                     color: kAccentColor,
                     fit: BoxFit.cover,
                     height: deviceType(mediaWidth) > 2 ? 36 : 20,
@@ -455,7 +455,7 @@ class _HomeState extends State<Home> {
                     child: SpinKitDoubleBounce(color: kAccentColor, size: 12),
                   ),
             _data != null
-                ? const CartCard()
+                ? CartCard()
                 : Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SpinKitDoubleBounce(color: kAccentColor, size: 12),
@@ -507,7 +507,7 @@ class _HomeState extends State<Home> {
                           child: ListView.separated(
                             itemCount: _data!['vendor'].length,
                             scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
+                            physics: BouncingScrollPhysics(),
                             separatorBuilder: (context, index) =>
                                 deviceType(mediaWidth) > 2
                                     ? kWidthSizedBox
@@ -519,7 +519,7 @@ class _HomeState extends State<Home> {
                                   _toVendorPage(_data!['vendor'][index]);
                                 },
                                 cardImage:
-                                    "images/vendors/ntachi-osa.png",
+                                    "assets/images/vendors/ntachi-osa.png",
                                 vendorName: _data!['vendor'][index].shopName ??
                                     "Not Available",
                                 typeOfBusiness:
@@ -584,7 +584,7 @@ class _HomeState extends State<Home> {
                           child: ListView.builder(
                             itemCount: _data!['category'].length,
                             scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
+                            physics: BouncingScrollPhysics(),
                             itemBuilder: (BuildContext context, int index) =>
                                 Padding(
                               padding: const EdgeInsets.all(10),
@@ -614,7 +614,7 @@ class _HomeState extends State<Home> {
                                   child:
                                       SpinKitChasingDots(color: kAccentColor))
                               : _data!['product'].isEmpty
-                                  ? const EmptyCard(
+                                  ? EmptyCard(
                                       removeButton: true,
                                     )
                                   : GridView.builder(

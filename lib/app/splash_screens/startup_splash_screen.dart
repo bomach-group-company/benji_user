@@ -26,12 +26,12 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
     rememberUser().whenComplete(
       () async {
         Timer(
-          const Duration(seconds: 3),
+          Duration(seconds: 3),
           () {
             Get.offAll(
               () => _obtainedUserDetails == null || _obtainedUserDetails == ""
                   ? const OnboardingScreen()
-                  : const Home(),
+                  : Home(),
               duration: const Duration(seconds: 1),
               fullscreenDialog: true,
               curve: Curves.easeIn,
@@ -81,7 +81,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image:
-                          AssetImage("images/splash_screen/frame_1.png"),
+                          AssetImage("assets/images/splash_screen/frame_1.png"),
                     ),
                   ),
                 ),

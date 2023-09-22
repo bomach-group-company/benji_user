@@ -51,16 +51,16 @@ class _VendorLocationState extends State<VendorLocation> {
 
   static const LatLng _vendorLocation =
       LatLng(6.463810164127019, 7.539888438605598);
-  final List<LatLng> _polylineCoordinates = [];
+  List<LatLng> _polylineCoordinates = [];
   // List<LatLng> _latLng = <LatLng>[_userLocation, _vendorLocation];
   Uint8List? _markerImage;
-  final List<Marker> _markers = <Marker>[];
-  final List<MarkerId> _markerId = <MarkerId>[const MarkerId("0"), const MarkerId("1")];
+  List<Marker> _markers = <Marker>[];
+  List<MarkerId> _markerId = <MarkerId>[MarkerId("0"), MarkerId("1")];
   List<String>? _markerTitle;
   List<String>? _markerSnippet;
-  final List<String> _customMarkers = <String>[
-    "icons/person_location.png",
-    "icons/store.png",
+  List<String> _customMarkers = <String>[
+    "assets/icons/person_location.png",
+    "assets/icons/store.png",
   ];
   //============================================================= BOOL VALUES ======================================================================\\
   bool _isExpanded = false;
@@ -68,7 +68,7 @@ class _VendorLocationState extends State<VendorLocation> {
   //========================================================== GlobalKeys ============================================================\\
 
   //=================================== CONTROLLERS ======================================================\\
-  final Completer<GoogleMapController> _googleMapController = Completer();
+  Completer<GoogleMapController> _googleMapController = Completer();
   GoogleMapController? _newGoogleMapController;
 
   //============================================================== FUNCTIONS ===================================================================\\
@@ -77,22 +77,22 @@ class _VendorLocationState extends State<VendorLocation> {
 
   /// When the location services are not enabled or permissions are denied the `Future` will return an error.
   Future<void> _loadMapData() async {
-    bool serviceEnabled;
-    LocationPermission permission;
+    bool _serviceEnabled;
+    LocationPermission _permission;
 
     // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
+    _serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!_serviceEnabled) {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
       return Future.error('Location services are disabled.');
     }
 
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
+    _permission = await Geolocator.checkPermission();
+    if (_permission == LocationPermission.denied) {
+      _permission = await Geolocator.requestPermission();
+      if (_permission == LocationPermission.denied) {
         // Permissions are denied, next time you could try
         // requesting permissions again (this is also where
         // Android's shouldShowRequestPermissionRationale
@@ -102,7 +102,7 @@ class _VendorLocationState extends State<VendorLocation> {
       }
     }
 
-    if (permission == LocationPermission.deniedForever) {
+    if (_permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
       return Future.error(
         'Location permissions are permanently denied, we cannot request permissions.',
@@ -116,35 +116,35 @@ class _VendorLocationState extends State<VendorLocation> {
 //============================================== Get Current Location ==================================================\\
 
   Future<Position> _getUserCurrentLocation() async {
-    Position userLocation = await Geolocator.getCurrentPosition(
+    Position _userLocation = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     ).then(
       (location) => _userPosition = location,
     );
 
-    LatLng latLngPosition =
-        LatLng(userLocation.latitude, userLocation.longitude);
+    LatLng _latLngPosition =
+        LatLng(_userLocation.latitude, _userLocation.longitude);
 
-    CameraPosition cameraPosition =
-        CameraPosition(target: latLngPosition, zoom: 12.68);
+    CameraPosition _cameraPosition =
+        new CameraPosition(target: _latLngPosition, zoom: 12.68);
 
     _newGoogleMapController?.animateCamera(
-      CameraUpdate.newCameraPosition(cameraPosition),
+      CameraUpdate.newCameraPosition(_cameraPosition),
     );
 
-    return userLocation;
+    return _userLocation;
   }
 
   //====================================== Get bytes from assets =========================================\\
 
   Future<Uint8List> _getBytesFromAssets(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(
-      data.buffer.asUint8List(),
+    ByteData _data = await rootBundle.load(path);
+    ui.Codec _codec = await ui.instantiateImageCodec(
+      _data.buffer.asUint8List(),
       targetHeight: width,
     );
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+    ui.FrameInfo _fi = await _codec.getNextFrame();
+    return (await _fi.image.toByteData(format: ui.ImageByteFormat.png))!
         .buffer
         .asUint8List();
   }
@@ -152,27 +152,27 @@ class _VendorLocationState extends State<VendorLocation> {
   //====================================== Get Location Markers =========================================\\
 
   _loadCustomMarkers() async {
-    Position userLocation = await Geolocator.getCurrentPosition(
+    Position _userLocation = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     ).then(
       (location) => _userPosition = location,
     );
-    List<LatLng> latLng = <LatLng>[
-      LatLng(userLocation.latitude, userLocation.longitude),
+    List<LatLng> _latLng = <LatLng>[
+      LatLng(_userLocation.latitude, _userLocation.longitude),
       _vendorLocation
     ];
     for (int i = 0; i < _customMarkers.length; i++) {
-      final Uint8List markerIcon =
+      final Uint8List _markerIcon =
           await _getBytesFromAssets(_customMarkers[i], 100);
 
       _markers.add(
         Marker(
           markerId: _markerId[i],
-          icon: BitmapDescriptor.fromBytes(markerIcon),
-          position: latLng[i],
+          icon: BitmapDescriptor.fromBytes(_markerIcon),
+          position: _latLng[i],
           infoWindow: InfoWindow(
-            title: _markerTitle![i],
-            snippet: _markerSnippet![i],
+            title: "${_markerTitle![i]}",
+            snippet: "${_markerSnippet![i]}",
           ),
         ),
       );
@@ -232,7 +232,7 @@ class _VendorLocationState extends State<VendorLocation> {
         title: "Vendor's location",
         backgroundColor: kPrimaryColor,
         elevation: 0.0,
-        actions: const [],
+        actions: [],
         toolbarHeight: kToolbarHeight,
       ),
       body: Stack(
@@ -265,14 +265,14 @@ class _VendorLocationState extends State<VendorLocation> {
                   scrollGesturesEnabled: true,
                 ),
           AnimatedPositioned(
-            duration: const Duration(milliseconds: 300),
+            duration: Duration(milliseconds: 300),
             curve: Curves.easeIn,
             left: 0,
             right: 0,
             bottom: _isExpanded ? 0 : -140,
             child: Container(
               width: 200,
-              padding: const EdgeInsets.all(kDefaultPadding / 2),
+              padding: EdgeInsets.all(kDefaultPadding / 2),
               decoration: ShapeDecoration(
                 shadows: [
                   BoxShadow(
@@ -282,8 +282,8 @@ class _VendorLocationState extends State<VendorLocation> {
                     blurStyle: BlurStyle.normal,
                   ),
                 ],
-                color: const Color(0xFFFEF8F8),
-                shape: const RoundedRectangleBorder(
+                color: Color(0xFFFEF8F8),
+                shape: RoundedRectangleBorder(
                   side: BorderSide(
                     width: 0.50,
                     color: Color(0xFFFDEDED),
@@ -320,7 +320,7 @@ class _VendorLocationState extends State<VendorLocation> {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: kTextBlackColor,
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
@@ -344,7 +344,7 @@ class _VendorLocationState extends State<VendorLocation> {
                         Text(
                           widget.vendor.address ?? 'Not Available',
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
@@ -358,7 +358,7 @@ class _VendorLocationState extends State<VendorLocation> {
                     borderRadius: BorderRadius.circular(10),
                     child: Container(
                       width: mediaWidth / 4,
-                      padding: const EdgeInsets.all(kDefaultPadding / 4),
+                      padding: EdgeInsets.all(kDefaultPadding / 4),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
@@ -366,7 +366,7 @@ class _VendorLocationState extends State<VendorLocation> {
                           width: 1,
                         ),
                       ),
-                      child: const Text(
+                      child: Text(
                         "Show products",
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -451,7 +451,7 @@ class _VendorLocationState extends State<VendorLocation> {
             ),
           ),
           AnimatedPositioned(
-            duration: const Duration(milliseconds: 300),
+            duration: Duration(milliseconds: 300),
             curve: Curves.easeIn,
             bottom: _isExpanded ? 180 : 40,
             left: mediaWidth / 2.7,
@@ -460,13 +460,13 @@ class _VendorLocationState extends State<VendorLocation> {
               height: 100,
               decoration: ShapeDecoration(
                 color: kPageSkeletonColor,
-                image: const DecorationImage(
+                image: DecorationImage(
                   image: AssetImage(
-                    "images/vendors/ntachi-osa-logo.png",
+                    "assets/images/vendors/ntachi-osa-logo.png",
                   ),
                   fit: BoxFit.cover,
                 ),
-                shape: const OvalBorder(),
+                shape: OvalBorder(),
               ),
             ),
           ),

@@ -58,37 +58,36 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   final List<String> stars = ['5', '4', '3', '2', '1'];
   String active = 'all';
-  List<Ratings>? _ratings = [];
 
+  List<Ratings>? ratings = [];
   _getData() async {
     setState(() {
-      _ratings = null;
+      ratings = null;
     });
-
-    List<Ratings> ratings = [];
+    List<Ratings> _ratings;
     if (active == 'all') {
-      ratings = await getRatingsByProductId(widget.product.id);
+      _ratings = await getRatingsByProductId(widget.product.id);
     } else {
-      ratings = await getRatingsByProductIdAndRating(
+      _ratings = await getRatingsByProductIdAndRating(
           widget.product.id, int.parse(active));
     }
 
     setState(() {
-      _ratings = ratings;
+      ratings = _ratings;
     });
   }
 
   //============================================================ ALL VARIABLES ===================================================================\\
   String cartCount = '1';
   String? cartCountAll;
-  final List<String> _carouselImages = <String>[
-    "images/products/best-choice-restaurant.png",
-    "images/products/burgers.png",
-    "images/products/chizzy's-food.png",
-    "images/products/golden-toast.png",
-    "images/products/new-food.png",
-    "images/products/okra-soup.png",
-    "images/products/pasta.png"
+  List<String> _carouselImages = <String>[
+    "assets/images/products/best-choice-restaurant.png",
+    "assets/images/products/burgers.png",
+    "assets/images/products/chizzy's-food.png",
+    "assets/images/products/golden-toast.png",
+    "assets/images/products/new-food.png",
+    "assets/images/products/okra-soup.png",
+    "assets/images/products/pasta.png"
   ];
 
 //====================================================== BOOL VALUES ========================================================\\
@@ -99,15 +98,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   bool justInPage = true;
 
   //==================================================== CONTROLLERS ======================================================\\
-  final ScrollController _scrollController = ScrollController();
-  final CarouselController _carouselController = CarouselController();
+  ScrollController _scrollController = ScrollController();
+  CarouselController _carouselController = CarouselController();
 
   //==================================================== FUNCTIONS ======================================================\\
 
   Future<void> _scrollToTop() async {
     await _scrollController.animateTo(
       0.0,
-      duration: const Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
     setState(() {
@@ -150,7 +149,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         kSuccessColor,
         "Success!",
         "Item has been removed from cart.",
-        const Duration(
+        Duration(
           seconds: 1,
         ),
       );
@@ -177,7 +176,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       _isAddedToFavorites
           ? "Product has been added to favorites"
           : "Product been removed from favorites",
-      const Duration(milliseconds: 500),
+      Duration(milliseconds: 500),
     );
   }
 
@@ -209,7 +208,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       kSuccessColor,
       "Success!",
       "Item has been added to cart.",
-      const Duration(
+      Duration(
         seconds: 1,
       ),
     );
@@ -233,7 +232,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             children: [
               FaIcon(FontAwesomeIcons.solidStar, color: kStarColor),
               kWidthSizedBox,
-              const Text("Rate this product"),
+              Text("Rate this product"),
             ],
           ),
         ),
@@ -244,7 +243,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             children: [
               FaIcon(FontAwesomeIcons.solidFlag, color: kAccentColor),
               kWidthSizedBox,
-              const Text("Report this product"),
+              Text("Report this product"),
             ],
           ),
         ),
@@ -306,7 +305,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           elevation: 0.0,
           actions: [
             AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
+                duration: Duration(milliseconds: 300),
                 curve: Curves.easeIn,
                 child: Row(
                   children: [
@@ -319,7 +318,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         color: kAccentColor,
                       ),
                     ),
-                    const CartCard()
+                    CartCard()
                   ],
                 )),
             IconButton(
@@ -345,7 +344,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 hoverElevation: 50.0,
                 child: const Icon(Icons.keyboard_arrow_up),
               )
-            : const SizedBox(),
+            : SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
@@ -378,8 +377,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     },
                     pageSnapping: true,
                     scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    scrollBehavior: const ScrollBehavior(),
+                    physics: BouncingScrollPhysics(),
+                    scrollBehavior: ScrollBehavior(),
                     pauseAutoPlayOnTouch: true,
                     pauseAutoPlayOnManualNavigate: true,
                     pauseAutoPlayInFiniteScroll: false,
@@ -392,7 +391,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       currentIndicatorColor: kAccentColor,
                       indicatorBackgroundColor: kPrimaryColor,
                       indicatorRadius: 5,
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10),
                     ),
                   ),
                   itemCount: _carouselImages.length,
@@ -403,7 +402,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     child: Container(
                       width: mediaWidth,
                       decoration: ShapeDecoration(
-                        shape: const RoundedRectangleBorder(
+                        shape: RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20))),
                         image: DecorationImage(
@@ -418,7 +417,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
                 kSizedBox,
                 Padding(
-                  padding: const EdgeInsets.all(kDefaultPadding / 2),
+                  padding: EdgeInsets.all(kDefaultPadding / 2),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -468,7 +467,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     textAlign: TextAlign.start,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       color: kTextBlackColor,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w700,
@@ -497,7 +496,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.end,
                                     maxLines: 1,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       color: kTextBlackColor,
                                       fontSize: 22,
                                       fontFamily: 'sen',
@@ -528,7 +527,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 text: formattedText(widget
                                     .product.quantityAvailable
                                     .toDouble()),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: kTextBlackColor,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
@@ -601,7 +600,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ],
                             )
                           : Container(
-                              margin: const EdgeInsets.only(
+                              margin: EdgeInsets.only(
                                 bottom: kDefaultPadding * 2,
                               ),
                               child: _isAddedToCart
@@ -609,7 +608,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       width: mediaWidth,
                                       height: 70,
                                       decoration: ShapeDecoration(
-                                        color: const Color(0xFFFAFAFA),
+                                        color: Color(0xFFFAFAFA),
                                         shadows: [
                                           BoxShadow(
                                             color: kBlackColor.withOpacity(0.1),
@@ -632,7 +631,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                               decrementQuantity();
                                             },
                                             splashRadius: 50,
-                                            icon: const Icon(
+                                            icon: Icon(
                                               Icons.remove_rounded,
                                               color: kBlackColor,
                                             ),
@@ -641,7 +640,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             height: 40,
                                             decoration: ShapeDecoration(
                                               color: kAccentColor,
-                                              shape: const OvalBorder(),
+                                              shape: OvalBorder(),
                                             ),
                                             child: Padding(
                                               padding:
@@ -650,9 +649,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                           kDefaultPadding / 2),
                                               child: Center(
                                                 child: Text(
-                                                  cartCountAll!,
+                                                  '${cartCountAll!}',
                                                   textAlign: TextAlign.center,
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                     color: kTextWhiteColor,
                                                     fontSize: 24,
                                                     fontWeight: FontWeight.w700,
@@ -707,7 +706,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               "Reviews View & Ratings",
                               style: TextStyle(
                                 fontSize: 16,
@@ -716,7 +715,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             ),
                             kSizedBox,
                             SingleChildScrollView(
-                              physics: const BouncingScrollPhysics(),
+                              physics: BouncingScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               child: Row(
                                 children: [
@@ -725,7 +724,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       side: BorderSide(
                                         color: active == 'all'
                                             ? kAccentColor
-                                            : const Color(
+                                            : Color(
                                                 0xFFA9AAB1,
                                               ),
                                       ),
@@ -734,13 +733,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                           : kPrimaryColor,
                                       foregroundColor: active == 'all'
                                           ? kPrimaryColor
-                                          : const Color(0xFFA9AAB1),
+                                          : Color(0xFFA9AAB1),
                                     ),
                                     onPressed: () async {
                                       active = 'all';
-                                     await _getData();
+
+                                      setState(() {
+                                        ratings = null;
+                                      });
+
+                                      List<Ratings> _ratings =
+                                          await getRatingsByProductId(
+                                              widget.product.id);
+
+                                      setState(() {
+                                        ratings = _ratings;
+                                      });
                                     },
-                                    child: const Text(
+                                    child: Text(
                                       'All',
                                       style: TextStyle(
                                         fontSize: 15,
@@ -759,31 +769,42 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                   side: BorderSide(
                                                     color: active == item
                                                         ? kStarColor
-                                                        : const Color(
-                                                            0xFFA9AAB1),
+                                                        : Color(0xFFA9AAB1),
                                                   ),
-                                                  foregroundColor: active ==
-                                                          item
-                                                      ? kStarColor
-                                                      : const Color(0xFFA9AAB1),
+                                                  foregroundColor:
+                                                      active == item
+                                                          ? kStarColor
+                                                          : Color(0xFFA9AAB1),
                                                 ),
                                                 onPressed: () async {
                                                   active = item;
-                                                  await _getData();
+
+                                                  setState(() {
+                                                    ratings = null;
+                                                  });
+
+                                                  List<Ratings> _ratings =
+                                                      await getRatingsByProductIdAndRating(
+                                                          widget.product.id,
+                                                          int.parse(active));
+
+                                                  setState(() {
+                                                    ratings = _ratings;
+                                                  });
                                                 },
                                                 child: Row(
                                                   children: [
-                                                    const Icon(
+                                                    Icon(
                                                       Icons.star,
                                                       size: 20,
                                                     ),
-                                                    const SizedBox(
+                                                    SizedBox(
                                                       width:
                                                           kDefaultPadding * 0.2,
                                                     ),
                                                     Text(
-                                                      item,
-                                                      style: const TextStyle(
+                                                      '$item',
+                                                      style: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.w400,
@@ -805,32 +826,32 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                       ),
                       kSizedBox,
-                      _ratings == null
+                      ratings == null
                           ? Center(
                               child: SpinKitChasingDots(
                                 color: kAccentColor,
                                 duration: const Duration(seconds: 1),
                               ),
                             )
-                          : _ratings!.isEmpty
-                              ? const EmptyCard(
+                          : ratings!.isEmpty
+                              ? EmptyCard(
                                   removeButton: true,
                                 )
                               : ListView.separated(
-                                  physics: const BouncingScrollPhysics(),
+                                  physics: BouncingScrollPhysics(),
                                   separatorBuilder: (context, index) =>
                                       kSizedBox,
                                   shrinkWrap: true,
-                                  itemCount: _ratings!.length,
+                                  itemCount: ratings!.length,
                                   itemBuilder:
                                       (BuildContext context, int index) =>
                                           CostumerReviewCard(
-                                              rating: _ratings![index]),
+                                              rating: ratings![index]),
                                 ),
                     ],
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: kDefaultPadding * 3,
                 ),
               ],

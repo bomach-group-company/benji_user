@@ -41,9 +41,9 @@ class CreditCard {
   }
 }
 
-Future<CreditCard> createCreditCard(clientId, Map body) async {
+Future<CreditCard> createCreditCard(client_id, Map body) async {
   final response = await http.post(
-      Uri.parse('$baseURL/clients/saveUserCard/$clientId'),
+      Uri.parse('$baseURL/clients/saveUserCard/${client_id}'),
       body: body,
       headers: await authHeader());
 

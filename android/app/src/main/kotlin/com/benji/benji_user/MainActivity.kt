@@ -1,4 +1,4 @@
-package com.example.benji_user
+package com.benji.benji_user
 
 import io.flutter.embedding.android.FlutterActivity
 
