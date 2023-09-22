@@ -31,10 +31,10 @@ class _AboutVendorState extends State<AboutVendor> {
   final List<String> stars = ['5', '4', '3', '2', '1'];
   String active = 'all';
 
-  List<Ratings>? ratings = [];
+  List<Ratings>? _ratings = [];
   _getData() async {
     setState(() {
-      ratings = null;
+      _ratings = null;
     });
 
     List<Ratings> ratings;
@@ -46,7 +46,7 @@ class _AboutVendorState extends State<AboutVendor> {
     }
 
     setState(() {
-      ratings = ratings;
+      _ratings = ratings;
     });
   }
 
@@ -272,7 +272,7 @@ class _AboutVendorState extends State<AboutVendor> {
                           onPressed: () async {
                             active = 'all';
                             setState(() {
-                              ratings = null;
+                              _ratings = null;
                             });
 
                             List<Ratings> ratings =
@@ -311,7 +311,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                         active = item;
 
                                         setState(() {
-                                          ratings = null;
+                                          _ratings = null;
                                         });
 
                                         List<Ratings> ratings =
@@ -356,14 +356,14 @@ class _AboutVendorState extends State<AboutVendor> {
             ),
           ),
           kSizedBox,
-          ratings == null
+          _ratings == null
               ? Center(
                   child: SpinKitChasingDots(
                     color: kAccentColor,
                     duration: const Duration(seconds: 1),
                   ),
                 )
-              : ratings!.isEmpty
+              : _ratings!.isEmpty
                   ? const EmptyCard(
                       removeButton: true,
                     )
@@ -373,12 +373,12 @@ class _AboutVendorState extends State<AboutVendor> {
                           physics: const BouncingScrollPhysics(),
                           separatorBuilder: (context, index) => kSizedBox,
                           shrinkWrap: true,
-                          itemCount: ratings!.length,
+                          itemCount: _ratings!.length,
                           itemBuilder: (BuildContext context, int index) =>
-                              CostumerReviewCard(rating: ratings![index]),
+                              CostumerReviewCard(rating: _ratings![index]),
                         ),
                         kSizedBox,
-                        ratings!.isEmpty
+                        _ratings!.isEmpty
                             ? const SizedBox()
                             : TextButton(
                                 onPressed: _viewAllReviews,

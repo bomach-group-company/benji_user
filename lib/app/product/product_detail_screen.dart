@@ -59,10 +59,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final List<String> stars = ['5', '4', '3', '2', '1'];
   String active = 'all';
 
-  List<Ratings>? ratings = [];
+  List<Ratings>? _ratings = [];
   _getData() async {
     setState(() {
-      ratings = null;
+      _ratings = null;
     });
     List<Ratings> ratings;
     if (active == 'all') {
@@ -73,7 +73,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     }
 
     setState(() {
-      ratings = ratings;
+      _ratings = ratings;
     });
   }
 
@@ -739,7 +739,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       active = 'all';
 
                                       setState(() {
-                                        ratings = null;
+                                        _ratings = null;
                                       });
 
                                       List<Ratings> ratings =
@@ -769,18 +769,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                   side: BorderSide(
                                                     color: active == item
                                                         ? kStarColor
-                                                        : const Color(0xFFA9AAB1),
+                                                        : const Color(
+                                                            0xFFA9AAB1),
                                                   ),
-                                                  foregroundColor:
-                                                      active == item
-                                                          ? kStarColor
-                                                          : const Color(0xFFA9AAB1),
+                                                  foregroundColor: active ==
+                                                          item
+                                                      ? kStarColor
+                                                      : const Color(0xFFA9AAB1),
                                                 ),
                                                 onPressed: () async {
                                                   active = item;
 
                                                   setState(() {
-                                                    ratings = null;
+                                                    _ratings = null;
                                                   });
 
                                                   List<Ratings> ratings =
@@ -826,14 +827,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                       ),
                       kSizedBox,
-                      ratings == null
+                      _ratings == null
                           ? Center(
                               child: SpinKitChasingDots(
                                 color: kAccentColor,
                                 duration: const Duration(seconds: 1),
                               ),
                             )
-                          : ratings!.isEmpty
+                          : _ratings!.isEmpty
                               ? const EmptyCard(
                                   removeButton: true,
                                 )
@@ -842,11 +843,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   separatorBuilder: (context, index) =>
                                       kSizedBox,
                                   shrinkWrap: true,
-                                  itemCount: ratings!.length,
+                                  itemCount: _ratings!.length,
                                   itemBuilder:
                                       (BuildContext context, int index) =>
                                           CostumerReviewCard(
-                                              rating: ratings![index]),
+                                              rating: _ratings![index]),
                                 ),
                     ],
                   ),

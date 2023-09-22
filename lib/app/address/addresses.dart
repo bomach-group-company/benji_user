@@ -50,8 +50,9 @@ class _AddressesState extends State<Addresses> {
     List<Address> addresses = await getAddressesByUser();
 
     if (current != '') {
-      Address? itemToMove =
-          addresses.firstWhere((elem) => elem.id == current, orElse: () => null);
+      Address? itemToMove = addresses.firstWhere(
+        (elem) => elem.id == current,
+      );
 
       addresses.remove(itemToMove);
       addresses.insert(0, itemToMove);

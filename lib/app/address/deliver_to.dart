@@ -55,8 +55,9 @@ class _DeliverToState extends State<DeliverTo> {
     List<Address> addresses = await getAddressesByUser();
 
     if (current != '') {
-      Address? itemToMove =
-          addresses.firstWhere((elem) => elem.id == current, orElse: () => null);
+      Address? itemToMove = addresses.firstWhere(
+        (elem) => elem.id == current,
+      );
 
       addresses.remove(itemToMove);
       addresses.insert(0, itemToMove);
@@ -197,7 +198,8 @@ class _DeliverToState extends State<DeliverTo> {
                               itemCount: _addressData!['addresses'].length,
                               itemBuilder: (context, index) {
                                 return Container(
-                                  padding: const EdgeInsetsDirectional.symmetric(
+                                  padding:
+                                      const EdgeInsetsDirectional.symmetric(
                                     vertical: kDefaultPadding / 2,
                                   ),
                                   child: RadioListTile(
