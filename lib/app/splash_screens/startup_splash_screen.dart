@@ -80,8 +80,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
                   width: mediaWidth / 2,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image:
-                          AssetImage("images/splash_screen/frame_1.png"),
+                      image: AssetImage("images/splash_screen/frame_1.png"),
                     ),
                   ),
                 ),
