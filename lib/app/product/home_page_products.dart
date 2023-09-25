@@ -145,6 +145,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                               ? const EmptyCard(
                                   removeButton: true,
                                 )
+
                               : LayoutGrid(
                                     rowGap: kDefaultPadding/2,
                                     columnGap: kDefaultPadding/2,
@@ -158,6 +159,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                             as List<Product>)
                                         .map(
                                           (item) => ProductCard(
+
                                     onTap: () {
                                       Get.to(
                                         () => ProductDetailScreen(

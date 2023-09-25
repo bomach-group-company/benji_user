@@ -17,6 +17,7 @@ class AppBarDeliveryLocation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
+
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Row(
@@ -57,8 +58,13 @@ class AppBarDeliveryLocation extends StatelessWidget {
             size: deviceType(media.width) > 2 ? 26 : 14,
             color: kAccentColor,
           ),
-        ],
-      ),
+        ),
+        FaIcon(
+          FontAwesomeIcons.chevronRight,
+          size: deviceType(media.width) > 2 ? 26 : 14,
+          color: kAccentColor,
+        ),
+      ],
     );
   }
 }

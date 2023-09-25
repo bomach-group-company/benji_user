@@ -630,6 +630,7 @@ class _HomeState extends State<Home> {
                                         .map(
                                           (item) => ProductCard(
                                         product: item,
+
                                         onTap: () => _toProductDetailScreenPage(
                                             item),
                                       ),)
