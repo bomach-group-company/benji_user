@@ -23,12 +23,9 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: media.width / 2.5,
-        margin: const EdgeInsets.only(bottom: 10),
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
@@ -66,14 +63,12 @@ class ProductCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: SizedBox(
-                height: 57.06,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: media.width - 200,
                       child: Text(
                         product.name,
                         style: const TextStyle(
@@ -85,7 +80,6 @@ class ProductCard extends StatelessWidget {
                     ),
                     kHalfSizedBox,
                     SizedBox(
-                      width: media.width - 200,
                       child: Text(
                         product.vendorId.shopName!,
                         style: TextStyle(
@@ -104,7 +98,6 @@ class ProductCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: SizedBox(
-                width: media.width - 200,
                 child: Text(
                   '₦${formattedText(product.price)}',
                   style: const TextStyle(

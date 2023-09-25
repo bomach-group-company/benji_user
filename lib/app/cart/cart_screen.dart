@@ -9,6 +9,7 @@ import 'package:benji_user/src/repo/utils/cart.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl/intl.dart';
@@ -267,33 +268,29 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                       ),
                       kSizedBox,
-                      GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: deviceType(mediaWidth) > 2 ? 2 : 1,
-                          crossAxisSpacing: deviceType(mediaWidth) > 2 ? 20 : 1,
-                          mainAxisSpacing: deviceType(mediaWidth) > 2 ? 25 : 15,
-                          childAspectRatio: deviceType(mediaWidth) > 3 &&
-                                  deviceType(mediaWidth) < 5
-                              ? 1.9
-                              : deviceType(mediaWidth) > 2
-                                  ? 1.4
-                                  : 1.08,
-                        ),
-                        itemCount: _data!.length,
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return ProductCartContainer(
+                      LayoutGrid(
+                                    rowGap: kDefaultPadding/2,
+                                    columnGap: kDefaultPadding/2,
+                                    columnSizes: breakPointDynamic(
+                                        mediaWidth,
+                                        [1.fr],
+                                        [1.fr, 1.fr],
+                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
+                                    rowSizes: List.generate(_data!.length, (index) => auto),
+                                    children: (_data
+                                            as List<Product>)
+                                        .map(
+                                          (item) => ProductCartContainer(
                             decrementQuantity: () =>
-                                decrementQuantity(_data![index].id),
+                                decrementQuantity(item.id),
                             incrementQuantity: () =>
-                                incrementQuantity(_data![index].id),
-                            product: _data![index],
-                            onTap: () => _toProductDetailScreen(_data![index]),
-                          );
-                        },
-                      ),
-                      _data!.isEmpty ? const EmptyCard() : const SizedBox(),
+                                incrementQuantity(item.id),
+                            product: item,
+                            onTap: () => _toProductDetailScreen(item),
+                          ),)
+                                        .toList(),
+                                  ),
+                     _data!.isEmpty ? const EmptyCard() : const SizedBox(),
                       const SizedBox(height: kDefaultPadding * 5),
                     ],
                   ),

@@ -10,6 +10,7 @@ import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
@@ -617,36 +618,26 @@ class _HomeState extends State<Home> {
                                   ? const EmptyCard(
                                       removeButton: true,
                                     )
-                                  : GridView.builder(
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount:
-                                            deviceType(mediaWidth) > 2 ? 2 : 1,
-                                        crossAxisSpacing:
-                                            deviceType(mediaWidth) > 2 ? 20 : 1,
-                                        mainAxisSpacing:
-                                            deviceType(mediaWidth) > 2
-                                                ? 25
-                                                : 15,
-                                        childAspectRatio:
-                                            deviceType(mediaWidth) > 3 &&
-                                                    deviceType(mediaWidth) < 5
-                                                ? 1.9
-                                                : deviceType(mediaWidth) > 2
-                                                    ? 1.4
-                                                    : 1.2,
-                                      ),
-                                      physics: const BouncingScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: _data!['product'].length,
-                                      itemBuilder: (context, index) =>
-                                          ProductCard(
-                                        product: _data!['product'][index],
+                                  : LayoutGrid(
+                                    rowGap: kDefaultPadding/2,
+                                    columnGap: kDefaultPadding/2,
+                                    columnSizes: breakPointDynamic(
+                                        mediaWidth,
+                                        [1.fr],
+                                        [1.fr, 1.fr],
+                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
+                                    rowSizes: List.generate(_data!['product'].length, (index) => auto),
+                                    children: (_data!['product']
+                                            as List<Product>)
+                                        .map(
+                                          (item) => ProductCard(
+                                        product: item,
                                         onTap: () => _toProductDetailScreenPage(
-                                            _data!['product'][index]),
-                                      ),
-                                    ),
-                        ),
+                                            item),
+                                      ),)
+                                        .toList(),
+                                  ),
+                                ),
                       ],
                     ),
                   ),
