@@ -111,6 +111,37 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   //PLACE ORDER
 
   void _placeOrder() async {
+    DateTime now = DateTime.now();
+    String formattedDateAndTime = formatDateAndTime(now);
+    Map<String, dynamic> monnifyPayload() {
+      return {
+        "amount": totalPrice,
+        "currency": "NGN",
+        "reference": formattedDateAndTime,
+        "customerFullName": "Gideon Chukwuoma",
+        "customerEmail": "developer@benjiexpress.com",
+        "apiKey": "MK_TEST_2VKR6NJEEL",
+        "contractCode": "6942520260",
+        "paymentDescription": "Benji App",
+        "metadata": {"name": "Gideon", "age": 23},
+        // "incomeSplitConfig": [
+        //   {
+        //     "subAccountCode": "MFY_SUB_342113621921",
+        //     "feePercentage": 50,
+        //     "splitAmount": 1900,
+        //     "feeBearer": true
+        //   },
+        //   {
+        //     "subAccountCode": "MFY_SUB_342113621922",
+        //     "feePercentage": 50,
+        //     "splitAmount": 2100,
+        //     "feeBearer": true
+        //   }
+        // ],
+        "paymentMethod": ["CARD", "ACCOUNT_TRANSFER", "USSD", "PHONE_NUMBER"],
+      };
+    }
+
     TransactionResponse? response = await Monnify().checkout(
       context,
       monnifyPayload(),
@@ -564,34 +595,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 }
 
-Map<String, dynamic> monnifyPayload() {
-  return {
-    "amount": 100,
-    "currency": "NGN",
-    "reference": DateTime.now().toIso8601String(),
-    "customerFullName": "John Doe",
-    "customerEmail": "customer@gmail.com",
-    "apiKey": "MK_TEST_2VKR6NJEEL",
-    "contractCode": "6942520260",
-    "paymentDescription": "Lahray World",
-    "metadata": {"name": "Damilare", "age": 45},
-    // "incomeSplitConfig": [
-    //   {
-    //     "subAccountCode": "MFY_SUB_342113621921",
-    //     "feePercentage": 50,
-    //     "splitAmount": 1900,
-    //     "feeBearer": true
-    //   },
-    //   {
-    //     "subAccountCode": "MFY_SUB_342113621922",
-    //     "feePercentage": 50,
-    //     "splitAmount": 2100,
-    //     "feeBearer": true
-    //   }
-    // ],
-    "paymentMethod": ["CARD", "ACCOUNT_TRANSFER", "USSD", "PHONE_NUMBER"],
-  };
-}
 
 
 //======================================================= FUTURE REFERENCE ====================================================================\\
