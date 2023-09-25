@@ -104,18 +104,18 @@ class CustomSearchDelegate extends SearchDelegate {
                   shrinkWrap: true,
                   children: [
                     LayoutGrid(
-                                      rowGap: kDefaultPadding/2,
-                                      columnGap: kDefaultPadding/2,
-                                      columnSizes: breakPointDynamic(
-                                          mediaWidth,
-                                          [1.fr],
-                                          [1.fr, 1.fr],
-                                          [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                      rowSizes: List.generate(data.length, (index) => auto),
-                                      children: (data
-                                              as List<Product>)
-                                          .map(
-                                            (item) => ProductCard(
+                      rowGap: kDefaultPadding/2,
+                      columnGap: kDefaultPadding/2,
+                      columnSizes: breakPointDynamic(
+                          mediaWidth,
+                          [1.fr],
+                          [1.fr, 1.fr],
+                          [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
+                      rowSizes: List.generate(data.length, (index) => auto),
+                      children: (data
+                              as List<Product>)
+                          .map(
+                            (item) => ProductCard(
                         product: item,
                         onTap: () => _toProductDetailScreenPage(item),
                       ),).toList(),
