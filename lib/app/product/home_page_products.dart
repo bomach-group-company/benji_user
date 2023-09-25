@@ -5,6 +5,7 @@ import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/models/category/sub_category.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
@@ -144,29 +145,23 @@ class _HomePageProductsState extends State<HomePageProducts> {
                               ? const EmptyCard(
                                   removeButton: true,
                                 )
-                              : GridView.builder(
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount:
-                                        deviceType(media.width) > 2 ? 2 : 1,
-                                    crossAxisSpacing:
-                                        deviceType(media.width) > 2 ? 20 : 1,
-                                    mainAxisSpacing:
-                                        deviceType(media.width) > 2 ? 25 : 15,
-                                    childAspectRatio:
-                                        deviceType(media.width) > 2 ? 1.4 : 1.2,
-                                  ),
-                                  physics: const BouncingScrollPhysics(),
-                                  itemCount: _data!['product'].length,
-                                  shrinkWrap: true,
-                                  padding: const EdgeInsets.all(kDefaultPadding),
-                                  itemBuilder:
-                                      (BuildContext context, int index) =>
-                                          ProductCard(
+                              : LayoutGrid(
+                                    rowGap: kDefaultPadding/2,
+                                    columnGap: kDefaultPadding/2,
+                                    columnSizes: breakPointDynamic(
+                                        media.width,
+                                        [1.fr],
+                                        [1.fr, 1.fr],
+                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
+                                    rowSizes: List.generate(_data!['product'].length, (index) => auto),
+                                    children: (_data!['product']
+                                            as List<Product>)
+                                        .map(
+                                          (item) => ProductCard(
                                     onTap: () {
                                       Get.to(
                                         () => ProductDetailScreen(
-                                            product: _data!['product'][index]),
+                                            product: item),
                                         routeName: 'ProductDetailScreen',
                                         duration:
                                             const Duration(milliseconds: 300),
@@ -177,10 +172,11 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                         transition: Transition.rightToLeft,
                                       );
                                     },
-                                    product: _data!['product'][index],
+                                    product: item,
+                                  ),)
+                                        .toList(),
                                   ),
-                                ),
-                    ],
+                                                     ],
                   ),
                 ),
         ),
