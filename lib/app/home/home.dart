@@ -514,21 +514,24 @@ class _HomeState extends State<Home> {
                                     ? kWidthSizedBox
                                     : kHalfWidthSizedBox,
                             itemBuilder: (context, index) => InkWell(
-                              child: VendorsCard(
-                                removeDistance: false,
-                                onTap: () {
-                                  _toVendorPage(_data!['vendor'][index]);
-                                },
-                                cardImage:
-                                    "assets/images/vendors/ntachi-osa.png",
-                                vendorName: _data!['vendor'][index].shopName ??
-                                    "Not Available",
-                                typeOfBusiness:
-                                    _data!['vendor'][index].shopType.name ??
-                                        'Not Available',
-                                rating:
-                                    '${((_data!['vendor'][index].averageRating as double?) ?? 0.0).toStringAsPrecision(2)} (${_data!['vendor'][index].numberOfClientsReactions ?? 0})',
-                                distance: "30 mins",
+                              child: SizedBox(
+                                width: 200,
+                                child: VendorsCard(
+                                  removeDistance: false,
+                                  onTap: () {
+                                    _toVendorPage(_data!['vendor'][index]);
+                                  },
+                                  cardImage:
+                                      "assets/images/vendors/ntachi-osa.png",
+                                  vendorName: _data!['vendor'][index].shopName ??
+                                      "Not Available",
+                                  typeOfBusiness:
+                                      _data!['vendor'][index].shopType.name ??
+                                          'Not Available',
+                                  rating:
+                                      '${((_data!['vendor'][index].averageRating as double?) ?? 0.0).toStringAsPrecision(2)} (${_data!['vendor'][index].numberOfClientsReactions ?? 0})',
+                                  distance: "30 mins",
+                                ),
                               ),
                             ),
                           ),
