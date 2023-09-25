@@ -270,48 +270,36 @@ class _FavoritesState extends State<Favorites>
                                 radius: const Radius.circular(10),
                                 child: snapshot.data!.isEmpty
                                     ? const EmptyCard()
-                                    : GridView.builder(
-                                        gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount:
-                                              deviceType(mediaWidth) > 2
-                                                  ? 3
-                                                  : 2,
-                                          crossAxisSpacing:
-                                              deviceType(mediaWidth) > 2
-                                                  ? 20
-                                                  : 10,
-                                          mainAxisSpacing:
-                                              deviceType(mediaWidth) > 2
-                                                  ? 25
-                                                  : 15,
-                                          childAspectRatio:
-                                              deviceType(mediaWidth) > 3 &&
-                                                      deviceType(mediaWidth) < 5
-                                                  ? 1.8
-                                                  : deviceType(mediaWidth) > 2
-                                                      ? 1.28
-                                                      : 0.86,
-                                        ),
-                                        controller: _scrollController,
-                                        itemCount: snapshot.data!.length,
-                                        shrinkWrap: true,
-                                        physics: const BouncingScrollPhysics(),
-                                        itemBuilder: (context, index) =>
-                                            VendorsCard(
-                                          onTap: () => _vendorDetailPage(
-                                              snapshot.data![index]),
-                                          cardImage:
-                                              'assets/images/vendors/ntachi-osa.png',
-                                          vendorName:
-                                              snapshot.data![index].shopName!,
-                                          typeOfBusiness: snapshot
-                                              .data![index].shopType!.name!,
-                                          rating:
-                                              "${snapshot.data![index].averageRating!.toStringAsPrecision(2)} (${(snapshot.data![index].numberOfClientsReactions ?? 0).toString()}",
-                                          removeDistance: true,
-                                        ),
-                                      ),
+                                    : 
+                                    LayoutGrid(
+                                    rowGap: kDefaultPadding/2,
+                                    columnGap: kDefaultPadding/2,
+                                    columnSizes: breakPointDynamic(
+                                        mediaWidth,
+                                        [1.fr],
+                                        [1.fr, 1.fr],
+                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
+                                    rowSizes: List.generate(snapshot.data!.length, (index) => auto),
+                                    children: (snapshot.data
+                                            as List<VendorModel>)
+                                        .map(
+                                          (item) => VendorsCard(
+                                removeDistance: true,
+                                onTap: () {
+                                  _vendorDetailPage(
+                                              item);
+                                },
+                                vendorName:
+                                    item.shopName ?? 'Not Available',
+                                typeOfBusiness: item
+                                        .shopType!
+                                        .name ??
+                                    'Not Available',
+                                rating:
+                                    " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
+                                cardImage: "assets/images/vendors/ntachi-osa.png"),)
+                                        .toList(),
+                                  ),
                               ),
                             );
                           }

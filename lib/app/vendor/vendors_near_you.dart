@@ -2,6 +2,7 @@ import 'package:benji_user/app/vendor/vendor_details.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
@@ -76,6 +77,20 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
     setState(() {
       _isScrollToTopBtnVisible = false;
     });
+  }
+
+    _vendorsDetail(vendor) {
+    Get.to(
+      () => VendorDetails(
+          vendor: vendor),
+      routeName: 'VendorDetails',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
   }
 
   @override
@@ -168,56 +183,34 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                     physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
                     children: [
-                      GridView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.all(kDefaultPadding),
-                        itemCount: loadMore
-                            ? _data!['vendor'].length + 1
-                            : _data!['vendor'].length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: deviceType(media.width) > 2 ? 3 : 2,
-                          crossAxisSpacing:
-                              deviceType(media.width) > 2 ? 20 : 10,
-                          mainAxisSpacing:
-                              deviceType(media.width) > 2 ? 25 : 15,
-                          childAspectRatio:
-                              deviceType(media.width) > 2 ? 1.28 : 0.8,
-                        ),
-                        itemBuilder: (context, index) {
-                          if (_data!['vendor'].length == index) {
-                            return Column(
-                              children: [
-                                SpinKitChasingDots(color: kAccentColor),
-                              ],
-                            );
-                          }
-                          return VendorsCard(
-                            onTap: () {
-                              Get.to(
-                                () => VendorDetails(
-                                    vendor: _data!['vendor'][index]),
-                                routeName: 'VendorDetails',
-                                duration: const Duration(milliseconds: 300),
-                                fullscreenDialog: true,
-                                curve: Curves.easeIn,
-                                preventDuplicates: true,
-                                popGesture: true,
-                                transition: Transition.rightToLeft,
-                              );
-                            },
-                            cardImage: 'assets/images/vendors/ntachi-osa.png',
-                            vendorName: _data!['vendor'][index].shopName,
-                            distance: "50 mins",
-                            typeOfBusiness:
-                                _data!['vendor'][index].shopType.name ??
+                       LayoutGrid(
+                                    rowGap: kDefaultPadding/2,
+                                    columnGap: kDefaultPadding/2,
+                                    columnSizes: breakPointDynamic(
+                                        media.width,
+                                        [1.fr],
+                                        [1.fr, 1.fr],
+                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
+                                    rowSizes: List.generate(_data!['vendor'].length, (index) => auto),
+                                    children: (_data!['vendor']
+                                            as List<VendorModel>)
+                                        .map(
+                                          (item) => VendorsCard(
+                                removeDistance: true,
+                                onTap: () {
+                                  _vendorsDetail(item);
+                                },
+                                vendorName:
+                                    item.shopName ?? 'Not Available',
+                                typeOfBusiness: item
+                                        .shopType!
+                                        .name ??
                                     'Not Available',
-                            rating:
-                                "${((_data!['vendor'][index].averageRating as double?) ?? 0.0).toStringAsPrecision(2).toString()} (${(_data!['vendor'][index].numberOfClientsReactions ?? 0).toString()})",
-                          );
-                        },
-                      ),
-                      thatsAllData
+                                rating:
+                                    " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
+                                cardImage: "assets/images/vendors/ntachi-osa.png"),)
+                                        .toList(),
+                                  ),thatsAllData
                           ? Container(
                               margin: const EdgeInsets.only(top: 20, bottom: 20),
                               height: 10,

@@ -540,41 +540,36 @@ class _HomeState extends State<Home> {
                         ),
                         kSizedBox,
                         Center(
-                          child: GridView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount:
-                                  deviceType(mediaWidth) > 2 ? 3 : 2,
-                              crossAxisSpacing:
-                                  deviceType(mediaWidth) > 2 ? 20 : 10,
-                              mainAxisSpacing:
-                                  deviceType(mediaWidth) > 2 ? 25 : 15,
-                              childAspectRatio: deviceType(mediaWidth) > 3 &&
-                                      deviceType(mediaWidth) < 5
-                                  ? 1.8
-                                  : deviceType(mediaWidth) > 2
-                                      ? 1.28
-                                      : 0.8,
-                            ),
-                            itemCount: _data!['popularVendor'].length,
-                            itemBuilder: (context, index) => VendorsCard(
+                          child: 
+                          LayoutGrid(
+                                    rowGap: kDefaultPadding/2,
+                                    columnGap: kDefaultPadding/2,
+                                    columnSizes: breakPointDynamic(
+                                        mediaWidth,
+                                        [1.fr],
+                                        [1.fr, 1.fr],
+                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
+                                    rowSizes: List.generate(_data!['popularVendor'].length, (index) => auto),
+                                    children: (_data!['popularVendor']
+                                            as List<VendorModel>)
+                                        .map(
+                                          (item) => VendorsCard(
                                 removeDistance: true,
                                 onTap: () {
-                                  _toVendorPage(_data!['popularVendor'][index]);
+                                  _toVendorPage(item);
                                 },
                                 vendorName:
-                                    _data!['popularVendor'][index].shopName,
-                                typeOfBusiness: _data!['popularVendor'][index]
-                                        .shopType
+                                    item.shopName ?? 'Not Available',
+                                typeOfBusiness: item
+                                        .shopType!
                                         .name ??
                                     'Not Available',
                                 rating:
-                                    " ${((_data!['vendor'][index].averageRating as double?) ?? 0.0).toStringAsPrecision(2).toString()} (${(_data!['popularVendor'][index].numberOfClientsReactions ?? 0).toString()})",
-                                cardImage: popularVendorImage[index]),
-                          ),
-                        ),
+                                    " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
+                                cardImage: "assets/images/vendors/ntachi-osa.png"),)
+                                        .toList(),
+                                  ),
+                            ),
                         kSizedBox,
                         SeeAllContainer(
                           title: "Products",

@@ -5,6 +5,7 @@ import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
@@ -164,29 +165,26 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
                         ),
                       ),
                       kHalfSizedBox,
-                      GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: deviceType(media.width) > 2 ? 2 : 1,
-                          crossAxisSpacing:
-                              deviceType(media.width) > 2 ? 20 : 1,
-                          mainAxisSpacing:
-                              deviceType(media.width) > 2 ? 25 : 15,
-                          childAspectRatio:
-                              deviceType(media.width) > 2 ? 1.4 : 1.2,
-                        ),
-                        itemCount:
-                            _productAndSubCategoryName![activeCategory]!.length,
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        itemBuilder: (context, index) => ProductCard(
-                          product: _productAndSubCategoryName![activeCategory]![
-                              index],
+                      LayoutGrid(
+                                    rowGap: kDefaultPadding/2,
+                                    columnGap: kDefaultPadding/2,
+                                    columnSizes: breakPointDynamic(
+                                        media.width,
+                                        [1.fr],
+                                        [1.fr, 1.fr],
+                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
+                                    rowSizes: List.generate(_productAndSubCategoryName![activeCategory]!.length, (index) => auto),
+                                    children: (_productAndSubCategoryName![activeCategory]
+                                            as List<Product>)
+                                        .map(
+                                          (item) => ProductCard(
+                          product: item,
                           onTap: () => _toProductDetailScreen(
-                              _productAndSubCategoryName![activeCategory]![
-                                  index]),
-                        ),
-                      ),
-                      kSizedBox
+                              item),
+                        ),)
+                                        .toList(),
+                                  ),
+                       kSizedBox
                     ],
                   ),
           ),
