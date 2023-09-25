@@ -153,7 +153,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                         [1.fr],
                                         [1.fr, 1.fr],
                                         [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: List.generate(_data!['product'].length, (index) => auto),
+                                    rowSizes:  _data!['product'].isEmpty ? [auto] : List.generate(_data!['product'].length, (index) => auto),
                                     children: (_data!['product']
                                             as List<Product>)
                                         .map(

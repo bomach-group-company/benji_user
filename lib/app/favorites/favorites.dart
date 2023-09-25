@@ -239,7 +239,7 @@ class _FavoritesState extends State<Favorites>
                                         [1.fr],
                                         [1.fr, 1.fr],
                                         [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: List.generate(snapshot.data!.length, (index) => auto),
+                                    rowSizes: snapshot.data!.isEmpty ? [auto] :List.generate(snapshot.data!.length, (index) => auto),
                                     children: (snapshot.data
                                             as List<Product>)
                                         .map(
@@ -279,7 +279,7 @@ class _FavoritesState extends State<Favorites>
                                         [1.fr],
                                         [1.fr, 1.fr],
                                         [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: List.generate(snapshot.data!.length, (index) => auto),
+                                    rowSizes: snapshot.data!.isEmpty ? [auto] : List.generate(snapshot.data!.length, (index) => auto),
                                     children: (snapshot.data
                                             as List<VendorModel>)
                                         .map(

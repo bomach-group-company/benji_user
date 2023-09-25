@@ -127,7 +127,7 @@ class _ProductVendorState extends State<ProductVendor> {
                                         [1.fr],
                                         [1.fr, 1.fr],
                                         [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: List.generate(_productAndSubCategoryName![activeCategory]!.length, (index) => auto),
+                                    rowSizes:  _productAndSubCategoryName![activeCategory]!.isEmpty ? [auto] : List.generate(_productAndSubCategoryName![activeCategory]!.length, (index) => auto),
                                     children: (_productAndSubCategoryName![activeCategory]
                                             as List<Product>)
                                         .map(

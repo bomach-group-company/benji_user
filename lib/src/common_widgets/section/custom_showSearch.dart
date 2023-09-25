@@ -111,7 +111,7 @@ class CustomSearchDelegate extends SearchDelegate {
                           [1.fr],
                           [1.fr, 1.fr],
                           [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                      rowSizes: List.generate(data.length, (index) => auto),
+                      rowSizes: data.isEmpty ? [auto] :   List.generate(data.length, (index) => auto),
                       children: (data
                               as List<Product>)
                           .map(

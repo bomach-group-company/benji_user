@@ -181,13 +181,15 @@ class _PopularVendorsState extends State<PopularVendors> {
                                         [1.fr],
                                         [1.fr, 1.fr],
                                         [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: List.generate(loadMore
+                                    rowSizes:  _data!['vendor'].isEmpty ? [auto] : List.generate(loadMore
                               ? _data!['vendor'].length + 1
                               : _data!['vendor'].length, (index) => auto),
                                     children: (_data!['vendor']
                                             as List<VendorModel>)
                                         .map(
-                                          (item) => VendorsCard(
+                                          (item) {
+                                            print(item);
+                                            return VendorsCard(
                               onTap: () {
                                 Get.to(
                                   () => VendorDetails(
@@ -208,7 +210,7 @@ class _PopularVendorsState extends State<PopularVendors> {
                                       'Not Available',
                               rating:
                                   "${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
-                            ),).toList(),
+                            );}).toList(),
                                   ),
                           thatsAllData
                           ? Container(

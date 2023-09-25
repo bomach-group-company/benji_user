@@ -276,7 +276,7 @@ class _CartScreenState extends State<CartScreen> {
                                         [1.fr],
                                         [1.fr, 1.fr],
                                         [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: List.generate(_data!.length, (index) => auto),
+                                    rowSizes: _data!.isEmpty ? [auto] : List.generate(_data!.length, (index) => auto),
                                     children: (_data
                                             as List<Product>)
                                         .map(

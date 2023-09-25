@@ -549,7 +549,7 @@ class _HomeState extends State<Home> {
                                         [1.fr],
                                         [1.fr, 1.fr],
                                         [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: List.generate(_data!['popularVendor'].length, (index) => auto),
+                                    rowSizes: _data!['popularVendor']!.isEmpty ? [auto] : List.generate(_data!['popularVendor'].length, (index) => auto),
                                     children: (_data!['popularVendor']
                                             as List<VendorModel>)
                                         .map(
@@ -621,7 +621,7 @@ class _HomeState extends State<Home> {
                                         [1.fr],
                                         [1.fr, 1.fr],
                                         [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: List.generate(_data!['product'].length, (index) => auto),
+                                    rowSizes: _data!['product'].isEmpty ? [auto] : List.generate(_data!['product'].length, (index) => auto),
                                     children: (_data!['product']
                                             as List<Product>)
                                         .map(

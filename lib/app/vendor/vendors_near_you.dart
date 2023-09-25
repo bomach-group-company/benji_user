@@ -191,7 +191,7 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                                         [1.fr],
                                         [1.fr, 1.fr],
                                         [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: List.generate(_data!['vendor'].length, (index) => auto),
+                                    rowSizes:  _data!['vendor'].isEmpty ? [auto] : List.generate(_data!['vendor'].length, (index) => auto),
                                     children: (_data!['vendor']
                                             as List<VendorModel>)
                                         .map(
