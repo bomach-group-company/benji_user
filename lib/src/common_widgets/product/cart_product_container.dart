@@ -1,4 +1,3 @@
-import 'package:benji_user/src/providers/responsive_constant.dart';
 import 'package:benji_user/src/repo/utils/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -87,8 +86,6 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
         : InkWell(
             onTap: widget.onTap,
             child: Container(
-              width: media.width / 2.5,
-              margin: const EdgeInsets.only(bottom: 10),
               decoration: ShapeDecoration(
                 color: kPrimaryColor,
                 shape: RoundedRectangleBorder(
@@ -127,14 +124,12 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: SizedBox(
-                      height: 57.06,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: media.width - 200,
                             child: Text(
                               widget.product.name,
                               style: const TextStyle(
@@ -146,7 +141,6 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
                           ),
                           kHalfSizedBox,
                           SizedBox(
-                            width: media.width - 200,
                             child: Text(
                               widget.product.description,
                               style: TextStyle(
@@ -157,22 +151,10 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  kSizedBox,
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Row(
+                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
-                          width: deviceType(media.width) > 3 &&
-                                  deviceType(media.width) < 5
-                              ? media.width / 2.6
-                              : deviceType(media.width) > 2
-                                  ? media.width / 2.8
-                                  : media.width / 1.6,
+                          
                           child: Text(
                             "₦${formattedText(_productPrice)}",
                             style: const TextStyle(
@@ -218,8 +200,12 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
                           ],
                         )
                       ],
+                    )
+                        ],
+                      ),
                     ),
-                  )
+                  ),
+                kHalfSizedBox,
                 ],
               ),
             ),

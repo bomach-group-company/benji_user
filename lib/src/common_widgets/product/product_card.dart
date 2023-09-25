@@ -23,12 +23,9 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: media.width / 2.5,
-        margin: const EdgeInsets.only(bottom: 10),
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
@@ -64,58 +61,50 @@ class ProductCard extends StatelessWidget {
             ),
             kSizedBox,
             Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: SizedBox(
-                height: 57.06,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: media.width - 200,
-                      child: Text(
-                        product.name,
-                        style: const TextStyle(
-                          color: kTextBlackColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                        ),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    child: Text(
+                      product.name,
+                      style: const TextStyle(
+                        color: kTextBlackColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    kHalfSizedBox,
-                    SizedBox(
-                      width: media.width - 200,
-                      child: Text(
-                        product.vendorId.shopName!,
-                        style: TextStyle(
-                          color: kTextGreyColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: -0.43,
-                        ),
+                  ),
+                  kHalfSizedBox,
+                  SizedBox(
+                    child: Text(
+                      product.vendorId.shopName!,
+                      style: TextStyle(
+                        color: kTextGreyColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.43,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  kSizedBox,
+                  SizedBox(
+                    child: Text(
+                      '₦${formattedText(product.price)}',
+                      style: const TextStyle(
+                        color: kTextBlackColor,
+                        fontSize: 20,
+                        fontFamily: 'Sen',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  kHalfSizedBox
+                ],
               ),
             ),
-            kSizedBox,
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: SizedBox(
-                width: media.width - 200,
-                child: Text(
-                  '₦${formattedText(product.price)}',
-                  style: const TextStyle(
-                    color: kTextBlackColor,
-                    fontSize: 20,
-                    fontFamily: 'Sen',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            )
           ],
         ),
       ),

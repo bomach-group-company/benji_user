@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:benji_user/app/auth/forgot_password.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
+import 'package:benji_user/src/providers/responsive_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -350,8 +351,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                     borderRadius: BorderRadius.circular(100),
                                     child: selectedImage == null
                                         ? Container(
-                                            height: 150,
-                                            width: 150,
+                                            height: deviceType(mediaWidth) == 1 ? 100 : 150,
+                                            width: deviceType(mediaWidth) == 1 ? 100 : 150,
                                             decoration: ShapeDecoration(
                                               color: kPageSkeletonColor,
                                               image: const DecorationImage(
@@ -364,8 +365,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                             ),
                                           )
                                         : Container(
-                                            height: 150,
-                                            width: 150,
+                                            height: deviceType(mediaWidth) == 1 ? 100 : 150,
+                                            width: deviceType(mediaWidth) == 1 ? 100 : 150,
                                             decoration: ShapeDecoration(
                                               color: kPageSkeletonColor,
                                               image: DecorationImage(
@@ -405,8 +406,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                       },
                                       borderRadius: BorderRadius.circular(100),
                                       child: Container(
-                                        width: 50,
-                                        height: 50,
+                                         height: deviceType(mediaWidth) == 1 ? 35 : 50,
+                                            width: deviceType(mediaWidth) == 1 ? 35 : 50,
                                         decoration: ShapeDecoration(
                                           color: kAccentColor,
                                           shape: RoundedRectangleBorder(
@@ -427,54 +428,60 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           ),
                         ),
                         kWidthSizedBox,
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${snapshot.firstName} ${snapshot.lastName}',
-                              textAlign: TextAlign.start,
-                              style: const TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            Text(
-                              snapshot.email,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  snapshot.code,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    color: kTextBlackColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${snapshot.firstName} ${snapshot.lastName}',
+                                softWrap: true,
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
                                 ),
-                                IconButton(
-                                  onPressed: () {
-                                    _copyToClipboard(context, snapshot.code);
-                                  },
-                                  tooltip: "Copy ID",
-                                  mouseCursor: SystemMouseCursors.click,
-                                  icon: FaIcon(
-                                    FontAwesomeIcons.copy,
-                                    size: 14,
-                                    color: kAccentColor,
-                                  ),
+                              ),
+                              Text(
+                                snapshot.email,
+                                softWrap: true,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
                                 ),
-                              ],
-                            ),
-                          ],
+                              ),
+                              Wrap(
+                                children: [
+                                  Container(margin: const EdgeInsets.only(top: 11),
+                                    child: Text(
+                                      snapshot.code,
+                                      softWrap: true,
+                                      style: const TextStyle(
+                                        color: kTextBlackColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      _copyToClipboard(context, snapshot.code);
+                                    },
+                                    tooltip: "Copy ID",
+                                    mouseCursor: SystemMouseCursors.click,
+                                    icon: FaIcon(
+                                      FontAwesomeIcons.copy,
+                                      size: 14,
+                                      color: kAccentColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

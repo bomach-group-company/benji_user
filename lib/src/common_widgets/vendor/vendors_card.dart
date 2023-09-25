@@ -46,9 +46,6 @@ class VendorsCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: deviceType(media.width) > 2
-                  ? media.width / 3
-                  : media.width / 2,
               height: 128,
               decoration: BoxDecoration(
                 color: kPageSkeletonColor,
@@ -64,14 +61,12 @@ class VendorsCard extends StatelessWidget {
             ),
             kHalfSizedBox,
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: deviceType(media.width) > 2
-                        ? media.width / 5.5
-                        : media.width / 2.5,
                     child: Text(
                       vendorName,
                       style: const TextStyle(
@@ -84,9 +79,6 @@ class VendorsCard extends StatelessWidget {
                   ),
                   kHalfSizedBox,
                   SizedBox(
-                    width: deviceType(media.width) > 2
-                        ? media.width / 5.5
-                        : media.width / 2.5,
                     child: Text(
                       typeOfBusiness,
                       overflow: TextOverflow.ellipsis,
@@ -99,9 +91,6 @@ class VendorsCard extends StatelessWidget {
                   ),
                   kHalfSizedBox,
                   SizedBox(
-                    width: deviceType(media.width) > 2
-                        ? media.width / 5.5
-                        : media.width / 2.5,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,

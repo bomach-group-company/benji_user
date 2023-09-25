@@ -2,6 +2,7 @@ import 'package:benji_user/app/vendor/vendor_details.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
@@ -85,7 +86,7 @@ class _PopularVendorsState extends State<PopularVendors> {
     _scrollController.removeListener(() {});
   }
 
-  Map? _data;
+  List<VendorModel>? _vendor;
   int start = 0;
   int end = 10;
   bool loadMore = false;
@@ -96,13 +97,11 @@ class _PopularVendorsState extends State<PopularVendors> {
     await checkAuth(context);
     List<VendorModel> vendor = await getPopularVendors(start: start, end: end);
 
-    _data ??= {'vendor': []};
+    _vendor ??= [];
 
     setState(() {
       thatsAllData = vendor.isEmpty;
-      _data = {
-        'vendor': _data!['vendor'] + vendor,
-      };
+      _vendor = _vendor! + vendor;
     });
   }
 
@@ -114,7 +113,7 @@ class _PopularVendorsState extends State<PopularVendors> {
 
   Future<void> _handleRefresh() async {
     setState(() {
-      _data = null;
+      _vendor = null;
       start = 0;
       end = 10;
     });
@@ -151,7 +150,7 @@ class _PopularVendorsState extends State<PopularVendors> {
             : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: _data == null
+          child: _vendor == null
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -171,35 +170,23 @@ class _PopularVendorsState extends State<PopularVendors> {
                     physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
                     children: [
-                      GridView.builder(
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: loadMore
-                              ? _data!['vendor'].length + 1
-                              : _data!['vendor'].length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: deviceType(media.width) > 2 ? 3 : 2,
-                            crossAxisSpacing:
-                                deviceType(media.width) > 2 ? 20 : 10,
-                            mainAxisSpacing:
-                                deviceType(media.width) > 2 ? 25 : 15,
-                            childAspectRatio:
-                                deviceType(media.width) > 2 ? 1.28 : 0.8,
-                          ),
-                          itemBuilder: (context, index) {
-                            if (_data!['vendor'].length == index) {
-                              return Column(
-                                children: [
-                                  SpinKitChasingDots(color: kAccentColor),
-                                ],
-                              );
-                            }
-                            return VendorsCard(
+                      LayoutGrid(
+                                    rowGap: kDefaultPadding/2,
+                                    columnGap: kDefaultPadding/2,
+                                    columnSizes: breakPointDynamic(
+                                        media.width,
+                                        [1.fr],
+                                        [1.fr, 1.fr],
+                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
+                                    rowSizes:  _vendor!.isEmpty ? [auto] : List.generate(_vendor!.length, (index) => auto),
+                                    children: (_vendor!)
+                                        .map(
+                                          (item) {
+                                            return VendorsCard(
                               onTap: () {
                                 Get.to(
                                   () => VendorDetails(
-                                      vendor: _data!['vendor'][index]),
+                                      vendor: item),
                                   routeName: 'VendorDetails',
                                   duration: const Duration(milliseconds: 300),
                                   fullscreenDialog: true,
@@ -210,15 +197,15 @@ class _PopularVendorsState extends State<PopularVendors> {
                                 );
                               },
                               cardImage: 'assets/images/vendors/ntachi-osa.png',
-                              vendorName: _data!['vendor'][index].shopName,
+                              vendorName: item.shopName ?? "Not Available",
                               typeOfBusiness:
-                                  _data!['vendor'][index].shopType.name ??
+                                  item.shopType?.name ??
                                       'Not Available',
                               rating:
-                                  "${((_data!['vendor'][index].averageRating as double?) ?? 0.0).toStringAsPrecision(2).toString()} (${(_data!['vendor'][index].numberOfClientsReactions ?? 0).toString()})",
-                            );
-                          }),
-                      thatsAllData
+                                  "${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
+                            );}).toList(),
+                                  ),
+                          thatsAllData
                           ? Container(
                               margin: const EdgeInsets.only(top: 20, bottom: 20),
                               height: 10,
@@ -228,6 +215,9 @@ class _PopularVendorsState extends State<PopularVendors> {
                                   color: kPageSkeletonColor),
                             )
                           : const SizedBox(),
+                          loadMore ?
+                          Center(child: SpinKitChasingDots(color: kAccentColor),)
+                          : const SizedBox()
                     ],
                   ),
                 ),

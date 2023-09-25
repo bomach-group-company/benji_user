@@ -3,6 +3,7 @@ import 'package:benji_user/src/common_widgets/product/product_card.dart';
 import 'package:benji_user/src/providers/constants.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
@@ -52,9 +53,9 @@ class CustomSearchDelegate extends SearchDelegate {
     //==================================================== CONTROLLERS ===========================================================\\
     final scrollController = ScrollController();
 
-    //==================================================== FUNCTIONS ===========================================================\\
+    //======================== FUNCTIONS ======================\\
     //===================== Get Data ==========================\\
-    Future<List<Product>> _getData() async {
+    Future<List<Product>> getData() async {
       if (query == '') {
         return [];
       }
@@ -63,11 +64,12 @@ class CustomSearchDelegate extends SearchDelegate {
     }
 
     //========================================================================\\
+    double mediaWidth = MediaQuery.of(context).size.width;
 
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: MyFutureBuilder(
-        future: _getData(),
+        future: getData(),
         child: (data) {
           return data.isEmpty
               ? ListView(
@@ -96,38 +98,31 @@ class CustomSearchDelegate extends SearchDelegate {
                     ),
                   ],
                 )
-              : Scrollbar(
-                  controller: scrollController,
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount:
-                          deviceType(MediaQuery.of(context).size.width) > 2
-                              ? 2
-                              : 1,
-                      crossAxisSpacing:
-                          deviceType(MediaQuery.of(context).size.width) > 2
-                              ? 20
-                              : 1,
-                      mainAxisSpacing:
-                          deviceType(MediaQuery.of(context).size.width) > 2
-                              ? 25
-                              : 15,
-                      childAspectRatio:
-                          deviceType(MediaQuery.of(context).size.width) > 2
-                              ? 1.4
-                              : 1.2,
-                    ),
-                    controller: scrollController,
-                    physics: const BouncingScrollPhysics(),
-                    padding: const EdgeInsets.all(kDefaultPadding),
-                    shrinkWrap: true,
-                    itemCount: data.length,
-                    itemBuilder: (context, index) => ProductCard(
-                      product: data[index],
-                      onTap: () => _toProductDetailScreenPage(data[index]),
-                    ),
-                  ),
-                );
+              : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    LayoutGrid(
+                      rowGap: kDefaultPadding/2,
+                      columnGap: kDefaultPadding/2,
+                      columnSizes: breakPointDynamic(
+                          mediaWidth,
+                          [1.fr],
+                          [1.fr, 1.fr],
+                          [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
+                      rowSizes: data.isEmpty ? [auto] :   List.generate(data.length, (index) => auto),
+                      children: (data
+                              as List<Product>)
+                          .map(
+                            (item) => ProductCard(
+                        product: item,
+                        onTap: () => _toProductDetailScreenPage(item),
+                      ),).toList(),
+                              ),
+                  ],
+                ),
+              );
         },
       ),
     );
