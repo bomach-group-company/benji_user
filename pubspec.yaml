@@ -43,6 +43,7 @@ dependencies:
   path_provider: ^2.1.1
   plugin_platform_interface:
   pdf: ^3.10.4
+  flutter_monnify: ^0.0.3          
 
 dev_dependencies:
   flutter_test:
