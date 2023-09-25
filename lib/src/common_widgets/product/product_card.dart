@@ -61,54 +61,50 @@ class ProductCard extends StatelessWidget {
             ),
             kSizedBox,
             Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: SizedBox(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      child: Text(
-                        product.name,
-                        style: const TextStyle(
-                          color: kTextBlackColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                        ),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    child: Text(
+                      product.name,
+                      style: const TextStyle(
+                        color: kTextBlackColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    kHalfSizedBox,
-                    SizedBox(
-                      child: Text(
-                        product.vendorId.shopName!,
-                        style: TextStyle(
-                          color: kTextGreyColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: -0.43,
-                        ),
+                  ),
+                  kHalfSizedBox,
+                  SizedBox(
+                    child: Text(
+                      product.vendorId.shopName!,
+                      style: TextStyle(
+                        color: kTextGreyColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.43,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  kSizedBox,
+                  SizedBox(
+                    child: Text(
+                      '₦${formattedText(product.price)}',
+                      style: const TextStyle(
+                        color: kTextBlackColor,
+                        fontSize: 20,
+                        fontFamily: 'Sen',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  kHalfSizedBox
+                ],
               ),
             ),
-            kSizedBox,
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: SizedBox(
-                child: Text(
-                  '₦${formattedText(product.price)}',
-                  style: const TextStyle(
-                    color: kTextBlackColor,
-                    fontSize: 20,
-                    fontFamily: 'Sen',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            )
           ],
         ),
       ),
