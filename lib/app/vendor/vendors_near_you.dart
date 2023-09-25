@@ -130,7 +130,7 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
         backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
           elevation: 0.0,
-          title: "Vendors Near Me",
+          title: "Vendors Near You",
           toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
           actions: const [],
@@ -178,9 +178,7 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                                         [1.fr],
                                         [1.fr, 1.fr],
                                         [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes:  _vendor!.isEmpty ? [auto] : List.generate(loadMore
-                              ? _vendor!.length + 1
-                              : _vendor!.length, (index) => auto),
+                                    rowSizes:  _vendor!.isEmpty ? [auto] : List.generate(_vendor!.length, (index) => auto),
                                     children: (_vendor!)
                                         .map(
                                           (item) {
@@ -217,6 +215,9 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                                   color: kPageSkeletonColor),
                             )
                           : const SizedBox(),
+                          loadMore ?
+                          Center(child: SpinKitChasingDots(color: kAccentColor),)
+                          : const SizedBox()
                     ],
                   ),
                 ),

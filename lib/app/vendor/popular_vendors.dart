@@ -178,9 +178,7 @@ class _PopularVendorsState extends State<PopularVendors> {
                                         [1.fr],
                                         [1.fr, 1.fr],
                                         [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes:  _vendor!.isEmpty ? [auto] : List.generate(loadMore
-                              ? _vendor!.length + 1
-                              : _vendor!.length, (index) => auto),
+                                    rowSizes:  _vendor!.isEmpty ? [auto] : List.generate(_vendor!.length, (index) => auto),
                                     children: (_vendor!)
                                         .map(
                                           (item) {
@@ -217,6 +215,9 @@ class _PopularVendorsState extends State<PopularVendors> {
                                   color: kPageSkeletonColor),
                             )
                           : const SizedBox(),
+                          loadMore ?
+                          Center(child: SpinKitChasingDots(color: kAccentColor),)
+                          : const SizedBox()
                     ],
                   ),
                 ),
