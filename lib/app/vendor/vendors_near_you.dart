@@ -79,20 +79,6 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
     });
   }
 
-    _vendorsDetail(vendor) {
-    Get.to(
-      () => VendorDetails(
-          vendor: vendor),
-      routeName: 'VendorDetails',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
-  }
-
   @override
   void dispose() {
     super.dispose();
@@ -100,7 +86,7 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
     _scrollController.removeListener(() {});
   }
 
-  Map? _data;
+  List<VendorModel>? _vendor;
   int start = 0;
   int end = 10;
   bool loadMore = false;
@@ -111,13 +97,11 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
     await checkAuth(context);
     List<VendorModel> vendor = await getVendors(start: start, end: end);
 
-    _data ??= {'vendor': []};
+    _vendor ??= [];
 
     setState(() {
       thatsAllData = vendor.isEmpty;
-      _data = {
-        'vendor': _data!['vendor'] + vendor,
-      };
+      _vendor = _vendor! + vendor;
     });
   }
 
@@ -125,12 +109,11 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
   final _scrollController = ScrollController();
 
   //==================================================== FUNCTIONS ===========================================================\\
-
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
     setState(() {
-      _data = null;
+      _vendor = null;
       start = 0;
       end = 10;
     });
@@ -138,7 +121,6 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
   }
 
   //========================================================================\\
-
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -148,9 +130,9 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
         backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
           elevation: 0.0,
-          title: "Vendors Near You",
+          title: "Vendors Near Me",
+          toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
           actions: const [],
         ),
         floatingActionButton: _isScrollToTopBtnVisible
@@ -168,7 +150,7 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
             : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: _data == null
+          child: _vendor == null
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -177,13 +159,18 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                 )
               : Scrollbar(
                   controller: _scrollController,
+                  scrollbarOrientation: ScrollbarOrientation.right,
+                  radius: const Radius.circular(10),
                   child: ListView(
-                    controller: _scrollController,
                     dragStartBehavior: DragStartBehavior.down,
+                    controller: _scrollController,
+                    padding: deviceType(media.width) > 2
+                        ? const EdgeInsets.all(kDefaultPadding)
+                        : const EdgeInsets.all(kDefaultPadding / 2),
                     physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
                     children: [
-                       LayoutGrid(
+                      LayoutGrid(
                                     rowGap: kDefaultPadding/2,
                                     columnGap: kDefaultPadding/2,
                                     columnSizes: breakPointDynamic(
@@ -191,34 +178,43 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                                         [1.fr],
                                         [1.fr, 1.fr],
                                         [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes:  _data!['vendor'].isEmpty ? [auto] : List.generate(_data!['vendor'].length, (index) => auto),
-                                    children: (_data!['vendor']
-                                            as List<VendorModel>)
+                                    rowSizes:  _vendor!.isEmpty ? [auto] : List.generate(loadMore
+                              ? _vendor!.length + 1
+                              : _vendor!.length, (index) => auto),
+                                    children: (_vendor!)
                                         .map(
-                                          (item) => VendorsCard(
-                                removeDistance: true,
-                                onTap: () {
-                                  _vendorsDetail(item);
-                                },
-                                vendorName:
-                                    item.shopName ?? 'Not Available',
-                                typeOfBusiness: item
-                                        .shopType!
-                                        .name ??
-                                    'Not Available',
-                                rating:
-                                    " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
-                                cardImage: "assets/images/vendors/ntachi-osa.png"),)
-                                        .toList(),
-                                  ),thatsAllData
+                                          (item) {
+                                            return VendorsCard(
+                              onTap: () {
+                                Get.to(
+                                  () => VendorDetails(
+                                      vendor: item),
+                                  routeName: 'VendorDetails',
+                                  duration: const Duration(milliseconds: 300),
+                                  fullscreenDialog: true,
+                                  curve: Curves.easeIn,
+                                  preventDuplicates: true,
+                                  popGesture: true,
+                                  transition: Transition.rightToLeft,
+                                );
+                              },
+                              cardImage: 'assets/images/vendors/ntachi-osa.png',
+                              vendorName: item.shopName ?? "Not Available",
+                              typeOfBusiness:
+                                  item.shopType?.name ??
+                                      'Not Available',
+                              rating:
+                                  "${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
+                            );}).toList(),
+                                  ),
+                          thatsAllData
                           ? Container(
                               margin: const EdgeInsets.only(top: 20, bottom: 20),
                               height: 10,
                               width: 10,
                               decoration: ShapeDecoration(
-                                shape: const CircleBorder(),
-                                color: kPageSkeletonColor,
-                              ),
+                                  shape: const CircleBorder(),
+                                  color: kPageSkeletonColor),
                             )
                           : const SizedBox(),
                     ],

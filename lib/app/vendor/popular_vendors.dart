@@ -86,7 +86,7 @@ class _PopularVendorsState extends State<PopularVendors> {
     _scrollController.removeListener(() {});
   }
 
-  Map? _data;
+  List<VendorModel>? _vendor;
   int start = 0;
   int end = 10;
   bool loadMore = false;
@@ -97,14 +97,11 @@ class _PopularVendorsState extends State<PopularVendors> {
     await checkAuth(context);
     List<VendorModel> vendor = await getPopularVendors(start: start, end: end);
 
-    _data ??= {'vendor': []};
+    _vendor ??= [];
 
     setState(() {
       thatsAllData = vendor.isEmpty;
-      _data = {
-        // 'vendor': _data!['vendor'] + vendor,
-        'vendor': [],
-      };
+      _vendor = _vendor! + vendor;
     });
   }
 
@@ -116,7 +113,7 @@ class _PopularVendorsState extends State<PopularVendors> {
 
   Future<void> _handleRefresh() async {
     setState(() {
-      _data = null;
+      _vendor = null;
       start = 0;
       end = 10;
     });
@@ -153,7 +150,7 @@ class _PopularVendorsState extends State<PopularVendors> {
             : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: _data == null
+          child: _vendor == null
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -181,14 +178,12 @@ class _PopularVendorsState extends State<PopularVendors> {
                                         [1.fr],
                                         [1.fr, 1.fr],
                                         [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes:  _data!['vendor'].isEmpty ? [auto] : List.generate(loadMore
-                              ? _data!['vendor'].length + 1
-                              : _data!['vendor'].length, (index) => auto),
-                                    children: (_data!['vendor']
-                                            as List<VendorModel>)
+                                    rowSizes:  _vendor!.isEmpty ? [auto] : List.generate(loadMore
+                              ? _vendor!.length + 1
+                              : _vendor!.length, (index) => auto),
+                                    children: (_vendor!)
                                         .map(
                                           (item) {
-                                            print(item);
                                             return VendorsCard(
                               onTap: () {
                                 Get.to(
