@@ -555,7 +555,7 @@ class _HomeState extends State<Home> {
                                   ? 1.8
                                   : deviceType(mediaWidth) > 2
                                       ? 1.28
-                                      : 0.86,
+                                      : 0.8,
                             ),
                             itemCount: _data!['popularVendor'].length,
                             itemBuilder: (context, index) => VendorsCard(

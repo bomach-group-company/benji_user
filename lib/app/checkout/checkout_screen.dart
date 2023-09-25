@@ -1,7 +1,6 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:benji_user/app/home/home.dart';
-import 'package:benji_user/app/payment/payment_method.dart';
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
@@ -18,6 +17,7 @@ import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../address/deliver_to.dart';
+import '../payment/pay_monnify.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -111,9 +111,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   void _placeOrder() async {
     Get.to(
-      () => PaymentMethod(
-        totalPrice: totalPrice,
-      ),
+      () => PayWithMonnify(),
       routeName: 'PaymentMethod',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,

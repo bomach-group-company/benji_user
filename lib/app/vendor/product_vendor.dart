@@ -128,8 +128,12 @@ class _ProductVendorState extends State<ProductVendor> {
                               deviceType(media.width) > 2 ? 20 : 1,
                           mainAxisSpacing:
                               deviceType(media.width) > 2 ? 25 : 15,
-                          childAspectRatio:
-                              deviceType(media.width) > 2 ? 1.4 : 1.2,
+                          childAspectRatio: deviceType(media.width) > 3 &&
+                                  deviceType(media.width) < 5
+                              ? 1.8
+                              : deviceType(media.width) > 2
+                                  ? 1.28
+                                  : 1.1,
                         ),
                         itemBuilder: (context, index) => ProductCard(
                           product: _productAndSubCategoryName![activeCategory]![
