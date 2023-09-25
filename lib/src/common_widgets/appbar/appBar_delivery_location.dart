@@ -58,11 +58,6 @@ class AppBarDeliveryLocation extends StatelessWidget {
             size: deviceType(media.width) > 2 ? 26 : 14,
             color: kAccentColor,
           ),
-          FaIcon(
-            FontAwesomeIcons.chevronRight,
-            size: deviceType(media.width) > 2 ? 26 : 14,
-            color: kAccentColor,
-          ),
         ],
       ),
     );
