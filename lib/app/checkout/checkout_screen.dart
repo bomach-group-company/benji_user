@@ -6,7 +6,9 @@ import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/src/repo/utils/cart.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_monnify/flutter_monnify.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -17,7 +19,6 @@ import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../address/deliver_to.dart';
-import '../payment/pay_monnify.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -110,16 +111,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   //PLACE ORDER
 
   void _placeOrder() async {
-    Get.to(
-      () => PayWithMonnify(),
-      routeName: 'PaymentMethod',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeft,
+    TransactionResponse? response = await Monnify().checkout(
+      context,
+      monnifyPayload(),
+      appBar: AppBarConfig(
+          titleColor: kPrimaryColor, backgroundColor: kAccentColor),
+      toast: ToastConfig(color: kBlackColor, backgroundColor: kAccentColor),
+      displayToast: false,
     );
+
+    //call the backend to verify transaction status before providing value
+    if (kDebugMode) {
+      print("Future completed======>${response?.toJson().toString()}");
+      print("Future completed11======>${response?.message.toString()}");
+    }
   }
 
   void _toHomeScreen() => Get.offAll(
@@ -557,6 +562,35 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       ),
     );
   }
+}
+
+Map<String, dynamic> monnifyPayload() {
+  return {
+    "amount": 100,
+    "currency": "NGN",
+    "reference": DateTime.now().toIso8601String(),
+    "customerFullName": "John Doe",
+    "customerEmail": "customer@gmail.com",
+    "apiKey": "MK_TEST_2VKR6NJEEL",
+    "contractCode": "6942520260",
+    "paymentDescription": "Lahray World",
+    "metadata": {"name": "Damilare", "age": 45},
+    // "incomeSplitConfig": [
+    //   {
+    //     "subAccountCode": "MFY_SUB_342113621921",
+    //     "feePercentage": 50,
+    //     "splitAmount": 1900,
+    //     "feeBearer": true
+    //   },
+    //   {
+    //     "subAccountCode": "MFY_SUB_342113621922",
+    //     "feePercentage": 50,
+    //     "splitAmount": 2100,
+    //     "feeBearer": true
+    //   }
+    // ],
+    "paymentMethod": ["CARD", "ACCOUNT_TRANSFER", "USSD", "PHONE_NUMBER"],
+  };
 }
 
 
