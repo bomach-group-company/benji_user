@@ -154,12 +154,18 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                     mainAxisSpacing:
                                         deviceType(media.width) > 2 ? 25 : 15,
                                     childAspectRatio:
-                                        deviceType(media.width) > 2 ? 1.4 : 1.2,
+                                        deviceType(media.width) > 3 &&
+                                                deviceType(media.width) < 5
+                                            ? 1.9
+                                            : deviceType(media.width) > 2
+                                                ? 1.4
+                                                : 1.1,
                                   ),
                                   physics: const BouncingScrollPhysics(),
                                   itemCount: _data!['product'].length,
                                   shrinkWrap: true,
-                                  padding: const EdgeInsets.all(kDefaultPadding),
+                                  padding:
+                                      const EdgeInsets.all(kDefaultPadding),
                                   itemBuilder:
                                       (BuildContext context, int index) =>
                                           ProductCard(

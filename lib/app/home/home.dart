@@ -634,7 +634,7 @@ class _HomeState extends State<Home> {
                                                 ? 1.9
                                                 : deviceType(mediaWidth) > 2
                                                     ? 1.4
-                                                    : 1.2,
+                                                    : 1.18,
                                       ),
                                       physics: const BouncingScrollPhysics(),
                                       shrinkWrap: true,
