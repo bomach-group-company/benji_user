@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../../providers/constants.dart';
 import '../../../theme/colors.dart';
+import '../../providers/constants.dart';
 
 class SeeAllContainer extends StatelessWidget {
   final String title;
@@ -41,6 +41,14 @@ class SeeAllContainer extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(kDefaultPadding / 2),
               decoration: BoxDecoration(
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x19616161),
+                    blurRadius: 1,
+                    offset: Offset(0, 1),
+                    spreadRadius: 0,
+                  )
+                ],
                 color: const Color(
                   0xFFFEF8F8,
                 ),
