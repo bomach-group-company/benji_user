@@ -28,7 +28,7 @@ class _SendPackageState extends State<SendPackage> {
   int _currentStep = 0;
   bool _nextPage = false;
   bool _continuePage = false;
-  bool _processingRequest = false;
+  final bool _processingRequest = false;
   get mediaWidth => MediaQuery.of(context).size.width;
 
   //=============================== CONTROLLERS ==================================\\
@@ -83,8 +83,8 @@ class _SendPackageState extends State<SendPackage> {
     });
   }
 
-  _postData() async {
-    Get.to(
+  _toPayForDelivery() async {
+    Get.off(
       () => PayForDelivery(
         status: "Pending payment",
         senderName: _senderNameEC.text,
@@ -168,7 +168,7 @@ class _SendPackageState extends State<SendPackage> {
                 : Row(
                     children: [
                       ElevatedButton(
-                        onPressed: _postData,
+                        onPressed: _toPayForDelivery,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: kAccentColor,
                           elevation: 20.0,
