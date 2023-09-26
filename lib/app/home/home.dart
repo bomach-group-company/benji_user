@@ -15,11 +15,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/appbar/appBar_delivery_location.dart';
-import '../../src/common_widgets/button/category button.dart';
+import '../../src/common_widgets/appbar/appbar_delivery_location.dart';
+import '../../src/common_widgets/button/category_button.dart';
 import '../../src/common_widgets/cart_card.dart';
 import '../../src/common_widgets/product/product_card.dart';
-import '../../src/common_widgets/section/custom_showSearch.dart';
+import '../../src/common_widgets/section/custom_show_search.dart';
 import '../../src/common_widgets/section/see_all_container.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';

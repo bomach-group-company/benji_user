@@ -1,5 +1,5 @@
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
-import 'package:benji_user/src/common_widgets/button/category%20button.dart';
+import 'package:benji_user/src/common_widgets/button/category_button.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
@@ -54,6 +54,7 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
         await getVendorProductsAndSubCategoryName(widget.vendor.id);
     try {
       activeCategory = productAndSubCategoryName.keys.toList()[0];
+      // ignore: empty_catches
     } catch (e) {}
 
     setState(() {
@@ -166,25 +167,28 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
                       ),
                       kHalfSizedBox,
                       LayoutGrid(
-                                    rowGap: kDefaultPadding/2,
-                                    columnGap: kDefaultPadding/2,
-                                    columnSizes: breakPointDynamic(
-                                        media.width,
-                                        [1.fr],
-                                        [1.fr, 1.fr],
-                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: List.generate(_productAndSubCategoryName![activeCategory]!.length, (index) => auto),
-                                    children: (_productAndSubCategoryName![activeCategory]
-                                            as List<Product>)
-                                        .map(
-                                          (item) => ProductCard(
-                          product: item,
-                          onTap: () => _toProductDetailScreen(
-                              item),
-                        ),)
-                                        .toList(),
-                                  ),
-                       kSizedBox
+                        rowGap: kDefaultPadding / 2,
+                        columnGap: kDefaultPadding / 2,
+                        columnSizes: breakPointDynamic(
+                            media.width,
+                            [1.fr],
+                            [1.fr, 1.fr],
+                            [1.fr, 1.fr, 1.fr],
+                            [1.fr, 1.fr, 1.fr, 1.fr]),
+                        rowSizes: List.generate(
+                            _productAndSubCategoryName![activeCategory]!.length,
+                            (index) => auto),
+                        children: (_productAndSubCategoryName![activeCategory]
+                                as List<Product>)
+                            .map(
+                              (item) => ProductCard(
+                                product: item,
+                                onTap: () => _toProductDetailScreen(item),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                      kSizedBox
                     ],
                   ),
           ),

@@ -319,13 +319,75 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Stack(
-                                children: [
-                                  InkWell(
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Stack(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      elevation: 20,
+                                      barrierColor:
+                                          kBlackColor.withOpacity(0.8),
+                                      showDragHandle: true,
+                                      useSafeArea: true,
+                                      isDismissible: true,
+                                      isScrollControlled: true,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(
+                                            kDefaultPadding,
+                                          ),
+                                        ),
+                                      ),
+                                      enableDrag: true,
+                                      builder: (builder) =>
+                                          _profilePicBottomSheet(),
+                                    );
+                                  },
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: selectedImage == null
+                                      ? Container(
+                                          height: deviceType(mediaWidth) == 1
+                                              ? 100
+                                              : 150,
+                                          width: deviceType(mediaWidth) == 1
+                                              ? 100
+                                              : 150,
+                                          decoration: ShapeDecoration(
+                                            color: kPageSkeletonColor,
+                                            image: const DecorationImage(
+                                              image: AssetImage(
+                                                "assets/images/profile/avatar-image.jpg",
+                                              ),
+                                              fit: BoxFit.contain,
+                                            ),
+                                            shape: const OvalBorder(),
+                                          ),
+                                        )
+                                      : Container(
+                                          height: deviceType(mediaWidth) == 1
+                                              ? 100
+                                              : 150,
+                                          width: deviceType(mediaWidth) == 1
+                                              ? 100
+                                              : 150,
+                                          decoration: ShapeDecoration(
+                                            color: kPageSkeletonColor,
+                                            image: DecorationImage(
+                                              image: FileImage(selectedImage!),
+                                              fit: BoxFit.contain,
+                                            ),
+                                            shape: const OvalBorder(),
+                                          ),
+                                        ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 5,
+                                  child: InkWell(
                                     onTap: () {
                                       showModalBottomSheet(
                                         context: context,
@@ -349,83 +411,28 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                       );
                                     },
                                     borderRadius: BorderRadius.circular(100),
-                                    child: selectedImage == null
-                                        ? Container(
-                                            height: deviceType(mediaWidth) == 1 ? 100 : 150,
-                                            width: deviceType(mediaWidth) == 1 ? 100 : 150,
-                                            decoration: ShapeDecoration(
-                                              color: kPageSkeletonColor,
-                                              image: const DecorationImage(
-                                                image: AssetImage(
-                                                  "assets/images/profile/avatar-image.jpg",
-                                                ),
-                                                fit: BoxFit.contain,
-                                              ),
-                                              shape: const OvalBorder(),
-                                            ),
-                                          )
-                                        : Container(
-                                            height: deviceType(mediaWidth) == 1 ? 100 : 150,
-                                            width: deviceType(mediaWidth) == 1 ? 100 : 150,
-                                            decoration: ShapeDecoration(
-                                              color: kPageSkeletonColor,
-                                              image: DecorationImage(
-                                                image:
-                                                    FileImage(selectedImage!),
-                                                fit: BoxFit.contain,
-                                              ),
-                                              shape: const OvalBorder(),
-                                            ),
-                                          ),
-                                  ),
-                                  Positioned(
-                                    bottom: 0,
-                                    right: 5,
-                                    child: InkWell(
-                                      onTap: () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          elevation: 20,
-                                          barrierColor:
-                                              kBlackColor.withOpacity(0.8),
-                                          showDragHandle: true,
-                                          useSafeArea: true,
-                                          isDismissible: true,
-                                          isScrollControlled: true,
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(
-                                                kDefaultPadding,
-                                              ),
-                                            ),
-                                          ),
-                                          enableDrag: true,
-                                          builder: (builder) =>
-                                              _profilePicBottomSheet(),
-                                        );
-                                      },
-                                      borderRadius: BorderRadius.circular(100),
-                                      child: Container(
-                                         height: deviceType(mediaWidth) == 1 ? 35 : 50,
-                                            width: deviceType(mediaWidth) == 1 ? 35 : 50,
-                                        decoration: ShapeDecoration(
-                                          color: kAccentColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                          ),
+                                    child: Container(
+                                      height:
+                                          deviceType(mediaWidth) == 1 ? 35 : 50,
+                                      width:
+                                          deviceType(mediaWidth) == 1 ? 35 : 50,
+                                      decoration: ShapeDecoration(
+                                        color: kAccentColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
                                         ),
-                                        child: Icon(
-                                          Icons.edit_outlined,
-                                          color: kPrimaryColor,
-                                        ),
+                                      ),
+                                      child: Icon(
+                                        Icons.edit_outlined,
+                                        color: kPrimaryColor,
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                         kWidthSizedBox,
                         Expanded(
@@ -455,7 +462,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               ),
                               Wrap(
                                 children: [
-                                  Container(margin: const EdgeInsets.only(top: 11),
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 11),
                                     child: Text(
                                       snapshot.code,
                                       softWrap: true,

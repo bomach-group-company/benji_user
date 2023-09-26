@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, use_build_context_synchronously
 
 import 'package:benji_user/src/common_widgets/vendor/vendor_about_tab.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendor_products_tab.dart';
@@ -10,7 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/section/custom_showSearch.dart';
+import '../../src/common_widgets/section/custom_show_search.dart';
 import '../../src/common_widgets/section/rate_vendor_dialog.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';

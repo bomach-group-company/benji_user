@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_typing_uninitialized_variables, use_build_context_synchronously
 
 import 'dart:convert';
 
@@ -13,7 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/section/reusable_authentication_first_half.dart';
-import '../../src/common_widgets/snackbar/my_fixed_snackBar.dart';
+import '../../src/common_widgets/snackbar/my_fixed_snackbar.dart';
 import '../../src/common_widgets/textformfield/email_textformfield.dart';
 import '../../src/common_widgets/textformfield/name_textformfield.dart';
 import '../../src/common_widgets/textformfield/password_textformfield.dart';

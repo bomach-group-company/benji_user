@@ -186,54 +186,49 @@ class _MyPackagesState extends State<MyPackages>
                                             physics:
                                                 const BouncingScrollPhysics(),
                                             itemBuilder: (context, index) =>
-                                                Container(
-                                              child: ListTile(
-                                                onTap: () =>
-                                                    _viewPendingPackage(
-                                                        snapshot.data![index]),
-                                                contentPadding:
-                                                    const EdgeInsets.all(0),
-                                                enableFeedback: true,
-                                                dense: true,
-                                                leading: FaIcon(
-                                                  FontAwesomeIcons.boxesStacked,
-                                                  color: kAccentColor,
+                                                ListTile(
+                                              onTap: () => _viewPendingPackage(
+                                                  snapshot.data![index]),
+                                              contentPadding:
+                                                  const EdgeInsets.all(0),
+                                              enableFeedback: true,
+                                              dense: true,
+                                              leading: FaIcon(
+                                                FontAwesomeIcons.boxesStacked,
+                                                color: kAccentColor,
+                                              ),
+                                              title: Text(
+                                                snapshot.data![index].itemName,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                style: const TextStyle(
+                                                  color: kTextBlackColor,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w700,
                                                 ),
-                                                title: Text(
-                                                  snapshot
-                                                      .data![index].itemName,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  style: const TextStyle(
-                                                    color: kTextBlackColor,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                                subtitle: Text.rich(
-                                                  TextSpan(
-                                                    children: [
-                                                      const TextSpan(text: "Price:"),
-                                                      const TextSpan(text: " "),
-                                                      TextSpan(
-                                                        text:
-                                                            "₦${formattedText(snapshot.data![index].prices)}",
-                                                        style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontFamily: 'sen',
-                                                        ),
+                                              ),
+                                              subtitle: Text.rich(
+                                                TextSpan(
+                                                  children: [
+                                                    const TextSpan(
+                                                        text: "Price:"),
+                                                    const TextSpan(text: " "),
+                                                    TextSpan(
+                                                      text:
+                                                          "₦${formattedText(snapshot.data![index].prices)}",
+                                                      style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontFamily: 'sen',
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                trailing: FaIcon(
-                                                  FontAwesomeIcons
-                                                      .hourglassHalf,
-                                                  color: kSecondaryColor,
-                                                  size: 18,
-                                                ),
+                                              ),
+                                              trailing: FaIcon(
+                                                FontAwesomeIcons.hourglassHalf,
+                                                color: kSecondaryColor,
+                                                size: 18,
                                               ),
                                             ),
                                           ),
@@ -269,55 +264,51 @@ class _MyPackagesState extends State<MyPackages>
                                             physics:
                                                 const BouncingScrollPhysics(),
                                             itemBuilder: (context, index) =>
-                                                Container(
-                                              child: ListTile(
-                                                onTap: () =>
-                                                    _viewDeliveredPackage(
-                                                        (snapshot
-                                                            .data![index])),
-                                                contentPadding:
-                                                    const EdgeInsets.all(0),
-                                                enableFeedback: true,
-                                                dense: true,
-                                                leading: FaIcon(
-                                                  FontAwesomeIcons.boxesStacked,
-                                                  color: kAccentColor,
+                                                ListTile(
+                                              onTap: () =>
+                                                  _viewDeliveredPackage(
+                                                      (snapshot.data![index])),
+                                              contentPadding:
+                                                  const EdgeInsets.all(0),
+                                              enableFeedback: true,
+                                              dense: true,
+                                              leading: FaIcon(
+                                                FontAwesomeIcons.boxesStacked,
+                                                color: kAccentColor,
+                                              ),
+                                              title: Text(
+                                                snapshot.data![index].itemName,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                style: const TextStyle(
+                                                  color: kTextBlackColor,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w700,
                                                 ),
-                                                title: Text(
-                                                  snapshot
-                                                      .data![index].itemName,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  style: const TextStyle(
-                                                    color: kTextBlackColor,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                                subtitle: Text.rich(
-                                                  TextSpan(
-                                                    children: [
-                                                      const TextSpan(text: "Price:"),
-                                                      const TextSpan(text: " "),
-                                                      TextSpan(
-                                                        text:
-                                                            "₦${formattedText(snapshot.data![index].prices)}",
-                                                        style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontFamily: 'sen',
-                                                        ),
+                                              ),
+                                              subtitle: Text.rich(
+                                                TextSpan(
+                                                  children: [
+                                                    const TextSpan(
+                                                        text: "Price:"),
+                                                    const TextSpan(text: " "),
+                                                    TextSpan(
+                                                      text:
+                                                          "₦${formattedText(snapshot.data![index].prices)}",
+                                                      style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontFamily: 'sen',
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                trailing: const FaIcon(
-                                                  FontAwesomeIcons
-                                                      .solidCircleCheck,
-                                                  color: kSuccessColor,
-                                                  size: 18,
-                                                ),
+                                              ),
+                                              trailing: const FaIcon(
+                                                FontAwesomeIcons
+                                                    .solidCircleCheck,
+                                                color: kSuccessColor,
+                                                size: 18,
                                               ),
                                             ),
                                           ),

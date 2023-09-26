@@ -1,12 +1,13 @@
-import 'package:benji_user/app/product/product_detail_screen.dart';
-import 'package:benji_user/src/common_widgets/product/product_card.dart';
-import 'package:benji_user/src/providers/constants.dart';
-import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
+
+import 'package:benji_user/app/product/product_detail_screen.dart';
+import 'package:benji_user/src/common_widgets/product/product_card.dart';
+import 'package:benji_user/src/providers/constants.dart';
+import 'package:benji_user/src/repo/models/product/product.dart';
 
 import '../../../theme/colors.dart';
 import '../../others/my_future_builder.dart';
@@ -99,30 +100,38 @@ class CustomSearchDelegate extends SearchDelegate {
                   ],
                 )
               : Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    LayoutGrid(
-                      rowGap: kDefaultPadding/2,
-                      columnGap: kDefaultPadding/2,
-                      columnSizes: breakPointDynamic(
-                          mediaWidth,
-                          [1.fr],
-                          [1.fr, 1.fr],
-                          [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                      rowSizes: data.isEmpty ? [auto] :   List.generate(data.length, (index) => auto),
-                      children: (data
-                              as List<Product>)
-                          .map(
-                            (item) => ProductCard(
-                        product: item,
-                        onTap: () => _toProductDetailScreenPage(item),
-                      ),).toList(),
-                              ),
-                  ],
-                ),
-              );
+                  padding: const EdgeInsets.all(8.0),
+                  child: Scrollbar(
+                    controller: scrollController,
+                    child: ListView(
+                      controller: scrollController,
+                      shrinkWrap: true,
+                      children: [
+                        LayoutGrid(
+                          rowGap: kDefaultPadding / 2,
+                          columnGap: kDefaultPadding / 2,
+                          columnSizes: breakPointDynamic(
+                              mediaWidth,
+                              [1.fr],
+                              [1.fr, 1.fr],
+                              [1.fr, 1.fr, 1.fr],
+                              [1.fr, 1.fr, 1.fr, 1.fr]),
+                          rowSizes: data.isEmpty
+                              ? [auto]
+                              : List.generate(data.length, (index) => auto),
+                          children: (data as List<Product>)
+                              .map(
+                                (item) => ProductCard(
+                                  product: item,
+                                  onTap: () => _toProductDetailScreenPage(item),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
         },
       ),
     );

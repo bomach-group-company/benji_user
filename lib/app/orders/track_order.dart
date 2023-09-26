@@ -181,12 +181,10 @@ class _TrackOrderState extends State<TrackOrder> {
                                   top: 2,
                                   bottom: 2,
                                   left: 2,
-                                  child: Container(
-                                    child: Icon(
-                                      Icons.check_rounded,
-                                      color: kPrimaryColor,
-                                      size: 20,
-                                    ),
+                                  child: Icon(
+                                    Icons.check_rounded,
+                                    color: kPrimaryColor,
+                                    size: 20,
                                   ),
                                 ),
                               ],

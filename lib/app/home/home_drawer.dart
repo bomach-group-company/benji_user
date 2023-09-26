@@ -83,45 +83,43 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              subtitle: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      data.email,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: kTextBlackColor,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
+              subtitle: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data.email,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: kTextBlackColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        widget.userID,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: kTextBlackColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          widget.userID,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
+                      IconButton(
+                        onPressed: widget.copyUserIdToClipBoard,
+                        tooltip: "Copy ID",
+                        mouseCursor: SystemMouseCursors.click,
+                        icon: FaIcon(
+                          FontAwesomeIcons.copy,
+                          size: 14,
+                          color: kAccentColor,
                         ),
-                        IconButton(
-                          onPressed: widget.copyUserIdToClipBoard,
-                          tooltip: "Copy ID",
-                          mouseCursor: SystemMouseCursors.click,
-                          icon: FaIcon(
-                            FontAwesomeIcons.copy,
-                            size: 14,
-                            color: kAccentColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

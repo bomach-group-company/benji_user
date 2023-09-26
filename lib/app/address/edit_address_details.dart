@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:benji_user/src/repo/models/address_model.dart';
@@ -196,251 +198,248 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
             children: [
-              Container(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Title (My Home, My Office)',
-                            style: TextStyle(
-                              color: kTextBlackColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Title (My Home, My Office)',
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
                           ),
-                          kHalfSizedBox,
-                          MyTextFormField(
-                            hintText:
-                                "Enter address name tag e.g my work, my home....",
-                            controller: _addressTitleEC,
-                            textInputAction: TextInputAction.next,
-                            textInputType: TextInputType.name,
-                            focusNode: _addressTitleFN,
-                            validator: (value) {
-                              RegExp locationNamePattern = RegExp(r'^.{3,}$');
-                              if (value == null || value!.isEmpty) {
-                                _addressTitleFN.requestFocus();
-                                return "Enter a title";
-                              } else if (!locationNamePattern.hasMatch(value)) {
-                                _recipientNameFN.requestFocus();
-                                return "Please enter a valid name";
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _addressTitleEC.text = value!;
-                            },
+                        ),
+                        kHalfSizedBox,
+                        MyTextFormField(
+                          hintText:
+                              "Enter address name tag e.g my work, my home....",
+                          controller: _addressTitleEC,
+                          textInputAction: TextInputAction.next,
+                          textInputType: TextInputType.name,
+                          focusNode: _addressTitleFN,
+                          validator: (value) {
+                            RegExp locationNamePattern = RegExp(r'^.{3,}$');
+                            if (value == null || value!.isEmpty) {
+                              _addressTitleFN.requestFocus();
+                              return "Enter a title";
+                            } else if (!locationNamePattern.hasMatch(value)) {
+                              _recipientNameFN.requestFocus();
+                              return "Please enter a valid name";
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _addressTitleEC.text = value!;
+                          },
+                        ),
+                        kHalfSizedBox,
+                        const Text(
+                          'Name tag of this address e.g my work, my apartment',
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
                           ),
-                          kHalfSizedBox,
-                          const Text(
-                            'Name tag of this address e.g my work, my apartment',
-                            style: TextStyle(
-                              color: kTextBlackColor,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                            ),
+                        ),
+                      ],
+                    ),
+                    kSizedBox,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Recipient Name',
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
                           ),
-                        ],
-                      ),
-                      kSizedBox,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Recipient Name',
-                            style: TextStyle(
-                              color: kTextBlackColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
+                        ),
+                        kHalfSizedBox,
+                        MyTextFormField(
+                          hintText: "Enter recipient name",
+                          controller: _recipientNameEC,
+                          textInputAction: TextInputAction.next,
+                          textInputType: TextInputType.name,
+                          focusNode: _recipientNameFN,
+                          validator: (value) {
+                            //username pattern
+                            //Min. of 3 characters
+                            RegExp userNamePattern = RegExp(r'^.{3,}$');
+                            if (value == null || value!.isEmpty) {
+                              _recipientNameFN.requestFocus();
+                              return "Enter your name";
+                            } else if (!userNamePattern.hasMatch(value)) {
+                              _recipientNameFN.requestFocus();
+                              return "Please enter a valid name";
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _recipientNameEC.text = value!;
+                          },
+                        ),
+                      ],
+                    ),
+                    kSizedBox,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Street Address',
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
                           ),
-                          kHalfSizedBox,
-                          MyTextFormField(
-                            hintText: "Enter recipient name",
-                            controller: _recipientNameEC,
-                            textInputAction: TextInputAction.next,
-                            textInputType: TextInputType.name,
-                            focusNode: _recipientNameFN,
-                            validator: (value) {
-                              //username pattern
-                              //Min. of 3 characters
-                              RegExp userNamePattern = RegExp(r'^.{3,}$');
-                              if (value == null || value!.isEmpty) {
-                                _recipientNameFN.requestFocus();
-                                return "Enter your name";
-                              } else if (!userNamePattern.hasMatch(value)) {
-                                _recipientNameFN.requestFocus();
-                                return "Please enter a valid name";
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _recipientNameEC.text = value!;
-                            },
-                          ),
-                        ],
-                      ),
-                      kSizedBox,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Street Address',
-                            style: TextStyle(
-                              color: kTextBlackColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          kHalfSizedBox,
-                          MyTextFormField(
-                            hintText: "E.g 123 Main Street",
-                            controller: _streetAddressEC,
-                            textInputAction: TextInputAction.next,
-                            textInputType: TextInputType.streetAddress,
-                            focusNode: _streetAddressFN,
-                            validator: (value) {
-                              RegExp streetAddressPattern = RegExp(r'^.{4,}$');
+                        ),
+                        kHalfSizedBox,
+                        MyTextFormField(
+                          hintText: "E.g 123 Main Street",
+                          controller: _streetAddressEC,
+                          textInputAction: TextInputAction.next,
+                          textInputType: TextInputType.streetAddress,
+                          focusNode: _streetAddressFN,
+                          validator: (value) {
+                            RegExp streetAddressPattern = RegExp(r'^.{4,}$');
 
-                              if (value == null || value!.isEmpty) {
-                                _streetAddressFN.requestFocus();
-                                return "Enter your street address";
-                              } else if (!streetAddressPattern
-                                  .hasMatch(value)) {
-                                _streetAddressFN.requestFocus();
-                                return "Please enter a valid street address";
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _streetAddressEC.text = value!;
-                            },
+                            if (value == null || value!.isEmpty) {
+                              _streetAddressFN.requestFocus();
+                              return "Enter your street address";
+                            } else if (!streetAddressPattern.hasMatch(value)) {
+                              _streetAddressFN.requestFocus();
+                              return "Please enter a valid street address";
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _streetAddressEC.text = value!;
+                          },
+                        ),
+                      ],
+                    ),
+                    kSizedBox,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Details (Door, Apartment Number)',
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
                           ),
-                        ],
-                      ),
-                      kSizedBox,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Details (Door, Apartment Number)',
-                            style: TextStyle(
-                              color: kTextBlackColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
+                        ),
+                        kHalfSizedBox,
+                        MyTextFormField(
+                          hintText: "E.g Suite B3",
+                          controller: _apartmentDetailsEC,
+                          textInputAction: TextInputAction.next,
+                          textInputType: TextInputType.text,
+                          focusNode: _apartmentDetailsFN,
+                          validator: (value) {
+                            if (value == null || value!.isEmpty) {
+                              _apartmentDetailsFN.requestFocus();
+                              return "Enter your apartment detail";
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _apartmentDetailsEC.text = value!;
+                          },
+                        ),
+                      ],
+                    ),
+                    kSizedBox,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Phone Number',
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
                           ),
-                          kHalfSizedBox,
-                          MyTextFormField(
-                            hintText: "E.g Suite B3",
-                            controller: _apartmentDetailsEC,
-                            textInputAction: TextInputAction.next,
-                            textInputType: TextInputType.text,
-                            focusNode: _apartmentDetailsFN,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                _apartmentDetailsFN.requestFocus();
-                                return "Enter your apartment detail";
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _apartmentDetailsEC.text = value!;
-                            },
+                        ),
+                        kHalfSizedBox,
+                        MyIntlPhoneField(
+                          onCountryChanged: (country) {
+                            countryDialCode = country.dialCode;
+                          },
+                          initialCountryCode: countryDialCode,
+                          invalidNumberMessage: "Invalid phone number",
+                          dropdownIconPosition: IconPosition.trailing,
+                          showCountryFlag: true,
+                          showDropdownIcon: true,
+                          dropdownIcon: Icon(
+                            Icons.arrow_drop_down_rounded,
+                            color: kAccentColor,
                           ),
-                        ],
-                      ),
-                      kSizedBox,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Phone Number',
-                            style: TextStyle(
-                              color: kTextBlackColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          controller: _phoneNumberEC,
+                          textInputAction: TextInputAction.next,
+                          focusNode: _phoneNumberFN,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              _phoneNumberFN.requestFocus();
+                              return "Enter your phone number";
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _phoneNumberEC.text = value;
+                          },
+                        ),
+                      ],
+                    ),
+                    kSizedBox,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Localization',
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
                           ),
-                          kHalfSizedBox,
-                          MyIntlPhoneField(
-                            onCountryChanged: (country) {
-                              countryDialCode = country.dialCode;
-                            },
-                            initialCountryCode: countryDialCode,
-                            invalidNumberMessage: "Invalid phone number",
-                            dropdownIconPosition: IconPosition.trailing,
-                            showCountryFlag: true,
-                            showDropdownIcon: true,
-                            dropdownIcon: Icon(
-                              Icons.arrow_drop_down_rounded,
-                              color: kAccentColor,
-                            ),
-                            controller: _phoneNumberEC,
-                            textInputAction: TextInputAction.next,
-                            focusNode: _phoneNumberFN,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                _phoneNumberFN.requestFocus();
-                                return "Enter your phone number";
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _phoneNumberEC.text = value;
-                            },
-                          ),
-                        ],
-                      ),
-                      kSizedBox,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Localization',
-                            style: TextStyle(
-                              color: kTextBlackColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          kHalfSizedBox,
-                          CSCPicker(
-                            countryFilter: const [CscCountry.Nigeria],
-                            currentCity: city,
-                            currentState: state,
-                            currentCountry: country,
-                            key: _cscPickerKey,
-                            layout: Layout.vertical,
-                            countryDropdownLabel: "Select country",
-                            stateDropdownLabel: "Select state",
-                            cityDropdownLabel: "Select city",
-                            onCountryChanged: (data) {
-                              setState(() {
-                                country = data;
-                              });
-                            },
-                            onStateChanged: (data) {
-                              setState(() {
-                                state = data;
-                              });
-                            },
-                            onCityChanged: (data) {
-                              setState(() {
-                                city = data;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                      kSizedBox,
-                    ],
-                  ),
+                        ),
+                        kHalfSizedBox,
+                        CSCPicker(
+                          countryFilter: const [CscCountry.Nigeria],
+                          currentCity: city,
+                          currentState: state,
+                          currentCountry: country,
+                          key: _cscPickerKey,
+                          layout: Layout.vertical,
+                          countryDropdownLabel: "Select country",
+                          stateDropdownLabel: "Select state",
+                          cityDropdownLabel: "Select city",
+                          onCountryChanged: (data) {
+                            setState(() {
+                              country = data;
+                            });
+                          },
+                          onStateChanged: (data) {
+                            setState(() {
+                              state = data;
+                            });
+                          },
+                          onCityChanged: (data) {
+                            setState(() {
+                              city = data;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    kSizedBox,
+                  ],
                 ),
               ),
               const SizedBox(

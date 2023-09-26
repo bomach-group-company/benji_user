@@ -130,7 +130,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       left: kDefaultPadding,
                     ),
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext, index) {
+                    itemBuilder: (context, index) {
                       return Row(
                         children: [
                           AnimatedContainer(

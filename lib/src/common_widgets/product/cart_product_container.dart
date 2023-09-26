@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:benji_user/src/repo/utils/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,10 +24,10 @@ class ProductCartContainer extends StatefulWidget {
   });
 
   @override
-  State<ProductCartContainer> createState() => sProductContaCartinerState();
+  State<ProductCartContainer> createState() => ProductCartContainerState();
 }
 
-class sProductContaCartinerState extends State<ProductCartContainer> {
+class ProductCartContainerState extends State<ProductCartContainer> {
   @override
   void initState() {
     super.initState();
@@ -79,8 +81,6 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
-
     return cartCountAll == '0'
         ? const SizedBox()
         : InkWell(
@@ -151,61 +151,61 @@ class sProductContaCartinerState extends State<ProductCartContainer> {
                               ),
                             ),
                           ),
-                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          
-                          child: Text(
-                            "₦${formattedText(_productPrice)}",
-                            style: const TextStyle(
-                              color: kTextBlackColor,
-                              fontSize: 20,
-                              fontFamily: 'Sen',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                if (widget.decrementQuantity != null) {
-                                  widget.decrementQuantity!();
-                                }
-                                checkCart();
-                              },
-                              icon: FaIcon(
-                                FontAwesomeIcons.circleMinus,
-                                color: kAccentColor,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                child: Text(
+                                  "₦${formattedText(_productPrice)}",
+                                  style: const TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 20,
+                                    fontFamily: 'Sen',
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
                               ),
-                            ),
-                            Text(
-                              cartCountAll,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                if (widget.incrementQuantity != null) {
-                                  widget.incrementQuantity!();
-                                }
-                                checkCart();
-                              },
-                              icon: FaIcon(
-                                FontAwesomeIcons.circlePlus,
-                                color: kAccentColor,
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    )
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      if (widget.decrementQuantity != null) {
+                                        widget.decrementQuantity!();
+                                      }
+                                      checkCart();
+                                    },
+                                    icon: FaIcon(
+                                      FontAwesomeIcons.circleMinus,
+                                      color: kAccentColor,
+                                    ),
+                                  ),
+                                  Text(
+                                    cartCountAll,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      if (widget.incrementQuantity != null) {
+                                        widget.incrementQuantity!();
+                                      }
+                                      checkCart();
+                                    },
+                                    icon: FaIcon(
+                                      FontAwesomeIcons.circlePlus,
+                                      color: kAccentColor,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          )
                         ],
                       ),
                     ),
                   ),
-                kHalfSizedBox,
+                  kHalfSizedBox,
                 ],
               ),
             ),

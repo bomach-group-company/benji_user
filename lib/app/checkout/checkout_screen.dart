@@ -2,6 +2,7 @@
 
 import 'package:benji_user/app/home/home.dart';
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
+import 'package:benji_user/src/providers/keys.dart';
 import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/src/repo/utils/cart.dart';
@@ -17,6 +18,7 @@ import 'package:lottie/lottie.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
+import '../../src/repo/models/user/user_model.dart';
 import '../../theme/colors.dart';
 import '../address/deliver_to.dart';
 
@@ -33,14 +35,22 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   void initState() {
     super.initState();
     _getData();
+    _getUserData();
   }
 
   //=================================== ALL VARIABLES ==========================================\\
-
+  Map? _data;
+  double _subTotal = 0;
+  double _totalPrice = 0;
   double deliveryFee = 700;
   double serviceFee = 0;
   // double insuranceFee = 0;
   // double discountFee = 0;
+  String? _userFirstName;
+  String? _userLastName;
+  String? _userEmail;
+  final String _paymentDescription = "Benji app product purchase";
+  final String _currency = "NGN";
 
   //===================== GlobalKeys =======================\\
 
@@ -62,12 +72,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     await _getData();
   }
 
-  Map? _data;
-  double _subTotal = 0;
-  double totalPrice = 0;
+  _getUserData() async {
+    checkAuth(context);
+    User? user = await getUser();
+    setState(() {
+      _userFirstName = user!.firstName!;
+      _userLastName = user.lastName!;
+      _userEmail = user.email!;
+    });
+  }
 
   _getData() async {
     _subTotal = 0;
+
     await checkAuth(context);
     List<Product> product = await getCartProduct(
       (data) => mySnackBar(
@@ -94,7 +111,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       _subTotal += (item.price * cartItems[item.id]);
     }
 
-    totalPrice = _subTotal + deliveryFee + serviceFee;
+    _totalPrice = _subTotal + deliveryFee + serviceFee;
 
     setState(() {
       _data = {
@@ -113,17 +130,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   void _placeOrder() async {
     DateTime now = DateTime.now();
     String formattedDateAndTime = formatDateAndTime(now);
+
     Map<String, dynamic> monnifyPayload() {
       return {
-        "amount": totalPrice,
-        "currency": "NGN",
+        "amount": _totalPrice,
+        "currency": _currency,
         "reference": formattedDateAndTime,
-        "customerName": "Daniel Danny",
-        "customerEmail": "person1@emoti.com",
-        "apiKey": "MK_TEST_2VKR6NJEEL",
-        "contractCode": "6942520260",
-        "paymentDescription": "Benji App",
-        "metadata": {"name": "Gideon", "age": 23},
+        "customerFullName": "$_userFirstName $_userLastName",
+        "customerEmail": "$_userEmail",
+        "apiKey": monnifyApiKey,
+        "contractCode": monnifyContractCode,
+        "paymentDescription": _paymentDescription,
+        "final metadata": {"name": "$_userFirstName", "age": 23},
         // "incomeSplitConfig": [
         //   {
         //     "subAccountCode": "MFY_SUB_342113621921",
@@ -354,14 +372,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         const SizedBox(
                           height: kDefaultPadding * 2,
                         ),
-                        Container(
-                          child: const Text(
-                            'Product Summary',
-                            style: TextStyle(
-                              color: kTextBlackColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            ),
+                        const Text(
+                          'Product Summary',
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                         kSizedBox,
@@ -419,15 +435,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         kSizedBox,
                         Container(
                           width: mediaWidth,
-                          padding: const EdgeInsets.all(
-                            kDefaultPadding,
-                          ),
+                          padding: const EdgeInsets.all(kDefaultPadding),
                           decoration: ShapeDecoration(
                             color: kPrimaryColor,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                10,
-                              ),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             shadows: const [
                               BoxShadow(
@@ -438,115 +450,29 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               ),
                             ],
                           ),
-                          child: Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(
-                                  child: Text(
-                                    'Payment Summary',
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                child: Text(
+                                  'Payment Summary',
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                const Divider(height: 20, color: kGreyColor1),
-                                Container(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text(
-                                              'Subtotal',
-                                              style: TextStyle(
-                                                color: kTextBlackColor,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                            Text(
-                                              '₦${formattedText(_subTotal)}',
-                                              style: TextStyle(
-                                                color: kTextGreyColor,
-                                                fontSize: 16,
-                                                fontFamily: 'Sen',
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      kSizedBox,
-                                      Container(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text(
-                                              'Delivery Fee',
-                                              style: TextStyle(
-                                                color: kTextBlackColor,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                            Text(
-                                              '₦${formattedText(deliveryFee)}',
-                                              style: TextStyle(
-                                                color: kTextGreyColor,
-                                                fontSize: 16,
-                                                fontFamily: 'Sen',
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      kSizedBox,
-                                      Container(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text(
-                                              'Service Fee',
-                                              style: TextStyle(
-                                                color: kTextBlackColor,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                            Text(
-                                              '₦${formattedText(serviceFee)}',
-                                              style: TextStyle(
-                                                color: kTextGreyColor,
-                                                fontSize: 16,
-                                                fontFamily: 'Sen',
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                kHalfSizedBox,
-                                const Divider(height: 4, color: kGreyColor1),
-                                kHalfSizedBox,
-                                Container(
-                                  child: Row(
+                              ),
+                              const Divider(height: 20, color: kGreyColor1),
+                              Column(
+                                children: [
+                                  Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       const Text(
-                                        'Total',
+                                        'Subtotal',
                                         style: TextStyle(
                                           color: kTextBlackColor,
                                           fontSize: 16,
@@ -554,7 +480,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         ),
                                       ),
                                       Text(
-                                        '₦${formattedText(totalPrice)}',
+                                        '₦${formattedText(_subTotal)}',
                                         style: TextStyle(
                                           color: kTextGreyColor,
                                           fontSize: 16,
@@ -564,9 +490,83 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       ),
                                     ],
                                   ),
-                                )
-                              ],
-                            ),
+                                  kSizedBox,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Delivery Fee',
+                                        style: TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      Text(
+                                        '₦${formattedText(deliveryFee)}',
+                                        style: TextStyle(
+                                          color: kTextGreyColor,
+                                          fontSize: 16,
+                                          fontFamily: 'Sen',
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  kSizedBox,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Service Fee',
+                                        style: TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      Text(
+                                        '₦${formattedText(serviceFee)}',
+                                        style: TextStyle(
+                                          color: kTextGreyColor,
+                                          fontSize: 16,
+                                          fontFamily: 'Sen',
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              kHalfSizedBox,
+                              const Divider(height: 4, color: kGreyColor1),
+                              kHalfSizedBox,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    'Total',
+                                    style: TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    '₦${formattedText(_totalPrice)}',
+                                    style: TextStyle(
+                                      color: kTextGreyColor,
+                                      fontSize: 16,
+                                      fontFamily: 'Sen',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
                           ),
                         ),
                         const SizedBox(height: kDefaultPadding * 2),
@@ -579,7 +579,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               )
                             : MyElevatedButton(
                                 title:
-                                    "Place Order - ₦${formattedText(totalPrice)}",
+                                    "Place Order - ₦${formattedText(_totalPrice)}",
                                 onPressed: () {
                                   _placeOrder();
                                 },
