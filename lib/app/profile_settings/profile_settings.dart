@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:benji_user/app/auth/forgot_password.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/providers/responsive_constant.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -168,12 +169,16 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   //===================== Profile Picture ==========================\\
 
   uploadProfilePic(ImageSource source) async {
-    print('in the image');
+    if (kDebugMode) {
+      print('in the image');
+    }
     final XFile? image = await _picker.pickImage(
       source: source,
     );
     if (image != null) {
-      print('in the image deep');
+      if (kDebugMode) {
+        print('in the image deep');
+      }
       selectedImage = File(image.path);
       setState(() {});
       User? user = await getUser();
@@ -202,11 +207,15 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       // Check if the request was successful (status code 200)
       if (response.statusCode == 200) {
         // Image successfully uploaded
-        print(await response.stream.bytesToString());
-        print('Image uploaded successfully');
+        if (kDebugMode) {
+          print(await response.stream.bytesToString());
+          print('Image uploaded successfully');
+        }
       } else {
         // Handle the error (e.g., server error)
-        print('Error uploading image: ${response.reasonPhrase}');
+        if (kDebugMode) {
+          print('Error uploading image: ${response.reasonPhrase}');
+        }
       }
     }
   }
