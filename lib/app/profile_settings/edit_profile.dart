@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -52,117 +51,6 @@ class _EditProfileState extends State<EditProfile> {
 
   //=========================== BOOL VALUES ====================================\\
   bool _isLoading = false;
-
-  //=========================== IMAGE PICKER ====================================\\
-  // final ImagePicker _picker = ImagePicker();
-  // File? selectedImage;
-
-  //=========================== WIDGETS ====================================\\
-  // Widget _profilePicBottomSheet() {
-  //   return Container(
-  //     height: 140,
-  //     width: MediaQuery.of(context).size.width,
-  //     margin: const EdgeInsets.only(
-  //       left: kDefaultPadding,
-  //       right: kDefaultPadding,
-  //       bottom: kDefaultPadding,
-  //     ),
-  //     child: Column(
-  //       children: <Widget>[
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             Text(
-  //               "Profile photo",
-  //               style: TextStyle(
-  //                 fontSize: 18,
-  //                 fontWeight: FontWeight.w600,
-  //               ),
-  //             ),
-  //             InkWell(
-  //               borderRadius: BorderRadius.circular(80),
-  //               onTap: () {},
-  //               child: Icon(
-  //                 Icons.delete_rounded,
-  //                 color: kAccentColor,
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //         kSizedBox,
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.start,
-  //           children: [
-  //             Column(
-  //               children: [
-  //                 InkWell(
-  //                   onTap: () {
-  //                     pickProfilePic(ImageSource.camera);
-  //                   },
-  //                   borderRadius: BorderRadius.circular(100),
-  //                   child: Container(
-  //                     height: 60,
-  //                     width: 60,
-  //                     decoration: ShapeDecoration(
-  //                       shape: RoundedRectangleBorder(
-  //                         borderRadius: BorderRadius.circular(100),
-  //                         side: BorderSide(
-  //                           width: 0.5,
-  //                           color: kGreyColor1,
-  //                         ),
-  //                       ),
-  //                     ),
-  //                     child: Icon(
-  //                       Icons.camera_alt_rounded,
-  //                       color: kAccentColor,
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 kHalfSizedBox,
-  //                 Text(
-  //                   "Camera",
-  //                 ),
-  //               ],
-  //             ),
-  //             kWidthSizedBox,
-  //             Column(
-  //               children: [
-  //                 InkWell(
-  //                   onTap: () {
-  //                     pickProfilePic(ImageSource.gallery);
-  //                   },
-  //                   borderRadius: BorderRadius.circular(100),
-  //                   child: Container(
-  //                     height: 60,
-  //                     width: 60,
-  //                     decoration: ShapeDecoration(
-  //                       shape: RoundedRectangleBorder(
-  //                         borderRadius: BorderRadius.circular(100),
-  //                         side: BorderSide(
-  //                           width: 0.5,
-  //                           color: kGreyColor1,
-  //                         ),
-  //                       ),
-  //                     ),
-  //                     child: Icon(
-  //                       Icons.image,
-  //                       color: kAccentColor,
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 kHalfSizedBox,
-  //                 Text(
-  //                   "Gallery",
-  //                 ),
-  //               ],
-  //             ),
-  //           ],
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   //=========================== FUNCTIONS ====================================\\
   getData() async {
@@ -252,16 +140,6 @@ class _EditProfileState extends State<EditProfile> {
       _isLoading = false;
     });
   }
-
-  // pickProfilePic(ImageSource source) async {
-  //   final XFile? image = await _picker.pickImage(
-  //     source: source,
-  //   );
-  //   if (image != null) {
-  //     selectedImage = File(image.path);
-  //     setState(() {});
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
