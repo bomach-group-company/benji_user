@@ -101,8 +101,7 @@ Future<List<Product>> getProducts({limit = 10}) async {
 
 Future<List<Product>> getProductsBySubCategory(subCategoryId) async {
   final response = await http.get(
-    Uri.parse(
-        '$baseURL/clients/filterProductsBySubCategory/$subCategoryId'),
+    Uri.parse('$baseURL/clients/filterProductsBySubCategory/$subCategoryId'),
     headers: await authHeader(),
   );
 

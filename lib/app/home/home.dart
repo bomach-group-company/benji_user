@@ -99,7 +99,7 @@ class _HomeState extends State<Home> {
         'category': category,
         'product': product,
         'vendor': vendor,
-        'popularVendor': popularVendor,
+        'popularVendor': popularVendor.sublist(0, 3),
         'currentAddress': current,
       };
     });
@@ -436,9 +436,15 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
-          actions: [
-            _data != null
-                ? IconButton(
+          actions: _data == null
+              ? [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: SpinKitDoubleBounce(color: kAccentColor, size: 14),
+                  ),
+                ]
+              : [
+                  IconButton(
                     onPressed: () {
                       showSearch(
                         context: context,
@@ -450,18 +456,10 @@ class _HomeState extends State<Home> {
                       color: kAccentColor,
                       size: deviceType(mediaWidth) > 2 ? 30 : 24,
                     ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SpinKitDoubleBounce(color: kAccentColor, size: 12),
                   ),
-            _data != null
-                ? const CartCard()
-                : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SpinKitDoubleBounce(color: kAccentColor, size: 12),
-                  ),
-          ],
+                  CartCard(),
+                  kHalfWidthSizedBox
+                ],
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
