@@ -88,7 +88,6 @@ class _HomePageProductsState extends State<HomePageProducts> {
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
-        backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
           elevation: 0.0,
           title: "Products",

@@ -130,7 +130,6 @@ class _PopularVendorsState extends State<PopularVendors> {
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
-        backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
           elevation: 0.0,
           title: "Popular Vendors ",
