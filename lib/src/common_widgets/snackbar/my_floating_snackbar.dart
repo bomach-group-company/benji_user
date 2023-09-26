@@ -42,7 +42,7 @@ void mySnackBar(
                 Text(
                   title.toUpperCase(),
                   overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
+                  maxLines: 1,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
