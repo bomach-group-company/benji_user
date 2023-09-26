@@ -48,8 +48,7 @@ class _SendPackageState extends State<SendPackage> {
   final _itemQuantityEC = TextEditingController();
   // var _AddressesState = TextEditingController();
 
-  late final TextEditingController _itemValueEC = TextEditingController()
-    ..text = "NGN";
+  late final TextEditingController _itemValueEC = TextEditingController();
 
   //=============================== FOCUS NODES ==================================\\
   final _pickupFN = FocusNode();
@@ -237,7 +236,7 @@ class _SendPackageState extends State<SendPackage> {
               );
   }
 
-  List<Step> steps() => [
+  List<Step> _steps() => [
         Step(
           subtitle: const Text("details"),
           isActive: _currentStep >= 0,
@@ -669,15 +668,12 @@ class _SendPackageState extends State<SendPackage> {
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Container(
-            padding: const EdgeInsets.all(kDefaultPadding),
+            padding: const EdgeInsets.all(kDefaultPadding / 2),
             child: Form(
               key: _formKey,
               child: Stepper(
                 physics: const BouncingScrollPhysics(),
-                margin: const EdgeInsets.only(
-                  left: kDefaultPadding,
-                  right: kDefaultPadding,
-                ),
+
                 currentStep: _currentStep,
                 onStepContinue: _continueStep,
                 onStepCancel: _cancelStep,
@@ -686,7 +682,7 @@ class _SendPackageState extends State<SendPackage> {
                 elevation: 0.0,
                 // stepIconBuilder: stepIconBuilder,
                 type: StepperType.horizontal,
-                steps: steps(),
+                steps: _steps(),
               ),
             ),
           ),

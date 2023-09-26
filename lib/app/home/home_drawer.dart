@@ -89,7 +89,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 children: [
                   Text(
                     data.email,
+                    maxLines: 1,
                     textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: kTextBlackColor,
                       fontSize: 12,
