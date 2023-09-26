@@ -43,11 +43,12 @@ class HomeDrawer extends StatefulWidget {
 class _HomeDrawerState extends State<HomeDrawer> {
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return Drawer(
       backgroundColor: kPrimaryColor,
       elevation: 10.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-      width: min(MediaQuery.of(context).size.width * 0.8, 400),
+      width: min(media.width * 0.7, 400),
       child: ListView(
         children: [
           MyAppBar(

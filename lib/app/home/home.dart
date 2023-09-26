@@ -457,7 +457,7 @@ class _HomeState extends State<Home> {
                       size: deviceType(mediaWidth) > 2 ? 30 : 24,
                     ),
                   ),
-                  CartCard(),
+                  const CartCard(),
                   kHalfWidthSizedBox
                 ],
         ),
