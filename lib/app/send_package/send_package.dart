@@ -1,16 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:benji_user/app/send_package/pay_for_delivery.dart';
-import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/src/repo/models/package/item_category.dart';
 import 'package:benji_user/src/repo/models/package/item_weight.dart';
-import 'package:benji_user/src/repo/models/user/user_model.dart';
-import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -51,7 +47,9 @@ class _SendPackageState extends State<SendPackage> {
   final _itemWeightEC = TextEditingController();
   final _itemQuantityEC = TextEditingController();
   // var _AddressesState = TextEditingController();
-  final _itemValueEC = TextEditingController();
+
+  late final TextEditingController _itemValueEC = TextEditingController()
+    ..text = "NGN";
 
   //=============================== FOCUS NODES ==================================\\
   final _pickupFN = FocusNode();
@@ -71,7 +69,6 @@ class _SendPackageState extends State<SendPackage> {
     _getData();
   }
 
-  String countryDialCode = '234';
   List<ItemCategory> _category = [];
   List<ItemWeight> _weight = [];
 
@@ -86,99 +83,29 @@ class _SendPackageState extends State<SendPackage> {
     });
   }
 
-  Future<bool> createDeliveryItem({
-    required clientId,
-    required pickUpAddress,
-    required senderName,
-    required senderPhoneNumber,
-    required dropOffAddress,
-    required receiverName,
-    required receiverPhoneNumber,
-    required itemName,
-    required itemCategoryId,
-    required itemWeightId,
-    required itemQuantity,
-    required itemValue,
-  }) async {
-    Map body = {
-      'client_id': clientId,
-      'pickUpAddress': pickUpAddress,
-      'senderName': senderName,
-      'senderPhoneNumber': senderPhoneNumber,
-      'dropOffAddress': dropOffAddress,
-      'receiverName': receiverName,
-      'receiverPhoneNumber': receiverPhoneNumber,
-      'itemName': itemName,
-      'itemCategory_id': itemCategoryId,
-      'itemWeight_id': itemWeightId,
-      'itemQuantity': itemQuantity,
-      'itemValue': itemValue,
-    };
-
-    final response = await http.post(
-      Uri.parse('$baseURL/sendPackage/createItemPackage/'),
-      body: body,
-      headers: await authHeader(),
-    );
-
-    return response.statusCode == 200 && response.body == '"Package Created."';
-  }
-
   _postData() async {
-    setState(() {
-      _processingRequest = true;
-    });
-    await checkAuth(context);
-    User? user = await getUser();
-    // try {
-    bool res = await createDeliveryItem(
-      clientId: user!.id.toString(),
-      dropOffAddress: _dropOffEC.text,
-      itemCategoryId: _itemCategoryEC.text,
-      itemName: _itemNameEC.text,
-      itemQuantity: _itemQuantityEC.text,
-      itemValue: _itemValueEC.text,
-      itemWeightId: _itemWeightEC.text,
-      pickUpAddress: _pickupEC.text,
-      receiverName: _receiverNameEC.text,
-      receiverPhoneNumber: '+$countryDialCode${_receiverPhoneEC.text}',
-      senderName: _senderNameEC.text,
-      senderPhoneNumber: '+$countryDialCode${_senderPhoneEC.text}',
+    Get.to(
+      () => PayForDelivery(
+        status: "Pending payment",
+        senderName: _senderNameEC.text,
+        senderPhoneNumber: _senderPhoneEC.text,
+        receiverName: _receiverNameEC.text,
+        receiverPhoneNumber: _receiverPhoneEC.text,
+        receiverLocation: _dropOffEC.text,
+        itemName: _itemNameEC.text,
+        itemQuantity: _itemQuantityEC.text,
+        itemWeight: _itemWeightEC.text,
+        itemValue: _itemValueEC.text,
+        itemCategoryId: _itemCategoryEC.text,
+      ),
+      routeName: 'PayForDelivery',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
     );
-    if (res) {
-      mySnackBar(
-        context,
-        kSuccessColor,
-        "Success!",
-        "Your delivery request has been submitted",
-        const Duration(seconds: 2),
-      );
-
-      setState(() {
-        _processingRequest = false;
-      });
-      Get.to(
-        () => const PayForDelivery(),
-        routeName: 'PayForDelivery',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
-    } else {
-      mySnackBar(
-        context,
-        kErrorColor,
-        "Failed!",
-        "Failed to submit",
-        const Duration(seconds: 2),
-      );
-      setState(() {
-        _processingRequest = false;
-      });
-    }
   }
 
   _continueStep() {
@@ -665,7 +592,7 @@ class _SendPackageState extends State<SendPackage> {
                 validator: (value) {
                   if (value == null || value!.isEmpty) {
                     itemValueFN.requestFocus();
-                    return "Enter the item's value";
+                    return "Enter the item's value (in Naira)";
                   }
                   return null;
                 },
