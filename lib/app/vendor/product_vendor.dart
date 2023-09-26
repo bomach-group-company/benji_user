@@ -1,6 +1,6 @@
 import 'package:benji_user/app/product/product_detail_screen.dart';
 import 'package:benji_user/app/vendor/all_vendor_products.dart';
-import 'package:benji_user/src/common_widgets/button/category%20button.dart';
+import 'package:benji_user/src/common_widgets/button/category_button.dart';
 import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
@@ -43,6 +43,7 @@ class _ProductVendorState extends State<ProductVendor> {
         await getVendorProductsAndSubCategoryName(widget.vendor.id);
     try {
       activeCategory = productAndSubCategoryName.keys.toList()[0];
+      // ignore: empty_catches
     } catch (e) {}
 
     setState(() {
@@ -118,27 +119,33 @@ class _ProductVendorState extends State<ProductVendor> {
                     ? const EmptyCard(
                         removeButton: true,
                       )
-                    : 
-                    LayoutGrid(
-                                    rowGap: kDefaultPadding/2,
-                                    columnGap: kDefaultPadding/2,
-                                    columnSizes: breakPointDynamic(
-                                        media.width,
-                                        [1.fr],
-                                        [1.fr, 1.fr],
-                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes:  _productAndSubCategoryName![activeCategory]!.isEmpty ? [auto] : List.generate(_productAndSubCategoryName![activeCategory]!.length, (index) => auto),
-                                    children: (_productAndSubCategoryName![activeCategory]
-                                            as List<Product>)
-                                        .map(
-                                          (item) => ProductCard(
-                          product: item,
-                          onTap: () => _toProductDetailScreen(
-                              item),
-                        ),)
-                                        .toList(),
-                                  ),
-                                                 kSizedBox,
+                    : LayoutGrid(
+                        rowGap: kDefaultPadding / 2,
+                        columnGap: kDefaultPadding / 2,
+                        columnSizes: breakPointDynamic(
+                            media.width,
+                            [1.fr],
+                            [1.fr, 1.fr],
+                            [1.fr, 1.fr, 1.fr],
+                            [1.fr, 1.fr, 1.fr, 1.fr]),
+                        rowSizes:
+                            _productAndSubCategoryName![activeCategory]!.isEmpty
+                                ? [auto]
+                                : List.generate(
+                                    _productAndSubCategoryName![activeCategory]!
+                                        .length,
+                                    (index) => auto),
+                        children: (_productAndSubCategoryName![activeCategory]
+                                as List<Product>)
+                            .map(
+                              (item) => ProductCard(
+                                product: item,
+                                onTap: () => _toProductDetailScreen(item),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                kSizedBox,
                 _productAndSubCategoryName!.isEmpty
                     ? const SizedBox()
                     : TextButton(

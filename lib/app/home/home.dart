@@ -15,11 +15,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/appbar/appBar_delivery_location.dart';
-import '../../src/common_widgets/button/category button.dart';
+import '../../src/common_widgets/appbar/appbar_delivery_location.dart';
+import '../../src/common_widgets/button/category_button.dart';
 import '../../src/common_widgets/cart_card.dart';
 import '../../src/common_widgets/product/product_card.dart';
-import '../../src/common_widgets/section/custom_showSearch.dart';
+import '../../src/common_widgets/section/custom_show_search.dart';
 import '../../src/common_widgets/section/see_all_container.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
@@ -523,8 +523,9 @@ class _HomeState extends State<Home> {
                                   },
                                   cardImage:
                                       "assets/images/vendors/ntachi-osa.png",
-                                  vendorName: _data!['vendor'][index].shopName ??
-                                      "Not Available",
+                                  vendorName:
+                                      _data!['vendor'][index].shopName ??
+                                          "Not Available",
                                   typeOfBusiness:
                                       _data!['vendor'][index].shopType.name ??
                                           'Not Available',
@@ -543,36 +544,39 @@ class _HomeState extends State<Home> {
                         ),
                         kSizedBox,
                         Center(
-                          child: 
-                          LayoutGrid(
-                                    rowGap: kDefaultPadding/2,
-                                    columnGap: kDefaultPadding/2,
-                                    columnSizes: breakPointDynamic(
-                                        mediaWidth,
-                                        [1.fr],
-                                        [1.fr, 1.fr],
-                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: _data!['popularVendor']!.isEmpty ? [auto] : List.generate(_data!['popularVendor'].length, (index) => auto),
-                                    children: (_data!['popularVendor']
-                                            as List<VendorModel>)
-                                        .map(
-                                          (item) => VendorsCard(
-                                removeDistance: true,
-                                onTap: () {
-                                  _toVendorPage(item);
-                                },
-                                vendorName:
-                                    item.shopName ?? 'Not Available',
-                                typeOfBusiness: item
-                                        .shopType!
-                                        .name ??
-                                    'Not Available',
-                                rating:
-                                    " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
-                                cardImage: "assets/images/vendors/ntachi-osa.png"),)
-                                        .toList(),
-                                  ),
-                            ),
+                          child: LayoutGrid(
+                            rowGap: kDefaultPadding / 2,
+                            columnGap: kDefaultPadding / 2,
+                            columnSizes: breakPointDynamic(
+                                mediaWidth,
+                                [1.fr],
+                                [1.fr, 1.fr],
+                                [1.fr, 1.fr, 1.fr],
+                                [1.fr, 1.fr, 1.fr, 1.fr]),
+                            rowSizes: _data!['popularVendor']!.isEmpty
+                                ? [auto]
+                                : List.generate(_data!['popularVendor'].length,
+                                    (index) => auto),
+                            children:
+                                (_data!['popularVendor'] as List<VendorModel>)
+                                    .map(
+                                      (item) => VendorsCard(
+                                          removeDistance: true,
+                                          onTap: () {
+                                            _toVendorPage(item);
+                                          },
+                                          vendorName:
+                                              item.shopName ?? 'Not Available',
+                                          typeOfBusiness: item.shopType!.name ??
+                                              'Not Available',
+                                          rating:
+                                              " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
+                                          cardImage:
+                                              "assets/images/vendors/ntachi-osa.png"),
+                                    )
+                                    .toList(),
+                          ),
+                        ),
                         kSizedBox,
                         SeeAllContainer(
                           title: "Products",
@@ -617,26 +621,32 @@ class _HomeState extends State<Home> {
                                       removeButton: true,
                                     )
                                   : LayoutGrid(
-                                    rowGap: kDefaultPadding/2,
-                                    columnGap: kDefaultPadding/2,
-                                    columnSizes: breakPointDynamic(
-                                        mediaWidth,
-                                        [1.fr],
-                                        [1.fr, 1.fr],
-                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: _data!['product'].isEmpty ? [auto] : List.generate(_data!['product'].length, (index) => auto),
-                                    children: (_data!['product']
-                                            as List<Product>)
-                                        .map(
-                                          (item) => ProductCard(
-                                        product: item,
-
-                                        onTap: () => _toProductDetailScreenPage(
-                                            item),
-                                      ),)
-                                        .toList(),
-                                  ),
-                                ),
+                                      rowGap: kDefaultPadding / 2,
+                                      columnGap: kDefaultPadding / 2,
+                                      columnSizes: breakPointDynamic(
+                                          mediaWidth,
+                                          [1.fr],
+                                          [1.fr, 1.fr],
+                                          [1.fr, 1.fr, 1.fr],
+                                          [1.fr, 1.fr, 1.fr, 1.fr]),
+                                      rowSizes: _data!['product'].isEmpty
+                                          ? [auto]
+                                          : List.generate(
+                                              _data!['product'].length,
+                                              (index) => auto),
+                                      children:
+                                          (_data!['product'] as List<Product>)
+                                              .map(
+                                                (item) => ProductCard(
+                                                  product: item,
+                                                  onTap: () =>
+                                                      _toProductDetailScreenPage(
+                                                          item),
+                                                ),
+                                              )
+                                              .toList(),
+                                    ),
+                        ),
                       ],
                     ),
                   ),

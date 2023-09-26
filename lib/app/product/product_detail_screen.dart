@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/providers/constants.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
@@ -318,6 +320,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         color: kAccentColor,
                       ),
                     ),
+                    // ignore: prefer_const_constructors
                     CartCard(),
                   ],
                 )),

@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:benji_user/app/send_package/pay_for_delivery.dart';
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/src/repo/models/package/item_category.dart';
 import 'package:benji_user/src/repo/models/package/item_weight.dart';
@@ -15,8 +18,7 @@ import '../../src/common_widgets/textformfield/my textformfield.dart';
 import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import 'choose_rider.dart';
-import 'itemCategoryDropDownMenu.dart';
+import 'item_category_dropdown_menu.dart';
 
 class SendPackage extends StatefulWidget {
   const SendPackage({super.key});
@@ -156,8 +158,8 @@ class _SendPackageState extends State<SendPackage> {
         _processingRequest = false;
       });
       Get.to(
-        () => const ChooseRider(),
-        routeName: 'ChooseRider',
+        () => const PayForDelivery(),
+        routeName: 'PayForDelivery',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

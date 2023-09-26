@@ -1,5 +1,5 @@
 import 'package:benji_user/app/product/product_detail_screen.dart';
-import 'package:benji_user/src/common_widgets/button/category%20button.dart';
+import 'package:benji_user/src/common_widgets/button/category_button.dart';
 import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:benji_user/src/repo/models/address_model.dart';
@@ -108,6 +108,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                     controller: _scrollController,
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
+                    padding: const EdgeInsets.all(kDefaultPadding / 2),
                     children: [
                       SizedBox(
                         height: 60,
@@ -145,40 +146,43 @@ class _HomePageProductsState extends State<HomePageProducts> {
                               ? const EmptyCard(
                                   removeButton: true,
                                 )
-
                               : LayoutGrid(
-                                    rowGap: kDefaultPadding/2,
-                                    columnGap: kDefaultPadding/2,
-                                    columnSizes: breakPointDynamic(
-                                        media.width,
-                                        [1.fr],
-                                        [1.fr, 1.fr],
-                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes:  _data!['product'].isEmpty ? [auto] : List.generate(_data!['product'].length, (index) => auto),
-                                    children: (_data!['product']
-                                            as List<Product>)
-                                        .map(
-                                          (item) => ProductCard(
-
-                                    onTap: () {
-                                      Get.to(
-                                        () => ProductDetailScreen(
-                                            product: item),
-                                        routeName: 'ProductDetailScreen',
-                                        duration:
-                                            const Duration(milliseconds: 300),
-                                        fullscreenDialog: true,
-                                        curve: Curves.easeIn,
-                                        preventDuplicates: true,
-                                        popGesture: true,
-                                        transition: Transition.rightToLeft,
-                                      );
-                                    },
-                                    product: item,
-                                  ),)
-                                        .toList(),
-                                  ),
-                                                     ],
+                                  rowGap: kDefaultPadding / 2,
+                                  columnGap: kDefaultPadding / 2,
+                                  columnSizes: breakPointDynamic(
+                                      media.width,
+                                      [1.fr],
+                                      [1.fr, 1.fr],
+                                      [1.fr, 1.fr, 1.fr],
+                                      [1.fr, 1.fr, 1.fr, 1.fr]),
+                                  rowSizes: _data!['product'].isEmpty
+                                      ? [auto]
+                                      : List.generate(_data!['product'].length,
+                                          (index) => auto),
+                                  children: (_data!['product'] as List<Product>)
+                                      .map(
+                                        (item) => ProductCard(
+                                          onTap: () {
+                                            Get.to(
+                                              () => ProductDetailScreen(
+                                                  product: item),
+                                              routeName: 'ProductDetailScreen',
+                                              duration: const Duration(
+                                                  milliseconds: 300),
+                                              fullscreenDialog: true,
+                                              curve: Curves.easeIn,
+                                              preventDuplicates: true,
+                                              popGesture: true,
+                                              transition:
+                                                  Transition.rightToLeft,
+                                            );
+                                          },
+                                          product: item,
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                    ],
                   ),
                 ),
         ),

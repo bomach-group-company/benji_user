@@ -12,9 +12,9 @@ class ItemDropDownMenu extends StatelessWidget {
   });
 
   final TextEditingController itemEC;
-  final mediaWidth;
-  final hintText;
-  final dropdownMenuEntries2;
+  final int mediaWidth;
+  final String hintText;
+  final List<DropdownMenuEntry<Object>> dropdownMenuEntries2;
 
   @override
   Widget build(BuildContext context) {

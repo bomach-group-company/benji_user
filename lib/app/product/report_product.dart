@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';

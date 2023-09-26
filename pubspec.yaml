@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   hexcolor: ^3.0.1
+  http:
   cupertino_icons: ^1.0.2
   flutter_spinkit: ^5.2.0
   csc_picker: ^0.2.7
@@ -43,7 +44,7 @@ dependencies:
   path_provider: ^2.1.1
   plugin_platform_interface:
   pdf: ^3.10.4
-  flutter_monnify: ^0.0.3          
+  flutter_monnify: ^0.0.3
 
 dev_dependencies:
   flutter_test:

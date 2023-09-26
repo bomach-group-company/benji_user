@@ -81,16 +81,14 @@ class _ApplyCouponState extends State<ApplyCoupon> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    child: const Text(
-                      'Coupon Code',
-                      style: TextStyle(
-                        color: Color(
-                          0xFF333333,
-                        ),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                  const Text(
+                    'Coupon Code',
+                    style: TextStyle(
+                      color: Color(
+                        0xFF333333,
                       ),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                   kSizedBox,

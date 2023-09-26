@@ -171,43 +171,45 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                     shrinkWrap: true,
                     children: [
                       LayoutGrid(
-                                    rowGap: kDefaultPadding/2,
-                                    columnGap: kDefaultPadding/2,
-                                    columnSizes: breakPointDynamic(
-                                        media.width,
-                                        [1.fr],
-                                        [1.fr, 1.fr],
-                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes:  _vendor!.isEmpty ? [auto] : List.generate(_vendor!.length, (index) => auto),
-                                    children: (_vendor!)
-                                        .map(
-                                          (item) {
-                                            return VendorsCard(
-                              onTap: () {
-                                Get.to(
-                                  () => VendorDetails(
-                                      vendor: item),
-                                  routeName: 'VendorDetails',
-                                  duration: const Duration(milliseconds: 300),
-                                  fullscreenDialog: true,
-                                  curve: Curves.easeIn,
-                                  preventDuplicates: true,
-                                  popGesture: true,
-                                  transition: Transition.rightToLeft,
-                                );
-                              },
-                              cardImage: 'assets/images/vendors/ntachi-osa.png',
-                              vendorName: item.shopName ?? "Not Available",
-                              typeOfBusiness:
-                                  item.shopType?.name ??
-                                      'Not Available',
-                              rating:
-                                  "${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
-                            );}).toList(),
-                                  ),
-                          thatsAllData
+                        rowGap: kDefaultPadding / 2,
+                        columnGap: kDefaultPadding / 2,
+                        columnSizes: breakPointDynamic(
+                            media.width,
+                            [1.fr],
+                            [1.fr, 1.fr],
+                            [1.fr, 1.fr, 1.fr],
+                            [1.fr, 1.fr, 1.fr, 1.fr]),
+                        rowSizes: _vendor!.isEmpty
+                            ? [auto]
+                            : List.generate(_vendor!.length, (index) => auto),
+                        children: (_vendor!).map((item) {
+                          return VendorsCard(
+                            onTap: () {
+                              Get.to(
+                                () => VendorDetails(vendor: item),
+                                routeName: 'VendorDetails',
+                                duration: const Duration(milliseconds: 300),
+                                fullscreenDialog: true,
+                                curve: Curves.easeIn,
+                                preventDuplicates: true,
+                                popGesture: true,
+                                transition: Transition.rightToLeft,
+                              );
+                            },
+                            distance: "30 mins",
+                            cardImage: 'assets/images/vendors/ntachi-osa.png',
+                            vendorName: item.shopName ?? "Not Available",
+                            typeOfBusiness:
+                                item.shopType?.name ?? 'Not Available',
+                            rating:
+                                "${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
+                          );
+                        }).toList(),
+                      ),
+                      thatsAllData
                           ? Container(
-                              margin: const EdgeInsets.only(top: 20, bottom: 20),
+                              margin:
+                                  const EdgeInsets.only(top: 20, bottom: 20),
                               height: 10,
                               width: 10,
                               decoration: ShapeDecoration(
@@ -215,8 +217,10 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                                   color: kPageSkeletonColor),
                             )
                           : const SizedBox(),
-                          loadMore ?
-                          Center(child: SpinKitChasingDots(color: kAccentColor),)
+                      loadMore
+                          ? Center(
+                              child: SpinKitChasingDots(color: kAccentColor),
+                            )
                           : const SizedBox()
                     ],
                   ),

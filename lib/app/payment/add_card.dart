@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -183,26 +185,24 @@ class _AddNewCardState extends State<AddNewCard> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Expanded(
-                                  child: Container(
-                                    child: MyCardExpiryTextFormField(
-                                      controller: cardMonthEC,
-                                      hintText: "MM",
-                                      textInputAction: TextInputAction.next,
-                                      onSaved: (value) {
-                                        cardMonthEC.text = value;
-                                      },
-                                      onChanged: (value) {
-                                        if (value.length == 2) {
-                                          FocusScope.of(context).nextFocus();
-                                        }
-                                      },
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          cardMonthFN.requestFocus();
-                                          return "Month";
-                                        }
-                                      },
-                                    ),
+                                  child: MyCardExpiryTextFormField(
+                                    controller: cardMonthEC,
+                                    hintText: "MM",
+                                    textInputAction: TextInputAction.next,
+                                    onSaved: (value) {
+                                      cardMonthEC.text = value;
+                                    },
+                                    onChanged: (value) {
+                                      if (value.length == 2) {
+                                        FocusScope.of(context).nextFocus();
+                                      }
+                                    },
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        cardMonthFN.requestFocus();
+                                        return "Month";
+                                      }
+                                    },
                                   ),
                                 ),
                                 Container(
@@ -216,26 +216,24 @@ class _AddNewCardState extends State<AddNewCard> {
                                   ),
                                 ),
                                 Expanded(
-                                  child: Container(
-                                    child: MyCardExpiryTextFormField(
-                                      controller: cardYearEC,
-                                      hintText: "YY",
-                                      textInputAction: TextInputAction.next,
-                                      onSaved: (value) {
-                                        cardYearEC.text = value;
-                                      },
-                                      onChanged: (value) {
-                                        if (value.length == 2) {
-                                          FocusScope.of(context).nextFocus();
-                                        }
-                                      },
-                                      validator: (value) {
-                                        if (value == null || value!.isEmpty) {
-                                          cardYearFN.requestFocus();
-                                          return "Year";
-                                        }
-                                      },
-                                    ),
+                                  child: MyCardExpiryTextFormField(
+                                    controller: cardYearEC,
+                                    hintText: "YY",
+                                    textInputAction: TextInputAction.next,
+                                    onSaved: (value) {
+                                      cardYearEC.text = value;
+                                    },
+                                    onChanged: (value) {
+                                      if (value.length == 2) {
+                                        FocusScope.of(context).nextFocus();
+                                      }
+                                    },
+                                    validator: (value) {
+                                      if (value == null || value!.isEmpty) {
+                                        cardYearFN.requestFocus();
+                                        return "Year";
+                                      }
+                                    },
                                   ),
                                 ),
                               ],
