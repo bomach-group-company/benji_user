@@ -36,10 +36,10 @@ class _ChooseRiderState extends State<ChooseRider> {
 
   Position? _userPosition;
 
-  static const LatLng _vendorLocation =
+  static const LatLng _riderLocation =
       LatLng(6.463810164127019, 7.539888438605598);
   final List<LatLng> _polylineCoordinates = [];
-  // List<LatLng> _latLng = <LatLng>[_userLocation, _vendorLocation];
+  // List<LatLng> _latLng = <LatLng>[_userLocation, _riderLocation];
   Uint8List? _markerImage;
   final List<Marker> _markers = <Marker>[];
   final List<MarkerId> _markerId = <MarkerId>[
@@ -53,7 +53,7 @@ class _ChooseRiderState extends State<ChooseRider> {
     "assets/icons/delivery_bike.png",
   ];
   //============================================================= BOOL VALUES ======================================================================\\
-  bool _isExpanded = false;
+  final bool _isExpanded = false;
 
   //========================================================== GlobalKeys ============================================================\\
 
@@ -149,7 +149,7 @@ class _ChooseRiderState extends State<ChooseRider> {
     );
     List<LatLng> latLng = <LatLng>[
       LatLng(userLocation.latitude, userLocation.longitude),
-      _vendorLocation
+      _riderLocation
     ];
     for (int i = 0; i < _customMarkers.length; i++) {
       final Uint8List markerIcon =
@@ -181,7 +181,7 @@ class _ChooseRiderState extends State<ChooseRider> {
   //   PolylineResult _result = await _polyLinePoints.getRouteBetweenCoordinates(
   //     googleMapsApiKey,
   //     PointLatLng(_userLocation.latitude, _userLocation.longitude),
-  //     PointLatLng(_vendorLocation.latitude, _vendorLocation.longitude),
+  //     PointLatLng(_riderLocation.latitude, _riderLocation.longitude),
   //   );
 
   //   if (_result.points.isNotEmpty) {
