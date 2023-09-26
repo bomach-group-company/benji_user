@@ -83,7 +83,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
   //=================================== ALL VARIABLES ==========================================\\
 
   // Map? _data;
-  String countryDialCode = '234';
+  String countryDialCode = '+234';
   final double _subTotal = 0;
   double _totalPrice = 0;
   double deliveryFee = 700;
@@ -172,7 +172,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
       _processingRequest = true;
     });
     await checkAuth(context);
-    User? user = await getUser();
+    // User? user = await getUser();
     DateTime now = DateTime.now();
     String formattedDateAndTime = formatDateAndTime(now);
 
@@ -369,7 +369,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
                 Lottie.asset(
                   "assets/animations/delivery/frame_2.json",
                   alignment: Alignment.center,
-                  height: 150,
+                  fit: BoxFit.contain,
                 ),
                 kSizedBox,
                 const Text(
@@ -440,6 +440,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
                               style: TextStyle(
                                 color: kSecondaryColor,
                                 fontSize: 12,
+                                fontFamily: 'sen',
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
