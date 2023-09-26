@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:benji_user/src/others/my_future_builder.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +47,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
       backgroundColor: kPrimaryColor,
       elevation: 10.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-      width: MediaQuery.of(context).size.width * 0.8,
+      width: min(MediaQuery.of(context).size.width * 0.8, 400),
       child: ListView(
         children: [
           MyAppBar(
