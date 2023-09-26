@@ -100,11 +100,11 @@ class _PopularVendorsState extends State<PopularVendors> {
     List<VendorModel> vendor = await getPopularVendors();
 
     _vendor ??= [];
-    thatsAllData = start >= 10; 
+    thatsAllData = start >= 10;
     if (!thatsAllData) {
-    setState(() {
-      _vendor = _vendor! + vendor.sublist(0, min(5, vendor.length));
-    });
+      setState(() {
+        _vendor = _vendor! + vendor.sublist(0, min(5, vendor.length));
+      });
     }
   }
 

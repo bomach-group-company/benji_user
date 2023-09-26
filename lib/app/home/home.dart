@@ -456,7 +456,7 @@ class _HomeState extends State<Home> {
                     child: SpinKitDoubleBounce(color: kAccentColor, size: 12),
                   ),
             _data != null
-                ? const CartCard()
+                ? CartCard()
                 : Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SpinKitDoubleBounce(color: kAccentColor, size: 12),
