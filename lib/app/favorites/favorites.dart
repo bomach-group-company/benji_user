@@ -156,9 +156,7 @@ class _FavoritesState extends State<Favorites>
         appBar: MyAppBar(
           title: "Favorites",
           elevation: 0.0,
-          actions: const [
-            CartCard(),
-          ],
+          actions: const [CartCard(), kHalfWidthSizedBox],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
@@ -232,25 +230,32 @@ class _FavoritesState extends State<Favorites>
                                 list: snapshot.data!.isEmpty
                                     ? const EmptyCard()
                                     : LayoutGrid(
-                                    rowGap: kDefaultPadding/2,
-                                    columnGap: kDefaultPadding/2,
-                                    columnSizes: breakPointDynamic(
-                                        mediaWidth,
-                                        [1.fr],
-                                        [1.fr, 1.fr],
-                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: snapshot.data!.isEmpty ? [auto] :List.generate(snapshot.data!.length, (index) => auto),
-                                    children: (snapshot.data
-                                            as List<Product>)
-                                        .map(
-                                          (item) => ProductCard(
-                                          onTap: () => _toProductDetailsScreen(
-                                              item),
-                                          product: item,
-                                        ),)
-                                        .toList(),
-                                  ),
-                                  ),
+                                        rowGap: kDefaultPadding / 2,
+                                        columnGap: kDefaultPadding / 2,
+                                        columnSizes: breakPointDynamic(
+                                            mediaWidth,
+                                            [1.fr],
+                                            [1.fr, 1.fr],
+                                            [1.fr, 1.fr, 1.fr],
+                                            [1.fr, 1.fr, 1.fr, 1.fr]),
+                                        rowSizes: snapshot.data!.isEmpty
+                                            ? [auto]
+                                            : List.generate(
+                                                snapshot.data!.length,
+                                                (index) => auto),
+                                        children:
+                                            (snapshot.data as List<Product>)
+                                                .map(
+                                                  (item) => ProductCard(
+                                                    onTap: () =>
+                                                        _toProductDetailsScreen(
+                                                            item),
+                                                    product: item,
+                                                  ),
+                                                )
+                                                .toList(),
+                                      ),
+                              ),
                             );
                           }
                           return Center(
@@ -270,36 +275,41 @@ class _FavoritesState extends State<Favorites>
                                 radius: const Radius.circular(10),
                                 child: snapshot.data!.isEmpty
                                     ? const EmptyCard()
-                                    : 
-                                    LayoutGrid(
-                                    rowGap: kDefaultPadding/2,
-                                    columnGap: kDefaultPadding/2,
-                                    columnSizes: breakPointDynamic(
-                                        mediaWidth,
-                                        [1.fr],
-                                        [1.fr, 1.fr],
-                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: snapshot.data!.isEmpty ? [auto] : List.generate(snapshot.data!.length, (index) => auto),
-                                    children: (snapshot.data
-                                            as List<VendorModel>)
-                                        .map(
-                                          (item) => VendorsCard(
-                                removeDistance: true,
-                                onTap: () {
-                                  _vendorDetailPage(
-                                              item);
-                                },
-                                vendorName:
-                                    item.shopName ?? 'Not Available',
-                                typeOfBusiness: item
-                                        .shopType!
-                                        .name ??
-                                    'Not Available',
-                                rating:
-                                    " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
-                                cardImage: "assets/images/vendors/ntachi-osa.png"),)
-                                        .toList(),
-                                  ),
+                                    : LayoutGrid(
+                                        rowGap: kDefaultPadding / 2,
+                                        columnGap: kDefaultPadding / 2,
+                                        columnSizes: breakPointDynamic(
+                                            mediaWidth,
+                                            [1.fr],
+                                            [1.fr, 1.fr],
+                                            [1.fr, 1.fr, 1.fr],
+                                            [1.fr, 1.fr, 1.fr, 1.fr]),
+                                        rowSizes: snapshot.data!.isEmpty
+                                            ? [auto]
+                                            : List.generate(
+                                                snapshot.data!.length,
+                                                (index) => auto),
+                                        children:
+                                            (snapshot.data as List<VendorModel>)
+                                                .map(
+                                                  (item) => VendorsCard(
+                                                      removeDistance: true,
+                                                      onTap: () {
+                                                        _vendorDetailPage(item);
+                                                      },
+                                                      vendorName:
+                                                          item.shopName ??
+                                                              'Not Available',
+                                                      typeOfBusiness:
+                                                          item.shopType!.name ??
+                                                              'Not Available',
+                                                      rating:
+                                                          " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
+                                                      cardImage:
+                                                          "assets/images/vendors/ntachi-osa.png"),
+                                                )
+                                                .toList(),
+                                      ),
                               ),
                             );
                           }

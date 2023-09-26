@@ -80,7 +80,7 @@ Future<VendorModel> getVendorById(id) async {
   }
 }
 
-Future<List<VendorModel>> getPopularVendors({start = 1, end = 10}) async {
+Future<List<VendorModel>> getPopularVendors() async {
   final response = await http.get(
     Uri.parse('$baseURL/clients/getPopularVendors'),
     headers: await authHeader(),

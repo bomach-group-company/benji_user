@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:benji_user/app/vendor/vendor_details.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:flutter/gestures.dart';
@@ -95,14 +97,15 @@ class _PopularVendorsState extends State<PopularVendors> {
 
   _getData() async {
     await checkAuth(context);
-    List<VendorModel> vendor = await getPopularVendors(start: start, end: end);
+    List<VendorModel> vendor = await getPopularVendors();
 
     _vendor ??= [];
-
-    setState(() {
-      thatsAllData = vendor.isEmpty;
-      _vendor = _vendor! + vendor;
-    });
+    thatsAllData = start >= 10;
+    if (!thatsAllData) {
+      setState(() {
+        _vendor = _vendor! + vendor.sublist(0, min(5, vendor.length));
+      });
+    }
   }
 
 //============================================== CONTROLLERS =================================================\\
@@ -127,7 +130,6 @@ class _PopularVendorsState extends State<PopularVendors> {
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
-        backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
           elevation: 0.0,
           title: "Popular Vendors ",

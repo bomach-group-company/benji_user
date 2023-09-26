@@ -10,6 +10,8 @@ void mySnackBar(
   String message,
   Duration duration,
 ) {
+    final media = MediaQuery.of(context).size;
+
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Row(
@@ -32,20 +34,22 @@ void mySnackBar(
             ),
           ),
           kHalfWidthSizedBox,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title.toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: kTextBlackColor,
+          Container(
+            constraints: BoxConstraints(maxWidth: media.width-175),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title.toUpperCase(),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: kTextBlackColor,
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 2,
-                child: Text(
+                Text(
                   message.toUpperCase(),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
@@ -55,8 +59,8 @@ void mySnackBar(
                     color: kGreyColor1,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

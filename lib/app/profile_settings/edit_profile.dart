@@ -68,6 +68,8 @@ class _EditProfileState extends State<EditProfile> {
 
     // User data update
     final url = Uri.parse('$baseURL/clients/changeClient/${user!.id}');
+    final url_get_user = Uri.parse('$baseURL/clients/getClient/${user.id}');
+    
     final body = {
       'first_name': _userFirstNameEC.text,
       'last_name': _userLastNameEC.text,
@@ -79,33 +81,23 @@ class _EditProfileState extends State<EditProfile> {
       body: body,
       headers: await authHeader(),
     );
+    final get_response = await http.get(
+      url_get_user,
+      headers: await authHeader(),
+    );
     print(response.body);
     print(response.statusCode);
 
-    // Image update
-    // final url2 =
-    //     Uri.parse('$baseURL/clients/changeClientProfileImage/${user.id}');
-
-    // final body2 = {
-    //   'image': selectedImage!,
-    // };
-    // print(body2);
-
-    // final response2 = await http.put(
-    //   url2,
-    //   body: body2,
-    //   headers: await authHeader(null, 'multipart/form-data'),
-    // );
-
-    // print(response2.body);
-    // print(response2.statusCode);
-
     try {
-      await saveUser(response.body, user.token!);
-      return response.statusCode == 200;
-    } catch (e) {
+      if (response.statusCode == 200 && get_response.statusCode == 200){
+        await saveUser(get_response.body, user.token!);
+      return true;
+      }
+    } catch (e){
       return false;
     }
+    return false;
+
   }
 
   Future<void> updateData() async {

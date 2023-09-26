@@ -25,7 +25,7 @@ class AppBarDeliveryLocation extends StatelessWidget {
           InkWell(
             onTap: toDeliverToPage,
             child: Container(
-              constraints: BoxConstraints(maxWidth: media.width / 2),
+              constraints: BoxConstraints(maxWidth: media.width - 200),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -35,8 +35,8 @@ class VendorsCard extends StatelessWidget {
           shadows: const [
             BoxShadow(
               color: Color(0x0F000000),
-              blurRadius: 24,
-              offset: Offset(0, 4),
+              blurRadius: 5,
+              // offset: Offset(0, 4),
               spreadRadius: 0,
             )
           ],

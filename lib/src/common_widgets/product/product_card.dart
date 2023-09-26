@@ -25,18 +25,19 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
       child: Container(
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14.19),
+            borderRadius: BorderRadius.circular(16),
           ),
           shadows: const [
             BoxShadow(
               color: Color(0x19616161),
-              blurRadius: 24,
-              offset: Offset(0, 0),
-              spreadRadius: 7,
+              blurRadius: 5,
+              // offset: Offset(0, 4),
+              spreadRadius: 0,
             )
           ],
         ),
@@ -49,8 +50,8 @@ class ProductCard extends StatelessWidget {
               decoration: const ShapeDecoration(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(7.20),
+                    topRight: Radius.circular(7.20),
                   ),
                 ),
                 image: DecorationImage(
