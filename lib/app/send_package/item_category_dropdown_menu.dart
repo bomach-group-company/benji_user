@@ -12,7 +12,7 @@ class ItemDropDownMenu extends StatelessWidget {
   });
 
   final TextEditingController itemEC;
-  final int mediaWidth;
+  final double mediaWidth;
   final String hintText;
   final List<DropdownMenuEntry<Object>> dropdownMenuEntries2;
 
