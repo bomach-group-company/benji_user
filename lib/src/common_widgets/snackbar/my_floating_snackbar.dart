@@ -32,20 +32,21 @@ void mySnackBar(
             ),
           ),
           kHalfWidthSizedBox,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title.toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: kTextBlackColor,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title.toUpperCase(),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: kTextBlackColor,
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 2,
-                child: Text(
+                Text(
                   message.toUpperCase(),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
@@ -55,8 +56,8 @@ void mySnackBar(
                     color: kGreyColor1,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

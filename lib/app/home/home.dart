@@ -99,7 +99,7 @@ class _HomeState extends State<Home> {
         'category': category,
         'product': product,
         'vendor': vendor,
-        'popularVendor': popularVendor,
+        'popularVendor': popularVendor.sublist(0, 3),
         'currentAddress': current,
       };
     });
