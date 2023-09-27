@@ -71,6 +71,8 @@ class ProductCard extends StatelessWidget {
                   SizedBox(
                     child: Text(
                       product.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: kTextBlackColor,
                         fontSize: 20,
@@ -82,6 +84,8 @@ class ProductCard extends StatelessWidget {
                   SizedBox(
                     child: Text(
                       product.vendorId.shopName!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: kTextGreyColor,
                         fontSize: 16,
