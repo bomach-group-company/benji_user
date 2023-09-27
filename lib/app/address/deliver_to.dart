@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:math';
+
 import 'package:benji_user/app/checkout/checkout_screen.dart';
 import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
@@ -173,6 +175,7 @@ class _DeliverToState extends State<DeliverTo> {
 
   @override
   Widget build(BuildContext context) {
+    double mediaWidth = MediaQuery.of(context).size.width;
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
@@ -227,61 +230,70 @@ class _DeliverToState extends State<DeliverTo> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          _addressData!['addresses'][index]
-                                              .title
-                                              .toUpperCase(),
-                                          style: const TextStyle(
-                                            color: kTextBlackColor,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w700,
+                                        SizedBox(
+                                          width: min(
+                                              mediaWidth - 200,
+                                              15.0 *
+                                                  _addressData!['addresses']
+                                                          [index]
+                                                      .title
+                                                      .length),
+                                          child: Text(
+                                            _addressData!['addresses'][index]
+                                                .title
+                                                .toUpperCase(),
+                                            style: const TextStyle(
+                                              color: kTextBlackColor,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w700,
+                                            ),
                                           ),
                                         ),
                                         kWidthSizedBox,
-                                        Container(
-                                          width: 58,
-                                          height: 24,
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 8,
-                                            vertical: 4,
-                                          ),
-                                          decoration: ShapeDecoration(
-                                            color: _currentOption ==
-                                                    _addressData!['addresses']
-                                                            [index]
-                                                        .id
-                                                ? const Color(0xFFFFCFCF)
-                                                : kTransparentColor,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                          ),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                _currentOption ==
-                                                        _addressData![
-                                                                    'addresses']
-                                                                [index]
-                                                            .id
-                                                    ? 'Default'
-                                                    : '',
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                  color: kAccentColor,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w400,
+                                        _currentOption !=
+                                                _addressData!['addresses']
+                                                        [index]
+                                                    .id
+                                            ? const SizedBox()
+                                            : Container(
+                                                width: 58,
+                                                height: 24,
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 8,
+                                                  vertical: 4,
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
+                                                decoration: ShapeDecoration(
+                                                  color:
+                                                      const Color(0xFFFFCFCF),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                  ),
+                                                ),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      'Default',
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                      style: TextStyle(
+                                                        color: kAccentColor,
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
                                       ],
                                     ),
                                     subtitle: Padding(

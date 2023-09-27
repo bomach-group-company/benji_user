@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -186,7 +188,7 @@ class _AddressesState extends State<Addresses> {
   @override
   Widget build(BuildContext context) {
     // double mediaHeight = MediaQuery.of(context).size.height;
-    // double mediaWidth = MediaQuery.of(context).size.width;
+    double mediaWidth = MediaQuery.of(context).size.width;
     return RefreshIndicator(
       onRefresh: _handleRefresh,
       color: kAccentColor,
@@ -243,15 +245,23 @@ class _AddressesState extends State<Addresses> {
                                 title: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      addressData!['addresses'][index]
-                                              .title
-                                              .toUpperCase() ??
-                                          '',
-                                      style: const TextStyle(
-                                        color: kTextBlackColor,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
+                                    SizedBox(
+                                      width: min(
+                                          mediaWidth - 150,
+                                          15.0 *
+                                              addressData!['addresses'][index]
+                                                  .title
+                                                  .length),
+                                      child: Text(
+                                        addressData!['addresses'][index]
+                                                .title
+                                                .toUpperCase() ??
+                                            '',
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ),
                                     kWidthSizedBox,
