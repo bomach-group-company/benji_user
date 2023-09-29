@@ -18,7 +18,8 @@ import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 
 class HomePageProducts extends StatefulWidget {
-  const HomePageProducts({super.key});
+  final String? activeSubCategory;
+  const HomePageProducts({super.key, this.activeSubCategory});
 
   @override
   State<HomePageProducts> createState() => _HomePageProductsState();
@@ -29,6 +30,9 @@ class _HomePageProductsState extends State<HomePageProducts> {
   @override
   void initState() {
     super.initState();
+    if (widget.activeSubCategory != null) {
+      activeSubCategory = widget.activeSubCategory!;
+    }
     _getData();
   }
 
@@ -39,7 +43,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
   }
 
   Map? _data;
-  int activeCategory = 0;
+  String activeSubCategory = '';
 
   _getData() async {
     await checkAuth(context);
@@ -51,15 +55,24 @@ class _HomePageProductsState extends State<HomePageProducts> {
     }
 
     List<Product> product = [];
-    List<SubCategory> category = await getSubCategories();
+    List<SubCategory> subCategory = await getSubCategories();
+    SubCategory activeSub;
+    if (activeSubCategory == '' && subCategory.isNotEmpty) {
+      activeSub = subCategory[0];
+      activeSubCategory = activeSub.id;
+    } else {
+      activeSub =
+          subCategory.firstWhere((element) => element.id == activeSubCategory);
+    }
+
     try {
-      product = await getProductsBySubCategory(category[activeCategory].id);
+      product = await getProductsBySubCategory(activeSub.id);
     } catch (e) {
       product = [];
     }
     setState(() {
       _data = {
-        'category': category,
+        'subCategory': subCategory,
         'product': product,
       };
     });
@@ -112,7 +125,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                       SizedBox(
                         height: 60,
                         child: ListView.builder(
-                          itemCount: _data!['category'].length,
+                          itemCount: _data!['subCategory'].length,
                           scrollDirection: Axis.horizontal,
                           physics: const BouncingScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) =>
@@ -121,16 +134,19 @@ class _HomePageProductsState extends State<HomePageProducts> {
                             child: CategoryButton(
                               onPressed: () {
                                 setState(() {
-                                  activeCategory = index;
+                                  activeSubCategory =
+                                      _data!['subCategory'][index].id;
                                   _data!['product'] = null;
                                   _getData();
                                 });
                               },
-                              title: _data!['category'][index].name,
-                              bgColor: index == activeCategory
+                              title: _data!['subCategory'][index].name,
+                              bgColor: activeSubCategory ==
+                                      _data!['subCategory'][index].id
                                   ? kAccentColor
                                   : kDefaultCategoryBackgroundColor,
-                              categoryFontColor: index == activeCategory
+                              categoryFontColor: activeSubCategory ==
+                                      _data!['subCategory'][index].id
                                   ? kPrimaryColor
                                   : kTextGreyColor,
                             ),
