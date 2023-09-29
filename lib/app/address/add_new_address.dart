@@ -1,9 +1,10 @@
 // ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
 
+import 'package:benji_user/src/common_widgets/textformfield/my_maps_textformfield.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
-import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -35,21 +36,23 @@ class _AddNewAddressState extends State<AddNewAddress> {
 
   //===================== KEYS =======================\\
   final _formKey = GlobalKey<FormState>();
-  final _cscPickerKey = GlobalKey<CSCPickerState>();
+  // final _cscPickerKey = GlobalKey<CSCPickerState>();
 
   //===================== CONTROLLERS =======================\\
   final TextEditingController _addressTitleEC = TextEditingController();
-  final TextEditingController _recipientNameEC = TextEditingController();
-  final TextEditingController _streetAddressEC = TextEditingController();
-  final TextEditingController _apartmentDetailsEC = TextEditingController();
+  // final TextEditingController _recipientNameEC = TextEditingController();
+  // final TextEditingController _streetAddressEC = TextEditingController();
+  // final TextEditingController _apartmentDetailsEC = TextEditingController();
   final TextEditingController _phoneNumberEC = TextEditingController();
+  final TextEditingController _mapsLocationEC = TextEditingController();
 
   //===================== FOCUS NODES =======================\\
   final FocusNode _addressTitleFN = FocusNode();
   final FocusNode _recipientNameFN = FocusNode();
-  final FocusNode _streetAddressFN = FocusNode();
-  final FocusNode _apartmentDetailsFN = FocusNode();
+  // final FocusNode _streetAddressFN = FocusNode();
+  // final FocusNode _apartmentDetailsFN = FocusNode();
   final FocusNode _phoneNumberFN = FocusNode();
+  final FocusNode _mapsLocationFN = FocusNode();
 
   //===================== ALL VARIABLES =======================\\
   String? country;
@@ -70,10 +73,10 @@ class _AddNewAddressState extends State<AddNewAddress> {
     final body = {
       'user_id': user!.id.toString(),
       'title': _addressTitleEC.text,
-      'recipient_name': _recipientNameEC.text,
+      // 'recipient_name': _recipientNameEC.text,
       'phone': "+$countryDialCode${_phoneNumberEC.text}",
-      'street_address': _streetAddressEC.text,
-      'details': _apartmentDetailsEC.text,
+      // 'street_address': _streetAddressEC.text,
+      // 'details': _apartmentDetailsEC.text,
       'country': countryList[countryList.length - 1],
       'state': state,
       'city': city,
@@ -162,6 +165,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -238,113 +242,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Recipient Name',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        kHalfSizedBox,
-                        MyTextFormField(
-                          hintText: "Enter recipient name",
-                          controller: _recipientNameEC,
-                          textInputAction: TextInputAction.next,
-                          textInputType: TextInputType.name,
-                          focusNode: _recipientNameFN,
-                          validator: (value) {
-                            //username pattern
-                            //Min. of 3 characters
-                            RegExp userNamePattern = RegExp(r'^.{3,}$');
-                            if (value == null || value!.isEmpty) {
-                              _recipientNameFN.requestFocus();
-                              return "Enter your name";
-                            } else if (!userNamePattern.hasMatch(value)) {
-                              _recipientNameFN.requestFocus();
-                              return "Please enter a valid name";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _recipientNameEC.text = value!;
-                          },
-                        ),
-                      ],
-                    ),
-                    kSizedBox,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Street Address',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        kHalfSizedBox,
-                        MyTextFormField(
-                          hintText: "E.g 123 Main Street",
-                          controller: _streetAddressEC,
-                          textInputAction: TextInputAction.next,
-                          textInputType: TextInputType.streetAddress,
-                          focusNode: _streetAddressFN,
-                          validator: (value) {
-                            RegExp streetAddressPattern = RegExp(r'^.{4,}$');
-
-                            if (value == null || value!.isEmpty) {
-                              _streetAddressFN.requestFocus();
-                              return "Enter your street address";
-                            } else if (!streetAddressPattern.hasMatch(value)) {
-                              _streetAddressFN.requestFocus();
-                              return "Please enter a valid street address";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _streetAddressEC.text = value!;
-                          },
-                        ),
-                      ],
-                    ),
-                    kSizedBox,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Details (Door, Apartment Number)',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        kHalfSizedBox,
-                        MyTextFormField(
-                          hintText: "E.g Suite B3",
-                          controller: _apartmentDetailsEC,
-                          textInputAction: TextInputAction.next,
-                          textInputType: TextInputType.text,
-                          focusNode: _apartmentDetailsFN,
-                          validator: (value) {
-                            if (value == null || value!.isEmpty) {
-                              _apartmentDetailsFN.requestFocus();
-                              return "Enter your apartment detail";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _apartmentDetailsEC.text = value!;
-                          },
-                        ),
-                      ],
-                    ),
-                    kSizedBox,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
                           'Phone Number',
                           style: TextStyle(
                             color: kTextBlackColor,
@@ -382,12 +279,11 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         ),
                       ],
                     ),
-                    kSizedBox,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Localization',
+                          'Your Location',
                           style: TextStyle(
                             color: kTextBlackColor,
                             fontSize: 14,
@@ -395,28 +291,77 @@ class _AddNewAddressState extends State<AddNewAddress> {
                           ),
                         ),
                         kHalfSizedBox,
-                        CSCPicker(
-                          countryFilter: const [CscCountry.Nigeria],
-                          key: _cscPickerKey,
-                          layout: Layout.vertical,
-                          countryDropdownLabel: "Select country",
-                          stateDropdownLabel: "Select state",
-                          cityDropdownLabel: "Select city",
-                          onCountryChanged: (data) {
-                            setState(() {
-                              country = data;
-                            });
+                        MyMapsTextFormField(
+                          controller: _mapsLocationEC,
+                          validator: (value) {
+                            return null;
                           },
-                          onStateChanged: (data) {
-                            setState(() {
-                              state = data;
-                            });
-                          },
-                          onCityChanged: (data) {
-                            setState(() {
-                              city = data;
-                            });
-                          },
+                          textInputAction: TextInputAction.done,
+                          focusNode: _mapsLocationFN,
+                          hintText: "Search your location",
+                          textInputType: TextInputType.text,
+                          suffixIcon: InkWell(
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.all(kDefaultPadding),
+                              child: FaIcon(
+                                FontAwesomeIcons.locationDot,
+                                color: kAccentColor,
+                                size: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                        kSizedBox,
+                        Divider(
+                          height: 4,
+                          thickness: 2,
+                          color: kLightGreyColor,
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: const FaIcon(
+                            FontAwesomeIcons.locationArrow,
+                            color: kBlackColor,
+                            size: 18,
+                          ),
+                          label: const Text("Use my current Location"),
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor: kLightGreyColor,
+                            foregroundColor: kTextBlackColor,
+                            fixedSize: Size(media.width, 40),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                        Divider(
+                          height: 4,
+                          thickness: 2,
+                          color: kLightGreyColor,
+                        ),
+                        kSizedBox,
+                        ListTile(
+                          onTap: () {},
+                          leading: FaIcon(
+                            FontAwesomeIcons.locationDot,
+                            color: kGreyColor,
+                            size: 14,
+                          ),
+                          title: const Text(
+                            "Dummy location, location",
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          trailing: FaIcon(
+                            FontAwesomeIcons.chevronRight,
+                            color: kAccentColor,
+                            size: 14,
+                          ),
                         ),
                       ],
                     ),
@@ -424,9 +369,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: kDefaultPadding * 2,
-              ),
+              const SizedBox(height: kDefaultPadding * 2),
               _isLoading
                   ? Center(
                       child: SpinKitChasingDots(

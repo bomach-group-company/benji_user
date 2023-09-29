@@ -3,13 +3,17 @@
 import 'dart:async';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
+import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
+import '../../src/providers/constants.dart';
+import '../../src/providers/keys.dart';
 import '../../theme/colors.dart';
 
 class ChooseRider extends StatefulWidget {
@@ -30,14 +34,22 @@ class _ChooseRiderState extends State<ChooseRider> {
     _loadMapData();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
   //============================================================= ALL VARIABLES ======================================================================\\
 
   //====================================== Setting Google Map Consts =========================================\\
 
   Position? _userPosition;
 
-  static const LatLng _riderLocation =
-      LatLng(6.463810164127019, 7.539888438605598);
+  static const LatLng _riderLocation = pickupLocation;
+
+  static const LatLng pickupLocation =
+      LatLng(6.45540420992054, 7.507061460857368);
+  static const deliveryLocation = LatLng(6.463832607452451, 7.53990682395574);
+
   final List<LatLng> _polylineCoordinates = [];
   // List<LatLng> _latLng = <LatLng>[_userLocation, _riderLocation];
   Uint8List? _markerImage;
@@ -53,7 +65,6 @@ class _ChooseRiderState extends State<ChooseRider> {
     "assets/icons/delivery_bike.png",
   ];
   //============================================================= BOOL VALUES ======================================================================\\
-  final bool _isExpanded = false;
 
   //========================================================== GlobalKeys ============================================================\\
 
@@ -100,7 +111,7 @@ class _ChooseRiderState extends State<ChooseRider> {
     }
     await _getUserCurrentLocation();
     await _loadCustomMarkers();
-    // await _getPolyPoints();
+    getPolyPoints();
   }
 
 //============================================== Get Current Location ==================================================\\
@@ -116,7 +127,7 @@ class _ChooseRiderState extends State<ChooseRider> {
         LatLng(userLocation.latitude, userLocation.longitude);
 
     CameraPosition cameraPosition =
-        CameraPosition(target: latLngPosition, zoom: 12.68);
+        CameraPosition(target: latLngPosition, zoom: 14);
 
     _newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(cameraPosition),
@@ -171,27 +182,45 @@ class _ChooseRiderState extends State<ChooseRider> {
   }
 
   //============================================== Adding polypoints ==================================================\\
-  // _getPolyPoints() async {
-  //   Position _userLocation = await Geolocator.getCurrentPosition(
-  //     desiredAccuracy: LocationAccuracy.high,
-  //   ).then(
-  //     (location) => _userPosition = location,
-  //   );
-  //   PolylinePoints _polyLinePoints = PolylinePoints();
-  //   PolylineResult _result = await _polyLinePoints.getRouteBetweenCoordinates(
-  //     googleMapsApiKey,
-  //     PointLatLng(_userLocation.latitude, _userLocation.longitude),
-  //     PointLatLng(_riderLocation.latitude, _riderLocation.longitude),
-  //   );
+  void getPolyPoints() async {
+    final List<MarkerId> markerId = <MarkerId>[
+      const MarkerId("Pickup Location"),
+      const MarkerId("Delivery Location"),
+    ];
+    List<String> markerTitle = <String>["Pickup Location", "Delivery Location"];
 
-  //   if (_result.points.isNotEmpty) {
-  //     _result.points.forEach(
-  //       (PointLatLng point) =>
-  //           _polylineCoordinates.add(LatLng(point.latitude, point.longitude)),
-  //     );
-  //     setState(() {});
-  //   }
-  // }
+    final List<LatLng> locations = <LatLng>[pickupLocation, deliveryLocation];
+    final List<BitmapDescriptor> markers = <BitmapDescriptor>[
+      BitmapDescriptor.defaultMarker,
+      BitmapDescriptor.defaultMarkerWithHue(8),
+    ];
+
+    for (var i = 0; i < markerId.length; i++) {
+      _markers.add(
+        Marker(
+          markerId: markerId[i],
+          position: locations[i],
+          icon: markers[i],
+          visible: true,
+          infoWindow: InfoWindow(title: markerTitle[i]),
+        ),
+      );
+    }
+
+    PolylinePoints polyLinePoints = PolylinePoints();
+    PolylineResult result = await polyLinePoints.getRouteBetweenCoordinates(
+      googleMapsApiKey,
+      PointLatLng(pickupLocation.latitude, pickupLocation.longitude),
+      PointLatLng(deliveryLocation.latitude, deliveryLocation.longitude),
+    );
+
+    if (result.points.isNotEmpty) {
+      for (var point in result.points) {
+        _polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      }
+      setState(() {});
+    }
+  }
 
 //============================================== Create Google Maps ==================================================\\
 
@@ -201,6 +230,7 @@ class _ChooseRiderState extends State<ChooseRider> {
   }
 
 //========================================================== Navigation =============================================================\\
+  void _toPayOut() {}
 
   @override
   Widget build(BuildContext context) {
@@ -222,22 +252,28 @@ class _ChooseRiderState extends State<ChooseRider> {
                 : GoogleMap(
                     mapType: MapType.normal,
                     onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                        _userPosition!.latitude,
-                        _userPosition!.longitude,
-                      ),
-                      zoom: 12.68,
+                    initialCameraPosition: const CameraPosition(
+                      target: pickupLocation,
+                      zoom: 14,
                     ),
                     markers: Set.of(_markers),
-                    padding: EdgeInsets.only(
-                      bottom: _isExpanded ? media.width * 0.32 : 90,
-                    ),
+                    polylines: {
+                      Polyline(
+                        polylineId: const PolylineId("Delivery route"),
+                        points: _polylineCoordinates,
+                        color: kAccentColor,
+                        consumeTapEvents: true,
+                        geodesic: true,
+                        width: 5,
+                        visible: true,
+                      ),
+                    },
+                    padding: EdgeInsets.only(bottom: media.height * 0.24),
                     compassEnabled: true,
                     mapToolbarEnabled: true,
                     minMaxZoomPreference: MinMaxZoomPreference.unbounded,
                     tiltGesturesEnabled: true,
-                    zoomControlsEnabled: false,
+                    zoomControlsEnabled: true,
                     zoomGesturesEnabled: true,
                     fortyFiveDegreeImageryEnabled: true,
                     myLocationButtonEnabled: true,
@@ -246,6 +282,112 @@ class _ChooseRiderState extends State<ChooseRider> {
                     rotateGesturesEnabled: true,
                     scrollGesturesEnabled: true,
                   ),
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn,
+              bottom: 0,
+              right: 0,
+              left: 0,
+              child: Container(
+                height: media.height * 0.24,
+                width: 200,
+                padding: const EdgeInsets.all(kDefaultPadding / 2),
+                decoration: ShapeDecoration(
+                  shadows: [
+                    BoxShadow(
+                      color: kBlackColor.withOpacity(0.1),
+                      blurRadius: 5,
+                      spreadRadius: 2,
+                      blurStyle: BlurStyle.normal,
+                    ),
+                  ],
+                  color: const Color(0xFFFEF8F8),
+                  shape: const RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 0.50,
+                      color: Color(0xFFFDEDED),
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    ),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: ShapeDecoration(
+                        color: const Color(0xFFFEF8F8),
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(
+                            width: 0.50,
+                            color: Color(0xFFFDEDED),
+                          ),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        shadows: const [
+                          BoxShadow(
+                            color: Color(0x0F000000),
+                            blurRadius: 24,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.all(5),
+                        leading: Image.asset("assets/icons/delivery_bike.png"),
+                        title: const Text(
+                          "Benji Rider",
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        subtitle: Text(
+                          "10 MIN",
+                          style: TextStyle(
+                            color: kTextGreyColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        trailing: Text.rich(
+                          TextSpan(
+                            children: [
+                              const TextSpan(
+                                text: "₦ ",
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 16,
+                                  fontFamily: 'sen',
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              TextSpan(
+                                text: formattedText(5000),
+                                style: const TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    kSizedBox,
+                    MyElevatedButton(
+                      title: "Proceed to Payout",
+                      onPressed: _toPayOut,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

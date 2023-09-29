@@ -1,5 +1,4 @@
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
-import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:benji_user/src/repo/models/package/delivery_item.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
+import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
 import 'view_package.dart';
 

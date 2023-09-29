@@ -1,7 +1,6 @@
 // ignore_for_file: unused_field
 
 import 'package:benji_user/app/favorites/favorites.dart';
-import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendors_card.dart';
 import 'package:benji_user/src/others/my_future_builder.dart';
 import 'package:benji_user/src/repo/models/address_model.dart';
@@ -17,11 +16,12 @@ import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/appbar_delivery_location.dart';
 import '../../src/common_widgets/button/category_button.dart';
-import '../../src/common_widgets/cart_card.dart';
 import '../../src/common_widgets/product/product_card.dart';
 import '../../src/common_widgets/section/custom_show_search.dart';
 import '../../src/common_widgets/section/see_all_container.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
+import '../../src/others/cart_card.dart';
+import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
@@ -615,9 +615,7 @@ class _HomeState extends State<Home> {
                                   child:
                                       SpinKitChasingDots(color: kAccentColor))
                               : _data!['product'].isEmpty
-                                  ? const EmptyCard(
-                                      removeButton: true,
-                                    )
+                                  ? const EmptyCard(removeButton: true)
                                   : LayoutGrid(
                                       rowGap: kDefaultPadding / 2,
                                       columnGap: kDefaultPadding / 2,
