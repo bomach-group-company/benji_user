@@ -133,6 +133,8 @@ class ProductCartContainerState extends State<ProductCartContainer> {
                           SizedBox(
                             child: Text(
                               widget.product.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                 color: kTextBlackColor,
                                 fontSize: 20,
@@ -144,6 +146,8 @@ class ProductCartContainerState extends State<ProductCartContainer> {
                           SizedBox(
                             child: Text(
                               widget.product.description,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: kTextGreyColor,
                                 fontSize: 16,

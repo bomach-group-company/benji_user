@@ -750,7 +750,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                               widget.product.id);
 
                                       setState(() {
-                                        ratings = ratings;
+                                        _ratings = ratings;
                                       });
                                     },
                                     child: const Text(
@@ -793,7 +793,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                           int.parse(active));
 
                                                   setState(() {
-                                                    ratings = ratings;
+                                                    _ratings = ratings;
                                                   });
                                                 },
                                                 child: Row(

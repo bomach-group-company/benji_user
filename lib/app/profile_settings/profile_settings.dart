@@ -169,16 +169,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   //===================== Profile Picture ==========================\\
 
   uploadProfilePic(ImageSource source) async {
-    if (kDebugMode) {
-      print('in the image');
-    }
     final XFile? image = await _picker.pickImage(
       source: source,
     );
     if (image != null) {
-      if (kDebugMode) {
-        print('in the image deep');
-      }
       selectedImage = File(image.path);
       setState(() {});
       User? user = await getUser();
