@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:benji_user/app/favorites/favorites.dart';
 import 'package:benji_user/src/common_widgets/empty.dart';
+import 'package:benji_user/src/common_widgets/section/category_items.dart';
 import 'package:benji_user/src/common_widgets/simple_item/category_item.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendors_card.dart';
 import 'package:benji_user/src/others/my_future_builder.dart';
@@ -607,10 +608,9 @@ class _HomeState extends State<Home> {
                                       ),
                                     ),
                                     enableDrag: true,
-                                    builder: (builder) => const SizedBox(
-                                      height: 100,
-                                      child: Text('hola'),
-                                    ),
+                                    builder: (builder) => CategoryItemSheet(
+                                        subCategory:
+                                            _data?['subCategory'] ?? []),
                                   ),
                                 );
                               }
