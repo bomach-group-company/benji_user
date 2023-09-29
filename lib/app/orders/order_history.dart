@@ -1,4 +1,3 @@
-import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/repo/models/order/order.dart';
 import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/track_order_details_container.dart';
+import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 

@@ -1,4 +1,4 @@
-import 'package:benji_user/src/common_widgets/empty.dart';
+import '../../src/others/empty.dart';
 import 'package:benji_user/src/repo/models/rating/ratings.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/theme/colors.dart';

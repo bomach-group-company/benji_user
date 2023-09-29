@@ -1,7 +1,7 @@
 import 'package:benji_user/app/product/product_detail_screen.dart';
 import 'package:benji_user/app/vendor/all_vendor_products.dart';
 import 'package:benji_user/src/common_widgets/button/category_button.dart';
-import 'package:benji_user/src/common_widgets/empty.dart';
+import '../../src/others/empty.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';

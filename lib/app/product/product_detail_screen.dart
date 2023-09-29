@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:benji_user/src/common_widgets/empty.dart';
 import 'package:benji_user/src/providers/constants.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
@@ -17,10 +16,11 @@ import 'package:readmore/readmore.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
-import '../../src/common_widgets/cart_card.dart';
 import '../../src/common_widgets/rating_view/customer_review_card.dart';
 import '../../src/common_widgets/section/rate_product_dialog.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
+import '../../src/others/cart_card.dart';
+import '../../src/others/empty.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/utils/cart.dart';
 import '../../theme/colors.dart';
@@ -838,9 +838,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                             )
                           : _ratings!.isEmpty
-                              ? const EmptyCard(
-                                  removeButton: true,
-                                )
+                              ? const EmptyCard(removeButton: true)
                               : ListView.separated(
                                   physics: const BouncingScrollPhysics(),
                                   separatorBuilder: (context, index) =>
