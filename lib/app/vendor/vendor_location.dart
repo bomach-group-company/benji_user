@@ -6,6 +6,7 @@ import 'dart:ui' as ui; // Import the ui library with an alias
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -14,6 +15,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/keys.dart';
 import '../../src/repo/models/vendor/vendor.dart';
 import '../../theme/colors.dart';
 import 'all_vendor_products.dart';
@@ -55,7 +57,10 @@ class _VendorLocationState extends State<VendorLocation> {
   // List<LatLng> _latLng = <LatLng>[_userLocation, _vendorLocation];
   Uint8List? _markerImage;
   final List<Marker> _markers = <Marker>[];
-  final List<MarkerId> _markerId = <MarkerId>[const MarkerId("0"), const MarkerId("1")];
+  final List<MarkerId> _markerId = <MarkerId>[
+    const MarkerId("User"),
+    const MarkerId("Vendor")
+  ];
   List<String>? _markerTitle;
   List<String>? _markerSnippet;
   final List<String> _customMarkers = <String>[
@@ -110,7 +115,7 @@ class _VendorLocationState extends State<VendorLocation> {
     }
     await _getUserCurrentLocation();
     await _loadCustomMarkers();
-    // await _getPolyPoints();
+    getPolyPoints();
   }
 
 //============================================== Get Current Location ==================================================\\
@@ -126,7 +131,7 @@ class _VendorLocationState extends State<VendorLocation> {
         LatLng(userLocation.latitude, userLocation.longitude);
 
     CameraPosition cameraPosition =
-        CameraPosition(target: latLngPosition, zoom: 12.68);
+        CameraPosition(target: latLngPosition, zoom: 14);
 
     _newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(cameraPosition),
@@ -181,27 +186,26 @@ class _VendorLocationState extends State<VendorLocation> {
   }
 
   //============================================== Adding polypoints ==================================================\\
-  // _getPolyPoints() async {
-  //   Position _userLocation = await Geolocator.getCurrentPosition(
-  //     desiredAccuracy: LocationAccuracy.high,
-  //   ).then(
-  //     (location) => _userPosition = location,
-  //   );
-  //   PolylinePoints _polyLinePoints = PolylinePoints();
-  //   PolylineResult _result = await _polyLinePoints.getRouteBetweenCoordinates(
-  //     googleMapsApiKey,
-  //     PointLatLng(_userLocation.latitude, _userLocation.longitude),
-  //     PointLatLng(_vendorLocation.latitude, _vendorLocation.longitude),
-  //   );
+  void getPolyPoints() async {
+    Position userLocation = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    ).then(
+      (location) => _userPosition = location,
+    );
+    PolylinePoints polyLinePoints = PolylinePoints();
+    PolylineResult result = await polyLinePoints.getRouteBetweenCoordinates(
+      googleMapsApiKey,
+      PointLatLng(userLocation.latitude, userLocation.longitude),
+      PointLatLng(_vendorLocation.latitude, _vendorLocation.longitude),
+    );
 
-  //   if (_result.points.isNotEmpty) {
-  //     _result.points.forEach(
-  //       (PointLatLng point) =>
-  //           _polylineCoordinates.add(LatLng(point.latitude, point.longitude)),
-  //     );
-  //     setState(() {});
-  //   }
-  // }
+    if (result.points.isNotEmpty) {
+      for (var point in result.points) {
+        _polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      }
+      setState(() {});
+    }
+  }
 
 //============================================== Create Google Maps ==================================================\\
 
@@ -245,9 +249,15 @@ class _VendorLocationState extends State<VendorLocation> {
                   initialCameraPosition: CameraPosition(
                     target: LatLng(
                         _userPosition!.latitude, _userPosition!.longitude),
-                    zoom: 12.68,
+                    zoom: 14,
                   ),
                   markers: Set.of(_markers),
+                  polylines: {
+                    Polyline(
+                      polylineId: const PolylineId("Route to the vendor"),
+                      points: _polylineCoordinates,
+                    ),
+                  },
                   padding: EdgeInsets.only(
                     bottom: _isExpanded ? mediaHeight * 0.32 : 90,
                   ),

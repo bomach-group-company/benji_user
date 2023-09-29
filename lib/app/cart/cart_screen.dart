@@ -1,7 +1,7 @@
 import 'package:benji_user/app/address/deliver_to.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
-import 'package:benji_user/src/common_widgets/empty.dart';
+import '../../src/others/empty.dart';
 import 'package:benji_user/src/common_widgets/product/cart_product_container.dart';
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
@@ -269,28 +269,31 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                       kSizedBox,
                       LayoutGrid(
-                                    rowGap: kDefaultPadding/2,
-                                    columnGap: kDefaultPadding/2,
-                                    columnSizes: breakPointDynamic(
-                                        mediaWidth,
-                                        [1.fr],
-                                        [1.fr, 1.fr],
-                                        [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: _data!.isEmpty ? [auto] : List.generate(_data!.length, (index) => auto),
-                                    children: (_data
-                                            as List<Product>)
-                                        .map(
-                                          (item) => ProductCartContainer(
-                            decrementQuantity: () =>
-                                decrementQuantity(item.id),
-                            incrementQuantity: () =>
-                                incrementQuantity(item.id),
-                            product: item,
-                            onTap: () => _toProductDetailScreen(item),
-                          ),)
-                                        .toList(),
-                                  ),
-                     _data!.isEmpty ? const EmptyCard() : const SizedBox(),
+                        rowGap: kDefaultPadding / 2,
+                        columnGap: kDefaultPadding / 2,
+                        columnSizes: breakPointDynamic(
+                            mediaWidth,
+                            [1.fr],
+                            [1.fr, 1.fr],
+                            [1.fr, 1.fr, 1.fr],
+                            [1.fr, 1.fr, 1.fr, 1.fr]),
+                        rowSizes: _data!.isEmpty
+                            ? [auto]
+                            : List.generate(_data!.length, (index) => auto),
+                        children: (_data as List<Product>)
+                            .map(
+                              (item) => ProductCartContainer(
+                                decrementQuantity: () =>
+                                    decrementQuantity(item.id),
+                                incrementQuantity: () =>
+                                    incrementQuantity(item.id),
+                                product: item,
+                                onTap: () => _toProductDetailScreen(item),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                      _data!.isEmpty ? const EmptyCard() : const SizedBox(),
                       const SizedBox(height: kDefaultPadding * 5),
                     ],
                   ),
