@@ -69,13 +69,12 @@ class _EditProfileState extends State<EditProfile> {
     // User data update
     final url = Uri.parse('$baseURL/clients/changeClient/${user!.id}');
     final url_get_user = Uri.parse('$baseURL/clients/getClient/${user.id}');
-    
+
     final body = {
       'first_name': _userFirstNameEC.text,
       'last_name': _userLastNameEC.text,
       'phone': "+$countryDialCode${phoneNumberEC.text}",
     };
-    print(body);
     final response = await http.post(
       url,
       body: body,
@@ -85,19 +84,16 @@ class _EditProfileState extends State<EditProfile> {
       url_get_user,
       headers: await authHeader(),
     );
-    print(response.body);
-    print(response.statusCode);
 
     try {
-      if (response.statusCode == 200 && get_response.statusCode == 200){
+      if (response.statusCode == 200 && get_response.statusCode == 200) {
         await saveUser(get_response.body, user.token!);
-      return true;
+        return true;
       }
-    } catch (e){
+    } catch (e) {
       return false;
     }
     return false;
-
   }
 
   Future<void> updateData() async {
