@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/src/repo/models/user/user_model.dart';
-import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/base_url.dart';
@@ -13,7 +13,7 @@ class Ratings {
   final String? comment;
   final DateTime? created;
   final User client;
-  final VendorModel? vendor;
+  final Product? product;
 
   Ratings({
     this.id,
@@ -21,7 +21,7 @@ class Ratings {
     this.comment,
     this.created,
     required this.client,
-    required this.vendor,
+    required this.product,
   });
 
   factory Ratings.fromJson(Map<String, dynamic> json) {
@@ -31,8 +31,8 @@ class Ratings {
       comment: json['comment'],
       created: DateTime.parse(json['created']),
       client: User.fromJson(json['client']),
-      vendor:
-          json['vendor'] == null ? null : VendorModel.fromJson(json['vendor']),
+      product:
+          json['product'] == null ? null : Product.fromJson(json['product']),
     );
   }
 }
@@ -40,8 +40,7 @@ class Ratings {
 Future<List<Ratings>> getRatingsByVendorId(int id,
     {start = 0, end = 20}) async {
   final response = await http.get(
-    Uri.parse(
-        '$baseURL/vendors/$id/getAllVendorRatings?start=$start&end=$end'),
+    Uri.parse('$baseURL/vendors/$id/getAllVendorRatings?start=$start&end=$end'),
     headers: await authHeader(),
   );
 

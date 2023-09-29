@@ -279,7 +279,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                 await getRatingsByVendorId(widget.vendor.id!);
 
                             setState(() {
-                              ratings = ratings;
+                              _ratings = ratings;
                             });
                           },
                           child: const Text(
@@ -320,7 +320,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                                 int.parse(active));
 
                                         setState(() {
-                                          ratings = ratings;
+                                          _ratings = ratings;
                                         });
                                       },
                                       child: Row(

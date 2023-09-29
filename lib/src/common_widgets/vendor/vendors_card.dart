@@ -69,6 +69,8 @@ class VendorsCard extends StatelessWidget {
                   SizedBox(
                     child: Text(
                       vendorName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: kTextBlackColor,
                         fontSize: 20,
@@ -81,6 +83,7 @@ class VendorsCard extends StatelessWidget {
                   SizedBox(
                     child: Text(
                       typeOfBusiness,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: kTextGreyColor,
