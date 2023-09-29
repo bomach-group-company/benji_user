@@ -3,7 +3,6 @@
 import 'dart:math';
 
 import 'package:benji_user/app/favorites/favorites.dart';
-
 import 'package:benji_user/src/common_widgets/vendor/vendors_card.dart';
 import 'package:benji_user/src/others/my_future_builder.dart';
 import 'package:benji_user/src/repo/models/address_model.dart';
@@ -22,8 +21,10 @@ import 'package:get/route_manager.dart';
 import '../../src/common_widgets/appbar/appbar_delivery_location.dart';
 import '../../src/common_widgets/button/category_button.dart';
 import '../../src/common_widgets/product/product_card.dart';
+import '../../src/common_widgets/section/category_items.dart';
 import '../../src/common_widgets/section/custom_show_search.dart';
 import '../../src/common_widgets/section/see_all_container.dart';
+import '../../src/common_widgets/simple_item/category_item.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/others/cart_card.dart';
 import '../../src/others/empty.dart';
