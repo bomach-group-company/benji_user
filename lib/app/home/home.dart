@@ -1,15 +1,20 @@
 // ignore_for_file: unused_field
 
+import 'dart:math';
+
 import 'package:benji_user/app/favorites/favorites.dart';
 import 'package:benji_user/src/common_widgets/empty.dart';
+import 'package:benji_user/src/common_widgets/simple_item/category_item.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendors_card.dart';
 import 'package:benji_user/src/others/my_future_builder.dart';
 import 'package:benji_user/src/repo/models/address_model.dart';
+import 'package:benji_user/src/repo/models/category/category.dart';
 import 'package:benji_user/src/repo/models/category/sub_category.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -85,9 +90,11 @@ class _HomeState extends State<Home> {
     }
 
     product = [];
-    List<SubCategory> category = await getSubCategories();
+    List<SubCategory> subCategory = await getSubCategories();
+    List<Category> category = await getCategories();
     try {
-      product = await getProductsBySubCategory(category[activeCategory].id);
+      product =
+          await getProductsBySubCategory(subCategory[activeSubCategory].id);
     } catch (e) {
       product = [];
     }
@@ -97,6 +104,7 @@ class _HomeState extends State<Home> {
     setState(() {
       _data = {
         'category': category,
+        'subCategory': subCategory,
         'product': product,
         'vendor': vendor,
         'popularVendor': popularVendor.sublist(0, 3),
@@ -108,7 +116,7 @@ class _HomeState extends State<Home> {
   //=======================================================================================================================================\\
 
 //============================================== ALL VARIABLES =================================================\\
-  int activeCategory = 0;
+  int activeSubCategory = 0;
   String cartCount = '';
 //============================================== BOOL VALUES =================================================\\
   final bool _vendorStatus = true;
@@ -132,8 +140,20 @@ class _HomeState extends State<Home> {
   //==================================================== CONTROLLERS ======================================================\\
   final TextEditingController _searchController = TextEditingController();
   final _scrollController = ScrollController();
+  final CarouselController _carouselController = CarouselController();
 
-//===================== POPULAR VENDORS =======================\\
+//===================== Images =======================\\
+
+  final List<String> _carouselImages = <String>[
+    "assets/images/products/best-choice-restaurant.png",
+    "assets/images/products/burgers.png",
+    "assets/images/products/chizzy's-food.png",
+    "assets/images/products/golden-toast.png",
+    "assets/images/products/new-food.png",
+    "assets/images/products/okra-soup.png",
+    "assets/images/products/pasta.png"
+  ];
+
   final List<String> popularVendorImage = [
     "assets/images/vendors/ntachi-osa.png",
     "assets/images/vendors/ntachi-osa.png",
@@ -343,8 +363,8 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
-  void _toSeeProducts() => Get.to(
-        () => const HomePageProducts(),
+  void _toSeeProducts({String id = ''}) => Get.to(
+        () => HomePageProducts(activeSubCategory: id),
         routeName: 'HomePageProducts',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -368,6 +388,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
+    double mediaHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -495,6 +516,113 @@ class _HomeState extends State<Home> {
                           ? const EdgeInsets.all(kDefaultPadding)
                           : const EdgeInsets.all(kDefaultPadding / 2),
                       children: [
+                        FlutterCarousel.builder(
+                          options: CarouselOptions(
+                            height: mediaHeight * 0.25,
+                            viewportFraction: 1.0,
+                            initialPage: 0,
+                            enableInfiniteScroll: true,
+                            autoPlay: true,
+                            autoPlayInterval: const Duration(seconds: 2),
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 800),
+                            autoPlayCurve: Curves.easeInOut,
+                            enlargeCenterPage: true,
+                            controller: _carouselController,
+                            onPageChanged: (index, value) {
+                              setState(() {});
+                            },
+                            pageSnapping: true,
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            scrollBehavior: const ScrollBehavior(),
+                            pauseAutoPlayOnTouch: true,
+                            pauseAutoPlayOnManualNavigate: true,
+                            pauseAutoPlayInFiniteScroll: false,
+                            enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                            disableCenter: false,
+                            showIndicator: true,
+                            floatingIndicator: true,
+                            slideIndicator: CircularSlideIndicator(
+                              alignment: Alignment.bottomCenter,
+                              currentIndicatorColor: kAccentColor,
+                              indicatorBackgroundColor: kPrimaryColor,
+                              indicatorRadius: 5,
+                              padding: const EdgeInsets.all(0),
+                            ),
+                          ),
+                          itemCount: _carouselImages.length,
+                          itemBuilder: (BuildContext context, int itemIndex,
+                                  int pageViewIndex) =>
+                              Padding(
+                            padding: const EdgeInsets.all(0),
+                            child: Container(
+                              width: mediaWidth,
+                              decoration: ShapeDecoration(
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(
+                                    _carouselImages[itemIndex],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        kSizedBox,
+                        LayoutGrid(
+                          columnGap: 10,
+                          rowGap: 10,
+                          columnSizes: breakPointDynamic(
+                            mediaWidth,
+                            List.filled(4, 1.fr),
+                            List.filled(4, 1.fr),
+                            List.filled(8, 1.fr),
+                            List.filled(8, 1.fr),
+                          ),
+                          rowSizes: const [auto, auto],
+                          children: List.generate(
+                              min(8, _data!['subCategory'].length + 1),
+                              (index) => index).map(
+                            (item) {
+                              int value = min(7, _data!['subCategory'].length);
+                              if (item == value) {
+                                return CategoryItem(
+                                  nav: () => showModalBottomSheet(
+                                    context: context,
+                                    elevation: 20,
+                                    barrierColor: kBlackColor.withOpacity(0.8),
+                                    showDragHandle: true,
+                                    useSafeArea: true,
+                                    isDismissible: true,
+                                    isScrollControlled: true,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(
+                                          kDefaultPadding,
+                                        ),
+                                      ),
+                                    ),
+                                    enableDrag: true,
+                                    builder: (builder) => const SizedBox(
+                                      height: 100,
+                                      child: Text('hola'),
+                                    ),
+                                  ),
+                                );
+                              }
+                              return CategoryItem(
+                                subSategory: _data!['subCategory'][item],
+                                nav: () => _toSeeProducts(
+                                    id: _data!['subCategory'][item].id),
+                              );
+                            },
+                          ).toList(),
+                        ),
+                        kSizedBox,
                         SeeAllContainer(
                           title: "Vendors Near you",
                           onPressed: _toSeeAllVendorsNearYou,
@@ -583,7 +711,7 @@ class _HomeState extends State<Home> {
                         SizedBox(
                           height: 60,
                           child: ListView.builder(
-                            itemCount: _data!['category'].length,
+                            itemCount: _data!['subCategory'].length,
                             scrollDirection: Axis.horizontal,
                             physics: const BouncingScrollPhysics(),
                             itemBuilder: (BuildContext context, int index) =>
@@ -592,16 +720,16 @@ class _HomeState extends State<Home> {
                               child: CategoryButton(
                                 onPressed: () {
                                   setState(() {
-                                    activeCategory = index;
+                                    activeSubCategory = index;
                                     product = null;
                                     _getData();
                                   });
                                 },
-                                title: _data!['category'][index].name,
-                                bgColor: index == activeCategory
+                                title: _data!['subCategory'][index].name,
+                                bgColor: index == activeSubCategory
                                     ? kAccentColor
                                     : kDefaultCategoryBackgroundColor,
-                                categoryFontColor: index == activeCategory
+                                categoryFontColor: index == activeSubCategory
                                     ? kPrimaryColor
                                     : kTextGreyColor,
                               ),
