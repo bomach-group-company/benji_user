@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/models/order/order_item.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
+import 'package:benji_user/src/repo/utils/cart.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:http/http.dart' as http;
 
@@ -61,4 +62,32 @@ Future<List<Order>> getOrders(id) async {
   } else {
     throw Exception('Failed to load order');
   }
+}
+
+Future<bool> createOrder(String clientId, String deliveryAddressId) async {
+  Map<String, dynamic> cartData = await getCart();
+  print(cartData);
+  List<Map<String, dynamic>> productsData = [];
+  for (var item in cartData.keys) {
+    productsData.add({
+      'product_id': item,
+      'quantity': int.parse(cartData[item]),
+    });
+  }
+
+  print(productsData);
+  Map data = {
+    "products_data": productsData,
+    "order_data": {
+      "delivery_address_id": deliveryAddressId,
+      "delivery_fee": 5000
+    }
+  };
+  final response = await http.post(
+    Uri.parse('$baseURL/clients/$clientId/clientCreateOrder'),
+    headers: await authHeader(),
+    body: data,
+  );
+  return response.body == '"Order Created Successfully"' &&
+      response.statusCode == 200;
 }
