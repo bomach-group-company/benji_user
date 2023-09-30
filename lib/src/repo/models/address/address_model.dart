@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:http/http.dart' as http;
 
-import '../utils/base_url.dart';
-import '../utils/helpers.dart';
+import '../../utils/base_url.dart';
+import '../../utils/helpers.dart';
 
 class Address {
   final String? id;
@@ -17,7 +17,9 @@ class Address {
   final String? country;
   final String? state;
   final String? city;
-  final bool? isCurrent;
+  final String? isCurrent;
+  final String? latitude;
+  final bool? longitude;
 
   Address({
     this.id,
@@ -31,13 +33,15 @@ class Address {
     this.state,
     this.city,
     this.isCurrent,
+    this.latitude,
+    this.longitude,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
       id: json['id'],
       streetAddress: json['street_address'],
-      user: json['user'],
+      user: json['user_id'],
       title: json['title'],
       details: json['details'],
       recipientName: json['recipient_name'],
@@ -46,6 +50,8 @@ class Address {
       state: json['state'],
       city: json['city'],
       isCurrent: json['is_current'],
+      latitude: json['latitude'],
+      longitude: json['longitude'],
     );
   }
 }

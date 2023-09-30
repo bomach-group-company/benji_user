@@ -3,7 +3,7 @@
 import 'dart:math';
 
 import 'package:benji_user/app/checkout/checkout_screen.dart';
-import 'package:benji_user/src/repo/models/address_model.dart';
+import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

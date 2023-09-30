@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:benji_user/app/favorites/favorites.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendors_card.dart';
 import 'package:benji_user/src/others/my_future_builder.dart';
-import 'package:benji_user/src/repo/models/address_model.dart';
+import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/models/category/sub_category.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';

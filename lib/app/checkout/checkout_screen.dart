@@ -3,7 +3,7 @@
 import 'package:benji_user/app/home/home.dart';
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/src/providers/keys.dart';
-import 'package:benji_user/src/repo/models/address_model.dart';
+import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:benji_user/src/repo/utils/user_cart.dart';

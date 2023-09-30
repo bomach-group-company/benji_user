@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:benji_user/src/repo/models/address_model.dart';
+import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
