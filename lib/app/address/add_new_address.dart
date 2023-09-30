@@ -2,6 +2,7 @@
 
 import 'package:benji_user/src/common_widgets/textformfield/my_maps_textformfield.dart';
 import 'package:benji_user/src/providers/keys.dart';
+import 'package:benji_user/src/repo/models/googleMaps/autocomplete_prediction.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:benji_user/src/repo/utils/network_utils.dart';
 import 'package:flutter/foundation.dart';
@@ -20,6 +21,7 @@ import '../../src/common_widgets/textformfield/my textformfield.dart';
 import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
 import '../../src/others/location_list_tile.dart';
 import '../../src/providers/constants.dart';
+import '../../src/repo/models/googleMaps/places_autocomplete_response.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../src/repo/utils/base_url.dart';
 import '../../theme/colors.dart';
@@ -63,6 +65,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
   String? state;
   String? city;
   String countryDialCode = '234';
+  List<AutocompletePrediction> placePredictions = [];
 
   //===================== BOOL VALUES =======================\\
   bool _isLoading = false;
@@ -169,15 +172,25 @@ class _AddNewAddressState extends State<AddNewAddress> {
 
   void placeAutoComplete(String query) async {
     Uri uri = Uri.https(
-      "maps.googleapis.com",
-      'maps/api/place/autocomplete/json', //unencoder path
-      {
-        "input": query, //query params
-        "apiKey": googlePlacesApiKey, //google places api key
-      },
-    );
+        "maps.googleapis.com",
+        '/maps/api/place/autocomplete/json', //unencoder path
+        {
+          "input": query, //query params
+          "key": googlePlacesApiKey, //google places api key
+        });
+    if (kDebugMode) {
+      print(uri);
+    }
     String? response = await NetworkUtility.fetchUrl(uri);
     if (response != null) {
+      PlaceAutocompleteResponse result =
+          PlaceAutocompleteResponse.parseAutoCompleteResult(response);
+      if (result.predictions != null) {
+        setState(() {
+          placePredictions = result.predictions!;
+        });
+      }
+
       if (kDebugMode) {
         print(response);
       }
@@ -347,9 +360,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                           color: kLightGreyColor,
                         ),
                         ElevatedButton.icon(
-                          onPressed: () {
-                            placeAutoComplete("Dubai");
-                          },
+                          onPressed: () {},
                           icon: FaIcon(
                             FontAwesomeIcons.locationArrow,
                             color: kAccentColor,
@@ -371,9 +382,14 @@ class _AddNewAddressState extends State<AddNewAddress> {
                           thickness: 2,
                           color: kLightGreyColor,
                         ),
-                        LocationListTile(
-                          onTap: () {},
-                          location: "Dummy Location, location Country",
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: placePredictions.length,
+                            itemBuilder: (context, index) => LocationListTile(
+                              onTap: () {},
+                              location: placePredictions[index].description!,
+                            ),
+                          ),
                         ),
                       ],
                     ),
