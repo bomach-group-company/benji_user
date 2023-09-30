@@ -9,6 +9,7 @@ import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/models/category/category.dart';
 import 'package:benji_user/src/repo/models/category/sub_category.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -73,6 +74,7 @@ class _HomeState extends State<Home> {
   Map? _data;
   List<Product>? product;
   _getData() async {
+    print(await getCart());
     await checkAuth(context);
     String current = 'Select Address';
     try {

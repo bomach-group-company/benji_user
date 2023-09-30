@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const String cartname = 'userCart';
 
-Future addToCart(dynamic vendorId, dynamic productId) async {
+Future addToCart(String vendorId, String productId) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   if (cart.containsKey(vendorId)) {
@@ -39,7 +39,7 @@ Future<int> countCartItem() async {
   return total;
 }
 
-Future<int> countCartItemByProduct(dynamic vendorId, dynamic productId) async {
+Future<int> countCartItemByProduct(String vendorId, String productId) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   int total = 0;
@@ -66,7 +66,7 @@ Future<String> countCartItemTo10() async {
   return '$total';
 }
 
-Future minusFromCart(dynamic vendorId, dynamic productId) async {
+Future minusFromCart(String vendorId, String productId) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   if (cart.containsKey(vendorId)) {
@@ -75,6 +75,9 @@ Future minusFromCart(dynamic vendorId, dynamic productId) async {
         cart[vendorId][productId] -= 1;
       } else {
         cart[vendorId].remove(productId);
+        if (cart[vendorId].keys.length == 0) {
+          cart.remove(vendorId);
+        }
       }
     }
   }
