@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/models/order/order_item.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
-import 'package:benji_user/src/repo/utils/cart.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:http/http.dart' as http;
 
 import '../user/user_model.dart';
@@ -65,7 +65,7 @@ Future<List<Order>> getOrders(id) async {
 }
 
 Future<bool> createOrder(String clientId, String deliveryAddressId) async {
-  Map<String, dynamic> cartData = await getCart();
+  Map<String, dynamic> cartData = await getCartProductId();
   print(cartData);
   List<Map<String, dynamic>> productsData = [];
   for (var item in cartData.keys) {

@@ -32,7 +32,6 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
 import '../../src/repo/models/vendor/vendor.dart';
-import '../../src/repo/utils/cart.dart';
 import '../../theme/colors.dart';
 import '../address/addresses.dart';
 import '../address/deliver_to.dart';
@@ -61,7 +60,6 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _getData();
-    countCartFunc();
     _scrollController.addListener(_scrollListener);
   }
 
@@ -70,13 +68,6 @@ class _HomeState extends State<Home> {
     _scrollController.dispose();
     _scrollController.removeListener(() {});
     super.dispose();
-  }
-
-  countCartFunc() async {
-    String data = await countCart();
-    setState(() {
-      cartCount = data;
-    });
   }
 
   Map? _data;

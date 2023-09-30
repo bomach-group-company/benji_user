@@ -48,7 +48,6 @@ class _DeliverToState extends State<DeliverTo> {
 
   _getData() async {
     await checkAuth(context);
-
     String current = '';
     try {
       current = (await getCurrentAddress()).id ?? '';

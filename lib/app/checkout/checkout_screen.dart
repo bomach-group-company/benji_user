@@ -5,8 +5,8 @@ import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart
 import 'package:benji_user/src/providers/keys.dart';
 import 'package:benji_user/src/repo/models/address_model.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
-import 'package:benji_user/src/repo/utils/cart.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_monnify/flutter_monnify.dart';
@@ -98,7 +98,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       ),
     );
 
-    Map<String, dynamic> cartItems = await getCart();
+    Map<String, dynamic> cartItems = await getCartProductId();
 
     Address? deliverTo;
     try {
