@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const String cartname = 'userCart';
 
-Future addToCart(String vendorId, String productId) async {
+Future addToCart(dynamic vendorId, dynamic productId) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   if (cart.containsKey(vendorId)) {
@@ -16,6 +16,7 @@ Future addToCart(String vendorId, String productId) async {
   } else {
     cart[vendorId] = {productId: 1};
   }
+
   prefs.setString(cartname, jsonEncode(cart));
 }
 
@@ -30,8 +31,20 @@ Future<int> countCartItem() async {
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   int total = 0;
   for (var vendorId in cart.keys) {
-    for (var productId in cart[vendorId]) {
+    for (var productId in cart[vendorId].keys) {
       total = total + (cart[vendorId][productId] as int);
+    }
+  }
+  return total;
+}
+
+Future<int> countCartItemByProduct(dynamic vendorId, dynamic productId) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
+  int total = 0;
+  if (cart.containsKey(vendorId)) {
+    if (cart[vendorId].containsKey(productId)) {
+      total = cart[vendorId][productId];
     }
   }
   return total;
@@ -42,7 +55,7 @@ Future<String> countCartItemTo10() async {
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   int total = 0;
   for (var vendorId in cart.keys) {
-    for (var productId in cart[vendorId]) {
+    for (var productId in cart[vendorId].keys) {
       total = total + (cart[vendorId][productId] as int);
       if (total > 10) {
         return '10+';
@@ -52,7 +65,7 @@ Future<String> countCartItemTo10() async {
   return '$total';
 }
 
-Future minusFromCart(String vendorId, String productId) async {
+Future minusFromCart(dynamic vendorId, dynamic productId) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   if (cart.containsKey(vendorId)) {

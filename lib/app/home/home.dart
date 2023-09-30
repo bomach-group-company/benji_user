@@ -479,7 +479,8 @@ class _HomeState extends State<Home> {
                       size: deviceType(mediaWidth) > 2 ? 30 : 24,
                     ),
                   ),
-                  const CartCard(),
+                  // ignore: prefer_const_constructors
+                  CartCard(),
                   kHalfWidthSizedBox
                 ],
         ),
