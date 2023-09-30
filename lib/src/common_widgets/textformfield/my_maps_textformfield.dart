@@ -9,7 +9,7 @@ class MyMapsTextFormField extends StatelessWidget {
   final TextInputType textInputType;
   final TextEditingController controller;
   final FormFieldValidator validator;
-  final dynamic onSaved;
+  final dynamic onSaved, onChanged;
   final TextInputAction textInputAction;
   final FocusNode focusNode;
 
@@ -25,6 +25,7 @@ class MyMapsTextFormField extends StatelessWidget {
     required this.hintText,
     required this.textInputType,
     required this.suffixIcon,
+    this.onChanged,
   });
 
   @override
@@ -34,6 +35,7 @@ class MyMapsTextFormField extends StatelessWidget {
       controller: controller,
       validator: validator,
       onSaved: onSaved,
+      onChanged: onChanged,
       textInputAction: textInputAction,
       textAlign: TextAlign.start,
       cursorColor: kSecondaryColor,
