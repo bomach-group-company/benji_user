@@ -46,7 +46,7 @@ dependencies:
   pdf: ^3.10.4
   flutter_monnify: ^0.0.3
   http_parser: ^4.0.2
-  location:
+  agora_uikit:
 
 dev_dependencies:
   flutter_test:

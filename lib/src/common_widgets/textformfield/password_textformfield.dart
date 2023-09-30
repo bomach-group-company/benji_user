@@ -8,7 +8,7 @@ import '../../../theme/colors.dart';
 class PasswordTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final FormFieldValidator validator;
-  final dynamic onSaved;
+  final dynamic onSaved, onChanged;
   final TextInputAction textInputAction;
   final TextInputType keyboardType;
   final IconButton suffixIcon;
@@ -24,6 +24,7 @@ class PasswordTextFormField extends StatelessWidget {
     required this.suffixIcon,
     required this.passwordFocusNode,
     required this.obscureText,
+    this.onChanged,
   });
 
   @override
@@ -32,6 +33,7 @@ class PasswordTextFormField extends StatelessWidget {
       controller: controller,
       validator: validator,
       onSaved: onSaved,
+      onChanged: onChanged,
       textInputAction: textInputAction,
       keyboardType: keyboardType,
       focusNode: passwordFocusNode,

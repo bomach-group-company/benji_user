@@ -1,9 +1,9 @@
-import 'package:benji_user/app/splash_screens/startup_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'app/call/agora_sdk.dart';
 import 'theme/app_theme.dart';
 import 'theme/colors.dart';
 
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       //This is the home route
-      home: const StartupSplashscreen(),
+      home: const AgoraSDK(),
     );
   }
 }

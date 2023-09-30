@@ -8,7 +8,7 @@ import '../../../theme/colors.dart';
 class NumberTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final FormFieldValidator validator;
-  final dynamic onSaved;
+  final dynamic onSaved, onChanged;
   final TextInputAction textInputAction;
   final FocusNode nameFocusNode;
   final String hintText;
@@ -23,6 +23,7 @@ class NumberTextFormField extends StatelessWidget {
     required this.nameFocusNode,
     required this.hintText,
     required this.inputFormatter,
+    this.onChanged,
   });
 
   @override
@@ -33,6 +34,7 @@ class NumberTextFormField extends StatelessWidget {
       controller: controller,
       validator: validator,
       onSaved: onSaved,
+      onChanged: onChanged,
       textInputAction: textInputAction,
       textAlign: TextAlign.start,
       cursorColor: kSecondaryColor,
