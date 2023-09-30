@@ -1,7 +1,10 @@
 // ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
 
 import 'package:benji_user/src/common_widgets/textformfield/my_maps_textformfield.dart';
+import 'package:benji_user/src/providers/keys.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji_user/src/repo/utils/network_utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,6 +18,7 @@ import '../../src/common_widgets/button/my_outlined_elevatedbutton.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/common_widgets/textformfield/my textformfield.dart';
 import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
+import '../../src/others/location_list_tile.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../src/repo/utils/base_url.dart';
@@ -163,6 +167,23 @@ class _AddNewAddressState extends State<AddNewAddress> {
     }
   }
 
+  void placeAutoComplete(String query) async {
+    Uri uri = Uri.https(
+      "maps.googleapis.com",
+      'maps/api/place/autocomplete/json', //unencoder path
+      {
+        "input": query, //query params
+        "apiKey": googlePlacesApiKey, //google places api key
+      },
+    );
+    String? response = await NetworkUtility.fetchUrl(uri);
+    if (response != null) {
+      if (kDebugMode) {
+        print(response);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -294,7 +315,14 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         MyMapsTextFormField(
                           controller: _mapsLocationEC,
                           validator: (value) {
+                            if (value == null) {
+                              _mapsLocationFN.requestFocus();
+                              "Enter a location";
+                            }
                             return null;
+                          },
+                          onChanged: (value) {
+                            placeAutoComplete(value);
                           },
                           textInputAction: TextInputAction.done,
                           focusNode: _mapsLocationFN,
@@ -305,7 +333,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                             child: Padding(
                               padding: const EdgeInsets.all(kDefaultPadding),
                               child: FaIcon(
-                                FontAwesomeIcons.locationDot,
+                                FontAwesomeIcons.locationCrosshairs,
                                 color: kAccentColor,
                                 size: 18,
                               ),
@@ -314,15 +342,17 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         ),
                         kSizedBox,
                         Divider(
-                          height: 4,
+                          height: 10,
                           thickness: 2,
                           color: kLightGreyColor,
                         ),
                         ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: const FaIcon(
+                          onPressed: () {
+                            placeAutoComplete("Dubai");
+                          },
+                          icon: FaIcon(
                             FontAwesomeIcons.locationArrow,
-                            color: kBlackColor,
+                            color: kAccentColor,
                             size: 18,
                           ),
                           label: const Text("Use my current Location"),
@@ -337,31 +367,13 @@ class _AddNewAddressState extends State<AddNewAddress> {
                           ),
                         ),
                         Divider(
-                          height: 4,
+                          height: 10,
                           thickness: 2,
                           color: kLightGreyColor,
                         ),
-                        kSizedBox,
-                        ListTile(
+                        LocationListTile(
                           onTap: () {},
-                          leading: FaIcon(
-                            FontAwesomeIcons.locationDot,
-                            color: kGreyColor,
-                            size: 14,
-                          ),
-                          title: const Text(
-                            "Dummy location, location",
-                            style: TextStyle(
-                              color: kTextBlackColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          trailing: FaIcon(
-                            FontAwesomeIcons.chevronRight,
-                            color: kAccentColor,
-                            size: 14,
-                          ),
+                          location: "Dummy Location, location Country",
                         ),
                       ],
                     ),
