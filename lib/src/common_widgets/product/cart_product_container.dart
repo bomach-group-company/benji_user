@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:benji_user/src/repo/utils/cart.dart';
+import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -37,7 +37,6 @@ class ProductCartContainerState extends State<ProductCartContainer> {
   //======================================= VARIABLES ==========================================\\
 
   double _productPrice = 0;
-  String cartCount = '1';
   String cartCountAll = '1';
 
 //===================== Number format ==========================\\
@@ -49,12 +48,11 @@ class ProductCartContainerState extends State<ProductCartContainer> {
 //===================== Cart logic functions ==========================\\
 
   checkCart() async {
-    String count = await countCart();
-    String countAll = await countSingleCart(widget.product.id);
+    int countAll = await countCartItemByProduct(
+        widget.product.vendorId.id!.toString(), widget.product.id.toString());
 
     setState(() {
-      cartCount = count;
-      cartCountAll = countAll;
+      cartCountAll = countAll.toString();
     });
     if (cartCountAll == '0') {
       mySnackBar(
