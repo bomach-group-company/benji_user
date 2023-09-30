@@ -106,9 +106,6 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
       _isLoading = true;
     });
 
-    // Simulating a delay of 3 seconds
-    await Future.delayed(const Duration(seconds: 2));
-
     setState(() {
       _validAuthCredentials = true;
     });
@@ -122,9 +119,6 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
         seconds: 2,
       ),
     );
-
-    // Simulating a delay of 2 seconds
-    await Future.delayed(const Duration(seconds: 2));
 
     // Navigate to the new page
     Get.to(

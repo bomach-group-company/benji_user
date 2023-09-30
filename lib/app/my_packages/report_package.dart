@@ -63,8 +63,6 @@ class _ReportPackageState extends State<ReportPackage> {
 
     await checkAuth(context);
 
-    await Future.delayed(const Duration(milliseconds: 300));
-
     setState(() {
       _submittingReport = false;
     });

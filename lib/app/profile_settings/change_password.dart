@@ -51,9 +51,6 @@ class _ChangePasswordState extends State<ChangePassword> {
       _isLoading = true;
     });
 
-    // Simulating a delay of 2 seconds
-    await Future.delayed(const Duration(seconds: 2));
-
     setState(() {
       _validAuthCredentials = true;
     });
@@ -67,9 +64,6 @@ class _ChangePasswordState extends State<ChangePassword> {
         seconds: 2,
       ),
     );
-
-    // Simulating a delay of 2 seconds
-    await Future.delayed(const Duration(seconds: 2));
 
     // Navigate to the new page
     Get.offAll(
