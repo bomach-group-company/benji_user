@@ -308,8 +308,7 @@ class _AddressesState extends State<Addresses> {
                                     top: kDefaultPadding / 2,
                                   ),
                                   child: Text(
-                                    addressData!['addresses'][index]
-                                            .streetAddress ??
+                                    addressData!['addresses'][index].details ??
                                         '',
                                     style: TextStyle(
                                       color: kTextGreyColor,

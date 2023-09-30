@@ -49,7 +49,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
     await checkAuth(context);
     String current = 'Select Address';
     try {
-      current = (await getCurrentAddress()).streetAddress ?? current;
+      current = (await getCurrentAddress()).title ?? current;
     } catch (e) {
       current = current;
     }

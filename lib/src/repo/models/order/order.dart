@@ -66,7 +66,6 @@ Future<List<Order>> getOrders(id) async {
 
 Future<bool> createOrder(String clientId, String deliveryAddressId) async {
   Map<String, dynamic> cartData = await getCartProductId();
-  print(cartData);
   List<Map<String, dynamic>> productsData = [];
   for (var item in cartData.keys) {
     productsData.add({
@@ -75,7 +74,6 @@ Future<bool> createOrder(String clientId, String deliveryAddressId) async {
     });
   }
 
-  print(productsData);
   Map data = {
     "products_data": productsData,
     "order_data": {

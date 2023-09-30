@@ -129,7 +129,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
     super.initState();
     checkAuth(context);
     _addressTitleEC.text = widget.address.title ?? '';
-    _streetAddressEC.text = widget.address.streetAddress ?? '';
+    // _streetAddressEC.text = widget.address.streetAddress ?? '';
     _apartmentDetailsEC.text = widget.address.details ?? '';
     _phoneNumberEC.text =
         (widget.address.phone ?? '').replaceFirst('+$countryDialCode', '');
