@@ -2,15 +2,20 @@ import 'package:benji_user/app/splash_screens/startup_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'theme/app_theme.dart';
 import 'theme/colors.dart';
+
+late SharedPreferences prefs;
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(statusBarColor: kTransparentColor),
   );
   WidgetsFlutterBinding.ensureInitialized();
+
+  prefs = await SharedPreferences.getInstance();
 
   // await dotenv.load();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

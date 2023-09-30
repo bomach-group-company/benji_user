@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:benji_user/main.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 String instanceNameProduct = 'favoriteProduct';
 String instanceNameVendor = 'favoriteVendors';
@@ -10,7 +10,6 @@ String instanceNameVendor = 'favoriteVendors';
 //============================ PRODUCT ================================//
 
 Future<bool> favoriteItP(String id) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   Map products = jsonDecode(prefs.getString(instanceNameProduct) ?? '{}');
 
   bool? res;
@@ -34,7 +33,6 @@ Future<bool> favoriteItP(String id) async {
 }
 
 Future<Map> getFavoriteP() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   Map products = jsonDecode(prefs.getString(instanceNameProduct) ?? '{}');
   return products;
 }
@@ -62,7 +60,6 @@ Future<List<Product>> getFavoriteProduct([Function(String)? whenError]) async {
 
 //================================ VENDOR =========================//
 Future<bool> favoriteItV(String id) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   Map vendors = jsonDecode(prefs.getString(instanceNameVendor) ?? '{}');
 
   bool? res;
@@ -86,7 +83,6 @@ Future<bool> favoriteItV(String id) async {
 }
 
 Future<Map> getFavoriteV() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   Map vendors = jsonDecode(prefs.getString(instanceNameVendor) ?? '{}');
   return vendors;
 }

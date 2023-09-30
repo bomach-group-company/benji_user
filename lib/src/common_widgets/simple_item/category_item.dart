@@ -20,10 +20,13 @@ class CategoryItem extends StatelessWidget {
                   height: 50,
                   width: 50,
                   decoration: ShapeDecoration(
-                    color: kPageSkeletonColor,
+                    color: kAccentColor,
                     shape: const OvalBorder(),
                   ),
-                  child: const Icon(Icons.more_horiz),
+                  child: Icon(
+                    Icons.more_horiz,
+                    color: kPrimaryColor,
+                  ),
                 )
               : Container(
                   height: 50,
@@ -41,7 +44,7 @@ class CategoryItem extends StatelessWidget {
                 ),
           kHalfSizedBox,
           Text(
-            showAll ? 'All Categories' : subSategory!.name,
+            showAll ? 'All' : subSategory!.name,
             softWrap: true,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,

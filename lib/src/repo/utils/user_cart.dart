@@ -1,12 +1,11 @@
 import 'dart:convert';
 
+import 'package:benji_user/main.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 const String cartname = 'userCart';
 
 Future addToCart(String vendorId, String productId) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   if (cart.containsKey(vendorId)) {
     if (cart[vendorId].containsKey(productId)) {
@@ -22,13 +21,11 @@ Future addToCart(String vendorId, String productId) async {
 }
 
 Future<Map?> getCart() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   return cart.isEmpty ? null : cart;
 }
 
 Future<int> countCartItem() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   int total = 0;
   for (var vendorId in cart.keys) {
@@ -40,7 +37,6 @@ Future<int> countCartItem() async {
 }
 
 Future<int> countCartItemByProduct(String vendorId, String productId) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   int total = 0;
   if (cart.containsKey(vendorId)) {
@@ -52,7 +48,6 @@ Future<int> countCartItemByProduct(String vendorId, String productId) async {
 }
 
 Future<String> countCartItemTo10() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   int total = 0;
   for (var vendorId in cart.keys) {
@@ -67,7 +62,6 @@ Future<String> countCartItemTo10() async {
 }
 
 Future minusFromCart(String vendorId, String productId) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   if (cart.containsKey(vendorId)) {
     if (cart[vendorId].containsKey(productId)) {
@@ -85,7 +79,6 @@ Future minusFromCart(String vendorId, String productId) async {
 }
 
 Future<Map<String, dynamic>> getCartProductId() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   Map<String, dynamic> res = {};
   for (var vendorId in cart.keys) {
