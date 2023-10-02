@@ -12,11 +12,11 @@ class Address {
   // final int? user;
   final String? title;
   final String? details;
-  final String? recipientName;
+  // final String? recipientName;
   final String? phone;
-  final String? country;
-  final String? state;
-  final String? city;
+  // final String? country;
+  // final String? state;
+  // final String? city;
   final bool? isCurrent;
   final String? latitude;
   final String? longitude;
@@ -27,11 +27,11 @@ class Address {
     // this.user,
     this.title,
     this.details,
-    this.recipientName,
+    // this.recipientName,
     this.phone,
-    this.country,
-    this.state,
-    this.city,
+    // this.country,
+    // this.state,
+    // this.city,
     this.isCurrent,
     this.latitude,
     this.longitude,
@@ -44,11 +44,11 @@ class Address {
       // user: json['user_id'],
       title: json['title'],
       details: json['details'],
-      recipientName: json['recipient_name'],
+      // recipientName: json['recipient_name'],
       phone: json['phone'],
-      country: json['country'] == null ? null : json['country']['name'],
-      state: json['state'],
-      city: json['city'],
+      // country: json['country'] == null ? null : json['country']['name'],
+      // state: json['state'],
+      // city: json['city'],
       isCurrent: json['is_current'],
       latitude: json['latitude'],
       longitude: json['longitude'],
