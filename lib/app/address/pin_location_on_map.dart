@@ -4,9 +4,12 @@ import 'dart:async';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
 import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
+import 'package:benji_user/src/repo/models/googleMaps/location_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -60,8 +63,13 @@ class _PinLocationOnMapState extends State<PinLocationOnMap> {
   //========================================================== GlobalKeys ============================================================\\
 
   //=================================== CONTROLLERS ======================================================\\
+  final _searchEC = TextEditingController();
+
   final Completer<GoogleMapController> _googleMapController = Completer();
   GoogleMapController? _newGoogleMapController;
+
+  //=================================== FOCUS NODES ======================================================\\
+  final _searchFN = FocusNode();
 
   //============================================================== FUNCTIONS ===================================================================\\
 
@@ -193,125 +201,147 @@ class _PinLocationOnMapState extends State<PinLocationOnMap> {
       ),
       body: SafeArea(
         maintainBottomViewPadding: true,
-        child: Stack(
-          children: [
-            _userPosition == null
-                ? Center(child: SpinKitChasingDots(color: kAccentColor))
-                : GoogleMap(
-                    mapType: MapType.normal,
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                        _userPosition!.latitude,
-                        _userPosition!.longitude,
+        child: _userPosition == null
+            ? Center(child: SpinKitChasingDots(color: kAccentColor))
+            : Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _searchEC,
+                          focusNode: _searchFN,
+                          textInputAction: TextInputAction.search,
+                          textCapitalization: TextCapitalization.words,
+                          onChanged: (value) {
+                            if (kDebugMode) {
+                              print(value);
+                            }
+                          },
+                        ),
                       ),
-                      zoom: 14,
-                    ),
-                    onTap: (LatLng value) {},
-                    markers: Set.of(_markers),
-                    padding: EdgeInsets.only(bottom: media.height * 0.24),
-                    compassEnabled: true,
-                    mapToolbarEnabled: true,
-                    minMaxZoomPreference: MinMaxZoomPreference.unbounded,
-                    tiltGesturesEnabled: true,
-                    zoomControlsEnabled: true,
-                    zoomGesturesEnabled: true,
-                    fortyFiveDegreeImageryEnabled: true,
-                    myLocationButtonEnabled: true,
-                    myLocationEnabled: true,
-                    cameraTargetBounds: CameraTargetBounds.unbounded,
-                    rotateGesturesEnabled: true,
-                    scrollGesturesEnabled: true,
+                      IconButton(
+                        onPressed: () {
+                          LocationService().getPlace(_searchEC.text);
+                        },
+                        icon: FaIcon(
+                          FontAwesomeIcons.magnifyingGlass,
+                          size: 18,
+                          color: kAccentColor,
+                        ),
+                      ),
+                    ],
                   ),
-            AnimatedPositioned(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeIn,
-              bottom: 0,
-              right: 0,
-              left: 0,
-              child: Container(
-                height: media.height * 0.24,
-                width: 200,
-                padding: const EdgeInsets.all(kDefaultPadding / 2),
-                decoration: ShapeDecoration(
-                  shadows: [
-                    BoxShadow(
-                      color: kBlackColor.withOpacity(0.1),
-                      blurRadius: 5,
-                      spreadRadius: 2,
-                      blurStyle: BlurStyle.normal,
-                    ),
-                  ],
-                  color: const Color(0xFFFEF8F8),
-                  shape: const RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 0.50,
-                      color: Color(0xFFFDEDED),
-                    ),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      topRight: Radius.circular(25),
+                  Expanded(
+                    child: GoogleMap(
+                      mapType: MapType.normal,
+                      onMapCreated: _onMapCreated,
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(
+                          _userPosition!.latitude,
+                          _userPosition!.longitude,
+                        ),
+                        zoom: 14,
+                      ),
+                      onTap: (LatLng value) {},
+                      markers: Set.of(_markers),
+                      compassEnabled: true,
+                      mapToolbarEnabled: true,
+                      minMaxZoomPreference: MinMaxZoomPreference.unbounded,
+                      tiltGesturesEnabled: true,
+                      zoomControlsEnabled: false,
+                      zoomGesturesEnabled: true,
+                      fortyFiveDegreeImageryEnabled: true,
+                      myLocationButtonEnabled: true,
+                      liteModeEnabled: false,
+                      myLocationEnabled: true,
+                      cameraTargetBounds: CameraTargetBounds.unbounded,
+                      rotateGesturesEnabled: true,
+                      scrollGesturesEnabled: true,
                     ),
                   ),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: ShapeDecoration(
-                        color: const Color(0xFFFEF8F8),
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                            width: 0.50,
-                            color: Color(0xFFFDEDED),
-                          ),
-                          borderRadius: BorderRadius.circular(25),
+                  Container(
+                    height: media.height * 0.24,
+                    width: media.width,
+                    padding: const EdgeInsets.all(kDefaultPadding / 2),
+                    decoration: ShapeDecoration(
+                      shadows: [
+                        BoxShadow(
+                          color: kBlackColor.withOpacity(0.1),
+                          blurRadius: 5,
+                          spreadRadius: 2,
+                          blurStyle: BlurStyle.normal,
                         ),
-                        shadows: const [
-                          BoxShadow(
-                            color: Color(0x0F000000),
-                            blurRadius: 24,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0,
-                          ),
-                        ],
-                      ),
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.all(5),
-                        leading: Image.asset(
-                          "assets/icons/location-icon.png",
-                          height: 50,
-                          width: 50,
+                      ],
+                      color: const Color(0xFFFEF8F8),
+                      shape: const RoundedRectangleBorder(
+                        side: BorderSide(
+                          width: 0.50,
+                          color: Color(0xFFFDEDED),
                         ),
-                        title: const Text(
-                          "Pinned Location",
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        subtitle: Text(
-                          "Dummy location, location",
-                          style: TextStyle(
-                            color: kTextGreyColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(25),
                         ),
                       ),
                     ),
-                    kSizedBox,
-                    MyElevatedButton(
-                      title: "Select Location",
-                      onPressed: _selectLocation,
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: ShapeDecoration(
+                            color: const Color(0xFFFEF8F8),
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                width: 0.50,
+                                color: Color(0xFFFDEDED),
+                              ),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            shadows: const [
+                              BoxShadow(
+                                color: Color(0x0F000000),
+                                blurRadius: 24,
+                                offset: Offset(0, 4),
+                                spreadRadius: 0,
+                              ),
+                            ],
+                          ),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(5),
+                            leading: Image.asset(
+                              "assets/icons/location-icon.png",
+                              height: 50,
+                              width: 50,
+                            ),
+                            title: const Text(
+                              "Pinned Location",
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            subtitle: Text(
+                              "Dummy location, location",
+                              style: TextStyle(
+                                color: kTextGreyColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                        kSizedBox,
+                        MyElevatedButton(
+                          title: "Select Location",
+                          onPressed: _selectLocation,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }

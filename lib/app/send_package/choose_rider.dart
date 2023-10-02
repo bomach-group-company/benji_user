@@ -249,151 +249,145 @@ class _ChooseRiderState extends State<ChooseRider> {
       ),
       body: SafeArea(
         maintainBottomViewPadding: true,
-        child: Stack(
-          children: [
-            _userPosition == null
-                ? Center(child: SpinKitChasingDots(color: kAccentColor))
-                : GoogleMap(
-                    mapType: MapType.normal,
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: const CameraPosition(
-                      target: pickupLocation,
-                      zoom: 14,
-                    ),
-                    markers: Set.of(_markers),
-                    polylines: {
-                      Polyline(
-                        polylineId: const PolylineId("Delivery route"),
-                        points: _polylineCoordinates,
-                        color: kAccentColor,
-                        consumeTapEvents: true,
-                        geodesic: true,
-                        width: 5,
-                        visible: true,
+        child: _userPosition == null
+            ? Center(child: SpinKitChasingDots(color: kAccentColor))
+            : Column(
+                children: [
+                  Expanded(
+                    child: GoogleMap(
+                      mapType: MapType.normal,
+                      onMapCreated: _onMapCreated,
+                      initialCameraPosition: const CameraPosition(
+                        target: pickupLocation,
+                        zoom: 14,
                       ),
-                    },
-                    padding: EdgeInsets.only(bottom: media.height * 0.24),
-                    compassEnabled: true,
-                    mapToolbarEnabled: true,
-                    minMaxZoomPreference: MinMaxZoomPreference.unbounded,
-                    tiltGesturesEnabled: true,
-                    zoomControlsEnabled: true,
-                    zoomGesturesEnabled: true,
-                    fortyFiveDegreeImageryEnabled: true,
-                    myLocationButtonEnabled: true,
-                    myLocationEnabled: true,
-                    cameraTargetBounds: CameraTargetBounds.unbounded,
-                    rotateGesturesEnabled: true,
-                    scrollGesturesEnabled: true,
-                  ),
-            AnimatedPositioned(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeIn,
-              bottom: 0,
-              right: 0,
-              left: 0,
-              child: Container(
-                height: media.height * 0.24,
-                width: 200,
-                padding: const EdgeInsets.all(kDefaultPadding / 2),
-                decoration: ShapeDecoration(
-                  shadows: [
-                    BoxShadow(
-                      color: kBlackColor.withOpacity(0.1),
-                      blurRadius: 5,
-                      spreadRadius: 2,
-                      blurStyle: BlurStyle.normal,
-                    ),
-                  ],
-                  color: const Color(0xFFFEF8F8),
-                  shape: const RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 0.50,
-                      color: Color(0xFFFDEDED),
-                    ),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      topRight: Radius.circular(25),
+                      markers: Set.of(_markers),
+                      polylines: {
+                        Polyline(
+                          polylineId: const PolylineId("Delivery route"),
+                          points: _polylineCoordinates,
+                          color: kAccentColor,
+                          consumeTapEvents: true,
+                          geodesic: true,
+                          width: 5,
+                          visible: true,
+                        ),
+                      },
+                      compassEnabled: true,
+                      mapToolbarEnabled: true,
+                      minMaxZoomPreference: MinMaxZoomPreference.unbounded,
+                      tiltGesturesEnabled: true,
+                      zoomGesturesEnabled: false,
+                      fortyFiveDegreeImageryEnabled: true,
+                      myLocationButtonEnabled: true,
+                      myLocationEnabled: true,
+                      cameraTargetBounds: CameraTargetBounds.unbounded,
+                      rotateGesturesEnabled: true,
+                      scrollGesturesEnabled: true,
                     ),
                   ),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: ShapeDecoration(
-                        color: const Color(0xFFFEF8F8),
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                            width: 0.50,
-                            color: Color(0xFFFDEDED),
-                          ),
-                          borderRadius: BorderRadius.circular(25),
+                  Container(
+                    height: media.height * 0.24,
+                    width: media.width,
+                    padding: const EdgeInsets.all(kDefaultPadding / 2),
+                    decoration: ShapeDecoration(
+                      shadows: [
+                        BoxShadow(
+                          color: kBlackColor.withOpacity(0.1),
+                          blurRadius: 5,
+                          spreadRadius: 2,
+                          blurStyle: BlurStyle.normal,
                         ),
-                        shadows: const [
-                          BoxShadow(
-                            color: Color(0x0F000000),
-                            blurRadius: 24,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0,
-                          ),
-                        ],
+                      ],
+                      color: const Color(0xFFFEF8F8),
+                      shape: const RoundedRectangleBorder(
+                        side: BorderSide(
+                          width: 0.50,
+                          color: Color(0xFFFDEDED),
+                        ),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(25),
+                        ),
                       ),
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.all(5),
-                        leading: Image.asset("assets/icons/delivery_bike.png"),
-                        title: const Text(
-                          "Benji Rider",
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        subtitle: Text(
-                          "10 MIN",
-                          style: TextStyle(
-                            color: kTextGreyColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        trailing: Text.rich(
-                          TextSpan(
-                            children: [
-                              const TextSpan(
-                                text: "₦ ",
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontFamily: 'sen',
-                                  fontWeight: FontWeight.w700,
-                                ),
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: ShapeDecoration(
+                            color: const Color(0xFFFEF8F8),
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                width: 0.50,
+                                color: Color(0xFFFDEDED),
                               ),
-                              TextSpan(
-                                text: formattedText(5000),
-                                style: const TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            shadows: const [
+                              BoxShadow(
+                                color: Color(0x0F000000),
+                                blurRadius: 24,
+                                offset: Offset(0, 4),
+                                spreadRadius: 0,
                               ),
                             ],
                           ),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(5),
+                            leading:
+                                Image.asset("assets/icons/delivery_bike.png"),
+                            title: const Text(
+                              "Benji Rider",
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            subtitle: Text(
+                              "10 MIN",
+                              style: TextStyle(
+                                color: kTextGreyColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            trailing: Text.rich(
+                              TextSpan(
+                                children: [
+                                  const TextSpan(
+                                    text: "₦ ",
+                                    style: TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 16,
+                                      fontFamily: 'sen',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: formattedText(5000),
+                                    style: const TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        kSizedBox,
+                        MyElevatedButton(
+                          title: "Proceed to Payout",
+                          onPressed: _toPayOut,
+                        ),
+                      ],
                     ),
-                    kSizedBox,
-                    MyElevatedButton(
-                      title: "Proceed to Payout",
-                      onPressed: _toPayOut,
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }

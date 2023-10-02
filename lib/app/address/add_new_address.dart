@@ -40,6 +40,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
   @override
   void dispose() {
     selectedLocation.dispose();
+
     super.dispose();
   }
 
@@ -73,8 +74,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
   final selectedLocation = ValueNotifier<String?>(null);
 
   //===================== BOOL VALUES =======================\\
-  bool _isLoading = false;
-  bool _isLoading2 = false;
+  final bool _isLoading = false;
+  final bool _isLoading2 = false;
   bool _typing = false;
   //===================== FUNCTIONS =======================\\
   // Future<bool> addAddress({bool is_current = true}) async {
@@ -365,18 +366,15 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   },
                                   textInputAction: TextInputAction.done,
                                   focusNode: _mapsLocationFN,
-                                  hintText: "Search your location",
+                                  hintText: "Search a location",
                                   textInputType: TextInputType.text,
-                                  suffixIcon: InkWell(
-                                    onTap: _toPinLocationOnMap,
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.all(kDefaultPadding),
-                                      child: FaIcon(
-                                        FontAwesomeIcons.locationCrosshairs,
-                                        color: kAccentColor,
-                                        size: 18,
-                                      ),
+                                  prefixIcon: Padding(
+                                    padding:
+                                        const EdgeInsets.all(kDefaultPadding),
+                                    child: FaIcon(
+                                      FontAwesomeIcons.locationDot,
+                                      color: kAccentColor,
+                                      size: 18,
                                     ),
                                   ),
                                 ),
@@ -393,7 +391,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                     color: kAccentColor,
                                     size: 18,
                                   ),
-                                  label: const Text("Use my current Location"),
+                                  label: const Text("Locate on map"),
                                   style: ElevatedButton.styleFrom(
                                     elevation: 0,
                                     backgroundColor: kLightGreyColor,
