@@ -6,16 +6,20 @@ class PlaceAutocompleteResponse {
   final String? status;
   final List<AutocompletePrediction>? predictions;
 
-  PlaceAutocompleteResponse({this.status, this.predictions});
+  PlaceAutocompleteResponse({
+    this.status,
+    this.predictions,
+  });
 
   factory PlaceAutocompleteResponse.fromJson(Map<String, dynamic> json) {
     return PlaceAutocompleteResponse(
       status: json['status'] as String?,
-      predictions: json['predictions'] ??
-          json['predictions']
+      predictions: json['predictions'] != null
+          ? json['predictions']
               .map<AutocompletePrediction>(
                   (json) => AutocompletePrediction.fromJson(json))
-              .toList(),
+              .toList()
+          : null,
     );
   }
 

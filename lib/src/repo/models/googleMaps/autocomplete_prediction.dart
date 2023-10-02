@@ -30,7 +30,10 @@ class StructuredFormatting {
 
   final String? secondaryText;
 
-  StructuredFormatting({this.mainText, this.secondaryText});
+  StructuredFormatting({
+    this.mainText,
+    this.secondaryText,
+  });
 
   factory StructuredFormatting.fromJson(Map<String, dynamic> json) {
     return StructuredFormatting(

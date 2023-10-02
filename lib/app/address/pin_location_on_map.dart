@@ -6,31 +6,29 @@ import 'dart:ui' as ui; // Import the ui library with an alias
 import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/providers/constants.dart';
-import '../../src/providers/keys.dart';
 import '../../theme/colors.dart';
 
-class ChooseRider extends StatefulWidget {
-  const ChooseRider({super.key});
+class PinLocationOnMap extends StatefulWidget {
+  const PinLocationOnMap({super.key});
 
   @override
-  State<ChooseRider> createState() => _ChooseRiderState();
+  State<PinLocationOnMap> createState() => _PinLocationOnMapState();
 }
 
-class _ChooseRiderState extends State<ChooseRider> {
+class _PinLocationOnMapState extends State<PinLocationOnMap> {
   //============================================================== INITIAL STATE ====================================================================\\
   @override
   void initState() {
     super.initState();
     // _getPolyPoints();
-    _markerTitle = <String>["Me", "Rider"];
-    _markerSnippet = <String>["My Location", "Rider location"];
+    _markerTitle = <String>["Me"];
+    _markerSnippet = <String>["My Location"];
     _loadMapData();
   }
 
@@ -38,6 +36,7 @@ class _ChooseRiderState extends State<ChooseRider> {
   void dispose() {
     super.dispose();
   }
+
   //============================================================= ALL VARIABLES ======================================================================\\
 
   //============================================================= BOOL VALUES ======================================================================\\
@@ -46,25 +45,15 @@ class _ChooseRiderState extends State<ChooseRider> {
 
   Position? _userPosition;
 
-  static const LatLng _riderLocation = pickupLocation;
-
-  static const LatLng pickupLocation =
-      LatLng(6.45540420992054, 7.507061460857368);
-  static const deliveryLocation = LatLng(6.463832607452451, 7.53990682395574);
-
-  final List<LatLng> _polylineCoordinates = [];
-  // List<LatLng> _latLng = <LatLng>[_userLocation, _riderLocation];
   Uint8List? _markerImage;
   final List<Marker> _markers = <Marker>[];
   final List<MarkerId> _markerId = <MarkerId>[
     const MarkerId("0"),
-    const MarkerId("1")
   ];
   List<String>? _markerTitle;
   List<String>? _markerSnippet;
   final List<String> _customMarkers = <String>[
     "assets/icons/person_location.png",
-    "assets/icons/delivery_bike.png",
   ];
   //============================================================= BOOL VALUES ======================================================================\\
 
@@ -113,7 +102,6 @@ class _ChooseRiderState extends State<ChooseRider> {
     }
     await _getUserCurrentLocation();
     await _loadCustomMarkers();
-    getPolyPoints();
   }
 
 //============================================== Get Current Location ==================================================\\
@@ -162,7 +150,6 @@ class _ChooseRiderState extends State<ChooseRider> {
     );
     List<LatLng> latLng = <LatLng>[
       LatLng(userLocation.latitude, userLocation.longitude),
-      _riderLocation
     ];
     for (int i = 0; i < _customMarkers.length; i++) {
       final Uint8List markerIcon =
@@ -183,47 +170,6 @@ class _ChooseRiderState extends State<ChooseRider> {
     }
   }
 
-  //============================================== Adding polypoints ==================================================\\
-  void getPolyPoints() async {
-    final List<MarkerId> markerId = <MarkerId>[
-      const MarkerId("Pickup Location"),
-      const MarkerId("Delivery Location"),
-    ];
-    List<String> markerTitle = <String>["Pickup Location", "Delivery Location"];
-
-    final List<LatLng> locations = <LatLng>[pickupLocation, deliveryLocation];
-    final List<BitmapDescriptor> markers = <BitmapDescriptor>[
-      BitmapDescriptor.defaultMarker,
-      BitmapDescriptor.defaultMarkerWithHue(8),
-    ];
-
-    for (var i = 0; i < markerId.length; i++) {
-      _markers.add(
-        Marker(
-          markerId: markerId[i],
-          position: locations[i],
-          icon: markers[i],
-          visible: true,
-          infoWindow: InfoWindow(title: markerTitle[i]),
-        ),
-      );
-    }
-
-    PolylinePoints polyLinePoints = PolylinePoints();
-    PolylineResult result = await polyLinePoints.getRouteBetweenCoordinates(
-      googleMapsApiKey,
-      PointLatLng(pickupLocation.latitude, pickupLocation.longitude),
-      PointLatLng(deliveryLocation.latitude, deliveryLocation.longitude),
-    );
-
-    if (result.points.isNotEmpty) {
-      for (var point in result.points) {
-        _polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      }
-      setState(() {});
-    }
-  }
-
 //============================================== Create Google Maps ==================================================\\
 
   void _onMapCreated(GoogleMapController controller) {
@@ -231,17 +177,15 @@ class _ChooseRiderState extends State<ChooseRider> {
     _newGoogleMapController = controller;
   }
 
-//========================================================== Handle Refresh =============================================================\\
-
 //========================================================== Navigation =============================================================\\
-  void _toPayOut() {}
+  void _selectLocation() {}
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return Scaffold(
       appBar: MyAppBar(
-        title: "Choose a rider",
+        title: "Pin your location",
         elevation: 0.0,
         actions: const [],
         backgroundColor: kPrimaryColor,
@@ -256,22 +200,14 @@ class _ChooseRiderState extends State<ChooseRider> {
                 : GoogleMap(
                     mapType: MapType.normal,
                     onMapCreated: _onMapCreated,
-                    initialCameraPosition: const CameraPosition(
-                      target: pickupLocation,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                        _userPosition!.latitude,
+                        _userPosition!.longitude,
+                      ),
                       zoom: 14,
                     ),
                     markers: Set.of(_markers),
-                    polylines: {
-                      Polyline(
-                        polylineId: const PolylineId("Delivery route"),
-                        points: _polylineCoordinates,
-                        color: kAccentColor,
-                        consumeTapEvents: true,
-                        geodesic: true,
-                        width: 5,
-                        visible: true,
-                      ),
-                    },
                     padding: EdgeInsets.only(bottom: media.height * 0.24),
                     compassEnabled: true,
                     mapToolbarEnabled: true,
@@ -341,9 +277,13 @@ class _ChooseRiderState extends State<ChooseRider> {
                       ),
                       child: ListTile(
                         contentPadding: const EdgeInsets.all(5),
-                        leading: Image.asset("assets/icons/delivery_bike.png"),
+                        leading: Image.asset(
+                          "assets/icons/location-icon.png",
+                          height: 50,
+                          width: 50,
+                        ),
                         title: const Text(
-                          "Benji Rider",
+                          "Pinned Location",
                           style: TextStyle(
                             color: kTextBlackColor,
                             fontSize: 16,
@@ -351,42 +291,19 @@ class _ChooseRiderState extends State<ChooseRider> {
                           ),
                         ),
                         subtitle: Text(
-                          "10 MIN",
+                          "Dummy location, location",
                           style: TextStyle(
                             color: kTextGreyColor,
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        trailing: Text.rich(
-                          TextSpan(
-                            children: [
-                              const TextSpan(
-                                text: "₦ ",
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontFamily: 'sen',
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              TextSpan(
-                                text: formattedText(5000),
-                                style: const TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
                     ),
                     kSizedBox,
                     MyElevatedButton(
-                      title: "Proceed to Payout",
-                      onPressed: _toPayOut,
+                      title: "Select Location",
+                      onPressed: _selectLocation,
                     ),
                   ],
                 ),
