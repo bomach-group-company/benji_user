@@ -1,15 +1,13 @@
+import 'package:benji_user/src/frontend/model/product.dart';
 import 'package:benji_user/src/frontend/utils/constant.dart';
+import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
 import '../clickable.dart';
 
 class MyCardLg extends StatefulWidget {
-  final String image;
-  final String title;
-  final String sub;
-  final String price;
-  final String description;
+  final Product product;
   final Widget? navigate;
   final Function()? close;
   final Widget? navigateCategory;
@@ -18,11 +16,7 @@ class MyCardLg extends StatefulWidget {
   const MyCardLg({
     super.key,
     this.visible = false,
-    required this.image,
-    required this.title,
-    required this.sub,
-    required this.price,
-    required this.description,
+    required this.product,
     this.close,
     this.navigate,
     // const ProductPage(id: '2f8f8557-e313-465c-979f-c42f4b7e36dd'),
@@ -34,6 +28,33 @@ class MyCardLg extends StatefulWidget {
 }
 
 class _MyCardLgState extends State<MyCardLg> {
+  @override
+  void initState() {
+    super.initState();
+    _cartCount();
+  }
+
+  Future<void> _cartAddFunction() async {
+    await addToCart(
+        widget.product.vendor.id!.toString(), widget.product.id.toString());
+    await _cartCount();
+  }
+
+  Future<void> _cartRemoveFunction() async {
+    await removeFromCart(
+        widget.product.vendor.id!.toString(), widget.product.id.toString());
+    await _cartCount();
+  }
+
+  bool addedToCart = false;
+  _cartCount() async {
+    int count = await countCartItemByProduct(
+        widget.product.vendor.id!.toString(), widget.product.id.toString());
+    setState(() {
+      addedToCart = count > 0;
+    });
+  }
+
   double blurRadius = 2;
   double margin = 15;
   @override
@@ -104,7 +125,8 @@ class _MyCardLgState extends State<MyCardLg> {
                           child: Container(
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: NetworkImage(widget.image),
+                                image:
+                                    NetworkImage(widget.product.productImage!),
                               ),
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(10),
@@ -136,7 +158,7 @@ class _MyCardLgState extends State<MyCardLg> {
                                     child: MyClickable(
                                       navigate: widget.navigate,
                                       child: Text(
-                                        widget.title,
+                                        widget.product.name,
                                         softWrap: false,
                                         maxLines: 1,
                                         style: const TextStyle(
@@ -155,7 +177,7 @@ class _MyCardLgState extends State<MyCardLg> {
                                   MyClickable(
                                     navigate: widget.navigateCategory,
                                     child: Text(
-                                      widget.sub,
+                                      widget.product.subCategory.name,
                                       textAlign: TextAlign.start,
                                       style: const TextStyle(
                                           overflow: TextOverflow.ellipsis,
@@ -173,22 +195,32 @@ class _MyCardLgState extends State<MyCardLg> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '\$${widget.price}',
+                                    '\$${widget.product.price}',
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                       letterSpacing: 1.2,
                                     ),
                                   ),
-                                  OutlinedButton(
-                                    style: OutlinedButton.styleFrom(
-                                      foregroundColor: kGreenColor,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 15),
-                                    ),
-                                    onPressed: () {},
-                                    child: const Text('ADD'),
-                                  ),
+                                  addedToCart
+                                      ? OutlinedButton(
+                                          style: OutlinedButton.styleFrom(
+                                            foregroundColor: kGreenColor,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 12, vertical: 15),
+                                          ),
+                                          onPressed: _cartRemoveFunction,
+                                          child: const Text('REMOVE'),
+                                        )
+                                      : OutlinedButton(
+                                          style: OutlinedButton.styleFrom(
+                                            foregroundColor: kGreenColor,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 12, vertical: 15),
+                                          ),
+                                          onPressed: _cartAddFunction,
+                                          child: const Text('ADD'),
+                                        ),
                                 ],
                               ),
                               kHalfSizedBox,
@@ -201,7 +233,7 @@ class _MyCardLgState extends State<MyCardLg> {
                               ),
                               kHalfSizedBox,
                               Text(
-                                widget.description,
+                                widget.product.description,
                                 maxLines: 9,
                                 style: const TextStyle(
                                   color: Colors.black45,

@@ -4,6 +4,7 @@ import 'package:benji_user/frontend/store/category.dart';
 import 'package:benji_user/src/frontend/model/product.dart';
 import 'package:benji_user/src/frontend/widget/clickable.dart';
 import 'package:benji_user/src/frontend/widget/responsive/appbar/appbar.dart';
+import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -19,8 +20,12 @@ import '../../src/frontend/widget/section/footer.dart';
 import '../../src/frontend/widget/text/fancy_text.dart';
 
 class ProductPage extends StatefulWidget {
-  final String id;
-  const ProductPage({super.key, required this.id});
+  final Product product;
+
+  const ProductPage({
+    super.key,
+    required this.product,
+  });
 
   @override
   State<ProductPage> createState() => _ProductPageState();
@@ -48,15 +53,36 @@ class _ProductPageState extends State<ProductPage> {
         });
       });
 
+    _cartCount();
     super.initState();
   }
 
+  Future<void> _cartAddFunction() async {
+    await addToCart(
+        widget.product.vendor.id!.toString(), widget.product.id.toString());
+    await _cartCount();
+  }
+
+  Future<void> _cartRemoveFunction() async {
+    await removeFromCart(
+        widget.product.vendor.id!.toString(), widget.product.id.toString());
+    await _cartCount();
+  }
+
+  bool addedToCart = false;
+  _cartCount() async {
+    int count = await countCartItemByProduct(
+        widget.product.vendor.id!.toString(), widget.product.id.toString());
+    setState(() {
+      addedToCart = count > 0;
+    });
+  }
+
   Future<Map<String, dynamic>> _getData() async {
-    final Product product = await fetchProduct(widget.id);
     return {
-      'product': product,
+      'product': widget.product,
       'related': await fetchAllProductFilterByCategory(
-          product.subCategory.category.id, 1, 6)
+          widget.product.subCategory.category.id, 1, 6)
     };
   }
 
@@ -89,7 +115,8 @@ class _ProductPageState extends State<ProductPage> {
       backgroundColor: const Color(0xfffafafc),
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, media.height * 0.11),
-        child: const MyAppbar(hideSearch: false),
+        // ignore: prefer_const_constructors
+        child: MyAppbar(hideSearch: false),
       ),
       body: SafeArea(
         child: FutureBuilder(
@@ -339,21 +366,43 @@ class _ProductPageState extends State<ProductPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
                                           children: [
-                                            ElevatedButton(
-                                              onPressed: () {},
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor: kGreenColor,
-                                                minimumSize: Size(
-                                                    breakPoint(
-                                                      media.width,
-                                                      media.width * 0.43,
-                                                      media.width * 0.27,
-                                                      media.width * 0.28,
+                                            addedToCart
+                                                ? ElevatedButton(
+                                                    onPressed:
+                                                        _cartRemoveFunction,
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          kGreenColor,
+                                                      minimumSize: Size(
+                                                          breakPoint(
+                                                            media.width,
+                                                            media.width * 0.43,
+                                                            media.width * 0.27,
+                                                            media.width * 0.28,
+                                                          ),
+                                                          50),
                                                     ),
-                                                    50),
-                                              ),
-                                              child: const Text('ADD TO CART'),
-                                            ),
+                                                    child: const Text('REMOVE'),
+                                                  )
+                                                : ElevatedButton(
+                                                    onPressed: _cartAddFunction,
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          kGreenColor,
+                                                      minimumSize: Size(
+                                                          breakPoint(
+                                                            media.width,
+                                                            media.width * 0.43,
+                                                            media.width * 0.27,
+                                                            media.width * 0.28,
+                                                          ),
+                                                          50),
+                                                    ),
+                                                    child: const Text(
+                                                        'ADD TO CART'),
+                                                  ),
                                             OutlinedButton(
                                               onPressed: () {},
                                               style: OutlinedButton.styleFrom(
@@ -442,6 +491,7 @@ class _ProductPageState extends State<ProductPage> {
                                             ],
                                             children: (data)
                                                 .map((item) => MyCard(
+                                                      product: item,
                                                       navigateCategory:
                                                           CategoryPage(
                                                         activeCategoriesId: item
@@ -454,7 +504,7 @@ class _ProductPageState extends State<ProductPage> {
                                                             .name,
                                                       ),
                                                       navigate: ProductPage(
-                                                          id: item.id),
+                                                          product: item),
                                                       action: () {
                                                         setState(() {
                                                           showCard = true;
@@ -462,13 +512,6 @@ class _ProductPageState extends State<ProductPage> {
                                                               item.id;
                                                         });
                                                       },
-                                                      image:
-                                                          '$mediaBaseFrontendUrl${item.productImage}',
-                                                      title: item.name,
-                                                      sub:
-                                                          item.subCategory.name,
-                                                      price:
-                                                          item.price.toString(),
                                                     ))
                                                 .toList(),
                                           );
@@ -503,18 +546,14 @@ class _ProductPageState extends State<ProductPage> {
                           activeCategoriesId: data.subCategory.category.id,
                           activeCategories: data.subCategory.category.name,
                         ),
-                        navigate: ProductPage(id: data.id),
+                        navigate: ProductPage(product: data),
                         visible: showCard,
                         close: () {
                           setState(() {
                             showCard = false;
                           });
                         },
-                        image: '$mediaBaseFrontendUrl${data.productImage}',
-                        title: data.name,
-                        sub: data.subCategory.name,
-                        price: data.price.toString(),
-                        description: data.description,
+                        product: data,
                       );
                     }),
                   ],

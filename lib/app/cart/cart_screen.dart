@@ -31,13 +31,14 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
+    checkAuth(context);
+
     _getData();
   }
 
   List<Product>? _data;
 
   _getData() async {
-    await checkAuth(context);
     _subTotal = 0;
     List<Product> product = await getCartProduct(
       (data) => mySnackBar(

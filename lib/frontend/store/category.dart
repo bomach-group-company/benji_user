@@ -104,7 +104,8 @@ class _CategoryPageState extends State<CategoryPage> {
     return Scaffold(
       drawerScrimColor: Colors.transparent,
       backgroundColor: const Color(0xfffafafc),
-      appBar: const MyAppbar(hideSearch: false),
+      // ignore: prefer_const_constructors
+      appBar: MyAppbar(hideSearch: false),
       body: SafeArea(
         child: Stack(
           children: [
@@ -263,7 +264,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                                             .name,
                                                       ),
                                                       navigate: ProductPage(
-                                                          id: item.id),
+                                                          product: item),
                                                       action: () {
                                                         setState(() {
                                                           showCard = true;
@@ -271,13 +272,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                                               item.id;
                                                         });
                                                       },
-                                                      image:
-                                                          '$mediaBaseFrontendUrl${item.productImage}',
-                                                      title: item.name,
-                                                      sub:
-                                                          item.subCategory.name,
-                                                      price:
-                                                          item.price.toString(),
+                                                      product: item,
                                                     ))
                                                 .toList(),
                                           ),
@@ -315,18 +310,14 @@ class _CategoryPageState extends State<CategoryPage> {
                     activeCategoriesId: data.subCategory.category.id,
                     activeCategories: data.subCategory.category.name,
                   ),
-                  navigate: ProductPage(id: data.id),
+                  navigate: ProductPage(product: data),
                   visible: showCard,
                   close: () {
                     setState(() {
                       showCard = false;
                     });
                   },
-                  image: '$mediaBaseFrontendUrl${data.productImage}',
-                  title: data.name,
-                  sub: data.subCategory.name,
-                  price: data.price.toString(),
-                  description: data.description,
+                  product: data,
                 );
               }
             }),

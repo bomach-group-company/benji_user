@@ -17,9 +17,12 @@ class MyAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: MyLayout(
+        // ignore: prefer_const_constructors
         mobile: MyMobileAppBar(hideSearch: hideSearch),
+        // ignore: prefer_const_constructors
         tablet: MyTabletAppBar(hideSearch: hideSearch),
-        laptop: const MyLaptopAppBar(),
+        // ignore: prefer_const_constructors
+        laptop: MyLaptopAppBar(),
       ),
     );
   }
