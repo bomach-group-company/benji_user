@@ -45,7 +45,7 @@ class _CartScreenState extends State<CartScreen> {
         context,
         kAccentColor,
         "Error!",
-        "Item with id $data not found",
+        "Item not found",
         const Duration(
           seconds: 1,
         ),
