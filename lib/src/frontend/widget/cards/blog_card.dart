@@ -1,7 +1,9 @@
 import 'package:benji_user/frontend/main/blog_detail.dart';
-import 'package:benji_user/src/frontend/utils/constant.dart';
 import 'package:benji_user/src/frontend/widget/clickable.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../theme/colors.dart';
+import '../../../providers/constants.dart';
 
 class MyBlogCard extends StatefulWidget {
   final String image;
@@ -153,7 +155,7 @@ class _MyBlogCardState extends State<MyBlogCard> {
                         children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: kGreenColor,
+                              backgroundColor: kAccentColor,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 12,
                                 vertical: 15,

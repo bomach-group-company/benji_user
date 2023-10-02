@@ -10,6 +10,8 @@ import '../../src/frontend/utils/constant.dart';
 import '../../src/frontend/widget/cards/circle_card.dart';
 import '../../src/frontend/widget/drawer/drawer.dart';
 import '../../src/frontend/widget/section/footer.dart';
+import '../../src/providers/constants.dart';
+import '../../theme/colors.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});
@@ -68,8 +70,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   child: Text('Error occured refresh'),
                 );
               }
-              return const SpinKitChasingDots(
-                color: kGreenColor,
+              return SpinKitChasingDots(
+                color: kAccentColor,
                 size: 30,
               );
             } else {
@@ -137,8 +139,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   backgroundColor: Colors.white,
                   padding: const EdgeInsets.all(0),
                   minimumSize: const Size(45, 45),
-                  foregroundColor: kGreenColor,
-                  side: const BorderSide(color: kGreenColor)),
+                  foregroundColor: kAccentColor,
+                  side: BorderSide(color: kAccentColor)),
               onPressed: _scrollToTop,
               child: const Icon(
                 Icons.arrow_upward,

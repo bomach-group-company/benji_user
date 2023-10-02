@@ -67,9 +67,8 @@ class _EditProfileState extends State<EditProfile> {
     User? user = await getUser();
 
     // User data update
-    final url = Uri.parse('$baseFrontendUrl/clients/changeClient/${user!.id}');
-    final url_get_user =
-        Uri.parse('$baseFrontendUrl/clients/getClient/${user.id}');
+    final url = Uri.parse('$baseURL/clients/changeClient/${user!.id}');
+    final url_get_user = Uri.parse('$baseURL/clients/getClient/${user.id}');
 
     final body = {
       'first_name': _userFirstNameEC.text,

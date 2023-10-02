@@ -6,13 +6,14 @@ import 'package:benji_user/frontend/main/refund_policy.dart';
 import 'package:benji_user/frontend/main/team.dart';
 import 'package:benji_user/frontend/main/term_condition.dart';
 import 'package:benji_user/frontend/store/categories.dart';
-import 'package:benji_user/src/frontend/utils/constant.dart';
 import 'package:benji_user/src/frontend/widget/clickable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../providers/constants.dart';
+import '../../utils/constant.dart';
 import '../footer_column_text.dart';
 
 class Footer extends StatelessWidget {

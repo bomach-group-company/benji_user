@@ -23,6 +23,8 @@ import '../../src/frontend/widget/drawer/drawer.dart';
 import '../../src/frontend/widget/end_to_end_row.dart';
 import '../../src/frontend/widget/responsive/appbar/appbar.dart';
 import '../../src/frontend/widget/section/footer.dart';
+import '../../src/providers/constants.dart';
+import '../../theme/colors.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -100,8 +102,8 @@ class _HomePageState extends State<HomePage> {
                   child: Text('Error occured try refresh or contacting admin'),
                 );
               }
-              return const SpinKitChasingDots(
-                color: kGreenColor,
+              return SpinKitChasingDots(
+                color: kAccentColor,
                 size: 30,
               );
             } else {
@@ -685,8 +687,8 @@ class _HomePageState extends State<HomePage> {
                   backgroundColor: Colors.white,
                   padding: const EdgeInsets.all(0),
                   minimumSize: const Size(45, 45),
-                  foregroundColor: kGreenColor,
-                  side: const BorderSide(color: kGreenColor)),
+                  foregroundColor: kAccentColor,
+                  side: BorderSide(color: kAccentColor)),
               onPressed: _scrollToTop,
               child: const Icon(
                 Icons.arrow_upward,

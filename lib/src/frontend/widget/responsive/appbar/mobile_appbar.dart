@@ -1,9 +1,11 @@
 import 'package:benji_user/frontend/main/home.dart';
 import 'package:benji_user/frontend/store/search.dart';
-import 'package:benji_user/src/frontend/utils/constant.dart';
 import 'package:benji_user/src/frontend/widget/cart.dart';
 import 'package:benji_user/src/frontend/widget/clickable.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../theme/colors.dart';
+import '../../../../providers/constants.dart';
 
 class MyMobileAppBar extends StatelessWidget {
   final bool hideSearch;
@@ -24,7 +26,7 @@ class MyMobileAppBar extends StatelessWidget {
         ],
         color: Color(0xfffafafc),
         // border: Border(
-        //   bottom: BorderSide(color: kGreenColor, width: 1),
+        //   bottom: BorderSide(color: kAccentColor, width: 1),
         // ),
       ),
       child: Row(
@@ -45,20 +47,20 @@ class MyMobileAppBar extends StatelessWidget {
               kWidthSizedBox,
               hideSearch
                   ? const SizedBox()
-                  : const MyClickable(
-                      navigate: SearchPage(),
+                  : MyClickable(
+                      navigate: const SearchPage(),
                       child: Icon(
                         Icons.search,
-                        color: kGreenColor,
+                        color: kAccentColor,
                         size: 30,
                       ),
                     ),
               kWidthSizedBox,
               InkWell(
                 mouseCursor: SystemMouseCursors.click,
-                child: const Icon(
+                child: Icon(
                   Icons.menu,
-                  color: kGreenColor,
+                  color: kAccentColor,
                   size: 35,
                 ),
                 onTap: () {

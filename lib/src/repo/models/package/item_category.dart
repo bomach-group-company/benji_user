@@ -23,7 +23,7 @@ class ItemCategory {
 
 Future<List<ItemCategory>> getPackageCategory() async {
   final response = await http.get(
-      Uri.parse('$baseFrontendUrl/sendPackage/getPackageCategory/'),
+      Uri.parse('$baseURL/sendPackage/getPackageCategory/'),
       headers: await authHeader());
 
   if (response.statusCode == 200) {

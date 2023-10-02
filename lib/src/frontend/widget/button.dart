@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/constant.dart';
+import '../../../theme/colors.dart';
 
 class MyOutlinedButton extends StatefulWidget {
   final Widget? navigate;
@@ -25,9 +25,9 @@ class _MyOutlinedButtonState extends State<MyOutlinedButton> {
       },
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-        side: const BorderSide(color: kGreenColor),
-        foregroundColor: btnHover ? Colors.white : kGreenColor,
-        backgroundColor: btnHover ? kGreenColor : Colors.transparent,
+        side: BorderSide(color: kAccentColor),
+        foregroundColor: btnHover ? Colors.white : kAccentColor,
+        backgroundColor: btnHover ? kAccentColor : Colors.transparent,
       ),
       onPressed: () {
         if (widget.navigate != null) {

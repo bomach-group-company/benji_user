@@ -14,6 +14,8 @@ import '../../src/frontend/widget/cards/product_card.dart';
 import '../../src/frontend/widget/cards/product_card_lg.dart';
 import '../../src/frontend/widget/drawer/drawer.dart';
 import '../../src/frontend/widget/section/footer.dart';
+import '../../src/providers/constants.dart';
+import '../../theme/colors.dart';
 
 class CategoryPage extends StatefulWidget {
   final String activeCategories;
@@ -147,7 +149,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                             OutlinedButton(
                                               style: OutlinedButton.styleFrom(
                                                 minimumSize: const Size(10, 50),
-                                                backgroundColor: kGreenColor,
+                                                backgroundColor: kAccentColor,
                                                 foregroundColor: Colors.white,
                                               ),
                                               onPressed: () {},
@@ -177,13 +179,13 @@ class _CategoryPageState extends State<CategoryPage> {
                                                         backgroundColor:
                                                             activeSubCategoriesId ==
                                                                     item[0]
-                                                                ? kGreenColor
+                                                                ? kAccentColor
                                                                 : Colors.white,
                                                         foregroundColor:
                                                             activeSubCategoriesId ==
                                                                     item[0]
                                                                 ? Colors.white
-                                                                : kGreenColor,
+                                                                : kAccentColor,
                                                       ),
                                                       onPressed: () {
                                                         setState(() {
@@ -220,8 +222,8 @@ class _CategoryPageState extends State<CategoryPage> {
                                           child: Text('Error occured refresh'),
                                         );
                                       }
-                                      return const SpinKitChasingDots(
-                                        color: kGreenColor,
+                                      return SpinKitChasingDots(
+                                        color: kAccentColor,
                                         size: 30,
                                       );
                                     } else {
@@ -332,8 +334,8 @@ class _CategoryPageState extends State<CategoryPage> {
                   backgroundColor: Colors.white,
                   padding: const EdgeInsets.all(0),
                   minimumSize: const Size(45, 45),
-                  foregroundColor: kGreenColor,
-                  side: const BorderSide(color: kGreenColor)),
+                  foregroundColor: kAccentColor,
+                  side: BorderSide(color: kAccentColor)),
               onPressed: _scrollToTop,
               child: const Icon(
                 Icons.arrow_upward,

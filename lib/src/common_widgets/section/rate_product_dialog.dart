@@ -48,7 +48,7 @@ class _RateProductDialogState extends State<RateProductDialog> {
 //===================================== FUNCTIONS ======================================\\
   Future<bool> rate() async {
     User? user = await getUser();
-    final url = Uri.parse('$baseFrontendUrl/clients/clientRateProduct');
+    final url = Uri.parse('$baseURL/clients/clientRateProduct');
     Map body = {
       'client_id': user!.id.toString(),
       'product_id': widget.product.id.toString(),

@@ -56,7 +56,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     setState(() {
       _isLoading = true;
     });
-    final url = Uri.parse('$baseFrontendUrl/auth/changeNewPassword/');
+    final url = Uri.parse('$baseURL/auth/changeNewPassword/');
 
     Map body = {
       'new_password': _userPasswordEC.text,
@@ -131,6 +131,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         backgroundColor: kSecondaryColor,
+        resizeToAvoidBottomInset: true,
         appBar: const MyAppBar(
           title: "",
           elevation: 0.0,
@@ -138,12 +139,25 @@ class _ChangePasswordState extends State<ChangePassword> {
           backgroundColor: kTransparentColor,
           toolbarHeight: kToolbarHeight,
         ),
+        extendBody: true,
+        extendBodyBehindAppBar: true,
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: LayoutGrid(
             columnSizes: breakPointDynamic(
-                media.size.width, [1.fr], [1.fr], [1.fr, 1.fr], [1.fr, 1.fr]),
-            rowSizes: [auto, 1.fr],
+              media.size.width,
+              [1.fr],
+              [1.fr],
+              [1.fr, 1.fr],
+              [1.fr, 1.fr],
+            ),
+            rowSizes: breakPointDynamic(
+              media.size.width,
+              [auto, 1.fr],
+              [auto, 1.fr],
+              [1.fr],
+              [1.fr],
+            ),
             children: [
               Column(
                 children: [
@@ -196,7 +210,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 height: media.size.height,
                 width: media.size.width,
                 padding: const EdgeInsets.only(
-                  top: kDefaultPadding,
+                  top: kDefaultPadding * 0.5,
                   left: kDefaultPadding,
                   right: kDefaultPadding,
                 ),

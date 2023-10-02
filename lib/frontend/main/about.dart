@@ -6,6 +6,8 @@ import '../../src/frontend/utils/constant.dart';
 import '../../src/frontend/widget/drawer/drawer.dart';
 import '../../src/frontend/widget/section/footer.dart';
 import '../../src/frontend/widget/text/content_text.dart';
+import '../../src/providers/constants.dart';
+import '../../theme/colors.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
@@ -142,8 +144,8 @@ Benji fosters a community of local vendors, promoting their products and giving 
                   backgroundColor: Colors.white,
                   padding: const EdgeInsets.all(0),
                   minimumSize: const Size(45, 45),
-                  foregroundColor: kGreenColor,
-                  side: const BorderSide(color: kGreenColor)),
+                  foregroundColor: kAccentColor,
+                  side: BorderSide(color: kAccentColor)),
               onPressed: _scrollToTop,
               child: const Icon(
                 Icons.arrow_upward,

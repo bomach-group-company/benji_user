@@ -1,5 +1,7 @@
-import 'package:benji_user/src/frontend/utils/constant.dart';
 import 'package:flutter/material.dart';
+
+import '../../../providers/constants.dart';
+import '../../utils/constant.dart';
 
 class TitleBody extends StatelessWidget {
   final String title;

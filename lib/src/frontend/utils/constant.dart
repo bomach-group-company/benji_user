@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 const String baseFrontendUrl = 'https://benji-app.onrender.com/api/v1/frontend';
 
 const String mediaBaseFrontendUrl = 'https://benji-app.onrender.com';
@@ -14,26 +12,6 @@ const double mobileContainer = 25;
 
 // nice looking red but not our red 0xff059542
 // nice looking blue but not our blue 0xff2d2942
-
-const kGreenColor = Color(0xFFEC2623);
-const kBlueColor = Color(0xFF0003C4);
-
-const kDefaultPadding = 20.0;
-
-const kSizedBox = SizedBox(
-  height: kDefaultPadding,
-);
-const kWidthSizedBox = SizedBox(
-  width: kDefaultPadding,
-);
-
-const kHalfSizedBox = SizedBox(
-  height: kDefaultPadding / 2,
-);
-
-const kHalfWidthSizedBox = SizedBox(
-  width: kDefaultPadding / 2,
-);
 
 double breakPoint(double size, double mobile, double tablet, double laptop) {
   if (size <= mobileSize) {

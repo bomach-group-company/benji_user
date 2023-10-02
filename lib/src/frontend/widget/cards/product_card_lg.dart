@@ -1,9 +1,11 @@
 import 'package:benji_user/src/frontend/model/product.dart';
-import 'package:benji_user/src/frontend/utils/constant.dart';
 import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
+import '../../../../theme/colors.dart';
+import '../../../providers/constants.dart';
+import '../../utils/constant.dart';
 import '../clickable.dart';
 
 class MyCardLg extends StatefulWidget {
@@ -174,9 +176,9 @@ class _MyCardLgState extends State<MyCardLg> {
                                     child: Text(
                                       widget.product.subCategory.name,
                                       textAlign: TextAlign.start,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           overflow: TextOverflow.ellipsis,
-                                          color: kGreenColor,
+                                          color: kAccentColor,
                                           fontSize: 13,
                                           height: 2),
                                     ),
@@ -205,7 +207,7 @@ class _MyCardLgState extends State<MyCardLg> {
                                       return snapshot.data
                                           ? OutlinedButton(
                                               style: OutlinedButton.styleFrom(
-                                                foregroundColor: kGreenColor,
+                                                foregroundColor: kAccentColor,
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 12,
@@ -216,7 +218,7 @@ class _MyCardLgState extends State<MyCardLg> {
                                             )
                                           : OutlinedButton(
                                               style: OutlinedButton.styleFrom(
-                                                foregroundColor: kGreenColor,
+                                                foregroundColor: kAccentColor,
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 12,
@@ -262,10 +264,10 @@ class _MyCardLgState extends State<MyCardLg> {
                       cursor: SystemMouseCursors.click,
                       child: GestureDetector(
                         onTap: widget.close,
-                        child: const Text(
+                        child: Text(
                           'close',
                           style: TextStyle(
-                            color: kGreenColor,
+                            color: kAccentColor,
                           ),
                         ),
                       ),

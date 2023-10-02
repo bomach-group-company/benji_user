@@ -13,7 +13,7 @@ class MyMapsTextFormField extends StatelessWidget {
   final TextInputAction textInputAction;
   final FocusNode focusNode;
 
-  final Widget suffixIcon;
+  final Widget prefixIcon;
 
   const MyMapsTextFormField({
     super.key,
@@ -24,7 +24,7 @@ class MyMapsTextFormField extends StatelessWidget {
     required this.focusNode,
     required this.hintText,
     required this.textInputType,
-    required this.suffixIcon,
+    required this.prefixIcon,
     this.onChanged,
   });
 
@@ -51,7 +51,7 @@ class MyMapsTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         filled: true,
-        suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon,
         fillColor: const Color(0xFFF6F6F7),
         focusColor: const Color(0xFFF6F6F7),
         hintStyle: const TextStyle(

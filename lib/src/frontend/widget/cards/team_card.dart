@@ -1,5 +1,7 @@
-import 'package:benji_user/src/frontend/utils/constant.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../theme/colors.dart';
+import '../../../providers/constants.dart';
 
 class MyTeamCard extends StatelessWidget {
   const MyTeamCard({super.key});
@@ -18,11 +20,11 @@ class MyTeamCard extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          CircleAvatar(
+          const CircleAvatar(
             radius: 70,
             backgroundImage:
                 AssetImage('assets/frontend/assets/team/team1.jpg'),
@@ -31,13 +33,13 @@ class MyTeamCard extends StatelessWidget {
           Text(
             'Lorem',
             style: TextStyle(
-              color: kGreenColor,
+              color: kAccentColor,
               fontSize: 18,
               fontWeight: FontWeight.w700,
             ),
           ),
           kSizedBox,
-          Text(
+          const Text(
             'Legal Adviser',
             style: TextStyle(
               fontSize: 16,
@@ -45,7 +47,7 @@ class MyTeamCard extends StatelessWidget {
             ),
           ),
           kSizedBox,
-          Text(
+          const Text(
             '"Lorem is dummy ip[sum text t . Lorem is dummy ip[sum text t . Lorem is dummy ip[sum text t . Lorem is dummy ip[sum text t . Lorem is dummy ip[sum text t . Lorem is dummy ip[sum text t ."',
             textAlign: TextAlign.center,
             style: TextStyle(

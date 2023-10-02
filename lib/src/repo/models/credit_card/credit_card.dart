@@ -43,7 +43,7 @@ class CreditCard {
 
 Future<CreditCard> createCreditCard(clientId, Map body) async {
   final response = await http.post(
-      Uri.parse('$baseFrontendUrl/clients/saveUserCard/$clientId'),
+      Uri.parse('$baseURL/clients/saveUserCard/$clientId'),
       body: body,
       headers: await authHeader());
 
@@ -58,7 +58,7 @@ Future<List<CreditCard>> getCardDataByUser() async {
   int? userId = (await getUser() as User).id;
 
   final response = await http.get(
-    Uri.parse('$baseFrontendUrl/clients/getClientSavedCards/$userId'),
+    Uri.parse('$baseURL/clients/getClientSavedCards/$userId'),
     headers: await authHeader(),
   );
 

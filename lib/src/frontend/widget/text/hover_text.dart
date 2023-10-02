@@ -1,4 +1,3 @@
-import 'package:benji_user/src/frontend/utils/constant.dart';
 import 'package:benji_user/src/frontend/widget/clickable.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +16,7 @@ class HoverColorText extends StatefulWidget {
     required this.text,
     required this.style,
     this.defaultColor = Colors.black,
-    this.hoverColor = kGreenColor,
+    this.hoverColor = Colors.red,
     this.active = false,
     this.noHover = false,
     this.onTap,

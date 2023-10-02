@@ -8,7 +8,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/reusable_authentication_first_half.dart';
@@ -50,7 +49,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   //=========================== FUNCTIONS ====================================\\
   Future<bool> forgotPassword() async {
     final url = Uri.parse(
-        '$baseFrontendUrl/auth/requestForgotPassword/${_emailController.text}');
+        '$baseURL/auth/requestForgotPassword/${_emailController.text}');
 
     await prefs.setString('email', _emailController.text);
     final body = {};

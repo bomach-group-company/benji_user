@@ -176,8 +176,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       selectedImage = File(image.path);
       setState(() {});
       User? user = await getUser();
-      final url = Uri.parse(
-          '$baseFrontendUrl/clients/changeClientProfileImage/${user!.id}');
+      final url =
+          Uri.parse('$baseURL/clients/changeClientProfileImage/${user!.id}');
 
       // Create a multipart request
       final request = http.MultipartRequest('PUT', url);

@@ -47,7 +47,7 @@ class _ReportVendorState extends State<ReportVendor> {
     try {
       User? user = await getUser();
       final url = Uri.parse(
-          '$baseFrontendUrl/clients/clientReportVendor/${user!.id}/${widget.vendor.id}?message=${_messageEC.text}');
+          '$baseURL/clients/clientReportVendor/${user!.id}/${widget.vendor.id}?message=${_messageEC.text}');
 
       Map body = {};
 
