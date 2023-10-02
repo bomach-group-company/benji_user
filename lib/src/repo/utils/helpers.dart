@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:benji_user/main.dart';
+import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
+import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
@@ -42,38 +44,38 @@ checkUserAuth() async {
 }
 
 checkAuth(context) async {
-  // User? haveUser = await getUser();
-  // bool? isAuth = await isAuthorized();
-  // if (isAuth == null) {
-  //   mySnackBar(
-  //     context,
-  //     kAccentColor,
-  //     "No Internet!",
-  //     "Please Connect to the internet",
-  //     const Duration(seconds: 3),
-  //   );
-  // }
-  // if (haveUser == null || isAuth == false) {
-  //   mySnackBar(
-  //     context,
-  //     kAccentColor,
-  //     "Login to continue!",
-  //     "Please login to continue",
-  //     const Duration(seconds: 2),
-  //   );
-  //   return Get.offAll(
-  //     () => const Login(
-  //       logout: true,
-  //     ),
-  //     routeName: 'Login',
-  //     predicate: (route) => false,
-  //     duration: const Duration(milliseconds: 300),
-  //     fullscreenDialog: true,
-  //     curve: Curves.easeIn,
-  //     popGesture: false,
-  //     transition: Transition.rightToLeft,
-  //   );
-  // }
+  User? haveUser = await getUser();
+  bool? isAuth = await isAuthorized();
+  if (isAuth == null) {
+    mySnackBar(
+      context,
+      kAccentColor,
+      "No Internet!",
+      "Please Connect to the internet",
+      const Duration(seconds: 3),
+    );
+  }
+  if (haveUser == null || isAuth == false) {
+    mySnackBar(
+      context,
+      kAccentColor,
+      "Login to continue!",
+      "Please login to continue",
+      const Duration(seconds: 2),
+    );
+    return Get.offAll(
+      () => const Login(
+        logout: true,
+      ),
+      routeName: 'Login',
+      predicate: (route) => false,
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      popGesture: false,
+      transition: Transition.rightToLeft,
+    );
+  }
 }
 
 Future<bool> deleteUser() async {

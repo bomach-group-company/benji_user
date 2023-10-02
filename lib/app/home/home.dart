@@ -75,13 +75,11 @@ class _HomeState extends State<Home> {
     // print(await getCart());
     await checkAuth(context);
     String current = 'Select Address';
-    // try {
-    print('onnnn');
-    current = (await getCurrentAddress()).title ?? current;
-    print('onnnn22');
-    // } catch (e) {
-    // current = current;
-    // }
+    try {
+      current = (await getCurrentAddress()).title ?? current;
+    } catch (e) {
+      current = current;
+    }
 
     product = [];
     List<SubCategory> subCategory = await getSubCategories();
