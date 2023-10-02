@@ -5,6 +5,7 @@ import 'package:benji_user/frontend/store/category.dart';
 import 'package:benji_user/frontend/store/search.dart';
 import 'package:benji_user/src/frontend/model/category.dart';
 import 'package:benji_user/src/frontend/utils/constant.dart';
+import 'package:benji_user/src/frontend/widget/cart.dart';
 import 'package:benji_user/src/frontend/widget/clickable.dart';
 import 'package:benji_user/src/frontend/widget/text/hover_text.dart';
 import 'package:flutter/material.dart';
@@ -170,29 +171,8 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
                       ),
                     ),
                     kWidthSizedBox,
-                    Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        const Icon(Icons.shopping_cart, color: Colors.black),
-                        Positioned(
-                          right: -8,
-                          top: -8,
-                          child: Container(
-                            alignment: const Alignment(0, 0),
-                            height: 20,
-                            width: 20,
-                            decoration: BoxDecoration(
-                              color: kGreenColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Text(
-                              '0',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                    // ignore: prefer_const_constructors
+                    CartWidget(),
                     kWidthSizedBox,
                     kWidthSizedBox,
                     ElevatedButton(

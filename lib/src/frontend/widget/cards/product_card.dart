@@ -1,25 +1,20 @@
+import 'package:benji_user/src/frontend/model/product.dart';
 import 'package:benji_user/src/frontend/utils/constant.dart';
+import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
 
 import '../clickable.dart';
 
 class MyCard extends StatefulWidget {
-  final String image;
-  final String title;
-  final String sub;
-  final String price;
+  final Product product;
   final Widget? navigate;
   final Function()? action;
   final Widget? navigateCategory;
 
   const MyCard({
     super.key,
-    required this.image,
-    required this.title,
-    required this.sub,
-    required this.price,
+    required this.product,
     this.navigate,
-    // const ProductPage(id: '2f8f8557-e313-465c-979f-c42f4b7e36dd'),
     this.action,
     this.navigateCategory,
   });
@@ -29,6 +24,29 @@ class MyCard extends StatefulWidget {
 }
 
 class _MyCardState extends State<MyCard> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> _cartAddFunction() async {
+    await addToCart(
+        widget.product.vendor.id!.toString(), widget.product.id.toString());
+    setState(() {});
+  }
+
+  Future<void> _cartRemoveFunction() async {
+    await removeFromCart(
+        widget.product.vendor.id!.toString(), widget.product.id.toString());
+    setState(() {});
+  }
+
+  Future<bool> _cartCount() async {
+    int count = await countCartItemByProduct(
+        widget.product.vendor.id!.toString(), widget.product.id.toString());
+    return count > 0;
+  }
+
   double blurRadius = 2;
   double margin = 15;
   @override
@@ -89,7 +107,7 @@ class _MyCardState extends State<MyCard> {
                         ),
                         image: DecorationImage(
                             image: NetworkImage(
-                              widget.image,
+                              widget.product.productImage!,
                             ),
                             fit: BoxFit.cover),
                       ),
@@ -121,7 +139,7 @@ class _MyCardState extends State<MyCard> {
                           child: MyClickable(
                             navigate: widget.navigate,
                             child: Text(
-                              widget.title,
+                              widget.product.name,
                               softWrap: false,
                               maxLines: 1,
                               style: const TextStyle(
@@ -140,7 +158,7 @@ class _MyCardState extends State<MyCard> {
                         MyClickable(
                           navigate: widget.navigateCategory,
                           child: Text(
-                            widget.sub,
+                            widget.product.subCategory.name,
                             textAlign: TextAlign.start,
                             style: const TextStyle(
                                 overflow: TextOverflow.ellipsis,
@@ -157,21 +175,38 @@ class _MyCardState extends State<MyCard> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          '\$${widget.price}',
+                          '\$${widget.product.price}',
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1.2,
                           ),
                         ),
-                        OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: kGreenColor,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 15),
-                          ),
-                          onPressed: () {},
-                          child: const Text('ADD'),
+                        FutureBuilder(
+                          future: _cartCount(),
+                          initialData: false,
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            return snapshot.data
+                                ? OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      foregroundColor: kGreenColor,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 12, vertical: 15),
+                                    ),
+                                    onPressed: _cartRemoveFunction,
+                                    child: const Text('REMOVE'),
+                                  )
+                                : OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      foregroundColor: kGreenColor,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 12, vertical: 15),
+                                    ),
+                                    onPressed: _cartAddFunction,
+                                    child: const Text('ADD'),
+                                  );
+                          },
                         ),
                       ],
                     ),

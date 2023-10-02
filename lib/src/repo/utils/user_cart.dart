@@ -78,6 +78,19 @@ Future minusFromCart(String vendorId, String productId) async {
   prefs.setString(cartname, jsonEncode(cart));
 }
 
+Future removeFromCart(String vendorId, String productId) async {
+  Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
+  if (cart.containsKey(vendorId)) {
+    if (cart[vendorId].containsKey(productId)) {
+      cart[vendorId].remove(productId);
+      if (cart[vendorId].keys.length == 0) {
+        cart.remove(vendorId);
+      }
+    }
+  }
+  prefs.setString(cartname, jsonEncode(cart));
+}
+
 Future<Map<String, dynamic>> getCartProductId() async {
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   Map<String, dynamic> res = {};

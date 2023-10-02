@@ -85,7 +85,8 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       drawerScrimColor: Colors.transparent,
       backgroundColor: const Color(0xfffafafc),
-      appBar: const MyAppbar(),
+      // ignore: prefer_const_constructors
+      appBar: MyAppbar(),
       body: SafeArea(
         child: Stack(
           children: [
@@ -191,6 +192,7 @@ class _SearchPageState extends State<SearchPage> {
                                       List.filled(_getDataList!.length, auto),
                                   children: (_getDataList!)
                                       .map((item) => MyCard(
+                                            product: item,
                                             navigateCategory: CategoryPage(
                                               activeSubCategories:
                                                   item.subCategory.name,
@@ -201,18 +203,14 @@ class _SearchPageState extends State<SearchPage> {
                                               activeCategories: item
                                                   .subCategory.category.name,
                                             ),
-                                            navigate: ProductPage(id: item.id),
+                                            navigate:
+                                                ProductPage(product: item),
                                             action: () {
                                               setState(() {
                                                 showCard = true;
                                                 productPopId = item.id;
                                               });
                                             },
-                                            image:
-                                                '$mediaBaseFrontendUrl${item.productImage}',
-                                            title: item.name,
-                                            sub: item.subCategory.name,
-                                            price: item.price.toString(),
                                           ))
                                       .toList(),
                                 );
@@ -245,18 +243,14 @@ class _SearchPageState extends State<SearchPage> {
                     activeCategoriesId: data.subCategory.category.id,
                     activeCategories: data.subCategory.category.name,
                   ),
-                  navigate: ProductPage(id: data.id),
+                  navigate: ProductPage(product: data),
                   visible: showCard,
                   close: () {
                     setState(() {
                       showCard = false;
                     });
                   },
-                  image: '$mediaBaseFrontendUrl${data.productImage}',
-                  title: data.name,
-                  sub: data.subCategory.name,
-                  price: data.price.toString(),
-                  description: data.description,
+                  product: data,
                 );
               }
             }),
