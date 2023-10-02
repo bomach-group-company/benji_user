@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:benji_user/src/repo/models/address_model.dart';
+import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
@@ -129,7 +129,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
     super.initState();
     checkAuth(context);
     _addressTitleEC.text = widget.address.title ?? '';
-    _streetAddressEC.text = widget.address.streetAddress ?? '';
+    // _streetAddressEC.text = widget.address.streetAddress ?? '';
     _apartmentDetailsEC.text = widget.address.details ?? '';
     _phoneNumberEC.text =
         (widget.address.phone ?? '').replaceFirst('+$countryDialCode', '');

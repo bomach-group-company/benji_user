@@ -49,9 +49,6 @@ class _BankTransferState extends State<BankTransfer> {
       _processingBankTransfer = true;
     });
 
-    //Simulate a delay
-    await Future.delayed(const Duration(seconds: 2));
-
     setState(() {
       _processingBankTransfer = false;
     });

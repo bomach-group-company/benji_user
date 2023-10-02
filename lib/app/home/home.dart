@@ -5,8 +5,7 @@ import 'dart:math';
 import 'package:benji_user/app/favorites/favorites.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendors_card.dart';
 import 'package:benji_user/src/others/my_future_builder.dart';
-import 'package:benji_user/src/repo/models/address_model.dart';
-import 'package:benji_user/src/repo/models/category/category.dart';
+import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/models/category/sub_category.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
@@ -14,12 +13,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/appbar_delivery_location.dart';
-import '../../src/common_widgets/button/category_button.dart';
 import '../../src/common_widgets/product/product_card.dart';
 import '../../src/common_widgets/section/category_items.dart';
 import '../../src/common_widgets/section/custom_show_search.dart';
@@ -27,12 +24,10 @@ import '../../src/common_widgets/section/see_all_container.dart';
 import '../../src/common_widgets/simple_item/category_item.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/others/cart_card.dart';
-import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
 import '../../src/repo/models/vendor/vendor.dart';
-import '../../src/repo/utils/cart.dart';
 import '../../theme/colors.dart';
 import '../address/addresses.dart';
 import '../address/deliver_to.dart';
@@ -60,61 +55,28 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    _getData();
-    countCartFunc();
+    checkAuth(context);
+    _products = getProducts();
+    _subCategory = getSubCategories();
+    _vendors = getVendors();
+    _popularVendors = getPopularVendors();
+    _currentAddress = getCurrentAddress();
     _scrollController.addListener(_scrollListener);
   }
+
+  late Future<List<Product>> _products;
+  late Future<List<SubCategory>> _subCategory;
+  late Future<List<VendorModel>> _vendors;
+  late Future<List<VendorModel>> _popularVendors;
+  late Future<Address> _currentAddress;
 
   @override
   void dispose() {
     _scrollController.dispose();
     _scrollController.removeListener(() {});
+
     super.dispose();
   }
-
-  countCartFunc() async {
-    String data = await countCart();
-    setState(() {
-      cartCount = data;
-    });
-  }
-
-  Map? _data;
-  List<Product>? product;
-  _getData() async {
-    await checkAuth(context);
-    String current = 'Select Address';
-    try {
-      current = (await getCurrentAddress()).streetAddress ?? current;
-    } catch (e) {
-      current = current;
-    }
-
-    product = [];
-    List<SubCategory> subCategory = await getSubCategories();
-    List<Category> category = await getCategories();
-    try {
-      product =
-          await getProductsBySubCategory(subCategory[activeSubCategory].id);
-    } catch (e) {
-      product = [];
-    }
-    List<VendorModel> vendor = await getVendors();
-    List<VendorModel> popularVendor = await getPopularVendors();
-
-    setState(() {
-      _data = {
-        'category': category,
-        'subCategory': subCategory,
-        'product': product,
-        'vendor': vendor,
-        'popularVendor': popularVendor.sublist(0, 3),
-        'currentAddress': current,
-      };
-    });
-  }
-
-  //=======================================================================================================================================\\
 
 //============================================== ALL VARIABLES =================================================\\
   int activeSubCategory = 0;
@@ -214,10 +176,7 @@ class _HomeState extends State<Home> {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    setState(() {
-      _data = null;
-    });
-    await _getData();
+    setState(() {});
   }
   //========================================================================\\
 
@@ -451,130 +410,122 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              AppBarDeliveryLocation(
-                deliveryLocation:
-                    _data != null ? _data!['currentAddress'] : 'Select Address',
-                toDeliverToPage: _data != null ? _toAddressesPage : () {},
-              ),
+              FutureBuilder(
+                  future: _currentAddress,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return AppBarDeliveryLocation(
+                        deliveryLocation: 'Select Address',
+                        toDeliverToPage: () {},
+                      );
+                    }
+                    return AppBarDeliveryLocation(
+                      deliveryLocation: snapshot.data?.title ?? 'Address',
+                      toDeliverToPage: _toAddressesPage,
+                    );
+                  }),
             ],
           ),
-          actions: _data == null
-              ? [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: SpinKitDoubleBounce(color: kAccentColor, size: 14),
-                  ),
-                ]
-              : [
-                  IconButton(
-                    onPressed: () {
-                      showSearch(
-                        context: context,
-                        delegate: CustomSearchDelegate(),
-                      );
-                    },
-                    icon: FaIcon(
-                      FontAwesomeIcons.magnifyingGlass,
-                      color: kAccentColor,
-                      size: deviceType(mediaWidth) > 2 ? 30 : 24,
-                    ),
-                  ),
-                  const CartCard(),
-                  kHalfWidthSizedBox
-                ],
+          actions: [
+            IconButton(
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: CustomSearchDelegate(),
+                );
+              },
+              icon: FaIcon(
+                FontAwesomeIcons.magnifyingGlass,
+                color: kAccentColor,
+                size: deviceType(mediaWidth) > 2 ? 30 : 24,
+              ),
+            ),
+            // ignore: prefer_const_constructors
+            CartCard(),
+            kHalfWidthSizedBox
+          ],
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: _data == null
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SpinKitChasingDots(color: kAccentColor),
-                      kSizedBox,
-                      Text(
-                        "Loading...",
-                        style: TextStyle(
-                          color: kTextGreyColor,
-                          fontSize: deviceType(mediaWidth) > 2 ? 30 : 20,
-                          fontWeight: FontWeight.w700,
+          child: RefreshIndicator(
+            onRefresh: _handleRefresh,
+            color: kAccentColor,
+            semanticsLabel: "Pull to refresh",
+            child: Scrollbar(
+              controller: _scrollController,
+              child: ListView(
+                controller: _scrollController,
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                padding: deviceType(mediaWidth) > 2
+                    ? const EdgeInsets.all(kDefaultPadding)
+                    : const EdgeInsets.all(kDefaultPadding / 2),
+                children: [
+                  FlutterCarousel.builder(
+                    options: CarouselOptions(
+                      height: mediaHeight * 0.25,
+                      viewportFraction: 1.0,
+                      initialPage: 0,
+                      enableInfiniteScroll: true,
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 2),
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.easeInOut,
+                      enlargeCenterPage: true,
+                      controller: _carouselController,
+                      onPageChanged: (index, value) {
+                        setState(() {});
+                      },
+                      pageSnapping: true,
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      scrollBehavior: const ScrollBehavior(),
+                      pauseAutoPlayOnTouch: true,
+                      pauseAutoPlayOnManualNavigate: true,
+                      pauseAutoPlayInFiniteScroll: false,
+                      enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                      disableCenter: false,
+                      showIndicator: true,
+                      floatingIndicator: true,
+                      slideIndicator: CircularSlideIndicator(
+                        alignment: Alignment.bottomCenter,
+                        currentIndicatorColor: kAccentColor,
+                        indicatorBackgroundColor: kPrimaryColor,
+                        indicatorRadius: 5,
+                        padding: const EdgeInsets.all(0),
+                      ),
+                    ),
+                    itemCount: _carouselImages.length,
+                    itemBuilder: (BuildContext context, int itemIndex,
+                            int pageViewIndex) =>
+                        Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Container(
+                        width: mediaWidth,
+                        decoration: ShapeDecoration(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              _carouselImages[itemIndex],
+                            ),
+                          ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                )
-              : RefreshIndicator(
-                  onRefresh: _handleRefresh,
-                  color: kAccentColor,
-                  semanticsLabel: "Pull to refresh",
-                  child: Scrollbar(
-                    controller: _scrollController,
-                    child: ListView(
-                      controller: _scrollController,
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      padding: deviceType(mediaWidth) > 2
-                          ? const EdgeInsets.all(kDefaultPadding)
-                          : const EdgeInsets.all(kDefaultPadding / 2),
-                      children: [
-                        FlutterCarousel.builder(
-                          options: CarouselOptions(
-                            height: mediaHeight * 0.25,
-                            viewportFraction: 1.0,
-                            initialPage: 0,
-                            enableInfiniteScroll: true,
-                            autoPlay: true,
-                            autoPlayInterval: const Duration(seconds: 2),
-                            autoPlayAnimationDuration:
-                                const Duration(milliseconds: 800),
-                            autoPlayCurve: Curves.easeInOut,
-                            enlargeCenterPage: true,
-                            controller: _carouselController,
-                            onPageChanged: (index, value) {
-                              setState(() {});
-                            },
-                            pageSnapping: true,
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
-                            scrollBehavior: const ScrollBehavior(),
-                            pauseAutoPlayOnTouch: true,
-                            pauseAutoPlayOnManualNavigate: true,
-                            pauseAutoPlayInFiniteScroll: false,
-                            enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                            disableCenter: false,
-                            showIndicator: true,
-                            floatingIndicator: true,
-                            slideIndicator: CircularSlideIndicator(
-                              alignment: Alignment.bottomCenter,
-                              currentIndicatorColor: kAccentColor,
-                              indicatorBackgroundColor: kPrimaryColor,
-                              indicatorRadius: 5,
-                              padding: const EdgeInsets.all(0),
-                            ),
-                          ),
-                          itemCount: _carouselImages.length,
-                          itemBuilder: (BuildContext context, int itemIndex,
-                                  int pageViewIndex) =>
-                              Padding(
-                            padding: const EdgeInsets.all(0),
-                            child: Container(
-                              width: mediaWidth,
-                              decoration: ShapeDecoration(
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage(
-                                    _carouselImages[itemIndex],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        kSizedBox,
-                        LayoutGrid(
+                  kSizedBox,
+                  // categories
+                  FutureBuilder(
+                      future: _subCategory,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Text('loading...');
+                        }
+                        return LayoutGrid(
                           columnGap: 10,
                           rowGap: 10,
                           columnSizes: breakPointDynamic(
@@ -586,10 +537,10 @@ class _HomeState extends State<Home> {
                           ),
                           rowSizes: const [auto, auto],
                           children: List.generate(
-                              min(8, _data!['subCategory'].length + 1),
+                              min(8, snapshot.data!.length + 1),
                               (index) => index).map(
                             (item) {
-                              int value = min(7, _data!['subCategory'].length);
+                              int value = min(7, snapshot.data!.length);
                               if (item == value) {
                                 return CategoryItem(
                                   nav: () => showModalBottomSheet(
@@ -609,30 +560,36 @@ class _HomeState extends State<Home> {
                                     ),
                                     enableDrag: true,
                                     builder: (builder) => CategoryItemSheet(
-                                        subCategory:
-                                            _data?['subCategory'] ?? []),
+                                        subCategory: snapshot.data ?? []),
                                   ),
                                 );
                               }
                               return CategoryItem(
-                                subSategory: _data!['subCategory'][item],
-                                nav: () => _toSeeProducts(
-                                    id: _data!['subCategory'][item].id),
+                                subSategory: snapshot.data![item],
+                                nav: () =>
+                                    _toSeeProducts(id: snapshot.data![item].id),
                               );
                             },
                           ).toList(),
-                        ),
-                        kSizedBox,
-                        SeeAllContainer(
-                          title: "Vendors Near you",
-                          onPressed: _toSeeAllVendorsNearYou,
-                        ),
-                        kSizedBox,
-                        SizedBox(
+                        );
+                      }),
+                  kSizedBox,
+                  SeeAllContainer(
+                    title: "Vendors Near you",
+                    onPressed: _toSeeAllVendorsNearYou,
+                  ),
+                  kSizedBox,
+                  FutureBuilder(
+                      future: _vendors,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Text('loading...');
+                        }
+                        return SizedBox(
                           height: 250,
                           width: mediaWidth,
                           child: ListView.separated(
-                            itemCount: _data!['vendor'].length,
+                            itemCount: snapshot.data!.length,
                             scrollDirection: Axis.horizontal,
                             physics: const BouncingScrollPhysics(),
                             separatorBuilder: (context, index) =>
@@ -645,136 +602,143 @@ class _HomeState extends State<Home> {
                                 child: VendorsCard(
                                   removeDistance: false,
                                   onTap: () {
-                                    _toVendorPage(_data!['vendor'][index]);
+                                    _toVendorPage(snapshot.data![index]);
                                   },
                                   cardImage:
                                       "assets/images/vendors/ntachi-osa.png",
-                                  vendorName:
-                                      _data!['vendor'][index].shopName ??
-                                          "Not Available",
+                                  vendorName: snapshot.data![index].shopName ??
+                                      "Not Available",
                                   typeOfBusiness:
-                                      _data!['vendor'][index].shopType.name ??
+                                      snapshot.data![index].shopType?.name ??
                                           'Not Available',
                                   rating:
-                                      '${((_data!['vendor'][index].averageRating as double?) ?? 0.0).toStringAsPrecision(2)} (${_data!['vendor'][index].numberOfClientsReactions ?? 0})',
+                                      '${(snapshot.data![index].averageRating ?? 0.0).toStringAsPrecision(2)} (${snapshot.data![index].numberOfClientsReactions ?? 0})',
                                   distance: "30 mins",
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        kSizedBox,
-                        SeeAllContainer(
-                          title: "Popular Vendors",
-                          onPressed: _toSeeAllPopularVendors,
-                        ),
-                        kSizedBox,
-                        Center(
-                          child: LayoutGrid(
-                            rowGap: kDefaultPadding / 2,
-                            columnGap: kDefaultPadding / 2,
-                            columnSizes: breakPointDynamic(
-                                mediaWidth,
-                                [1.fr],
-                                [1.fr, 1.fr],
-                                [1.fr, 1.fr, 1.fr],
-                                [1.fr, 1.fr, 1.fr, 1.fr]),
-                            rowSizes: _data!['popularVendor']!.isEmpty
-                                ? [auto]
-                                : List.generate(_data!['popularVendor'].length,
-                                    (index) => auto),
-                            children:
-                                (_data!['popularVendor'] as List<VendorModel>)
-                                    .map(
-                                      (item) => VendorsCard(
-                                          removeDistance: true,
-                                          onTap: () {
-                                            _toVendorPage(item);
-                                          },
-                                          vendorName:
-                                              item.shopName ?? 'Not Available',
-                                          typeOfBusiness: item.shopType!.name ??
-                                              'Not Available',
-                                          rating:
-                                              " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
-                                          cardImage:
-                                              "assets/images/vendors/ntachi-osa.png"),
-                                    )
-                                    .toList(),
-                          ),
-                        ),
-                        kSizedBox,
-                        SeeAllContainer(
-                          title: "Products",
-                          onPressed: _toSeeProducts,
-                        ),
-                        SizedBox(
-                          height: 60,
-                          child: ListView.builder(
-                            itemCount: _data!['subCategory'].length,
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) =>
-                                Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: CategoryButton(
-                                onPressed: () {
-                                  setState(() {
-                                    activeSubCategory = index;
-                                    product = null;
-                                    _getData();
-                                  });
-                                },
-                                title: _data!['subCategory'][index].name,
-                                bgColor: index == activeSubCategory
-                                    ? kAccentColor
-                                    : kDefaultCategoryBackgroundColor,
-                                categoryFontColor: index == activeSubCategory
-                                    ? kPrimaryColor
-                                    : kTextGreyColor,
-                              ),
-                            ),
-                          ),
-                        ),
-                        kSizedBox,
-                        Center(
-                          child: product == null
-                              ? Center(
-                                  child:
-                                      SpinKitChasingDots(color: kAccentColor))
-                              : _data!['product'].isEmpty
-                                  ? const EmptyCard(removeButton: true)
-                                  : LayoutGrid(
-                                      rowGap: kDefaultPadding / 2,
-                                      columnGap: kDefaultPadding / 2,
-                                      columnSizes: breakPointDynamic(
-                                          mediaWidth,
-                                          [1.fr],
-                                          [1.fr, 1.fr],
-                                          [1.fr, 1.fr, 1.fr],
-                                          [1.fr, 1.fr, 1.fr, 1.fr]),
-                                      rowSizes: _data!['product'].isEmpty
-                                          ? [auto]
-                                          : List.generate(
-                                              _data!['product'].length,
-                                              (index) => auto),
-                                      children:
-                                          (_data!['product'] as List<Product>)
-                                              .map(
-                                                (item) => ProductCard(
-                                                  product: item,
-                                                  onTap: () =>
-                                                      _toProductDetailScreenPage(
-                                                          item),
-                                                ),
-                                              )
-                                              .toList(),
-                                    ),
-                        ),
-                      ],
-                    ),
+                        );
+                      }),
+                  kSizedBox,
+                  SeeAllContainer(
+                    title: "Popular Vendors",
+                    onPressed: _toSeeAllPopularVendors,
                   ),
-                ),
+                  kSizedBox,
+                  FutureBuilder(
+                      future: _popularVendors,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Text('loading...');
+                        }
+                        return LayoutGrid(
+                          rowGap: kDefaultPadding / 2,
+                          columnGap: kDefaultPadding / 2,
+                          columnSizes: breakPointDynamic(
+                              mediaWidth,
+                              [1.fr],
+                              [1.fr, 1.fr],
+                              [1.fr, 1.fr, 1.fr],
+                              [1.fr, 1.fr, 1.fr, 1.fr]),
+                          rowSizes: snapshot.data!.isEmpty
+                              ? [auto]
+                              : List.generate(
+                                  snapshot.data!.length, (index) => auto),
+                          children: (snapshot.data as List<VendorModel>)
+                              .map(
+                                (item) => VendorsCard(
+                                    removeDistance: true,
+                                    onTap: () {
+                                      _toVendorPage(item);
+                                    },
+                                    vendorName:
+                                        item.shopName ?? 'Not Available',
+                                    typeOfBusiness:
+                                        item.shopType!.name ?? 'Not Available',
+                                    rating:
+                                        " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
+                                    cardImage:
+                                        "assets/images/vendors/ntachi-osa.png"),
+                              )
+                              .toList(),
+                        );
+                      }),
+                  kSizedBox,
+                  SeeAllContainer(
+                    title: "Products",
+                    onPressed: _toSeeProducts,
+                  ),
+                  // FutureBuilder(
+                  //     future: getSubCategories(),
+                  //     builder: (context, snapshot) {
+                  //       if (!snapshot.hasData) {
+                  //         return const Text('loading...');
+                  //       }
+                  //       return SizedBox(
+                  //       height: 60,
+                  //       child: ListView.builder(
+                  //         itemCount: snapshot.data!.length,
+                  //         scrollDirection: Axis.horizontal,
+                  //         physics: const BouncingScrollPhysics(),
+                  //         itemBuilder: (BuildContext context, int index) =>
+                  //             Padding(
+                  //           padding: const EdgeInsets.all(10),
+                  //           child: CategoryButton(
+                  //             onPressed: () {
+                  //               setState(() {
+                  //                 activeSubCategory = index;
+                  //                 product = null;
+                  //                 _getData();
+                  //               });
+                  //             },
+                  //             title: snapshot.data![index].name,
+                  //             bgColor: index == activeSubCategory
+                  //                 ? kAccentColor
+                  //                 : kDefaultCategoryBackgroundColor,
+                  //             categoryFontColor: index == activeSubCategory
+                  //                 ? kPrimaryColor
+                  //                 : kTextGreyColor,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     );
+                  //   }
+                  // ),
+                  kSizedBox,
+                  FutureBuilder(
+                      future: _products,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Text('loading...');
+                        }
+                        return LayoutGrid(
+                          rowGap: kDefaultPadding / 2,
+                          columnGap: kDefaultPadding / 2,
+                          columnSizes: breakPointDynamic(
+                              mediaWidth,
+                              [1.fr],
+                              [1.fr, 1.fr],
+                              [1.fr, 1.fr, 1.fr],
+                              [1.fr, 1.fr, 1.fr, 1.fr]),
+                          rowSizes: snapshot.data!.isEmpty
+                              ? [auto]
+                              : List.generate(
+                                  snapshot.data!.length, (index) => auto),
+                          children: (snapshot.data as List<Product>)
+                              .map(
+                                (item) => ProductCard(
+                                  product: item,
+                                  onTap: () => _toProductDetailScreenPage(item),
+                                ),
+                              )
+                              .toList(),
+                        );
+                      }),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

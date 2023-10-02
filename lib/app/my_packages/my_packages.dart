@@ -27,9 +27,13 @@ class _MyPackagesState extends State<MyPackages>
   void initState() {
     super.initState();
     checkAuth(context);
+    _pending = _getDataPending();
+    _completed = _getDataCompleted();
     _tabBarController = TabController(length: 2, vsync: this);
   }
 
+  late Future<List<DeliveryItem>> _pending;
+  late Future<List<DeliveryItem>> _completed;
   @override
   void dispose() {
     _tabBarController.dispose();
@@ -54,7 +58,10 @@ class _MyPackagesState extends State<MyPackages>
   }
 
   Future<void> _handleRefresh() async {
-    // setState(() {});
+    setState(() {
+      _pending = _getDataPending();
+      _completed = _getDataCompleted();
+    });
   }
 
   int _selectedtabbar = 0;
@@ -166,7 +173,7 @@ class _MyPackagesState extends State<MyPackages>
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: _selectedtabbar == 0
                       ? FutureBuilder(
-                          future: _getDataPending(),
+                          future: _pending,
                           builder: (context, snapshot) {
                             if (snapshot.data != null) {
                               return SizedBox(
@@ -244,7 +251,7 @@ class _MyPackagesState extends State<MyPackages>
                           },
                         )
                       : FutureBuilder(
-                          future: _getDataCompleted(),
+                          future: _completed,
                           builder: (context, snapshot) {
                             if (snapshot.data != null) {
                               return SizedBox(

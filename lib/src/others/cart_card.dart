@@ -1,10 +1,10 @@
+import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
 import '../../app/cart/cart_screen.dart';
 import '../../theme/colors.dart';
 import '../providers/responsive_constant.dart';
-import '../repo/utils/cart.dart';
 
 class CartCard extends StatefulWidget {
   final String? cartCount;
@@ -21,8 +21,8 @@ class _CartCardState extends State<CartCard> {
   }
 
   Future<String> countCartFunc() async {
+    String data = await countCartItemTo10();
     if (widget.cartCount == null) {
-      String data = await countCart();
       return data;
     } else {
       return widget.cartCount!;

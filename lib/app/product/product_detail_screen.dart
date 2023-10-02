@@ -6,6 +6,7 @@ import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/src/repo/models/rating/ratings.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
@@ -22,7 +23,6 @@ import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/others/cart_card.dart';
 import '../../src/others/empty.dart';
 import '../../src/providers/responsive_constant.dart';
-import '../../src/repo/utils/cart.dart';
 import '../../theme/colors.dart';
 import 'report_product.dart';
 
@@ -39,7 +39,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   void initState() {
     super.initState();
-    getFavoritePSingle(widget.product.id).then(
+    getFavoritePSingle(widget.product.id.toString()).then(
       (value) {
         setState(() {
           _isAddedToFavorites = value;
@@ -68,7 +68,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     });
     List<Ratings> ratings;
     if (active == 'all') {
-      ratings = await getRatingsByProductId(widget.product.id);
+      ratings = await getRatingsByProductId(widget.product.id.toString());
     } else {
       ratings = await getRatingsByProductIdAndRating(
           widget.product.id, int.parse(active));
@@ -80,7 +80,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   //============================================================ ALL VARIABLES ===================================================================\\
-  String cartCount = '1';
   String? cartCountAll;
   final List<String> _carouselImages = <String>[
     "assets/images/products/best-choice-restaurant.png",
@@ -133,13 +132,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   checkCart() async {
     await checkAuth(context);
-    String count = await countCart();
-    String countAll = await countSingleCart(widget.product.id);
+    int countAll = await countCartItemByProduct(
+        widget.product.vendorId.id!.toString(), widget.product.id.toString());
 
     setState(() {
-      cartCount = count;
-      cartCountAll = countAll;
-      if (countAll != '0') {
+      cartCountAll = countAll.toString();
+      if (countAll != 0) {
         _isAddedToCart = true;
       } else {
         _isAddedToCart = false;
@@ -166,7 +164,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //============================ Favorite ================================\\
 
   void _addToFavorites() async {
-    bool val = await favoriteItP(widget.product.id);
+    bool val = await favoriteItP(widget.product.id.toString());
     setState(() {
       _isAddedToFavorites = val;
     });
@@ -192,17 +190,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //============================= Cart utility functions ============================\\
 
   void incrementQuantity() async {
-    await addToCart(widget.product.id);
+    await addToCart(
+        widget.product.vendorId.id!.toString(), widget.product.id.toString());
     await checkCart();
   }
 
   void decrementQuantity() async {
-    await removeFromCart(widget.product.id);
+    await minusFromCart(
+        widget.product.vendorId.id!.toString(), widget.product.id.toString());
     await checkCart();
   }
 
   Future<void> _cartAddFunction() async {
-    await addToCart(widget.product.id);
+    await addToCart(
+        widget.product.vendorId.id!.toString(), widget.product.id.toString());
     await checkCart();
 
     mySnackBar(
@@ -747,7 +748,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
                                       List<Ratings> ratings =
                                           await getRatingsByProductId(
-                                              widget.product.id);
+                                              widget.product.id.toString());
 
                                       setState(() {
                                         _ratings = ratings;

@@ -57,7 +57,6 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
         end = end + 10;
       });
 
-      await Future.delayed(const Duration(microseconds: 100));
       await _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 25),

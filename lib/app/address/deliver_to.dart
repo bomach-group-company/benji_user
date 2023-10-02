@@ -3,7 +3,7 @@
 import 'dart:math';
 
 import 'package:benji_user/app/checkout/checkout_screen.dart';
-import 'package:benji_user/src/repo/models/address_model.dart';
+import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -48,7 +48,6 @@ class _DeliverToState extends State<DeliverTo> {
 
   _getData() async {
     await checkAuth(context);
-
     String current = '';
     try {
       current = (await getCurrentAddress()).id ?? '';
@@ -125,6 +124,7 @@ class _DeliverToState extends State<DeliverTo> {
     }
     try {
       await setCurrentAddress(addressId);
+      // here i need to create that order aby sending it to the backend
       if (widget.inCheckout) {
         Get.back();
       } else {
