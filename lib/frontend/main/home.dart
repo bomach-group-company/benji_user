@@ -1,4 +1,3 @@
-import 'package:benji_user/frontend/main/blogs.dart';
 import 'package:benji_user/frontend/store/categories.dart';
 import 'package:benji_user/frontend/store/category.dart';
 import 'package:benji_user/frontend/store/product.dart';
@@ -16,7 +15,6 @@ import '../../src/frontend/model/category.dart';
 import '../../src/frontend/model/product.dart';
 import '../../src/frontend/utils/constant.dart';
 import '../../src/frontend/widget/button.dart';
-import '../../src/frontend/widget/cards/blog_card.dart';
 import '../../src/frontend/widget/cards/border_card.dart';
 import '../../src/frontend/widget/cards/circle_card.dart';
 import '../../src/frontend/widget/cards/image_card.dart';
@@ -548,67 +546,67 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             kSizedBox,
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal:
-                                      breakPoint(media.width, 25, 100, 100),
-                                  vertical: 50),
-                              child: Column(
-                                children: [
-                                  const Padding(
-                                    padding: EdgeInsets.all(15.0),
-                                    child: EndToEndRow(
-                                      widget1:
-                                          MyFancyText(text: 'Latest Blogs'),
-                                      widget2: MyOutlinedButton(
-                                          navigate: BlogsPage()),
-                                    ),
-                                  ),
-                                  kSizedBox,
-                                  kSizedBox,
-                                  LayoutGrid(
-                                    columnSizes: breakPointDynamic(
-                                        media.width,
-                                        [1.fr],
-                                        [1.fr, 1.fr],
-                                        [1.fr, 1.fr, 1.fr]),
-                                    rowSizes: const [auto, auto, auto],
-                                    children: const [
-                                      MyBlogCard(
-                                        date: '1 July 2022',
-                                        from: 'Admin',
-                                        title:
-                                            'The Ultimate Hangover Burger: Egg in a Hole Burger Grilled Cheese',
-                                        image:
-                                            'assets/frontend/assets/blog/blog-1.jpeg',
-                                        description:
-                                            'Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy',
-                                      ),
-                                      MyBlogCard(
-                                        date: '1 July 2022',
-                                        from: 'Admin',
-                                        title:
-                                            'The Ultimate Hangover Burger: Egg in a Hole Burger Grilled Cheese',
-                                        image:
-                                            'assets/frontend/assets/blog/blog-2.jpeg',
-                                        description:
-                                            'Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy',
-                                      ),
-                                      MyBlogCard(
-                                        date: '1 July 2022',
-                                        from: 'Admin',
-                                        title:
-                                            'The Ultimate Hangover Burger: Egg in a Hole Burger Grilled Cheese',
-                                        image:
-                                            'assets/frontend/assets/blog/blog-1.jpeg',
-                                        description:
-                                            'Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy',
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
+                            // Container(
+                            //   margin: EdgeInsets.symmetric(
+                            //       horizontal:
+                            //           breakPoint(media.width, 25, 100, 100),
+                            //       vertical: 50),
+                            //   child: Column(
+                            //     children: [
+                            //       const Padding(
+                            //         padding: EdgeInsets.all(15.0),
+                            //         child: EndToEndRow(
+                            //           widget1:
+                            //               MyFancyText(text: 'Latest Blogs'),
+                            //           widget2: MyOutlinedButton(
+                            //               navigate: BlogsPage()),
+                            //         ),
+                            //       ),
+                            //       kSizedBox,
+                            //       kSizedBox,
+                            //       LayoutGrid(
+                            //         columnSizes: breakPointDynamic(
+                            //             media.width,
+                            //             [1.fr],
+                            //             [1.fr, 1.fr],
+                            //             [1.fr, 1.fr, 1.fr]),
+                            //         rowSizes: const [auto, auto, auto],
+                            //         children: const [
+                            //           MyBlogCard(
+                            //             date: '1 July 2022',
+                            //             from: 'Admin',
+                            //             title:
+                            //                 'The Ultimate Hangover Burger: Egg in a Hole Burger Grilled Cheese',
+                            //             image:
+                            //                 'assets/frontend/assets/blog/blog-1.jpeg',
+                            //             description:
+                            //                 'Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy',
+                            //           ),
+                            //           MyBlogCard(
+                            //             date: '1 July 2022',
+                            //             from: 'Admin',
+                            //             title:
+                            //                 'The Ultimate Hangover Burger: Egg in a Hole Burger Grilled Cheese',
+                            //             image:
+                            //                 'assets/frontend/assets/blog/blog-2.jpeg',
+                            //             description:
+                            //                 'Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy',
+                            //           ),
+                            //           MyBlogCard(
+                            //             date: '1 July 2022',
+                            //             from: 'Admin',
+                            //             title:
+                            //                 'The Ultimate Hangover Burger: Egg in a Hole Burger Grilled Cheese',
+                            //             image:
+                            //                 'assets/frontend/assets/blog/blog-1.jpeg',
+                            //             description:
+                            //                 'Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy',
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                             Container(
                               margin: EdgeInsets.symmetric(
                                 horizontal:
@@ -623,20 +621,17 @@ class _HomePageState extends State<HomePage> {
                                   MyBorderCard(
                                     icon: Icons.car_crash,
                                     title: 'Quick Delivey',
-                                    subtitle:
-                                        'Lorem ipsum dolor sit amet, consectetur',
+                                    subtitle: 'We deliver fast',
                                   ),
                                   MyBorderCard(
                                     icon: Icons.pin_drop,
                                     title: 'Live Order Tracking',
-                                    subtitle:
-                                        'Lorem ipsum dolor sit amet, consectetur',
+                                    subtitle: 'Know where your package is at',
                                   ),
                                   MyBorderCard(
                                     icon: Icons.car_crash,
-                                    title: 'Free Shipping',
-                                    subtitle:
-                                        'Lorem ipsum dolor sit amet, consectetur',
+                                    title: 'Secure Shipping',
+                                    subtitle: 'Your order is safe with us',
                                   ),
                                 ],
                               ),

@@ -241,17 +241,6 @@ class _ProductPageState extends State<ProductPage> {
                                                 ),
                                               ),
                                             ),
-                                            const Expanded(
-                                              child: Text(
-                                                'Inclusive taxes',
-                                                textAlign: TextAlign.end,
-                                                style: TextStyle(
-                                                  color: kGreenColor,
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            )
                                           ],
                                         ),
                                         kSizedBox,
@@ -360,7 +349,7 @@ class _ProductPageState extends State<ProductPage> {
                                         const Divider(height: 30),
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             FutureBuilder(
                                               future: _cartCount(),
@@ -414,22 +403,7 @@ class _ProductPageState extends State<ProductPage> {
                                                       );
                                               },
                                             ),
-                                            OutlinedButton(
-                                              onPressed: () {},
-                                              style: OutlinedButton.styleFrom(
-                                                foregroundColor: kGreenColor,
-                                                minimumSize: Size(
-                                                    breakPoint(
-                                                      media.width,
-                                                      media.width * 0.43,
-                                                      media.width * 0.27,
-                                                      media.width * 0.28,
-                                                    ),
-                                                    50),
-                                              ),
-                                              child:
-                                                  const Text('Add to Wishlist'),
-                                            ),
+                                            const SizedBox()
                                           ],
                                         ),
                                       ],

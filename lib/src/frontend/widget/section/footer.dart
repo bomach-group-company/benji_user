@@ -1,5 +1,4 @@
 import 'package:benji_user/frontend/main/about.dart';
-import 'package:benji_user/frontend/main/blogs.dart';
 import 'package:benji_user/frontend/main/contact_us.dart';
 import 'package:benji_user/frontend/main/faqs.dart';
 import 'package:benji_user/frontend/main/privacy_policy.dart';
@@ -112,7 +111,7 @@ class Footer extends StatelessWidget {
                           items: [
                             ['Products', CategoriesPage()],
                             ['Contact us', ContactUs()],
-                            ['Blogs', BlogsPage()]
+                            // ['Blogs', BlogsPage()]
                           ],
                         ),
                       ],
