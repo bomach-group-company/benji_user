@@ -4,11 +4,13 @@ import 'package:benji_user/frontend/main/home.dart';
 import 'package:benji_user/frontend/store/category.dart';
 import 'package:benji_user/frontend/store/search.dart';
 import 'package:benji_user/src/frontend/model/category.dart';
-import 'package:benji_user/src/frontend/utils/constant.dart';
 import 'package:benji_user/src/frontend/widget/cart.dart';
 import 'package:benji_user/src/frontend/widget/clickable.dart';
 import 'package:benji_user/src/frontend/widget/text/hover_text.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../theme/colors.dart';
+import '../../../../providers/constants.dart';
 
 class MyLaptopAppBar extends StatefulWidget {
   const MyLaptopAppBar({super.key});
@@ -42,7 +44,7 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
               ],
               color: Color(0xfffafafc),
               // border: Border(
-              //   bottom: BorderSide(color: kGreenColor, width: 1),
+              //   bottom: BorderSide(color: kAccentColor, width: 1),
               // ),
             ),
             child: Row(
@@ -98,7 +100,8 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
                               child: Text(
                                 'Menu',
                                 style: TextStyle(
-                                  color: isHovered ? kGreenColor : Colors.black,
+                                  color:
+                                      isHovered ? kAccentColor : Colors.black,
                                   fontWeight: FontWeight.w200,
                                   fontSize: 16,
                                 ),
@@ -106,7 +109,7 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
                             ),
                             Icon(
                               Icons.arrow_drop_down,
-                              color: isHovered ? kGreenColor : Colors.black,
+                              color: isHovered ? kAccentColor : Colors.black,
                             )
                           ],
                         ),
@@ -177,7 +180,7 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
                     kWidthSizedBox,
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: kGreenColor,
+                          backgroundColor: kAccentColor,
                           fixedSize: const Size(80, 35)),
                       onPressed: () {
                         Navigator.of(context).pushReplacement(

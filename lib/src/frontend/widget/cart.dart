@@ -55,7 +55,7 @@ class _CartWidgetState extends State<CartWidget> {
               height: 20,
               width: 20,
               decoration: BoxDecoration(
-                color: kGreenColor,
+                color: kAccentColor,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: FutureBuilder(

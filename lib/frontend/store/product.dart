@@ -18,6 +18,8 @@ import '../../src/frontend/widget/drawer/drawer.dart';
 import '../../src/frontend/widget/end_to_end_row.dart';
 import '../../src/frontend/widget/section/footer.dart';
 import '../../src/frontend/widget/text/fancy_text.dart';
+import '../../src/providers/constants.dart';
+import '../../theme/colors.dart';
 
 class ProductPage extends StatefulWidget {
   final Product product;
@@ -124,8 +126,8 @@ class _ProductPageState extends State<ProductPage> {
                     child: Text('Error occured refresh'),
                   );
                 }
-                return const SpinKitChasingDots(
-                  color: kGreenColor,
+                return SpinKitChasingDots(
+                  color: kAccentColor,
                   size: 30,
                 );
               } else {
@@ -181,9 +183,9 @@ class _ProductPageState extends State<ProductPage> {
                                             : const SizedBox(),
                                         Row(
                                           children: [
-                                            const Icon(
+                                            Icon(
                                               Icons.spa,
-                                              color: kGreenColor,
+                                              color: kAccentColor,
                                             ),
                                             kHalfWidthSizedBox,
                                             Expanded(
@@ -233,8 +235,8 @@ class _ProductPageState extends State<ProductPage> {
                                                 child: Text(
                                                   snapshot.data['product']
                                                       .subCategory.name,
-                                                  style: const TextStyle(
-                                                    color: kBlueColor,
+                                                  style: TextStyle(
+                                                    color: kSecondaryColor,
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w500,
                                                   ),
@@ -282,7 +284,7 @@ class _ProductPageState extends State<ProductPage> {
                                         //         media.width * 0.15,
                                         //       ),
                                         //       child: RadioListTile(
-                                        //         activeColor: kBlueColor,
+                                        //         activeColor: kSecondaryColor,
                                         //         splashRadius: 0,
                                         //         toggleable: true,
                                         //         contentPadding: EdgeInsets.zero,
@@ -319,7 +321,7 @@ class _ProductPageState extends State<ProductPage> {
                                         //         media.width * 0.15,
                                         //       ),
                                         //       child: RadioListTile(
-                                        //         activeColor: kBlueColor,
+                                        //         activeColor: kSecondaryColor,
                                         //         splashRadius: 0,
                                         //         toggleable: true,
                                         //         contentPadding: EdgeInsets.zero,
@@ -363,7 +365,7 @@ class _ProductPageState extends State<ProductPage> {
                                                         style: ElevatedButton
                                                             .styleFrom(
                                                           backgroundColor:
-                                                              kGreenColor,
+                                                              kAccentColor,
                                                           minimumSize: Size(
                                                               breakPoint(
                                                                 media.width,
@@ -385,7 +387,7 @@ class _ProductPageState extends State<ProductPage> {
                                                         style: ElevatedButton
                                                             .styleFrom(
                                                           backgroundColor:
-                                                              kGreenColor,
+                                                              kAccentColor,
                                                           minimumSize: Size(
                                                               breakPoint(
                                                                 media.width,
@@ -421,10 +423,10 @@ class _ProductPageState extends State<ProductPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
+                                    Text(
                                       'Description',
                                       style: TextStyle(
-                                        color: kBlueColor,
+                                        color: kSecondaryColor,
                                         fontSize: 30,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -554,8 +556,8 @@ class _ProductPageState extends State<ProductPage> {
                   backgroundColor: Colors.white,
                   padding: const EdgeInsets.all(0),
                   minimumSize: const Size(45, 45),
-                  foregroundColor: kGreenColor,
-                  side: const BorderSide(color: kGreenColor)),
+                  foregroundColor: kAccentColor,
+                  side: BorderSide(color: kAccentColor)),
               onPressed: _scrollToTop,
               child: const Icon(
                 Icons.arrow_upward,

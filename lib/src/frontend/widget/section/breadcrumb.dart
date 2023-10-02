@@ -1,7 +1,10 @@
 import 'package:benji_user/frontend/main/home.dart';
-import 'package:benji_user/src/frontend/utils/constant.dart';
 import 'package:benji_user/src/frontend/widget/clickable.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../theme/colors.dart';
+import '../../../providers/constants.dart';
+import '../../utils/constant.dart';
 
 class MyBreadcrumb extends StatefulWidget {
   final String text;
@@ -46,10 +49,10 @@ class _MyBreadcrumbState extends State<MyBreadcrumb> {
             children: [
               Text(
                 widget.text,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 48,
                   fontWeight: FontWeight.w600,
-                  color: kBlueColor,
+                  color: kSecondaryColor,
                 ),
               ),
               widget.hasBeadcrumb

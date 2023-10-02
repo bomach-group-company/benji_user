@@ -3,9 +3,10 @@ import 'package:benji_user/src/frontend/widget/section/breadcrumb.dart';
 import 'package:benji_user/src/frontend/widget/section/title_body.dart';
 import 'package:flutter/material.dart';
 
-import '../../src/frontend/utils/constant.dart';
 import '../../src/frontend/widget/drawer/drawer.dart';
 import '../../src/frontend/widget/section/footer.dart';
+import '../../src/providers/constants.dart';
+import '../../theme/colors.dart';
 
 class TermConditionPage extends StatefulWidget {
   const TermConditionPage({super.key});
@@ -414,8 +415,8 @@ Alpha Logistics and Courier Services Ltd
                   backgroundColor: Colors.white,
                   padding: const EdgeInsets.all(0),
                   minimumSize: const Size(45, 45),
-                  foregroundColor: kGreenColor,
-                  side: const BorderSide(color: kGreenColor)),
+                  foregroundColor: kAccentColor,
+                  side: BorderSide(color: kAccentColor)),
               onPressed: _scrollToTop,
               child: const Icon(
                 Icons.arrow_upward,

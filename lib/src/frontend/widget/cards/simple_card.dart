@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../theme/colors.dart';
+import '../../../providers/constants.dart';
 import '../../utils/constant.dart';
 
 class SimpleCard extends StatelessWidget {
@@ -37,9 +39,9 @@ class SimpleCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.ac_unit,
-                color: kGreenColor,
+                color: kAccentColor,
               ),
               kHalfWidthSizedBox,
               Expanded(

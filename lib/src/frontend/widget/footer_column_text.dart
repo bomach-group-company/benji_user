@@ -1,7 +1,8 @@
 import 'package:benji_user/src/frontend/widget/clickable.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/constant.dart';
+import '../../../theme/colors.dart';
+import '../../providers/constants.dart';
 
 class FooterColumnText extends StatelessWidget {
   final String head;
@@ -16,8 +17,8 @@ class FooterColumnText extends StatelessWidget {
         children: [
           Text(
             head,
-            style: const TextStyle(
-              color: kGreenColor,
+            style: TextStyle(
+              color: kAccentColor,
               fontSize: 20,
             ),
           ),

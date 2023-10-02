@@ -106,7 +106,7 @@ Future<Map<String, String>> authHeader(
 Future<bool?> isAuthorized() async {
   try {
     final response = await http.get(
-      Uri.parse('$baseFrontendUrl/auth/'),
+      Uri.parse('$baseURL/auth/'),
       headers: await authHeader(),
     );
     if (response.statusCode == 200) {

@@ -51,7 +51,7 @@ class Order {
 
 Future<List<Order>> getOrders(id) async {
   final response = await http.get(
-    Uri.parse('$baseFrontendUrl/clients/listClientOrders/$id'),
+    Uri.parse('$baseURL/clients/listClientOrders/$id'),
     headers: await authHeader(),
   );
 
@@ -82,7 +82,7 @@ Future<bool> createOrder(String clientId, String deliveryAddressId) async {
     }
   };
   final response = await http.post(
-    Uri.parse('$baseFrontendUrl/clients/$clientId/clientCreateOrder'),
+    Uri.parse('$baseURL/clients/$clientId/clientCreateOrder'),
     headers: await authHeader(),
     body: data,
   );

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import '../../src/frontend/utils/constant.dart';
 import '../../src/frontend/widget/drawer/drawer.dart';
 import '../../src/frontend/widget/section/footer.dart';
+import '../../src/providers/constants.dart';
+import '../../theme/colors.dart';
 
 class ContactUs extends StatefulWidget {
   const ContactUs({super.key});
@@ -128,10 +130,10 @@ class _ContactUsState extends State<ContactUs> {
                           ),
                           child: Column(
                             children: [
-                              const Text(
+                              Text(
                                 'Reach Out',
                                 style: TextStyle(
-                                  color: kBlueColor,
+                                  color: kSecondaryColor,
                                   fontSize: 50,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -251,7 +253,7 @@ class _ContactUsState extends State<ContactUs> {
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                             fixedSize: const Size(90, 40),
-                                            backgroundColor: kGreenColor),
+                                            backgroundColor: kAccentColor),
                                         onPressed: () {},
                                         child: const Text(
                                           'Submit',
@@ -286,8 +288,8 @@ class _ContactUsState extends State<ContactUs> {
                   backgroundColor: Colors.white,
                   padding: const EdgeInsets.all(0),
                   minimumSize: const Size(45, 45),
-                  foregroundColor: kGreenColor,
-                  side: const BorderSide(color: kGreenColor)),
+                  foregroundColor: kAccentColor,
+                  side: BorderSide(color: kAccentColor)),
               onPressed: _scrollToTop,
               child: const Icon(
                 Icons.arrow_upward,

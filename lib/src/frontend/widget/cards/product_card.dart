@@ -1,8 +1,9 @@
 import 'package:benji_user/src/frontend/model/product.dart';
-import 'package:benji_user/src/frontend/utils/constant.dart';
 import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../theme/colors.dart';
+import '../../../providers/constants.dart';
 import '../clickable.dart';
 
 class MyCard extends StatefulWidget {
@@ -160,9 +161,9 @@ class _MyCardState extends State<MyCard> {
                           child: Text(
                             widget.product.subCategory.name,
                             textAlign: TextAlign.start,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 overflow: TextOverflow.ellipsis,
-                                color: kGreenColor,
+                                color: kAccentColor,
                                 fontSize: 13,
                                 height: 2),
                           ),
@@ -190,7 +191,7 @@ class _MyCardState extends State<MyCard> {
                             return snapshot.data
                                 ? OutlinedButton(
                                     style: OutlinedButton.styleFrom(
-                                      foregroundColor: kGreenColor,
+                                      foregroundColor: kAccentColor,
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 12, vertical: 15),
                                     ),
@@ -199,7 +200,7 @@ class _MyCardState extends State<MyCard> {
                                   )
                                 : OutlinedButton(
                                     style: OutlinedButton.styleFrom(
-                                      foregroundColor: kGreenColor,
+                                      foregroundColor: kAccentColor,
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 12, vertical: 15),
                                     ),

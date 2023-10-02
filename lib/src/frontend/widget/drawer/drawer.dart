@@ -3,9 +3,10 @@ import 'package:benji_user/frontend/main/about.dart';
 import 'package:benji_user/frontend/main/contact_us.dart';
 import 'package:benji_user/frontend/main/home.dart';
 import 'package:benji_user/src/frontend/model/category.dart';
-import 'package:benji_user/src/frontend/utils/constant.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../theme/colors.dart';
+import '../../../providers/constants.dart';
 import '../drop.dart';
 import '../text/hover_text.dart';
 
@@ -46,9 +47,9 @@ class _MyDrawerState extends State<MyDrawer> {
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.close_sharp,
-                              color: kGreenColor,
+                              color: kAccentColor,
                               size: 30,
                             ),
                           ),
@@ -115,7 +116,7 @@ class _MyDrawerState extends State<MyDrawer> {
                                           'Menu',
                                           style: TextStyle(
                                             color: isHovered
-                                                ? kGreenColor
+                                                ? kAccentColor
                                                 : Colors.black,
                                             fontWeight: FontWeight.w200,
                                             fontSize: 18,
@@ -124,7 +125,7 @@ class _MyDrawerState extends State<MyDrawer> {
                                         Icon(
                                           Icons.arrow_drop_down,
                                           color: isHovered
-                                              ? kGreenColor
+                                              ? kAccentColor
                                               : Colors.black,
                                         )
                                       ],
@@ -171,7 +172,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     bottom: 20, top: 20, left: 16, right: 16),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: kGreenColor,
+                    backgroundColor: kAccentColor,
                     minimumSize: const Size(double.infinity, 50),
                   ),
                   onPressed: () {

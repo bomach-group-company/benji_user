@@ -1,5 +1,6 @@
-import 'package:benji_user/src/frontend/utils/constant.dart';
 import 'package:flutter/material.dart';
+
+import '../../../providers/constants.dart';
 
 class MyContentText extends StatelessWidget {
   final String title;

@@ -1,5 +1,8 @@
-import 'package:benji_user/src/frontend/utils/constant.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../theme/colors.dart';
+import '../../../providers/constants.dart';
+import '../../utils/constant.dart';
 
 class MyBorderCard extends StatefulWidget {
   final String title;
@@ -54,7 +57,7 @@ class _MyBorderCardState extends State<MyBorderCard> {
         children: [
           Icon(
             widget.icon,
-            color: kGreenColor,
+            color: kAccentColor,
             size: 50,
           ),
           kHalfWidthSizedBox,

@@ -40,8 +40,7 @@ class Ratings {
 Future<List<Ratings>> getRatingsByVendorId(int id,
     {start = 0, end = 10}) async {
   final response = await http.get(
-    Uri.parse(
-        '$baseFrontendUrl/vendors/$id/getAllVendorRatings?start=$start&end=$end'),
+    Uri.parse('$baseURL/vendors/$id/getAllVendorRatings?start=$start&end=$end'),
     headers: await authHeader(),
   );
 
@@ -58,7 +57,7 @@ Future<List<Ratings>> getRatingsByVendorIdAndRating(int id, int rating,
     {start = 0, end = 10}) async {
   final response = await http.get(
     Uri.parse(
-        '$baseFrontendUrl/clients/filterVendorReviewsByRating/$id?rating_value=$rating'),
+        '$baseURL/clients/filterVendorReviewsByRating/$id?rating_value=$rating'),
     headers: await authHeader(),
   );
 
@@ -74,7 +73,7 @@ Future<List<Ratings>> getRatingsByVendorIdAndRating(int id, int rating,
 Future<List<Ratings>> getRatingsByProductId(String id,
     {start = 0, end = 10}) async {
   final response = await http.get(
-    Uri.parse('$baseFrontendUrl/clients/listAllProductRatings/$id'),
+    Uri.parse('$baseURL/clients/listAllProductRatings/$id'),
     headers: await authHeader(),
   );
   if (response.statusCode == 200) {
@@ -90,7 +89,7 @@ Future<List<Ratings>> getRatingsByProductIdAndRating(String id, int rating,
     {start = 0, end = 10}) async {
   final response = await http.get(
     Uri.parse(
-        '$baseFrontendUrl/clients/filterProductReviewsByRating/$id?rating_value=$rating'),
+        '$baseURL/clients/filterProductReviewsByRating/$id?rating_value=$rating'),
     headers: await authHeader(),
   );
 

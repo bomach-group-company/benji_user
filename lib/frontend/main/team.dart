@@ -7,6 +7,8 @@ import '../../src/frontend/utils/constant.dart';
 import '../../src/frontend/widget/cards/team_card.dart';
 import '../../src/frontend/widget/drawer/drawer.dart';
 import '../../src/frontend/widget/section/footer.dart';
+import '../../src/providers/constants.dart';
+import '../../theme/colors.dart';
 
 class TeamPage extends StatefulWidget {
   const TeamPage({super.key});
@@ -119,8 +121,8 @@ class _TeamPageState extends State<TeamPage> {
                   backgroundColor: Colors.white,
                   padding: const EdgeInsets.all(0),
                   minimumSize: const Size(45, 45),
-                  foregroundColor: kGreenColor,
-                  side: const BorderSide(color: kGreenColor)),
+                  foregroundColor: kAccentColor,
+                  side: BorderSide(color: kAccentColor)),
               onPressed: _scrollToTop,
               child: const Icon(
                 Icons.arrow_upward,

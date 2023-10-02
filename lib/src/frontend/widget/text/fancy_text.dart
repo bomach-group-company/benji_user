@@ -1,6 +1,7 @@
-import 'package:benji_user/src/frontend/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../../theme/colors.dart';
 
 class MyFancyText extends StatelessWidget {
   final String text;
@@ -13,7 +14,7 @@ class MyFancyText extends StatelessWidget {
     return Text(
       text,
       style: GoogleFonts.oleoScript(
-        color: kGreenColor,
+        color: kAccentColor,
         fontSize: media.width * 0.035 + 20,
         fontWeight: FontWeight.bold,
       ),

@@ -60,7 +60,7 @@ Future<List<Address>> getAddressesByUser() async {
   int? userId = (await getUser() as User).id;
 
   final response = await http.get(
-    Uri.parse('$baseFrontendUrl/clients/listMyAddresses?user_id=$userId'),
+    Uri.parse('$baseURL/clients/listMyAddresses?user_id=$userId'),
     headers: await authHeader(),
   );
 
@@ -77,7 +77,7 @@ Future<Address> getCurrentAddress() async {
   int? userId = (await getUser())!.id;
 
   final response = await http.get(
-    Uri.parse('$baseFrontendUrl/clients/getCurrentAddress/$userId'),
+    Uri.parse('$baseURL/clients/getCurrentAddress/$userId'),
     headers: await authHeader(),
   );
 
@@ -94,8 +94,7 @@ Future<Address> setCurrentAddress(
   int? userId = (await getUser())!.id;
 
   final response = await http.put(
-    Uri.parse(
-        '$baseFrontendUrl/clients/setCurrentAddress/$addressId?user_id=$userId'),
+    Uri.parse('$baseURL/clients/setCurrentAddress/$addressId?user_id=$userId'),
     headers: await authHeader(),
   );
 
@@ -110,7 +109,7 @@ Future<bool> deleteAddress(
   String addressId,
 ) async {
   final response = await http.delete(
-    Uri.parse('$baseFrontendUrl/address/deleteAddress/$addressId'),
+    Uri.parse('$baseURL/address/deleteAddress/$addressId'),
     headers: await authHeader(),
   );
 

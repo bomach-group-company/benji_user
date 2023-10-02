@@ -1,8 +1,10 @@
 import 'package:benji_user/frontend/store/categories.dart';
-import 'package:benji_user/src/frontend/utils/constant.dart';
 import 'package:benji_user/src/frontend/widget/clickable.dart';
 import 'package:carousel_slider/carousel_controller.dart' as hero_carousel;
 import 'package:flutter/material.dart';
+
+import '../../../../theme/colors.dart';
+import '../../../providers/constants.dart';
 
 class MyHero extends StatelessWidget {
   final hero_carousel.CarouselController buttonCarouselController;
@@ -56,7 +58,7 @@ class MyHero extends StatelessWidget {
                     textAlign: TextAlign.center,
                     softWrap: true,
                     style: TextStyle(
-                      color: kGreenColor,
+                      color: kAccentColor,
                       fontSize: media.width * 0.035 + 12,
                       fontWeight: FontWeight.w900,
                     ),
@@ -86,7 +88,7 @@ class MyHero extends StatelessWidget {
                         horizontal: 12,
                         vertical: 15,
                       ),
-                      backgroundColor: kGreenColor,
+                      backgroundColor: kAccentColor,
                     ),
                     onPressed: () {},
                     child: const Row(

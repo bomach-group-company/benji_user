@@ -12,7 +12,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/reusable_authentication_first_half.dart';
@@ -116,8 +115,7 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
       );
     }
 
-    final url =
-        Uri.parse('$baseFrontendUrl/auth/requestForgotPassword/$userEmail');
+    final url = Uri.parse('$baseURL/auth/requestForgotPassword/$userEmail');
 
     final body = {};
     await http.post(url, body: body);
@@ -139,7 +137,7 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
 
   Future<bool> otp() async {
     final url = Uri.parse(
-        '$baseFrontendUrl/auth/verify-token/${pin1EC.text}${pin2EC.text}${pin3EC.text}${pin4EC.text}');
+        '$baseURL/auth/verify-token/${pin1EC.text}${pin2EC.text}${pin3EC.text}${pin4EC.text}');
 
     final response = await http.get(url);
     try {
