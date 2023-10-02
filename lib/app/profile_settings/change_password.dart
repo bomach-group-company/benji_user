@@ -237,9 +237,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               'Enter Old Password',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Color(
-                                  0xFF31343D,
-                                ),
+                                color: kTextBlackColor,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -253,9 +251,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                             obscureText: _isObscured,
                             textInputAction: TextInputAction.next,
                             validator: (value) {
-                              RegExp passwordPattern = RegExp(
-                                r'^.{8,}$',
-                              );
                               if (value == null || value!.isEmpty) {
                                 _userOldPasswordFN.requestFocus();
                                 return "Enter your current password";
@@ -277,9 +272,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               'Enter New Password',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Color(
-                                  0xFF31343D,
-                                ),
+                                color: kTextBlackColor,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -348,9 +341,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               'Confirm Password',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Color(
-                                  0xFF31343D,
-                                ),
+                                color: kTextBlackColor,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
                               ),
