@@ -1,11 +1,16 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, use_build_context_synchronously
 
+import 'dart:convert';
+
+import 'package:benji_user/src/repo/utils/base_url.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
+import 'package:http/http.dart' as http;
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/reusable_authentication_first_half.dart';
@@ -14,7 +19,6 @@ import '../../src/common_widgets/textformfield/password_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
-import '../auth/login.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -34,10 +38,12 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   final TextEditingController _userPasswordEC = TextEditingController();
   TextEditingController confirmPasswordEC = TextEditingController();
+  final TextEditingController _userOldPasswordEC = TextEditingController();
 
   //=========================== FOCUS NODES ====================================\\
   final FocusNode _userPasswordFN = FocusNode();
   FocusNode confirmPasswordFN = FocusNode();
+  final FocusNode _userOldPasswordFN = FocusNode();
 
   //=========================== BOOL VALUES====================================\\
   bool _isLoading = false;
@@ -50,38 +56,60 @@ class _ChangePasswordState extends State<ChangePassword> {
     setState(() {
       _isLoading = true;
     });
+    final url = Uri.parse('$baseURL/auth/changeNewPassword/');
 
-    // Simulating a delay of 2 seconds
-    await Future.delayed(const Duration(seconds: 2));
-
-    setState(() {
-      _validAuthCredentials = true;
-    });
-
-    //Display snackBar
-    myFixedSnackBar(
-      context,
-      "Password changed successfully",
-      kSuccessColor,
-      const Duration(
-        seconds: 2,
-      ),
+    Map body = {
+      'new_password': _userPasswordEC.text,
+      'confirm_password': confirmPasswordEC.text,
+      'old_password': _userOldPasswordEC.text,
+    };
+    print(body);
+    final response = await http.post(
+      url,
+      body: body,
+      headers: await authHeader(),
     );
+    print(response.body);
+    try {
+      Map data = jsonDecode(response.body);
+      if (data['message'] == "Password Changed is successful." &&
+          response.statusCode == 200) {
+        setState(() {
+          _validAuthCredentials = true;
+        });
 
-    // Simulating a delay of 2 seconds
-    await Future.delayed(const Duration(seconds: 2));
+        //Display snackBar
+        myFixedSnackBar(
+          context,
+          "Password changed successfully",
+          kSuccessColor,
+          const Duration(
+            seconds: 2,
+          ),
+        );
 
-    // Navigate to the new page
-    Get.offAll(
-      () => const Login(),
-      routeName: 'Login',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      predicate: (routes) => false,
-      curve: Curves.easeIn,
-      popGesture: false,
-      transition: Transition.rightToLeft,
-    );
+        // Navigate to the new page
+        Get.back();
+      } else {
+        myFixedSnackBar(
+          context,
+          "Your old password does not match",
+          kAccentColor,
+          const Duration(
+            seconds: 2,
+          ),
+        );
+      }
+    } catch (e) {
+      myFixedSnackBar(
+        context,
+        "Error occured contact admin",
+        kAccentColor,
+        const Duration(
+          seconds: 2,
+        ),
+      );
+    }
 
     setState(() {
       _isLoading = false;
@@ -103,6 +131,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         backgroundColor: kSecondaryColor,
+        resizeToAvoidBottomInset: true,
         appBar: const MyAppBar(
           title: "",
           elevation: 0.0,
@@ -110,12 +139,25 @@ class _ChangePasswordState extends State<ChangePassword> {
           backgroundColor: kTransparentColor,
           toolbarHeight: kToolbarHeight,
         ),
+        extendBody: true,
+        extendBodyBehindAppBar: true,
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: LayoutGrid(
             columnSizes: breakPointDynamic(
-                media.size.width, [1.fr], [1.fr], [1.fr, 1.fr], [1.fr, 1.fr]),
-            rowSizes: [auto, 1.fr],
+              media.size.width,
+              [1.fr],
+              [1.fr],
+              [1.fr, 1.fr],
+              [1.fr, 1.fr],
+            ),
+            rowSizes: breakPointDynamic(
+              media.size.width,
+              [auto, 1.fr],
+              [auto, 1.fr],
+              [1.fr],
+              [1.fr],
+            ),
             children: [
               Column(
                 children: [
@@ -168,7 +210,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 height: media.size.height,
                 width: media.size.width,
                 padding: const EdgeInsets.only(
-                  top: kDefaultPadding,
+                  top: kDefaultPadding * 0.5,
                   left: kDefaultPadding,
                   right: kDefaultPadding,
                 ),
@@ -190,6 +232,46 @@ class _ChangePasswordState extends State<ChangePassword> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          const SizedBox(
+                            child: Text(
+                              'Enter Old Password',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color(
+                                  0xFF31343D,
+                                ),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          kHalfSizedBox,
+                          PasswordTextFormField(
+                            controller: _userOldPasswordEC,
+                            passwordFocusNode: _userOldPasswordFN,
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: _isObscured,
+                            textInputAction: TextInputAction.next,
+                            validator: (value) {
+                              RegExp passwordPattern = RegExp(
+                                r'^.{8,}$',
+                              );
+                              if (value == null || value!.isEmpty) {
+                                _userOldPasswordFN.requestFocus();
+                                return "Enter your current password";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _userOldPasswordEC.text = value;
+                            },
+                            suffixIcon: const IconButton(
+                              onPressed: null,
+                              icon: Icon(null),
+                            ),
+                          ),
+                          kHalfSizedBox,
+                          //new password
                           const SizedBox(
                             child: Text(
                               'Enter New Password',

@@ -85,8 +85,6 @@ class _ReportProductState extends State<ReportProduct> {
         _submittingRequest = false;
       });
 
-      //Go back;
-      await Future.delayed(const Duration(milliseconds: 500));
       Get.back();
     } else {
       setState(() {

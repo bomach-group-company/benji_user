@@ -150,9 +150,6 @@ class _SignUpState extends State<SignUp> {
         _validAuthCredentials = true;
       });
 
-      //Simulating a delay
-      await Future.delayed(const Duration(seconds: 2));
-
       //Display snackBar
       myFixedSnackBar(
         context,
@@ -160,9 +157,6 @@ class _SignUpState extends State<SignUp> {
         kSuccessColor,
         const Duration(seconds: 2),
       );
-
-      //Simulating a delay
-      await Future.delayed(const Duration(seconds: 2));
 
       // Navigate to the new page
       Get.offAll(

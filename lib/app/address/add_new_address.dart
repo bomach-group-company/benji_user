@@ -3,6 +3,7 @@
 import 'package:benji_user/src/common_widgets/textformfield/my_maps_textformfield.dart';
 import 'package:benji_user/src/providers/keys.dart';
 import 'package:benji_user/src/repo/models/googleMaps/autocomplete_prediction.dart';
+import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:benji_user/src/repo/utils/network_utils.dart';
 import 'package:flutter/foundation.dart';
@@ -10,16 +11,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/common_widgets/button/my_outlined_elevatedbutton.dart';
+import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/common_widgets/textformfield/my textformfield.dart';
 import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
 import '../../src/others/location_list_tile.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/googleMaps/places_autocomplete_response.dart';
+import '../../src/repo/models/user/user_model.dart';
 import '../../theme/colors.dart';
 import 'pin_location_on_map.dart';
 
@@ -74,107 +78,107 @@ class _AddNewAddressState extends State<AddNewAddress> {
   final selectedLocation = ValueNotifier<String?>(null);
 
   //===================== BOOL VALUES =======================\\
-  final bool _isLoading = false;
-  final bool _isLoading2 = false;
+  bool _isLoading = false;
+  bool _isLoading2 = false;
   bool _typing = false;
   //===================== FUNCTIONS =======================\\
-  // Future<bool> addAddress({bool is_current = true}) async {
-  //   final url = Uri.parse('$baseURL/address/addAddress');
-  //   List<String> countryList = country!.split(' ');
-  //   final User? user = await getUser();
+  Future<bool> addAddress({bool is_current = true}) async {
+    final url = Uri.parse('$baseURL/address/addAddress');
+    List<String> countryList = country!.split(' ');
+    final User? user = await getUser();
 
-  //   final body = {
-  //     'user_id': user!.id.toString(),
-  //     'title': _addressTitleEC.text,
-  //     // 'recipient_name': _recipientNameEC.text,
-  //     'phone': "+$countryDialCode${_phoneNumberEC.text}",
-  //     // 'street_address': _streetAddressEC.text,
-  //     // 'details': _apartmentDetailsEC.text,
-  //     'country': countryList[countryList.length - 1],
-  //     'state': state,
-  //     'city': city,
-  //     'is_current': is_current.toString(),
-  //   };
-  //   final response =
-  //       await http.post(url, body: body, headers: await authHeader());
+    final body = {
+      'user_id': user!.id.toString(),
+      'title': _addressTitleEC.text,
+      // 'recipient_name': _recipientNameEC.text,
+      'phone': "+$countryDialCode${_phoneNumberEC.text}",
+      // 'street_address': _streetAddressEC.text,
+      // 'details': _apartmentDetailsEC.text,
+      'country': countryList[countryList.length - 1],
+      'state': state,
+      'city': city,
+      'is_current': is_current.toString(),
+    };
+    final response =
+        await http.post(url, body: body, headers: await authHeader());
 
-  //   return response.body == '"Address added successfully to ${user.email}"' &&
-  //       response.statusCode == 200;
-  // }
+    return response.body == '"Address added successfully to ${user.email}"' &&
+        response.statusCode == 200;
+  }
 
-  // //SET DEFAULT ADDRESS
-  // setDefaultAddress() async {
-  //   setState(() {
-  //     _isLoading = true;
-  //   });
+  //SET DEFAULT ADDRESS
+  setDefaultAddress() async {
+    setState(() {
+      _isLoading = true;
+    });
 
-  //   await checkAuth(context);
+    await checkAuth(context);
 
-  //   if (await addAddress(is_current: true)) {
-  //     mySnackBar(
-  //       context,
-  //       kSuccessColor,
-  //       "Success!",
-  //       "Set As Default Address",
-  //       const Duration(seconds: 2),
-  //     );
-  //     Get.back();
+    if (await addAddress(is_current: true)) {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Set As Default Address",
+        const Duration(seconds: 2),
+      );
+      Get.back();
 
-  //     setState(() {
-  //       _isLoading = false;
-  //     });
-  //   } else {
-  //     mySnackBar(
-  //       context,
-  //       kErrorColor,
-  //       "Failed!",
-  //       "Failed to Set as Default Address",
-  //       const Duration(seconds: 2),
-  //     );
-  //     Get.back();
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      mySnackBar(
+        context,
+        kErrorColor,
+        "Failed!",
+        "Failed to Set as Default Address",
+        const Duration(seconds: 2),
+      );
+      Get.back();
 
-  //     setState(() {
-  //       _isLoading = false;
-  //     });
-  //   }
-  // }
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
-  // //SAVE NEW ADDRESS
-  // saveNewAddress() async {
-  //   setState(() {
-  //     _isLoading2 = true;
-  //   });
+  //SAVE NEW ADDRESS
+  saveNewAddress() async {
+    setState(() {
+      _isLoading2 = true;
+    });
 
-  //   await checkAuth(context);
+    await checkAuth(context);
 
-  //   if (await addAddress(is_current: false)) {
-  //     mySnackBar(
-  //       context,
-  //       kSuccessColor,
-  //       "Success!",
-  //       "Added Address",
-  //       const Duration(seconds: 2),
-  //     );
-  //     Get.back();
+    if (await addAddress(is_current: false)) {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Added Address",
+        const Duration(seconds: 2),
+      );
+      Get.back();
 
-  //     setState(() {
-  //       _isLoading2 = false;
-  //     });
-  //   } else {
-  //     mySnackBar(
-  //       context,
-  //       kErrorColor,
-  //       "Failed!",
-  //       "Failed to Add Address",
-  //       const Duration(seconds: 2),
-  //     );
-  //     Get.back();
+      setState(() {
+        _isLoading2 = false;
+      });
+    } else {
+      mySnackBar(
+        context,
+        kErrorColor,
+        "Failed!",
+        "Failed to Add Address",
+        const Duration(seconds: 2),
+      );
+      Get.back();
 
-  //     setState(() {
-  //       _isLoading2 = false;
-  //     });
-  //   }
-  // }
+      setState(() {
+        _isLoading2 = false;
+      });
+    }
+  }
 
   void placeAutoComplete(String query) async {
     Uri uri = Uri.https(

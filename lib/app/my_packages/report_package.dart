@@ -41,7 +41,7 @@ class _ReportPackageState extends State<ReportPackage> {
   //   try {
   //     User? user = await getUser();
   //     final url = Uri.parse(
-  //         '$baseURL/clients/clientReportVendor/${user!.id}/${widget.vendor.id}?message=${_messageEC.text}');
+  //         '$baseFrontendUrl/clients/clientReportVendor/${user!.id}/${widget.vendor.id}?message=${_messageEC.text}');
 
   //     Map body = {};
 
@@ -62,8 +62,6 @@ class _ReportPackageState extends State<ReportPackage> {
     });
 
     await checkAuth(context);
-
-    await Future.delayed(const Duration(milliseconds: 300));
 
     setState(() {
       _submittingReport = false;

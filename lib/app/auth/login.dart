@@ -118,9 +118,6 @@ class _LoginState extends State<Login> {
         const Duration(seconds: 2),
       );
 
-      //Simulating a delay
-      await Future.delayed(const Duration(seconds: 2));
-
       Get.offAll(
         () => const LoginSplashScreen(),
         routeName: 'LoginSplashScreen',

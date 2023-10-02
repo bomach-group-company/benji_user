@@ -90,7 +90,6 @@ class _AddNewCardState extends State<AddNewCard> {
         "Card has been added successfully",
         const Duration(seconds: 1),
       );
-      await Future.delayed(const Duration(seconds: 2));
       Get.back();
 
       setState(() {
@@ -104,7 +103,6 @@ class _AddNewCardState extends State<AddNewCard> {
         "Failed to add card",
         const Duration(seconds: 1),
       );
-      await Future.delayed(const Duration(seconds: 2));
       Get.back();
 
       setState(() {

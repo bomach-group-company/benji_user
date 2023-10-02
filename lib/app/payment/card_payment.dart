@@ -45,9 +45,6 @@ class _CardPaymentState extends State<CardPayment> {
       _processingPayment = true;
     });
 
-    //Simulate a delay
-    await Future.delayed(const Duration(seconds: 2));
-
     setState(() {
       _processingPayment = false;
     });

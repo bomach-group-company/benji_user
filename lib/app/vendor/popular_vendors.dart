@@ -56,7 +56,6 @@ class _PopularVendorsState extends State<PopularVendors> {
         end = end + 10;
       });
 
-      await Future.delayed(const Duration(microseconds: 100));
       await _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 25),

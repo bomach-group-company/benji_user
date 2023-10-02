@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:benji_user/app/auth/forgot_password.dart';
+import 'package:benji_user/main.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -11,7 +12,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/reusable_authentication_first_half.dart';
@@ -91,7 +91,6 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
   void _resendOTP() async {
     // Implement your resend OTP logic here
     // For example, you could restart the timer and reset the `_timerComplete` state.
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userEmail = prefs.getString('email');
 
     if (userEmail == null) {
@@ -145,7 +144,6 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
       Map resp = jsonDecode(response.body);
       bool res =
           response.statusCode == 200 && resp['message'].toString() == 'true';
-      SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', resp['otp']);
       return res;
     } catch (e) {

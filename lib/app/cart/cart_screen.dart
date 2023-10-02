@@ -1,12 +1,11 @@
 import 'package:benji_user/app/address/deliver_to.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
-import '../../src/others/empty.dart';
 import 'package:benji_user/src/common_widgets/product/cart_product_container.dart';
 import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
-import 'package:benji_user/src/repo/utils/cart.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -14,6 +13,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl/intl.dart';
 
+import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
@@ -31,13 +31,14 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
+    checkAuth(context);
+
     _getData();
   }
 
   List<Product>? _data;
 
   _getData() async {
-    await checkAuth(context);
     _subTotal = 0;
     List<Product> product = await getCartProduct(
       (data) => mySnackBar(
@@ -50,7 +51,7 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
     );
-    Map<String, dynamic> cartItems = await getCart();
+    Map<String, dynamic> cartItems = await getCartProductId();
 
     for (Product item in product) {
       _subTotal += (item.price * cartItems[item.id]);
@@ -77,22 +78,20 @@ class _CartScreenState extends State<CartScreen> {
 
 //==================================================== FUNCTIONS ==========================================================\\
 
-  void incrementQuantity(String id) async {
-    await addToCart(id);
+  void incrementQuantity(Product product) async {
+    await addToCart(product.vendorId.id!.toString(), product.id);
     if (_data != null) {
-      Product product = _data!.firstWhere((element) => element.id == id);
       _subTotal += product.price;
     }
     setState(() {});
   }
 
-  void decrementQuantity(String id) async {
-    await removeFromCart(id);
+  void decrementQuantity(Product product) async {
+    await minusFromCart(product.vendorId.id!.toString(), product.id);
     if (_data != null) {
-      Product product = _data!.firstWhere((element) => element.id == id);
       _subTotal -= product.price;
     }
-    _itemCount = await countItemCart();
+    _itemCount = await countCartItem();
 
     setState(() {});
   }
@@ -284,9 +283,9 @@ class _CartScreenState extends State<CartScreen> {
                             .map(
                               (item) => ProductCartContainer(
                                 decrementQuantity: () =>
-                                    decrementQuantity(item.id),
+                                    decrementQuantity(item),
                                 incrementQuantity: () =>
-                                    incrementQuantity(item.id),
+                                    incrementQuantity(item),
                                 product: item,
                                 onTap: () => _toProductDetailScreen(item),
                               ),

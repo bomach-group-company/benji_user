@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:benji_user/main.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -10,7 +11,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/reusable_authentication_first_half.dart';
@@ -53,7 +53,6 @@ class _ResetPasswordState extends State<ResetPassword> {
   //=========================== FUNCTIONS ====================================\\
 
   Future<bool> resetPassword() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userEmail = prefs.getString('email');
     String? token = prefs.getString('token');
     final url = Uri.parse('$baseURL/auth/resetForgotPassword/$userEmail/');

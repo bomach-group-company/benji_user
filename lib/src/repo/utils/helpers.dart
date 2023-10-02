@@ -1,25 +1,23 @@
 import 'dart:convert';
 
+import 'package:benji_user/main.dart';
+import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app/auth/login.dart';
-import '../../common_widgets/snackbar/my_floating_snackbar.dart';
 import '../models/user/user_model.dart';
 import 'base_url.dart';
 
 Future<void> saveUser(String user, String token) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   Map data = jsonDecode(user);
   data['token'] = token;
   await prefs.setString('user', jsonEncode(data));
 }
 
 Future<User?> getUser() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   String? user = prefs.getString('user');
   if (user == null) {
     return null;
@@ -81,7 +79,6 @@ checkAuth(context) async {
 }
 
 Future<bool> deleteUser() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.remove('userData');
   return prefs.remove('user');
 }

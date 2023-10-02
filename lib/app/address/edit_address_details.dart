@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:benji_user/src/repo/models/address_model.dart';
+import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
@@ -36,22 +36,15 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
 
   //===================== CONTROLLERS =======================\\
   final TextEditingController _addressTitleEC = TextEditingController();
-  final TextEditingController _recipientNameEC = TextEditingController();
-  final TextEditingController _streetAddressEC = TextEditingController();
   final TextEditingController _apartmentDetailsEC = TextEditingController();
   final TextEditingController _phoneNumberEC = TextEditingController();
 
   //===================== FOCUS NODES =======================\\
   final FocusNode _addressTitleFN = FocusNode();
-  final FocusNode _recipientNameFN = FocusNode();
-  final FocusNode _streetAddressFN = FocusNode();
   final FocusNode _apartmentDetailsFN = FocusNode();
   final FocusNode _phoneNumberFN = FocusNode();
 
   //===================== ALL VARIABLES =======================\\
-  String? country;
-  String? state;
-  String? city;
   String countryDialCode = '234';
 
   //===================== BOOL VALUES =======================\\
@@ -62,17 +55,11 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   Future<bool> updateAddress({bool is_current = true}) async {
     final url =
         Uri.parse('$baseURL/address/changeAddressDetails/${widget.address.id}');
-    List<String> countryList = country!.split(' ');
 
     final body = {
       'title': _addressTitleEC.text,
-      'recipient_name': _recipientNameEC.text,
       'phone': "+$countryDialCode${_phoneNumberEC.text}",
-      'street_address': _streetAddressEC.text,
       'details': _apartmentDetailsEC.text,
-      'country': countryList[countryList.length - 1],
-      'state': state,
-      'city': city,
     };
     final response = await http.put(url,
         body: jsonEncode(body), headers: await authHeader());
@@ -129,14 +116,10 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
     super.initState();
     checkAuth(context);
     _addressTitleEC.text = widget.address.title ?? '';
-    _streetAddressEC.text = widget.address.streetAddress ?? '';
+    // _streetAddressEC.text = widget.address.streetAddress ?? '';
     _apartmentDetailsEC.text = widget.address.details ?? '';
     _phoneNumberEC.text =
         (widget.address.phone ?? '').replaceFirst('+$countryDialCode', '');
-    _recipientNameEC.text = widget.address.recipientName ?? '';
-    country = widget.address.country ?? '';
-    state = widget.address.state ?? '';
-    city = widget.address.city ?? '';
   }
 
   //SAVE NEW ADDRESS
@@ -215,6 +198,15 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                           ),
                         ),
                         kHalfSizedBox,
+                        const Text(
+                          'Name tag of this address e.g my work, my apartment',
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfSizedBox,
                         MyTextFormField(
                           hintText:
                               "Enter address name tag e.g my work, my home....",
@@ -228,97 +220,13 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                               _addressTitleFN.requestFocus();
                               return "Enter a title";
                             } else if (!locationNamePattern.hasMatch(value)) {
-                              _recipientNameFN.requestFocus();
+                              _addressTitleFN.requestFocus();
                               return "Please enter a valid name";
                             }
                             return null;
                           },
                           onSaved: (value) {
                             _addressTitleEC.text = value!;
-                          },
-                        ),
-                        kHalfSizedBox,
-                        const Text(
-                          'Name tag of this address e.g my work, my apartment',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    kSizedBox,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Recipient Name',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        kHalfSizedBox,
-                        MyTextFormField(
-                          hintText: "Enter recipient name",
-                          controller: _recipientNameEC,
-                          textInputAction: TextInputAction.next,
-                          textInputType: TextInputType.name,
-                          focusNode: _recipientNameFN,
-                          validator: (value) {
-                            //username pattern
-                            //Min. of 3 characters
-                            RegExp userNamePattern = RegExp(r'^.{3,}$');
-                            if (value == null || value!.isEmpty) {
-                              _recipientNameFN.requestFocus();
-                              return "Enter your name";
-                            } else if (!userNamePattern.hasMatch(value)) {
-                              _recipientNameFN.requestFocus();
-                              return "Please enter a valid name";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _recipientNameEC.text = value!;
-                          },
-                        ),
-                      ],
-                    ),
-                    kSizedBox,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Street Address',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        kHalfSizedBox,
-                        MyTextFormField(
-                          hintText: "E.g 123 Main Street",
-                          controller: _streetAddressEC,
-                          textInputAction: TextInputAction.next,
-                          textInputType: TextInputType.streetAddress,
-                          focusNode: _streetAddressFN,
-                          validator: (value) {
-                            RegExp streetAddressPattern = RegExp(r'^.{4,}$');
-
-                            if (value == null || value!.isEmpty) {
-                              _streetAddressFN.requestFocus();
-                              return "Enter your street address";
-                            } else if (!streetAddressPattern.hasMatch(value)) {
-                              _streetAddressFN.requestFocus();
-                              return "Please enter a valid street address";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _streetAddressEC.text = value!;
                           },
                         ),
                       ],
@@ -398,46 +306,6 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                       ],
                     ),
                     kSizedBox,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Localization',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        kHalfSizedBox,
-                        CSCPicker(
-                          countryFilter: const [CscCountry.Nigeria],
-                          currentCity: city,
-                          currentState: state,
-                          currentCountry: country,
-                          key: _cscPickerKey,
-                          layout: Layout.vertical,
-                          countryDropdownLabel: "Select country",
-                          stateDropdownLabel: "Select state",
-                          cityDropdownLabel: "Select city",
-                          onCountryChanged: (data) {
-                            setState(() {
-                              country = data;
-                            });
-                          },
-                          onStateChanged: (data) {
-                            setState(() {
-                              state = data;
-                            });
-                          },
-                          onCityChanged: (data) {
-                            setState(() {
-                              city = data;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
                     kSizedBox,
                   ],
                 ),

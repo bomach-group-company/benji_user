@@ -38,7 +38,7 @@ class Ratings {
 }
 
 Future<List<Ratings>> getRatingsByVendorId(int id,
-    {start = 0, end = 20}) async {
+    {start = 0, end = 10}) async {
   final response = await http.get(
     Uri.parse('$baseURL/vendors/$id/getAllVendorRatings?start=$start&end=$end'),
     headers: await authHeader(),
@@ -47,8 +47,6 @@ Future<List<Ratings>> getRatingsByVendorId(int id,
   if (response.statusCode == 200) {
     return (jsonDecode(response.body)['items'] as List)
         .map((item) => Ratings.fromJson(item))
-        .toList()
-        .reversed
         .toList();
   } else {
     throw Exception('Failed to load ratings');
@@ -56,7 +54,7 @@ Future<List<Ratings>> getRatingsByVendorId(int id,
 }
 
 Future<List<Ratings>> getRatingsByVendorIdAndRating(int id, int rating,
-    {start = 0, end = 20}) async {
+    {start = 0, end = 10}) async {
   final response = await http.get(
     Uri.parse(
         '$baseURL/clients/filterVendorReviewsByRating/$id?rating_value=$rating'),
@@ -66,8 +64,6 @@ Future<List<Ratings>> getRatingsByVendorIdAndRating(int id, int rating,
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => Ratings.fromJson(item))
-        .toList()
-        .reversed
         .toList();
   } else {
     throw Exception('Failed to load ratings');
@@ -75,7 +71,7 @@ Future<List<Ratings>> getRatingsByVendorIdAndRating(int id, int rating,
 }
 
 Future<List<Ratings>> getRatingsByProductId(String id,
-    {start = 0, end = 20}) async {
+    {start = 0, end = 10}) async {
   final response = await http.get(
     Uri.parse('$baseURL/clients/listAllProductRatings/$id'),
     headers: await authHeader(),
@@ -83,8 +79,6 @@ Future<List<Ratings>> getRatingsByProductId(String id,
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => Ratings.fromJson(item))
-        .toList()
-        .reversed
         .toList();
   } else {
     throw Exception('Failed to load ratings');
@@ -92,7 +86,7 @@ Future<List<Ratings>> getRatingsByProductId(String id,
 }
 
 Future<List<Ratings>> getRatingsByProductIdAndRating(String id, int rating,
-    {start = 0, end = 20}) async {
+    {start = 0, end = 10}) async {
   final response = await http.get(
     Uri.parse(
         '$baseURL/clients/filterProductReviewsByRating/$id?rating_value=$rating'),
@@ -102,8 +96,6 @@ Future<List<Ratings>> getRatingsByProductIdAndRating(String id, int rating,
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => Ratings.fromJson(item))
-        .toList()
-        .reversed
         .toList();
   } else {
     throw Exception('Failed to load ratings');

@@ -50,8 +50,13 @@ class _FavoritesState extends State<Favorites>
   void initState() {
     super.initState();
     checkAuth(context);
+    _products = _getDataProduct();
+    _vendors = _getDataVendor();
     _tabBarController = TabController(length: 2, vsync: this);
   }
+
+  late Future<List<Product>> _products;
+  late Future<List<VendorModel>> _vendors;
 
   Future<List<Product>> _getDataProduct() async {
     List<Product> product = await getFavoriteProduct(
@@ -86,7 +91,10 @@ class _FavoritesState extends State<Favorites>
   }
 
   Future<void> _handleRefresh() async {
-    // setState(() {});
+    setState(() {
+      _products = _getDataProduct();
+      _vendors = _getDataVendor();
+    });
   }
 
   @override
@@ -121,7 +129,9 @@ class _FavoritesState extends State<Favorites>
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    setState(() {});
+    setState(() {
+      _products = _getDataProduct();
+    });
   }
 
   void _vendorDetailPage(vendor) async {
@@ -135,7 +145,9 @@ class _FavoritesState extends State<Favorites>
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    setState(() {});
+    setState(() {
+      _vendors = _getDataVendor();
+    });
   }
 //====================================================================================\\
 
@@ -220,7 +232,7 @@ class _FavoritesState extends State<Favorites>
                 width: mediaWidth,
                 child: _selectedtabbar == 0
                     ? FutureBuilder(
-                        future: _getDataProduct(),
+                        future: _products,
                         builder: (context, snapshot) {
                           if (snapshot.data != null) {
                             return Scrollbar(
@@ -266,7 +278,7 @@ class _FavoritesState extends State<Favorites>
                         },
                       )
                     : FutureBuilder(
-                        future: _getDataVendor(),
+                        future: _vendors,
                         builder: (context, snapshot) {
                           if (snapshot.data != null) {
                             return FavoriteVendorsTab(
