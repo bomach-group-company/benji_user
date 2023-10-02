@@ -50,7 +50,7 @@ class _RateVendorDialogState extends State<RateVendorDialog> {
 //===================================== FUNCTIONS ======================================\\
   Future<bool> rate() async {
     User? user = await getUser();
-    final url = Uri.parse('$baseURL/clients/clientRateVendor');
+    final url = Uri.parse('$baseFrontendUrl/clients/clientRateVendor');
 
     Map body = {
       'client_id': user!.id.toString(),

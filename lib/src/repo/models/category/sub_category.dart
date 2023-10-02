@@ -33,7 +33,8 @@ class SubCategory {
 }
 
 Future<List<SubCategory>> getSubCategories() async {
-  final response = await http.get(Uri.parse('$baseURL/sub_categories/list'),
+  final response = await http.get(
+      Uri.parse('$baseFrontendUrl/sub_categories/list'),
       headers: await authHeader());
 
   if (response.statusCode == 200) {

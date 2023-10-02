@@ -265,7 +265,8 @@ class _DeliveryMapState extends State<DeliveryMap> {
                         ),
                         kHalfSizedBox,
                         ListTile(
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 0),
                           onTap: null,
                           leading: Container(
                             width: 50,

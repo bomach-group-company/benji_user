@@ -45,7 +45,7 @@ class _ReportProductState extends State<ReportProduct> {
   //============================================ FUNCTIONS ===========================================\\
   Future<bool> report() async {
     User? user = await getUser();
-    final url = Uri.parse('$baseURL/products/reportProduct');
+    final url = Uri.parse('$baseFrontendUrl/products/reportProduct');
 
     Map body = {
       'client_id': user!.id.toString(),

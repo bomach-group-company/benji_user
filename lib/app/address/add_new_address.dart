@@ -73,7 +73,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
 
   //===================== FUNCTIONS =======================\\
   Future<bool> addAddress({bool is_current = true}) async {
-    final url = Uri.parse('$baseURL/address/addAddress');
+    final url = Uri.parse('$baseFrontendUrl/address/addAddress');
     List<String> countryList = country!.split(' ');
     final User? user = await getUser();
 
