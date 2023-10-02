@@ -207,6 +207,7 @@ class _PinLocationOnMapState extends State<PinLocationOnMap> {
                       ),
                       zoom: 14,
                     ),
+                    onTap: (LatLng value) {},
                     markers: Set.of(_markers),
                     padding: EdgeInsets.only(bottom: media.height * 0.24),
                     compassEnabled: true,
