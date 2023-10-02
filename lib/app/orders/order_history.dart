@@ -26,19 +26,17 @@ class _OrdersHistoryState extends State<OrdersHistory> {
   @override
   void initState() {
     super.initState();
-    _getData();
+    checkAuth(context);
+    _orders = _getOrders();
   }
 
-  List<Order>? _data;
+  late Future<List<Order>> _orders;
 
-  _getData() async {
-    await checkAuth(context);
+  Future<List<Order>> _getOrders() async {
     User? user = await getUser();
     List<Order> order = await getOrders(user!.id);
-
-    setState(() {
-      _data = order;
-    });
+    print('the data $order');
+    return order;
   }
 
   @override
@@ -64,27 +62,32 @@ class _OrdersHistoryState extends State<OrdersHistory> {
             ),
             child: Column(
               children: [
-                Flexible(
-                  flex: 1,
-                  fit: FlexFit.loose,
-                  child: _data == null
-                      ? Center(
+                FutureBuilder(
+                    future: _orders,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
                           child: SpinKitChasingDots(color: kAccentColor),
-                        )
-                      : _data!.isEmpty
-                          ? const EmptyCard()
-                          : ListView.separated(
-                              itemCount: _data!.length,
-                              separatorBuilder: (context, index) =>
-                                  kHalfSizedBox,
-                              physics: const BouncingScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              itemBuilder: (context, index) =>
-                                  TrackOrderDetailsContainer(
-                                order: _data![index],
+                        );
+                      }
+                      return Flexible(
+                        flex: 1,
+                        fit: FlexFit.loose,
+                        child: snapshot.data!.isEmpty
+                            ? const EmptyCard()
+                            : ListView.separated(
+                                itemCount: snapshot.data!.length,
+                                separatorBuilder: (context, index) =>
+                                    kHalfSizedBox,
+                                physics: const BouncingScrollPhysics(),
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (context, index) =>
+                                    TrackOrderDetailsContainer(
+                                  order: snapshot.data![index],
+                                ),
                               ),
-                            ),
-                ),
+                      );
+                    }),
               ],
             ),
           ),
