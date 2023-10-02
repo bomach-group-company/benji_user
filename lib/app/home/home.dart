@@ -56,13 +56,25 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     checkAuth(context);
+    _products = getProducts();
+    _subCategory = getSubCategories();
+    _vendors = getVendors();
+    _popularVendors = getPopularVendors();
+    _currentAddress = getCurrentAddress();
     _scrollController.addListener(_scrollListener);
   }
+
+  late Future<List<Product>> _products;
+  late Future<List<SubCategory>> _subCategory;
+  late Future<List<VendorModel>> _vendors;
+  late Future<List<VendorModel>> _popularVendors;
+  late Future<Address> _currentAddress;
 
   @override
   void dispose() {
     _scrollController.dispose();
     _scrollController.removeListener(() {});
+
     super.dispose();
   }
 
@@ -399,7 +411,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               FutureBuilder(
-                  future: getCurrentAddress(),
+                  future: _currentAddress,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return AppBarDeliveryLocation(
@@ -508,7 +520,7 @@ class _HomeState extends State<Home> {
                   kSizedBox,
                   // categories
                   FutureBuilder(
-                      future: getSubCategories(),
+                      future: _subCategory,
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return const Text('loading...');
@@ -568,7 +580,7 @@ class _HomeState extends State<Home> {
                   ),
                   kSizedBox,
                   FutureBuilder(
-                      future: getVendors(),
+                      future: _vendors,
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return const Text('loading...');
@@ -615,7 +627,7 @@ class _HomeState extends State<Home> {
                   ),
                   kSizedBox,
                   FutureBuilder(
-                      future: getPopularVendors(),
+                      future: _popularVendors,
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return const Text('loading...');
@@ -695,7 +707,7 @@ class _HomeState extends State<Home> {
                   // ),
                   kSizedBox,
                   FutureBuilder(
-                      future: getProducts(),
+                      future: _products,
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return const Text('loading...');
