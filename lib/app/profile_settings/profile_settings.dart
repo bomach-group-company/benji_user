@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:benji_user/app/auth/forgot_password.dart';
+import 'package:benji_user/app/profile_settings/change_password.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/providers/responsive_constant.dart';
 import 'package:flutter/foundation.dart';
@@ -233,11 +233,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   void _toChangePassword() async {
     await Get.to(
-      () => const ForgotPassword(
-        title: "Email",
-        subTitle:
-            "Enter your email below and we will send you a code via which you need to change your password",
-      ),
+      () => const ChangePassword(),
       routeName: 'ForgotPassword',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
