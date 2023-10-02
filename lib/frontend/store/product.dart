@@ -53,29 +53,25 @@ class _ProductPageState extends State<ProductPage> {
         });
       });
 
-    _cartCount();
     super.initState();
   }
 
   Future<void> _cartAddFunction() async {
     await addToCart(
         widget.product.vendor.id!.toString(), widget.product.id.toString());
-    await _cartCount();
+    setState(() {});
   }
 
   Future<void> _cartRemoveFunction() async {
     await removeFromCart(
         widget.product.vendor.id!.toString(), widget.product.id.toString());
-    await _cartCount();
+    setState(() {});
   }
 
-  bool addedToCart = false;
-  _cartCount() async {
+  Future<bool> _cartCount() async {
     int count = await countCartItemByProduct(
         widget.product.vendor.id!.toString(), widget.product.id.toString());
-    setState(() {
-      addedToCart = count > 0;
-    });
+    return count > 0;
   }
 
   Future<Map<String, dynamic>> _getData() async {
@@ -366,43 +362,58 @@ class _ProductPageState extends State<ProductPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
                                           children: [
-                                            addedToCart
-                                                ? ElevatedButton(
-                                                    onPressed:
-                                                        _cartRemoveFunction,
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor:
-                                                          kGreenColor,
-                                                      minimumSize: Size(
-                                                          breakPoint(
-                                                            media.width,
-                                                            media.width * 0.43,
-                                                            media.width * 0.27,
-                                                            media.width * 0.28,
-                                                          ),
-                                                          50),
-                                                    ),
-                                                    child: const Text('REMOVE'),
-                                                  )
-                                                : ElevatedButton(
-                                                    onPressed: _cartAddFunction,
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor:
-                                                          kGreenColor,
-                                                      minimumSize: Size(
-                                                          breakPoint(
-                                                            media.width,
-                                                            media.width * 0.43,
-                                                            media.width * 0.27,
-                                                            media.width * 0.28,
-                                                          ),
-                                                          50),
-                                                    ),
-                                                    child: const Text(
-                                                        'ADD TO CART'),
-                                                  ),
+                                            FutureBuilder(
+                                              future: _cartCount(),
+                                              initialData: false,
+                                              builder: (BuildContext context,
+                                                  AsyncSnapshot snapshot) {
+                                                return snapshot.data
+                                                    ? ElevatedButton(
+                                                        onPressed:
+                                                            _cartRemoveFunction,
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          backgroundColor:
+                                                              kGreenColor,
+                                                          minimumSize: Size(
+                                                              breakPoint(
+                                                                media.width,
+                                                                media.width *
+                                                                    0.43,
+                                                                media.width *
+                                                                    0.27,
+                                                                media.width *
+                                                                    0.28,
+                                                              ),
+                                                              50),
+                                                        ),
+                                                        child: const Text(
+                                                            'REMOVE'),
+                                                      )
+                                                    : ElevatedButton(
+                                                        onPressed:
+                                                            _cartAddFunction,
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          backgroundColor:
+                                                              kGreenColor,
+                                                          minimumSize: Size(
+                                                              breakPoint(
+                                                                media.width,
+                                                                media.width *
+                                                                    0.43,
+                                                                media.width *
+                                                                    0.27,
+                                                                media.width *
+                                                                    0.28,
+                                                              ),
+                                                              50),
+                                                        ),
+                                                        child: const Text(
+                                                            'ADD TO CART'),
+                                                      );
+                                              },
+                                            ),
                                             OutlinedButton(
                                               onPressed: () {},
                                               style: OutlinedButton.styleFrom(

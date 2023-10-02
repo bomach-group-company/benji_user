@@ -13,6 +13,11 @@ class CartWidget extends StatefulWidget {
 }
 
 class _CartWidgetState extends State<CartWidget> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Future<String> countCartFunc() async {
     String data = await countCartItemTo10();
     return data;

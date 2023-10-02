@@ -27,28 +27,24 @@ class _MyCardState extends State<MyCard> {
   @override
   void initState() {
     super.initState();
-    _cartCount();
   }
 
   Future<void> _cartAddFunction() async {
     await addToCart(
         widget.product.vendor.id!.toString(), widget.product.id.toString());
-    await _cartCount();
+    setState(() {});
   }
 
   Future<void> _cartRemoveFunction() async {
     await removeFromCart(
         widget.product.vendor.id!.toString(), widget.product.id.toString());
-    await _cartCount();
+    setState(() {});
   }
 
-  bool addedToCart = false;
-  _cartCount() async {
+  Future<bool> _cartCount() async {
     int count = await countCartItemByProduct(
         widget.product.vendor.id!.toString(), widget.product.id.toString());
-    setState(() {
-      addedToCart = count > 0;
-    });
+    return count > 0;
   }
 
   double blurRadius = 2;
@@ -186,25 +182,32 @@ class _MyCardState extends State<MyCard> {
                             letterSpacing: 1.2,
                           ),
                         ),
-                        addedToCart
-                            ? OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                  foregroundColor: kGreenColor,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 15),
-                                ),
-                                onPressed: _cartRemoveFunction,
-                                child: const Text('REMOVE'),
-                              )
-                            : OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                  foregroundColor: kGreenColor,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 15),
-                                ),
-                                onPressed: _cartAddFunction,
-                                child: const Text('ADD'),
-                              ),
+                        FutureBuilder(
+                          future: _cartCount(),
+                          initialData: false,
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            return snapshot.data
+                                ? OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      foregroundColor: kGreenColor,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 12, vertical: 15),
+                                    ),
+                                    onPressed: _cartRemoveFunction,
+                                    child: const Text('REMOVE'),
+                                  )
+                                : OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      foregroundColor: kGreenColor,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 12, vertical: 15),
+                                    ),
+                                    onPressed: _cartAddFunction,
+                                    child: const Text('ADD'),
+                                  );
+                          },
+                        ),
                       ],
                     ),
                     kHalfSizedBox
