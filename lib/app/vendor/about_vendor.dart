@@ -1,4 +1,3 @@
-import '../../src/others/empty.dart';
 import 'package:benji_user/src/repo/models/rating/ratings.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/theme/colors.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/rating_view/customer_review_card.dart';
+import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
 import 'all_vendor_reviews.dart';
 

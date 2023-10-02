@@ -50,7 +50,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   //=========================== FUNCTIONS ====================================\\
   Future<bool> forgotPassword() async {
     final url = Uri.parse(
-        '$baseURL/auth/requestForgotPassword/${_emailController.text}');
+        '$baseFrontendUrl/auth/requestForgotPassword/${_emailController.text}');
 
     await prefs.setString('email', _emailController.text);
     final body = {};

@@ -2,7 +2,9 @@
 
 import 'dart:async';
 
+import 'package:benji_user/frontend/main/home.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
@@ -32,14 +34,18 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
           () {
             Get.offAll(
               () => _obtainedUserDetails == null || _obtainedUserDetails == ""
-                  ? const OnboardingScreen()
+                  ? kIsWeb
+                      ? const HomePage()
+                      : const OnboardingScreen()
                   : const Home(),
               duration: const Duration(seconds: 1),
               fullscreenDialog: true,
               curve: Curves.easeIn,
               routeName:
                   _obtainedUserDetails == null || _obtainedUserDetails == ""
-                      ? "OnboadingScreen"
+                      ? kIsWeb
+                          ? 'HomePage'
+                          : "OnboadingScreen"
                       : "Home",
               predicate: (route) => false,
               popGesture: true,

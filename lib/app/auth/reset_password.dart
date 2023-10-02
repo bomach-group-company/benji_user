@@ -55,7 +55,8 @@ class _ResetPasswordState extends State<ResetPassword> {
   Future<bool> resetPassword() async {
     String? userEmail = prefs.getString('email');
     String? token = prefs.getString('token');
-    final url = Uri.parse('$baseURL/auth/resetForgotPassword/$userEmail/');
+    final url =
+        Uri.parse('$baseFrontendUrl/auth/resetForgotPassword/$userEmail/');
     Map body = {
       'token': token,
       'new_password': _userPasswordEC.text,

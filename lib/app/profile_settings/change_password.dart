@@ -56,7 +56,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     setState(() {
       _isLoading = true;
     });
-    final url = Uri.parse('$baseURL/auth/changeNewPassword/');
+    final url = Uri.parse('$baseFrontendUrl/auth/changeNewPassword/');
 
     Map body = {
       'new_password': _userPasswordEC.text,

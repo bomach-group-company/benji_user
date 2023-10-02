@@ -90,9 +90,12 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      status[order.deliveryStatus.toLowerCase()] ?? "Not Available",
+                      status[order.deliveryStatus.toLowerCase()] ??
+                          "Not Available",
                       style: TextStyle(
-                        color: statusColor[order.deliveryStatus.toLowerCase()] ?? kSecondaryColor,
+                        color:
+                            statusColor[order.deliveryStatus.toLowerCase()] ??
+                                kSecondaryColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),

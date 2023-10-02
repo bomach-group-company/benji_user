@@ -29,7 +29,7 @@ class ItemWeight {
 
 Future<List<ItemWeight>> getPackageWeight() async {
   final response = await http.get(
-      Uri.parse('$baseURL/sendPackage/getPackageWeight/'),
+      Uri.parse('$baseFrontendUrl/sendPackage/getPackageWeight/'),
       headers: await authHeader());
 
   if (response.statusCode == 200) {

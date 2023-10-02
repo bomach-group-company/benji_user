@@ -81,12 +81,12 @@ class _LoginState extends State<Login> {
   //=========================== REQUEST ====================================\\
   Future<bool> saveUserAndToken(String token) async {
     try {
-      final someUserData = await http.get(Uri.parse('$baseURL/auth/'),
+      final someUserData = await http.get(Uri.parse('$baseFrontendUrl/auth/'),
           headers: await authHeader(token));
       int userId = jsonDecode(someUserData.body)['id'];
 
       final userData = await http.get(
-          Uri.parse('$baseURL/clients/getClient/$userId'),
+          Uri.parse('$baseFrontendUrl/clients/getClient/$userId'),
           headers: await authHeader(token));
 
       await saveUser(userData.body, token);
@@ -97,7 +97,7 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> sendPostRequest(String username, String password) async {
-    final url = Uri.parse('$baseURL/auth/token');
+    final url = Uri.parse('$baseFrontendUrl/auth/token');
     final body = {'username': username, 'password': password};
 
     final response = await http.post(url, body: body);

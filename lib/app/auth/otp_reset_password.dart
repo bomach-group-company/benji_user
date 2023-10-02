@@ -116,7 +116,8 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
       );
     }
 
-    final url = Uri.parse('$baseURL/auth/requestForgotPassword/$userEmail');
+    final url =
+        Uri.parse('$baseFrontendUrl/auth/requestForgotPassword/$userEmail');
 
     final body = {};
     await http.post(url, body: body);
@@ -138,7 +139,7 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
 
   Future<bool> otp() async {
     final url = Uri.parse(
-        '$baseURL/auth/verify-token/${pin1EC.text}${pin2EC.text}${pin3EC.text}${pin4EC.text}');
+        '$baseFrontendUrl/auth/verify-token/${pin1EC.text}${pin2EC.text}${pin3EC.text}${pin4EC.text}');
 
     final response = await http.get(url);
     try {

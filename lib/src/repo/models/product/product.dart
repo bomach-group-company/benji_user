@@ -55,7 +55,7 @@ Future<Map<String, List<Product>>> getVendorProductsAndSubCategoryName(
     vendorId) async {
   final response = await http.get(
     Uri.parse(
-        '$baseURL/clients/sortVendorsAvailableProductsBySubCategory/$vendorId'),
+        '$baseFrontendUrl/clients/sortVendorsAvailableProductsBySubCategory/$vendorId'),
     headers: await authHeader(),
   );
   if (response.statusCode == 200) {
@@ -73,7 +73,7 @@ Future<Map<String, List<Product>>> getVendorProductsAndSubCategoryName(
 
 Future<Product> getProductById(String id) async {
   final response = await http.get(
-    Uri.parse('$baseURL/products/product/$id'),
+    Uri.parse('$baseFrontendUrl/products/product/$id'),
     headers: await authHeader(),
   );
 
@@ -86,7 +86,7 @@ Future<Product> getProductById(String id) async {
 
 Future<List<Product>> getProducts({limit = 10}) async {
   final response = await http.get(
-    Uri.parse('$baseURL/products/listProduct'),
+    Uri.parse('$baseFrontendUrl/products/listProduct'),
     headers: await authHeader(),
   );
 
@@ -101,7 +101,8 @@ Future<List<Product>> getProducts({limit = 10}) async {
 
 Future<List<Product>> getProductsBySubCategory(subCategoryId) async {
   final response = await http.get(
-    Uri.parse('$baseURL/clients/filterProductsBySubCategory/$subCategoryId'),
+    Uri.parse(
+        '$baseFrontendUrl/clients/filterProductsBySubCategory/$subCategoryId'),
     headers: await authHeader(),
   );
 
@@ -118,7 +119,7 @@ Future<List<Product>> getProductsByVendorSubCategory(
     vendorId, subCategoryId) async {
   final response = await http.get(
     Uri.parse(
-        '$baseURL/clients/filterVendorsProductsBySubCategory/$vendorId/$subCategoryId'),
+        '$baseFrontendUrl/clients/filterVendorsProductsBySubCategory/$vendorId/$subCategoryId'),
     headers: await authHeader(),
   );
 
@@ -137,7 +138,7 @@ Future<List<Product>> getProductsByVendor(vendorId,
     {start = 0, end = 10}) async {
   final response = await http.get(
     Uri.parse(
-        '$baseURL/vendors/$vendorId/listMyProducts?start=$start&end=$end'),
+        '$baseFrontendUrl/vendors/$vendorId/listMyProducts?start=$start&end=$end'),
     headers: await authHeader(),
   );
 
@@ -152,7 +153,7 @@ Future<List<Product>> getProductsByVendor(vendorId,
 
 Future<List<Product>> getProductsBySearching(query) async {
   final response = await http.get(
-    Uri.parse('$baseURL/clients/searchProducts?query=$query'),
+    Uri.parse('$baseFrontendUrl/clients/searchProducts?query=$query'),
     headers: await authHeader(),
   );
 

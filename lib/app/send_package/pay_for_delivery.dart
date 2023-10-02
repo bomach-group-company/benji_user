@@ -159,7 +159,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
     };
 
     final response = await http.post(
-      Uri.parse('$baseURL/sendPackage/createItemPackage/'),
+      Uri.parse('$baseFrontendUrl/sendPackage/createItemPackage/'),
       body: body,
       headers: await authHeader(),
     );

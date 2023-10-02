@@ -53,8 +53,8 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
 
   //===================== FUNCTIONS =======================\\
   Future<bool> updateAddress({bool is_current = true}) async {
-    final url =
-        Uri.parse('$baseURL/address/changeAddressDetails/${widget.address.id}');
+    final url = Uri.parse(
+        '$baseFrontendUrl/address/changeAddressDetails/${widget.address.id}');
 
     final body = {
       'title': _addressTitleEC.text,

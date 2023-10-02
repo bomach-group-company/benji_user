@@ -47,6 +47,7 @@ dependencies:
   flutter_monnify: ^0.0.3
   http_parser: ^4.0.2
   agora_uikit:
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +92,22 @@ flutter:
     - assets/animations/empty/
     - assets/animations/credit_card/
     - assets/animations/delivery/
+    - assets/frontend/assets/brand/
+    - assets/frontend/assets/hero/
+    - assets/frontend/assets/blog/
+    - assets/frontend/assets/banner/
+    - assets/frontend/assets/circle_card/
+    - assets/frontend/assets/device/
+    - assets/frontend/assets/footer/
+    - assets/frontend/assets/mid_paragraph/
+    - assets/frontend/assets/paragraph_bg/
+    - assets/frontend/assets/product/
+    - assets/frontend/assets/product_asset/
+    - assets/frontend/assets/store/
+    - assets/frontend/assets/sale/
+    - assets/frontend/assets/login/
+    - assets/frontend/assets/team/
+    - assets/frontend/assets/error/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

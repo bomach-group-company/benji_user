@@ -69,7 +69,7 @@ class VendorModel {
 
 Future<VendorModel> getVendorById(id) async {
   final response = await http.get(
-    Uri.parse('$baseURL/vendors/getVendor/$id'),
+    Uri.parse('$baseFrontendUrl/vendors/getVendor/$id'),
     headers: await authHeader(),
   );
 
@@ -82,7 +82,7 @@ Future<VendorModel> getVendorById(id) async {
 
 Future<List<VendorModel>> getPopularVendors() async {
   final response = await http.get(
-    Uri.parse('$baseURL/clients/getPopularVendors'),
+    Uri.parse('$baseFrontendUrl/clients/getPopularVendors'),
     headers: await authHeader(),
   );
 
@@ -97,7 +97,7 @@ Future<List<VendorModel>> getPopularVendors() async {
 
 Future<List<VendorModel>> getVendors({start = 1, end = 10}) async {
   final response = await http.get(
-    Uri.parse('$baseURL/vendors/getAllVendor?start=$start&end=$end'),
+    Uri.parse('$baseFrontendUrl/vendors/getAllVendor?start=$start&end=$end'),
     headers: await authHeader(),
   );
 

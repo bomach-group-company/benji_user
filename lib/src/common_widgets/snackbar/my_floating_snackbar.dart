@@ -10,7 +10,7 @@ void mySnackBar(
   String message,
   Duration duration,
 ) {
-    final media = MediaQuery.of(context).size;
+  final media = MediaQuery.of(context).size;
 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -35,7 +35,7 @@ void mySnackBar(
           ),
           kHalfWidthSizedBox,
           Container(
-            constraints: BoxConstraints(maxWidth: media.width-175),
+            constraints: BoxConstraints(maxWidth: media.width - 175),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
