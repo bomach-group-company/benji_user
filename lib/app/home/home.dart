@@ -3,11 +3,16 @@
 import 'dart:math';
 
 import 'package:benji_user/app/favorites/favorites.dart';
+import 'package:benji_user/src/common_widgets/button/category_button.dart';
 import 'package:benji_user/src/common_widgets/vendor/vendors_card.dart';
+import 'package:benji_user/src/others/empty.dart';
 import 'package:benji_user/src/others/my_future_builder.dart';
 import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/models/category/sub_category.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji_user/src/skeletons/app/card.dart';
+import 'package:benji_user/src/skeletons/general.dart';
+import 'package:benji_user/src/skeletons/page_skeleton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +20,7 @@ import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../src/common_widgets/appbar/appbar_delivery_location.dart';
 import '../../src/common_widgets/product/product_card.dart';
@@ -57,14 +63,19 @@ class _HomeState extends State<Home> {
     super.initState();
     checkAuth(context);
     _products = getProducts();
-    _subCategory = getSubCategories();
+    _subCategory = getSubCategories()
+      ..then((value) {
+        if (value.isNotEmpty) {
+          activeSubCategory = value[0].id;
+        }
+      });
     _vendors = getVendors();
     _popularVendors = getPopularVendors();
     _currentAddress = getCurrentAddress();
     _scrollController.addListener(_scrollListener);
   }
 
-  late Future<List<Product>> _products;
+  late Future<List<Product>>? _products;
   late Future<List<SubCategory>> _subCategory;
   late Future<List<VendorModel>> _vendors;
   late Future<List<VendorModel>> _popularVendors;
@@ -79,7 +90,7 @@ class _HomeState extends State<Home> {
   }
 
 //============================================== ALL VARIABLES =================================================\\
-  int activeSubCategory = 0;
+  String activeSubCategory = '';
   String cartCount = '';
 //============================================== BOOL VALUES =================================================\\
   final bool _vendorStatus = true;
@@ -461,69 +472,121 @@ class _HomeState extends State<Home> {
                     ? const EdgeInsets.all(kDefaultPadding)
                     : const EdgeInsets.all(kDefaultPadding / 2),
                 children: [
-                  FlutterCarousel.builder(
-                    options: CarouselOptions(
-                      height: mediaHeight * 0.25,
-                      viewportFraction: 1.0,
-                      initialPage: 0,
-                      enableInfiniteScroll: true,
-                      autoPlay: true,
-                      autoPlayInterval: const Duration(seconds: 2),
-                      autoPlayAnimationDuration:
-                          const Duration(milliseconds: 800),
-                      autoPlayCurve: Curves.easeInOut,
-                      enlargeCenterPage: true,
-                      controller: _carouselController,
-                      onPageChanged: (index, value) {
-                        setState(() {});
-                      },
-                      pageSnapping: true,
-                      scrollDirection: Axis.horizontal,
-                      physics: const BouncingScrollPhysics(),
-                      scrollBehavior: const ScrollBehavior(),
-                      pauseAutoPlayOnTouch: true,
-                      pauseAutoPlayOnManualNavigate: true,
-                      pauseAutoPlayInFiniteScroll: false,
-                      enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                      disableCenter: false,
-                      showIndicator: true,
-                      floatingIndicator: true,
-                      slideIndicator: CircularSlideIndicator(
-                        alignment: Alignment.bottomCenter,
-                        currentIndicatorColor: kAccentColor,
-                        indicatorBackgroundColor: kPrimaryColor,
-                        indicatorRadius: 5,
-                        padding: const EdgeInsets.all(0),
-                      ),
-                    ),
-                    itemCount: _carouselImages.length,
-                    itemBuilder: (BuildContext context, int itemIndex,
-                            int pageViewIndex) =>
-                        Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: Container(
-                        width: mediaWidth,
-                        decoration: ShapeDecoration(
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              _carouselImages[itemIndex],
+                  FutureBuilder(
+                      //this shold be hot deals and not products
+                      future: _products,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Shimmer.fromColors(
+                            highlightColor: kBlackColor.withOpacity(0.02),
+                            baseColor: kBlackColor.withOpacity(0.8),
+                            direction: ShimmerDirection.ltr,
+                            child: PageSkeleton(
+                                height: 150, width: mediaWidth - 20),
+                          );
+                        }
+                        return FlutterCarousel.builder(
+                          options: CarouselOptions(
+                            height: mediaHeight * 0.25,
+                            viewportFraction: 1.0,
+                            initialPage: 0,
+                            enableInfiniteScroll: true,
+                            autoPlay: true,
+                            autoPlayInterval: const Duration(seconds: 2),
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 800),
+                            autoPlayCurve: Curves.easeInOut,
+                            enlargeCenterPage: true,
+                            controller: _carouselController,
+                            onPageChanged: (index, value) {
+                              setState(() {});
+                            },
+                            pageSnapping: true,
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            scrollBehavior: const ScrollBehavior(),
+                            pauseAutoPlayOnTouch: true,
+                            pauseAutoPlayOnManualNavigate: true,
+                            pauseAutoPlayInFiniteScroll: false,
+                            enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                            disableCenter: false,
+                            showIndicator: true,
+                            floatingIndicator: true,
+                            slideIndicator: CircularSlideIndicator(
+                              alignment: Alignment.bottomCenter,
+                              currentIndicatorColor: kAccentColor,
+                              indicatorBackgroundColor: kPrimaryColor,
+                              indicatorRadius: 5,
+                              padding: const EdgeInsets.all(0),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
+                          itemCount: _carouselImages.length,
+                          itemBuilder: (BuildContext context, int itemIndex,
+                                  int pageViewIndex) =>
+                              Padding(
+                            padding: const EdgeInsets.all(0),
+                            child: Container(
+                              width: mediaWidth,
+                              decoration: ShapeDecoration(
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(
+                                    _carouselImages[itemIndex],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
                   kSizedBox,
                   // categories
                   FutureBuilder(
                       future: _subCategory,
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return const Text('loading...');
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Shimmer.fromColors(
+                                highlightColor: kBlackColor.withOpacity(0.02),
+                                baseColor: kBlackColor.withOpacity(0.8),
+                                direction: ShimmerDirection.ltr,
+                                child: PageSkeleton(
+                                    height: mediaWidth / 9,
+                                    width: mediaWidth / 9),
+                              ),
+                              kWidthSizedBox,
+                              Shimmer.fromColors(
+                                highlightColor: kBlackColor.withOpacity(0.02),
+                                baseColor: kBlackColor.withOpacity(0.8),
+                                direction: ShimmerDirection.ltr,
+                                child: PageSkeleton(
+                                    height: mediaWidth / 9,
+                                    width: mediaWidth / 9),
+                              ),
+                              kWidthSizedBox,
+                              Shimmer.fromColors(
+                                highlightColor: kBlackColor.withOpacity(0.02),
+                                baseColor: kBlackColor.withOpacity(0.8),
+                                direction: ShimmerDirection.ltr,
+                                child: PageSkeleton(
+                                    height: mediaWidth / 9,
+                                    width: mediaWidth / 9),
+                              ),
+                              kWidthSizedBox,
+                              Shimmer.fromColors(
+                                  highlightColor: kBlackColor.withOpacity(0.02),
+                                  baseColor: kBlackColor.withOpacity(0.8),
+                                  direction: ShimmerDirection.ltr,
+                                  child: PageSkeleton(
+                                      height: mediaWidth / 9,
+                                      width: mediaWidth / 9)),
+                            ],
+                          );
                         }
                         return LayoutGrid(
                           columnGap: 10,
@@ -583,7 +646,27 @@ class _HomeState extends State<Home> {
                       future: _vendors,
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return const Text('loading...');
+                          return const SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                CardSkeleton(
+                                  height: 200,
+                                  width: 200,
+                                ),
+                                kHalfWidthSizedBox,
+                                CardSkeleton(
+                                  height: 200,
+                                  width: 200,
+                                ),
+                                kHalfWidthSizedBox,
+                                CardSkeleton(
+                                  height: 200,
+                                  width: 200,
+                                ),
+                              ],
+                            ),
+                          );
                         }
                         return SizedBox(
                           height: 250,
@@ -630,7 +713,10 @@ class _HomeState extends State<Home> {
                       future: _popularVendors,
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return const Text('loading...');
+                          return CardSkeleton(
+                            height: 200,
+                            width: mediaWidth - 20,
+                          );
                         }
                         return LayoutGrid(
                           rowGap: kDefaultPadding / 2,
@@ -669,48 +755,61 @@ class _HomeState extends State<Home> {
                     title: "Products",
                     onPressed: _toSeeProducts,
                   ),
-                  // FutureBuilder(
-                  //     future: getSubCategories(),
-                  //     builder: (context, snapshot) {
-                  //       if (!snapshot.hasData) {
-                  //         return const Text('loading...');
-                  //       }
-                  //       return SizedBox(
-                  //       height: 60,
-                  //       child: ListView.builder(
-                  //         itemCount: snapshot.data!.length,
-                  //         scrollDirection: Axis.horizontal,
-                  //         physics: const BouncingScrollPhysics(),
-                  //         itemBuilder: (BuildContext context, int index) =>
-                  //             Padding(
-                  //           padding: const EdgeInsets.all(10),
-                  //           child: CategoryButton(
-                  //             onPressed: () {
-                  //               setState(() {
-                  //                 activeSubCategory = index;
-                  //                 product = null;
-                  //                 _getData();
-                  //               });
-                  //             },
-                  //             title: snapshot.data![index].name,
-                  //             bgColor: index == activeSubCategory
-                  //                 ? kAccentColor
-                  //                 : kDefaultCategoryBackgroundColor,
-                  //             categoryFontColor: index == activeSubCategory
-                  //                 ? kPrimaryColor
-                  //                 : kTextGreyColor,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     );
-                  //   }
-                  // ),
+                  FutureBuilder(
+                      future: _subCategory,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const GeneralSkeleton();
+                        }
+                        return SizedBox(
+                          height: 60,
+                          child: ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) =>
+                                Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: CategoryButton(
+                                onPressed: () {
+                                  setState(() {
+                                    activeSubCategory =
+                                        snapshot.data![index].id;
+                                    _products = getProductsBySubCategory(
+                                        snapshot.data![index].id);
+                                  });
+                                },
+                                title: snapshot.data![index].name,
+                                bgColor: snapshot.data![index].id ==
+                                        activeSubCategory
+                                    ? kAccentColor
+                                    : kDefaultCategoryBackgroundColor,
+                                categoryFontColor: snapshot.data![index].id ==
+                                        activeSubCategory
+                                    ? kPrimaryColor
+                                    : kTextGreyColor,
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
                   kSizedBox,
                   FutureBuilder(
                       future: _products,
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Text('loading...');
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          if (snapshot.hasError) {
+                            return const Text('Error occured');
+                          }
+                          return CardSkeleton(
+                            height: 200,
+                            width: mediaWidth - 20,
+                          );
+                        } else if (snapshot.data!.isEmpty) {
+                          return const EmptyCard(
+                            removeButton: true,
+                          );
                         }
                         return LayoutGrid(
                           rowGap: kDefaultPadding / 2,
