@@ -171,7 +171,7 @@ class _AddNewCardState extends State<AddNewCard> {
                           cardNumberEC.text = value;
                         },
                         textInputAction: TextInputAction.next,
-                        nameFocusNode: cardNumberFN,
+                        focusNode: cardNumberFN,
                         hintText: "Card Number",
                       ),
                       kSizedBox,

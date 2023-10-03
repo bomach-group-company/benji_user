@@ -30,7 +30,7 @@ class _PinLocationOnMapState extends State<PinLocationOnMap> {
   @override
   void initState() {
     super.initState();
-    // _getPolyPoints();
+    pinnedLocation = "....";
     _markerTitle = <String>["Me"];
     _markerSnippet = <String>["My Location"];
     _loadMapData();
@@ -42,7 +42,7 @@ class _PinLocationOnMapState extends State<PinLocationOnMap> {
   }
 
   //============================================================= ALL VARIABLES ======================================================================\\
-
+  String? pinnedLocation;
   //============================================================= BOOL VALUES ======================================================================\\
 
   //====================================== Setting Google Map Consts =========================================\\
@@ -179,6 +179,38 @@ class _PinLocationOnMapState extends State<PinLocationOnMap> {
     }
   }
 
+//========================================================== Go to place =============================================================\\
+
+  Future<void> _goToPlace(Map<String, dynamic> place) async {
+    final double lat = place['geometry']['location']['lat'];
+    final double lng = place['geometry']['location']['lng'];
+    final GoogleMapController controller = await _googleMapController.future;
+    controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(lat, lng), zoom: 18),
+      ),
+    );
+    _markers.add(
+      Marker(
+        markerId: const MarkerId("Pinned"),
+        icon: BitmapDescriptor.defaultMarker,
+        position: LatLng(lat, lng),
+        infoWindow: InfoWindow(
+          title: _searchEC.text,
+          snippet: "Pinned Location",
+        ),
+      ),
+    );
+  }
+
+  void _searchAndLocatePlace() async {
+    setState(() {
+      pinnedLocation = _searchEC.text;
+    });
+    var place = await LocationService().getPlace(_searchEC.text);
+    _goToPlace(place);
+  }
+
 //============================================== Create Google Maps ==================================================\\
 
   void _onMapCreated(GoogleMapController controller) {
@@ -211,30 +243,25 @@ class _PinLocationOnMapState extends State<PinLocationOnMap> {
                     Row(
                       children: [
                         Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: MyTextFormField(
-                              controller: _searchEC,
-                              focusNode: _searchFN,
-                              hintText: "Enter your search",
-                              textInputType: TextInputType.text,
-                              validator: (value) {
-                                return null;
-                              },
-                              textInputAction: TextInputAction.search,
-                              textCapitalization: TextCapitalization.words,
-                              onChanged: (value) {
-                                if (kDebugMode) {
-                                  print(value);
-                                }
-                              },
-                            ),
+                          child: MyTextFormField(
+                            controller: _searchEC,
+                            focusNode: _searchFN,
+                            hintText: "Enter your search",
+                            textInputType: TextInputType.text,
+                            validator: (value) {
+                              return null;
+                            },
+                            textInputAction: TextInputAction.search,
+                            textCapitalization: TextCapitalization.words,
+                            onChanged: (value) {
+                              if (kDebugMode) {
+                                print(value);
+                              }
+                            },
                           ),
                         ),
                         IconButton(
-                          onPressed: () {
-                            LocationService().getPlace(_searchEC.text);
-                          },
+                          onPressed: _searchAndLocatePlace,
                           icon: FaIcon(
                             FontAwesomeIcons.magnifyingGlass,
                             size: 18,
@@ -334,7 +361,7 @@ class _PinLocationOnMapState extends State<PinLocationOnMap> {
                                 ),
                               ),
                               subtitle: Text(
-                                "Dummy location, location",
+                                pinnedLocation!,
                                 style: TextStyle(
                                   color: kTextGreyColor,
                                   fontSize: 14,
@@ -343,7 +370,7 @@ class _PinLocationOnMapState extends State<PinLocationOnMap> {
                               ),
                             ),
                           ),
-                          kSizedBox,
+                          kHalfSizedBox,
                           MyElevatedButton(
                             title: "Select Location",
                             onPressed: _selectLocation,
