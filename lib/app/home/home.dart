@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
     _scrollController.addListener(_scrollListener);
   }
 
-  late Future<List<Product>>? _products;
+  late Future<List<Product>> _products;
   late Future<List<SubCategory>> _subCategory;
   late Future<List<VendorModel>> _vendors;
   late Future<List<VendorModel>> _popularVendors;
@@ -187,7 +187,19 @@ class _HomeState extends State<Home> {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    setState(() {});
+    setState(() {
+      _products = getProducts();
+      _subCategory = getSubCategories()
+        ..then((value) {
+          if (value.isNotEmpty) {
+            activeSubCategory = value[0].id;
+          }
+        });
+      _vendors = getVendors();
+      _popularVendors = getPopularVendors();
+      _currentAddress = getCurrentAddress();
+      _scrollController.addListener(_scrollListener);
+    });
   }
   //========================================================================\\
 
@@ -424,7 +436,7 @@ class _HomeState extends State<Home> {
               FutureBuilder(
                   future: _currentAddress,
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
                       return AppBarDeliveryLocation(
                         deliveryLocation: 'Select Address',
                         toDeliverToPage: () {},
@@ -476,7 +488,8 @@ class _HomeState extends State<Home> {
                       //this shold be hot deals and not products
                       future: _products,
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return Shimmer.fromColors(
                             highlightColor: kBlackColor.withOpacity(0.02),
                             baseColor: kBlackColor.withOpacity(0.8),
@@ -547,7 +560,8 @@ class _HomeState extends State<Home> {
                   FutureBuilder(
                       future: _subCategory,
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return Column(
                             children: [
                               Row(
@@ -652,7 +666,8 @@ class _HomeState extends State<Home> {
                   FutureBuilder(
                       future: _vendors,
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
@@ -719,7 +734,8 @@ class _HomeState extends State<Home> {
                   FutureBuilder(
                       future: _popularVendors,
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return CardSkeleton(
                             height: 200,
                             width: mediaWidth - 20,
@@ -765,7 +781,8 @@ class _HomeState extends State<Home> {
                   FutureBuilder(
                       future: _subCategory,
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const GeneralSkeleton();
                         }
                         return SizedBox(
