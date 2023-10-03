@@ -548,43 +548,50 @@ class _HomeState extends State<Home> {
                       future: _subCategory,
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          return Column(
                             children: [
-                              Shimmer.fromColors(
-                                highlightColor: kBlackColor.withOpacity(0.02),
-                                baseColor: kBlackColor.withOpacity(0.8),
-                                direction: ShimmerDirection.ltr,
-                                child: PageSkeleton(
-                                    height: mediaWidth / 9,
-                                    width: mediaWidth / 9),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Shimmer.fromColors(
+                                    highlightColor:
+                                        kBlackColor.withOpacity(0.02),
+                                    baseColor: kBlackColor.withOpacity(0.8),
+                                    direction: ShimmerDirection.ltr,
+                                    child: PageSkeleton(
+                                        height: 35, width: mediaWidth / 7),
+                                  ),
+                                  kWidthSizedBox,
+                                  Shimmer.fromColors(
+                                    highlightColor:
+                                        kBlackColor.withOpacity(0.02),
+                                    baseColor: kBlackColor.withOpacity(0.8),
+                                    direction: ShimmerDirection.ltr,
+                                    child: PageSkeleton(
+                                        height: 35, width: mediaWidth / 7),
+                                  ),
+                                  kWidthSizedBox,
+                                  Shimmer.fromColors(
+                                    highlightColor:
+                                        kBlackColor.withOpacity(0.02),
+                                    baseColor: kBlackColor.withOpacity(0.8),
+                                    direction: ShimmerDirection.ltr,
+                                    child: PageSkeleton(
+                                        height: 35, width: mediaWidth / 7),
+                                  ),
+                                  kWidthSizedBox,
+                                  Shimmer.fromColors(
+                                      highlightColor:
+                                          kBlackColor.withOpacity(0.02),
+                                      baseColor: kBlackColor.withOpacity(0.8),
+                                      direction: ShimmerDirection.ltr,
+                                      child: PageSkeleton(
+                                          height: 35, width: mediaWidth / 9)),
+                                ],
                               ),
-                              kWidthSizedBox,
-                              Shimmer.fromColors(
-                                highlightColor: kBlackColor.withOpacity(0.02),
-                                baseColor: kBlackColor.withOpacity(0.8),
-                                direction: ShimmerDirection.ltr,
-                                child: PageSkeleton(
-                                    height: mediaWidth / 9,
-                                    width: mediaWidth / 9),
-                              ),
-                              kWidthSizedBox,
-                              Shimmer.fromColors(
-                                highlightColor: kBlackColor.withOpacity(0.02),
-                                baseColor: kBlackColor.withOpacity(0.8),
-                                direction: ShimmerDirection.ltr,
-                                child: PageSkeleton(
-                                    height: mediaWidth / 9,
-                                    width: mediaWidth / 9),
-                              ),
-                              kWidthSizedBox,
-                              Shimmer.fromColors(
-                                  highlightColor: kBlackColor.withOpacity(0.02),
-                                  baseColor: kBlackColor.withOpacity(0.8),
-                                  direction: ShimmerDirection.ltr,
-                                  child: PageSkeleton(
-                                      height: mediaWidth / 9,
-                                      width: mediaWidth / 9)),
+                              kSizedBox,
+                              kSizedBox,
                             ],
                           );
                         }

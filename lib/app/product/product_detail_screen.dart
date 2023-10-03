@@ -7,6 +7,7 @@ import 'package:benji_user/src/repo/models/rating/ratings.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:benji_user/src/repo/utils/user_cart.dart';
+import 'package:benji_user/src/skeletons/app/card.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
@@ -832,11 +833,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                       kSizedBox,
                       _ratings == null
-                          ? Center(
-                              child: SpinKitChasingDots(
-                                color: kAccentColor,
-                                duration: const Duration(seconds: 1),
-                              ),
+                          ? Column(
+                              children: [
+                                CardSkeleton(
+                                  height: 200,
+                                  width: mediaWidth - 20,
+                                ),
+                                kSizedBox,
+                                kSizedBox,
+                                CardSkeleton(
+                                    height: 200, width: mediaWidth - 20)
+                              ],
                             )
                           : _ratings!.isEmpty
                               ? const EmptyCard(removeButton: true)

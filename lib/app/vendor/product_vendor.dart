@@ -4,11 +4,13 @@ import 'package:benji_user/src/common_widgets/button/category_button.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji_user/src/skeletons/app/card.dart';
+import 'package:benji_user/src/skeletons/page_skeleton.dart';
 import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../src/common_widgets/product/product_card.dart';
 import '../../src/others/empty.dart';
@@ -79,8 +81,46 @@ class _ProductVendorState extends State<ProductVendor> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return _productAndSubCategoryName == null
-        ? Center(
-            child: SpinKitChasingDots(color: kAccentColor),
+        ? Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Shimmer.fromColors(
+                    highlightColor: kBlackColor.withOpacity(0.02),
+                    baseColor: kBlackColor.withOpacity(0.8),
+                    direction: ShimmerDirection.ltr,
+                    child: PageSkeleton(height: 35, width: media.width / 7),
+                  ),
+                  kWidthSizedBox,
+                  Shimmer.fromColors(
+                    highlightColor: kBlackColor.withOpacity(0.02),
+                    baseColor: kBlackColor.withOpacity(0.8),
+                    direction: ShimmerDirection.ltr,
+                    child: PageSkeleton(height: 35, width: media.width / 7),
+                  ),
+                  kWidthSizedBox,
+                  Shimmer.fromColors(
+                    highlightColor: kBlackColor.withOpacity(0.02),
+                    baseColor: kBlackColor.withOpacity(0.8),
+                    direction: ShimmerDirection.ltr,
+                    child: PageSkeleton(height: 35, width: media.width / 7),
+                  ),
+                  kWidthSizedBox,
+                  Shimmer.fromColors(
+                      highlightColor: kBlackColor.withOpacity(0.02),
+                      baseColor: kBlackColor.withOpacity(0.8),
+                      direction: ShimmerDirection.ltr,
+                      child: PageSkeleton(height: 35, width: media.width / 9)),
+                ],
+              ),
+              kSizedBox,
+              kSizedBox,
+              CardSkeleton(
+                height: 200,
+                width: media.width - 20,
+              ),
+            ],
           )
         : Container(
             padding: const EdgeInsets.all(kDefaultPadding / 2),
