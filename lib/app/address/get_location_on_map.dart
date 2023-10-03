@@ -18,14 +18,14 @@ import '../../src/common_widgets/textformfield/my textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
-class PinLocationOnMap extends StatefulWidget {
-  const PinLocationOnMap({super.key});
+class GetLocationOnMap extends StatefulWidget {
+  const GetLocationOnMap({super.key});
 
   @override
-  State<PinLocationOnMap> createState() => _PinLocationOnMapState();
+  State<GetLocationOnMap> createState() => _GetLocationOnMapState();
 }
 
-class _PinLocationOnMapState extends State<PinLocationOnMap> {
+class _GetLocationOnMapState extends State<GetLocationOnMap> {
   //============================================================== INITIAL STATE ====================================================================\\
   @override
   void initState() {
@@ -192,7 +192,7 @@ class _PinLocationOnMapState extends State<PinLocationOnMap> {
     );
     _markers.add(
       Marker(
-        markerId: const MarkerId("Pinned"),
+        markerId: const MarkerId("1"),
         icon: BitmapDescriptor.defaultMarker,
         position: LatLng(lat, lng),
         infoWindow: InfoWindow(
@@ -299,7 +299,7 @@ class _PinLocationOnMapState extends State<PinLocationOnMap> {
                       ),
                     ),
                     Container(
-                      height: media.height * 0.24,
+                      height: media.height * 0.245,
                       width: media.width,
                       padding: const EdgeInsets.all(kDefaultPadding / 2),
                       decoration: ShapeDecoration(
@@ -370,7 +370,7 @@ class _PinLocationOnMapState extends State<PinLocationOnMap> {
                               ),
                             ),
                           ),
-                          kHalfSizedBox,
+                          kSizedBox,
                           MyElevatedButton(
                             title: "Select Location",
                             onPressed: _selectLocation,

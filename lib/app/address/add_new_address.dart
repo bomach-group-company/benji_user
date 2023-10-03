@@ -25,7 +25,7 @@ import '../../src/providers/constants.dart';
 import '../../src/repo/models/googleMaps/places_autocomplete_response.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../theme/colors.dart';
-import 'pin_location_on_map.dart';
+import 'get_location_on_map.dart';
 
 class AddNewAddress extends StatefulWidget {
   const AddNewAddress({super.key});
@@ -209,9 +209,9 @@ class _AddNewAddressState extends State<AddNewAddress> {
 
   //===================== Navigation =======================\\
 
-  void _toPinLocationOnMap() => Get.to(
-        () => const PinLocationOnMap(),
-        routeName: 'PinLocationOnMap',
+  void _toGetLocationOnMap() => Get.to(
+        () => const GetLocationOnMap(),
+        routeName: 'GetLocationOnMap',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -390,7 +390,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   color: kLightGreyColor,
                                 ),
                                 ElevatedButton.icon(
-                                  onPressed: _toPinLocationOnMap,
+                                  onPressed: _toGetLocationOnMap,
                                   icon: FaIcon(
                                     FontAwesomeIcons.locationArrow,
                                     color: kAccentColor,
