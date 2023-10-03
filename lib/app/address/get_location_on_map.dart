@@ -15,6 +15,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lottie/lottie.dart' as Lottie;
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
+import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/common_widgets/textformfield/my textformfield.dart';
 import '../../theme/colors.dart';
 
@@ -258,6 +259,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
         floatingActionButton: FloatingActionButton(
           onPressed: _selectLocation,
           backgroundColor: kAccentColor,
@@ -267,6 +269,13 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
             FontAwesomeIcons.locationCrosshairs,
             size: 18,
           ),
+        ),
+        bottomNavigationBar: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: kPrimaryColor,
+          ),
+          child: MyElevatedButton(title: "Save", onPressed: () {}),
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
