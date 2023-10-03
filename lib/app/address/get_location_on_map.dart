@@ -1,9 +1,9 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, library_prefixes
 
 import 'dart:async';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
-import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
+import 'package:benji_user/src/providers/constants.dart';
 import 'package:benji_user/src/repo/models/googleMaps/location_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +12,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lottie/lottie.dart' as Lottie;
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/textformfield/my textformfield.dart';
-import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
 class GetLocationOnMap extends StatefulWidget {
@@ -44,10 +44,12 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
   //============================================================= ALL VARIABLES ======================================================================\\
   String? pinnedLocation;
   //============================================================= BOOL VALUES ======================================================================\\
+  bool animatedPinIsVisible = true;
 
   //====================================== Setting Google Map Consts =========================================\\
 
   Position? _userPosition;
+  CameraPosition? _cameraPosition;
 
   Uint8List? _markerImage;
   final List<Marker> _markers = <Marker>[];
@@ -109,13 +111,13 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
         'Location permissions are permanently denied, we cannot request permissions.',
       );
     }
-    await _getUserCurrentLocation();
+    await _getAndGoToUserCurrentLocation();
     await _loadCustomMarkers();
   }
 
 //============================================== Get Current Location ==================================================\\
 
-  Future<Position> _getUserCurrentLocation() async {
+  Future<Position> _getAndGoToUserCurrentLocation() async {
     Position userLocation = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     ).then(
@@ -125,11 +127,10 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
     LatLng latLngPosition =
         LatLng(userLocation.latitude, userLocation.longitude);
 
-    CameraPosition cameraPosition =
-        CameraPosition(target: latLngPosition, zoom: 14);
+    _cameraPosition = CameraPosition(target: latLngPosition, zoom: 14);
 
     _newGoogleMapController?.animateCamera(
-      CameraUpdate.newCameraPosition(cameraPosition),
+      CameraUpdate.newCameraPosition(_cameraPosition!),
     );
 
     return userLocation;
@@ -179,17 +180,18 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
     }
   }
 
-//========================================================== Go to place =============================================================\\
+//========================================================== Search for and Locate a place =============================================================\\
 
-  Future<void> _goToPlace(Map<String, dynamic> place) async {
+  Future<void> _goToSearchedPlace(Map<String, dynamic> place) async {
     final double lat = place['geometry']['location']['lat'];
     final double lng = place['geometry']['location']['lng'];
-    final GoogleMapController controller = await _googleMapController.future;
-    controller.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(lat, lng), zoom: 18),
-      ),
-    );
+    _goToSpecificLocation(LatLng(lat, lng), 18);
+    // final GoogleMapController controller = await _googleMapController.future;
+    // controller.animateCamera(
+    //   CameraUpdate.newCameraPosition(
+    //     CameraPosition(target: LatLng(lat, lng), zoom: 18),
+    //   ),
+    // );
     _markers.add(
       Marker(
         markerId: const MarkerId("1"),
@@ -203,12 +205,23 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
     );
   }
 
-  void _searchAndLocatePlace() async {
+  void _searchPlaceFunc() async {
     setState(() {
       pinnedLocation = _searchEC.text;
+
+      animatedPinIsVisible = false;
     });
     var place = await LocationService().getPlace(_searchEC.text);
-    _goToPlace(place);
+    _goToSearchedPlace(place);
+  }
+
+//============================================== Go to specific location by LatLng ==================================================\\
+  Future _goToSpecificLocation(LatLng position, double zoom) async {
+    GoogleMapController mapController = await _googleMapController.future;
+    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: position,
+      zoom: zoom,
+    )));
   }
 
 //============================================== Create Google Maps ==================================================\\
@@ -223,7 +236,6 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -233,6 +245,32 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
           actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: _selectLocation,
+          backgroundColor: kAccentColor,
+          tooltip: "Select Location",
+          mouseCursor: SystemMouseCursors.click,
+          // child: const FaIcon(
+          //   FontAwesomeIcons.locationCrosshairs,
+          //   size: 18,
+          label: Row(
+            children: [
+              const FaIcon(
+                FontAwesomeIcons.circleCheck,
+                size: 18,
+              ),
+              kWidthSizedBox,
+              Text(
+                "Select Location",
+                style: TextStyle(
+                  color: kPrimaryColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              )
+            ],
+          ),
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
@@ -261,7 +299,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
                           ),
                         ),
                         IconButton(
-                          onPressed: _searchAndLocatePlace,
+                          onPressed: _searchPlaceFunc,
                           icon: FaIcon(
                             FontAwesomeIcons.magnifyingGlass,
                             size: 18,
@@ -271,110 +309,50 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
                       ],
                     ),
                     Expanded(
-                      child: GoogleMap(
-                        mapType: MapType.normal,
-                        onMapCreated: _onMapCreated,
-                        initialCameraPosition: CameraPosition(
-                          target: LatLng(
-                            _userPosition!.latitude,
-                            _userPosition!.longitude,
-                          ),
-                          zoom: 14,
-                        ),
-                        onTap: (LatLng value) {},
-                        markers: Set.of(_markers),
-                        compassEnabled: true,
-                        mapToolbarEnabled: true,
-                        minMaxZoomPreference: MinMaxZoomPreference.unbounded,
-                        tiltGesturesEnabled: true,
-                        zoomControlsEnabled: false,
-                        zoomGesturesEnabled: true,
-                        fortyFiveDegreeImageryEnabled: true,
-                        myLocationButtonEnabled: true,
-                        liteModeEnabled: false,
-                        myLocationEnabled: true,
-                        cameraTargetBounds: CameraTargetBounds.unbounded,
-                        rotateGesturesEnabled: true,
-                        scrollGesturesEnabled: true,
-                      ),
-                    ),
-                    Container(
-                      height: media.height * 0.245,
-                      width: media.width,
-                      padding: const EdgeInsets.all(kDefaultPadding / 2),
-                      decoration: ShapeDecoration(
-                        shadows: [
-                          BoxShadow(
-                            color: kBlackColor.withOpacity(0.1),
-                            blurRadius: 5,
-                            spreadRadius: 2,
-                            blurStyle: BlurStyle.normal,
-                          ),
-                        ],
-                        color: const Color(0xFFFEF8F8),
-                        shape: const RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 0.50,
-                            color: Color(0xFFFDEDED),
-                          ),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(25),
-                            topRight: Radius.circular(25),
-                          ),
-                        ),
-                      ),
-                      child: Column(
+                      child: Stack(
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: ShapeDecoration(
-                              color: const Color(0xFFFEF8F8),
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 0.50,
-                                  color: Color(0xFFFDEDED),
-                                ),
-                                borderRadius: BorderRadius.circular(25),
+                          GoogleMap(
+                            mapType: MapType.normal,
+                            onMapCreated: _onMapCreated,
+                            initialCameraPosition: CameraPosition(
+                              target: LatLng(
+                                _userPosition!.latitude,
+                                _userPosition!.longitude,
                               ),
-                              shadows: const [
-                                BoxShadow(
-                                  color: Color(0x0F000000),
-                                  blurRadius: 24,
-                                  offset: Offset(0, 4),
-                                  spreadRadius: 0,
-                                ),
-                              ],
+                              zoom: 14,
                             ),
-                            child: ListTile(
-                              contentPadding: const EdgeInsets.all(5),
-                              leading: Image.asset(
-                                "assets/icons/location-icon.png",
-                                height: 50,
-                                width: 50,
-                              ),
-                              title: const Text(
-                                "Pinned Location",
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              subtitle: Text(
-                                pinnedLocation!,
-                                style: TextStyle(
-                                  color: kTextGreyColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
+                            onTap: (LatLng value) {},
+                            onCameraIdle: () {},
+                            onCameraMove: (cameraPosition) {
+                              setState(() {
+                                animatedPinIsVisible = true;
+                              });
+                            },
+                            markers: Set.of(_markers),
+                            compassEnabled: true,
+                            mapToolbarEnabled: true,
+                            minMaxZoomPreference:
+                                MinMaxZoomPreference.unbounded,
+                            tiltGesturesEnabled: true,
+                            zoomControlsEnabled: false,
+                            zoomGesturesEnabled: true,
+                            fortyFiveDegreeImageryEnabled: true,
+                            myLocationButtonEnabled: true,
+                            liteModeEnabled: false,
+                            myLocationEnabled: true,
+                            cameraTargetBounds: CameraTargetBounds.unbounded,
+                            rotateGesturesEnabled: true,
+                            scrollGesturesEnabled: true,
                           ),
-                          kSizedBox,
-                          MyElevatedButton(
-                            title: "Select Location",
-                            onPressed: _selectLocation,
-                          ),
+                          animatedPinIsVisible == false
+                              ? const SizedBox()
+                              : Center(
+                                  child: Container(
+                                    child: Lottie.Lottie.asset(
+                                      "assets/animations/google_maps/location_pin.json",
+                                    ),
+                                  ),
+                                ),
                         ],
                       ),
                     ),

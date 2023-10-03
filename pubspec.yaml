@@ -92,6 +92,7 @@ flutter:
     - assets/animations/empty/
     - assets/animations/credit_card/
     - assets/animations/delivery/
+    - assets/animations/google_maps/
     - assets/frontend/assets/brand/
     - assets/frontend/assets/hero/
     - assets/frontend/assets/blog/
