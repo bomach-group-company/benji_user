@@ -6,12 +6,14 @@ import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart
 import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:benji_user/src/repo/utils/user_cart.dart';
+import 'package:benji_user/src/skeletons/app/card.dart';
+import 'package:benji_user/src/skeletons/page_skeleton.dart';
 import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
@@ -45,7 +47,7 @@ class _CartScreenState extends State<CartScreen> {
         context,
         kAccentColor,
         "Error!",
-        "Item with id $data not found",
+        "Item not found",
         const Duration(
           seconds: 1,
         ),
@@ -158,20 +160,29 @@ class _CartScreenState extends State<CartScreen> {
           maintainBottomViewPadding: true,
           child: _data == null
               ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SpinKitChasingDots(color: kAccentColor),
-                      kSizedBox,
-                      Text(
-                        "Loading...",
-                        style: TextStyle(
-                          color: kTextGreyColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Shimmer.fromColors(
+                          highlightColor: kBlackColor.withOpacity(0.02),
+                          baseColor: kBlackColor.withOpacity(0.8),
+                          direction: ShimmerDirection.ltr,
+                          child:
+                              PageSkeleton(height: 50, width: mediaWidth - 20),
                         ),
-                      ),
-                    ],
+                        kSizedBox,
+                        CardSkeleton(
+                          height: 200,
+                          width: mediaWidth - 20,
+                        ),
+                        kSizedBox,
+                        CardSkeleton(
+                          height: 200,
+                          width: mediaWidth - 20,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               : Scrollbar(

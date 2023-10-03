@@ -104,11 +104,12 @@ Future<List<Product>> getProductsBySubCategory(subCategoryId) async {
     Uri.parse('$baseURL/clients/filterProductsBySubCategory/$subCategoryId'),
     headers: await authHeader(),
   );
-
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 && response.body != '"No matching query"') {
     return (jsonDecode(response.body) as List)
         .map((item) => Product.fromJson(item))
         .toList();
+  } else if (response.body == '"No matching query"') {
+    return [];
   } else {
     throw Exception('Failed to load user product');
   }

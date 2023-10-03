@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:benji_user/app/terms/terms_and_conditions.dart';
 import 'package:benji_user/src/common_widgets/textformfield/my_intl_phonefield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -61,7 +62,7 @@ class _SignUpState extends State<SignUp> {
   bool _isLoading = false;
   bool _validAuthCredentials = false;
   bool _invalidAuthCredentials = false;
-
+  bool isChecked = false;
   bool isPWSuccess = false;
   var _isObscured;
 
@@ -73,6 +74,25 @@ class _SignUpState extends State<SignUp> {
   final FocusNode _userPasswordFN = FocusNode();
 
   //=========================== FUNCTIONS ====================================\\
+  void _checkBoxFunction(newVal) {
+    setState(() {
+      isChecked = newVal!;
+    });
+  }
+
+  void _toTermsAndCondition() {
+    Get.to(
+      () => const TermCondition(),
+      routeName: 'TermCondition',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
+
   void _toLoginPage() => Get.offAll(
         () => const Login(),
         routeName: 'Login',
@@ -534,6 +554,38 @@ class _SignUpState extends State<SignUp> {
                       },
                     ),
                     kSizedBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Checkbox(
+                          value: isChecked,
+                          splashRadius: 0,
+                          activeColor: kSecondaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              5,
+                            ),
+                          ),
+                          onChanged: _checkBoxFunction,
+                        ),
+                        Row(
+                          children: [
+                            const Text('By clicking you accept our'),
+                            InkWell(
+                              onTap: _toTermsAndCondition,
+                              child: const Text(
+                                ' terms and condition.',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    color: kBlueLinkTextColor),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    kSizedBox,
                     _isLoading
                         ? Center(
                             child: SpinKitChasingDots(
@@ -542,11 +594,13 @@ class _SignUpState extends State<SignUp> {
                             ),
                           )
                         : ElevatedButton(
-                            onPressed: (() async {
-                              if (_formKey.currentState!.validate()) {
-                                loadData();
-                              }
-                            }),
+                            onPressed: !isChecked
+                                ? null
+                                : (() async {
+                                    if (_formKey.currentState!.validate()) {
+                                      loadData();
+                                    }
+                                  }),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: kAccentColor,
                               maximumSize:
