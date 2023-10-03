@@ -30,7 +30,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
   @override
   void initState() {
     super.initState();
-    _pinnedLocation = "";
+
     _markerTitle = <String>["Me"];
     _markerSnippet = <String>["My Location"];
     _loadMapData();
@@ -42,7 +42,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
   }
 
   //============================================================= ALL VARIABLES ======================================================================\\
-  String? _pinnedLocation;
+
   //============================================================= BOOL VALUES ======================================================================\\
   bool animatedPinIsVisible = true;
 
@@ -52,6 +52,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
   CameraPosition? _cameraPosition;
 
   Uint8List? _markerImage;
+  late LatLng draggedLatLng;
   final List<Marker> _markers = <Marker>[];
   final List<MarkerId> _markerId = <MarkerId>[
     const MarkerId("0"),
@@ -126,7 +127,9 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 
     LatLng latLngPosition =
         LatLng(userLocation.latitude, userLocation.longitude);
-
+    setState(() {
+      draggedLatLng = latLngPosition;
+    });
     _cameraPosition = CameraPosition(target: latLngPosition, zoom: 14);
 
     _newGoogleMapController?.animateCamera(
@@ -180,53 +183,31 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
     }
   }
 
-//========================================================== Get PlaceMark Address and LatLng =============================================================\\
+//========================================================== Locate a place =============================================================\\
 
-  Future _getPlaceMark(LatLng position) async {
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
-    Placemark address = placemarks[0];
-    String addressStr =
-        "${address.street}, ${address.locality}, ${address.administrativeArea}, ${address.country}";
-
-    setState(() {
-      _pinnedLocation = addressStr;
-    });
-  }
-
-//========================================================== Search for and Locate a place =============================================================\\
-
-  Future<void> _goToSearchedPlace(Map<String, dynamic> place) async {
+  Future<void> _locatePlace(Map<String, dynamic> place) async {
     final double lat = place['geometry']['location']['lat'];
     final double lng = place['geometry']['location']['lng'];
     _goToSpecifiedLocation(LatLng(lat, lng), 18);
-    // final GoogleMapController controller = await _googleMapController.future;
-    // controller.animateCamera(
-    //   CameraUpdate.newCameraPosition(
-    //     CameraPosition(target: LatLng(lat, lng), zoom: 18),
+    // _markers.add(
+    //   Marker(
+    //     markerId: const MarkerId("1"),
+    //     icon: BitmapDescriptor.defaultMarker,
+    //     position: LatLng(lat, lng),
+    //     infoWindow: InfoWindow(
+    //       title: _searchEC.text,
+    //       snippet: "Pinned Location",
+    //     ),
     //   ),
     // );
-    _markers.add(
-      Marker(
-        markerId: const MarkerId("1"),
-        icon: BitmapDescriptor.defaultMarker,
-        position: LatLng(lat, lng),
-        infoWindow: InfoWindow(
-          title: _searchEC.text,
-          snippet: "Pinned Location",
-        ),
-      ),
-    );
   }
 
   void _searchPlaceFunc() async {
     setState(() {
-      _pinnedLocation = _searchEC.text;
-
       animatedPinIsVisible = false;
     });
     var place = await LocationService().getPlace(_searchEC.text);
-    _goToSearchedPlace(place);
+    _locatePlace(place);
   }
 
 //============================================== Go to specified location by LatLng ==================================================\\
@@ -236,6 +217,21 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
       target: position,
       zoom: zoom,
     )));
+    await _getPlaceMark(position);
+  }
+
+//========================================================== Get PlaceMark Address and LatLng =============================================================\\
+
+  Future _getPlaceMark(LatLng position) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    Placemark address = placemarks[0];
+    String addressStr =
+        "${address.name} ${address.street}, ${address.locality}, ${address.administrativeArea}, ${address.country}";
+
+    setState(() {
+      _searchEC.text = addressStr;
+    });
   }
 
 //============================================== Create Google Maps ==================================================\\
@@ -246,7 +242,9 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
   }
 
 //========================================================== Navigation =============================================================\\
-  void _selectLocation() {}
+  void _selectLocation() async {
+    _getPlaceMark(draggedLatLng);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -320,10 +318,16 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
                               zoom: 14,
                             ),
                             onTap: (LatLng value) {},
-                            onCameraIdle: () {},
+                            onCameraIdle: () {
+                              setState(() {
+                                animatedPinIsVisible = true;
+                              });
+                              _getPlaceMark(draggedLatLng);
+                            },
                             onCameraMove: (cameraPosition) {
                               setState(() {
                                 animatedPinIsVisible = true;
+                                draggedLatLng = cameraPosition.target;
                               });
                             },
                             markers: Set.of(_markers),
@@ -348,6 +352,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
                                   child: Container(
                                     child: Lottie.Lottie.asset(
                                       "assets/animations/google_maps/location_pin.json",
+                                      width: 60,
                                     ),
                                   ),
                                 ),
