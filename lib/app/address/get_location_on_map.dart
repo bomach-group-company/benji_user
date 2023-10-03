@@ -3,13 +3,13 @@
 import 'dart:async';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
-import 'package:benji_user/src/providers/constants.dart';
 import 'package:benji_user/src/repo/models/googleMaps/location_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lottie/lottie.dart' as Lottie;
@@ -30,7 +30,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
   @override
   void initState() {
     super.initState();
-    pinnedLocation = "....";
+    _pinnedLocation = "";
     _markerTitle = <String>["Me"];
     _markerSnippet = <String>["My Location"];
     _loadMapData();
@@ -42,7 +42,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
   }
 
   //============================================================= ALL VARIABLES ======================================================================\\
-  String? pinnedLocation;
+  String? _pinnedLocation;
   //============================================================= BOOL VALUES ======================================================================\\
   bool animatedPinIsVisible = true;
 
@@ -180,12 +180,26 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
     }
   }
 
+//========================================================== Get PlaceMark Address and LatLng =============================================================\\
+
+  Future _getPlaceMark(LatLng position) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    Placemark address = placemarks[0];
+    String addressStr =
+        "${address.street}, ${address.locality}, ${address.administrativeArea}, ${address.country}";
+
+    setState(() {
+      _pinnedLocation = addressStr;
+    });
+  }
+
 //========================================================== Search for and Locate a place =============================================================\\
 
   Future<void> _goToSearchedPlace(Map<String, dynamic> place) async {
     final double lat = place['geometry']['location']['lat'];
     final double lng = place['geometry']['location']['lng'];
-    _goToSpecificLocation(LatLng(lat, lng), 18);
+    _goToSpecifiedLocation(LatLng(lat, lng), 18);
     // final GoogleMapController controller = await _googleMapController.future;
     // controller.animateCamera(
     //   CameraUpdate.newCameraPosition(
@@ -207,7 +221,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 
   void _searchPlaceFunc() async {
     setState(() {
-      pinnedLocation = _searchEC.text;
+      _pinnedLocation = _searchEC.text;
 
       animatedPinIsVisible = false;
     });
@@ -215,8 +229,8 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
     _goToSearchedPlace(place);
   }
 
-//============================================== Go to specific location by LatLng ==================================================\\
-  Future _goToSpecificLocation(LatLng position, double zoom) async {
+//============================================== Go to specified location by LatLng ==================================================\\
+  Future _goToSpecifiedLocation(LatLng position, double zoom) async {
     GoogleMapController mapController = await _googleMapController.future;
     mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: position,
@@ -246,30 +260,14 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
-        floatingActionButton: FloatingActionButton.extended(
+        floatingActionButton: FloatingActionButton(
           onPressed: _selectLocation,
           backgroundColor: kAccentColor,
           tooltip: "Select Location",
           mouseCursor: SystemMouseCursors.click,
-          // child: const FaIcon(
-          //   FontAwesomeIcons.locationCrosshairs,
-          //   size: 18,
-          label: Row(
-            children: [
-              const FaIcon(
-                FontAwesomeIcons.circleCheck,
-                size: 18,
-              ),
-              kWidthSizedBox,
-              Text(
-                "Select Location",
-                style: TextStyle(
-                  color: kPrimaryColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                ),
-              )
-            ],
+          child: const FaIcon(
+            FontAwesomeIcons.locationCrosshairs,
+            size: 18,
           ),
         ),
         body: SafeArea(
