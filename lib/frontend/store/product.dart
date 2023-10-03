@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:benji_user/frontend/store/categories.dart';
 import 'package:benji_user/frontend/store/category.dart';
 import 'package:benji_user/src/frontend/model/product.dart';
 import 'package:benji_user/src/frontend/widget/clickable.dart';
@@ -449,7 +450,8 @@ class _ProductPageState extends State<ProductPage> {
                                           child: EndToEndRow(
                                             widget1:
                                                 MyFancyText(text: 'Related'),
-                                            widget2: MyOutlinedButton(),
+                                            widget2: MyOutlinedButton(
+                                                navigate: CategoriesPage()),
                                           ),
                                         ),
                                         kSizedBox,
