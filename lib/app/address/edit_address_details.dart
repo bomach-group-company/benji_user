@@ -209,6 +209,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                         MyTextFormField(
                           hintText:
                               "Enter address name tag e.g my work, my home....",
+                          textCapitalization: TextCapitalization.words,
                           controller: _addressTitleEC,
                           textInputAction: TextInputAction.next,
                           textInputType: TextInputType.name,
@@ -248,6 +249,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                           controller: _apartmentDetailsEC,
                           textInputAction: TextInputAction.next,
                           textInputType: TextInputType.text,
+                          textCapitalization: TextCapitalization.sentences,
                           focusNode: _apartmentDetailsFN,
                           validator: (value) {
                             if (value == null || value!.isEmpty) {

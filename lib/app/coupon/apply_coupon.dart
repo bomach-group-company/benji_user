@@ -97,6 +97,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                     child: MyTextFormField(
                       hintText: "Enter a coupon code",
                       controller: textController,
+                      textCapitalization: TextCapitalization.sentences,
                       textInputType: TextInputType.text,
                       textInputAction: TextInputAction.done,
                       focusNode: textFocusNode,

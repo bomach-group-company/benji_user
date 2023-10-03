@@ -266,6 +266,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                 MyTextFormField(
                                   hintText:
                                       "Enter address name tag e.g my work, my home....",
+                                  textCapitalization: TextCapitalization.words,
                                   controller: _addressTitleEC,
                                   textInputAction: TextInputAction.next,
                                   textInputType: TextInputType.name,
