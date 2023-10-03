@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
-import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
@@ -32,7 +31,7 @@ class EditAddressDetails extends StatefulWidget {
 class _EditAddressDetailsState extends State<EditAddressDetails> {
   //===================== KEYS =======================\\
   final _formKey = GlobalKey<FormState>();
-  final _cscPickerKey = GlobalKey<CSCPickerState>();
+  // final _cscPickerKey = GlobalKey<CSCPickerState>();
 
   //===================== CONTROLLERS =======================\\
   final TextEditingController _addressTitleEC = TextEditingController();
@@ -210,6 +209,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                         MyTextFormField(
                           hintText:
                               "Enter address name tag e.g my work, my home....",
+                          textCapitalization: TextCapitalization.words,
                           controller: _addressTitleEC,
                           textInputAction: TextInputAction.next,
                           textInputType: TextInputType.name,
@@ -249,6 +249,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                           controller: _apartmentDetailsEC,
                           textInputAction: TextInputAction.next,
                           textInputType: TextInputType.text,
+                          textCapitalization: TextCapitalization.sentences,
                           focusNode: _apartmentDetailsFN,
                           validator: (value) {
                             if (value == null || value!.isEmpty) {

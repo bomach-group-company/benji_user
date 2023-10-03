@@ -1,6 +1,7 @@
 import 'package:benji_user/src/repo/models/order/order.dart';
 import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -35,7 +36,9 @@ class _OrdersHistoryState extends State<OrdersHistory> {
   Future<List<Order>> _getOrders() async {
     User? user = await getUser();
     List<Order> order = await getOrders(user!.id);
-    print('the data $order');
+    if (kDebugMode) {
+      print('the data $order');
+    }
     return order;
   }
 

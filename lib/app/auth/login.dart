@@ -405,10 +405,8 @@ class _LoginState extends State<Login> {
                             }),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: kAccentColor,
-                              maximumSize:
-                                  Size(MediaQuery.of(context).size.width, 62),
-                              minimumSize:
-                                  Size(MediaQuery.of(context).size.width, 60),
+                              maximumSize: Size(media.width, 62),
+                              minimumSize: Size(media.width, 60),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16),
                               ),

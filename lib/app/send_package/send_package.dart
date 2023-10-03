@@ -4,6 +4,7 @@ import 'package:benji_user/src/repo/models/package/item_category.dart';
 import 'package:benji_user/src/repo/models/package/item_weight.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -11,6 +12,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/textformfield/my textformfield.dart';
 import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
+import '../../src/common_widgets/textformfield/number_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import 'choose_rider.dart';
@@ -264,6 +266,7 @@ class _SendPackageState extends State<SendPackage> {
               kHalfSizedBox,
               MyTextFormField(
                 controller: _pickupEC,
+                textCapitalization: TextCapitalization.sentences,
                 validator: (value) {
                   RegExp pickupAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
                   if (value!.isEmpty || value == null) {
@@ -311,6 +314,7 @@ class _SendPackageState extends State<SendPackage> {
                   _senderNameEC.text = value;
                 },
                 textInputAction: TextInputAction.done,
+                textCapitalization: TextCapitalization.sentences,
                 focusNode: _senderNameFN,
                 hintText: "Enter your name",
                 textInputType: TextInputType.name,
@@ -392,6 +396,7 @@ class _SendPackageState extends State<SendPackage> {
                   _dropOffEC.text = value;
                 },
                 textInputAction: TextInputAction.next,
+                textCapitalization: TextCapitalization.sentences,
                 focusNode: dropOffFN,
                 hintText: "E.g 123, Main Street",
                 textInputType: TextInputType.streetAddress,
@@ -424,6 +429,7 @@ class _SendPackageState extends State<SendPackage> {
                   _receiverNameEC.text = value;
                 },
                 textInputAction: TextInputAction.done,
+                textCapitalization: TextCapitalization.sentences,
                 focusNode: receiverNameFN,
                 hintText: "Enter receiver's name",
                 textInputType: TextInputType.name,
@@ -508,6 +514,7 @@ class _SendPackageState extends State<SendPackage> {
                   _itemNameEC.text = value;
                 },
                 textInputAction: TextInputAction.next,
+                textCapitalization: TextCapitalization.sentences,
                 focusNode: itemNameFN,
                 hintText: "Enter the name of the item",
                 textInputType: TextInputType.name,
@@ -562,7 +569,7 @@ class _SendPackageState extends State<SendPackage> {
                 ),
               ),
               kHalfSizedBox,
-              MyTextFormField(
+              NumberTextFormField(
                 controller: _itemQuantityEC,
                 validator: (value) {
                   if (value == null || value!.isEmpty) {
@@ -577,7 +584,7 @@ class _SendPackageState extends State<SendPackage> {
                 textInputAction: TextInputAction.next,
                 focusNode: itemQuantityFN,
                 hintText: "Enter the quantity ",
-                textInputType: TextInputType.number,
+                inputFormatter: [FilteringTextInputFormatter.digitsOnly],
               ),
               kSizedBox,
               const Text(
@@ -601,6 +608,7 @@ class _SendPackageState extends State<SendPackage> {
                   _itemValueEC.text = value;
                 },
                 textInputAction: TextInputAction.done,
+                textCapitalization: TextCapitalization.sentences,
                 focusNode: itemValueFN,
                 hintText: "Enter the value (in Naira)",
                 textInputType: TextInputType.number,

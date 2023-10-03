@@ -117,7 +117,7 @@ final String description Lorem is dummy ipsum text. Lorem is dummy ipsum text. L
                           ),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 20),
-                          child: Column(
+                          child: const Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

@@ -23,7 +23,7 @@ class LocationService {
   }
 
   Future<Map<String, dynamic>> getPlace(String query) async {
-    final placeId = getPlaceId(query);
+    final placeId = await getPlaceId(query);
 
     final String url =
         "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$googleMapsApiKey";
