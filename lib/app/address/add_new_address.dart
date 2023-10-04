@@ -190,16 +190,18 @@ class _AddNewAddressState extends State<AddNewAddress> {
     //   print(uri);
     // }
     String? response = await NetworkUtility.fetchUrl(uri);
-    PlaceAutocompleteResponse result =
-        PlaceAutocompleteResponse.parseAutoCompleteResult(response);
-    if (result.predictions != null) {
-      setState(() {
-        placePredictions = result.predictions!;
-      });
+    if (response != null) {
+      PlaceAutocompleteResponse result =
+          PlaceAutocompleteResponse.parseAutoCompleteResult(response);
+      if (result.predictions != null) {
+        setState(() {
+          placePredictions = result.predictions!;
+        });
+      }
+      // if (kDebugMode) {
+      //   print(response);
+      // }
     }
-    // if (kDebugMode) {
-    //   print(response);
-    // }
   }
 
   //===================== Navigation =======================\\
