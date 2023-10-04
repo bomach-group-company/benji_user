@@ -10,7 +10,6 @@ import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_monnify/flutter_monnify.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -85,7 +84,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   _getData() async {
     _subTotal = 0;
 
-    await checkAuth(context);
     List<Product> product = await getCartProduct(
       (data) => mySnackBar(
         context,
@@ -238,21 +236,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         maintainBottomViewPadding: true,
         child: _data == null
             ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(color: kAccentColor),
-                    kSizedBox,
-                    Text(
-                      "Loading...",
-                      style: TextStyle(
-                        color: kTextGreyColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
+                child: Center(
+                    child: CircularProgressIndicator(color: kAccentColor)),
               )
             : RefreshIndicator(
                 onRefresh: _handleRefresh,
@@ -347,7 +332,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     ),
                                     kSizedBox,
                                     Text(
-                                      _data!['deliverTo'].streetAddress ??
+                                      _data!['deliverTo'].details ??
                                           'Not Available',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
@@ -572,9 +557,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         const SizedBox(height: kDefaultPadding * 2),
                         _isLoading
                             ? Center(
-                                child: SpinKitChasingDots(
+                                child: CircularProgressIndicator(
                                   color: kAccentColor,
-                                  duration: const Duration(seconds: 1),
                                 ),
                               )
                             : MyElevatedButton(

@@ -68,7 +68,7 @@ class _RateProductDialogState extends State<RateProductDialog> {
     setState(() {
       _submittingRequest = true;
     });
-    await checkAuth(context);
+
     bool res = await rate();
     if (res) {
       //Display snackBar

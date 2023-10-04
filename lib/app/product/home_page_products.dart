@@ -45,7 +45,6 @@ class _HomePageProductsState extends State<HomePageProducts> {
   String activeSubCategory = '';
 
   _getData() async {
-    await checkAuth(context);
     String current = 'Select Address';
     try {
       current = (await getCurrentAddress()).title ?? current;

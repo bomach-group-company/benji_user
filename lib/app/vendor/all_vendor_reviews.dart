@@ -114,7 +114,6 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
   bool thatsAllData = false;
 
   _getData() async {
-    await checkAuth(context);
     List<Ratings> ratings =
         await getRatingsByVendorId(widget.vendor.id!, start: start, end: end);
 

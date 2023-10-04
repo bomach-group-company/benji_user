@@ -61,11 +61,14 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     checkAuth(context);
-    _products = getProducts();
+    _products = Future(() => []);
     _subCategory = getSubCategories()
       ..then((value) {
         if (value.isNotEmpty) {
           activeSubCategory = value[0].id;
+          setState(() {
+            _products = getProductsBySubCategory(activeSubCategory);
+          });
         }
       });
     _vendors = getVendors();
@@ -484,8 +487,8 @@ class _HomeState extends State<Home> {
                     : const EdgeInsets.all(kDefaultPadding / 2),
                 children: [
                   FutureBuilder(
-                      //this shold be hot deals and not products
-                      future: _products,
+                      //this shold be hot deals and not _popularVendors
+                      future: _popularVendors,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {

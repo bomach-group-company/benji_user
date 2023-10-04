@@ -170,7 +170,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
     setState(() {
       _processingRequest = true;
     });
-    await checkAuth(context);
+
     // User? user = await getUser();
     DateTime now = DateTime.now();
     String formattedDateAndTime = formatDateAndTime(now);

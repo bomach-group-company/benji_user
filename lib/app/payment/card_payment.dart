@@ -1,6 +1,5 @@
 import 'package:benji_user/app/payment/add_card.dart';
 import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
-import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
@@ -64,7 +63,6 @@ class _CardPaymentState extends State<CardPayment> {
   Map? cardData;
 
   _getCreditCards() async {
-    await checkAuth(context);
     List<CreditCard> cards = [];
     try {
       cards = await getCardDataByUser();

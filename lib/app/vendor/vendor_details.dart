@@ -1,7 +1,7 @@
 // ignore_for_file: unused_field, use_build_context_synchronously
 
-import 'package:benji_user/src/common_widgets/vendor/vendor_about_tab.dart';
-import 'package:benji_user/src/common_widgets/vendor/vendor_products_tab.dart';
+import 'package:benji_user/app/vendor/about_vendor.dart';
+import 'package:benji_user/app/vendor/product_vendor.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
 import 'package:flutter/gestures.dart';
@@ -544,10 +544,10 @@ class _VendorDetailsState extends State<VendorDetails>
                       ? const EdgeInsets.symmetric(horizontal: 20)
                       : const EdgeInsets.symmetric(horizontal: 10),
                   child: _selectedtabbar == 0
-                      ? VendorsProductsTab(
+                      ? ProductVendor(
                           vendor: widget.vendor,
                         )
-                      : VendorsAboutTab(
+                      : AboutVendor(
                           vendor: widget.vendor,
                         ),
                 ),

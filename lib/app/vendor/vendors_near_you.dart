@@ -92,7 +92,6 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
   bool _isScrollToTopBtnVisible = false;
 
   _getData() async {
-    await checkAuth(context);
     List<VendorModel> vendor = await getVendors(start: start, end: end);
 
     _vendor ??= [];

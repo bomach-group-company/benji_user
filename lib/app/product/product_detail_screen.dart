@@ -5,7 +5,6 @@ import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:benji_user/src/repo/models/rating/ratings.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
-import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -130,7 +129,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   checkCart() async {
-    await checkAuth(context);
     int countAll = await countCartItemByProduct(
         widget.product.vendorId.id!.toString(), widget.product.id.toString());
 
@@ -183,6 +181,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   Future<void> _handleRefresh() async {
     justInPage = true;
+    setState(() {
+      cartCountAll = null;
+      _ratings = null;
+    });
     await checkCart();
   }
 
@@ -591,15 +593,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                       kSizedBox,
                       cartCountAll == null
-                          ? Column(
-                              children: [
-                                Center(
-                                  child: CircularProgressIndicator(
-                                    color: kAccentColor,
-                                  ),
-                                ),
-                                kSizedBox,
-                              ],
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: kAccentColor,
+                              ),
                             )
                           : Container(
                               margin: const EdgeInsets.only(
@@ -608,7 +605,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               child: _isAddedToCart
                                   ? Container(
                                       width: mediaWidth,
-                                      height: 70,
+                                      height: 55,
                                       decoration: ShapeDecoration(
                                         color: const Color(0xFFFAFAFA),
                                         shadows: [
@@ -632,10 +629,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             onPressed: () {
                                               decrementQuantity();
                                             },
-                                            splashRadius: 50,
+                                            splashRadius: 10,
                                             icon: const Icon(
-                                              Icons.remove_rounded,
+                                              Icons.remove,
                                               color: kBlackColor,
+                                              size: 30,
                                             ),
                                           ),
                                           Container(
@@ -666,10 +664,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             onPressed: () {
                                               incrementQuantity();
                                             },
-                                            splashRadius: 50,
+                                            splashRadius: 10,
                                             icon: Icon(
-                                              Icons.add_rounded,
+                                              Icons.add,
                                               color: kAccentColor,
+                                              size: 30,
                                             ),
                                           ),
                                         ],

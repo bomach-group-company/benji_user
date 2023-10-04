@@ -1,6 +1,5 @@
 import 'package:benji_user/src/repo/models/rating/ratings.dart';
 import 'package:benji_user/src/repo/models/vendor/vendor.dart';
-import 'package:benji_user/src/skeletons/app/card.dart';
 import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
@@ -357,17 +356,10 @@ class _AboutVendorState extends State<AboutVendor> {
           ),
           kSizedBox,
           _ratings == null
-              ? Column(
-                  children: [
-                    CardSkeleton(
-                      height: 200,
-                      width: mediaWidth - 20,
-                    ),
-                    kSizedBox,
-                    kSizedBox,
-                    CardSkeleton(height: 200, width: mediaWidth - 20)
-                  ],
-                )
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: kAccentColor,
+                ))
               : _ratings!.isEmpty
                   ? const EmptyCard(
                       removeButton: true,
