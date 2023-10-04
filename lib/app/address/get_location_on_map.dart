@@ -3,8 +3,8 @@
 import 'dart:async';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
-import 'package:benji_user/observer/lat_lng_detail_controller.dart';
 import 'package:benji_user/src/providers/constants.dart';
+import 'package:benji_user/src/providers/controllers.dart';
 import 'package:benji_user/src/repo/models/googleMaps/location_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -253,12 +253,15 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 //========================================================== Save Function =============================================================\\
   _saveFunc() async {
     _getPlaceMark(draggedLatLng);
-    print("draggedLatLng: $draggedLatLng");
-    print("PinnedLocation: $pinnedLocation");
+    if (kDebugMode) {
+      print("draggedLatLng: $draggedLatLng");
+      print("PinnedLocation: $pinnedLocation");
+    }
     String latitude = draggedLatLng.latitude.toString();
     String longitude = draggedLatLng.longitude.toString();
     latLngDetailController
         .setLatLngdetail([latitude, longitude, pinnedLocation]);
+
     Get.back();
   }
 

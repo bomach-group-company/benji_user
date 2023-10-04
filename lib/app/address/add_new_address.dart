@@ -1,7 +1,7 @@
-// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously, invalid_use_of_protected_member
 
-import 'package:benji_user/observer/lat_lng_detail_controller.dart';
 import 'package:benji_user/src/common_widgets/textformfield/my_maps_textformfield.dart';
+import 'package:benji_user/src/providers/controllers.dart';
 import 'package:benji_user/src/providers/keys.dart';
 import 'package:benji_user/src/repo/models/googleMaps/autocomplete_prediction.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
@@ -63,7 +63,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
   final TextEditingController _addressTitleEC = TextEditingController();
   final TextEditingController _phoneNumberEC = TextEditingController();
   final TextEditingController _mapsLocationEC = TextEditingController();
-  final LatLngDetailController latLngDetailController = Get.find();
+  final LatLngDetailController latLngDetailController =
+      Get.put(LatLngDetailController());
 
   //===================== FOCUS NODES =======================\\
   final FocusNode _addressTitleFN = FocusNode();
@@ -108,6 +109,9 @@ class _AddNewAddressState extends State<AddNewAddress> {
       'longitude': longitude,
       'is_current': is_current.toString(),
     };
+    if (kDebugMode) {
+      print("This is the body: $body");
+    }
     final response =
         await http.post(url, body: body, headers: await authHeader());
 
@@ -222,6 +226,10 @@ class _AddNewAddressState extends State<AddNewAddress> {
     latitude = latLngDetailController.latLngDetail.value[0];
     longitude = latLngDetailController.latLngDetail.value[1];
     _mapsLocationEC.text = latLngDetailController.latLngDetail.value[2];
+    if (kDebugMode) {
+      print("LATLNG: $latitude,$longitude");
+      print(_mapsLocationEC.text);
+    }
   }
 
   @override

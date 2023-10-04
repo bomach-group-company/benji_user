@@ -50,6 +50,9 @@ dependencies:
   http_parser: ^4.0.2
   agora_uikit:
   carousel_slider: ^4.2.1
+  sentry_flutter:
+  flutter_local_notifications:
+  onesignal_flutter: ^5.0.2
 
 dev_dependencies:
   flutter_test:
