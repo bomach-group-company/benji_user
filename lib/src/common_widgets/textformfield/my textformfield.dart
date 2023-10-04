@@ -46,6 +46,7 @@ class MyTextFormField extends StatelessWidget {
       enableSuggestions: true,
       keyboardType: textInputType,
       textCapitalization: textCapitalization,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLines: 1,
       style: TextStyle(
         color: kSecondaryColor,

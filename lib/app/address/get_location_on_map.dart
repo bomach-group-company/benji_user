@@ -259,6 +259,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
     String longitude = draggedLatLng.longitude.toString();
     latLngDetailController
         .setLatLngdetail([latitude, longitude, pinnedLocation]);
+
     Get.back();
   }
 
