@@ -1,7 +1,7 @@
-// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously, invalid_use_of_protected_member
 
-import 'package:benji_user/observer/lat_lng_detail_controller.dart';
 import 'package:benji_user/src/common_widgets/textformfield/my_maps_textformfield.dart';
+import 'package:benji_user/src/providers/controllers.dart';
 import 'package:benji_user/src/providers/keys.dart';
 import 'package:benji_user/src/repo/models/googleMaps/autocomplete_prediction.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';

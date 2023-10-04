@@ -1,9 +1,9 @@
-// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'dart:convert';
 
 import 'package:benji_user/app/address/get_location_on_map.dart';
-import 'package:benji_user/observer/lat_lng_detail_controller.dart';
+import 'package:benji_user/src/providers/controllers.dart';
 import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/foundation.dart';
