@@ -2,10 +2,13 @@
 
 import 'dart:convert';
 
+import 'package:benji_user/app/address/get_location_on_map.dart';
 import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -16,8 +19,14 @@ import '../../src/common_widgets/button/my_outlined_elevatedbutton.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/common_widgets/textformfield/my textformfield.dart';
 import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
+import '../../src/common_widgets/textformfield/my_maps_textformfield.dart';
+import '../../src/others/location_list_tile.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/keys.dart';
+import '../../src/repo/models/googleMaps/autocomplete_prediction.dart';
+import '../../src/repo/models/googleMaps/places_autocomplete_response.dart';
 import '../../src/repo/utils/base_url.dart';
+import '../../src/repo/utils/network_utils.dart';
 import '../../theme/colors.dart';
 
 class EditAddressDetails extends StatefulWidget {
@@ -34,21 +43,27 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   // final _cscPickerKey = GlobalKey<CSCPickerState>();
 
   //===================== CONTROLLERS =======================\\
+  final _scrollController = ScrollController();
   final TextEditingController _addressTitleEC = TextEditingController();
   final TextEditingController _apartmentDetailsEC = TextEditingController();
   final TextEditingController _phoneNumberEC = TextEditingController();
+  final TextEditingController _mapsLocationEC = TextEditingController();
 
   //===================== FOCUS NODES =======================\\
   final FocusNode _addressTitleFN = FocusNode();
-  final FocusNode _apartmentDetailsFN = FocusNode();
+  final FocusNode _mapsLocationFN = FocusNode();
+  // final FocusNode _apartmentDetailsFN = FocusNode();
   final FocusNode _phoneNumberFN = FocusNode();
 
   //===================== ALL VARIABLES =======================\\
   String countryDialCode = '234';
+  List<AutocompletePrediction> placePredictions = [];
+  final selectedLocation = ValueNotifier<String?>(null);
 
   //===================== BOOL VALUES =======================\\
   bool _isLoading = false;
   bool _isLoading2 = false;
+  bool _typing = false;
 
   //===================== FUNCTIONS =======================\\
   Future<bool> updateAddress({bool is_current = true}) async {
@@ -58,7 +73,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
     final body = {
       'title': _addressTitleEC.text,
       'phone': "+$countryDialCode${_phoneNumberEC.text}",
-      'details': _apartmentDetailsEC.text,
+      // 'details': _apartmentDetailsEC.text,
     };
     final response = await http.put(url,
         body: jsonEncode(body), headers: await authHeader());
@@ -157,8 +172,49 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
     }
   }
 
+  void placeAutoComplete(String query) async {
+    Uri uri = Uri.https(
+        "maps.googleapis.com",
+        '/maps/api/place/autocomplete/json', //unencoder path
+        {
+          "input": query, //query params
+          "key": googlePlacesApiKey, //google places api key
+        });
+    if (kDebugMode) {
+      print(uri);
+    }
+    String? response = await NetworkUtility.fetchUrl(uri);
+    if (response != null) {
+      PlaceAutocompleteResponse result =
+          PlaceAutocompleteResponse.parseAutoCompleteResult(response);
+      if (result.predictions != null) {
+        setState(() {
+          placePredictions = result.predictions!;
+        });
+      }
+
+      if (kDebugMode) {
+        print(response);
+      }
+    }
+  }
+
+  //===================== Navigation =======================\\
+
+  void _toGetLocationOnMap() => Get.to(
+        () => const GetLocationOnMap(),
+        routeName: 'GetLocationOnMap',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -182,138 +238,227 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
             children: [
               Form(
                 key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Title (My Home, My Office)',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                child: ValueListenableBuilder(
+                    valueListenable: selectedLocation,
+                    builder: (context, selectedLocationValue, index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Title (My Home, My Office)',
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              kHalfSizedBox,
+                              const Text(
+                                'Name tag of this address e.g my work, my apartment',
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              kHalfSizedBox,
+                              MyTextFormField(
+                                hintText:
+                                    "Enter address name tag e.g my work, my home....",
+                                textCapitalization: TextCapitalization.words,
+                                controller: _addressTitleEC,
+                                textInputAction: TextInputAction.next,
+                                textInputType: TextInputType.name,
+                                focusNode: _addressTitleFN,
+                                validator: (value) {
+                                  RegExp locationNamePattern =
+                                      RegExp(r'^.{3,}$');
+                                  if (value == null || value!.isEmpty) {
+                                    _addressTitleFN.requestFocus();
+                                    return "Enter a title";
+                                  } else if (!locationNamePattern
+                                      .hasMatch(value)) {
+                                    _addressTitleFN.requestFocus();
+                                    return "Please enter a valid name";
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  _addressTitleEC.text = value!;
+                                },
+                              ),
+                            ],
                           ),
-                        ),
-                        kHalfSizedBox,
-                        const Text(
-                          'Name tag of this address e.g my work, my apartment',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w400,
+                          kSizedBox,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Phone Number',
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              kHalfSizedBox,
+                              MyIntlPhoneField(
+                                onCountryChanged: (country) {
+                                  countryDialCode = country.dialCode;
+                                },
+                                initialCountryCode: countryDialCode,
+                                invalidNumberMessage: "Invalid phone number",
+                                dropdownIconPosition: IconPosition.trailing,
+                                showCountryFlag: true,
+                                showDropdownIcon: true,
+                                dropdownIcon: Icon(
+                                  Icons.arrow_drop_down_rounded,
+                                  color: kAccentColor,
+                                ),
+                                controller: _phoneNumberEC,
+                                textInputAction: TextInputAction.next,
+                                focusNode: _phoneNumberFN,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    _phoneNumberFN.requestFocus();
+                                    return "Enter your phone number";
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  _phoneNumberEC.text = value;
+                                },
+                              ),
+                            ],
                           ),
-                        ),
-                        kHalfSizedBox,
-                        MyTextFormField(
-                          hintText:
-                              "Enter address name tag e.g my work, my home....",
-                          textCapitalization: TextCapitalization.words,
-                          controller: _addressTitleEC,
-                          textInputAction: TextInputAction.next,
-                          textInputType: TextInputType.name,
-                          focusNode: _addressTitleFN,
-                          validator: (value) {
-                            RegExp locationNamePattern = RegExp(r'^.{3,}$');
-                            if (value == null || value!.isEmpty) {
-                              _addressTitleFN.requestFocus();
-                              return "Enter a title";
-                            } else if (!locationNamePattern.hasMatch(value)) {
-                              _addressTitleFN.requestFocus();
-                              return "Please enter a valid name";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _addressTitleEC.text = value!;
-                          },
-                        ),
-                      ],
-                    ),
-                    kSizedBox,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Details (Door, Apartment Number)',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                          kSizedBox,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Your Location',
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              kHalfSizedBox,
+                              MyMapsTextFormField(
+                                controller: _mapsLocationEC,
+                                validator: (value) {
+                                  if (value == null) {
+                                    _mapsLocationFN.requestFocus();
+                                    "Enter a location";
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  placeAutoComplete(value);
+                                  setState(() {
+                                    selectedLocation.value = value;
+                                    _typing = true;
+                                  });
+                                  if (kDebugMode) {
+                                    print(
+                                        "ONCHANGED VALUE: ${selectedLocation.value}");
+                                  }
+                                },
+                                textInputAction: TextInputAction.done,
+                                focusNode: _mapsLocationFN,
+                                hintText: "Search a location",
+                                textInputType: TextInputType.text,
+                                prefixIcon: Padding(
+                                  padding:
+                                      const EdgeInsets.all(kDefaultPadding),
+                                  child: FaIcon(
+                                    FontAwesomeIcons.locationDot,
+                                    color: kAccentColor,
+                                    size: 18,
+                                  ),
+                                ),
+                              ),
+                              kSizedBox,
+                              Divider(
+                                height: 10,
+                                thickness: 2,
+                                color: kLightGreyColor,
+                              ),
+                              ElevatedButton.icon(
+                                onPressed: _toGetLocationOnMap,
+                                icon: FaIcon(
+                                  FontAwesomeIcons.locationArrow,
+                                  color: kAccentColor,
+                                  size: 18,
+                                ),
+                                label: const Text("Locate on map"),
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  backgroundColor: kLightGreyColor,
+                                  foregroundColor: kTextBlackColor,
+                                  fixedSize: Size(media.width, 40),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                height: 10,
+                                thickness: 2,
+                                color: kLightGreyColor,
+                              ),
+                              const Text(
+                                "Suggestions:",
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              kHalfSizedBox,
+                              SizedBox(
+                                height: () {
+                                  if (_typing == false) {
+                                    return 0.0;
+                                  }
+                                  if (_typing == true) {
+                                    return 150.0;
+                                  }
+                                }(),
+                                child: Scrollbar(
+                                  child: ListView.builder(
+                                    physics: const BouncingScrollPhysics(),
+                                    controller: _scrollController,
+                                    shrinkWrap: true,
+                                    itemCount: placePredictions.length,
+                                    itemBuilder: (context, index) =>
+                                        LocationListTile(
+                                      onTap: () {
+                                        final newLocation =
+                                            placePredictions[index]
+                                                .description!;
+                                        selectedLocation.value = newLocation;
+                                        // LatLng latlng = await LatLng();
+                                        setState(() {
+                                          _mapsLocationEC.text = newLocation;
+                                        });
+                                      },
+                                      location:
+                                          placePredictions[index].description!,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        kHalfSizedBox,
-                        MyTextFormField(
-                          hintText: "E.g Suite B3",
-                          controller: _apartmentDetailsEC,
-                          textInputAction: TextInputAction.next,
-                          textInputType: TextInputType.text,
-                          textCapitalization: TextCapitalization.sentences,
-                          focusNode: _apartmentDetailsFN,
-                          validator: (value) {
-                            if (value == null || value!.isEmpty) {
-                              _apartmentDetailsFN.requestFocus();
-                              return "Enter your apartment detail";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _apartmentDetailsEC.text = value!;
-                          },
-                        ),
-                      ],
-                    ),
-                    kSizedBox,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Phone Number',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        kHalfSizedBox,
-                        MyIntlPhoneField(
-                          onCountryChanged: (country) {
-                            countryDialCode = country.dialCode;
-                          },
-                          initialCountryCode: countryDialCode,
-                          invalidNumberMessage: "Invalid phone number",
-                          dropdownIconPosition: IconPosition.trailing,
-                          showCountryFlag: true,
-                          showDropdownIcon: true,
-                          dropdownIcon: Icon(
-                            Icons.arrow_drop_down_rounded,
-                            color: kAccentColor,
-                          ),
-                          controller: _phoneNumberEC,
-                          textInputAction: TextInputAction.next,
-                          focusNode: _phoneNumberFN,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              _phoneNumberFN.requestFocus();
-                              return "Enter your phone number";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _phoneNumberEC.text = value;
-                          },
-                        ),
-                      ],
-                    ),
-                    kSizedBox,
-                    kSizedBox,
-                  ],
-                ),
+                        ],
+                      );
+                    }),
               ),
-              const SizedBox(
-                height: kDefaultPadding * 2,
-              ),
+              const SizedBox(height: kDefaultPadding * 2),
               _isLoading
                   ? Center(
                       child: SpinKitChasingDots(

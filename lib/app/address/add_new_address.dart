@@ -10,6 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -38,7 +39,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
   @override
   void initState() {
     super.initState();
-    checkAuth(context);
+    // checkAuth(context);
   }
 
   @override
@@ -55,17 +56,14 @@ class _AddNewAddressState extends State<AddNewAddress> {
   //===================== CONTROLLERS =======================\\
   final _scrollController = ScrollController();
   final TextEditingController _addressTitleEC = TextEditingController();
-  // final TextEditingController _recipientNameEC = TextEditingController();
-  // final TextEditingController _streetAddressEC = TextEditingController();
-  // final TextEditingController _apartmentDetailsEC = TextEditingController();
+
   final TextEditingController _phoneNumberEC = TextEditingController();
   final TextEditingController _mapsLocationEC = TextEditingController();
 
   //===================== FOCUS NODES =======================\\
   final FocusNode _addressTitleFN = FocusNode();
   final FocusNode _recipientNameFN = FocusNode();
-  // final FocusNode _streetAddressFN = FocusNode();
-  // final FocusNode _apartmentDetailsFN = FocusNode();
+
   final FocusNode _phoneNumberFN = FocusNode();
   final FocusNode _mapsLocationFN = FocusNode();
 
@@ -112,7 +110,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
       _isLoading = true;
     });
 
-    await checkAuth(context);
+    // await checkAuth(context);
 
     if (await addAddress(is_current: true)) {
       mySnackBar(
@@ -149,7 +147,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
       _isLoading2 = true;
     });
 
-    await checkAuth(context);
+    // await checkAuth(context);
 
     if (await addAddress(is_current: false)) {
       mySnackBar(
@@ -188,9 +186,9 @@ class _AddNewAddressState extends State<AddNewAddress> {
           "input": query, //query params
           "key": googlePlacesApiKey, //google places api key
         });
-    if (kDebugMode) {
-      print(uri);
-    }
+    // if (kDebugMode) {
+    //   print(uri);
+    // }
     String? response = await NetworkUtility.fetchUrl(uri);
     if (response != null) {
       PlaceAutocompleteResponse result =
@@ -200,10 +198,9 @@ class _AddNewAddressState extends State<AddNewAddress> {
           placePredictions = result.predictions!;
         });
       }
-
-      if (kDebugMode) {
-        print(response);
-      }
+      // if (kDebugMode) {
+      //   print(response);
+      // }
     }
   }
 
@@ -341,6 +338,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                 ),
                               ],
                             ),
+                            kSizedBox,
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -365,9 +363,13 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   onChanged: (value) {
                                     placeAutoComplete(value);
                                     setState(() {
-                                      value = selectedLocation.value;
+                                      selectedLocation.value = value;
                                       _typing = true;
                                     });
+                                    if (kDebugMode) {
+                                      print(
+                                          "ONCHANGED VALUE: ${selectedLocation.value}");
+                                    }
                                   },
                                   textInputAction: TextInputAction.done,
                                   focusNode: _mapsLocationFN,
@@ -438,14 +440,27 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                       itemCount: placePredictions.length,
                                       itemBuilder: (context, index) =>
                                           LocationListTile(
-                                        onTap: () {
+                                        onTap: () async {
                                           final newLocation =
                                               placePredictions[index]
                                                   .description!;
                                           selectedLocation.value = newLocation;
+
                                           setState(() {
                                             _mapsLocationEC.text = newLocation;
                                           });
+                                          if (kDebugMode) {
+                                            print(
+                                                "MapsLocation EC: ${_mapsLocationEC.text}");
+                                            List<Location> location =
+                                                await locationFromAddress(
+                                                    newLocation);
+
+                                            var result =
+                                                "${_mapsLocationEC.text}, LatLng(${location[0].latitude}, ${location[0].longitude})";
+
+                                            print(result);
+                                          }
                                         },
                                         location: placePredictions[index]
                                             .description!,
