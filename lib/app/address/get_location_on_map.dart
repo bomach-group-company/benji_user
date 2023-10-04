@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
+import 'package:benji_user/src/providers/constants.dart';
 import 'package:benji_user/src/repo/models/googleMaps/location_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:lottie/lottie.dart' as Lottie;
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
@@ -31,7 +31,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
   @override
   void initState() {
     super.initState();
-
+    pinnedLocation = "";
     _markerTitle = <String>["Me"];
     _markerSnippet = <String>["My Location"];
     _loadMapData();
@@ -43,9 +43,10 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
   }
 
   //============================================================= ALL VARIABLES ======================================================================\\
+  String? pinnedLocation;
 
   //============================================================= BOOL VALUES ======================================================================\\
-  bool animatedPinIsVisible = true;
+  bool locationPinIsVisible = true;
 
   //====================================== Setting Google Map Consts =========================================\\
 
@@ -131,7 +132,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
     setState(() {
       draggedLatLng = latLngPosition;
     });
-    _cameraPosition = CameraPosition(target: latLngPosition, zoom: 14);
+    _cameraPosition = CameraPosition(target: latLngPosition, zoom: 20);
 
     _newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(_cameraPosition!),
@@ -189,7 +190,10 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
   Future<void> _locatePlace(Map<String, dynamic> place) async {
     final double lat = place['geometry']['location']['lat'];
     final double lng = place['geometry']['location']['lng'];
-    _goToSpecifiedLocation(LatLng(lat, lng), 18);
+    _goToSpecifiedLocation(LatLng(lat, lng), 20);
+    if (kDebugMode) {
+      print(LatLng(lat, lng));
+    }
     // _markers.add(
     //   Marker(
     //     markerId: const MarkerId("1"),
@@ -205,7 +209,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 
   void _searchPlaceFunc() async {
     setState(() {
-      animatedPinIsVisible = false;
+      locationPinIsVisible = false;
     });
     var place = await LocationService().getPlace(_searchEC.text);
     _locatePlace(place);
@@ -228,11 +232,18 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark address = placemarks[0];
     String addressStr =
-        "${address.name} ${address.street}, ${address.locality}, ${address.administrativeArea}, ${address.country}";
-
+        "${address.name} ${address.street},${address.locality}, ${address.country}";
+    if (kDebugMode) {
+      print(LatLng(position.latitude, position.longitude));
+    }
     setState(() {
-      _searchEC.text = addressStr;
+      pinnedLocation = addressStr;
     });
+  }
+
+//==================== Select Location using ===============\\
+  void _selectLocation() async {
+    _getPlaceMark(draggedLatLng);
   }
 
 //============================================== Create Google Maps ==================================================\\
@@ -242,9 +253,13 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
     _newGoogleMapController = controller;
   }
 
-//========================================================== Navigation =============================================================\\
-  void _selectLocation() async {
+//========================================================== Save Function =============================================================\\
+  _saveFunc() async {
     _getPlaceMark(draggedLatLng);
+    if (kDebugMode) {
+      print(draggedLatLng);
+      print("PinnedLocation: $pinnedLocation");
+    }
   }
 
   @override
@@ -253,7 +268,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         appBar: MyAppBar(
-          title: "Pin your location",
+          title: "Locate on Map",
           elevation: 0.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
@@ -263,10 +278,10 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
         floatingActionButton: FloatingActionButton(
           onPressed: _selectLocation,
           backgroundColor: kAccentColor,
-          tooltip: "Select Location",
+          tooltip: "Pin Location",
           mouseCursor: SystemMouseCursors.click,
           child: const FaIcon(
-            FontAwesomeIcons.locationCrosshairs,
+            FontAwesomeIcons.locationDot,
             size: 18,
           ),
         ),
@@ -275,7 +290,24 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
           decoration: BoxDecoration(
             color: kPrimaryColor,
           ),
-          child: MyElevatedButton(title: "Save", onPressed: () {}),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text.rich(TextSpan(children: [
+                const TextSpan(
+                  text: "Pinned Location: ",
+                  style: TextStyle(
+                    color: kTextBlackColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                TextSpan(text: pinnedLocation!),
+              ])),
+              kHalfSizedBox,
+              MyElevatedButton(title: "Save", onPressed: _saveFunc),
+            ],
+          ),
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
@@ -324,18 +356,17 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
                                 _userPosition!.latitude,
                                 _userPosition!.longitude,
                               ),
-                              zoom: 14,
+                              zoom: 20,
                             ),
-                            onTap: (LatLng value) {},
                             onCameraIdle: () {
                               setState(() {
-                                animatedPinIsVisible = true;
+                                locationPinIsVisible = true;
                               });
                               _getPlaceMark(draggedLatLng);
                             },
                             onCameraMove: (cameraPosition) {
                               setState(() {
-                                animatedPinIsVisible = true;
+                                locationPinIsVisible = true;
                                 draggedLatLng = cameraPosition.target;
                               });
                             },
@@ -355,13 +386,15 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
                             rotateGesturesEnabled: true,
                             scrollGesturesEnabled: true,
                           ),
-                          animatedPinIsVisible == false
+                          locationPinIsVisible == false
                               ? const SizedBox()
                               : Center(
-                                  child: Container(
-                                    child: Lottie.Lottie.asset(
-                                      "assets/animations/google_maps/location_pin.json",
-                                      width: 60,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 50),
+                                    child: Image.asset(
+                                      "assets/icons/location_pin.png",
+                                      height: 50,
+                                      width: 50,
                                     ),
                                   ),
                                 ),

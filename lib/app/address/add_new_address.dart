@@ -55,17 +55,14 @@ class _AddNewAddressState extends State<AddNewAddress> {
   //===================== CONTROLLERS =======================\\
   final _scrollController = ScrollController();
   final TextEditingController _addressTitleEC = TextEditingController();
-  // final TextEditingController _recipientNameEC = TextEditingController();
-  // final TextEditingController _streetAddressEC = TextEditingController();
-  // final TextEditingController _apartmentDetailsEC = TextEditingController();
+
   final TextEditingController _phoneNumberEC = TextEditingController();
   final TextEditingController _mapsLocationEC = TextEditingController();
 
   //===================== FOCUS NODES =======================\\
   final FocusNode _addressTitleFN = FocusNode();
   final FocusNode _recipientNameFN = FocusNode();
-  // final FocusNode _streetAddressFN = FocusNode();
-  // final FocusNode _apartmentDetailsFN = FocusNode();
+
   final FocusNode _phoneNumberFN = FocusNode();
   final FocusNode _mapsLocationFN = FocusNode();
 
@@ -341,6 +338,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                 ),
                               ],
                             ),
+                            kSizedBox,
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -365,9 +363,13 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   onChanged: (value) {
                                     placeAutoComplete(value);
                                     setState(() {
-                                      value = selectedLocation.value;
+                                      selectedLocation.value = value;
                                       _typing = true;
                                     });
+                                    if (kDebugMode) {
+                                      print(
+                                          "ONCHANGED VALUE: ${selectedLocation.value}");
+                                    }
                                   },
                                   textInputAction: TextInputAction.done,
                                   focusNode: _mapsLocationFN,
@@ -443,6 +445,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                               placePredictions[index]
                                                   .description!;
                                           selectedLocation.value = newLocation;
+                                          // LatLng latlng = await LatLng();
                                           setState(() {
                                             _mapsLocationEC.text = newLocation;
                                           });
