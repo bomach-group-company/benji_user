@@ -162,7 +162,7 @@ class _CartScreenState extends State<CartScreen> {
               ? Center(
                   child: SingleChildScrollView(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Shimmer.fromColors(
                           highlightColor: kBlackColor.withOpacity(0.02),
@@ -172,10 +172,12 @@ class _CartScreenState extends State<CartScreen> {
                               PageSkeleton(height: 50, width: mediaWidth - 20),
                         ),
                         kSizedBox,
+                        kSizedBox,
                         CardSkeleton(
                           height: 200,
                           width: mediaWidth - 20,
                         ),
+                        kSizedBox,
                         kSizedBox,
                         CardSkeleton(
                           height: 200,
