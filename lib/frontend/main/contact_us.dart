@@ -54,8 +54,8 @@ class _ContactUsState extends State<ContactUs> {
     final media = MediaQuery.of(context).size;
 
     return Scaffold(
-      drawerScrimColor: Colors.transparent,
-      backgroundColor: const Color(0xfffafafc),
+      drawerScrimColor: kTransparentColor,
+      backgroundColor: kPrimaryColor,
       appBar: const MyAppbar(),
       body: SafeArea(
         maintainBottomViewPadding: true,

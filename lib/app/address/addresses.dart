@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
@@ -216,7 +215,11 @@ class _AddressesState extends State<Addresses> {
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: addressData == null
-              ? Center(child: SpinKitChasingDots(color: kAccentColor))
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: kAccentColor,
+                  ),
+                )
               : Scrollbar(
                   controller: _scrollController,
                   radius: const Radius.circular(10),

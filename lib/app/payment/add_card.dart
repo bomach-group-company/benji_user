@@ -3,7 +3,6 @@
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
@@ -302,7 +301,8 @@ class _AddNewCardState extends State<AddNewCard> {
                       const SizedBox(height: kDefaultPadding * 2),
                       _isSavingCard
                           ? Center(
-                              child: SpinKitChasingDots(color: kAccentColor),
+                              child: CircularProgressIndicator(
+                                  color: kAccentColor),
                             )
                           : MyElevatedButton(
                               title: "Save card",

@@ -51,8 +51,8 @@ class _RefundPolicyPageState extends State<RefundPolicyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawerScrimColor: Colors.transparent,
-      backgroundColor: const Color(0xfffafafc),
+      drawerScrimColor: kTransparentColor,
+      backgroundColor: kPrimaryColor,
       appBar: const MyAppbar(),
       body: SafeArea(
         child: Column(

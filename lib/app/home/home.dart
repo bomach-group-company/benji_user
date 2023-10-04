@@ -437,7 +437,7 @@ class _HomeState extends State<Home> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return AppBarDeliveryLocation(
-                        deliveryLocation: 'Select Address',
+                        deliveryLocation: 'Loading...',
                         toDeliverToPage: () {},
                       );
                     }
@@ -490,8 +490,8 @@ class _HomeState extends State<Home> {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return Shimmer.fromColors(
-                            highlightColor: kBlackColor.withOpacity(0.02),
-                            baseColor: kBlackColor.withOpacity(0.8),
+                            highlightColor: kBlackColor.withOpacity(0.9),
+                            baseColor: kBlackColor.withOpacity(0.6),
                             direction: ShimmerDirection.ltr,
                             child: PageSkeleton(
                                 height: 150, width: mediaWidth - 20),
@@ -569,8 +569,8 @@ class _HomeState extends State<Home> {
                                 children: [
                                   Shimmer.fromColors(
                                     highlightColor:
-                                        kBlackColor.withOpacity(0.02),
-                                    baseColor: kBlackColor.withOpacity(0.8),
+                                        kBlackColor.withOpacity(0.9),
+                                    baseColor: kBlackColor.withOpacity(0.6),
                                     direction: ShimmerDirection.ltr,
                                     child: PageSkeleton(
                                         height: 35, width: mediaWidth / 7),
@@ -578,8 +578,8 @@ class _HomeState extends State<Home> {
                                   kWidthSizedBox,
                                   Shimmer.fromColors(
                                     highlightColor:
-                                        kBlackColor.withOpacity(0.02),
-                                    baseColor: kBlackColor.withOpacity(0.8),
+                                        kBlackColor.withOpacity(0.9),
+                                    baseColor: kBlackColor.withOpacity(0.6),
                                     direction: ShimmerDirection.ltr,
                                     child: PageSkeleton(
                                         height: 35, width: mediaWidth / 7),
@@ -587,8 +587,8 @@ class _HomeState extends State<Home> {
                                   kWidthSizedBox,
                                   Shimmer.fromColors(
                                     highlightColor:
-                                        kBlackColor.withOpacity(0.02),
-                                    baseColor: kBlackColor.withOpacity(0.8),
+                                        kBlackColor.withOpacity(0.9),
+                                    baseColor: kBlackColor.withOpacity(0.6),
                                     direction: ShimmerDirection.ltr,
                                     child: PageSkeleton(
                                         height: 35, width: mediaWidth / 7),
@@ -596,14 +596,13 @@ class _HomeState extends State<Home> {
                                   kWidthSizedBox,
                                   Shimmer.fromColors(
                                       highlightColor:
-                                          kBlackColor.withOpacity(0.02),
-                                      baseColor: kBlackColor.withOpacity(0.8),
+                                          kBlackColor.withOpacity(0.9),
+                                      baseColor: kBlackColor.withOpacity(0.6),
                                       direction: ShimmerDirection.ltr,
                                       child: PageSkeleton(
                                           height: 35, width: mediaWidth / 9)),
                                 ],
                               ),
-                              kSizedBox,
                               kSizedBox,
                             ],
                           );
@@ -629,7 +628,7 @@ class _HomeState extends State<Home> {
                                   nav: () => showModalBottomSheet(
                                     context: context,
                                     elevation: 20,
-                                    barrierColor: kBlackColor.withOpacity(0.8),
+                                    barrierColor: kBlackColor.withOpacity(0.6),
                                     showDragHandle: true,
                                     useSafeArea: true,
                                     isDismissible: true,
@@ -656,7 +655,7 @@ class _HomeState extends State<Home> {
                           ).toList(),
                         );
                       }),
-                  kSizedBox,
+
                   SeeAllContainer(
                     title: "Vendors Near you",
                     onPressed: _toSeeAllVendorsNearYou,
@@ -791,8 +790,8 @@ class _HomeState extends State<Home> {
                                 children: [
                                   Shimmer.fromColors(
                                     highlightColor:
-                                        kBlackColor.withOpacity(0.02),
-                                    baseColor: kBlackColor.withOpacity(0.8),
+                                        kBlackColor.withOpacity(0.9),
+                                    baseColor: kBlackColor.withOpacity(0.6),
                                     direction: ShimmerDirection.ltr,
                                     child: PageSkeleton(
                                         height: 35, width: mediaWidth / 7),
@@ -800,8 +799,8 @@ class _HomeState extends State<Home> {
                                   kWidthSizedBox,
                                   Shimmer.fromColors(
                                     highlightColor:
-                                        kBlackColor.withOpacity(0.02),
-                                    baseColor: kBlackColor.withOpacity(0.8),
+                                        kBlackColor.withOpacity(0.9),
+                                    baseColor: kBlackColor.withOpacity(0.6),
                                     direction: ShimmerDirection.ltr,
                                     child: PageSkeleton(
                                         height: 35, width: mediaWidth / 7),
@@ -809,8 +808,8 @@ class _HomeState extends State<Home> {
                                   kWidthSizedBox,
                                   Shimmer.fromColors(
                                     highlightColor:
-                                        kBlackColor.withOpacity(0.02),
-                                    baseColor: kBlackColor.withOpacity(0.8),
+                                        kBlackColor.withOpacity(0.9),
+                                    baseColor: kBlackColor.withOpacity(0.6),
                                     direction: ShimmerDirection.ltr,
                                     child: PageSkeleton(
                                         height: 35, width: mediaWidth / 7),
@@ -818,8 +817,8 @@ class _HomeState extends State<Home> {
                                   kWidthSizedBox,
                                   Shimmer.fromColors(
                                       highlightColor:
-                                          kBlackColor.withOpacity(0.02),
-                                      baseColor: kBlackColor.withOpacity(0.8),
+                                          kBlackColor.withOpacity(0.9),
+                                      baseColor: kBlackColor.withOpacity(0.6),
                                       direction: ShimmerDirection.ltr,
                                       child: PageSkeleton(
                                           height: 35, width: mediaWidth / 9)),

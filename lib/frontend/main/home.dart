@@ -88,8 +88,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
     return Scaffold(
-      drawerScrimColor: Colors.transparent,
-      backgroundColor: const Color(0xfffafafc),
+      drawerScrimColor: kTransparentColor,
+      backgroundColor: kPrimaryColor,
       // ignore: prefer_const_constructors
       appBar: MyAppbar(hideSearch: false),
       body: SafeArea(

@@ -241,7 +241,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SpinKitChasingDots(color: kAccentColor),
+                    CircularProgressIndicator(color: kAccentColor),
                     kSizedBox,
                     Text(
                       "Loading...",

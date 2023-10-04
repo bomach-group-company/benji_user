@@ -7,7 +7,6 @@ import 'dart:ui' as ui; // Import the ui library with an alias
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -242,7 +241,11 @@ class _VendorLocationState extends State<VendorLocation> {
       body: Stack(
         children: [
           _userPosition == null
-              ? Center(child: SpinKitChasingDots(color: kAccentColor))
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: kAccentColor,
+                  ),
+                )
               : GoogleMap(
                   mapType: MapType.normal,
                   onMapCreated: _onMapCreated,

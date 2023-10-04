@@ -118,7 +118,7 @@ class _ReportProductState extends State<ReportProduct> {
         bottomSheet: _submittingRequest
             ? SizedBox(
                 height: 100,
-                child: SpinKitChasingDots(color: kAccentColor),
+                child: CircularProgressIndicator(color: kAccentColor),
               )
             : AnimatedContainer(
                 duration: const Duration(milliseconds: 500),

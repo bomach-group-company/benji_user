@@ -29,7 +29,7 @@ class _MyDrawerState extends State<MyDrawer> {
         return Drawer(
           elevation: 20,
           shadowColor: Colors.red,
-          backgroundColor: const Color(0xfffafafc),
+          backgroundColor: kPrimaryColor,
           width: 300,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -6,7 +6,6 @@ import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/product/product_card.dart';
@@ -125,7 +124,7 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
           child: Scrollbar(
             controller: _scrollController,
             child: _productAndSubCategoryName == null
-                ? SpinKitChasingDots(color: kAccentColor)
+                ? Center(child: CircularProgressIndicator(color: kAccentColor))
                 : ListView(
                     padding: const EdgeInsets.all(kDefaultPadding / 2),
                     dragStartBehavior: DragStartBehavior.down,

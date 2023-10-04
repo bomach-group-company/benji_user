@@ -6,7 +6,6 @@ import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_monnify/flutter_monnify.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
@@ -586,9 +585,8 @@ class _PayForDeliveryState extends State<PayForDelivery> {
                 const SizedBox(height: kDefaultPadding * 2),
                 _processingRequest
                     ? Center(
-                        child: SpinKitChasingDots(
+                        child: CircularProgressIndicator(
                           color: kAccentColor,
-                          duration: const Duration(seconds: 1),
                         ),
                       )
                     : MyElevatedButton(

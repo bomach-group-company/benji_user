@@ -6,7 +6,6 @@ import 'package:benji_user/app/checkout/checkout_screen.dart';
 import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
@@ -188,7 +187,9 @@ class _DeliverToState extends State<DeliverTo> {
           actions: const [],
         ),
         body: _addressData == null
-            ? Center(child: SpinKitChasingDots(color: kAccentColor))
+            ? Center(
+                child: CircularProgressIndicator(color: kAccentColor),
+              )
             : ListView(
                 scrollDirection: Axis.vertical,
                 physics: const BouncingScrollPhysics(),
@@ -302,7 +303,7 @@ class _DeliverToState extends State<DeliverTo> {
                                       ),
                                       child: Text(
                                         _addressData!['addresses'][index]
-                                            .streetAddress,
+                                            .details,
                                         style: TextStyle(
                                           color: kTextGreyColor,
                                           fontSize: 13,
@@ -327,10 +328,8 @@ class _DeliverToState extends State<DeliverTo> {
                       ? const SizedBox()
                       : _isLoading
                           ? Center(
-                              child: SpinKitChasingDots(
-                                color: kAccentColor,
-                                duration: const Duration(seconds: 1),
-                              ),
+                              child: CircularProgressIndicator(
+                                  color: kAccentColor),
                             )
                           : MyElevatedButton(
                               title: "Apply",
