@@ -8,7 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
@@ -388,9 +387,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                     kSizedBox,
                     _isLoading
                         ? Center(
-                            child: SpinKitChasingDots(
+                            child: CircularProgressIndicator(
                               color: kAccentColor,
-                              duration: const Duration(seconds: 2),
                             ),
                           )
                         : ElevatedButton(

@@ -5,7 +5,6 @@ import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
@@ -138,7 +137,8 @@ class _RateVendorDialogState extends State<RateVendorDialog> {
                 children: [
                   _buildThanksNote(),
                   _submittingRequest
-                      ? SpinKitChasingDots(color: kAccentColor)
+                      ? Center(
+                          child: CircularProgressIndicator(color: kAccentColor))
                       : _causeOfRating(
                           _myMessageEC,
                           (value) {

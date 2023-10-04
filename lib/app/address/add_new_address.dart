@@ -8,7 +8,6 @@ import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:benji_user/src/repo/utils/network_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/route_manager.dart';
@@ -231,6 +230,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
           backgroundColor: kPrimaryColor,
           actions: const [],
         ),
+        extendBody: true,
+        extendBodyBehindAppBar: true,
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
@@ -477,9 +478,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
                 kSizedBox,
                 _isLoading
                     ? Center(
-                        child: SpinKitChasingDots(
+                        child: CircularProgressIndicator(
                           color: kAccentColor,
-                          duration: const Duration(seconds: 1),
                         ),
                       )
                     : MyOutlinedElevatedButton(
@@ -493,9 +493,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
                 kSizedBox,
                 _isLoading2
                     ? Center(
-                        child: SpinKitChasingDots(
+                        child: CircularProgressIndicator(
                           color: kAccentColor,
-                          duration: const Duration(seconds: 1),
                         ),
                       )
                     : MyElevatedButton(

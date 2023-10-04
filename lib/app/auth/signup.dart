@@ -7,7 +7,6 @@ import 'package:benji_user/src/common_widgets/textformfield/my_intl_phonefield.d
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
@@ -82,8 +81,8 @@ class _SignUpState extends State<SignUp> {
 
   void _toTermsAndCondition() {
     Get.to(
-      () => const TermCondition(),
-      routeName: 'TermCondition',
+      () => const TermsAndCondition(),
+      routeName: 'TermsAndCondition',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,
@@ -573,12 +572,15 @@ class _SignUpState extends State<SignUp> {
                             const Text('By clicking you accept our'),
                             InkWell(
                               onTap: _toTermsAndCondition,
-                              child: const Text(
-                                ' terms and condition.',
+                              borderRadius: BorderRadius.circular(12),
+                              mouseCursor: SystemMouseCursors.click,
+                              child: Text(
+                                ' Terms and Conditions.',
                                 style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    color: kBlueLinkTextColor),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w700,
+                                  color: kSecondaryColor,
+                                ),
                               ),
                             ),
                           ],
@@ -588,9 +590,8 @@ class _SignUpState extends State<SignUp> {
                     kSizedBox,
                     _isLoading
                         ? Center(
-                            child: SpinKitChasingDots(
+                            child: CircularProgressIndicator(
                               color: kAccentColor,
-                              duration: const Duration(seconds: 2),
                             ),
                           )
                         : ElevatedButton(
@@ -603,10 +604,8 @@ class _SignUpState extends State<SignUp> {
                                   }),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: kAccentColor,
-                              maximumSize:
-                                  Size(MediaQuery.of(context).size.width, 62),
-                              minimumSize:
-                                  Size(MediaQuery.of(context).size.width, 60),
+                              maximumSize: Size(media.width, 62),
+                              minimumSize: Size(media.width, 60),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16),
                               ),

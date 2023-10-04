@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../theme/colors.dart';
+import '../../frontend/utils/constant.dart';
 import '../../providers/constants.dart';
 
 void mySnackBar(
@@ -69,7 +70,9 @@ void mySnackBar(
       margin: EdgeInsets.only(
         left: kDefaultPadding * 2,
         right: kDefaultPadding * 2,
-        bottom: MediaQuery.of(context).size.height - 170,
+        bottom: deviceType(media.width) > 2
+            ? media.height - 220
+            : media.height - 190,
       ),
       showCloseIcon: true,
       closeIconColor: kAccentColor,

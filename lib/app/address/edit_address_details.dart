@@ -7,8 +7,8 @@ import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -226,274 +226,287 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
           backgroundColor: kPrimaryColor,
           actions: const [],
         ),
-        body: Container(
-          margin: const EdgeInsets.only(
-            top: kDefaultPadding,
-            left: kDefaultPadding,
-            right: kDefaultPadding,
-          ),
-          child: ListView(
-            physics: const BouncingScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            children: [
-              Form(
-                key: _formKey,
-                child: ValueListenableBuilder(
-                    valueListenable: selectedLocation,
-                    builder: (context, selectedLocationValue, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Title (My Home, My Office)',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        body: SafeArea(
+          maintainBottomViewPadding: true,
+          child: Scrollbar(
+            controller: _scrollController,
+            child: ListView(
+              controller: _scrollController,
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              padding: const EdgeInsets.all(kDefaultPadding),
+              children: [
+                Form(
+                  key: _formKey,
+                  child: ValueListenableBuilder(
+                      valueListenable: selectedLocation,
+                      builder: (context, selectedLocationValue, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Title (My Home, My Office)',
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                              ),
-                              kHalfSizedBox,
-                              const Text(
-                                'Name tag of this address e.g my work, my apartment',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
+                                kHalfSizedBox,
+                                const Text(
+                                  'Name tag of this address e.g my work, my apartment',
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                              ),
-                              kHalfSizedBox,
-                              MyTextFormField(
-                                hintText:
-                                    "Enter address name tag e.g my work, my home....",
-                                textCapitalization: TextCapitalization.words,
-                                controller: _addressTitleEC,
-                                textInputAction: TextInputAction.next,
-                                textInputType: TextInputType.name,
-                                focusNode: _addressTitleFN,
-                                validator: (value) {
-                                  RegExp locationNamePattern =
-                                      RegExp(r'^.{3,}$');
-                                  if (value == null || value!.isEmpty) {
-                                    _addressTitleFN.requestFocus();
-                                    return "Enter a title";
-                                  } else if (!locationNamePattern
-                                      .hasMatch(value)) {
-                                    _addressTitleFN.requestFocus();
-                                    return "Please enter a valid name";
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  _addressTitleEC.text = value!;
-                                },
-                              ),
-                            ],
-                          ),
-                          kSizedBox,
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Phone Number',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
+                                kHalfSizedBox,
+                                MyTextFormField(
+                                  hintText:
+                                      "Enter address name tag e.g my work, my home....",
+                                  textCapitalization: TextCapitalization.words,
+                                  controller: _addressTitleEC,
+                                  textInputAction: TextInputAction.next,
+                                  textInputType: TextInputType.name,
+                                  focusNode: _addressTitleFN,
+                                  validator: (value) {
+                                    RegExp locationNamePattern =
+                                        RegExp(r'^.{3,}$');
+                                    if (value == null || value!.isEmpty) {
+                                      _addressTitleFN.requestFocus();
+                                      return "Enter a title";
+                                    } else if (!locationNamePattern
+                                        .hasMatch(value)) {
+                                      _addressTitleFN.requestFocus();
+                                      return "Please enter a valid name";
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _addressTitleEC.text = value!;
+                                  },
                                 ),
-                              ),
-                              kHalfSizedBox,
-                              MyIntlPhoneField(
-                                onCountryChanged: (country) {
-                                  countryDialCode = country.dialCode;
-                                },
-                                initialCountryCode: countryDialCode,
-                                invalidNumberMessage: "Invalid phone number",
-                                dropdownIconPosition: IconPosition.trailing,
-                                showCountryFlag: true,
-                                showDropdownIcon: true,
-                                dropdownIcon: Icon(
-                                  Icons.arrow_drop_down_rounded,
-                                  color: kAccentColor,
+                              ],
+                            ),
+                            kSizedBox,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Phone Number',
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                controller: _phoneNumberEC,
-                                textInputAction: TextInputAction.next,
-                                focusNode: _phoneNumberFN,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    _phoneNumberFN.requestFocus();
-                                    return "Enter your phone number";
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  _phoneNumberEC.text = value;
-                                },
-                              ),
-                            ],
-                          ),
-                          kSizedBox,
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Your Location',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              kHalfSizedBox,
-                              MyMapsTextFormField(
-                                controller: _mapsLocationEC,
-                                validator: (value) {
-                                  if (value == null) {
-                                    _mapsLocationFN.requestFocus();
-                                    "Enter a location";
-                                  }
-                                  return null;
-                                },
-                                onChanged: (value) {
-                                  placeAutoComplete(value);
-                                  setState(() {
-                                    selectedLocation.value = value;
-                                    _typing = true;
-                                  });
-                                  if (kDebugMode) {
-                                    print(
-                                        "ONCHANGED VALUE: ${selectedLocation.value}");
-                                  }
-                                },
-                                textInputAction: TextInputAction.done,
-                                focusNode: _mapsLocationFN,
-                                hintText: "Search a location",
-                                textInputType: TextInputType.text,
-                                prefixIcon: Padding(
-                                  padding:
-                                      const EdgeInsets.all(kDefaultPadding),
-                                  child: FaIcon(
-                                    FontAwesomeIcons.locationDot,
+                                kHalfSizedBox,
+                                MyIntlPhoneField(
+                                  onCountryChanged: (country) {
+                                    countryDialCode = country.dialCode;
+                                  },
+                                  initialCountryCode: countryDialCode,
+                                  invalidNumberMessage: "Invalid phone number",
+                                  dropdownIconPosition: IconPosition.trailing,
+                                  showCountryFlag: true,
+                                  showDropdownIcon: true,
+                                  dropdownIcon: Icon(
+                                    Icons.arrow_drop_down_rounded,
                                     color: kAccentColor,
-                                    size: 18,
+                                  ),
+                                  controller: _phoneNumberEC,
+                                  textInputAction: TextInputAction.next,
+                                  focusNode: _phoneNumberFN,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      _phoneNumberFN.requestFocus();
+                                      return "Enter your phone number";
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _phoneNumberEC.text = value;
+                                  },
+                                ),
+                              ],
+                            ),
+                            kSizedBox,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Your Location',
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                              ),
-                              kSizedBox,
-                              Divider(
-                                height: 10,
-                                thickness: 2,
-                                color: kLightGreyColor,
-                              ),
-                              ElevatedButton.icon(
-                                onPressed: _toGetLocationOnMap,
-                                icon: FaIcon(
-                                  FontAwesomeIcons.locationArrow,
-                                  color: kAccentColor,
-                                  size: 18,
-                                ),
-                                label: const Text("Locate on map"),
-                                style: ElevatedButton.styleFrom(
-                                  elevation: 0,
-                                  backgroundColor: kLightGreyColor,
-                                  foregroundColor: kTextBlackColor,
-                                  fixedSize: Size(media.width, 40),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                              ),
-                              Divider(
-                                height: 10,
-                                thickness: 2,
-                                color: kLightGreyColor,
-                              ),
-                              const Text(
-                                "Suggestions:",
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              kHalfSizedBox,
-                              SizedBox(
-                                height: () {
-                                  if (_typing == false) {
-                                    return 0.0;
-                                  }
-                                  if (_typing == true) {
-                                    return 150.0;
-                                  }
-                                }(),
-                                child: Scrollbar(
-                                  child: ListView.builder(
-                                    physics: const BouncingScrollPhysics(),
-                                    controller: _scrollController,
-                                    shrinkWrap: true,
-                                    itemCount: placePredictions.length,
-                                    itemBuilder: (context, index) =>
-                                        LocationListTile(
-                                      onTap: () {
-                                        final newLocation =
-                                            placePredictions[index]
-                                                .description!;
-                                        selectedLocation.value = newLocation;
-                                        // LatLng latlng = await LatLng();
-                                        setState(() {
-                                          _mapsLocationEC.text = newLocation;
-                                        });
-                                      },
-                                      location:
-                                          placePredictions[index].description!,
+                                kHalfSizedBox,
+                                MyMapsTextFormField(
+                                  controller: _mapsLocationEC,
+                                  validator: (value) {
+                                    if (value == null) {
+                                      _mapsLocationFN.requestFocus();
+                                      "Enter a location";
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (value) {
+                                    placeAutoComplete(value);
+                                    setState(() {
+                                      selectedLocation.value = value;
+                                      _typing = true;
+                                    });
+                                    if (kDebugMode) {
+                                      print(
+                                          "ONCHANGED VALUE: ${selectedLocation.value}");
+                                    }
+                                  },
+                                  textInputAction: TextInputAction.done,
+                                  focusNode: _mapsLocationFN,
+                                  hintText: "Search a location",
+                                  textInputType: TextInputType.text,
+                                  prefixIcon: Padding(
+                                    padding:
+                                        const EdgeInsets.all(kDefaultPadding),
+                                    child: FaIcon(
+                                      FontAwesomeIcons.locationDot,
+                                      color: kAccentColor,
+                                      size: 18,
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      );
-                    }),
-              ),
-              const SizedBox(height: kDefaultPadding * 2),
-              _isLoading
-                  ? Center(
-                      child: SpinKitChasingDots(
-                        color: kAccentColor,
-                        duration: const Duration(seconds: 1),
-                      ),
-                    )
-                  : MyOutlinedElevatedButton(
-                      title: "Set As Default Address",
-                      onPressed: (() async {
-                        if (_formKey.currentState!.validate()) {
-                          setDefaultAddress();
-                        }
+                                kSizedBox,
+                                Divider(
+                                  height: 10,
+                                  thickness: 2,
+                                  color: kLightGreyColor,
+                                ),
+                                ElevatedButton.icon(
+                                  onPressed: _toGetLocationOnMap,
+                                  icon: FaIcon(
+                                    FontAwesomeIcons.locationArrow,
+                                    color: kAccentColor,
+                                    size: 18,
+                                  ),
+                                  label: const Text("Locate on map"),
+                                  style: ElevatedButton.styleFrom(
+                                    elevation: 0,
+                                    backgroundColor: kLightGreyColor,
+                                    foregroundColor: kTextBlackColor,
+                                    fixedSize: Size(media.width, 40),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ),
+                                Divider(
+                                  height: 10,
+                                  thickness: 2,
+                                  color: kLightGreyColor,
+                                ),
+                                const Text(
+                                  "Suggestions:",
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                kHalfSizedBox,
+                                SizedBox(
+                                  height: () {
+                                    if (_typing == false) {
+                                      return 0.0;
+                                    }
+                                    if (_typing == true) {
+                                      return 150.0;
+                                    }
+                                  }(),
+                                  child: Scrollbar(
+                                    child: ListView.builder(
+                                      physics: const BouncingScrollPhysics(),
+                                      controller: _scrollController,
+                                      shrinkWrap: true,
+                                      itemCount: placePredictions.length,
+                                      itemBuilder: (context, index) =>
+                                          LocationListTile(
+                                        onTap: () async {
+                                          final newLocation =
+                                              placePredictions[index]
+                                                  .description!;
+                                          selectedLocation.value = newLocation;
+
+                                          setState(() {
+                                            _mapsLocationEC.text = newLocation;
+                                          });
+                                          if (kDebugMode) {
+                                            print(
+                                                "MapsLocation EC: ${_mapsLocationEC.text}");
+                                            List<Location> location =
+                                                await locationFromAddress(
+                                                    newLocation);
+
+                                            var result =
+                                                "${_mapsLocationEC.text}, LatLng(${location[0].latitude}, ${location[0].longitude})";
+
+                                            print(result);
+                                          }
+                                        },
+                                        location: placePredictions[index]
+                                            .description!,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
                       }),
-                    ),
-              kSizedBox,
-              _isLoading2
-                  ? Center(
-                      child: SpinKitChasingDots(
-                        color: kAccentColor,
-                        duration: const Duration(seconds: 1),
+                ),
+                const SizedBox(height: kDefaultPadding * 2),
+                _isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          color: kAccentColor,
+                        ),
+                      )
+                    : MyOutlinedElevatedButton(
+                        title: "Set As Default Address",
+                        onPressed: (() async {
+                          if (_formKey.currentState!.validate()) {
+                            setDefaultAddress();
+                          }
+                        }),
                       ),
-                    )
-                  : MyElevatedButton(
-                      title: "Save Changes",
-                      onPressed: (() async {
-                        if (_formKey.currentState!.validate()) {
-                          updateUserAddress();
-                        }
-                      }),
-                    ),
-              const SizedBox(
-                height: kDefaultPadding * 2,
-              ),
-            ],
+                kSizedBox,
+                _isLoading2
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          color: kAccentColor,
+                        ),
+                      )
+                    : MyElevatedButton(
+                        title: "Save Changes",
+                        onPressed: (() async {
+                          if (_formKey.currentState!.validate()) {
+                            updateUserAddress();
+                          }
+                        }),
+                      ),
+                const SizedBox(
+                  height: kDefaultPadding * 2,
+                ),
+              ],
+            ),
           ),
         ),
       ),

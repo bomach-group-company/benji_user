@@ -239,8 +239,6 @@ class _VendorDetailsState extends State<VendorDetails>
           maintainBottomViewPadding: true,
           child: Scrollbar(
             controller: _scrollController,
-            radius: const Radius.circular(10),
-            scrollbarOrientation: ScrollbarOrientation.right,
             child: ListView(
               controller: _scrollController,
               physics: const ScrollPhysics(),

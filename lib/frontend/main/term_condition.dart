@@ -8,14 +8,14 @@ import '../../src/frontend/widget/section/footer.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
-class TermConditionPage extends StatefulWidget {
-  const TermConditionPage({super.key});
+class TermsAndConditionPage extends StatefulWidget {
+  const TermsAndConditionPage({super.key});
 
   @override
-  State<TermConditionPage> createState() => _TermConditionPageState();
+  State<TermsAndConditionPage> createState() => _TermsAndConditionPageState();
 }
 
-class _TermConditionPageState extends State<TermConditionPage> {
+class _TermsAndConditionPageState extends State<TermsAndConditionPage> {
   bool _showBackToTopButton = false;
 
   // scroll controller
@@ -51,8 +51,8 @@ class _TermConditionPageState extends State<TermConditionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawerScrimColor: Colors.transparent,
-      backgroundColor: const Color(0xfffafafc),
+      drawerScrimColor: kTransparentColor,
+      backgroundColor: kPrimaryColor,
       appBar: const MyAppbar(),
       body: SafeArea(
         child: Column(
