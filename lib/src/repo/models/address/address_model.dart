@@ -12,8 +12,8 @@ class Address {
   final String? details;
   final String? phone;
   final bool? isCurrent;
-  final String? latitude;
-  final String? longitude;
+  String? latitude;
+  String? longitude;
 
   Address({
     this.id,

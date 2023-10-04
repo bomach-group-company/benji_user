@@ -216,7 +216,10 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   //===================== Navigation =======================\\
 
   void _toGetLocationOnMap() => Get.to(
-        () => const GetLocationOnMap(),
+        () => GetLocationOnMap(
+          address: widget.address,
+          fromAdd: false,
+        ),
         routeName: 'GetLocationOnMap',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,

@@ -2,6 +2,7 @@
 
 import 'package:benji_user/src/common_widgets/textformfield/my_maps_textformfield.dart';
 import 'package:benji_user/src/providers/keys.dart';
+import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/models/googleMaps/autocomplete_prediction.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
@@ -28,7 +29,12 @@ import '../../theme/colors.dart';
 import 'get_location_on_map.dart';
 
 class AddNewAddress extends StatefulWidget {
-  const AddNewAddress({super.key});
+  final Address? address;
+
+  const AddNewAddress({
+    super.key,
+    this.address,
+  });
 
   @override
   State<AddNewAddress> createState() => _AddNewAddressState();
@@ -39,9 +45,16 @@ class _AddNewAddressState extends State<AddNewAddress> {
   void initState() {
     super.initState();
     checkAuth(context);
-
-    getUser().then((user) => _phoneNumberEC.text =
-        (user?.phone ?? '').replaceFirst('+$countryDialCode', ''));
+    if (widget.address != null) {
+      _addressTitleEC.text = widget.address?.title ?? '';
+      _phoneNumberEC.text = widget.address?.phone ?? '';
+      _mapsLocationEC.text = widget.address?.details ?? '';
+      latitude = widget.address?.latitude;
+      longitude = widget.address?.longitude;
+    } else {
+      getUser().then((user) => _phoneNumberEC.text =
+          (user?.phone ?? '').replaceFirst('+$countryDialCode', ''));
+    }
   }
 
   @override
@@ -58,20 +71,17 @@ class _AddNewAddressState extends State<AddNewAddress> {
   //===================== CONTROLLERS =======================\\
   final _scrollController = ScrollController();
   final TextEditingController _addressTitleEC = TextEditingController();
-
   final TextEditingController _phoneNumberEC = TextEditingController();
   final TextEditingController _mapsLocationEC = TextEditingController();
 
   //===================== FOCUS NODES =======================\\
   final FocusNode _addressTitleFN = FocusNode();
-  final FocusNode _recipientNameFN = FocusNode();
-
   final FocusNode _phoneNumberFN = FocusNode();
   final FocusNode _mapsLocationFN = FocusNode();
 
   //===================== ALL VARIABLES =======================\\
-  double? latitude;
-  double? longitude;
+  String? latitude;
+  String? longitude;
   String countryDialCode = '234';
   List<AutocompletePrediction> placePredictions = [];
   final selectedLocation = ValueNotifier<String?>(null);
@@ -90,8 +100,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
     });
 
     List<Location> location = await locationFromAddress(newLocation);
-    latitude = location[0].latitude;
-    longitude = location[0].longitude;
+    latitude = location[0].latitude.toString();
+    longitude = location[0].longitude.toString();
   }
 
   Future<bool> addAddress({bool is_current = true}) async {
@@ -208,7 +218,14 @@ class _AddNewAddressState extends State<AddNewAddress> {
   //===================== Navigation =======================\\
 
   void _toGetLocationOnMap() => Get.to(
-        () => const GetLocationOnMap(),
+        () => GetLocationOnMap(
+            address: Address(
+                title: _addressTitleEC.text,
+                details: _mapsLocationEC.text,
+                phone: _phoneNumberEC.text,
+                latitude: latitude,
+                longitude: longitude),
+            fromAdd: true),
         routeName: 'GetLocationOnMap',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -279,7 +296,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                       return "Enter a title";
                                     } else if (!locationNamePattern
                                         .hasMatch(value)) {
-                                      _recipientNameFN.requestFocus();
+                                      _addressTitleFN.requestFocus();
                                       return "Please enter a valid name";
                                     }
                                     return null;
