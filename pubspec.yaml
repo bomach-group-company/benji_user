@@ -49,6 +49,12 @@ dependencies:
   http_parser: ^4.0.2
   agora_uikit:
   carousel_slider: ^4.2.1
+  reteno_plugin:
+  go_router:
+  uuid:
+  flutter_form_builder:
+  sentry_flutter:
+  flutter_local_notifications:
 
 dev_dependencies:
   flutter_test:
