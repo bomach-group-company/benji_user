@@ -1,4 +1,5 @@
 import 'package:benji_user/app/splash_screens/startup_splash_screen.dart';
+import 'package:benji_user/observer/lat_lng_detail_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       //This is the home route
       home: const StartupSplashscreen(),
+      initialBinding: BindingsBuilder(() {
+        Get.put(LatLngDetailController());
+      }),
     );
   }
 }
