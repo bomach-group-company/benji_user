@@ -8,30 +8,18 @@ import '../../utils/helpers.dart';
 
 class Address {
   final String? id;
-  // final String? streetAddress;
-  // final int? user;
   final String? title;
   final String? details;
-  // final String? recipientName;
   final String? phone;
-  // final String? country;
-  // final String? state;
-  // final String? city;
   final bool? isCurrent;
-  final String? latitude;
-  final String? longitude;
+  String? latitude;
+  String? longitude;
 
   Address({
     this.id,
-    // this.streetAddress,
-    // this.user,
     this.title,
     this.details,
-    // this.recipientName,
     this.phone,
-    // this.country,
-    // this.state,
-    // this.city,
     this.isCurrent,
     this.latitude,
     this.longitude,
@@ -40,15 +28,9 @@ class Address {
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
       id: json['id'],
-      // streetAddress: json['street_address'],
-      // user: json['user_id'],
       title: json['title'],
       details: json['details'],
-      // recipientName: json['recipient_name'],
       phone: json['phone'],
-      // country: json['country'] == null ? null : json['country']['name'],
-      // state: json['state'],
-      // city: json['city'],
       isCurrent: json['is_current'],
       latitude: json['latitude'],
       longitude: json['longitude'],

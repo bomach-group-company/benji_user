@@ -303,9 +303,9 @@ class _PayForDeliveryState extends State<PayForDelivery> {
     checkAuth(context);
     User? user = await getUser();
     setState(() {
-      _userFirstName = user!.firstName!;
-      _userLastName = user.lastName!;
-      _userEmail = user.email!;
+      _userFirstName = user!.firstName;
+      _userLastName = user.lastName;
+      _userEmail = user.email;
     });
   }
 

@@ -3,7 +3,10 @@
 import 'dart:async';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
+import 'package:benji_user/app/address/add_new_address.dart';
+import 'package:benji_user/app/address/edit_address_details.dart';
 import 'package:benji_user/src/providers/constants.dart';
+import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/models/googleMaps/location_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/route_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -19,7 +23,14 @@ import '../../src/common_widgets/textformfield/my textformfield.dart';
 import '../../theme/colors.dart';
 
 class GetLocationOnMap extends StatefulWidget {
-  const GetLocationOnMap({super.key});
+  final Address address;
+  final bool fromAdd;
+
+  const GetLocationOnMap({
+    super.key,
+    required this.address,
+    required this.fromAdd,
+  });
 
   @override
   State<GetLocationOnMap> createState() => _GetLocationOnMapState();
@@ -63,20 +74,14 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
   final List<String> _customMarkers = <String>[
     "assets/icons/person_location.png",
   ];
-  //============================================================= BOOL VALUES ======================================================================\\
-
-  //========================================================== GlobalKeys ============================================================\\
 
   //=================================== CONTROLLERS ======================================================\\
   final _searchEC = TextEditingController();
-
   final Completer<GoogleMapController> _googleMapController = Completer();
   GoogleMapController? _newGoogleMapController;
 
   //=================================== FOCUS NODES ======================================================\\
   final _searchFN = FocusNode();
-
-  //============================================================== FUNCTIONS ===================================================================\\
 
   //======================================= Google Maps ================================================\\
 
@@ -257,7 +262,38 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
     _getPlaceMark(draggedLatLng);
     if (kDebugMode) {
       print(draggedLatLng);
+
       print("PinnedLocation: $pinnedLocation");
+      widget.address.latitude = draggedLatLng.longitude.toString();
+      widget.address.longitude = draggedLatLng.longitude.toString();
+      Address address = widget.address;
+      if (widget.fromAdd) {
+        Get.off(
+          () => AddNewAddress(
+            address: address,
+          ),
+          routeName: 'AddNewAddress',
+          duration: const Duration(milliseconds: 300),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          preventDuplicates: true,
+          popGesture: true,
+          transition: Transition.rightToLeft,
+        );
+      } else {
+        Get.off(
+          () => EditAddressDetails(
+            address: address,
+          ),
+          routeName: 'EditAddressDetails',
+          duration: const Duration(milliseconds: 300),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          preventDuplicates: true,
+          popGesture: true,
+          transition: Transition.rightToLeft,
+        );
+      }
     }
   }
 

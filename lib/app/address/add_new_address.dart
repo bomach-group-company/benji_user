@@ -2,6 +2,7 @@
 
 import 'package:benji_user/src/common_widgets/textformfield/my_maps_textformfield.dart';
 import 'package:benji_user/src/providers/keys.dart';
+import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/models/googleMaps/autocomplete_prediction.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
@@ -28,7 +29,12 @@ import '../../theme/colors.dart';
 import 'get_location_on_map.dart';
 
 class AddNewAddress extends StatefulWidget {
-  const AddNewAddress({super.key});
+  final Address? address;
+
+  const AddNewAddress({
+    super.key,
+    this.address,
+  });
 
   @override
   State<AddNewAddress> createState() => _AddNewAddressState();
@@ -38,7 +44,17 @@ class _AddNewAddressState extends State<AddNewAddress> {
   @override
   void initState() {
     super.initState();
-    // checkAuth(context);
+    checkAuth(context);
+    if (widget.address != null) {
+      _addressTitleEC.text = widget.address?.title ?? '';
+      _phoneNumberEC.text = widget.address?.phone ?? '';
+      _mapsLocationEC.text = widget.address?.details ?? '';
+      latitude = widget.address?.latitude;
+      longitude = widget.address?.longitude;
+    } else {
+      getUser().then((user) => _phoneNumberEC.text =
+          (user?.phone ?? '').replaceFirst('+$countryDialCode', ''));
+    }
   }
 
   @override
@@ -55,21 +71,17 @@ class _AddNewAddressState extends State<AddNewAddress> {
   //===================== CONTROLLERS =======================\\
   final _scrollController = ScrollController();
   final TextEditingController _addressTitleEC = TextEditingController();
-
   final TextEditingController _phoneNumberEC = TextEditingController();
   final TextEditingController _mapsLocationEC = TextEditingController();
 
   //===================== FOCUS NODES =======================\\
   final FocusNode _addressTitleFN = FocusNode();
-  final FocusNode _recipientNameFN = FocusNode();
-
   final FocusNode _phoneNumberFN = FocusNode();
   final FocusNode _mapsLocationFN = FocusNode();
 
   //===================== ALL VARIABLES =======================\\
-  String? country;
-  String? state;
-  String? city;
+  String? latitude;
+  String? longitude;
   String countryDialCode = '234';
   List<AutocompletePrediction> placePredictions = [];
   final selectedLocation = ValueNotifier<String?>(null);
@@ -79,21 +91,30 @@ class _AddNewAddressState extends State<AddNewAddress> {
   bool _isLoading2 = false;
   bool _typing = false;
   //===================== FUNCTIONS =======================\\
+  _setLocation(index) async {
+    final newLocation = placePredictions[index].description!;
+    selectedLocation.value = newLocation;
+
+    setState(() {
+      _mapsLocationEC.text = newLocation;
+    });
+
+    List<Location> location = await locationFromAddress(newLocation);
+    latitude = location[0].latitude.toString();
+    longitude = location[0].longitude.toString();
+  }
+
   Future<bool> addAddress({bool is_current = true}) async {
     final url = Uri.parse('$baseURL/address/addAddress');
-    List<String> countryList = country!.split(' ');
     final User? user = await getUser();
 
     final body = {
       'user_id': user!.id.toString(),
       'title': _addressTitleEC.text,
-      // 'recipient_name': _recipientNameEC.text,
       'phone': "+$countryDialCode${_phoneNumberEC.text}",
-      // 'street_address': _streetAddressEC.text,
-      // 'details': _apartmentDetailsEC.text,
-      'country': countryList[countryList.length - 1],
-      'state': state,
-      'city': city,
+      'details': _mapsLocationEC.text,
+      'latitude': latitude,
+      'longitude': longitude,
       'is_current': is_current.toString(),
     };
     final response =
@@ -108,8 +129,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
     setState(() {
       _isLoading = true;
     });
-
-    // await checkAuth(context);
 
     if (await addAddress(is_current: true)) {
       mySnackBar(
@@ -145,8 +164,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
     setState(() {
       _isLoading2 = true;
     });
-
-    // await checkAuth(context);
 
     if (await addAddress(is_current: false)) {
       mySnackBar(
@@ -185,9 +202,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
           "input": query, //query params
           "key": googlePlacesApiKey, //google places api key
         });
-    // if (kDebugMode) {
-    //   print(uri);
-    // }
+
     String? response = await NetworkUtility.fetchUrl(uri);
     if (response != null) {
       PlaceAutocompleteResponse result =
@@ -197,16 +212,20 @@ class _AddNewAddressState extends State<AddNewAddress> {
           placePredictions = result.predictions!;
         });
       }
-      // if (kDebugMode) {
-      //   print(response);
-      // }
     }
   }
 
   //===================== Navigation =======================\\
 
   void _toGetLocationOnMap() => Get.to(
-        () => const GetLocationOnMap(),
+        () => GetLocationOnMap(
+            address: Address(
+                title: _addressTitleEC.text,
+                details: _mapsLocationEC.text,
+                phone: _phoneNumberEC.text,
+                latitude: latitude,
+                longitude: longitude),
+            fromAdd: true),
         routeName: 'GetLocationOnMap',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -277,7 +296,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                       return "Enter a title";
                                     } else if (!locationNamePattern
                                         .hasMatch(value)) {
-                                      _recipientNameFN.requestFocus();
+                                      _addressTitleFN.requestFocus();
                                       return "Please enter a valid name";
                                     }
                                     return null;
@@ -441,28 +460,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                       itemCount: placePredictions.length,
                                       itemBuilder: (context, index) =>
                                           LocationListTile(
-                                        onTap: () async {
-                                          final newLocation =
-                                              placePredictions[index]
-                                                  .description!;
-                                          selectedLocation.value = newLocation;
-
-                                          setState(() {
-                                            _mapsLocationEC.text = newLocation;
-                                          });
-                                          if (kDebugMode) {
-                                            print(
-                                                "MapsLocation EC: ${_mapsLocationEC.text}");
-                                            List<Location> location =
-                                                await locationFromAddress(
-                                                    newLocation);
-
-                                            var result =
-                                                "${_mapsLocationEC.text}, LatLng(${location[0].latitude}, ${location[0].longitude})";
-
-                                            print(result);
-                                          }
-                                        },
+                                        onTap: () => _setLocation(index),
                                         location: placePredictions[index]
                                             .description!,
                                       ),
@@ -486,7 +484,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         title: "Set As Default Address",
                         onPressed: (() async {
                           if (_formKey.currentState!.validate()) {
-                            // setDefaultAddress();
+                            setDefaultAddress();
                           }
                         }),
                       ),
@@ -501,7 +499,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         title: "Save New Address",
                         onPressed: (() async {
                           if (_formKey.currentState!.validate()) {
-                            // saveNewAddress();
+                            saveNewAddress();
                           }
                         }),
                       ),
