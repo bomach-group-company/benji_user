@@ -25,6 +25,7 @@ class CardSkeleton extends StatelessWidget {
           direction: ShimmerDirection.ltr,
           child: PageSkeleton(height: height * 0.55, width: width),
         ),
+        kSizedBox,
         Shimmer.fromColors(
           highlightColor: kBlackColor.withOpacity(0.02),
           baseColor: kBlackColor.withOpacity(0.8),
@@ -36,14 +37,14 @@ class CardSkeleton extends StatelessWidget {
           highlightColor: kBlackColor.withOpacity(0.02),
           baseColor: kBlackColor.withOpacity(0.8),
           direction: ShimmerDirection.ltr,
-          child: PageSkeleton(height: (height * 0.55 / 6), width: width * 0.7),
+          child: PageSkeleton(height: (height * 0.55 / 6), width: width * 0.8),
         ),
         kSizedBox,
         Shimmer.fromColors(
           highlightColor: kBlackColor.withOpacity(0.02),
           baseColor: kBlackColor.withOpacity(0.8),
           direction: ShimmerDirection.ltr,
-          child: PageSkeleton(height: (height * 0.55 / 6), width: width * 0.75),
+          child: PageSkeleton(height: (height * 0.55 / 6), width: width * 0.85),
         ),
       ],
     );

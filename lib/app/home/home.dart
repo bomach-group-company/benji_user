@@ -11,7 +11,6 @@ import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/models/category/sub_category.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:benji_user/src/skeletons/app/card.dart';
-import 'package:benji_user/src/skeletons/general.dart';
 import 'package:benji_user/src/skeletons/page_skeleton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -783,7 +782,53 @@ class _HomeState extends State<Home> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return const GeneralSkeleton();
+                          return Column(
+                            children: [
+                              kSizedBox,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Shimmer.fromColors(
+                                    highlightColor:
+                                        kBlackColor.withOpacity(0.02),
+                                    baseColor: kBlackColor.withOpacity(0.8),
+                                    direction: ShimmerDirection.ltr,
+                                    child: PageSkeleton(
+                                        height: 35, width: mediaWidth / 7),
+                                  ),
+                                  kWidthSizedBox,
+                                  Shimmer.fromColors(
+                                    highlightColor:
+                                        kBlackColor.withOpacity(0.02),
+                                    baseColor: kBlackColor.withOpacity(0.8),
+                                    direction: ShimmerDirection.ltr,
+                                    child: PageSkeleton(
+                                        height: 35, width: mediaWidth / 7),
+                                  ),
+                                  kWidthSizedBox,
+                                  Shimmer.fromColors(
+                                    highlightColor:
+                                        kBlackColor.withOpacity(0.02),
+                                    baseColor: kBlackColor.withOpacity(0.8),
+                                    direction: ShimmerDirection.ltr,
+                                    child: PageSkeleton(
+                                        height: 35, width: mediaWidth / 7),
+                                  ),
+                                  kWidthSizedBox,
+                                  Shimmer.fromColors(
+                                      highlightColor:
+                                          kBlackColor.withOpacity(0.02),
+                                      baseColor: kBlackColor.withOpacity(0.8),
+                                      direction: ShimmerDirection.ltr,
+                                      child: PageSkeleton(
+                                          height: 35, width: mediaWidth / 9)),
+                                ],
+                              ),
+                              kSizedBox,
+                              kSizedBox,
+                            ],
+                          );
                         }
                         return SizedBox(
                           height: 60,
