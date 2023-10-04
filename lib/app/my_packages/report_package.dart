@@ -61,8 +61,6 @@ class _ReportPackageState extends State<ReportPackage> {
       _submittingReport = true;
     });
 
-    await checkAuth(context);
-
     setState(() {
       _submittingReport = false;
     });

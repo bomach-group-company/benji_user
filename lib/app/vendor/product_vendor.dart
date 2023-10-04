@@ -29,26 +29,33 @@ class _ProductVendorState extends State<ProductVendor> {
   @override
   void initState() {
     super.initState();
-    _getData();
+    checkAuth(context);
+    productAndSubCategoryName =
+        getVendorProductsAndSubCategoryName(widget.vendor.id)
+          ..then((value) {
+            try {
+              activeCategory = value.keys.toList()[0];
+            } catch (e) {
+              activeCategory = '';
+            }
+          });
   }
 
-  Map<String, List<Product>>? _productAndSubCategoryName;
+  late Future<Map<String, List<Product>>> productAndSubCategoryName;
   String activeCategory = '';
 
-  _getData() async {
-    await checkAuth(context);
+  // _getData() async {
+  //   Map<String, List<Product>> productAndSubCategoryName =
+  //       await getVendorProductsAndSubCategoryName(widget.vendor.id);
+  //   try {
+  //     activeCategory = productAndSubCategoryName.keys.toList()[0];
+  //     // ignore: empty_catches
+  //   } catch (e) {}
 
-    Map<String, List<Product>> productAndSubCategoryName =
-        await getVendorProductsAndSubCategoryName(widget.vendor.id);
-    try {
-      activeCategory = productAndSubCategoryName.keys.toList()[0];
-      // ignore: empty_catches
-    } catch (e) {}
-
-    setState(() {
-      _productAndSubCategoryName = productAndSubCategoryName;
-    });
-  }
+  //   setState(() {
+  //     snapshot.data = productAndSubCategoryName;
+  //   });
+  // }
 
 //=================================== Navigation =====================================\\
   void _toProductDetailScreen(product) => Get.to(
@@ -77,92 +84,98 @@ class _ProductVendorState extends State<ProductVendor> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    return _productAndSubCategoryName == null
-        ? Center(
-            child: CircularProgressIndicator(
-              color: kAccentColor,
-            ),
-          )
-        : Container(
-            padding: const EdgeInsets.all(kDefaultPadding / 2),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 60,
-                  child: ListView.builder(
-                    itemCount: _productAndSubCategoryName!.keys.toList().length,
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) => Padding(
-                      padding: const EdgeInsets.all(kDefaultPadding / 2),
-                      child: CategoryButton(
-                        onPressed: () async {
-                          setState(() {
-                            activeCategory = _productAndSubCategoryName!.keys
-                                .toList()[index];
-                          });
-                        },
-                        title: _productAndSubCategoryName!.keys.toList()[index],
-                        bgColor: activeCategory ==
-                                _productAndSubCategoryName!.keys.toList()[index]
-                            ? kAccentColor
-                            : kDefaultCategoryBackgroundColor,
-                        categoryFontColor: activeCategory ==
-                                _productAndSubCategoryName!.keys.toList()[index]
-                            ? kPrimaryColor
-                            : kTextGreyColor,
+    return SizedBox(
+      width: media.width,
+      child: FutureBuilder(
+          future: productAndSubCategoryName,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: kAccentColor,
+                ),
+              );
+            }
+            return Container(
+              padding: const EdgeInsets.all(kDefaultPadding / 2),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 60,
+                    child: ListView.builder(
+                      itemCount: snapshot.data!.keys.toList().length,
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) => Padding(
+                        padding: const EdgeInsets.all(kDefaultPadding / 2),
+                        child: CategoryButton(
+                          onPressed: () async {
+                            setState(() {
+                              activeCategory =
+                                  snapshot.data!.keys.toList()[index];
+                            });
+                          },
+                          title: snapshot.data!.keys.toList()[index],
+                          bgColor: activeCategory ==
+                                  snapshot.data!.keys.toList()[index]
+                              ? kAccentColor
+                              : kDefaultCategoryBackgroundColor,
+                          categoryFontColor: activeCategory ==
+                                  snapshot.data!.keys.toList()[index]
+                              ? kPrimaryColor
+                              : kTextGreyColor,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                kHalfSizedBox,
-                _productAndSubCategoryName!.isEmpty
-                    ? const EmptyCard(
-                        removeButton: true,
-                      )
-                    : LayoutGrid(
-                        rowGap: kDefaultPadding / 2,
-                        columnGap: kDefaultPadding / 2,
-                        columnSizes: breakPointDynamic(
-                            media.width,
-                            [1.fr],
-                            [1.fr, 1.fr],
-                            [1.fr, 1.fr, 1.fr],
-                            [1.fr, 1.fr, 1.fr, 1.fr]),
-                        rowSizes:
-                            _productAndSubCategoryName![activeCategory]!.isEmpty
-                                ? [auto]
-                                : List.generate(
-                                    _productAndSubCategoryName![activeCategory]!
-                                        .length,
-                                    (index) => auto),
-                        children: (_productAndSubCategoryName![activeCategory]
-                                as List<Product>)
-                            .map(
-                              (item) => ProductCard(
-                                product: item,
-                                onTap: () => _toProductDetailScreen(item),
-                              ),
-                            )
-                            .toList(),
-                      ),
-                kSizedBox,
-                _productAndSubCategoryName!.isEmpty
-                    ? const SizedBox()
-                    : TextButton(
-                        onPressed: _viewProducts,
-                        child: Text(
-                          "See all",
-                          style: TextStyle(
-                            color: kAccentColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
+                  kHalfSizedBox,
+                  snapshot.data!.isEmpty
+                      ? const EmptyCard(
+                          removeButton: true,
+                        )
+                      : LayoutGrid(
+                          rowGap: kDefaultPadding / 2,
+                          columnGap: kDefaultPadding / 2,
+                          columnSizes: breakPointDynamic(
+                              media.width,
+                              [1.fr],
+                              [1.fr, 1.fr],
+                              [1.fr, 1.fr, 1.fr],
+                              [1.fr, 1.fr, 1.fr, 1.fr]),
+                          rowSizes: snapshot.data![activeCategory]!.isEmpty
+                              ? [auto]
+                              : List.generate(
+                                  snapshot.data![activeCategory]!.length,
+                                  (index) => auto),
+                          children:
+                              (snapshot.data![activeCategory] as List<Product>)
+                                  .map(
+                                    (item) => ProductCard(
+                                      product: item,
+                                      onTap: () => _toProductDetailScreen(item),
+                                    ),
+                                  )
+                                  .toList(),
+                        ),
+                  kSizedBox,
+                  snapshot.data!.isEmpty
+                      ? const SizedBox()
+                      : TextButton(
+                          onPressed: _viewProducts,
+                          child: Text(
+                            "See all",
+                            style: TextStyle(
+                              color: kAccentColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
-                      ),
-                kHalfSizedBox,
-              ],
-            ),
-          );
+                  kHalfSizedBox,
+                ],
+              ),
+            );
+          }),
+    );
   }
 }

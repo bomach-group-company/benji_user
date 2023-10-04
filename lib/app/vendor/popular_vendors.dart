@@ -94,7 +94,6 @@ class _PopularVendorsState extends State<PopularVendors> {
   bool _isScrollToTopBtnVisible = false;
 
   _getData() async {
-    await checkAuth(context);
     List<VendorModel> vendor = await getPopularVendors();
 
     _vendor ??= [];

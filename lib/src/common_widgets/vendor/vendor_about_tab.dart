@@ -20,15 +20,8 @@ class _VendorsAboutTabState extends State<VendorsAboutTab> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      child: Column(
-        children: [
-          Expanded(
-            flex: 0,
-            child: AboutVendor(
-              vendor: widget.vendor,
-            ),
-          ),
-        ],
+      child: AboutVendor(
+        vendor: widget.vendor,
       ),
     );
   }

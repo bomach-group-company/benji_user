@@ -79,7 +79,6 @@ class _AddNewCardState extends State<AddNewCard> {
     setState(() {
       _isSavingCard = true;
     });
-    await checkAuth(context);
 
     if (await addCard()) {
       mySnackBar(

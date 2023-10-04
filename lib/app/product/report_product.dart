@@ -67,7 +67,6 @@ class _ReportProductState extends State<ReportProduct> {
     setState(() {
       _submittingRequest = true;
     });
-    await checkAuth(context);
 
     bool res = await report();
 

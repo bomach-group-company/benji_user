@@ -72,7 +72,6 @@ class _RateVendorDialogState extends State<RateVendorDialog> {
     setState(() {
       _submittingRequest = true;
     });
-    await checkAuth(context);
 
     bool res = await rate();
     if (res) {

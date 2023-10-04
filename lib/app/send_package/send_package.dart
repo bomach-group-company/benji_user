@@ -73,7 +73,6 @@ class _SendPackageState extends State<SendPackage> {
   List<ItemWeight> _weight = [];
 
   _getData() async {
-    await checkAuth(context);
     List<ItemCategory> category = await getPackageCategory();
     List<ItemWeight> weight = await getPackageWeight();
 
