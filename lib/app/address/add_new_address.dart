@@ -10,6 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -38,7 +39,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
   @override
   void initState() {
     super.initState();
-    checkAuth(context);
+    // checkAuth(context);
   }
 
   @override
@@ -109,7 +110,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
       _isLoading = true;
     });
 
-    await checkAuth(context);
+    // await checkAuth(context);
 
     if (await addAddress(is_current: true)) {
       mySnackBar(
@@ -146,7 +147,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
       _isLoading2 = true;
     });
 
-    await checkAuth(context);
+    // await checkAuth(context);
 
     if (await addAddress(is_current: false)) {
       mySnackBar(
@@ -185,9 +186,9 @@ class _AddNewAddressState extends State<AddNewAddress> {
           "input": query, //query params
           "key": googlePlacesApiKey, //google places api key
         });
-    if (kDebugMode) {
-      print(uri);
-    }
+    // if (kDebugMode) {
+    //   print(uri);
+    // }
     String? response = await NetworkUtility.fetchUrl(uri);
     if (response != null) {
       PlaceAutocompleteResponse result =
@@ -197,10 +198,9 @@ class _AddNewAddressState extends State<AddNewAddress> {
           placePredictions = result.predictions!;
         });
       }
-
-      if (kDebugMode) {
-        print(response);
-      }
+      // if (kDebugMode) {
+      //   print(response);
+      // }
     }
   }
 
@@ -440,15 +440,27 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                       itemCount: placePredictions.length,
                                       itemBuilder: (context, index) =>
                                           LocationListTile(
-                                        onTap: () {
+                                        onTap: () async {
                                           final newLocation =
                                               placePredictions[index]
                                                   .description!;
                                           selectedLocation.value = newLocation;
-                                          // LatLng latlng = await LatLng();
+
                                           setState(() {
                                             _mapsLocationEC.text = newLocation;
                                           });
+                                          if (kDebugMode) {
+                                            print(
+                                                "MapsLocation EC: ${_mapsLocationEC.text}");
+                                            List<Location> location =
+                                                await locationFromAddress(
+                                                    newLocation);
+
+                                            var result =
+                                                "${_mapsLocationEC.text}, LatLng(${location[0].latitude}, ${location[0].longitude})";
+
+                                            print(result);
+                                          }
                                         },
                                         location: placePredictions[index]
                                             .description!,
