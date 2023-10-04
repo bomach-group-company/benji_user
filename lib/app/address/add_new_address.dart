@@ -1,8 +1,8 @@
 // ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
 
+import 'package:benji_user/observer/lat_lng_detail_controller.dart';
 import 'package:benji_user/src/common_widgets/textformfield/my_maps_textformfield.dart';
 import 'package:benji_user/src/providers/keys.dart';
-import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/models/googleMaps/autocomplete_prediction.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
@@ -11,7 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 
@@ -29,11 +29,8 @@ import '../../theme/colors.dart';
 import 'get_location_on_map.dart';
 
 class AddNewAddress extends StatefulWidget {
-  final Address? address;
-
   const AddNewAddress({
     super.key,
-    this.address,
   });
 
   @override
@@ -45,16 +42,9 @@ class _AddNewAddressState extends State<AddNewAddress> {
   void initState() {
     super.initState();
     checkAuth(context);
-    if (widget.address != null) {
-      _addressTitleEC.text = widget.address?.title ?? '';
-      _phoneNumberEC.text = widget.address?.phone ?? '';
-      _mapsLocationEC.text = widget.address?.details ?? '';
-      latitude = widget.address?.latitude;
-      longitude = widget.address?.longitude;
-    } else {
-      getUser().then((user) => _phoneNumberEC.text =
-          (user?.phone ?? '').replaceFirst('+$countryDialCode', ''));
-    }
+
+    getUser().then((user) => _phoneNumberEC.text =
+        (user?.phone ?? '').replaceFirst('+$countryDialCode', ''));
   }
 
   @override
@@ -73,6 +63,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
   final TextEditingController _addressTitleEC = TextEditingController();
   final TextEditingController _phoneNumberEC = TextEditingController();
   final TextEditingController _mapsLocationEC = TextEditingController();
+  final LatLngDetailController latLngDetailController = Get.find();
 
   //===================== FOCUS NODES =======================\\
   final FocusNode _addressTitleFN = FocusNode();
@@ -217,23 +208,21 @@ class _AddNewAddressState extends State<AddNewAddress> {
 
   //===================== Navigation =======================\\
 
-  void _toGetLocationOnMap() => Get.to(
-        () => GetLocationOnMap(
-            address: Address(
-                title: _addressTitleEC.text,
-                details: _mapsLocationEC.text,
-                phone: _phoneNumberEC.text,
-                latitude: latitude,
-                longitude: longitude),
-            fromAdd: true),
-        routeName: 'GetLocationOnMap',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _toGetLocationOnMap() async {
+    await Get.to(
+      () => const GetLocationOnMap(),
+      routeName: 'GetLocationOnMap',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    latitude = latLngDetailController.latLngDetail.value[0];
+    longitude = latLngDetailController.latLngDetail.value[1];
+    _mapsLocationEC.text = latLngDetailController.latLngDetail.value[2];
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -3,13 +3,14 @@
 import 'dart:convert';
 
 import 'package:benji_user/app/address/get_location_on_map.dart';
+import 'package:benji_user/observer/lat_lng_detail_controller.dart';
 import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 
@@ -48,6 +49,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   final TextEditingController _apartmentDetailsEC = TextEditingController();
   final TextEditingController _phoneNumberEC = TextEditingController();
   final TextEditingController _mapsLocationEC = TextEditingController();
+  final LatLngDetailController latLngDetailController = Get.find();
 
   //===================== FOCUS NODES =======================\\
   final FocusNode _addressTitleFN = FocusNode();
@@ -215,19 +217,21 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
 
   //===================== Navigation =======================\\
 
-  void _toGetLocationOnMap() => Get.to(
-        () => GetLocationOnMap(
-          address: widget.address,
-          fromAdd: false,
-        ),
-        routeName: 'GetLocationOnMap',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _toGetLocationOnMap() async {
+    await Get.to(
+      () => const GetLocationOnMap(),
+      routeName: 'GetLocationOnMap',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    latitude = latLngDetailController.latLngDetail.value[0];
+    longitude = latLngDetailController.latLngDetail.value[1];
+    _mapsLocationEC.text = latLngDetailController.latLngDetail.value[2];
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -3,10 +3,8 @@
 import 'dart:async';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
-import 'package:benji_user/app/address/add_new_address.dart';
-import 'package:benji_user/app/address/edit_address_details.dart';
+import 'package:benji_user/observer/lat_lng_detail_controller.dart';
 import 'package:benji_user/src/providers/constants.dart';
-import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/models/googleMaps/location_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -23,14 +21,7 @@ import '../../src/common_widgets/textformfield/my textformfield.dart';
 import '../../theme/colors.dart';
 
 class GetLocationOnMap extends StatefulWidget {
-  final Address address;
-  final bool fromAdd;
-
-  const GetLocationOnMap({
-    super.key,
-    required this.address,
-    required this.fromAdd,
-  });
+  const GetLocationOnMap({super.key});
 
   @override
   State<GetLocationOnMap> createState() => _GetLocationOnMapState();
@@ -38,6 +29,7 @@ class GetLocationOnMap extends StatefulWidget {
 
 class _GetLocationOnMapState extends State<GetLocationOnMap> {
   //============================================================== INITIAL STATE ====================================================================\\
+
   @override
   void initState() {
     super.initState();
@@ -54,7 +46,8 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 
   //============================================================= ALL VARIABLES ======================================================================\\
   String? pinnedLocation;
-
+  final LatLngDetailController latLngDetailController =
+      Get.put(LatLngDetailController());
   //============================================================= BOOL VALUES ======================================================================\\
   bool locationPinIsVisible = true;
 
@@ -260,41 +253,13 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 //========================================================== Save Function =============================================================\\
   _saveFunc() async {
     _getPlaceMark(draggedLatLng);
-    if (kDebugMode) {
-      print(draggedLatLng);
-
-      print("PinnedLocation: $pinnedLocation");
-      widget.address.latitude = draggedLatLng.longitude.toString();
-      widget.address.longitude = draggedLatLng.longitude.toString();
-      Address address = widget.address;
-      if (widget.fromAdd) {
-        Get.off(
-          () => AddNewAddress(
-            address: address,
-          ),
-          routeName: 'AddNewAddress',
-          duration: const Duration(milliseconds: 300),
-          fullscreenDialog: true,
-          curve: Curves.easeIn,
-          preventDuplicates: true,
-          popGesture: true,
-          transition: Transition.rightToLeft,
-        );
-      } else {
-        Get.off(
-          () => EditAddressDetails(
-            address: address,
-          ),
-          routeName: 'EditAddressDetails',
-          duration: const Duration(milliseconds: 300),
-          fullscreenDialog: true,
-          curve: Curves.easeIn,
-          preventDuplicates: true,
-          popGesture: true,
-          transition: Transition.rightToLeft,
-        );
-      }
-    }
+    print("draggedLatLng: $draggedLatLng");
+    print("PinnedLocation: $pinnedLocation");
+    String latitude = draggedLatLng.latitude.toString();
+    String longitude = draggedLatLng.longitude.toString();
+    latLngDetailController
+        .setLatLngdetail([latitude, longitude, pinnedLocation]);
+    Get.back();
   }
 
   @override
