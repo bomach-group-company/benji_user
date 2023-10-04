@@ -64,8 +64,23 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   bool _isLoading = false;
   bool _isLoading2 = false;
   bool _typing = false;
-
+  double? latitude;
+  double? longitude;
   //===================== FUNCTIONS =======================\\
+
+  _setLocation(index) async {
+    final newLocation = placePredictions[index].description!;
+    selectedLocation.value = newLocation;
+
+    setState(() {
+      _mapsLocationEC.text = newLocation;
+    });
+
+    List<Location> location = await locationFromAddress(newLocation);
+    latitude = location[0].latitude;
+    longitude = location[0].longitude;
+  }
+
   Future<bool> updateAddress({bool is_current = true}) async {
     final url =
         Uri.parse('$baseURL/address/changeAddressDetails/${widget.address.id}');
@@ -73,7 +88,9 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
     final body = {
       'title': _addressTitleEC.text,
       'phone': "+$countryDialCode${_phoneNumberEC.text}",
-      // 'details': _apartmentDetailsEC.text,
+      'details': _mapsLocationEC.text,
+      'latitude': latitude,
+      'longitude': longitude,
     };
     final response = await http.put(url,
         body: jsonEncode(body), headers: await authHeader());
@@ -93,8 +110,6 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
     setState(() {
       _isLoading = true;
     });
-
-    await checkAuth(context);
 
     if (await updateAddress(is_current: true)) {
       mySnackBar(
@@ -141,7 +156,6 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
     setState(() {
       _isLoading2 = true;
     });
-    await checkAuth(context);
 
     if (await updateAddress(is_current: false)) {
       mySnackBar(
@@ -438,28 +452,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                                       itemCount: placePredictions.length,
                                       itemBuilder: (context, index) =>
                                           LocationListTile(
-                                        onTap: () async {
-                                          final newLocation =
-                                              placePredictions[index]
-                                                  .description!;
-                                          selectedLocation.value = newLocation;
-
-                                          setState(() {
-                                            _mapsLocationEC.text = newLocation;
-                                          });
-                                          if (kDebugMode) {
-                                            print(
-                                                "MapsLocation EC: ${_mapsLocationEC.text}");
-                                            List<Location> location =
-                                                await locationFromAddress(
-                                                    newLocation);
-
-                                            var result =
-                                                "${_mapsLocationEC.text}, LatLng(${location[0].latitude}, ${location[0].longitude})";
-
-                                            print(result);
-                                          }
-                                        },
+                                        onTap: () => _setLocation(index),
                                         location: placePredictions[index]
                                             .description!,
                                       ),

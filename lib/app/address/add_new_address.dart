@@ -38,7 +38,10 @@ class _AddNewAddressState extends State<AddNewAddress> {
   @override
   void initState() {
     super.initState();
-    // checkAuth(context);
+    checkAuth(context);
+
+    getUser().then((user) => _phoneNumberEC.text =
+        (user?.phone ?? '').replaceFirst('+$countryDialCode', ''));
   }
 
   @override
@@ -67,9 +70,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
   final FocusNode _mapsLocationFN = FocusNode();
 
   //===================== ALL VARIABLES =======================\\
-  String? country;
-  String? state;
-  String? city;
+  double? latitude;
+  double? longitude;
   String countryDialCode = '234';
   List<AutocompletePrediction> placePredictions = [];
   final selectedLocation = ValueNotifier<String?>(null);
@@ -79,21 +81,30 @@ class _AddNewAddressState extends State<AddNewAddress> {
   bool _isLoading2 = false;
   bool _typing = false;
   //===================== FUNCTIONS =======================\\
+  _setLocation(index) async {
+    final newLocation = placePredictions[index].description!;
+    selectedLocation.value = newLocation;
+
+    setState(() {
+      _mapsLocationEC.text = newLocation;
+    });
+
+    List<Location> location = await locationFromAddress(newLocation);
+    latitude = location[0].latitude;
+    longitude = location[0].longitude;
+  }
+
   Future<bool> addAddress({bool is_current = true}) async {
     final url = Uri.parse('$baseURL/address/addAddress');
-    List<String> countryList = country!.split(' ');
     final User? user = await getUser();
 
     final body = {
       'user_id': user!.id.toString(),
       'title': _addressTitleEC.text,
-      // 'recipient_name': _recipientNameEC.text,
       'phone': "+$countryDialCode${_phoneNumberEC.text}",
-      // 'street_address': _streetAddressEC.text,
-      // 'details': _apartmentDetailsEC.text,
-      'country': countryList[countryList.length - 1],
-      'state': state,
-      'city': city,
+      'details': _mapsLocationEC.text,
+      'latitude': latitude,
+      'longitude': longitude,
       'is_current': is_current.toString(),
     };
     final response =
@@ -108,8 +119,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
     setState(() {
       _isLoading = true;
     });
-
-    // await checkAuth(context);
 
     if (await addAddress(is_current: true)) {
       mySnackBar(
@@ -145,8 +154,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
     setState(() {
       _isLoading2 = true;
     });
-
-    // await checkAuth(context);
 
     if (await addAddress(is_current: false)) {
       mySnackBar(
@@ -185,9 +192,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
           "input": query, //query params
           "key": googlePlacesApiKey, //google places api key
         });
-    // if (kDebugMode) {
-    //   print(uri);
-    // }
+
     String? response = await NetworkUtility.fetchUrl(uri);
     if (response != null) {
       PlaceAutocompleteResponse result =
@@ -197,9 +202,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
           placePredictions = result.predictions!;
         });
       }
-      // if (kDebugMode) {
-      //   print(response);
-      // }
     }
   }
 
@@ -441,28 +443,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                       itemCount: placePredictions.length,
                                       itemBuilder: (context, index) =>
                                           LocationListTile(
-                                        onTap: () async {
-                                          final newLocation =
-                                              placePredictions[index]
-                                                  .description!;
-                                          selectedLocation.value = newLocation;
-
-                                          setState(() {
-                                            _mapsLocationEC.text = newLocation;
-                                          });
-                                          if (kDebugMode) {
-                                            print(
-                                                "MapsLocation EC: ${_mapsLocationEC.text}");
-                                            List<Location> location =
-                                                await locationFromAddress(
-                                                    newLocation);
-
-                                            var result =
-                                                "${_mapsLocationEC.text}, LatLng(${location[0].latitude}, ${location[0].longitude})";
-
-                                            print(result);
-                                          }
-                                        },
+                                        onTap: () => _setLocation(index),
                                         location: placePredictions[index]
                                             .description!,
                                       ),
@@ -486,7 +467,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         title: "Set As Default Address",
                         onPressed: (() async {
                           if (_formKey.currentState!.validate()) {
-                            // setDefaultAddress();
+                            setDefaultAddress();
                           }
                         }),
                       ),
@@ -501,7 +482,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         title: "Save New Address",
                         onPressed: (() async {
                           if (_formKey.currentState!.validate()) {
-                            // saveNewAddress();
+                            saveNewAddress();
                           }
                         }),
                       ),

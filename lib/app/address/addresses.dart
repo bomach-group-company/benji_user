@@ -26,6 +26,8 @@ class _AddressesState extends State<Addresses> {
   @override
   void initState() {
     super.initState();
+    checkAuth(context);
+
     _getData();
   }
 
@@ -40,8 +42,6 @@ class _AddressesState extends State<Addresses> {
   Map? addressData;
 
   _getData() async {
-    await checkAuth(context);
-
     String current = '';
     try {
       current = (await getCurrentAddress()).id ?? '';
