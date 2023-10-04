@@ -5,7 +5,6 @@ import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/models/category/sub_category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -111,7 +110,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: _data == null
-              ? SpinKitChasingDots(color: kAccentColor)
+              ? Center(child: CircularProgressIndicator(color: kAccentColor))
               : Scrollbar(
                   controller: _scrollController,
                   radius: const Radius.circular(10),
@@ -156,7 +155,9 @@ class _HomePageProductsState extends State<HomePageProducts> {
                       kSizedBox,
                       _data!['product'] == null
                           ? Center(
-                              child: SpinKitChasingDots(color: kAccentColor))
+                              child: CircularProgressIndicator(
+                                  color: kAccentColor),
+                            )
                           : _data!['product'].isEmpty
                               ? const EmptyCard(
                                   removeButton: true,

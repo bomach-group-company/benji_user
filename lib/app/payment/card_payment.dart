@@ -2,7 +2,6 @@ import 'package:benji_user/app/payment/add_card.dart';
 import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
@@ -110,7 +109,9 @@ class _CardPaymentState extends State<CardPayment> {
           child: Scrollbar(
             controller: _scrollController,
             child: cardData == null
-                ? Center(child: SpinKitChasingDots(color: kAccentColor))
+                ? Center(
+                    child: CircularProgressIndicator(color: kAccentColor),
+                  )
                 : cardData!['cards'].isEmpty
                     ? const EmptyCard(removeButton: true)
                     : ListView.separated(
@@ -221,7 +222,8 @@ class _CardPaymentState extends State<CardPayment> {
             : cardData!['cards'].isEmpty
                 ? const SizedBox()
                 : _processingPayment
-                    ? SpinKitChasingDots(color: kAccentColor)
+                    ? Center(
+                        child: CircularProgressIndicator(color: kAccentColor))
                     : MyElevatedButton(
                         title: "Make payment",
                         onPressed: _paymentFunc,

@@ -8,7 +8,6 @@ import 'package:benji_user/src/repo/models/googleMaps/location_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -312,7 +311,11 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: _userPosition == null
-              ? Center(child: SpinKitChasingDots(color: kAccentColor))
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: kAccentColor,
+                  ),
+                )
               : Column(
                   children: [
                     Row(

@@ -3,7 +3,6 @@ import 'package:benji_user/src/providers/my_liquid_refresh.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -149,12 +148,7 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: _vendor == null
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SpinKitChasingDots(color: kAccentColor),
-                  ],
-                )
+              ? Center(child: CircularProgressIndicator(color: kAccentColor))
               : Scrollbar(
                   controller: _scrollController,
                   scrollbarOrientation: ScrollbarOrientation.right,
@@ -217,7 +211,8 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                           : const SizedBox(),
                       loadMore
                           ? Center(
-                              child: SpinKitChasingDots(color: kAccentColor),
+                              child: CircularProgressIndicator(
+                                  color: kAccentColor),
                             )
                           : const SizedBox()
                     ],

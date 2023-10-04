@@ -7,11 +7,9 @@ import 'package:benji_user/src/repo/models/rating/ratings.dart';
 import 'package:benji_user/src/repo/utils/favorite.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:benji_user/src/repo/utils/user_cart.dart';
-import 'package:benji_user/src/skeletons/app/card.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:readmore/readmore.dart';
@@ -596,9 +594,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ? Column(
                               children: [
                                 Center(
-                                  child: SpinKitChasingDots(
+                                  child: CircularProgressIndicator(
                                     color: kAccentColor,
-                                    duration: const Duration(seconds: 1),
                                   ),
                                 ),
                                 kSizedBox,
@@ -833,17 +830,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                       kSizedBox,
                       _ratings == null
-                          ? Column(
-                              children: [
-                                CardSkeleton(
-                                  height: 200,
-                                  width: mediaWidth - 20,
-                                ),
-                                kSizedBox,
-                                kSizedBox,
-                                CardSkeleton(
-                                    height: 200, width: mediaWidth - 20)
-                              ],
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: kAccentColor,
+                              ),
                             )
                           : _ratings!.isEmpty
                               ? const EmptyCard(removeButton: true)

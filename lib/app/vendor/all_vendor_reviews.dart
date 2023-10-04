@@ -1,7 +1,6 @@
 import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -200,7 +199,7 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
           child: Scrollbar(
             controller: _scrollController,
             child: _data == null
-                ? SpinKitChasingDots(color: kAccentColor)
+                ? Center(child: CircularProgressIndicator(color: kAccentColor))
                 : ListView(
                     controller: _scrollController,
                     padding: const EdgeInsets.all(kDefaultPadding / 2),
@@ -219,7 +218,8 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
                             if (_data!['ratings'].length == index) {
                               return Column(
                                 children: [
-                                  SpinKitChasingDots(color: kAccentColor),
+                                  CircularProgressIndicator(
+                                      color: kAccentColor),
                                 ],
                               );
                             }

@@ -103,7 +103,7 @@ class Footer extends StatelessWidget {
                           head: 'Legal',
                           items: [
                             ['Privacy Policy', PrivacyPolicyPage()],
-                            ['Terms & Conditions', TermConditionPage()],
+                            ['Terms & Conditions', TermsAndConditionPage()],
                             ['Refund Policy', RefundPolicyPage()],
                           ],
                         ),

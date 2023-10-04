@@ -110,8 +110,8 @@ class _ProductPageState extends State<ProductPage> {
     final media = MediaQuery.of(context).size;
 
     return Scaffold(
-      drawerScrimColor: Colors.transparent,
-      backgroundColor: const Color(0xfffafafc),
+      drawerScrimColor: kTransparentColor,
+      backgroundColor: kPrimaryColor,
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, media.height * 0.11),
         // ignore: prefer_const_constructors

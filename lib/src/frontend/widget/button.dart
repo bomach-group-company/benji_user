@@ -27,7 +27,7 @@ class _MyOutlinedButtonState extends State<MyOutlinedButton> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
         side: BorderSide(color: kAccentColor),
         foregroundColor: btnHover ? Colors.white : kAccentColor,
-        backgroundColor: btnHover ? kAccentColor : Colors.transparent,
+        backgroundColor: btnHover ? kAccentColor : kTransparentColor,
       ),
       onPressed: () {
         if (widget.navigate != null) {

@@ -3,7 +3,6 @@ import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/track_order_details_container.dart';
@@ -70,7 +69,7 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
                         return Center(
-                          child: SpinKitChasingDots(color: kAccentColor),
+                          child: CircularProgressIndicator(color: kAccentColor),
                         );
                       }
                       return Flexible(

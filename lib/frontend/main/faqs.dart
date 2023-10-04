@@ -190,8 +190,8 @@ class _FAQsPageState extends State<FAQsPage> {
     final media = MediaQuery.of(context).size;
 
     return Scaffold(
-      drawerScrimColor: Colors.transparent,
-      backgroundColor: const Color(0xfffafafc),
+      drawerScrimColor: kTransparentColor,
+      backgroundColor: kPrimaryColor,
       appBar: const MyAppbar(),
       body: SafeArea(
         child: Column(

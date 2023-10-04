@@ -7,7 +7,6 @@ import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -250,7 +249,11 @@ class _ChooseRiderState extends State<ChooseRider> {
       body: SafeArea(
         maintainBottomViewPadding: true,
         child: _userPosition == null
-            ? Center(child: SpinKitChasingDots(color: kAccentColor))
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: kAccentColor,
+                ),
+              )
             : Column(
                 children: [
                   Expanded(

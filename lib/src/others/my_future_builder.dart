@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../theme/colors.dart';
 
@@ -21,7 +20,7 @@ class MyFutureBuilder extends StatelessWidget {
           return child(snapshot.data);
         }
         return Center(
-          child: SpinKitChasingDots(color: kAccentColor),
+          child: CircularProgressIndicator(color: kAccentColor),
         );
       },
     );
