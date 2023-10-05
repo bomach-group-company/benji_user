@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// import 'package:native_notify/native_notify.dart';
-
 import 'app/splash_screens/startup_splash_screen.dart';
 import 'src/providers/controllers.dart';
 import 'theme/app_theme.dart';
@@ -17,8 +15,7 @@ void main() async {
     const SystemUiOverlayStyle(statusBarColor: kTransparentColor),
   );
   WidgetsFlutterBinding.ensureInitialized();
-  // NativeNotify.initialize(
-  //     3603, 'qFNBoGEDadTOsXsLHiywIX', 'your-firebase-server-key', null);
+
   prefs = await SharedPreferences.getInstance();
 
   // await dotenv.load();
@@ -39,7 +36,6 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       //This is the home route
-
       home: const StartupSplashscreen(),
       initialBinding: BindingsBuilder(() {
         Get.put(LatLngDetailController());

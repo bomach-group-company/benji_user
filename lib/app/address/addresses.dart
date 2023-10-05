@@ -216,9 +216,7 @@ class _AddressesState extends State<Addresses> {
           maintainBottomViewPadding: true,
           child: addressData == null
               ? Center(
-                  child: CircularProgressIndicator(
-                    color: kAccentColor,
-                  ),
+                  child: CircularProgressIndicator(color: kAccentColor),
                 )
               : Scrollbar(
                   controller: _scrollController,
