@@ -22,7 +22,9 @@ import '../../theme/colors.dart';
 import '../address/deliver_to.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({super.key});
+  final List<Map<String, dynamic>> formatOfOrder;
+
+  const CheckoutScreen({super.key, required this.formatOfOrder});
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -84,7 +86,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   _getData() async {
     _subTotal = 0;
 
-    List<Product> product = await getCartProduct(
+    List<Product> product = (await getCartProduct(
       (data) => mySnackBar(
         context,
         kAccentColor,
@@ -94,7 +96,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           seconds: 1,
         ),
       ),
-    );
+    ))['products'];
 
     Map<String, dynamic> cartItems = await getCartProductId();
 
@@ -187,7 +189,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   void _toDeliverTo() async {
     await Get.to(
-      () => const DeliverTo(inCheckout: true),
+      () => DeliverTo(inCheckout: true, formatOfOrder: widget.formatOfOrder),
       routeName: 'DeliverTo',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,

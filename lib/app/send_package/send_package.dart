@@ -2,7 +2,6 @@
 
 import 'package:benji_user/src/repo/models/package/item_category.dart';
 import 'package:benji_user/src/repo/models/package/item_weight.dart';
-import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';

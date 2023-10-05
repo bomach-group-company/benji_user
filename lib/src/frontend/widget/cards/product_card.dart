@@ -31,20 +31,17 @@ class _MyCardState extends State<MyCard> {
   }
 
   Future<void> _cartAddFunction() async {
-    await addToCart(
-        widget.product.vendor.id!.toString(), widget.product.id.toString());
+    await addToCart(widget.product.id.toString());
     setState(() {});
   }
 
   Future<void> _cartRemoveFunction() async {
-    await removeFromCart(
-        widget.product.vendor.id!.toString(), widget.product.id.toString());
+    await removeFromCart(widget.product.id.toString());
     setState(() {});
   }
 
   Future<bool> _cartCount() async {
-    int count = await countCartItemByProduct(
-        widget.product.vendor.id!.toString(), widget.product.id.toString());
+    int count = await countCartItemByProduct(widget.product.id.toString());
     return count > 0;
   }
 

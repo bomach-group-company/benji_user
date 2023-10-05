@@ -13,7 +13,6 @@ import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
-import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 
 class HomePageProducts extends StatefulWidget {

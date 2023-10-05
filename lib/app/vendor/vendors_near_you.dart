@@ -10,7 +10,6 @@ import '../../src/common_widgets/vendor/vendors_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/vendor/vendor.dart';
-import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 
 class VendorsNearYou extends StatefulWidget {

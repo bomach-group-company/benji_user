@@ -4,7 +4,6 @@ import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/models/order/order_item.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
-import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:http/http.dart' as http;
 
 import '../user/user_model.dart';
@@ -64,27 +63,13 @@ Future<List<Order>> getOrders(id) async {
   }
 }
 
-Future<bool> createOrder(String clientId, String deliveryAddressId) async {
-  Map<String, dynamic> cartData = await getCartProductId();
-  List<Map<String, dynamic>> productsData = [];
-  for (var item in cartData.keys) {
-    productsData.add({
-      'product_id': item,
-      'quantity': int.parse(cartData[item]),
-    });
-  }
+Future<bool> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
+  int? userId = (await getUser())!.id;
 
-  Map data = {
-    "products_data": productsData,
-    "order_data": {
-      "delivery_address_id": deliveryAddressId,
-      "delivery_fee": 5000
-    }
-  };
   final response = await http.post(
-    Uri.parse('$baseURL/clients/$clientId/clientCreateOrder'),
+    Uri.parse('$baseURL/clients/$userId/clientCreateOrder'),
     headers: await authHeader(),
-    body: data,
+    body: formatOfOrder,
   );
   return response.body == '"Order Created Successfully"' &&
       response.statusCode == 200;
