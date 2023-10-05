@@ -226,6 +226,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
     latitude = latLngDetailController.latLngDetail.value[0];
     longitude = latLngDetailController.latLngDetail.value[1];
     _mapsLocationEC.text = latLngDetailController.latLngDetail.value[2];
+    latLngDetailController.setEmpty();
     if (kDebugMode) {
       print("LATLNG: $latitude,$longitude");
       print(_mapsLocationEC.text);
