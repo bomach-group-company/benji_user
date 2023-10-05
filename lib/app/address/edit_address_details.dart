@@ -49,7 +49,8 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
 
   final TextEditingController _phoneNumberEC = TextEditingController();
   final TextEditingController _mapsLocationEC = TextEditingController();
-  final LatLngDetailController latLngDetailController = Get.find();
+  final LatLngDetailController latLngDetailController =
+      Get.put(LatLngDetailController());
 
   //===================== FOCUS NODES =======================\\
   final FocusNode _addressTitleFN = FocusNode();

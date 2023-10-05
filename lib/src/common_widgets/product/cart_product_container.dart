@@ -48,8 +48,7 @@ class ProductCartContainerState extends State<ProductCartContainer> {
 //===================== Cart logic functions ==========================\\
 
   checkCart() async {
-    int countAll = await countCartItemByProduct(
-        widget.product.vendorId.id!.toString(), widget.product.id.toString());
+    int countAll = await countCartItemByProduct(widget.product.id.toString());
 
     setState(() {
       cartCountAll = countAll.toString();
