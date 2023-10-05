@@ -229,7 +229,9 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    print(latLngDetailController.latLngDetail.value);
+    if (kDebugMode) {
+      print(latLngDetailController.latLngDetail.value);
+    }
     latitude = latLngDetailController.latLngDetail.value[0];
     longitude = latLngDetailController.latLngDetail.value[1];
     _mapsLocationEC.text = latLngDetailController.latLngDetail.value[2];

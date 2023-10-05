@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "1020593391839",
-    "project_id": "benji-18de3",
-    "storage_bucket": "benji-18de3.appspot.com"
+    "project_number": "912983858748",
+    "project_id": "keen-tokenizer-400311",
+    "storage_bucket": "keen-tokenizer-400311.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1020593391839:android:c287bd2ccce72f8c31816a",
+        "mobilesdk_app_id": "1:912983858748:android:e9448de927eb7d480bad39",
         "android_client_info": {
-          "package_name": "com.benji.benji_user"
+          "package_name": "com.benji"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "1020593391839-1kutqda4855dk1oiqu1p813j7ta11tqc.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC1NF_aC8Tx_zTqKdSHGenz3460djHrVcE"
+          "current_key": "AIzaSyDFliG30yK5Kni1TDp8R0aCSxN-7tDyqg8"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1020593391839-1kutqda4855dk1oiqu1p813j7ta11tqc.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

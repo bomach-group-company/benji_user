@@ -543,6 +543,45 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ),
               ),
               kHalfSizedBox,
+              kHalfSizedBox,
+              Container(
+                width: mediaWidth,
+                decoration: ShapeDecoration(
+                  color: kPrimaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  shadows: const [
+                    BoxShadow(
+                      color: Color(0x0F000000),
+                      blurRadius: 24,
+                      offset: Offset(0, 4),
+                      spreadRadius: 0,
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  enableFeedback: true,
+                  leading: FaIcon(
+                    FontAwesomeIcons.solidBell,
+                    color: kAccentColor,
+                  ),
+                  title: const Text(
+                    'Enable Notifications',
+                    style: TextStyle(
+                      color: kTextBlackColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  trailing: const FaIcon(
+                    FontAwesomeIcons.chevronRight,
+                    size: 16,
+                    color: kTextBlackColor,
+                  ),
+                ),
+              ),
+              kHalfSizedBox,
               InkWell(
                 onTap: _logOut,
                 borderRadius: BorderRadius.circular(12),
@@ -577,7 +616,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ),
                     trailing: const Icon(
-                      Icons.arrow_forward_ios_rounded,
+                      FontAwesomeIcons.chevronRight,
                       size: 16,
                       color: kTextBlackColor,
                     ),

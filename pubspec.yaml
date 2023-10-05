@@ -52,7 +52,7 @@ dependencies:
   carousel_slider: ^4.2.1
   sentry_flutter:
   flutter_local_notifications:
-  native_notify:
+  onesignal_flutter:
 
 dev_dependencies:
   flutter_test:
