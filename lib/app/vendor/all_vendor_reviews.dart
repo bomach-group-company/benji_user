@@ -11,7 +11,6 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../src/repo/models/rating/ratings.dart';
 import '../../src/repo/models/vendor/vendor.dart';
-import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 
 class AllVendorReviews extends StatefulWidget {

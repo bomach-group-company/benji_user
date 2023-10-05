@@ -80,17 +80,26 @@ Future<Map<String, dynamic>> getCartProductId() async {
   return res;
 }
 
-Future<List<Product>> getCartProduct([Function(String)? whenError]) async {
+Future<Map> getCartProduct([Function(String)? whenError]) async {
   List<Product> res = [];
+  List<Map<String, dynamic>> formatOfOrder = [];
   Map product = await getCartProductId();
   for (String item in product.keys) {
     try {
-      res.add(await getProductById(item));
+      Product product = await getProductById(item);
+      int quantity = await countCartItemByProduct(item);
+      res.add(product);
+      formatOfOrder.add({
+        "product_id": product.id,
+        "quantity": quantity,
+        "pre_total": quantity * product.price,
+        // "delivery_address": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+      });
     } catch (e) {
       if (whenError != null) {
         whenError(item);
       }
     }
   }
-  return res;
+  return {'products': res, 'formatOfOrder': formatOfOrder};
 }

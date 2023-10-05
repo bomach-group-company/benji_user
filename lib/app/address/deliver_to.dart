@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:benji_user/app/checkout/checkout_screen.dart';
 import 'package:benji_user/src/repo/models/address/address_model.dart';
-import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji_user/src/repo/models/order/order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
@@ -20,8 +20,10 @@ import '../../theme/colors.dart';
 import 'add_new_address.dart';
 
 class DeliverTo extends StatefulWidget {
+  final List<Map<String, dynamic>> formatOfOrder;
   final bool inCheckout;
-  const DeliverTo({super.key, this.inCheckout = false});
+  const DeliverTo(
+      {super.key, required this.formatOfOrder, this.inCheckout = false});
 
   @override
   State<DeliverTo> createState() => _DeliverToState();
@@ -34,13 +36,14 @@ class _DeliverToState extends State<DeliverTo> {
   bool _isLoading = false;
 
   String _currentOption = '';
-
+  late List<Map<String, dynamic>> formatOfOrder;
   //===================== STATES =======================\\
 
   @override
   void initState() {
     super.initState();
     _getData();
+    formatOfOrder = widget.formatOfOrder;
   }
 
   Map? _addressData;
@@ -122,12 +125,19 @@ class _DeliverToState extends State<DeliverTo> {
     }
     try {
       await setCurrentAddress(addressId);
-      // here i need to create that order aby sending it to the backend
+      // here i need to create that order by sending it to the backend
+      formatOfOrder.map((item) {
+        item['delivery_address'] = addressId;
+        return item;
+      });
+      //not after adding the address now post it to the endpoint
+      await createOrder(formatOfOrder);
+      // need to check if the order was created and get the delivery fee
       if (widget.inCheckout) {
         Get.back();
       } else {
         Get.off(
-          () => const CheckoutScreen(),
+          () => CheckoutScreen(formatOfOrder: formatOfOrder),
           routeName: 'CheckoutScreen',
           duration: const Duration(milliseconds: 300),
           fullscreenDialog: true,

@@ -39,10 +39,12 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   List<Product>? _data;
+  // will be passed into the select delivery address page
+  List<Map<String, dynamic>>? formatOfOrder;
 
   _getData() async {
     _subTotal = 0;
-    List<Product> product = await getCartProduct(
+    Map allData = await getCartProduct(
       (data) => mySnackBar(
         context,
         kAccentColor,
@@ -53,6 +55,7 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
     );
+    List<Product> product = allData['products'];
     Map<String, dynamic> cartItems = await getCartProductId();
 
     for (Product item in product) {
@@ -60,6 +63,7 @@ class _CartScreenState extends State<CartScreen> {
     }
 
     setState(() {
+      formatOfOrder = allData['formatOfOrder'];
       _data = product;
       _itemCount = _data!.length;
     });
@@ -118,7 +122,7 @@ class _CartScreenState extends State<CartScreen> {
       );
 
   void _toCheckoutScreen() => Get.to(
-        () => const DeliverTo(),
+        () => DeliverTo(formatOfOrder: formatOfOrder!),
         routeName: 'DeliverTo',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
