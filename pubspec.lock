@@ -57,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  awesome_notifications:
+    dependency: transitive
+    description:
+      name: awesome_notifications
+      sha256: "6482ced1a57d0cb7eaecafdeb8ac5ef8547dfd39e5e6af7b24e220b8fd888a6e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.21"
   barcode:
     dependency: transitive
     description:
@@ -249,6 +257,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3+1"
+  firebase_core:
+    dependency: transitive
+    description:
+      name: firebase_core
+      sha256: "4f1d7c13a909e82ff026679c9b8493cdeb35a9c76bc46c42bf9e2240c9e57e80"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.24.0"
+  firebase_core_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_core_platform_interface
+      sha256: b63e3be6c96ef5c33bdec1aab23c91eb00696f6452f0519401d640938c94cba2
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.8.0"
+  firebase_core_web:
+    dependency: transitive
+    description:
+      name: firebase_core_web
+      sha256: "839f1b48032a61962792cea1225fae030d4f27163867f181d6d2072dd40acbee"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.7.3"
+  firebase_messaging:
+    dependency: transitive
+    description:
+      name: firebase_messaging
+      sha256: "446a59243da7eb27924f3a5a594185564a4483c33fe922b13f593a92391760a0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.4.4"
+  firebase_messaging_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_messaging_platform_interface
+      sha256: "3e85a7578b47e08a39e318832dbb795d70c95733bc925b9596b5cc9656eaa127"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.5.4"
+  firebase_messaging_web:
+    dependency: transitive
+    description:
+      name: firebase_messaging_web
+      sha256: "918d17ad2df94284b71f843e420f8f3257b12c67ae2b33c2931a88d0b7a182fd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.4"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -346,10 +402,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_polyline_points
-      sha256: "0e07862139cb65a88789cd6efbe284c0b6f1fcb5ed5ec87781759c48190d84b9"
+      sha256: "02699e69142f51a248d784b6e3eec524194467fca5f7c4da19699ce2368b6980"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "1.0.0"
   flutter_pw_validator:
     dependency: "direct main"
     description:
@@ -492,10 +548,10 @@ packages:
     dependency: "direct main"
     description:
       name: google_fonts
-      sha256: e20ff62b158b96f392bfc8afe29dee1503c94fbea2cbe8186fd59b756b8ae982
+      sha256: "6b6f10f0ce3c42f6552d1c70d2c28d764cf22bb487f50f66cca31dcd5194f4d6"
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.0"
+    version: "4.0.4"
   google_maps:
     dependency: transitive
     description:
@@ -564,10 +620,10 @@ packages:
     dependency: "direct main"
     description:
       name: http
-      sha256: "759d1a329847dd0f39226c688d3e06a6b8679668e350e2891a6474f8b4bb8525"
+      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "0.13.6"
   http_parser:
     dependency: "direct main"
     description:
@@ -652,10 +708,10 @@ packages:
     dependency: "direct main"
     description:
       name: intl
-      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"
       url: "https://pub.dev"
     source: hosted
-    version: "0.18.1"
+    version: "0.17.0"
   intl_phone_field:
     dependency: "direct main"
     description:
@@ -752,14 +808,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
-  onesignal_flutter:
+  native_notify:
     dependency: "direct main"
     description:
-      name: onesignal_flutter
-      sha256: "79add7f791dbb6939a014006d314ea97b281df1ecd484351bce83c00c942246c"
+      name: native_notify
+      sha256: "1fb03144a88acea933fcad5b997aeca7fe10c723614eb328d6d722791161e0ab"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.2"
+    version: "0.0.17"
   package_info_plus:
     dependency: transitive
     description:
@@ -904,6 +960,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.4.0"
+  plain_notification_token:
+    dependency: transitive
+    description:
+      name: plain_notification_token
+      sha256: "32481c1c6ad76613ed38822ffe819ea5d5534f9e07e8ff1d44aafe069f45ea24"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   platform:
     dependency: transitive
     description:

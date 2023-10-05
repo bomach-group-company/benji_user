@@ -46,7 +46,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   //===================== CONTROLLERS =======================\\
   final _scrollController = ScrollController();
   final TextEditingController _addressTitleEC = TextEditingController();
-  final TextEditingController _apartmentDetailsEC = TextEditingController();
+
   final TextEditingController _phoneNumberEC = TextEditingController();
   final TextEditingController _mapsLocationEC = TextEditingController();
   final LatLngDetailController latLngDetailController = Get.find();
@@ -66,8 +66,8 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   bool _isLoading = false;
   bool _isLoading2 = false;
   bool _typing = false;
-  double? latitude;
-  double? longitude;
+  String? latitude;
+  String? longitude;
   //===================== FUNCTIONS =======================\\
 
   _setLocation(index) async {
@@ -79,8 +79,8 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
     });
 
     List<Location> location = await locationFromAddress(newLocation);
-    latitude = location[0].latitude;
-    longitude = location[0].longitude;
+    latitude = location[0].latitude.toString();
+    longitude = location[0].longitude.toString();
   }
 
   Future<bool> updateAddress({bool is_current = true}) async {
@@ -147,10 +147,11 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
     super.initState();
     checkAuth(context);
     _addressTitleEC.text = widget.address.title ?? '';
-    // _streetAddressEC.text = widget.address.streetAddress ?? '';
-    _apartmentDetailsEC.text = widget.address.details ?? '';
+    _mapsLocationEC.text = widget.address.details ?? '';
     _phoneNumberEC.text =
         (widget.address.phone ?? '').replaceFirst('+$countryDialCode', '');
+    latitude = widget.address.latitude;
+    longitude = widget.address.longitude;
   }
 
   //SAVE NEW ADDRESS
@@ -232,6 +233,11 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
     latitude = latLngDetailController.latLngDetail.value[0];
     longitude = latLngDetailController.latLngDetail.value[1];
     _mapsLocationEC.text = latLngDetailController.latLngDetail.value[2];
+    latLngDetailController.setEmpty();
+    if (kDebugMode) {
+      print("LATLNG: $latitude,$longitude");
+      print(_mapsLocationEC.text);
+    }
   }
 
   @override
