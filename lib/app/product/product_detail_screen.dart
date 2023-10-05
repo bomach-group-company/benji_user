@@ -129,8 +129,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   checkCart() async {
-    int countAll = await countCartItemByProduct(
-        widget.product.vendorId.id!.toString(), widget.product.id.toString());
+    int countAll = await countCartItemByProduct(widget.product.id.toString());
 
     setState(() {
       cartCountAll = countAll.toString();
@@ -191,20 +190,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //============================= Cart utility functions ============================\\
 
   void incrementQuantity() async {
-    await addToCart(
-        widget.product.vendorId.id!.toString(), widget.product.id.toString());
+    await addToCart(widget.product.id.toString());
     await checkCart();
   }
 
   void decrementQuantity() async {
-    await minusFromCart(
-        widget.product.vendorId.id!.toString(), widget.product.id.toString());
+    await minusFromCart(widget.product.id.toString());
     await checkCart();
   }
 
   Future<void> _cartAddFunction() async {
-    await addToCart(
-        widget.product.vendorId.id!.toString(), widget.product.id.toString());
+    await addToCart(widget.product.id.toString());
     await checkCart();
 
     mySnackBar(

@@ -81,7 +81,7 @@ class _CartScreenState extends State<CartScreen> {
 //==================================================== FUNCTIONS ==========================================================\\
 
   void incrementQuantity(Product product) async {
-    await addToCart(product.vendorId.id!.toString(), product.id);
+    await addToCart(product.id);
     if (_data != null) {
       _subTotal += product.price;
     }
@@ -89,7 +89,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void decrementQuantity(Product product) async {
-    await minusFromCart(product.vendorId.id!.toString(), product.id);
+    await minusFromCart(product.id);
     if (_data != null) {
       _subTotal -= product.price;
     }
