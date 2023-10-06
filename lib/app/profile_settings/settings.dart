@@ -18,18 +18,19 @@ import '../../src/providers/constants.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../src/repo/utils/base_url.dart';
 import '../../src/repo/utils/helpers.dart';
+import '../../src/repo/utils/notifications_controller.dart';
 import '../../theme/colors.dart';
 import '../auth/login.dart';
 import 'edit_profile.dart';
 
-class ProfileSettings extends StatefulWidget {
-  const ProfileSettings({super.key});
+class Settings extends StatefulWidget {
+  const Settings({super.key});
 
   @override
-  State<ProfileSettings> createState() => _ProfileSettingsState();
+  State<Settings> createState() => _SettingsState();
 }
 
-class _ProfileSettingsState extends State<ProfileSettings> {
+class _SettingsState extends State<Settings> {
   //================================================= INITIAL STATE AND DISPOSE =====================================================\\
   @override
   void initState() {
@@ -51,6 +52,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   File? selectedImage;
 
 //============================================== BOOL VALUES =================================================\\
+  bool notificationsIsOff = true;
 
   //===================== COPY TO CLIPBOARD =======================\\
   void _copyToClipboard(BuildContext context, String userID) {
@@ -262,7 +264,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     double mediaWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: MyAppBar(
-        title: "Profile Settings",
+        title: "Settings",
         elevation: 0.0,
         actions: const [],
         backgroundColor: kPrimaryColor,
@@ -543,7 +545,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ),
               ),
               kHalfSizedBox,
-              kHalfSizedBox,
               Container(
                 width: mediaWidth,
                 decoration: ShapeDecoration(
@@ -574,10 +575,24 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  trailing: const FaIcon(
-                    FontAwesomeIcons.chevronRight,
-                    size: 16,
-                    color: kTextBlackColor,
+                  trailing: IconButton(
+                    onPressed: () async {
+                      setState(() {
+                        notificationsIsOff = !notificationsIsOff;
+                      });
+                      if (!notificationsIsOff) {
+                        enableNotifications(!notificationsIsOff);
+                      } else if (notificationsIsOff) {
+                        disableNotifications(notificationsIsOff);
+                      }
+                    },
+                    icon: FaIcon(
+                      notificationsIsOff
+                          ? FontAwesomeIcons.toggleOff
+                          : FontAwesomeIcons.toggleOn,
+                      size: 16,
+                      color: kAccentColor,
+                    ),
                   ),
                 ),
               ),

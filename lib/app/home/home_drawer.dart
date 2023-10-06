@@ -10,7 +10,7 @@ import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
 class HomeDrawer extends StatefulWidget {
-  final Function() toProfileSettings;
+  final Function() toSettings;
   final Function() copyUserIdToClipBoard;
   final Function() toCheckoutScreen;
   final Function() toFavoritesPage;
@@ -31,7 +31,7 @@ class HomeDrawer extends StatefulWidget {
     required this.toSendPackagePage,
     required this.logOut,
     required this.toFavoritesPage,
-    required this.toProfileSettings,
+    required this.toSettings,
     required this.toMyPackagesPage,
     required this.toCheckoutScreen,
   });
@@ -134,13 +134,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ),
           kHalfSizedBox,
           ListTile(
-            onTap: widget.toProfileSettings,
+            onTap: widget.toSettings,
             leading: FaIcon(
               FontAwesomeIcons.gear,
               color: kAccentColor,
             ),
             title: const Text(
-              'Profile Settings',
+              'Settings',
               style: TextStyle(
                 color: kTextBlackColor,
                 fontSize: 12,

@@ -20,7 +20,6 @@ import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../src/common_widgets/appbar/appbar_delivery_location.dart';
@@ -32,11 +31,10 @@ import '../../src/common_widgets/simple_item/category_item.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/others/cart_card.dart';
 import '../../src/providers/constants.dart';
-import '../../src/providers/keys.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
-import '../../src/repo/models/user/user_model.dart';
 import '../../src/repo/models/vendor/vendor.dart';
+import '../../src/repo/utils/notifications_controller.dart';
 import '../../theme/colors.dart';
 import '../address/addresses.dart';
 import '../auth/login.dart';
@@ -44,7 +42,7 @@ import '../my_packages/my_packages.dart';
 import '../orders/order_history.dart';
 import '../product/home_page_products.dart';
 import '../product/product_detail_screen.dart';
-import '../profile_settings/profile_settings.dart';
+import '../profile_settings/settings.dart';
 import '../send_package/send_package.dart';
 import '../vendor/popular_vendors.dart';
 import '../vendor/vendor_details.dart';
@@ -163,17 +161,6 @@ class _HomeState extends State<Home> {
 
   //==================================================== FUNCTIONS ===========================================================\\
 
-  Future<void> loadOneSignal() async {
-    User? user = await getUser();
-
-    OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-    OneSignal.Debug.setAlertLevel(OSLogLevel.none);
-    OneSignal.initialize(onSignalAppID);
-    OneSignal.Notifications.requestPermission(true);
-    OneSignal.User.addEmail(user!.email!);
-    OneSignal.User.addSms(user.phone!);
-  }
-
   //===================== Scroll to Top ==========================\\
   Future<void> _scrollToTop() async {
     await _scrollController.animateTo(
@@ -232,10 +219,10 @@ class _HomeState extends State<Home> {
         transition: Transition.downToUp,
       );
 
-  void _toProfileSettings() async {
+  void _toSettings() async {
     await Get.to(
-      () => const ProfileSettings(),
-      routeName: 'ProfileSettings',
+      () => const Settings(),
+      routeName: 'Settings',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,
@@ -403,7 +390,7 @@ class _HomeState extends State<Home> {
           future: getUser(),
           child: (data) => HomeDrawer(
             userID: data.code,
-            toProfileSettings: _toProfileSettings,
+            toSettings: _toSettings,
             copyUserIdToClipBoard: () {
               _copyToClipboard(context, data.code);
             },
