@@ -4,9 +4,7 @@ import 'dart:math';
 
 import 'package:benji_user/app/checkout/checkout_screen.dart';
 import 'package:benji_user/src/repo/models/address/address_model.dart';
-
 import 'package:benji_user/src/repo/models/order/order.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
@@ -32,15 +30,6 @@ class DeliverTo extends StatefulWidget {
 }
 
 class _DeliverToState extends State<DeliverTo> {
-
-  //=================================== ALL VARIABLES =====================================\\
-
-  //=========================== BOOL VALUES ====================================\\
-  bool _isLoading = false;
-
-  String _currentOption = '';
-  late List<Map<String, dynamic>> formatOfOrder;
-
   //===================== STATES =======================\\
 
   @override
@@ -59,6 +48,7 @@ class _DeliverToState extends State<DeliverTo> {
   bool _isLoading = false;
 
   String _currentOption = '';
+  late List<Map<String, dynamic>> formatOfOrder;
 
   //===================== CONTROLLERS =======================\\
   final _scrollController = ScrollController();
