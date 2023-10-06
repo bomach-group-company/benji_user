@@ -16,7 +16,6 @@ import '../home/home.dart';
 import '../onboarding/onboarding_screen.dart';
 
 class StartupSplashscreen extends StatefulWidget {
-  static String routeName = "Startup Splash Screen";
   const StartupSplashscreen({super.key});
 
   @override
