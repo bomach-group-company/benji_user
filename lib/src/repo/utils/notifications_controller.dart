@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../../../main.dart';
@@ -29,6 +27,7 @@ Future<void> enableNotifications(bool value) async {
   OneSignal.Notifications.addForegroundWillDisplayListener((event) {
     OSNotificationDisplayType.notification;
   });
+  await setNotificationStatus(true);
 }
 
 Future<void> disableNotifications(bool value) async {
@@ -38,9 +37,15 @@ Future<void> disableNotifications(bool value) async {
   OneSignal.Notifications.removeForegroundWillDisplayListener((event) {
     OSNotificationDisplayType.none;
   });
+  await setNotificationStatus(false);
 }
 
-Future<bool> isNotificationEnabled(bool status) async {
+bool isNotificationEnabled() {
+  bool? status = prefs.getBool('isNotificationEnabled');
+  return status ?? false;
+}
+
+Future<bool> setNotificationStatus(bool status) async {
   await prefs.setBool('isNotificationEnabled', status);
   return status;
 }
