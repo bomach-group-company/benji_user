@@ -7,7 +7,7 @@ List<OnboardModel> screens = <OnboardModel>[
   OnboardModel(
     img: 'assets/images/onboarding_screen/frame-1.png',
     text: "Order from your favorite Stores",
-    subtext: "and have it delivered to any address \nof your choice",
+    subtext: "Have it delivered to any address \nof your choice",
     bg: kSecondaryColor,
     button: kAccentColor,
   ),
@@ -20,8 +20,8 @@ List<OnboardModel> screens = <OnboardModel>[
   ),
   OnboardModel(
     img: 'assets/images/onboarding_screen/frame-3.png',
-    text: "Explore Variety of \nProducts",
-    subtext: "search for your preferred product \nbrand and specification",
+    text: "Explore Varieties of \nProducts",
+    subtext: "Search for your preferred product \nbrand and specification",
     bg: kSecondaryColor,
     button: kAccentColor,
   ),
