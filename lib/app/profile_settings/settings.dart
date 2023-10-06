@@ -52,7 +52,7 @@ class _SettingsState extends State<Settings> {
   File? selectedImage;
 
 //============================================== BOOL VALUES =================================================\\
-  bool notificationsIsOff = isNotificationEnabled();
+  bool notificationsIsOn = isNotificationEnabled();
 
   //===================== COPY TO CLIPBOARD =======================\\
   void _copyToClipboard(BuildContext context, String userID) {
@@ -561,63 +561,40 @@ class _SettingsState extends State<Settings> {
                     ),
                   ],
                 ),
-                child: SwitchListTile(
-                  value: notificationsIsOn,
-                  onChanged: (value) {
-                    notificationsIsOn = !notificationsIsOn;
-                  },
-                  activeColor: kAccentColor,
-                  inactiveThumbColor: kGreyColor,
-                  controlAffinity: ListTileControlAffinity.platform,
-                  title: Text(
-                    notificationsIsOn
-                        ? "Enable Notifications"
-                        : "Disable Notifications",
-                    style: const TextStyle(
+                child: ListTile(
+                  enableFeedback: true,
+                  leading: FaIcon(
+                    FontAwesomeIcons.solidBell,
+                    color: kAccentColor,
+                  ),
+                  title: const Text(
+                    'Enable Notifications',
+                    style: TextStyle(
                       color: kTextBlackColor,
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
+                  trailing: IconButton(
+                    onPressed: () async {
+                      if (!notificationsIsOn) {
+                        enableNotifications(!notificationsIsOn);
+                      } else if (notificationsIsOn) {
+                        disableNotifications(notificationsIsOn);
+                      }
+                      setState(() {
+                        notificationsIsOn = !notificationsIsOn;
+                      });
+                    },
+                    icon: FaIcon(
+                      notificationsIsOn
+                          ? FontAwesomeIcons.toggleOff
+                          : FontAwesomeIcons.toggleOn,
+                      size: 18,
+                      color: kAccentColor,
+                    ),
+                  ),
                 ),
-
-                // ListTile(
-                //   enableFeedback: true,
-                //   leading: FaIcon(
-                //     FontAwesomeIcons.solidBell,
-                //     color: kAccentColor,
-                //   ),
-                //   title: const Text(
-                //     'Enable Notifications',
-                //     style: TextStyle(
-                //       color: kTextBlackColor,
-                //       fontSize: 12,
-                //       fontWeight: FontWeight.w400,
-                //     ),
-                //   ),
-
-                //   trailing:
-
-                //   IconButton(
-                //     onPressed: () async {
-                //       setState(() {
-                //         notificationsIsOn = !notificationsIsOn;
-                //       });
-                //       if (!notificationsIsOn) {
-                //         enableNotifications(!notificationsIsOn);
-                //       } else if (notificationsIsOn) {
-                //         disableNotifications(notificationsIsOn);
-                //       }
-                //     },
-                //     icon: FaIcon(
-                //       notificationsIsOn
-                //           ? FontAwesomeIcons.toggleOff
-                //           : FontAwesomeIcons.toggleOn,
-                //       size: 18,
-                //       color: kAccentColor,
-                //     ),
-                //   ),
-                // ),
               ),
               kHalfSizedBox,
               InkWell(
