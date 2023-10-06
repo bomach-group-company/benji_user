@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:benji_user/app/profile_settings/change_password.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/providers/responsive_constant.dart';
+import 'package:benji_user/src/repo/utils/notifications_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,7 +52,7 @@ class _SettingsState extends State<Settings> {
   File? selectedImage;
 
 //============================================== BOOL VALUES =================================================\\
-  bool notificationsIsOn = false;
+  bool notificationsIsOff = isNotificationEnabled();
 
   //===================== COPY TO CLIPBOARD =======================\\
   void _copyToClipboard(BuildContext context, String userID) {

@@ -65,12 +65,14 @@ Future<List<Order>> getOrders(id) async {
 
 Future<bool> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
   int? userId = (await getUser())!.id;
-
+  print(jsonEncode(formatOfOrder));
   final response = await http.post(
-    Uri.parse('$baseURL/clients/$userId/clientCreateOrder'),
+    Uri.parse('$baseURL/orders/createOrder?client_id=$userId'),
     headers: await authHeader(),
-    body: formatOfOrder,
+    body: jsonEncode(formatOfOrder),
   );
+  print(response.body);
+  print(response.statusCode);
   return response.body == '"Order Created Successfully"' &&
       response.statusCode == 200;
 }

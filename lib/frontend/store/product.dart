@@ -162,9 +162,9 @@ class _ProductPageState extends State<ProductPage> {
                                       ),
                                       height: media.height * 0.5,
                                       decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                                '$mediaBaseFrontendUrl${snapshot.data['product'].productImage}'),
+                                          image: const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/products/okra-soup.png"),
                                             fit: BoxFit.contain,
                                           ),
                                           border:
@@ -248,7 +248,7 @@ class _ProductPageState extends State<ProductPage> {
                                           children: [
                                             Expanded(
                                               child: Text(
-                                                '\$$price',
+                                                '₦$price',
                                                 style: const TextStyle(
                                                   fontSize: 22,
                                                   fontWeight: FontWeight.w700,
@@ -298,7 +298,7 @@ class _ProductPageState extends State<ProductPage> {
                                         //               ),
                                         //             ),
                                         //             Text(
-                                        //               '\$40.00',
+                                        //               '₦40.00',
                                         //               style: TextStyle(
                                         //                 color: Colors.black45,
                                         //               ),
@@ -335,7 +335,7 @@ class _ProductPageState extends State<ProductPage> {
                                         //               ),
                                         //             ),
                                         //             Text(
-                                        //               '\$20.00',
+                                        //               '₦20.00',
                                         //               style: TextStyle(
                                         //                 color: Colors.black45,
                                         //               ),
