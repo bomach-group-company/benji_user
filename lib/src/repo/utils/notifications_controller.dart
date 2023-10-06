@@ -12,7 +12,6 @@ Future<void> loadOneSignal() async {
   OneSignal.initialize(oneSignalAppID);
   OneSignal.Notifications.canRequest();
   OneSignal.Notifications.requestPermission(true);
-  OneSignal.Location.requestPermission();
   OneSignal.User.addEmail(user!.email!);
   OneSignal.User.addSms(user.phone!);
   OSNotificationPermission.provisional;

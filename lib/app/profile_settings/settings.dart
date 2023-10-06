@@ -18,7 +18,6 @@ import '../../src/providers/constants.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../src/repo/utils/base_url.dart';
 import '../../src/repo/utils/helpers.dart';
-import '../../src/repo/utils/notifications_controller.dart';
 import '../../theme/colors.dart';
 import '../auth/login.dart';
 import 'edit_profile.dart';
@@ -52,7 +51,7 @@ class _SettingsState extends State<Settings> {
   File? selectedImage;
 
 //============================================== BOOL VALUES =================================================\\
-  bool notificationsIsOff = true;
+  bool notificationsIsOn = false;
 
   //===================== COPY TO CLIPBOARD =======================\\
   void _copyToClipboard(BuildContext context, String userID) {
@@ -561,40 +560,63 @@ class _SettingsState extends State<Settings> {
                     ),
                   ],
                 ),
-                child: ListTile(
-                  enableFeedback: true,
-                  leading: FaIcon(
-                    FontAwesomeIcons.solidBell,
-                    color: kAccentColor,
-                  ),
-                  title: const Text(
-                    'Enable Notifications',
-                    style: TextStyle(
+                child: SwitchListTile(
+                  value: notificationsIsOn,
+                  onChanged: (value) {
+                    notificationsIsOn = !notificationsIsOn;
+                  },
+                  activeColor: kAccentColor,
+                  inactiveThumbColor: kGreyColor,
+                  controlAffinity: ListTileControlAffinity.platform,
+                  title: Text(
+                    notificationsIsOn
+                        ? "Enable Notifications"
+                        : "Disable Notifications",
+                    style: const TextStyle(
                       color: kTextBlackColor,
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  trailing: IconButton(
-                    onPressed: () async {
-                      setState(() {
-                        notificationsIsOff = !notificationsIsOff;
-                      });
-                      if (!notificationsIsOff) {
-                        enableNotifications(!notificationsIsOff);
-                      } else if (notificationsIsOff) {
-                        disableNotifications(notificationsIsOff);
-                      }
-                    },
-                    icon: FaIcon(
-                      notificationsIsOff
-                          ? FontAwesomeIcons.toggleOff
-                          : FontAwesomeIcons.toggleOn,
-                      size: 16,
-                      color: kAccentColor,
-                    ),
-                  ),
                 ),
+
+                // ListTile(
+                //   enableFeedback: true,
+                //   leading: FaIcon(
+                //     FontAwesomeIcons.solidBell,
+                //     color: kAccentColor,
+                //   ),
+                //   title: const Text(
+                //     'Enable Notifications',
+                //     style: TextStyle(
+                //       color: kTextBlackColor,
+                //       fontSize: 12,
+                //       fontWeight: FontWeight.w400,
+                //     ),
+                //   ),
+
+                //   trailing:
+
+                //   IconButton(
+                //     onPressed: () async {
+                //       setState(() {
+                //         notificationsIsOn = !notificationsIsOn;
+                //       });
+                //       if (!notificationsIsOn) {
+                //         enableNotifications(!notificationsIsOn);
+                //       } else if (notificationsIsOn) {
+                //         disableNotifications(notificationsIsOn);
+                //       }
+                //     },
+                //     icon: FaIcon(
+                //       notificationsIsOn
+                //           ? FontAwesomeIcons.toggleOff
+                //           : FontAwesomeIcons.toggleOn,
+                //       size: 18,
+                //       color: kAccentColor,
+                //     ),
+                //   ),
+                // ),
               ),
               kHalfSizedBox,
               InkWell(
