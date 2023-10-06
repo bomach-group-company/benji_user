@@ -98,14 +98,14 @@ class _MyCardState extends State<MyCard> {
                   onTap: widget.action,
                   child: Center(
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.grey,
-                        borderRadius: const BorderRadius.vertical(
+                        borderRadius: BorderRadius.vertical(
                           top: Radius.circular(10),
                         ),
                         image: DecorationImage(
-                            image: NetworkImage(
-                              widget.product.productImage!,
+                            image: AssetImage(
+                              "assets/images/products/okra-soup.png",
                             ),
                             fit: BoxFit.cover),
                       ),

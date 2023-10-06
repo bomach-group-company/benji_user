@@ -162,9 +162,9 @@ class _ProductPageState extends State<ProductPage> {
                                       ),
                                       height: media.height * 0.5,
                                       decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                                '$mediaBaseFrontendUrl${snapshot.data['product'].productImage}'),
+                                          image: const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/products/okra-soup.png"),
                                             fit: BoxFit.contain,
                                           ),
                                           border:

@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
+import '../../../main.dart';
 import '../../providers/keys.dart';
 import '../models/user/user_model.dart';
 import 'helpers.dart';
@@ -12,7 +15,6 @@ Future<void> loadOneSignal() async {
   OneSignal.initialize(oneSignalAppID);
   OneSignal.Notifications.canRequest();
   OneSignal.Notifications.requestPermission(true);
-  OneSignal.Location.requestPermission();
   OneSignal.User.addEmail(user!.email!);
   OneSignal.User.addSms(user.phone!);
   OSNotificationPermission.provisional;
@@ -36,4 +38,9 @@ Future<void> disableNotifications(bool value) async {
   OneSignal.Notifications.removeForegroundWillDisplayListener((event) {
     OSNotificationDisplayType.none;
   });
+}
+
+Future<bool> isNotificationEnabled(bool status) async {
+  await prefs.setBool('isNotificationEnabled', status);
+  return status;
 }

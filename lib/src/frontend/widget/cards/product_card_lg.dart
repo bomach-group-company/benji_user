@@ -117,12 +117,12 @@ class _MyCardLgState extends State<MyCardLg> {
                         MyClickable(
                           navigate: widget.navigate,
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               image: DecorationImage(
-                                image:
-                                    NetworkImage(widget.product.productImage!),
+                                image: AssetImage(
+                                    "assets/images/products/okra-soup.png"),
                               ),
-                              borderRadius: const BorderRadius.only(
+                              borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10),
                                 topRight: Radius.circular(10),
                               ),
