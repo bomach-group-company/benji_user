@@ -29,13 +29,6 @@ class DeliverTo extends StatefulWidget {
 }
 
 class _DeliverToState extends State<DeliverTo> {
-  //=================================== ALL VARIABLES =====================================\\
-
-  //=========================== BOOL VALUES ====================================\\
-  bool _isLoading = false;
-
-  String _currentOption = '';
-  late List<Map<String, dynamic>> formatOfOrder;
 
   //===================== STATES =======================\\
 
@@ -50,6 +43,12 @@ class _DeliverToState extends State<DeliverTo> {
 
   //=================================== ALL VARIABLES =====================================\\
   Map? _addressData;
+
+  //=========================== BOOL VALUES ====================================\\
+  bool _isLoading = false;
+
+  String _currentOption = '';
+  late List<Map<String, dynamic>> formatOfOrder;
 
   //===================== CONTROLLERS =======================\\
   final _scrollController = ScrollController();
