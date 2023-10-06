@@ -12,6 +12,7 @@ class MyMapsTextFormField extends StatelessWidget {
   final dynamic onSaved, onChanged;
   final TextInputAction textInputAction;
   final FocusNode focusNode;
+  final bool readOnly;
 
   final Widget prefixIcon;
 
@@ -26,11 +27,13 @@ class MyMapsTextFormField extends StatelessWidget {
     required this.textInputType,
     required this.prefixIcon,
     this.onChanged,
+    this.readOnly = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly,
       focusNode: focusNode,
       controller: controller,
       validator: validator,
