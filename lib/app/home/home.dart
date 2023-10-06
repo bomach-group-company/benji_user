@@ -34,7 +34,6 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
 import '../../src/repo/models/vendor/vendor.dart';
-import '../../src/repo/utils/notifications_controller.dart';
 import '../../theme/colors.dart';
 import '../address/addresses.dart';
 import '../auth/login.dart';
@@ -62,7 +61,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     checkAuth(context);
-    loadOneSignal();
+
     _products = Future(() => []);
     _subCategory = getSubCategories()
       ..then((value) {

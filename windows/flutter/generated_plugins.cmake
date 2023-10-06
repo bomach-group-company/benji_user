@@ -4,11 +4,11 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   agora_rtc_engine
+  awesome_notifications
   file_selector_windows
   geolocator_windows
   iris_method_channel
   permission_handler_windows
-  sentry_flutter
   share_plus
   url_launcher_windows
 )

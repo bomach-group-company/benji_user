@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:benji_user/app/address/get_location_on_map.dart';
 import 'package:benji_user/src/common_widgets/textformfield/my_maps_textformfield.dart';

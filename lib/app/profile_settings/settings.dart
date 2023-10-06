@@ -4,7 +4,6 @@ import 'package:animated_switch/animated_switch.dart';
 import 'package:benji_user/app/profile_settings/change_password.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/providers/responsive_constant.dart';
-import 'package:benji_user/src/repo/utils/notifications_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +16,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/others/my_future_builder.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/controllers.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../src/repo/utils/base_url.dart';
 import '../../src/repo/utils/helpers.dart';
@@ -170,18 +170,7 @@ class _SettingsState extends State<Settings> {
   //==================================================== FUNCTIONS ===========================================================\\
 
   //===================== Notification Function ==========================\\
-  notificationFunc() async {
-    print('before $notificationsIsOn');
-    if (notificationsIsOn) {
-      enableNotifications(!notificationsIsOn);
-    } else {
-      disableNotifications(notificationsIsOn);
-    }
-    setState(() {
-      notificationsIsOn = isNotificationEnabled();
-    });
-    print('after $notificationsIsOn');
-  }
+  notificationFunc() async {}
 
   //===================== Profile Picture ==========================\\
 
@@ -593,15 +582,15 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   trailing: IconButton(
-                    onPressed: notificationFunc,
+                    onPressed: () {},
                     icon: AnimatedSwitch(
+                      value: notificationsIsOn,
                       onChanged: (bool state) async {
                         if (kDebugMode) {
-                          print('turned ${(state) ? 'on' : 'off'}');
+                          print('turned state is $state');
                         }
-                        // notificationFunc;
                       },
-                      // onSwipe: notificationFunc,
+
                       // onTap: notificationFunc,
                       height: 20,
                       width: 20,
