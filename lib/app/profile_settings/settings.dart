@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:benji_user/app/profile_settings/change_password.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/providers/responsive_constant.dart';
+import 'package:benji_user/src/repo/utils/notifications_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,7 +19,6 @@ import '../../src/providers/constants.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../src/repo/utils/base_url.dart';
 import '../../src/repo/utils/helpers.dart';
-import '../../src/repo/utils/notifications_controller.dart';
 import '../../theme/colors.dart';
 import '../auth/login.dart';
 import 'edit_profile.dart';
@@ -52,7 +52,7 @@ class _SettingsState extends State<Settings> {
   File? selectedImage;
 
 //============================================== BOOL VALUES =================================================\\
-  bool notificationsIsOff = isNotificationEnabled();
+  bool notificationsIsOn = isNotificationEnabled();
 
   //===================== COPY TO CLIPBOARD =======================\\
   void _copyToClipboard(BuildContext context, String userID) {
@@ -577,20 +577,20 @@ class _SettingsState extends State<Settings> {
                   ),
                   trailing: IconButton(
                     onPressed: () async {
-                      setState(() {
-                        notificationsIsOff = !notificationsIsOff;
-                      });
-                      if (!notificationsIsOff) {
-                        enableNotifications(!notificationsIsOff);
-                      } else if (notificationsIsOff) {
-                        disableNotifications(notificationsIsOff);
+                      if (!notificationsIsOn) {
+                        enableNotifications(!notificationsIsOn);
+                      } else if (notificationsIsOn) {
+                        disableNotifications(notificationsIsOn);
                       }
+                      setState(() {
+                        notificationsIsOn = !notificationsIsOn;
+                      });
                     },
                     icon: FaIcon(
-                      notificationsIsOff
+                      notificationsIsOn
                           ? FontAwesomeIcons.toggleOff
                           : FontAwesomeIcons.toggleOn,
-                      size: 16,
+                      size: 18,
                       color: kAccentColor,
                     ),
                   ),
