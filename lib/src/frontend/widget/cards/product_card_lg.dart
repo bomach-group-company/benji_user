@@ -189,7 +189,7 @@ class _MyCardLgState extends State<MyCardLg> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '\$${widget.product.price}',
+                                    '₦${widget.product.price}',
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,

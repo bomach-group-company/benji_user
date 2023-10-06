@@ -248,7 +248,7 @@ class _ProductPageState extends State<ProductPage> {
                                           children: [
                                             Expanded(
                                               child: Text(
-                                                '\$$price',
+                                                '₦$price',
                                                 style: const TextStyle(
                                                   fontSize: 22,
                                                   fontWeight: FontWeight.w700,
@@ -298,7 +298,7 @@ class _ProductPageState extends State<ProductPage> {
                                         //               ),
                                         //             ),
                                         //             Text(
-                                        //               '\$40.00',
+                                        //               '₦40.00',
                                         //               style: TextStyle(
                                         //                 color: Colors.black45,
                                         //               ),
@@ -335,7 +335,7 @@ class _ProductPageState extends State<ProductPage> {
                                         //               ),
                                         //             ),
                                         //             Text(
-                                        //               '\$20.00',
+                                        //               '₦20.00',
                                         //               style: TextStyle(
                                         //                 color: Colors.black45,
                                         //               ),
