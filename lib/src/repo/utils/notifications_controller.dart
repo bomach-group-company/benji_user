@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../../../main.dart';
@@ -17,8 +18,14 @@ Future<void> loadOneSignal() async {
   OneSignal.User.addSms(user.phone!);
   bool oneSignalermission = OneSignal.Notifications.permission;
   if (oneSignalermission == true) {
+    if (kDebugMode) {
+      print(oneSignalermission);
+    }
     enableNotifications(true);
   } else {
+    if (kDebugMode) {
+      print(oneSignalermission);
+    }
     disableNotifications(false);
   }
 }
@@ -51,5 +58,6 @@ bool isNotificationEnabled() {
 
 Future<bool> setNotificationStatus(bool status) async {
   await prefs.setBool('isNotificationEnabled', status);
+  print('the status is $status');
   return status;
 }

@@ -171,14 +171,16 @@ class _SettingsState extends State<Settings> {
 
   //===================== Notification Function ==========================\\
   notificationFunc() async {
-    if (!notificationsIsOn) {
+    print('before $notificationsIsOn');
+    if (notificationsIsOn) {
       enableNotifications(!notificationsIsOn);
-    } else if (notificationsIsOn) {
+    } else {
       disableNotifications(notificationsIsOn);
     }
     setState(() {
-      notificationsIsOn = !notificationsIsOn;
+      notificationsIsOn = isNotificationEnabled();
     });
+    print('after $notificationsIsOn');
   }
 
   //===================== Profile Picture ==========================\\
@@ -597,10 +599,10 @@ class _SettingsState extends State<Settings> {
                         if (kDebugMode) {
                           print('turned ${(state) ? 'on' : 'off'}');
                         }
-                        notificationFunc;
+                        // notificationFunc;
                       },
-                      onSwipe: notificationFunc,
-                      onTap: notificationFunc,
+                      // onSwipe: notificationFunc,
+                      // onTap: notificationFunc,
                       height: 20,
                       width: 20,
                       colorOff: kGreyColor,
