@@ -12,7 +12,6 @@ import 'package:get/route_manager.dart';
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/common_widgets/button/my_outlined_elevatedbutton.dart';
-import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
@@ -128,40 +127,41 @@ class _DeliverToState extends State<DeliverTo> {
       );
       await _getData();
     }
-    try {
-      await setCurrentAddress(addressId);
-      // here i need to create that order by sending it to the backend
-      formatOfOrder.map((item) {
-        item['delivery_address'] = addressId;
-        return item;
-      });
-      //not after adding the address now post it to the endpoint
-      await createOrder(formatOfOrder);
-      // need to check if the order was created and get the delivery fee
-      if (widget.inCheckout) {
-        Get.back();
-      } else {
-        Get.off(
-          () => CheckoutScreen(formatOfOrder: formatOfOrder),
-          routeName: 'CheckoutScreen',
-          duration: const Duration(milliseconds: 300),
-          fullscreenDialog: true,
-          curve: Curves.easeIn,
-          popGesture: true,
-          transition: Transition.rightToLeft,
-        );
-      }
-    } catch (e) {
-      mySnackBar(
-        context,
-        kAccentColor,
-        "No address selected!",
-        "Select address to add as default or add address",
-        const Duration(
-          seconds: 2,
-        ),
+    // try {
+    await setCurrentAddress(addressId);
+    // here i need to create that order by sending it to the backend
+    formatOfOrder.map((item) {
+      item['delivery_address'] = addressId;
+      return item;
+    }).toList();
+    print('it $formatOfOrder');
+    //not after adding the address now post it to the endpoint
+    await createOrder(formatOfOrder);
+    // need to check if the order was created and get the delivery fee
+    if (widget.inCheckout) {
+      Get.back();
+    } else {
+      Get.off(
+        () => CheckoutScreen(formatOfOrder: formatOfOrder),
+        routeName: 'CheckoutScreen',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: true,
+        transition: Transition.rightToLeft,
       );
     }
+    // } catch (e) {
+    //   mySnackBar(
+    //     context,
+    //     kAccentColor,
+    //     "No address selected!",
+    //     "Select address to add as default or add address",
+    //     const Duration(
+    //       seconds: 2,
+    //     ),
+    //   );
+    // }
 
     // if (widget.toCheckout) {
     //   if (widget.inCheckout && address != null) {
