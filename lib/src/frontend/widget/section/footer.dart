@@ -1,3 +1,5 @@
+// ignore_for_file: library_prefixes
+
 import 'package:benji_user/frontend/main/about.dart';
 import 'package:benji_user/frontend/main/contact_us.dart';
 import 'package:benji_user/frontend/main/faqs.dart';
