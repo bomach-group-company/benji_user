@@ -2,8 +2,8 @@
 
 import 'dart:convert';
 
-import 'package:benji_user/src/repo/utils/base_url.dart';
-import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji/src/repo/utils/base_url.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';

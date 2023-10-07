@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:animated_switch/animated_switch.dart';
-import 'package:benji_user/app/profile_settings/change_password.dart';
-import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
-import 'package:benji_user/src/providers/responsive_constant.dart';
+import 'package:benji/app/profile_settings/change_password.dart';
+import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji/src/providers/responsive_constant.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +23,7 @@ import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import '../auth/login.dart';
 import 'edit_profile.dart';
+import 'notification_page.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -170,7 +171,16 @@ class _SettingsState extends State<Settings> {
   //==================================================== FUNCTIONS ===========================================================\\
 
   //===================== Notification Function ==========================\\
-  notificationFunc() async {}
+  notificationFunc() => Get.to(
+        () => const NotificationPage(),
+        routeName: 'NotificationPage',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 
   //===================== Profile Picture ==========================\\
 
@@ -566,6 +576,7 @@ class _SettingsState extends State<Settings> {
                   ],
                 ),
                 child: ListTile(
+                  onTap: notificationFunc,
                   enableFeedback: true,
                   leading: FaIcon(
                     FontAwesomeIcons.solidBell,

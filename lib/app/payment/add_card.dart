@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';

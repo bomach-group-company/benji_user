@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:benji_user/src/repo/models/user/user_model.dart';
+import 'package:benji/src/repo/models/user/user_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/base_url.dart';

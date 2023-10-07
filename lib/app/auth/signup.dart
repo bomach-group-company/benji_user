@@ -2,8 +2,8 @@
 
 import 'dart:convert';
 
-import 'package:benji_user/app/terms/terms_and_conditions.dart';
-import 'package:benji_user/src/common_widgets/textformfield/my_intl_phonefield.dart';
+import 'package:benji/app/terms/terms_and_conditions.dart';
+import 'package:benji/src/common_widgets/textformfield/my_intl_phonefield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';

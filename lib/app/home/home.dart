@@ -2,17 +2,17 @@
 
 import 'dart:math';
 
-import 'package:benji_user/app/cart/cart_screen.dart';
-import 'package:benji_user/app/favorites/favorites.dart';
-import 'package:benji_user/src/common_widgets/button/category_button.dart';
-import 'package:benji_user/src/common_widgets/vendor/vendors_card.dart';
-import 'package:benji_user/src/others/empty.dart';
-import 'package:benji_user/src/others/my_future_builder.dart';
-import 'package:benji_user/src/repo/models/address/address_model.dart';
-import 'package:benji_user/src/repo/models/category/sub_category.dart';
-import 'package:benji_user/src/repo/utils/helpers.dart';
-import 'package:benji_user/src/skeletons/app/card.dart';
-import 'package:benji_user/src/skeletons/page_skeleton.dart';
+import 'package:benji/app/cart/cart_screen.dart';
+import 'package:benji/app/favorites/favorites.dart';
+import 'package:benji/src/common_widgets/button/category_button.dart';
+import 'package:benji/src/common_widgets/vendor/vendors_card.dart';
+import 'package:benji/src/others/empty.dart';
+import 'package:benji/src/others/my_future_builder.dart';
+import 'package:benji/src/repo/models/address/address_model.dart';
+import 'package:benji/src/repo/models/category/sub_category.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
+import 'package:benji/src/skeletons/app/card.dart';
+import 'package:benji/src/skeletons/page_skeleton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,6 +31,7 @@ import '../../src/common_widgets/simple_item/category_item.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/others/cart_card.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/controllers.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
 import '../../src/repo/models/vendor/vendor.dart';
@@ -60,6 +61,8 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    loadNotificationService();
+
     checkAuth(context);
 
     _products = Future(() => []);
@@ -159,6 +162,10 @@ class _HomeState extends State<Home> {
   }
 
   //==================================================== FUNCTIONS ===========================================================\\
+
+  loadNotificationService() async {
+    await NotificationController.initializeNotification();
+  }
 
   //===================== Scroll to Top ==========================\\
   Future<void> _scrollToTop() async {

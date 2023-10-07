@@ -19,7 +19,9 @@
     <uses-permission  android:name="android.permission.ACCESS_NETWORK_STATE"  />
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.android.permission.USE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <!-- The Agora SDK requires Bluetooth permissions in case users are using Bluetooth devices.-->

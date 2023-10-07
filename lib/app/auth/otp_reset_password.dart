@@ -3,9 +3,9 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:benji_user/app/auth/forgot_password.dart';
-import 'package:benji_user/main.dart';
-import 'package:benji_user/src/repo/utils/base_url.dart';
+import 'package:benji/app/auth/forgot_password.dart';
+import 'package:benji/main.dart';
+import 'package:benji/src/repo/utils/base_url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

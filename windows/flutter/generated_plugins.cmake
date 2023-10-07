@@ -5,7 +5,9 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   agora_rtc_engine
   awesome_notifications
+  awesome_notifications_core
   file_selector_windows
+  firebase_core
   geolocator_windows
   iris_method_channel
   permission_handler_windows
