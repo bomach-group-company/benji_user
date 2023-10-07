@@ -15,8 +15,12 @@ Future<void> loadOneSignal() async {
   OneSignal.Notifications.requestPermission(true);
   OneSignal.User.addEmail(user!.email!);
   OneSignal.User.addSms(user.phone!);
-  OSNotificationPermission.provisional;
-  enableNotifications(true);
+  bool oneSignalermission = OneSignal.Notifications.permission;
+  if (oneSignalermission == true) {
+    enableNotifications(true);
+  } else {
+    disableNotifications(false);
+  }
 }
 
 Future<void> enableNotifications(bool value) async {

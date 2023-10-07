@@ -36,10 +36,39 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       //This is the home route
-      home: const StartupSplashscreen(),
+      home: WillPopScope(
+        onWillPop: () => _showExitConfirmationDialog(context),
+        child: const StartupSplashscreen(),
+      ),
       initialBinding: BindingsBuilder(() {
         Get.put(LatLngDetailController());
       }),
     );
   }
+}
+
+_showExitConfirmationDialog(BuildContext context) async {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Exit App?'),
+        content: const Text('Are you sure you want to exit the app?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false); // Don't exit
+            },
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true); // Exit
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      );
+    },
+  );
 }
