@@ -1,11 +1,11 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:benji/app/home/home.dart';
-import 'package:benji/theme/colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../main.dart';
+import '../../app/home/home.dart';
+import '../../theme/colors.dart';
 
 class LatLngDetailController extends GetxController {
   var latLngDetail = [].obs;
@@ -44,10 +44,10 @@ Future<bool> setNotificationStatus(bool status) async {
 class NotificationController {
   static Future<void> initializeNotification() async {
     await AwesomeNotifications().initialize(
-      "resource://drawable/",
+      null,
       [
         NotificationChannel(
-          channelGroupKey: "high_importance_channel_group",
+          channelGroupKey: "high_importance_channel",
           channelKey: "high_importance_channel",
           channelName: "Basic Notifications",
           channelDescription: "Channel for testing",
@@ -64,7 +64,7 @@ class NotificationController {
       ],
       channelGroups: [
         NotificationChannelGroup(
-          channelGroupKey: "high_importance_channel_group",
+          channelGroupKey: "high_importance_channel",
           channelGroupName: "Group 1",
         ),
       ],

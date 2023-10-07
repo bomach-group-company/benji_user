@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:animated_switch/animated_switch.dart';
-import 'package:benji/app/profile_settings/change_password.dart';
+import 'package:benji/app/settings/change_password.dart';
 import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji/src/providers/responsive_constant.dart';
 import 'package:flutter/foundation.dart';
