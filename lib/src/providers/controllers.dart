@@ -44,7 +44,7 @@ Future<bool> setNotificationStatus(bool status) async {
 class NotificationController {
   static Future<void> initializeNotification() async {
     await AwesomeNotifications().initialize(
-      null,
+      "resource://drawable/",
       [
         NotificationChannel(
           channelGroupKey: "high_importance_channel_group",
