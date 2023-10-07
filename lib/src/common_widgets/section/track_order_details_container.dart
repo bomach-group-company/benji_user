@@ -110,28 +110,28 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                       ),
                     ),
                     kHalfWidthSizedBox,
-                    Text(
-                      '${order.orderItems.length} items',
-                      style: TextStyle(
-                        color: kTextGreyColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    )
+                    // Text(
+                    //   '${order.orderItems.length} items',
+                    //   style: TextStyle(
+                    //     color: kTextGreyColor,
+                    //     fontSize: 14,
+                    //     fontWeight: FontWeight.w400,
+                    //   ),
+                    // )
                   ],
                 ),
                 Row(
                   children: [
-                    Text(
-                      '${intToMonth(order.created.month)} ${order.created.day}',
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        color: kTextGreyColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    kHalfWidthSizedBox,
+                    // Text(
+                    //   '${intToMonth(order.created.month)} ${order.created.day}',
+                    //   textAlign: TextAlign.right,
+                    //   style: TextStyle(
+                    //     color: kTextGreyColor,
+                    //     fontSize: 14,
+                    //     fontWeight: FontWeight.w400,
+                    //   ),
+                    // ),
+                    // kHalfWidthSizedBox,
                     Container(
                       width: 4,
                       height: 4,
@@ -140,16 +140,16 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                         shape: OvalBorder(),
                       ),
                     ),
-                    kHalfWidthSizedBox,
-                    Text(
-                      '${order.created.minute}:${order.created.second}',
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        color: kTextGreyColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+                    // kHalfWidthSizedBox,
+                    // Text(
+                    //   '${order.created.minute}:${order.created.second}',
+                    //   textAlign: TextAlign.right,
+                    //   style: TextStyle(
+                    //     color: kTextGreyColor,
+                    //     fontSize: 14,
+                    //     fontWeight: FontWeight.w400,
+                    //   ),
+                    // ),
                   ],
                 )
               ],
