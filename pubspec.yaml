@@ -53,6 +53,7 @@ dependencies:
   sentry_flutter:
   flutter_local_notifications:
   onesignal_flutter:
+  animated_switch:
 
 dev_dependencies:
   flutter_test:

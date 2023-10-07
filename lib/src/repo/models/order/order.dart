@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../user/user_model.dart';
@@ -64,14 +65,18 @@ Future<List<Order>> getOrders(id) async {
 
 Future<bool> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
   int? userId = (await getUser())!.id;
-  print(jsonEncode(formatOfOrder));
+  if (kDebugMode) {
+    print(jsonEncode(formatOfOrder));
+  }
   final response = await http.post(
     Uri.parse('$baseURL/orders/createOrder?client_id=$userId'),
     headers: await authHeader(),
     body: jsonEncode(formatOfOrder),
   );
-  print(response.body);
-  print(response.statusCode);
+  if (kDebugMode) {
+    print(response.body);
+    print(response.statusCode);
+  }
   return response.body == '"Order Created Successfully"' &&
       response.statusCode == 200;
 }

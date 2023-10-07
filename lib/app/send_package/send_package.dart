@@ -1,10 +1,15 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:benji_user/app/address/get_location_on_map.dart';
+import 'package:benji_user/src/common_widgets/textformfield/my_maps_textformfield.dart';
+import 'package:benji_user/src/providers/controllers.dart';
 import 'package:benji_user/src/repo/models/package/item_category.dart';
 import 'package:benji_user/src/repo/models/package/item_weight.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/route_manager.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
@@ -30,7 +35,10 @@ class _SendPackageState extends State<SendPackage> {
   bool _continuePage = false;
   final bool _processingRequest = false;
   get mediaWidth => MediaQuery.of(context).size.width;
-
+  String? latitudePick;
+  String? longitudePick;
+  String? latitudeDrop;
+  String? longitudeDrop;
   //=============================== CONTROLLERS ==================================\\
 
   final _formKey = GlobalKey<FormState>();
@@ -50,6 +58,8 @@ class _SendPackageState extends State<SendPackage> {
 
   late final TextEditingController _itemValueEC = TextEditingController();
 
+  final LatLngDetailController latLngDetailController =
+      Get.put(LatLngDetailController());
   //=============================== FOCUS NODES ==================================\\
   final _pickupFN = FocusNode();
   final _senderNameFN = FocusNode();
@@ -135,6 +145,48 @@ class _SendPackageState extends State<SendPackage> {
         _currentStep = _currentStep - 1;
         _continuePage = false;
       });
+    }
+  }
+
+  void _toGetLocationOnMapPick() async {
+    await Get.to(
+      () => const GetLocationOnMap(),
+      routeName: 'GetLocationOnMap',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    latitudePick = latLngDetailController.latLngDetail.value[0];
+    longitudePick = latLngDetailController.latLngDetail.value[1];
+    _pickupEC.text = latLngDetailController.latLngDetail.value[2];
+    latLngDetailController.setEmpty();
+    if (kDebugMode) {
+      print("LATLNG: $latitudePick,$longitudePick");
+      print(_pickupEC.text);
+    }
+  }
+
+  void _toGetLocationOnMapDrop() async {
+    await Get.to(
+      () => const GetLocationOnMap(),
+      routeName: 'GetLocationOnMap',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    latitudeDrop = latLngDetailController.latLngDetail.value[0];
+    longitudeDrop = latLngDetailController.latLngDetail.value[1];
+    _dropOffEC.text = latLngDetailController.latLngDetail.value[2];
+    latLngDetailController.setEmpty();
+    if (kDebugMode) {
+      print("LATLNG: $latitudeDrop,$longitudeDrop");
+      print(_dropOffEC.text);
     }
   }
 
@@ -265,9 +317,9 @@ class _SendPackageState extends State<SendPackage> {
                 ),
               ),
               kHalfSizedBox,
-              MyTextFormField(
+              MyMapsTextFormField(
+                readOnly: true,
                 controller: _pickupEC,
-                textCapitalization: TextCapitalization.sentences,
                 validator: (value) {
                   RegExp pickupAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
                   if (value!.isEmpty || value == null) {
@@ -282,10 +334,42 @@ class _SendPackageState extends State<SendPackage> {
                 onSaved: (value) {
                   _pickupEC.text = value;
                 },
-                textInputAction: TextInputAction.next,
+                textInputAction: TextInputAction.done,
                 focusNode: _pickupFN,
-                hintText: "E.g 123, Main Street",
-                textInputType: TextInputType.streetAddress,
+                hintText: "Search a location",
+                textInputType: TextInputType.text,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.all(kDefaultPadding),
+                  child: FaIcon(
+                    FontAwesomeIcons.locationDot,
+                    color: kAccentColor,
+                    size: 18,
+                  ),
+                ),
+              ),
+              kSizedBox,
+              Divider(
+                height: 10,
+                thickness: 2,
+                color: kLightGreyColor,
+              ),
+              ElevatedButton.icon(
+                onPressed: _toGetLocationOnMapPick,
+                icon: FaIcon(
+                  FontAwesomeIcons.locationArrow,
+                  color: kAccentColor,
+                  size: 18,
+                ),
+                label: const Text("Locate on map"),
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  backgroundColor: kLightGreyColor,
+                  foregroundColor: kTextBlackColor,
+                  fixedSize: Size(mediaWidth, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
               kHalfSizedBox,
               const Text(
@@ -380,14 +464,15 @@ class _SendPackageState extends State<SendPackage> {
                 ),
               ),
               kHalfSizedBox,
-              MyTextFormField(
+              MyMapsTextFormField(
+                readOnly: true,
                 controller: _dropOffEC,
                 validator: (value) {
-                  RegExp dropOffAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
-                  if (value.isEmpty || value == null) {
+                  RegExp pickupAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
+                  if (value!.isEmpty || value == null) {
                     dropOffFN.requestFocus();
-                    return "Enter drop-off address";
-                  } else if (!dropOffAddress.hasMatch(value)) {
+                    return "Enter drop-off location";
+                  } else if (!pickupAddress.hasMatch(value)) {
                     dropOffFN.requestFocus();
                     return "Enter a valid address (must have a street number)";
                   }
@@ -396,11 +481,42 @@ class _SendPackageState extends State<SendPackage> {
                 onSaved: (value) {
                   _dropOffEC.text = value;
                 },
-                textInputAction: TextInputAction.next,
-                textCapitalization: TextCapitalization.sentences,
+                textInputAction: TextInputAction.done,
                 focusNode: dropOffFN,
-                hintText: "E.g 123, Main Street",
-                textInputType: TextInputType.streetAddress,
+                hintText: "Search a location",
+                textInputType: TextInputType.text,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.all(kDefaultPadding),
+                  child: FaIcon(
+                    FontAwesomeIcons.locationDot,
+                    color: kAccentColor,
+                    size: 18,
+                  ),
+                ),
+              ),
+              kSizedBox,
+              Divider(
+                height: 10,
+                thickness: 2,
+                color: kLightGreyColor,
+              ),
+              ElevatedButton.icon(
+                onPressed: _toGetLocationOnMapDrop,
+                icon: FaIcon(
+                  FontAwesomeIcons.locationArrow,
+                  color: kAccentColor,
+                  size: 18,
+                ),
+                label: const Text("Locate on map"),
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  backgroundColor: kLightGreyColor,
+                  foregroundColor: kTextBlackColor,
+                  fixedSize: Size(mediaWidth, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
               kHalfSizedBox,
               const Text(

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:animated_switch/animated_switch.dart';
 import 'package:benji_user/app/profile_settings/change_password.dart';
 import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji_user/src/providers/responsive_constant.dart';
@@ -167,6 +168,18 @@ class _SettingsState extends State<Settings> {
   }
 
   //==================================================== FUNCTIONS ===========================================================\\
+
+  //===================== Notification Function ==========================\\
+  notificationFunc() async {
+    if (!notificationsIsOn) {
+      enableNotifications(!notificationsIsOn);
+    } else if (notificationsIsOn) {
+      disableNotifications(notificationsIsOn);
+    }
+    setState(() {
+      notificationsIsOn = !notificationsIsOn;
+    });
+  }
 
   //===================== Profile Picture ==========================\\
 
@@ -567,31 +580,33 @@ class _SettingsState extends State<Settings> {
                     FontAwesomeIcons.solidBell,
                     color: kAccentColor,
                   ),
-                  title: const Text(
-                    'Enable Notifications',
-                    style: TextStyle(
+                  title: Text(
+                    notificationsIsOn
+                        ? "Disable Notifications"
+                        : "Enable Notifications",
+                    style: const TextStyle(
                       color: kTextBlackColor,
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                   trailing: IconButton(
-                    onPressed: () async {
-                      if (!notificationsIsOn) {
-                        enableNotifications(!notificationsIsOn);
-                      } else if (notificationsIsOn) {
-                        disableNotifications(notificationsIsOn);
-                      }
-                      setState(() {
-                        notificationsIsOn = !notificationsIsOn;
-                      });
-                    },
-                    icon: FaIcon(
-                      notificationsIsOn
-                          ? FontAwesomeIcons.toggleOff
-                          : FontAwesomeIcons.toggleOn,
-                      size: 18,
-                      color: kAccentColor,
+                    onPressed: notificationFunc,
+                    icon: AnimatedSwitch(
+                      onChanged: (bool state) async {
+                        if (kDebugMode) {
+                          print('turned ${(state) ? 'on' : 'off'}');
+                        }
+                        notificationFunc;
+                      },
+                      onSwipe: notificationFunc,
+                      onTap: notificationFunc,
+                      height: 20,
+                      width: 20,
+                      colorOff: kGreyColor,
+                      colorOn: kAccentColor,
+                      textOff: "Disabled",
+                      textOn: "Enabled",
                     ),
                   ),
                 ),

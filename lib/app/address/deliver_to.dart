@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:benji_user/app/checkout/checkout_screen.dart';
 import 'package:benji_user/src/repo/models/address/address_model.dart';
 import 'package:benji_user/src/repo/models/order/order.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
@@ -29,7 +30,6 @@ class DeliverTo extends StatefulWidget {
 }
 
 class _DeliverToState extends State<DeliverTo> {
-
   //===================== STATES =======================\\
 
   @override
@@ -133,7 +133,9 @@ class _DeliverToState extends State<DeliverTo> {
       item['delivery_address'] = addressId;
       return item;
     }).toList();
-    print('it $formatOfOrder');
+    if (kDebugMode) {
+      print('it $formatOfOrder');
+    }
     //not after adding the address now post it to the endpoint
     await createOrder(formatOfOrder);
     // need to check if the order was created and get the delivery fee
