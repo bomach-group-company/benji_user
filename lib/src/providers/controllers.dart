@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:benji/src/providers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,15 +37,18 @@ class NotificationController {
       null,
       [
         NotificationChannel(
-          channelGroupKey: "high_importance_channel",
-          channelKey: "high_importance_channel",
+          channelKey: "basic_channel",
+          channelGroupKey: "basic_channel_group",
           channelName: "Basic Notifications",
-          channelDescription: "Channel for testing",
+          channelDescription: "Channel for basic notifications",
           channelShowBadge: true,
           defaultColor: kPrimaryColor,
           ledColor: kAccentColor,
           enableVibration: true,
           enableLights: true,
+          defaultRingtoneType: DefaultRingtoneType.Notification,
+          groupSort: GroupSort.Desc,
+          vibrationPattern: lowVibrationPattern,
           importance: NotificationImportance.High,
           onlyAlertOnce: true,
           playSound: true,
@@ -53,8 +57,8 @@ class NotificationController {
       ],
       channelGroups: [
         NotificationChannelGroup(
-          channelGroupKey: "high_importance_channel",
-          channelGroupName: "Group 1",
+          channelGroupKey: "basic_channel_group",
+          channelGroupName: "Basic group",
         ),
       ],
       debug: true,
@@ -115,13 +119,26 @@ class NotificationController {
     final List<NotificationActionButton>? actionButtons,
     final bool scheduled = false,
     final int? interval,
+    final bool repeats = false,
+    final bool allowWhileIdle = true,
+    final bool preciseAlarm = false,
+    final String icon = "",
+    final bool criticalAlert = false,
+    final String customSound = "",
+    final bool displayOnBackground = true,
+    final bool displayOnForeground = true,
+    final String largeIcon = "",
+    final bool hideLargeIconOnExpand = true,
+    final bool roundedBigPicture = false,
+    final bool roundedLargeIcon = false,
+    final bool wakeUpScreen = false,
   }) async {
     assert(!scheduled || (scheduled && interval != null));
 
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
-        id: -1,
-        channelKey: "high_importance_channel",
+        id: createUniqueId(),
+        channelKey: "basic_channel",
         title: title,
         body: body,
         actionType: actionType,
@@ -130,6 +147,16 @@ class NotificationController {
         category: category,
         payload: payload,
         bigPicture: bigPicture,
+        icon: icon,
+        criticalAlert: criticalAlert,
+        customSound: customSound,
+        displayOnBackground: displayOnBackground,
+        displayOnForeground: displayOnForeground,
+        largeIcon: largeIcon,
+        hideLargeIconOnExpand: hideLargeIconOnExpand,
+        roundedBigPicture: roundedBigPicture,
+        roundedLargeIcon: roundedLargeIcon,
+        wakeUpScreen: wakeUpScreen,
       ),
       actionButtons: actionButtons,
       schedule: scheduled
@@ -137,6 +164,9 @@ class NotificationController {
               interval: interval,
               timeZone:
                   await AwesomeNotifications().getLocalTimeZoneIdentifier(),
+              repeats: repeats,
+              allowWhileIdle: allowWhileIdle,
+              preciseAlarm: preciseAlarm,
             )
           : null,
     );

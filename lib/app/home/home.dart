@@ -8,7 +8,7 @@ import 'package:benji/src/common_widgets/button/category_button.dart';
 import 'package:benji/src/common_widgets/vendor/vendors_card.dart';
 import 'package:benji/src/others/empty.dart';
 import 'package:benji/src/others/my_future_builder.dart';
-import 'package:benji/src/providers/controllers.dart';
+
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/category/sub_category.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
@@ -62,7 +62,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     checkAuth(context);
-    loadNotificationService();
+
     _products = Future(() => []);
     _subCategory = getSubCategories()
       ..then((value) {
@@ -157,13 +157,6 @@ class _HomeState extends State<Home> {
         seconds: 2,
       ),
     );
-  }
-
-  //==================================================== FUNCTIONS ===========================================================\\
-
-  //===================== Load Notification Service ==========================\\
-  loadNotificationService() async {
-    await NotificationController.initializeNotification();
   }
 
   //===================== Scroll to Top ==========================\\
