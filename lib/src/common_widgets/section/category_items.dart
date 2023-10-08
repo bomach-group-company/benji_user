@@ -1,8 +1,8 @@
-import 'package:benji_user/app/product/home_page_products.dart';
-import 'package:benji_user/src/common_widgets/simple_item/category_item.dart';
-import 'package:benji_user/src/providers/constants.dart';
-import 'package:benji_user/src/providers/responsive_constant.dart';
-import 'package:benji_user/src/repo/models/category/sub_category.dart';
+import 'package:benji/app/product/home_page_products.dart';
+import 'package:benji/src/common_widgets/simple_item/category_item.dart';
+import 'package:benji/src/providers/constants.dart';
+import 'package:benji/src/providers/responsive_constant.dart';
+import 'package:benji/src/repo/models/category/sub_category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/route_manager.dart';

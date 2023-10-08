@@ -3,8 +3,9 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  awesome_notifications
+  awesome_notifications_core
   file_selector_linux
-  sentry_flutter
   url_launcher_linux
 )
 

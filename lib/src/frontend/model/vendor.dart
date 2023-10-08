@@ -1,4 +1,4 @@
-import 'package:benji_user/src/frontend/model/shop_type.dart';
+import 'package:benji/src/frontend/model/shop_type.dart';
 
 class Vendor {
   final int? id;

@@ -1,5 +1,5 @@
-import 'package:benji_user/frontend/store/categories.dart';
-import 'package:benji_user/src/frontend/widget/clickable.dart';
+import 'package:benji/frontend/store/categories.dart';
+import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:carousel_slider/carousel_controller.dart' as hero_carousel;
 import 'package:flutter/material.dart';
 

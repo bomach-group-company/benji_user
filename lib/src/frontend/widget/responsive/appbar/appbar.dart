@@ -1,6 +1,6 @@
-import 'package:benji_user/src/frontend/widget/responsive/appbar/laptop_appbar.dart';
-import 'package:benji_user/src/frontend/widget/responsive/appbar/mobile_appbar.dart';
-import 'package:benji_user/src/frontend/widget/responsive/appbar/tablet_appbar.dart';
+import 'package:benji/src/frontend/widget/responsive/appbar/laptop_appbar.dart';
+import 'package:benji/src/frontend/widget/responsive/appbar/mobile_appbar.dart';
+import 'package:benji/src/frontend/widget/responsive/appbar/tablet_appbar.dart';
 import 'package:flutter/material.dart';
 
 import '../layout.dart';

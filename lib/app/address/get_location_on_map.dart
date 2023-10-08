@@ -3,9 +3,9 @@
 import 'dart:async';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
-import 'package:benji_user/src/providers/constants.dart';
-import 'package:benji_user/src/providers/controllers.dart';
-import 'package:benji_user/src/repo/models/googleMaps/location_service.dart';
+import 'package:benji/src/providers/constants.dart';
+import 'package:benji/src/providers/controllers.dart';
+import 'package:benji/src/repo/models/googleMaps/location_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

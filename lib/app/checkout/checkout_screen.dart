@@ -1,12 +1,12 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji_user/app/home/home.dart';
-import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
-import 'package:benji_user/src/providers/keys.dart';
-import 'package:benji_user/src/repo/models/address/address_model.dart';
-import 'package:benji_user/src/repo/models/product/product.dart';
-import 'package:benji_user/src/repo/utils/helpers.dart';
-import 'package:benji_user/src/repo/utils/user_cart.dart';
+import 'package:benji/app/home/home.dart';
+import 'package:benji/src/common_widgets/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/providers/keys.dart';
+import 'package:benji/src/repo/models/address/address_model.dart';
+import 'package:benji/src/repo/models/product/product.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
+import 'package:benji/src/repo/utils/user_cart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_monnify/flutter_monnify.dart';

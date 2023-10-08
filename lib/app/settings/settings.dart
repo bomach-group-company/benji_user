@@ -1,10 +1,9 @@
 import 'dart:io';
 
 import 'package:animated_switch/animated_switch.dart';
-import 'package:benji_user/app/profile_settings/change_password.dart';
-import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
-import 'package:benji_user/src/providers/responsive_constant.dart';
-import 'package:benji_user/src/repo/utils/notifications_controller.dart';
+import 'package:benji/app/settings/change_password.dart';
+import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji/src/providers/responsive_constant.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,12 +16,14 @@ import 'package:image_picker/image_picker.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/others/my_future_builder.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/controllers.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../src/repo/utils/base_url.dart';
 import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import '../auth/login.dart';
 import 'edit_profile.dart';
+import 'notification_page.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -172,9 +173,9 @@ class _SettingsState extends State<Settings> {
   //===================== Notification Function ==========================\\
   notificationFunc() async {
     if (!notificationsIsOn) {
-      enableNotifications(!notificationsIsOn);
+      // enableNotifications(!notificationsIsOn);
     } else if (notificationsIsOn) {
-      disableNotifications(notificationsIsOn);
+      // disableNotifications(notificationsIsOn);
     }
     setState(() {
       notificationsIsOn = !notificationsIsOn;
@@ -232,6 +233,18 @@ class _SettingsState extends State<Settings> {
   //========================================================================\\
 
   //==================================================== Navigation ===========================================================\\
+
+  toNotificationsPage() => Get.to(
+        () => const NotificationPage(),
+        routeName: 'NotificationsPage',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   void _toEditProfile() async {
     await Get.to(
       () => const EditProfile(),
@@ -575,6 +588,7 @@ class _SettingsState extends State<Settings> {
                   ],
                 ),
                 child: ListTile(
+                  onTap: toNotificationsPage,
                   enableFeedback: true,
                   leading: FaIcon(
                     FontAwesomeIcons.solidBell,
@@ -599,8 +613,6 @@ class _SettingsState extends State<Settings> {
                         }
                         notificationFunc;
                       },
-                      onSwipe: notificationFunc,
-                      onTap: notificationFunc,
                       height: 20,
                       width: 20,
                       colorOff: kGreyColor,

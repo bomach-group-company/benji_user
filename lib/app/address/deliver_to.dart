@@ -2,9 +2,9 @@
 
 import 'dart:math';
 
-import 'package:benji_user/app/checkout/checkout_screen.dart';
-import 'package:benji_user/src/repo/models/address/address_model.dart';
-import 'package:benji_user/src/repo/models/order/order.dart';
+import 'package:benji/app/checkout/checkout_screen.dart';
+import 'package:benji/src/repo/models/address/address_model.dart';
+import 'package:benji/src/repo/models/order/order.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

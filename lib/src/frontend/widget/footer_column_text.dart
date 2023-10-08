@@ -1,4 +1,4 @@
-import 'package:benji_user/src/frontend/widget/clickable.dart';
+import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/colors.dart';

@@ -2,10 +2,10 @@
 
 import 'dart:convert';
 
-import 'package:benji_user/app/address/get_location_on_map.dart';
-import 'package:benji_user/src/providers/controllers.dart';
-import 'package:benji_user/src/repo/models/address/address_model.dart';
-import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji/app/address/get_location_on_map.dart';
+import 'package:benji/src/providers/controllers.dart';
+import 'package:benji/src/repo/models/address/address_model.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

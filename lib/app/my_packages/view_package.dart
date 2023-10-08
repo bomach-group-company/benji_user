@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
-import 'package:benji_user/src/repo/models/package/delivery_item.dart';
-import 'package:benji_user/theme/colors.dart';
+import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji/src/repo/models/package/delivery_item.dart';
+import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
