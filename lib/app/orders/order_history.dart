@@ -1,6 +1,6 @@
-import 'package:benji/src/repo/models/order/order.dart';
-import 'package:benji/src/repo/models/user/user_model.dart';
-import 'package:benji/src/repo/utils/helpers.dart';
+import 'package:benji_user/src/repo/models/order/order.dart';
+import 'package:benji_user/src/repo/models/user/user_model.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

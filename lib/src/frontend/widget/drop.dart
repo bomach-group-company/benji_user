@@ -1,4 +1,4 @@
-import 'package:benji/frontend/store/category.dart';
+import 'package:benji_user/frontend/store/category.dart';
 import 'package:flutter/material.dart';
 
 import '../../providers/constants.dart';

@@ -1,5 +1,5 @@
-import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
-import 'package:benji/src/frontend/widget/section/title_body.dart';
+import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji_user/src/frontend/widget/section/title_body.dart';
 import 'package:flutter/material.dart';
 
 import '../../src/providers/constants.dart';

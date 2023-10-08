@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
-import 'package:benji/src/repo/utils/helpers.dart';
-import 'package:benji/theme/colors.dart';
+import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_monnify/flutter_monnify.dart';

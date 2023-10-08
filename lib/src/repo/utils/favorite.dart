@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:benji/main.dart';
-import 'package:benji/src/repo/models/product/product.dart';
-import 'package:benji/src/repo/models/vendor/vendor.dart';
+import 'package:benji_user/main.dart';
+import 'package:benji_user/src/repo/models/product/product.dart';
+import 'package:benji_user/src/repo/models/vendor/vendor.dart';
 
 String instanceNameProduct = 'favoriteProduct';
 String instanceNameVendor = 'favoriteVendors';

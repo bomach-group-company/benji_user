@@ -1,10 +1,10 @@
-import 'package:benji/frontend/store/categories.dart';
-import 'package:benji/frontend/store/category.dart';
-import 'package:benji/frontend/store/product.dart';
-import 'package:benji/src/frontend/widget/cards/product_card_lg.dart';
-import 'package:benji/src/frontend/widget/clickable.dart';
-import 'package:benji/src/frontend/widget/section/hero.dart';
-import 'package:benji/src/frontend/widget/text/fancy_text.dart';
+import 'package:benji_user/frontend/store/categories.dart';
+import 'package:benji_user/frontend/store/category.dart';
+import 'package:benji_user/frontend/store/product.dart';
+import 'package:benji_user/src/frontend/widget/cards/product_card_lg.dart';
+import 'package:benji_user/src/frontend/widget/clickable.dart';
+import 'package:benji_user/src/frontend/widget/section/hero.dart';
+import 'package:benji_user/src/frontend/widget/text/fancy_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';

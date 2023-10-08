@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, file_names
 
-import 'package:benji/main.dart';
-import 'package:benji/src/repo/utils/base_url.dart';
+import 'package:benji_user/main.dart';
+import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

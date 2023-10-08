@@ -1,4 +1,4 @@
-import 'package:benji/src/repo/models/order/order.dart';
+import 'package:benji_user/src/repo/models/order/order.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/colors.dart';

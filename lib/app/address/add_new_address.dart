@@ -1,12 +1,12 @@
 // ignore_for_file: non_constant_identifier_names, use_build_context_synchronously, invalid_use_of_protected_member
 
-import 'package:benji/src/common_widgets/textformfield/my_maps_textformfield.dart';
-import 'package:benji/src/providers/controllers.dart';
-import 'package:benji/src/providers/keys.dart';
-import 'package:benji/src/repo/models/googleMaps/autocomplete_prediction.dart';
-import 'package:benji/src/repo/utils/base_url.dart';
-import 'package:benji/src/repo/utils/helpers.dart';
-import 'package:benji/src/repo/utils/network_utils.dart';
+import 'package:benji_user/src/common_widgets/textformfield/my_maps_textformfield.dart';
+import 'package:benji_user/src/providers/controllers.dart';
+import 'package:benji_user/src/providers/keys.dart';
+import 'package:benji_user/src/repo/models/googleMaps/autocomplete_prediction.dart';
+import 'package:benji_user/src/repo/utils/base_url.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji_user/src/repo/utils/network_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

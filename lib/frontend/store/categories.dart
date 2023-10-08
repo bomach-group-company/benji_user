@@ -1,7 +1,7 @@
-import 'package:benji/frontend/store/category.dart';
-import 'package:benji/src/frontend/widget/clickable.dart';
-import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
-import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
+import 'package:benji_user/frontend/store/category.dart';
+import 'package:benji_user/src/frontend/widget/clickable.dart';
+import 'package:benji_user/src/frontend/widget/responsive/appbar/appbar.dart';
+import 'package:benji_user/src/frontend/widget/section/breadcrumb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 

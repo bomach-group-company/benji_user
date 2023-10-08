@@ -1,11 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:benji/src/providers/constants.dart';
-import 'package:benji/src/providers/my_liquid_refresh.dart';
-import 'package:benji/src/repo/models/product/product.dart';
-import 'package:benji/src/repo/models/rating/ratings.dart';
-import 'package:benji/src/repo/utils/favorite.dart';
-import 'package:benji/src/repo/utils/user_cart.dart';
+import 'package:benji_user/src/providers/constants.dart';
+import 'package:benji_user/src/providers/my_liquid_refresh.dart';
+import 'package:benji_user/src/repo/models/product/product.dart';
+import 'package:benji_user/src/repo/models/rating/ratings.dart';
+import 'package:benji_user/src/repo/utils/favorite.dart';
+import 'package:benji_user/src/repo/utils/user_cart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';

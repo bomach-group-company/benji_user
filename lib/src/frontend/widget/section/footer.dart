@@ -1,15 +1,15 @@
 // ignore_for_file: library_prefixes
 
-import 'package:benji/frontend/main/about.dart';
-import 'package:benji/frontend/main/contact_us.dart';
-import 'package:benji/frontend/main/faqs.dart';
-import 'package:benji/frontend/main/privacy_policy.dart';
-import 'package:benji/frontend/main/refund_policy.dart';
-import 'package:benji/frontend/main/team.dart';
-import 'package:benji/frontend/main/term_condition.dart';
-import 'package:benji/frontend/store/categories.dart';
-import 'package:benji/src/frontend/widget/clickable.dart';
-import 'package:benji/theme/colors.dart';
+import 'package:benji_user/frontend/main/about.dart';
+import 'package:benji_user/frontend/main/contact_us.dart';
+import 'package:benji_user/frontend/main/faqs.dart';
+import 'package:benji_user/frontend/main/privacy_policy.dart';
+import 'package:benji_user/frontend/main/refund_policy.dart';
+import 'package:benji_user/frontend/main/team.dart';
+import 'package:benji_user/frontend/main/term_condition.dart';
+import 'package:benji_user/frontend/store/categories.dart';
+import 'package:benji_user/src/frontend/widget/clickable.dart';
+import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

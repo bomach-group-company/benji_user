@@ -1,7 +1,7 @@
-import 'package:benji/app/cart/cart_screen.dart';
-import 'package:benji/src/frontend/utils/constant.dart';
-import 'package:benji/src/repo/utils/user_cart.dart';
-import 'package:benji/theme/colors.dart';
+import 'package:benji_user/app/cart/cart_screen.dart';
+import 'package:benji_user/src/frontend/utils/constant.dart';
+import 'package:benji_user/src/repo/utils/user_cart.dart';
+import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 

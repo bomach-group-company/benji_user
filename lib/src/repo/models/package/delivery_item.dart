@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:benji/src/repo/models/package/item_category.dart';
-import 'package:benji/src/repo/models/package/item_weight.dart';
-import 'package:benji/src/repo/models/user/user_model.dart';
-import 'package:benji/src/repo/utils/base_url.dart';
-import 'package:benji/src/repo/utils/helpers.dart';
+import 'package:benji_user/src/repo/models/package/item_category.dart';
+import 'package:benji_user/src/repo/models/package/item_weight.dart';
+import 'package:benji_user/src/repo/models/user/user_model.dart';
+import 'package:benji_user/src/repo/utils/base_url.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:http/http.dart' as http;
 
 class DeliveryItem {

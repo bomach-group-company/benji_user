@@ -20,22 +20,17 @@ void main() async {
 
   // await dotenv.load();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
-
-  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-  final scaffoldMessangerKey = GlobalKey<ScaffoldMessengerState>();
+  const MyApp({super.key});
   // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "Benji",
       color: kPrimaryColor,
-      navigatorKey: navigatorKey,
-      scaffoldMessengerKey: scaffoldMessangerKey,
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,

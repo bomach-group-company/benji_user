@@ -1,8 +1,8 @@
-import 'package:benji/app/auth/login.dart';
-import 'package:benji/frontend/main/about.dart';
-import 'package:benji/frontend/main/contact_us.dart';
-import 'package:benji/frontend/main/home.dart';
-import 'package:benji/src/frontend/model/category.dart';
+import 'package:benji_user/app/auth/login.dart';
+import 'package:benji_user/frontend/main/about.dart';
+import 'package:benji_user/frontend/main/contact_us.dart';
+import 'package:benji_user/frontend/main/home.dart';
+import 'package:benji_user/src/frontend/model/category.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../theme/colors.dart';

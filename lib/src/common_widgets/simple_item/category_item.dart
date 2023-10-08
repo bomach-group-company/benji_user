@@ -1,6 +1,6 @@
-import 'package:benji/src/providers/constants.dart';
-import 'package:benji/src/repo/models/category/sub_category.dart';
-import 'package:benji/theme/colors.dart';
+import 'package:benji_user/src/providers/constants.dart';
+import 'package:benji_user/src/repo/models/category/sub_category.dart';
+import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class CategoryItem extends StatelessWidget {

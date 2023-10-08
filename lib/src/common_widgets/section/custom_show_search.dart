@@ -1,7 +1,7 @@
-import 'package:benji/app/product/product_detail_screen.dart';
-import 'package:benji/src/common_widgets/product/product_card.dart';
-import 'package:benji/src/providers/constants.dart';
-import 'package:benji/src/repo/models/product/product.dart';
+import 'package:benji_user/app/product/product_detail_screen.dart';
+import 'package:benji_user/src/common_widgets/product/product_card.dart';
+import 'package:benji_user/src/providers/constants.dart';
+import 'package:benji_user/src/repo/models/product/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

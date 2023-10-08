@@ -1,5 +1,5 @@
-import 'package:benji/src/repo/models/product/product.dart';
-import 'package:benji/theme/colors.dart';
+import 'package:benji_user/src/repo/models/product/product.dart';
+import 'package:benji_user/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

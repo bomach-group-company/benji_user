@@ -1,5 +1,5 @@
-import 'package:benji/app/payment/add_card.dart';
-import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
+import 'package:benji_user/app/payment/add_card.dart';
+import 'package:benji_user/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';

@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:benji/src/others/my_future_builder.dart';
-import 'package:benji/src/repo/utils/helpers.dart';
+import 'package:benji_user/src/others/my_future_builder.dart';
+import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
