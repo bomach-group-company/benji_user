@@ -25,12 +25,15 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "Benji",
       color: kPrimaryColor,
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,

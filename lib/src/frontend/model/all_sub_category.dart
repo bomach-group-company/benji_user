@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:benji_user/src/frontend/model/sub_category.dart';
+import 'package:benji/src/frontend/model/sub_category.dart';
 import 'package:http/http.dart' as http;
 
 import '../utils/constant.dart';

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:benji_user/src/repo/utils/base_url.dart';
-import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji/src/repo/utils/base_url.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:http/http.dart' as http;
 
 class ItemCategory {

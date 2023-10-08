@@ -2,17 +2,17 @@
 
 import 'dart:math';
 
-import 'package:benji_user/app/cart/cart_screen.dart';
-import 'package:benji_user/app/favorites/favorites.dart';
-import 'package:benji_user/src/common_widgets/button/category_button.dart';
-import 'package:benji_user/src/common_widgets/vendor/vendors_card.dart';
-import 'package:benji_user/src/others/empty.dart';
-import 'package:benji_user/src/others/my_future_builder.dart';
-import 'package:benji_user/src/repo/models/address/address_model.dart';
-import 'package:benji_user/src/repo/models/category/sub_category.dart';
-import 'package:benji_user/src/repo/utils/helpers.dart';
-import 'package:benji_user/src/skeletons/app/card.dart';
-import 'package:benji_user/src/skeletons/page_skeleton.dart';
+import 'package:benji/app/cart/cart_screen.dart';
+import 'package:benji/app/favorites/favorites.dart';
+import 'package:benji/src/common_widgets/button/category_button.dart';
+import 'package:benji/src/common_widgets/vendor/vendors_card.dart';
+import 'package:benji/src/others/empty.dart';
+import 'package:benji/src/others/my_future_builder.dart';
+import 'package:benji/src/repo/models/address/address_model.dart';
+import 'package:benji/src/repo/models/category/sub_category.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
+import 'package:benji/src/skeletons/app/card.dart';
+import 'package:benji/src/skeletons/page_skeleton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,7 +34,6 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
 import '../../src/repo/models/vendor/vendor.dart';
-import '../../src/repo/utils/notifications_controller.dart';
 import '../../theme/colors.dart';
 import '../address/addresses.dart';
 import '../auth/login.dart';
@@ -42,7 +41,7 @@ import '../my_packages/my_packages.dart';
 import '../orders/order_history.dart';
 import '../product/home_page_products.dart';
 import '../product/product_detail_screen.dart';
-import '../profile_settings/settings.dart';
+import '../settings/settings.dart';
 import '../send_package/send_package.dart';
 import '../vendor/popular_vendors.dart';
 import '../vendor/vendor_details.dart';
@@ -62,7 +61,6 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     checkAuth(context);
-    loadOneSignal();
     _products = Future(() => []);
     _subCategory = getSubCategories()
       ..then((value) {

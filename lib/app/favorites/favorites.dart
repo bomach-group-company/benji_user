@@ -1,12 +1,12 @@
 // ignore_for_file: unused_local_variable
-import 'package:benji_user/app/vendor/vendor_details.dart';
-import 'package:benji_user/src/common_widgets/appbar/my_appbar.dart';
-import 'package:benji_user/src/common_widgets/product/product_card.dart';
-import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
-import 'package:benji_user/src/repo/models/vendor/vendor.dart';
-import 'package:benji_user/src/repo/utils/favorite.dart';
-import 'package:benji_user/src/repo/utils/helpers.dart';
-import 'package:benji_user/src/skeletons/app/card.dart';
+import 'package:benji/app/vendor/vendor_details.dart';
+import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji/src/common_widgets/product/product_card.dart';
+import 'package:benji/src/common_widgets/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/repo/models/vendor/vendor.dart';
+import 'package:benji/src/repo/utils/favorite.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
+import 'package:benji/src/skeletons/app/card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/route_manager.dart';

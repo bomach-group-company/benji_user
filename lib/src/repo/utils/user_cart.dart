@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:benji_user/main.dart';
-import 'package:benji_user/src/repo/models/product/product.dart';
+import 'package:benji/main.dart';
+import 'package:benji/src/repo/models/product/product.dart';
 
 const String cartname = 'userCart';
 

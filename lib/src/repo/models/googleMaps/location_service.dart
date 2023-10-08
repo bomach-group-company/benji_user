@@ -1,6 +1,6 @@
 import 'dart:convert' as convert;
 
-import 'package:benji_user/src/providers/keys.dart';
+import 'package:benji/src/providers/keys.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 

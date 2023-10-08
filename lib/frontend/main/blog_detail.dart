@@ -1,6 +1,6 @@
-import 'package:benji_user/frontend/main/blogs.dart';
-import 'package:benji_user/src/frontend/widget/responsive/appbar/appbar.dart';
-import 'package:benji_user/src/frontend/widget/section/breadcrumb.dart';
+import 'package:benji/frontend/main/blogs.dart';
+import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
+import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
