@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/reusable_authentication_first_half.dart';
-import '../../src/common_widgets/snackbar/my_fixed_snackbar.dart';
+import '../../src/common_widgets/snackbar/my_fixed_snack_bar.dart';
 import '../../src/common_widgets/textformfield/otp_textFormField.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';

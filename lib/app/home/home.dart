@@ -8,6 +8,7 @@ import 'package:benji/src/common_widgets/button/category_button.dart';
 import 'package:benji/src/common_widgets/vendor/vendors_card.dart';
 import 'package:benji/src/others/empty.dart';
 import 'package:benji/src/others/my_future_builder.dart';
+import 'package:benji/src/providers/controllers.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/category/sub_category.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
@@ -41,8 +42,8 @@ import '../my_packages/my_packages.dart';
 import '../orders/order_history.dart';
 import '../product/home_page_products.dart';
 import '../product/product_detail_screen.dart';
-import '../settings/settings.dart';
 import '../send_package/send_package.dart';
+import '../settings/settings.dart';
 import '../vendor/popular_vendors.dart';
 import '../vendor/vendor_details.dart';
 import '../vendor/vendors_near_you.dart';
@@ -61,6 +62,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     checkAuth(context);
+    loadNotificationService();
     _products = Future(() => []);
     _subCategory = getSubCategories()
       ..then((value) {
@@ -158,6 +160,11 @@ class _HomeState extends State<Home> {
   }
 
   //==================================================== FUNCTIONS ===========================================================\\
+
+  //===================== Load Notification Service ==========================\\
+  loadNotificationService() async {
+    await NotificationController.initializeNotification();
+  }
 
   //===================== Scroll to Top ==========================\\
   Future<void> _scrollToTop() async {
