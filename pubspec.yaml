@@ -1,4 +1,4 @@
-name: benji_user
+name: benji
 description: Benji user app.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -50,10 +50,11 @@ dependencies:
   http_parser: ^4.0.2
   agora_uikit:
   carousel_slider: ^4.2.1
-  sentry_flutter:
   flutter_local_notifications:
-  onesignal_flutter:
   animated_switch:
+  awesome_notifications:
+  awesome_notifications_core:
+  awesome_notifications_fcm:
 
 dev_dependencies:
   flutter_test:
@@ -72,7 +73,20 @@ flutter_launcher_icons:
   android: "launcher_icon"
   remove_alpha_ios: true
   ios: true
-  image_path: "assets/images/logo/benji_blue_logo_icon.jpg"
+  image_path: "assets/icons/app_icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
+    background_color: "#FFFFFF"
+    theme_color: "#FFFFFF"
+  windows:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
 
 # The following section is specific to Flutter packages.
 flutter:

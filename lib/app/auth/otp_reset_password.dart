@@ -3,9 +3,9 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:benji_user/app/auth/forgot_password.dart';
-import 'package:benji_user/main.dart';
-import 'package:benji_user/src/repo/utils/base_url.dart';
+import 'package:benji/app/auth/forgot_password.dart';
+import 'package:benji/main.dart';
+import 'package:benji/src/repo/utils/base_url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 
 import '../../src/common_widgets/appbar/my_appbar.dart';
 import '../../src/common_widgets/section/reusable_authentication_first_half.dart';
-import '../../src/common_widgets/snackbar/my_fixed_snackbar.dart';
+import '../../src/common_widgets/snackbar/my_fixed_snack_bar.dart';
 import '../../src/common_widgets/textformfield/otp_textFormField.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
