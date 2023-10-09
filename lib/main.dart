@@ -1,9 +1,9 @@
+import 'package:benji/src/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'app/splash_screens/startup_splash_screen.dart';
 import 'src/providers/controllers.dart';
 import 'theme/app_theme.dart';
 import 'theme/colors.dart';
@@ -38,10 +38,12 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       //This is the home route
-      home: WillPopScope(
-        onWillPop: () => _showExitConfirmationDialog(context),
-        child: const StartupSplashscreen(),
-      ),
+      // home: WillPopScope(
+      //   onWillPop: () => _showExitConfirmationDialog(context),
+      //   child: const StartupSplashscreen(),
+      // ),
+      initialRoute: AppRoutes.home,
+      getPages: AppRoutes.routes,
       initialBinding: BindingsBuilder(() {
         Get.put(LatLngDetailController());
       }),
