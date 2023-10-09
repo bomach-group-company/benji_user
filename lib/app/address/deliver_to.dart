@@ -281,7 +281,7 @@ class _DeliverToState extends State<DeliverTo> {
                                                         .id
                                                 ? const SizedBox()
                                                 : Container(
-                                                    width: 58,
+                                                    width: 60,
                                                     height: 24,
                                                     padding: const EdgeInsets
                                                         .symmetric(

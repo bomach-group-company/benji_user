@@ -2,17 +2,19 @@ import 'package:benji/app/product/home_page_products.dart';
 import 'package:benji/src/common_widgets/simple_item/category_item.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/providers/responsive_constant.dart';
-import 'package:benji/src/repo/models/category/sub_category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/route_manager.dart';
 
 class CategoryItemSheet extends StatelessWidget {
-  final List<SubCategory> subCategory;
-  const CategoryItemSheet({super.key, required this.subCategory});
+  final List<dynamic> category;
+  final bool isShop;
+
+  const CategoryItemSheet(
+      {super.key, required this.category, this.isShop = true});
 
   void _toSeeProducts({String id = ''}) => Get.to(
-        () => HomePageProducts(activeSubCategory: id),
+        () => HomePageProducts(activeCategory: id),
         routeName: 'HomePageProducts',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -40,14 +42,14 @@ class CategoryItemSheet extends StatelessWidget {
               List.filled(8, 1.fr),
               List.filled(8, 1.fr),
             ),
-            rowSizes: subCategory.isEmpty
-                ? [auto]
-                : List.filled(subCategory.length, auto),
-            children: List.generate(subCategory.length, (index) => index).map(
+            rowSizes:
+                category.isEmpty ? [auto] : List.filled(category.length, auto),
+            children: List.generate(category.length, (index) => index).map(
               (item) {
                 return CategoryItem(
-                  subSategory: subCategory[item],
-                  nav: () => _toSeeProducts(id: subCategory[item].id),
+                  isShop: isShop,
+                  category: category[item],
+                  nav: () => _toSeeProducts(id: category[item].id),
                 );
               },
             ).toList(),

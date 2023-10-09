@@ -4,7 +4,6 @@ import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
 import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../src/frontend/model/all_product.dart';
 import '../../src/frontend/model/all_sub_category.dart';
@@ -153,7 +152,9 @@ class _CategoryPageState extends State<CategoryPage> {
                                                 foregroundColor: Colors.white,
                                               ),
                                               onPressed: () {},
-                                              child: const SpinKitCircle(
+                                              child:
+                                                  const CircularProgressIndicator(
+                                                strokeWidth: 2,
                                                 color: Colors.white,
                                               ),
                                             ),
@@ -222,9 +223,10 @@ class _CategoryPageState extends State<CategoryPage> {
                                           child: Text('Error occured refresh'),
                                         );
                                       }
-                                      return SpinKitChasingDots(
-                                        color: kAccentColor,
-                                        size: 30,
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: kAccentColor,
+                                        ),
                                       );
                                     } else {
                                       productsData =

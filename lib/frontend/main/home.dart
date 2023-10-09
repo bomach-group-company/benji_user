@@ -8,7 +8,6 @@ import 'package:benji/src/frontend/widget/text/fancy_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../src/frontend/model/all_product.dart';
 import '../../src/frontend/model/category.dart';
@@ -102,9 +101,10 @@ class _HomePageState extends State<HomePage> {
                   child: Text('Error occured try refresh or contacting admin'),
                 );
               }
-              return SpinKitChasingDots(
-                color: kAccentColor,
-                size: 30,
+              return Center(
+                child: CircularProgressIndicator(
+                  color: kAccentColor,
+                ),
               );
             } else {
               return Stack(
@@ -622,8 +622,8 @@ class _HomePageState extends State<HomePage> {
                                 children: [
                                   MyBorderCard(
                                     icon: Icons.car_crash,
-                                    title: 'Quick Delivey',
-                                    subtitle: 'We deliver fast',
+                                    title: 'Fast Shopping',
+                                    subtitle: 'Shop with easy',
                                   ),
                                   MyBorderCard(
                                     icon: Icons.pin_drop,

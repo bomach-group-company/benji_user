@@ -1,16 +1,17 @@
 import 'package:benji/src/providers/constants.dart';
-import 'package:benji/src/repo/models/category/sub_category.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class CategoryItem extends StatelessWidget {
-  final SubCategory? subSategory;
+  final dynamic category;
   final Function() nav;
-  const CategoryItem({super.key, this.subSategory, required this.nav});
+  final bool isShop;
+  const CategoryItem(
+      {super.key, this.category, required this.nav, this.isShop = true});
 
   @override
   Widget build(BuildContext context) {
-    bool showAll = subSategory == null;
+    bool showAll = category == null;
     return InkWell(
       onTap: nav,
       child: Column(
@@ -33,9 +34,11 @@ class CategoryItem extends StatelessWidget {
                   width: 60,
                   decoration: ShapeDecoration(
                     color: kPageSkeletonColor,
-                    image: const DecorationImage(
+                    image: DecorationImage(
                       image: AssetImage(
-                        "assets/icons/store.png",
+                        isShop
+                            ? "assets/icons/store.png"
+                            : "assets/icons/shopping-bag.png",
                       ),
                       fit: BoxFit.contain,
                     ),
@@ -44,7 +47,7 @@ class CategoryItem extends StatelessWidget {
                 ),
           kHalfSizedBox,
           Text(
-            showAll ? 'All' : subSategory!.name,
+            showAll ? 'All' : category!.name,
             softWrap: true,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,

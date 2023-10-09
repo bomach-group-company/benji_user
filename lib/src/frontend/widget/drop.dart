@@ -1,5 +1,6 @@
 import 'package:benji/frontend/store/category.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 import '../../providers/constants.dart';
 import '../model/category.dart';
@@ -77,17 +78,17 @@ class _MyDropDownState extends State<MyDropDown> {
                       ),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return CategoryPage(
-                                  activeCategoriesId:
-                                      widget.items[index - 1].id,
-                                  activeCategories:
-                                      widget.items[index - 1].name,
-                                );
-                              },
+                          Get.off(
+                            () => CategoryPage(
+                              activeCategoriesId: widget.items[index - 1].id,
+                              activeCategories: widget.items[index - 1].name,
                             ),
+                            routeName: 'CategoryPage',
+                            duration: const Duration(milliseconds: 300),
+                            fullscreenDialog: true,
+                            curve: Curves.easeIn,
+                            popGesture: true,
+                            transition: Transition.fadeIn,
                           );
                         },
                         child: Text(

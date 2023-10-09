@@ -6,7 +6,6 @@ import 'package:benji/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:benji/src/repo/utils/favorite.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
-import 'package:benji/src/skeletons/app/card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/route_manager.dart';
@@ -270,18 +269,11 @@ class _FavoritesState extends State<Favorites>
                               ),
                             );
                           }
-                          return Column(children: [
-                            CardSkeleton(
-                              height: 200,
-                              width: mediaWidth - 20,
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: kAccentColor,
                             ),
-                            kSizedBox,
-                            kSizedBox,
-                            CardSkeleton(
-                              height: 200,
-                              width: mediaWidth - 20,
-                            ),
-                          ]);
+                          );
                         },
                       )
                     : FutureBuilder(
@@ -332,18 +324,11 @@ class _FavoritesState extends State<Favorites>
                               ),
                             );
                           }
-                          return Column(children: [
-                            CardSkeleton(
-                              height: 200,
-                              width: mediaWidth - 20,
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: kAccentColor,
                             ),
-                            kSizedBox,
-                            kSizedBox,
-                            CardSkeleton(
-                              height: 200,
-                              width: mediaWidth - 20,
-                            ),
-                          ]);
+                          );
                         }),
               ),
               kHalfSizedBox,

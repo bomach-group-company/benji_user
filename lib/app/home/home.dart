@@ -4,12 +4,11 @@ import 'dart:math';
 
 import 'package:benji/app/cart/cart_screen.dart';
 import 'package:benji/app/favorites/favorites.dart';
-import 'package:benji/src/common_widgets/button/category_button.dart';
 import 'package:benji/src/common_widgets/vendor/vendors_card.dart';
 import 'package:benji/src/others/empty.dart';
 import 'package:benji/src/others/my_future_builder.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
-import 'package:benji/src/repo/models/category/sub_category.dart';
+import 'package:benji/src/repo/models/category/category.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/skeletons/app/card.dart';
 import 'package:benji/src/skeletons/page_skeleton.dart';
@@ -32,6 +31,7 @@ import '../../src/common_widgets/simple_item/category_item.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/others/cart_card.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/controllers.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
 import '../../src/repo/models/vendor/vendor.dart';
@@ -62,15 +62,13 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     checkAuth(context);
+    NotificationController.initializeNotification();
 
-    _products = Future(() => []);
-    _subCategory = getSubCategories()
+    _products = getProducts();
+    _category = getCategories()
       ..then((value) {
         if (value.isNotEmpty) {
-          activeSubCategory = value[0].id;
-          setState(() {
-            _products = getProductsBySubCategory(activeSubCategory);
-          });
+          activeCategory = value[0].id;
         }
       });
     _vendors = getVendors();
@@ -80,7 +78,7 @@ class _HomeState extends State<Home> {
   }
 
   late Future<List<Product>> _products;
-  late Future<List<SubCategory>> _subCategory;
+  late Future<List<Category>> _category;
   late Future<List<VendorModel>> _vendors;
   late Future<List<VendorModel>> _popularVendors;
   late Future<Address> _currentAddress;
@@ -94,7 +92,7 @@ class _HomeState extends State<Home> {
   }
 
 //============================================== ALL VARIABLES =================================================\\
-  String activeSubCategory = '';
+  String activeCategory = '';
   String cartCount = '';
 //============================================== BOOL VALUES =================================================\\
   final bool _vendorStatus = true;
@@ -191,10 +189,10 @@ class _HomeState extends State<Home> {
   Future<void> _handleRefresh() async {
     setState(() {
       _products = getProducts();
-      _subCategory = getSubCategories()
+      _category = getCategories()
         ..then((value) {
           if (value.isNotEmpty) {
-            activeSubCategory = value[0].id;
+            activeCategory = value[0].id;
           }
         });
       _vendors = getVendors();
@@ -349,7 +347,7 @@ class _HomeState extends State<Home> {
   }
 
   void _toSeeProducts({String id = ''}) => Get.to(
-        () => HomePageProducts(activeSubCategory: id),
+        () => HomePageProducts(activeCategory: id),
         routeName: 'HomePageProducts',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -580,7 +578,7 @@ class _HomeState extends State<Home> {
                   ),
                   kSizedBox,
                   FutureBuilder(
-                      future: _subCategory,
+                      future: _category,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -665,12 +663,12 @@ class _HomeState extends State<Home> {
                                     ),
                                     enableDrag: true,
                                     builder: (builder) => CategoryItemSheet(
-                                        subCategory: snapshot.data ?? []),
+                                        category: snapshot.data ?? []),
                                   ),
                                 );
                               }
                               return CategoryItem(
-                                subSategory: snapshot.data![item],
+                                category: snapshot.data![item],
                                 nav: () =>
                                     _toSeeProducts(id: snapshot.data![item].id),
                               );
@@ -806,12 +804,8 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   kSizedBox,
-                  SeeAllContainer(
-                    title: "Categories",
-                    onPressed: _toSeeProducts,
-                  ),
                   FutureBuilder(
-                      future: _subCategory,
+                      future: _category,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -862,36 +856,54 @@ class _HomeState extends State<Home> {
                             ],
                           );
                         }
-                        return SizedBox(
-                          height: 60,
-                          child: ListView.builder(
-                            itemCount: snapshot.data!.length,
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) =>
-                                Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: CategoryButton(
-                                onPressed: () {
-                                  setState(() {
-                                    activeSubCategory =
-                                        snapshot.data![index].id;
-                                    _products = getProductsBySubCategory(
-                                        snapshot.data![index].id);
-                                  });
-                                },
-                                title: snapshot.data![index].name,
-                                bgColor: snapshot.data![index].id ==
-                                        activeSubCategory
-                                    ? kAccentColor
-                                    : kDefaultCategoryBackgroundColor,
-                                categoryFontColor: snapshot.data![index].id ==
-                                        activeSubCategory
-                                    ? kPrimaryColor
-                                    : kTextGreyColor,
-                              ),
-                            ),
+                        return LayoutGrid(
+                          columnGap: 10,
+                          rowGap: 10,
+                          columnSizes: breakPointDynamic(
+                            media.width,
+                            List.filled(4, 1.fr),
+                            List.filled(4, 1.fr),
+                            List.filled(8, 1.fr),
+                            List.filled(8, 1.fr),
                           ),
+                          rowSizes: const [auto, auto],
+                          children: List.generate(
+                              min(8, snapshot.data!.length + 1),
+                              (index) => index).map(
+                            (item) {
+                              int value = min(7, snapshot.data!.length);
+                              if (item == value) {
+                                return CategoryItem(
+                                  nav: () => showModalBottomSheet(
+                                    context: context,
+                                    elevation: 20,
+                                    barrierColor: kBlackColor.withOpacity(0.6),
+                                    showDragHandle: true,
+                                    useSafeArea: true,
+                                    isDismissible: true,
+                                    isScrollControlled: true,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(
+                                          kDefaultPadding,
+                                        ),
+                                      ),
+                                    ),
+                                    enableDrag: true,
+                                    builder: (builder) => CategoryItemSheet(
+                                        isShop: false,
+                                        category: snapshot.data ?? []),
+                                  ),
+                                );
+                              }
+                              return CategoryItem(
+                                isShop: false,
+                                category: snapshot.data![item],
+                                nav: () =>
+                                    _toSeeProducts(id: snapshot.data![item].id),
+                              );
+                            },
+                          ).toList(),
                         );
                       }),
                   kSizedBox,
