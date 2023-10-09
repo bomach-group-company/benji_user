@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
@@ -24,9 +25,7 @@ class SeeAllContainer extends StatelessWidget {
             title,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: Color(
-                0xFF222222,
-              ),
+              color: kTextBlackColor,
               fontSize: 20,
               fontWeight: FontWeight.w700,
               letterSpacing: -0.40,
@@ -34,9 +33,7 @@ class SeeAllContainer extends StatelessWidget {
           ),
           InkWell(
             onTap: onPressed,
-            borderRadius: BorderRadius.circular(
-              20,
-            ),
+            borderRadius: BorderRadius.circular(20),
             enableFeedback: true,
             child: Container(
               padding: const EdgeInsets.all(kDefaultPadding / 2),
@@ -49,9 +46,7 @@ class SeeAllContainer extends StatelessWidget {
                     spreadRadius: 0,
                   )
                 ],
-                color: const Color(
-                  0xFFFEF8F8,
-                ),
+                color: const Color(0xFFFEF8F8),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(
@@ -68,8 +63,8 @@ class SeeAllContainer extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Icon(
-                    Icons.arrow_forward_ios_rounded,
+                  FaIcon(
+                    FontAwesomeIcons.chevronRight,
                     size: 14,
                     color: kAccentColor,
                   ),
