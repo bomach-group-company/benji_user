@@ -269,8 +269,10 @@ class _FavoritesState extends State<Favorites>
                               ),
                             );
                           }
-                          return CircularProgressIndicator(
-                            color: kAccentColor,
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: kAccentColor,
+                            ),
                           );
                         },
                       )
@@ -322,8 +324,10 @@ class _FavoritesState extends State<Favorites>
                               ),
                             );
                           }
-                          return CircularProgressIndicator(
-                            color: kAccentColor,
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: kAccentColor,
+                            ),
                           );
                         }),
               ),
