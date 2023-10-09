@@ -269,7 +269,7 @@ class _AddressesState extends State<Addresses> {
                                     addressData!['current'] ==
                                             addressData!['addresses'][index].id
                                         ? Container(
-                                            width: 58,
+                                            width: 60,
                                             height: 24,
                                             padding: const EdgeInsets.symmetric(
                                               horizontal: 8,

@@ -8,7 +8,6 @@ import 'package:benji/src/common_widgets/button/category_button.dart';
 import 'package:benji/src/common_widgets/vendor/vendors_card.dart';
 import 'package:benji/src/others/empty.dart';
 import 'package:benji/src/others/my_future_builder.dart';
-
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/category/sub_category.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
@@ -32,6 +31,7 @@ import '../../src/common_widgets/simple_item/category_item.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
 import '../../src/others/cart_card.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/controllers.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
 import '../../src/repo/models/vendor/vendor.dart';
@@ -62,6 +62,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     checkAuth(context);
+    NotificationController.initializeNotification();
 
     _products = Future(() => []);
     _subCategory = getSubCategories()
