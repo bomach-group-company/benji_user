@@ -37,6 +37,8 @@ class _NotificationPageState extends State<NotificationPage> {
                 await NotificationController.showNotification(
                   title: "Title of the notification",
                   body: "Body of the notification",
+                  color: kSecondaryColor,
+                  largeIcon: "asset://assets/icons/app_icon.png",
                 );
               },
             ),
