@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       //   onWillPop: () => _showExitConfirmationDialog(context),
       //   child: const StartupSplashscreen(),
       // ),
-      initialRoute: AppRoutes.home,
+      initialRoute: AppRoutes.startupSplashscreen,
       getPages: AppRoutes.routes,
       initialBinding: BindingsBuilder(() {
         Get.put(LatLngDetailController());

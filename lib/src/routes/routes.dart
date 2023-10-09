@@ -1,5 +1,6 @@
 import 'package:benji/app/auth/login.dart';
 import 'package:benji/app/home/home.dart';
+import 'package:benji/app/splash_screens/startup_splash_screen.dart';
 import 'package:benji/frontend/main/home.dart';
 import 'package:get/get.dart';
 
@@ -7,11 +8,13 @@ class AppRoutes {
   static const login = "/Login";
   static const home = "/Home";
   static const homePage = "/HomePage";
+  static const startupSplashscreen = "/StartupSplashscreen";
 
   static final List<GetPage> routes = [
     GetPage(name: login, page: () => const Login()),
     GetPage(name: home, page: () => const Home()),
     GetPage(name: homePage, page: () => const HomePage()),
+    GetPage(name: startupSplashscreen, page: () => const StartupSplashscreen()),
     // GetPage(
     //     name: detailsRoute,
     //     page: () => const HomePage(),
@@ -49,3 +52,5 @@ class AppRoutes {
 //         : null;
 //   }
 // }
+
+

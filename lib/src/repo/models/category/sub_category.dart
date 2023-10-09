@@ -47,15 +47,15 @@ Future<List<SubCategory>> getSubCategories() async {
 
 Future<List<SubCategory>> getSubCategoriesBycategory(id) async {
   final response = await http.get(
-      Uri.parse('$baseURL/api/v1/sub_categories/category/$id'),
+      Uri.parse('$baseURL/sub_categories/category/$id'),
       headers: await authHeader());
-
+  print(response.body);
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => SubCategory.fromJson(item))
         .toList();
   } else {
-    print('vaaa mdfnnfngn f nmnmnmkk $id');
+    print('kkkaaa $id');
     throw Exception('Failed to load sub category');
   }
 }

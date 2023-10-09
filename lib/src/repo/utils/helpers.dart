@@ -121,3 +121,22 @@ Future<bool?> isAuthorized() async {
     return null;
   }
 }
+
+// Future<bool> isLoggedIn() async {
+//   try {
+//     final response = await http.get(
+//       Uri.parse('$baseURL/auth/'),
+//       headers: await authHeader(),
+//     );
+//     if (response.statusCode == 200) {
+//       dynamic data = jsonDecode(response.body);
+//       if (data["detail"] == "Unauthorized") {
+//         return false;
+//       }
+//       return true;
+//     }
+//     return false;
+//   } catch (e) {
+//     return null;
+//   }
+// }
