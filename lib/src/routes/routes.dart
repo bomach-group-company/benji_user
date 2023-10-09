@@ -4,9 +4,9 @@ import 'package:benji/frontend/main/home.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {
-  static const login = "/login";
-  static const home = "/home";
-  static const homePage = "/";
+  static const login = "/Login";
+  static const home = "/Home";
+  static const homePage = "/HomePage";
 
   static final List<GetPage> routes = [
     GetPage(name: login, page: () => const Login()),
