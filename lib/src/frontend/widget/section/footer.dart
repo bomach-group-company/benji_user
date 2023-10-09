@@ -1,5 +1,6 @@
 // ignore_for_file: library_prefixes
 
+import 'package:benji/frontend/join_us/join_us.dart';
 import 'package:benji/frontend/main/about.dart';
 import 'package:benji/frontend/main/contact_us.dart';
 import 'package:benji/frontend/main/faqs.dart';
@@ -115,7 +116,7 @@ class Footer extends StatelessWidget {
                           items: [
                             ['Products', CategoriesPage()],
                             ['Contact us', ContactUs()],
-                            // ['Blogs', BlogsPage()]
+                            ['Join us', JoinUsPage()],
                           ],
                         ),
                       ],

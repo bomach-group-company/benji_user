@@ -1,4 +1,5 @@
 import 'package:benji/app/auth/login.dart';
+import 'package:benji/frontend/join_us/join_us.dart';
 import 'package:benji/frontend/main/contact_us.dart';
 import 'package:benji/frontend/main/home.dart';
 import 'package:benji/frontend/store/category.dart';
@@ -144,7 +145,18 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
                     kWidthSizedBox,
                     const HoverColorText(
                       navigate: ContactUs(),
-                      text: 'Help & Contact Us',
+                      text: 'Help & Support',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w200,
+                        fontSize: 16,
+                      ),
+                    ),
+                    kWidthSizedBox,
+                    kWidthSizedBox,
+                    const HoverColorText(
+                      navigate: JoinUsPage(),
+                      text: 'Join Us',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w200,

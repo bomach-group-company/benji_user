@@ -1,4 +1,5 @@
 import 'package:benji/app/auth/login.dart';
+import 'package:benji/frontend/join_us/join_us.dart';
 import 'package:benji/frontend/main/about.dart';
 import 'package:benji/frontend/main/contact_us.dart';
 import 'package:benji/frontend/main/home.dart';
@@ -151,7 +152,19 @@ class _MyDrawerState extends State<MyDrawer> {
                             padding: const EdgeInsets.only(bottom: 20),
                             child: const HoverColorText(
                               navigate: ContactUs(),
-                              text: 'Help & Contact Us',
+                              text: 'Help & Support',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w200,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: const HoverColorText(
+                              navigate: JoinUsPage(),
+                              text: 'Join Us',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w200,
