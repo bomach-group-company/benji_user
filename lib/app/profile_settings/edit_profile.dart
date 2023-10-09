@@ -5,7 +5,6 @@ import 'package:benji_user/src/repo/models/user/user_model.dart';
 import 'package:benji_user/src/repo/utils/base_url.dart';
 import 'package:benji_user/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -147,9 +146,8 @@ class _EditProfileState extends State<EditProfile> {
         ),
         bottomNavigationBar: _isLoading
             ? Center(
-                child: SpinKitChasingDots(
+                child: CircularProgressIndicator(
                   color: kAccentColor,
-                  duration: const Duration(seconds: 2),
                 ),
               )
             : Padding(
