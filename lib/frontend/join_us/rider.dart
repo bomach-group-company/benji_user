@@ -1,4 +1,5 @@
 import 'package:benji/app/address/get_location_on_map.dart';
+import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:benji/src/common_widgets/textformfield/my%20textformfield.dart';
 import 'package:benji/src/common_widgets/textformfield/my_maps_textformfield.dart';
 import 'package:benji/src/providers/constants.dart';
@@ -263,7 +264,12 @@ class _RiderTabState extends State<RiderTab> {
             ),
           ),
         ),
+        kSizedBox,
         kHalfSizedBox,
+        MyElevatedButton(
+          title: "Submit",
+          onPressed: () {},
+        ),
         kSizedBox,
       ],
     );

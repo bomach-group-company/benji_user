@@ -4,7 +4,6 @@ import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
 import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../src/frontend/model/all_product.dart';
 import '../../src/frontend/utils/constant.dart';
@@ -167,9 +166,10 @@ class _SearchPageState extends State<SearchPage> {
                             kHalfSizedBox,
                             Builder(builder: (context) {
                               if (isLoading) {
-                                return SpinKitChasingDots(
-                                  color: kAccentColor,
-                                  size: 30,
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: kAccentColor,
+                                  ),
                                 );
                               } else if (_getDataList == null ||
                                   _getDataList!.isEmpty) {
