@@ -211,38 +211,6 @@ class _VendorTabState extends State<VendorTab> {
         ),
         kSizedBox,
         const Text(
-          'Business Registration Number',
-          style: TextStyle(
-            color: kTextBlackColor,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        kHalfSizedBox,
-        MyTextFormField(
-          hintText: "Enter business registration number",
-          textCapitalization: TextCapitalization.words,
-          controller: _businessRegNoEC,
-          textInputAction: TextInputAction.next,
-          textInputType: TextInputType.name,
-          focusNode: _businessRegNoFN,
-          validator: (value) {
-            RegExp pattern = RegExp(r'^.{3,}$');
-            if (value == null || value!.isEmpty) {
-              _businessRegNoFN.requestFocus();
-              return "Enter a business registration number";
-            } else if (!pattern.hasMatch(value)) {
-              _businessRegNoFN.requestFocus();
-              return "Please enter a valid business registration number";
-            }
-            return null;
-          },
-          onSaved: (value) {
-            _businessRegNoEC.text = value!;
-          },
-        ),
-        kSizedBox,
-        const Text(
           'Business Type',
           style: TextStyle(
             color: kTextBlackColor,
@@ -274,6 +242,15 @@ class _VendorTabState extends State<VendorTab> {
           },
         ),
         kSizedBox,
+        const Text(
+          'Business Address',
+          style: TextStyle(
+            color: kTextBlackColor,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        kHalfSizedBox,
         MyMapsTextFormField(
           readOnly: true,
           controller: _locationEC,

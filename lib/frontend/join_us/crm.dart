@@ -178,6 +178,15 @@ class _CRMTabState extends State<CRMTab> {
           },
         ),
         kSizedBox,
+        const Text(
+          'Address',
+          style: TextStyle(
+            color: kTextBlackColor,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        kHalfSizedBox,
         MyMapsTextFormField(
           readOnly: true,
           controller: _locationEC,

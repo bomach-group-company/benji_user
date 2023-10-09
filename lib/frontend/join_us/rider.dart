@@ -179,7 +179,7 @@ class _RiderTabState extends State<RiderTab> {
         ),
         kSizedBox,
         const Text(
-          'Driver license',
+          'Address',
           style: TextStyle(
             color: kTextBlackColor,
             fontSize: 14,
@@ -187,29 +187,6 @@ class _RiderTabState extends State<RiderTab> {
           ),
         ),
         kHalfSizedBox,
-        MyTextFormField(
-          hintText: "Enter driver license number",
-          textCapitalization: TextCapitalization.words,
-          controller: _driverLicenseEC,
-          textInputAction: TextInputAction.next,
-          textInputType: TextInputType.name,
-          focusNode: _driverLicenseFN,
-          validator: (value) {
-            RegExp pattern = RegExp(r'^.{3,}$');
-            if (value == null || value!.isEmpty) {
-              _driverLicenseFN.requestFocus();
-              return "Enter a driver license number";
-            } else if (!pattern.hasMatch(value)) {
-              _driverLicenseFN.requestFocus();
-              return "Please enter a valid driver license number";
-            }
-            return null;
-          },
-          onSaved: (value) {
-            _driverLicenseEC.text = value!;
-          },
-        ),
-        kSizedBox,
         MyMapsTextFormField(
           readOnly: true,
           controller: _locationEC,

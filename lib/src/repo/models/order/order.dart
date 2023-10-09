@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-
 import 'package:benji/src/repo/models/address/address_model.dart';
-import 'package:benji/src/repo/models/order/order_item.dart';
 import 'package:benji/src/repo/utils/base_url.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/foundation.dart';
@@ -79,6 +77,5 @@ Future<bool> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
     print(response.body);
     print(response.statusCode);
   }
-  return response.body == '"Order Created Successfully"' &&
-      response.statusCode == 200;
+  return response.statusCode == 200;
 }
