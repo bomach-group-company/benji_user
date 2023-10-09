@@ -9,6 +9,7 @@ import 'package:benji/src/frontend/widget/cart.dart';
 import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:benji/src/frontend/widget/text/hover_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 import '../../../../../theme/colors.dart';
 import '../../../../providers/constants.dart';
@@ -129,15 +130,19 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
                             .toList();
                       },
                       onSelected: (value) {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => CategoryPage(
-                              activeCategoriesId:
-                                  (snapshot.data as List<Category>)[value].id,
-                              activeCategories:
-                                  (snapshot.data as List<Category>)[value].name,
-                            ),
+                        Get.off(
+                          () => CategoryPage(
+                            activeCategoriesId:
+                                (snapshot.data as List<Category>)[value].id,
+                            activeCategories:
+                                (snapshot.data as List<Category>)[value].name,
                           ),
+                          routeName: 'CategoryPage',
+                          duration: const Duration(milliseconds: 300),
+                          fullscreenDialog: true,
+                          curve: Curves.easeIn,
+                          popGesture: true,
+                          transition: Transition.fadeIn,
                         );
                       },
                     ),
@@ -195,12 +200,14 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
                           backgroundColor: kAccentColor,
                           fixedSize: const Size(80, 35)),
                       onPressed: () {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const Login();
-                            },
-                          ),
+                        Get.off(
+                          () => const Login(),
+                          routeName: 'Login',
+                          duration: const Duration(milliseconds: 300),
+                          fullscreenDialog: true,
+                          curve: Curves.easeIn,
+                          popGesture: true,
+                          transition: Transition.fadeIn,
                         );
                       },
                       child: const Text('Login'),

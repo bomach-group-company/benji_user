@@ -5,6 +5,7 @@ import 'package:benji/frontend/main/contact_us.dart';
 import 'package:benji/frontend/main/home.dart';
 import 'package:benji/src/frontend/model/category.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../theme/colors.dart';
 import '../../../providers/constants.dart';
@@ -46,7 +47,7 @@ class _MyDrawerState extends State<MyDrawer> {
                           IconButton(
                             splashRadius: 20,
                             onPressed: () {
-                              Navigator.of(context).pop();
+                              Get.back();
                             },
                             icon: Icon(
                               Icons.close_sharp,
@@ -143,7 +144,15 @@ class _MyDrawerState extends State<MyDrawer> {
                                                   .map((item) => item)
                                                   .toList(),
                                         )
-                                      : const SizedBox();
+                                      : SizedBox(
+                                          height: 60,
+                                          width: 100,
+                                          child: Center(
+                                            child: CircularProgressIndicator(
+                                              color: kAccentColor,
+                                            ),
+                                          ),
+                                        );
                                 }),
                               ],
                             ),
@@ -189,12 +198,14 @@ class _MyDrawerState extends State<MyDrawer> {
                     minimumSize: const Size(double.infinity, 50),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const Login();
-                        },
-                      ),
+                    Get.off(
+                      () => const Login(),
+                      routeName: 'Login',
+                      duration: const Duration(milliseconds: 300),
+                      fullscreenDialog: true,
+                      curve: Curves.easeIn,
+                      popGesture: true,
+                      transition: Transition.fadeIn,
                     );
                   },
                   child: const Text('Login'),
