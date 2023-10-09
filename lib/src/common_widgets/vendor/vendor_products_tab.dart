@@ -1,7 +1,7 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji_user/app/vendor/product_vendor.dart';
-import 'package:benji_user/src/repo/models/vendor/vendor.dart';
+import 'package:benji/app/vendor/product_vendor.dart';
+import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:flutter/material.dart';
 
 class VendorsProductsTab extends StatefulWidget {

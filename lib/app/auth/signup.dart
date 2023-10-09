@@ -2,8 +2,8 @@
 
 import 'dart:convert';
 
-import 'package:benji_user/app/terms/terms_and_conditions.dart';
-import 'package:benji_user/src/common_widgets/textformfield/my_intl_phonefield.dart';
+import 'package:benji/app/terms/terms_and_conditions.dart';
+import 'package:benji/src/common_widgets/textformfield/my_intl_phonefield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
@@ -13,7 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/section/reusable_authentication_first_half.dart';
-import '../../src/common_widgets/snackbar/my_fixed_snackbar.dart';
+import '../../src/common_widgets/snackbar/my_fixed_snack_bar.dart';
 import '../../src/common_widgets/textformfield/email_textformfield.dart';
 import '../../src/common_widgets/textformfield/name_textformfield.dart';
 import '../../src/common_widgets/textformfield/password_textformfield.dart';

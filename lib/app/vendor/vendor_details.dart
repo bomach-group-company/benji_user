@@ -1,9 +1,9 @@
 // ignore_for_file: unused_field, use_build_context_synchronously
 
-import 'package:benji_user/app/vendor/about_vendor.dart';
-import 'package:benji_user/app/vendor/product_vendor.dart';
-import 'package:benji_user/src/repo/models/vendor/vendor.dart';
-import 'package:benji_user/src/repo/utils/favorite.dart';
+import 'package:benji/app/vendor/about_vendor.dart';
+import 'package:benji/app/vendor/product_vendor.dart';
+import 'package:benji/src/repo/models/vendor/vendor.dart';
+import 'package:benji/src/repo/utils/favorite.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

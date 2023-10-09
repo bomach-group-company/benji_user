@@ -1,9 +1,9 @@
 // ignore_for_file: unused_local_variable, non_constant_identifier_names, avoid_print, use_build_context_synchronously
 
-import 'package:benji_user/src/common_widgets/snackbar/my_floating_snackbar.dart';
-import 'package:benji_user/src/repo/models/user/user_model.dart';
-import 'package:benji_user/src/repo/utils/base_url.dart';
-import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji/src/common_widgets/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/repo/models/user/user_model.dart';
+import 'package:benji/src/repo/utils/base_url.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;

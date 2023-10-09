@@ -2,8 +2,8 @@
 
 import 'dart:async';
 
-import 'package:benji_user/frontend/main/home.dart';
-import 'package:benji_user/src/repo/utils/helpers.dart';
+import 'package:benji/frontend/main/home.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
