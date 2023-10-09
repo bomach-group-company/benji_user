@@ -622,8 +622,8 @@ class _HomePageState extends State<HomePage> {
                                 children: [
                                   MyBorderCard(
                                     icon: Icons.car_crash,
-                                    title: 'Quick Delivey',
-                                    subtitle: 'We deliver fast',
+                                    title: 'Fast Shopping',
+                                    subtitle: 'Shop with easy',
                                   ),
                                   MyBorderCard(
                                     icon: Icons.pin_drop,
