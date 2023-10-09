@@ -20,6 +20,7 @@ import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../src/common_widgets/appbar/appbar_delivery_location.dart';
@@ -373,8 +374,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
+    var media = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -405,7 +405,7 @@ class _HomeState extends State<Home> {
         floatingActionButton: _isScrollToTopBtnVisible
             ? FloatingActionButton(
                 onPressed: _scrollToTop,
-                mini: deviceType(mediaWidth) > 2 ? false : true,
+                mini: deviceType(media.width) > 2 ? false : true,
                 backgroundColor: kAccentColor,
                 enableFeedback: true,
                 mouseCursor: SystemMouseCursors.click,
@@ -432,7 +432,7 @@ class _HomeState extends State<Home> {
                     "assets/icons/drawer-icon.png",
                     color: kAccentColor,
                     fit: BoxFit.cover,
-                    height: deviceType(mediaWidth) > 2 ? 36 : 20,
+                    height: deviceType(media.width) > 2 ? 36 : 20,
                   ),
                 ),
               ),
@@ -463,7 +463,7 @@ class _HomeState extends State<Home> {
               icon: FaIcon(
                 FontAwesomeIcons.magnifyingGlass,
                 color: kAccentColor,
-                size: deviceType(mediaWidth) > 2 ? 30 : 24,
+                size: deviceType(media.width) > 2 ? 30 : 24,
               ),
             ),
             // ignore: prefer_const_constructors
@@ -483,7 +483,7 @@ class _HomeState extends State<Home> {
                 controller: _scrollController,
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.vertical,
-                padding: deviceType(mediaWidth) > 2
+                padding: deviceType(media.width) > 2
                     ? const EdgeInsets.all(kDefaultPadding)
                     : const EdgeInsets.all(kDefaultPadding / 2),
                 children: [
@@ -498,12 +498,12 @@ class _HomeState extends State<Home> {
                             baseColor: kBlackColor.withOpacity(0.6),
                             direction: ShimmerDirection.ltr,
                             child: PageSkeleton(
-                                height: 150, width: mediaWidth - 20),
+                                height: 150, width: media.width - 20),
                           );
                         }
                         return FlutterCarousel.builder(
                           options: CarouselOptions(
-                            height: mediaHeight * 0.25,
+                            height: media.height * 0.25,
                             viewportFraction: 1.0,
                             initialPage: 0,
                             enableInfiniteScroll: true,
@@ -542,7 +542,7 @@ class _HomeState extends State<Home> {
                               Padding(
                             padding: const EdgeInsets.all(0),
                             child: Container(
-                              width: mediaWidth,
+                              width: media.width,
                               decoration: ShapeDecoration(
                                 shape: const RoundedRectangleBorder(
                                     borderRadius:
@@ -560,6 +560,27 @@ class _HomeState extends State<Home> {
                       }),
                   kSizedBox,
                   // categories
+                  Container(
+                    width: media.width,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: kLightGreyColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Vendors".toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: kTextBlackColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: -0.40,
+                        ),
+                      ),
+                    ),
+                  ),
+                  kSizedBox,
                   FutureBuilder(
                       future: _subCategory,
                       builder: (context, snapshot) {
@@ -577,7 +598,7 @@ class _HomeState extends State<Home> {
                                     baseColor: kBlackColor.withOpacity(0.6),
                                     direction: ShimmerDirection.ltr,
                                     child: PageSkeleton(
-                                        height: 35, width: mediaWidth / 7),
+                                        height: 35, width: media.width / 7),
                                   ),
                                   kWidthSizedBox,
                                   Shimmer.fromColors(
@@ -586,7 +607,7 @@ class _HomeState extends State<Home> {
                                     baseColor: kBlackColor.withOpacity(0.6),
                                     direction: ShimmerDirection.ltr,
                                     child: PageSkeleton(
-                                        height: 35, width: mediaWidth / 7),
+                                        height: 35, width: media.width / 7),
                                   ),
                                   kWidthSizedBox,
                                   Shimmer.fromColors(
@@ -595,7 +616,7 @@ class _HomeState extends State<Home> {
                                     baseColor: kBlackColor.withOpacity(0.6),
                                     direction: ShimmerDirection.ltr,
                                     child: PageSkeleton(
-                                        height: 35, width: mediaWidth / 7),
+                                        height: 35, width: media.width / 7),
                                   ),
                                   kWidthSizedBox,
                                   Shimmer.fromColors(
@@ -604,7 +625,7 @@ class _HomeState extends State<Home> {
                                       baseColor: kBlackColor.withOpacity(0.6),
                                       direction: ShimmerDirection.ltr,
                                       child: PageSkeleton(
-                                          height: 35, width: mediaWidth / 9)),
+                                          height: 35, width: media.width / 9)),
                                 ],
                               ),
                               kSizedBox,
@@ -615,7 +636,7 @@ class _HomeState extends State<Home> {
                           columnGap: 10,
                           rowGap: 10,
                           columnSizes: breakPointDynamic(
-                            mediaWidth,
+                            media.width,
                             List.filled(4, 1.fr),
                             List.filled(4, 1.fr),
                             List.filled(8, 1.fr),
@@ -659,7 +680,6 @@ class _HomeState extends State<Home> {
                           ).toList(),
                         );
                       }),
-
                   SeeAllContainer(
                     title: "Vendors Near you",
                     onPressed: _toSeeAllVendorsNearYou,
@@ -674,33 +694,24 @@ class _HomeState extends State<Home> {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                CardSkeleton(
-                                  height: 200,
-                                  width: 200,
-                                ),
+                                CardSkeleton(height: 200, width: 200),
                                 kHalfWidthSizedBox,
-                                CardSkeleton(
-                                  height: 200,
-                                  width: 200,
-                                ),
+                                CardSkeleton(height: 200, width: 200),
                                 kHalfWidthSizedBox,
-                                CardSkeleton(
-                                  height: 200,
-                                  width: 200,
-                                ),
+                                CardSkeleton(height: 200, width: 200),
                               ],
                             ),
                           );
                         }
                         return SizedBox(
                           height: 250,
-                          width: mediaWidth,
+                          width: media.width,
                           child: ListView.separated(
                             itemCount: snapshot.data!.length,
                             scrollDirection: Axis.horizontal,
                             physics: const BouncingScrollPhysics(),
                             separatorBuilder: (context, index) =>
-                                deviceType(mediaWidth) > 2
+                                deviceType(media.width) > 2
                                     ? kWidthSizedBox
                                     : kHalfWidthSizedBox,
                             itemBuilder: (context, index) => InkWell(
@@ -740,14 +751,14 @@ class _HomeState extends State<Home> {
                             ConnectionState.waiting) {
                           return CardSkeleton(
                             height: 200,
-                            width: mediaWidth - 20,
+                            width: media.width - 20,
                           );
                         }
                         return LayoutGrid(
                           rowGap: kDefaultPadding / 2,
                           columnGap: kDefaultPadding / 2,
                           columnSizes: breakPointDynamic(
-                              mediaWidth,
+                              media.width,
                               [1.fr],
                               [1.fr, 1.fr],
                               [1.fr, 1.fr, 1.fr],
@@ -776,8 +787,29 @@ class _HomeState extends State<Home> {
                         );
                       }),
                   kSizedBox,
+                  Container(
+                    width: media.width,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: kLightGreyColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Products".toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: kTextBlackColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: -0.40,
+                        ),
+                      ),
+                    ),
+                  ),
+                  kSizedBox,
                   SeeAllContainer(
-                    title: "Products",
+                    title: "Categories",
                     onPressed: _toSeeProducts,
                   ),
                   FutureBuilder(
@@ -798,7 +830,7 @@ class _HomeState extends State<Home> {
                                     baseColor: kBlackColor.withOpacity(0.6),
                                     direction: ShimmerDirection.ltr,
                                     child: PageSkeleton(
-                                        height: 35, width: mediaWidth / 7),
+                                        height: 35, width: media.width / 7),
                                   ),
                                   kWidthSizedBox,
                                   Shimmer.fromColors(
@@ -807,7 +839,7 @@ class _HomeState extends State<Home> {
                                     baseColor: kBlackColor.withOpacity(0.6),
                                     direction: ShimmerDirection.ltr,
                                     child: PageSkeleton(
-                                        height: 35, width: mediaWidth / 7),
+                                        height: 35, width: media.width / 7),
                                   ),
                                   kWidthSizedBox,
                                   Shimmer.fromColors(
@@ -816,7 +848,7 @@ class _HomeState extends State<Home> {
                                     baseColor: kBlackColor.withOpacity(0.6),
                                     direction: ShimmerDirection.ltr,
                                     child: PageSkeleton(
-                                        height: 35, width: mediaWidth / 7),
+                                        height: 35, width: media.width / 7),
                                   ),
                                   kWidthSizedBox,
                                   Shimmer.fromColors(
@@ -825,10 +857,9 @@ class _HomeState extends State<Home> {
                                       baseColor: kBlackColor.withOpacity(0.6),
                                       direction: ShimmerDirection.ltr,
                                       child: PageSkeleton(
-                                          height: 35, width: mediaWidth / 9)),
+                                          height: 35, width: media.width / 9)),
                                 ],
                               ),
-                              kSizedBox,
                               kSizedBox,
                             ],
                           );
@@ -872,11 +903,27 @@ class _HomeState extends State<Home> {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           if (snapshot.hasError) {
-                            return const Text('Error occured');
+                            return Center(
+                                child: Column(
+                              children: [
+                                Lottie.asset(
+                                  "assets/animations/error/frame_1.json",
+                                  fit: BoxFit.contain,
+                                ),
+                                const Text(
+                                  'An unexpected error occured',
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ));
                           }
                           return CardSkeleton(
                             height: 200,
-                            width: mediaWidth - 20,
+                            width: media.width - 20,
                           );
                         } else if (snapshot.data!.isEmpty) {
                           return const EmptyCard(
@@ -887,7 +934,7 @@ class _HomeState extends State<Home> {
                           rowGap: kDefaultPadding / 2,
                           columnGap: kDefaultPadding / 2,
                           columnSizes: breakPointDynamic(
-                              mediaWidth,
+                              media.width,
                               [1.fr],
                               [1.fr, 1.fr],
                               [1.fr, 1.fr, 1.fr],

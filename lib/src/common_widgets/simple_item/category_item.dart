@@ -17,8 +17,8 @@ class CategoryItem extends StatelessWidget {
         children: [
           showAll
               ? Container(
-                  height: 50,
-                  width: 50,
+                  height: 60,
+                  width: 60,
                   decoration: ShapeDecoration(
                     color: kAccentColor,
                     shape: const OvalBorder(),
@@ -29,15 +29,15 @@ class CategoryItem extends StatelessWidget {
                   ),
                 )
               : Container(
-                  height: 50,
-                  width: 50,
+                  height: 60,
+                  width: 60,
                   decoration: ShapeDecoration(
                     color: kPageSkeletonColor,
                     image: const DecorationImage(
                       image: AssetImage(
-                        "assets/images/profile/avatar-image.jpg",
+                        "assets/icons/store.png",
                       ),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                     ),
                     shape: const OvalBorder(),
                   ),

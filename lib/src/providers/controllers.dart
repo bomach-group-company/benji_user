@@ -47,7 +47,6 @@ class NotificationController {
           enableVibration: true,
           enableLights: true,
           defaultRingtoneType: DefaultRingtoneType.Notification,
-          groupSort: GroupSort.Desc,
           vibrationPattern: lowVibrationPattern,
           importance: NotificationImportance.High,
           onlyAlertOnce: true,
@@ -89,13 +88,13 @@ class NotificationController {
     debugPrint("onNotificationDisplayMethod");
   }
 
-  static Future<void> onDismissActionReceivedMethod(
-      ReceivedNotification receivedNotification) async {
-    debugPrint("onDismissActionReceivedMethod");
-  }
-
   static Future<void> onActionReceivedMethod(
       ReceivedAction receivedAction) async {
+    MyApp.navigatorKey.currentState?.push(
+      MaterialPageRoute(
+        builder: (_) => const Home(),
+      ),
+    );
     debugPrint("onActionReceiveMethod");
     final payload = receivedAction.payload ?? {};
     if (payload["navigate"] == "true") {
@@ -105,6 +104,11 @@ class NotificationController {
         ),
       );
     }
+  }
+
+  static Future<void> onDismissActionReceivedMethod(
+      ReceivedNotification receivedNotification) async {
+    debugPrint("onDismissActionReceivedMethod");
   }
 
   static Future<void> showNotification({
@@ -125,13 +129,16 @@ class NotificationController {
     final String icon = "",
     final bool criticalAlert = false,
     final String customSound = "",
-    final bool displayOnBackground = true,
-    final bool displayOnForeground = true,
     final String largeIcon = "",
     final bool hideLargeIconOnExpand = true,
     final bool roundedBigPicture = false,
     final bool roundedLargeIcon = false,
-    final bool wakeUpScreen = false,
+    final bool autoDismissible = true,
+    final Color? color,
+    final bool showWhen = true,
+    final bool displayOnBackground = true,
+    final bool displayOnForeground = true,
+    final bool wakeUpScreen = true,
   }) async {
     assert(!scheduled || (scheduled && interval != null));
 
@@ -147,15 +154,18 @@ class NotificationController {
         category: category,
         payload: payload,
         bigPicture: bigPicture,
+        color: color,
         icon: icon,
         criticalAlert: criticalAlert,
         customSound: customSound,
-        displayOnBackground: displayOnBackground,
-        displayOnForeground: displayOnForeground,
         largeIcon: largeIcon,
         hideLargeIconOnExpand: hideLargeIconOnExpand,
         roundedBigPicture: roundedBigPicture,
         roundedLargeIcon: roundedLargeIcon,
+        autoDismissible: autoDismissible,
+        showWhen: showWhen,
+        displayOnBackground: displayOnBackground,
+        displayOnForeground: displayOnForeground,
         wakeUpScreen: wakeUpScreen,
       ),
       actionButtons: actionButtons,
