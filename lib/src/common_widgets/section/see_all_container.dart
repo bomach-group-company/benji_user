@@ -9,10 +9,12 @@ import '../../providers/constants.dart';
 class SeeAllContainer extends StatelessWidget {
   final String title;
   final Function() onPressed;
+  final bool showSeeAll;
   const SeeAllContainer({
     super.key,
     required this.onPressed,
     required this.title,
+    this.showSeeAll = true,
   });
 
   @override
@@ -53,7 +55,7 @@ class SeeAllContainer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'See all',
+                    showSeeAll ? 'See all' : '',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: kAccentColor,
@@ -63,11 +65,13 @@ class SeeAllContainer extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  FaIcon(
-                    FontAwesomeIcons.chevronRight,
-                    size: 14,
-                    color: kAccentColor,
-                  ),
+                  showSeeAll
+                      ? FaIcon(
+                          FontAwesomeIcons.chevronRight,
+                          size: 14,
+                          color: kAccentColor,
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ),
