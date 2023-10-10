@@ -572,8 +572,7 @@ class _SettingsState extends State<Settings> {
               ),
               kHalfSizedBox,
               InkWell(
-                // onTap: toNotificationsPage,
-
+                onTap: toNotificationsPage,
                 child: Container(
                   width: mediaWidth,
                   decoration: ShapeDecoration(
