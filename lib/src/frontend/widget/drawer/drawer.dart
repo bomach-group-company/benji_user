@@ -135,25 +135,20 @@ class _MyDrawerState extends State<MyDrawer> {
                                   ),
                                 ),
                                 kHalfSizedBox,
-                                Builder(builder: (context) {
-                                  return snapshot.hasData
-                                      ? MyDropDown(
-                                          visible: visible,
-                                          items:
-                                              (snapshot.data as List<Category>)
-                                                  .map((item) => item)
-                                                  .toList(),
-                                        )
-                                      : SizedBox(
-                                          height: 60,
-                                          width: 100,
-                                          child: Center(
-                                            child: CircularProgressIndicator(
-                                              color: kAccentColor,
-                                            ),
-                                          ),
-                                        );
-                                }),
+                                snapshot.hasData
+                                    ? MyDropDown(
+                                        visible: visible,
+                                        items: (snapshot.data as List<Category>)
+                                            .map((item) => item)
+                                            .toList(),
+                                      )
+                                    : Visibility(
+                                        visible: visible,
+                                        child: const Text(
+                                          'loading...',
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                      ),
                               ],
                             ),
                           ),
