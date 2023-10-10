@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'app/home/home.dart';
 import 'src/providers/controllers.dart';
 import 'theme/app_theme.dart';
 import 'theme/colors.dart';
@@ -20,6 +21,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   await Firebase.initializeApp();
+  // await NotificationController.initializeNotification();
   FirebaseMessaging.onBackgroundMessage(_firebasePushHandler);
 
   // await dotenv.load();
@@ -43,10 +45,10 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       //This is the home route
-      // home: WillPopScope(
-      //   onWillPop: () => _showExitConfirmationDialog(context),
-      //   child: const StartupSplashscreen(),
-      // ),
+      home: WillPopScope(
+        onWillPop: () => _showExitConfirmationDialog(context),
+        child: const Home(),
+      ),
       initialRoute: AppRoutes.startupSplashscreen,
       getPages: AppRoutes.routes,
       initialBinding: BindingsBuilder(() {
