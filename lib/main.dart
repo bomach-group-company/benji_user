@@ -19,10 +19,10 @@ void main() async {
     const SystemUiOverlayStyle(statusBarColor: kTransparentColor),
   );
   WidgetsFlutterBinding.ensureInitialized();
-  prefs = await SharedPreferences.getInstance();
   await Firebase.initializeApp();
-  // await NotificationController.initializeNotification();
   FirebaseMessaging.onBackgroundMessage(_firebasePushHandler);
+  await NotificationController.initializeNotification();
+  prefs = await SharedPreferences.getInstance();
 
   // await dotenv.load();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

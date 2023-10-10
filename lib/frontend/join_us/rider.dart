@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:benji/app/address/get_location_on_map.dart';
 import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:benji/src/common_widgets/textformfield/my%20textformfield.dart';
@@ -31,9 +33,9 @@ class _RiderTabState extends State<RiderTab> {
   final TextEditingController _nameEC = TextEditingController();
   final TextEditingController _userEmailEC = TextEditingController();
   final TextEditingController _phonenumberEC = TextEditingController();
-  final TextEditingController _businessNameEC = TextEditingController();
-  final TextEditingController _driverLicenseEC = TextEditingController();
-  final TextEditingController _businessTypeEC = TextEditingController();
+  // final TextEditingController _businessNameEC = TextEditingController();
+  // final TextEditingController _driverLicenseEC = TextEditingController();
+  // final TextEditingController _businessTypeEC = TextEditingController();
   final TextEditingController _locationEC = TextEditingController();
 
   // final TextEditingController _nameEC = TextEditingController();
@@ -44,9 +46,9 @@ class _RiderTabState extends State<RiderTab> {
   final FocusNode _nameFN = FocusNode();
   final FocusNode _userEmailFN = FocusNode();
   final FocusNode _phonenumberFN = FocusNode();
-  final FocusNode _businessNameFN = FocusNode();
-  final FocusNode _driverLicenseFN = FocusNode();
-  final FocusNode _businessTypeFN = FocusNode();
+  // final FocusNode _businessNameFN = FocusNode();
+  // final FocusNode _driverLicenseFN = FocusNode();
+  // final FocusNode _businessTypeFN = FocusNode();
   final FocusNode _locationFN = FocusNode();
 
   // final FocusNode _nameFN = FocusNode();
