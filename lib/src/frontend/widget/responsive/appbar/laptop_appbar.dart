@@ -29,53 +29,53 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
 
-    return FutureBuilder(
-        future: fetchCategories(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return Container(
-            padding: EdgeInsets.symmetric(
-                vertical: 0, horizontal: media.width * 0.07),
-            decoration: const BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(1, 1),
-                  color: Colors.grey,
-                  blurRadius: 1,
-                  spreadRadius: 1,
-                )
-              ],
-              color: Color(0xfffafafc),
-              // border: Border(
-              //   bottom: BorderSide(color: kAccentColor, width: 1),
-              // ),
+    return Container(
+      padding:
+          EdgeInsets.symmetric(vertical: 0, horizontal: media.width * 0.07),
+      decoration: const BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(1, 1),
+            color: Colors.grey,
+            blurRadius: 1,
+            spreadRadius: 1,
+          )
+        ],
+        color: Color(0xfffafafc),
+        // border: Border(
+        //   bottom: BorderSide(color: kAccentColor, width: 1),
+        // ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          MyClickable(
+            navigate: const HomePage(),
+            child: Image.asset(
+              'assets/frontend/assets/brand/benji-logo-resized-nobg.png',
+              // fit: BoxFit.cover,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                MyClickable(
-                  navigate: const HomePage(),
-                  child: Image.asset(
-                    'assets/frontend/assets/brand/benji-logo-resized-nobg.png',
-                    // fit: BoxFit.cover,
-                  ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const HoverColorText(
+                text: 'Home',
+                navigate: HomePage(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w200,
+                  fontSize: 16,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const HoverColorText(
-                      text: 'Home',
-                      navigate: HomePage(),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w200,
-                        fontSize: 16,
-                      ),
-                    ),
-                    kWidthSizedBox,
-                    kWidthSizedBox,
-                    PopupMenuButton(
+              ),
+              kWidthSizedBox,
+              kWidthSizedBox,
+              FutureBuilder(
+                  future: fetchCategories(),
+                  builder: (context, snapshot) {
+                    return PopupMenuButton(
                       offset: const Offset(0, -25),
                       shadowColor: Colors.grey,
                       constraints:
@@ -117,6 +117,17 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
                         ),
                       ),
                       itemBuilder: (context) {
+                        if (!snapshot.hasData) {
+                          return [
+                            const PopupMenuItem<int>(
+                              value: 0,
+                              child: Text(
+                                'loading...',
+                                style: TextStyle(fontSize: 10),
+                              ),
+                            )
+                          ];
+                        }
                         return List.generate((snapshot.data as List).length,
                                 (index) => index)
                             .map(
@@ -145,78 +156,78 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
                           transition: Transition.fadeIn,
                         );
                       },
-                    ),
-                    kWidthSizedBox,
-                    kWidthSizedBox,
-                    const HoverColorText(
-                      navigate: ContactUs(),
-                      text: 'Help & Support',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w200,
-                        fontSize: 16,
-                      ),
-                    ),
-                    kWidthSizedBox,
-                    kWidthSizedBox,
-                    const HoverColorText(
-                      navigate: JoinUsPage(),
-                      text: 'Join Us',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w200,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
+                    );
+                  }),
+              kWidthSizedBox,
+              kWidthSizedBox,
+              const HoverColorText(
+                navigate: ContactUs(),
+                text: 'Help & Support',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w200,
+                  fontSize: 16,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const MyClickable(
-                      navigate: SearchPage(),
-                      child: Icon(
-                        Icons.search,
-                        color: Colors.black,
-                      ),
-                    ),
-                    kWidthSizedBox,
-                    const Text(
-                      '|',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 30,
-                        fontWeight: FontWeight.w100,
-                      ),
-                    ),
-                    kWidthSizedBox,
-                    // ignore: prefer_const_constructors
-                    CartWidget(),
-                    kWidthSizedBox,
-                    kWidthSizedBox,
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: kAccentColor,
-                          fixedSize: const Size(80, 35)),
-                      onPressed: () {
-                        Get.off(
-                          () => const Login(),
-                          routeName: 'Login',
-                          duration: const Duration(milliseconds: 300),
-                          fullscreenDialog: true,
-                          curve: Curves.easeIn,
-                          popGesture: true,
-                          transition: Transition.fadeIn,
-                        );
-                      },
-                      child: const Text('Login'),
-                    ),
-                  ],
+              ),
+              kWidthSizedBox,
+              kWidthSizedBox,
+              const HoverColorText(
+                navigate: JoinUsPage(),
+                text: 'Join Us',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w200,
+                  fontSize: 16,
                 ),
-              ],
-            ),
-          );
-        });
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const MyClickable(
+                navigate: SearchPage(),
+                child: Icon(
+                  Icons.search,
+                  color: Colors.black,
+                ),
+              ),
+              kWidthSizedBox,
+              const Text(
+                '|',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w100,
+                ),
+              ),
+              kWidthSizedBox,
+              // ignore: prefer_const_constructors
+              CartWidget(),
+              kWidthSizedBox,
+              kWidthSizedBox,
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: kAccentColor,
+                    fixedSize: const Size(80, 35)),
+                onPressed: () {
+                  Get.off(
+                    () => const Login(),
+                    routeName: 'Login',
+                    duration: const Duration(milliseconds: 300),
+                    fullscreenDialog: true,
+                    curve: Curves.easeIn,
+                    popGesture: true,
+                    transition: Transition.fadeIn,
+                  );
+                },
+                child: const Text('Login'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

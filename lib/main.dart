@@ -1,13 +1,13 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:benji/src/routes/routes.dart';
+import 'package:benji/app/splash_screens/startup_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'app/home/home.dart';
 import 'src/providers/controllers.dart';
 import 'theme/app_theme.dart';
 import 'theme/colors.dart';
@@ -20,9 +20,11 @@ void main() async {
   );
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
-  await Firebase.initializeApp();
-  // await NotificationController.initializeNotification();
-  FirebaseMessaging.onBackgroundMessage(_firebasePushHandler);
+  if (!kIsWeb) {
+    await Firebase.initializeApp();
+    // await NotificationController.initializeNotification();
+    FirebaseMessaging.onBackgroundMessage(_firebasePushHandler);
+  }
 
   // await dotenv.load();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -47,10 +49,10 @@ class MyApp extends StatelessWidget {
       //This is the home route
       home: WillPopScope(
         onWillPop: () => _showExitConfirmationDialog(context),
-        child: const Home(),
+        child: const StartupSplashscreen(),
       ),
-      initialRoute: AppRoutes.startupSplashscreen,
-      getPages: AppRoutes.routes,
+      // initialRoute: AppRoutes.startupSplashscreen,
+      // getPages: AppRoutes.routes,
       initialBinding: BindingsBuilder(() {
         Get.put(LatLngDetailController());
       }),
