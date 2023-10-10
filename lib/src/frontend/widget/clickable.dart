@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 class MyClickable extends StatelessWidget {
   final Widget child;
@@ -13,12 +14,14 @@ class MyClickable extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           if (navigate != null) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) {
-                  return navigate!;
-                },
-              ),
+            Get.off(
+              () => navigate!,
+              routeName: navigate.runtimeType.toString(),
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              popGesture: true,
+              transition: Transition.fadeIn,
             );
           }
         },

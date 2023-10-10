@@ -1,5 +1,6 @@
 // ignore_for_file: library_prefixes
 
+import 'package:benji/frontend/join_us/join_us.dart';
 import 'package:benji/frontend/main/about.dart';
 import 'package:benji/frontend/main/contact_us.dart';
 import 'package:benji/frontend/main/faqs.dart';
@@ -115,7 +116,7 @@ class Footer extends StatelessWidget {
                           items: [
                             ['Products', CategoriesPage()],
                             ['Contact us', ContactUs()],
-                            // ['Blogs', BlogsPage()]
+                            ['Join us', JoinUsPage()],
                           ],
                         ),
                       ],
@@ -200,7 +201,7 @@ class Footer extends StatelessWidget {
                             ),
                             kHalfSizedBox,
                             const Text(
-                              '1st Floor Suite 09, Swissgarde Plaza, Ogui Rd, Achara 400102, Enugu',
+                              '1st Floor Suite 09, Swissgarde Plaza, Ogui Rd, Enugu',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -232,7 +233,7 @@ class Footer extends StatelessWidget {
                             ),
                             kHalfSizedBox,
                             const Text(
-                              '070 1113 0115, 091 3443 6678',
+                              '080 3665 6173, 090 1555 5159',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,

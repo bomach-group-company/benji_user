@@ -6,14 +6,11 @@ import 'package:benji/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
-import 'package:benji/src/skeletons/app/card.dart';
-import 'package:benji/src/skeletons/page_skeleton.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
@@ -164,31 +161,8 @@ class _CartScreenState extends State<CartScreen> {
           maintainBottomViewPadding: true,
           child: _data == null
               ? Center(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Shimmer.fromColors(
-                          highlightColor: kBlackColor.withOpacity(0.02),
-                          baseColor: kBlackColor.withOpacity(0.8),
-                          direction: ShimmerDirection.ltr,
-                          child:
-                              PageSkeleton(height: 50, width: mediaWidth - 20),
-                        ),
-                        kSizedBox,
-                        kSizedBox,
-                        CardSkeleton(
-                          height: 200,
-                          width: mediaWidth - 20,
-                        ),
-                        kSizedBox,
-                        kSizedBox,
-                        CardSkeleton(
-                          height: 200,
-                          width: mediaWidth - 20,
-                        ),
-                      ],
-                    ),
+                  child: CircularProgressIndicator(
+                    color: kAccentColor,
                   ),
                 )
               : Scrollbar(

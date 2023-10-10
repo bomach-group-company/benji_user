@@ -99,6 +99,22 @@ Future<List<Product>> getProducts({limit = 10}) async {
   }
 }
 
+Future<List<Product>> getProductsByCategory(categoryId) async {
+  final response = await http.get(
+    Uri.parse('$baseURL/api/v1/clients/filterProductsByCategory/$categoryId'),
+    headers: await authHeader(),
+  );
+  if (response.statusCode == 200 && response.body != '"No matching query"') {
+    return (jsonDecode(response.body) as List)
+        .map((item) => Product.fromJson(item))
+        .toList();
+  } else if (response.body == '"No matching query"') {
+    return [];
+  } else {
+    throw Exception('Failed to load user product');
+  }
+}
+
 Future<List<Product>> getProductsBySubCategory(subCategoryId) async {
   final response = await http.get(
     Uri.parse('$baseURL/clients/filterProductsBySubCategory/$subCategoryId'),

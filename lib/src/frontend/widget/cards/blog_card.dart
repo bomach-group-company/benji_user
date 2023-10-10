@@ -1,6 +1,7 @@
 import 'package:benji/frontend/main/blog_detail.dart';
 import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 import '../../../../theme/colors.dart';
 import '../../../providers/constants.dart';
@@ -162,10 +163,15 @@ class _MyBlogCardState extends State<MyBlogCard> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (context) => widget.navigate,
-                                ),
+                              Get.off(
+                                () => widget.navigate,
+                                routeName:
+                                    widget.navigate.runtimeType.toString(),
+                                duration: const Duration(milliseconds: 300),
+                                fullscreenDialog: true,
+                                curve: Curves.easeIn,
+                                popGesture: true,
+                                transition: Transition.fadeIn,
                               );
                             },
                             child: const Text(

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:benji/src/repo/models/address/address_model.dart';
-import 'package:benji/src/repo/models/order/order_item.dart';
 import 'package:benji/src/repo/utils/base_url.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/foundation.dart';
@@ -16,8 +15,8 @@ class Order {
   final String deliveryStatus;
   final User client;
   final Address deliveryAddress;
-  final List<OrderItem> orderItems;
-  final DateTime created;
+  // final List<OrderItem> orderItems;
+  // final DateTime created;
 
   Order({
     required this.id,
@@ -26,15 +25,15 @@ class Order {
     required this.deliveryStatus,
     required this.client,
     required this.deliveryAddress,
-    required this.orderItems,
-    required this.created,
+    // required this.orderItems,
+    // required this.created,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) {
-    List<OrderItem> orderItems = [];
-    for (var item in json['orderitems']) {
-      orderItems.add(OrderItem.fromJson(item));
-    }
+    // List<OrderItem> orderItems = [];
+    // for (var item in json['orderitems']) {
+    //   orderItems.add(OrderItem.fromJson(item));
+    // }
 
     return Order(
       id: json['id'],
@@ -43,8 +42,8 @@ class Order {
       deliveryStatus: json['delivery_status'],
       client: User.fromJson(json['client']),
       deliveryAddress: Address.fromJson(json['delivery_address']),
-      orderItems: orderItems,
-      created: DateTime.parse(json['created']),
+      // orderItems: orderItems,
+      // created: DateTime.parse(json['created']),
     );
   }
 }
@@ -78,6 +77,5 @@ Future<bool> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
     print(response.body);
     print(response.statusCode);
   }
-  return response.body == '"Order Created Successfully"' &&
-      response.statusCode == 200;
+  return response.statusCode == 200;
 }

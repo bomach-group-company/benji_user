@@ -3,7 +3,6 @@ import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
 import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../src/frontend/model/category.dart';
 import '../../src/frontend/utils/constant.dart';
@@ -70,9 +69,10 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   child: Text('Error occured refresh'),
                 );
               }
-              return SpinKitChasingDots(
-                color: kAccentColor,
-                size: 30,
+              return Center(
+                child: CircularProgressIndicator(
+                  color: kAccentColor,
+                ),
               );
             } else {
               return Column(

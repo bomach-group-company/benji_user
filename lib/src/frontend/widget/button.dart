@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 import '../../../theme/colors.dart';
 
@@ -31,12 +32,14 @@ class _MyOutlinedButtonState extends State<MyOutlinedButton> {
       ),
       onPressed: () {
         if (widget.navigate != null) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) {
-                return widget.navigate!;
-              },
-            ),
+          Get.off(
+            () => widget.navigate!,
+            routeName: widget.navigate.runtimeType.toString(),
+            duration: const Duration(milliseconds: 300),
+            fullscreenDialog: true,
+            curve: Curves.easeIn,
+            popGesture: true,
+            transition: Transition.fadeIn,
           );
         }
       },

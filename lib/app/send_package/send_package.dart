@@ -336,7 +336,7 @@ class _SendPackageState extends State<SendPackage> {
                 },
                 textInputAction: TextInputAction.done,
                 focusNode: _pickupFN,
-                hintText: "Search a location",
+                hintText: "Pick location",
                 textInputType: TextInputType.text,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(kDefaultPadding),
@@ -483,7 +483,7 @@ class _SendPackageState extends State<SendPackage> {
                 },
                 textInputAction: TextInputAction.done,
                 focusNode: dropOffFN,
-                hintText: "Search a location",
+                hintText: "Pick location",
                 textInputType: TextInputType.text,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(kDefaultPadding),
