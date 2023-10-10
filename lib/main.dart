@@ -22,12 +22,12 @@ void main() async {
 
   prefs = await SharedPreferences.getInstance();
   if (!kIsWeb) {
-  await Firebase.initializeApp();
-  await FirebaseMessaging.instance.setAutoInitEnabled(true);
-  // FirebaseMessaging.onBackgroundMessage(_firebasePushHandler);
-  await NotificationController.initializeNotification();
+    await Firebase.initializeApp();
+    await FirebaseMessaging.instance.setAutoInitEnabled(true);
+    // FirebaseMessaging.onBackgroundMessage(_firebasePushHandler);
+    await NotificationController.initializeNotification();
 
-  await handleFCMBackgroundMessaging();
+    await handleFCMBackgroundMessaging();
   }
 
   // await dotenv.load();
