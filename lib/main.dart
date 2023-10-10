@@ -1,4 +1,3 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:benji/src/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -9,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/providers/controllers.dart';
+import 'src/providers/fcm_messaging.dart';
 import 'theme/app_theme.dart';
 import 'theme/colors.dart';
 
@@ -19,11 +19,15 @@ void main() async {
     const SystemUiOverlayStyle(statusBarColor: kTransparentColor),
   );
   WidgetsFlutterBinding.ensureInitialized();
+
   prefs = await SharedPreferences.getInstance();
   if (!kIsWeb) {
-    await Firebase.initializeApp();
-    // await NotificationController.initializeNotification();
-    FirebaseMessaging.onBackgroundMessage(_firebasePushHandler);
+  await Firebase.initializeApp();
+  await FirebaseMessaging.instance.setAutoInitEnabled(true);
+  // FirebaseMessaging.onBackgroundMessage(_firebasePushHandler);
+  await NotificationController.initializeNotification();
+
+  await handleFCMBackgroundMessaging();
   }
 
   // await dotenv.load();
@@ -60,33 +64,28 @@ class MyApp extends StatelessWidget {
   }
 }
 
-Future<void> _firebasePushHandler(RemoteMessage message) {
-  debugPrint("Message from push notification is $message.data");
-  return AwesomeNotifications().createNotificationFromJsonData(message.data);
-}
-
-_showExitConfirmationDialog(BuildContext context) async {
-  return showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text('Exit App?'),
-        content: const Text('Are you sure you want to exit the app?'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false); // Don't exit
-            },
-            child: const Text('No'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(true); // Exit
-            },
-            child: const Text('Yes'),
-          ),
-        ],
-      );
-    },
-  );
-}
+// _showExitConfirmationDialog(BuildContext context) async {
+//   return showDialog(
+//     context: context,
+//     builder: (context) {
+//       return AlertDialog(
+//         title: const Text('Exit App?'),
+//         content: const Text('Are you sure you want to exit the app?'),
+//         actions: <Widget>[
+//           TextButton(
+//             onPressed: () {
+//               Navigator.of(context).pop(false); // Don't exit
+//             },
+//             child: const Text('No'),
+//           ),
+//           TextButton(
+//             onPressed: () {
+//               Navigator.of(context).pop(true); // Exit
+//             },
+//             child: const Text('Yes'),
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }

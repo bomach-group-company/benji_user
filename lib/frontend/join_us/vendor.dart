@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:benji/app/address/get_location_on_map.dart';
 import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:benji/src/common_widgets/snackbar/my_floating_snackbar.dart';
@@ -31,6 +33,9 @@ class _VendorTabState extends State<VendorTab> {
   final TextEditingController _userEmailEC = TextEditingController();
   final TextEditingController _phonenumberEC = TextEditingController();
   final TextEditingController _businessNameEC = TextEditingController();
+
+  // final TextEditingController _businessRegNoEC = TextEditingController();
+
   final TextEditingController _businessTypeEC = TextEditingController();
   final TextEditingController _locationEC = TextEditingController();
 
@@ -43,6 +48,9 @@ class _VendorTabState extends State<VendorTab> {
   final FocusNode _userEmailFN = FocusNode();
   final FocusNode _phonenumberFN = FocusNode();
   final FocusNode _businessNameFN = FocusNode();
+
+  // final FocusNode _businessRegNoFN = FocusNode();
+
   final FocusNode _businessTypeFN = FocusNode();
   final FocusNode _locationFN = FocusNode();
 
