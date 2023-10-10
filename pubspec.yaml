@@ -56,6 +56,9 @@ dependencies:
   awesome_notifications_fcm:
   emoji_rating_bar:
   emojis:
+  firebase_core:
+  firebase_messaging:
+  rename:
 
 dev_dependencies:
   flutter_test:

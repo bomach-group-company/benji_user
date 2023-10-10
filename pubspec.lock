@@ -298,7 +298,7 @@ packages:
     source: hosted
     version: "0.9.3+1"
   firebase_core:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_core
       sha256: "95580fa07c8ca3072a2bb1fecd792616a33f8683477d25b7d29d3a6a399e6ece"
@@ -337,6 +337,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.6.7"
+  firebase_messaging:
+    dependency: "direct main"
+    description:
+      name: firebase_messaging
+      sha256: "67f9d7c87457e71ad78ee81e332f232b8a24f7d5e338f8c958fa7d6e9e0e3636"
+      url: "https://pub.dev"
+    source: hosted
+    version: "14.6.9"
+  firebase_messaging_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_messaging_platform_interface
+      sha256: "8c7ced3201886ad7ba37f344c1468ccfc08abb3023922e0e5a016eaf38abb96c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.5.8"
+  firebase_messaging_web:
+    dependency: transitive
+    description:
+      name: firebase_messaging_web
+      sha256: b601322bdb44e2fefe4cc7b85ef0dbb7a2479d4a7653a51340821cf8d60696b5
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.5.8"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -776,6 +800,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  logger:
+    dependency: transitive
+    description:
+      name: logger
+      sha256: "6bbb9d6f7056729537a4309bda2e74e18e5d9f14302489cc1e93f33b3fe32cac"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2+1"
   lottie:
     dependency: "direct main"
     description:
@@ -992,6 +1024,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  rename:
+    dependency: "direct main"
+    description:
+      name: rename
+      sha256: de41a188910744a8b4984525adc936f8d06d6748ca79f6661500b108912784f2
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   sanitize_html:
     dependency: transitive
     description:
