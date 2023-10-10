@@ -1,5 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:benji/app/splash_screens/startup_splash_screen.dart';
+import 'package:benji/src/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -47,12 +47,12 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       //This is the home route
-      home: WillPopScope(
-        onWillPop: () => _showExitConfirmationDialog(context),
-        child: const StartupSplashscreen(),
-      ),
-      // initialRoute: AppRoutes.startupSplashscreen,
-      // getPages: AppRoutes.routes,
+      // home: WillPopScope(
+      //   onWillPop: () => _showExitConfirmationDialog(context),
+      //   child: const StartupSplashscreen(),
+      // ),
+      initialRoute: AppRoutes.startupSplashscreen,
+      getPages: AppRoutes.routes,
       initialBinding: BindingsBuilder(() {
         Get.put(LatLngDetailController());
       }),
