@@ -2,15 +2,18 @@
 
 import 'package:benji/app/address/get_location_on_map.dart';
 import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
+import 'package:benji/src/common_widgets/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/common_widgets/textformfield/my%20textformfield.dart';
 import 'package:benji/src/common_widgets/textformfield/my_maps_textformfield.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/providers/controllers.dart';
+import 'package:benji/src/repo/utils/base_url.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class VendorTab extends StatefulWidget {
   const VendorTab({super.key});
@@ -21,20 +24,18 @@ class VendorTab extends StatefulWidget {
 
 class _VendorTabState extends State<VendorTab> {
   // variales
-  String? latitudePick;
+  String? latitude;
 
-  String? longitudePick;
-
-  String? latitudeDrop;
-
-  String? longitudeDrop;
+  String? longitude;
 
   // controller
   final TextEditingController _nameEC = TextEditingController();
   final TextEditingController _userEmailEC = TextEditingController();
   final TextEditingController _phonenumberEC = TextEditingController();
   final TextEditingController _businessNameEC = TextEditingController();
+
   // final TextEditingController _businessRegNoEC = TextEditingController();
+
   final TextEditingController _businessTypeEC = TextEditingController();
   final TextEditingController _locationEC = TextEditingController();
 
@@ -47,9 +48,47 @@ class _VendorTabState extends State<VendorTab> {
   final FocusNode _userEmailFN = FocusNode();
   final FocusNode _phonenumberFN = FocusNode();
   final FocusNode _businessNameFN = FocusNode();
+
   // final FocusNode _businessRegNoFN = FocusNode();
+
   final FocusNode _businessTypeFN = FocusNode();
   final FocusNode _locationFN = FocusNode();
+
+  _submit() async {
+    final url = Uri.parse('$baseURL/joinus/createBusinessOwnerRequest');
+
+    final body = {
+      'fullname': _nameEC.text,
+      'email': _userEmailEC.text,
+      'phone': _phonenumberEC.text,
+      'address': _locationEC.text,
+      'business_name': _businessNameEC.text,
+      'business_type': _businessTypeEC.text,
+      'latitude': longitude,
+      'longitude': longitude,
+    };
+    if (kDebugMode) {
+      print("This is the body: $body");
+    }
+    final response = await http.post(url, body: body);
+    if (response.body == '"created"') {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Request summited",
+        const Duration(seconds: 2),
+      );
+    } else {
+      mySnackBar(
+        context,
+        kAccentColor,
+        "Failed!",
+        "Request Failed",
+        const Duration(seconds: 2),
+      );
+    }
+  }
 
   // final FocusNode _nameFN = FocusNode();
   void _toGetLocationOnMapDrop() async {
@@ -63,12 +102,12 @@ class _VendorTabState extends State<VendorTab> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    latitudeDrop = latLngDetailController.latLngDetail.value[0];
-    longitudeDrop = latLngDetailController.latLngDetail.value[1];
+    latitude = latLngDetailController.latLngDetail.value[0];
+    longitude = latLngDetailController.latLngDetail.value[1];
     _locationEC.text = latLngDetailController.latLngDetail.value[2];
     latLngDetailController.setEmpty();
     if (kDebugMode) {
-      print("LATLNG: $latitudeDrop,$longitudeDrop");
+      print("LATLNG: $latitude,$longitude");
       print(_locationEC.text);
     }
   }

@@ -1,6 +1,7 @@
 import 'package:benji/src/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -18,14 +19,16 @@ void main() async {
     const SystemUiOverlayStyle(statusBarColor: kTransparentColor),
   );
   WidgetsFlutterBinding.ensureInitialized();
+
+  prefs = await SharedPreferences.getInstance();
+  if (!kIsWeb) {
   await Firebase.initializeApp();
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
   // FirebaseMessaging.onBackgroundMessage(_firebasePushHandler);
   await NotificationController.initializeNotification();
 
   await handleFCMBackgroundMessaging();
-
-  prefs = await SharedPreferences.getInstance();
+  }
 
   // await dotenv.load();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -50,7 +53,7 @@ class MyApp extends StatelessWidget {
       //This is the home route
       // home: WillPopScope(
       //   onWillPop: () => _showExitConfirmationDialog(context),
-      //   child: const Home(),
+      //   child: const StartupSplashscreen(),
       // ),
       initialRoute: AppRoutes.startupSplashscreen,
       getPages: AppRoutes.routes,

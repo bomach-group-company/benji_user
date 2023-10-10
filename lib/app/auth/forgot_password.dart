@@ -19,9 +19,7 @@ import '../../theme/colors.dart';
 import 'otp_reset_password.dart';
 
 class ForgotPassword extends StatefulWidget {
-  final String? title;
-  final String? subTitle;
-  const ForgotPassword({super.key, this.title, this.subTitle});
+  const ForgotPassword({super.key});
 
   @override
   State<ForgotPassword> createState() => _ForgotPasswordState();
@@ -144,12 +142,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     child: () {
                       if (_validAuthCredentials) {
                         return ReusableAuthenticationFirstHalf(
-                          title: widget.title != null
-                              ? widget.title!
-                              : "Forgot your password?",
-                          subtitle: widget.subTitle != null
-                              ? widget.subTitle!
-                              : "Simply enter your email below and we will send you a code via which you need to reset your password",
+                          title: "Forgot your password?",
+                          subtitle:
+                              "Simply enter your email below and we will send you a code via which you need to reset your password",
                           curves: Curves.easeInOut,
                           duration: const Duration(),
                           containerChild: const Center(
@@ -168,12 +163,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         );
                       } else {
                         return ReusableAuthenticationFirstHalf(
-                          title: widget.title != null
-                              ? widget.title!
-                              : "Forgot your password?",
-                          subtitle: widget.subTitle != null
-                              ? widget.subTitle!
-                              : "Simply enter your email below and we will send you a code via which you need to reset your password",
+                          title: "Forgot your password?",
+                          subtitle:
+                              "Simply enter your email below and we will send you a code via which you need to reset your password",
                           curves: Curves.easeInOut,
                           duration: const Duration(),
                           containerChild: Center(
