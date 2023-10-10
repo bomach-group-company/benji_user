@@ -19,7 +19,7 @@ class _NotificationPageState extends State<NotificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        title: "Notitifcation Screen (Awesome Notifications)",
+        title: "Notification Screen (Awesome Notifications)",
         elevation: 0,
         actions: const [],
         backgroundColor: kPrimaryColor,
