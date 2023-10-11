@@ -40,7 +40,7 @@ class Footer extends StatelessWidget {
               50)),
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/frontend/assets/footer/footer_bg_1.jpg'),
+          image: AssetImage('assets/frontend/assets/footer/Benji-Footer.jpg'),
           fit: BoxFit.cover,
         ),
       ),

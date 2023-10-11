@@ -13,12 +13,14 @@ class MyMessageTextFormField extends StatelessWidget {
   final int maxLines;
   final int maxLength;
   final TextInputType keyboardType;
+  final void Function(String value)? onChanged;
 
   const MyMessageTextFormField({
     super.key,
     required this.controller,
     required this.validator,
     this.onSaved,
+    this.onChanged,
     required this.textInputAction,
     required this.focusNode,
     required this.hintText,
@@ -30,6 +32,7 @@ class MyMessageTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: onChanged,
       focusNode: focusNode,
       controller: controller,
       onSaved: onSaved,

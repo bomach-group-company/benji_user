@@ -18,7 +18,7 @@ class MyHero extends StatelessWidget {
       required this.text1,
       required this.text2,
       required this.buttonCarouselController,
-      this.hasExplore = true});
+      this.hasExplore = false});
 
   @override
   Widget build(BuildContext context) {
