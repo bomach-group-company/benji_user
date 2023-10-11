@@ -131,30 +131,28 @@ class _HomePageState extends State<HomePage> {
                               items: [
                                 MyHero(
                                   image:
-                                      'assets/frontend/assets/hero/slider-1.png',
-                                  text1: 'Start Your Grocery Business',
+                                      'assets/frontend/assets/hero/hero1.jpg',
+                                  text1: 'Shop smarter and happier',
                                   text2:
-                                      'Stay Home & Delivered Your Daily Needs',
+                                      'Say goodbye to the hassle of shopping',
                                   buttonCarouselController:
                                       buttonCarouselController,
                                 ),
                                 MyHero(
                                   image:
                                       'assets/frontend/assets/hero/slider-2.png',
-                                  text1:
-                                      'Save up to 50% off on your first order',
-                                  text2: 'Don\'t Miss Amazing Grocery Deals',
+                                  text1: 'Seamless Shopping and Delivery',
+                                  text2: 'real-time tracking and fast delivery',
                                   buttonCarouselController:
                                       buttonCarouselController,
                                 ),
                                 MyHero(
                                   image:
                                       'assets/frontend/assets/hero/slider-3.png',
-                                  text1: 'Save upto 30% off',
-                                  text2: 'Buy Fresh Groceries & Organic food',
+                                  text1: 'Our Logistics at Your Service!',
+                                  text2: 'Get your packages at your doorstep',
                                   buttonCarouselController:
                                       buttonCarouselController,
-                                  hasExplore: false,
                                 ),
                               ],
                             ),
@@ -296,7 +294,7 @@ class _HomePageState extends State<HomePage> {
                             AspectRatio(
                               aspectRatio: 5,
                               child: Image.asset(
-                                'assets/frontend/assets/banner/banner-1.png',
+                                'assets/frontend/assets/banner/Benji-banner1.jpg',
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -466,7 +464,7 @@ class _HomePageState extends State<HomePage> {
                             AspectRatio(
                               aspectRatio: 5,
                               child: Image.asset(
-                                'assets/frontend/assets/banner/banner-2.png',
+                                'assets/frontend/assets/banner/Benji-banner2.jpg',
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -509,12 +507,11 @@ class _HomePageState extends State<HomePage> {
                                               )
                                             : kHalfSizedBox,
                                         const MyFancyText(
-                                            text:
-                                                'Single Groecry Ordering App'),
+                                            text: 'Ecommerce and courier App'),
                                         kSizedBox,
                                         kSizedBox,
                                         const Text(
-                                          'Experience the Revolutionised & user-friendly Top online Grocery Store ordering system to skyrocket Groceries sales.',
+                                          'Experience the seamless Shopping, Secure and efficient Delivery - Our Logistics at Your Service!.',
                                           style: TextStyle(
                                               fontSize: 25,
                                               color: Colors.black54),
@@ -627,7 +624,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   MyBorderCard(
                                     icon: Icons.pin_drop,
-                                    title: 'Live Order Tracking',
+                                    title: 'Real-time Order Tracking',
                                     subtitle: 'Know where your package is at',
                                   ),
                                   MyBorderCard(
