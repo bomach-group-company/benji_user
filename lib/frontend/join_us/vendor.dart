@@ -1,4 +1,4 @@
-// ignore_for_file: invalid_use_of_protected_member
+// ignore_for_file: invalid_use_of_protected_member, use_build_context_synchronously
 
 import 'package:benji/app/address/get_location_on_map.dart';
 import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
