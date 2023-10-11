@@ -172,6 +172,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ),
       );
     }
+    if (!_isAddedToCart) {
+      await _deleteNote();
+    }
     if (justInPage) {
       setState(() {
         justInPage = false;
