@@ -1,11 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:benji/src/common_widgets/textformfield/message_textformfield.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/models/rating/ratings.dart';
 import 'package:benji/src/repo/utils/favorite.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
+import 'package:benji/src/repo/utils/vendor_note.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
@@ -44,6 +46,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         });
       },
     );
+    _vendorNoteEC.text = getSingleProductNote(widget.product.id);
     checkCart();
     _getData();
     _scrollController.addListener(_scrollListener);
@@ -54,6 +57,25 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     _scrollController.dispose();
     _scrollController.removeListener(() {});
     super.dispose();
+  }
+
+  //============================================ CONTROLLERS ===========================================\\
+  final TextEditingController _vendorNoteEC = TextEditingController();
+
+  //============================================ FOCUS NODES ===========================================\\
+  final FocusNode _vendorNoteFN = FocusNode();
+
+  // Logic
+  _saveNote() async {
+    await addNoteToProduct(widget.product.id, _vendorNoteEC.text);
+    print(_vendorNoteEC.text);
+  }
+
+  _deleteNote() async {
+    await removeNoteFromProduct(widget.product.id);
+    setState(() {
+      _vendorNoteEC.text = '';
+    });
   }
 
   final List<String> stars = ['5', '4', '3', '2', '1'];
@@ -678,7 +700,89 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                           "Add to Cart (₦${formattedText(widget.product.price)})",
                                     ),
                             ),
-                      kSizedBox,
+                      _isAddedToCart
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                MyMessageTextFormField(
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _vendorNoteEC.text = value;
+                                    });
+                                  },
+                                  controller: _vendorNoteEC,
+                                  textInputAction: TextInputAction.done,
+                                  focusNode: _vendorNoteFN,
+                                  hintText: "Note for vendor (Optional)",
+                                  maxLines: 5,
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 3000,
+                                  validator: (value) {
+                                    return null;
+                                  },
+                                ),
+                                kSizedBox,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: _vendorNoteEC.text == ''
+                                          ? null
+                                          : _deleteNote,
+                                      style: ElevatedButton.styleFrom(
+                                        fixedSize:
+                                            Size((mediaWidth / 2 - 20), 40),
+                                        backgroundColor:
+                                            kDefaultCategoryBackgroundColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        'Delete',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize: 14,
+                                          color: kTextGreyColor,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: _vendorNoteEC.text == ''
+                                          ? null
+                                          : _saveNote,
+                                      style: ElevatedButton.styleFrom(
+                                        disabledBackgroundColor:
+                                            kAccentColor.withOpacity(0.5),
+                                        fixedSize:
+                                            Size((mediaWidth / 2 - 20), 40),
+                                        backgroundColor: kAccentColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        'Save',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize: 14,
+                                          color: kPrimaryColor,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                kSizedBox,
+                              ],
+                            )
+                          : kSizedBox,
                       Container(
                         width: mediaWidth,
                         padding: const EdgeInsets.all(kDefaultPadding),

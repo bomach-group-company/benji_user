@@ -5,6 +5,11 @@ import 'package:benji/src/repo/models/product/product.dart';
 
 const String cartname = 'userCart';
 
+bool productInCart(String productId) {
+  Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
+  return cart.containsKey(productId);
+}
+
 Future addToCart(String productId) async {
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   if (cart.containsKey(productId)) {
