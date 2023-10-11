@@ -117,6 +117,7 @@ flutter:
     - assets/animations/credit_card/
     - assets/animations/delivery/
     - assets/animations/google_maps/
+    - assets/animations/help_and_support/
     - assets/frontend/assets/brand/
     - assets/frontend/assets/hero/
     - assets/frontend/assets/blog/

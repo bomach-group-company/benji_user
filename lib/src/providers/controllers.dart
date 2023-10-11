@@ -154,7 +154,7 @@ class NotificationController {
         category: category,
         payload: payload,
         bigPicture: bigPicture,
-        color: color,
+        color: color ?? kSecondaryColor,
         icon: icon,
         criticalAlert: criticalAlert,
         customSound: customSound,

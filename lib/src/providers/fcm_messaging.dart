@@ -9,24 +9,22 @@ Future<void> handleFCM() async {
     print("This is the FCM token: $fcmToken");
   }
 
-  // FirebaseMessaging.onBackgroundMessage(
-  //     (message) => _firebasePushHandler(message));
   //When the app restarts
-  FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-    if (kDebugMode) {
-      print("This is the FCM token after the app restarted: $fcmToken");
-    }
-    FirebaseMessaging.onBackgroundMessage((message) {
-      return _firebasePushHandler(message);
-    });
-    // Note: This callback is fired at each app startup and whenever a new
-    // token is generated.
-  }).onError((err) {
-    if (kDebugMode) {
-      print("This is the error: $err");
-    }
-    // Error getting token.
-  });
+  // FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+  //   if (kDebugMode) {
+  //     print("This is the FCM token after the app restarted: $fcmToken");
+  //   }
+  //   FirebaseMessaging.onBackgroundMessage((message) {
+  //     return _firebasePushHandler(message);
+  //   });
+  //   // Note: This callback is fired at each app startup and whenever a new
+  //   // token is generated.
+  // }).onError((err) {
+  //   if (kDebugMode) {
+  //     print("This is the error: $err");
+  //   }
+  //   // Error getting token.
+  // });
 }
 
 _firebasePushHandler(RemoteMessage message) {
