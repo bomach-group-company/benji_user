@@ -752,7 +752,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       ),
                                     ),
                                     ElevatedButton(
-                                      onPressed: _vendorNoteEC.text == ''
+                                      onPressed: _vendorNoteEC.text == '' ||
+                                              _vendorNoteEC.text ==
+                                                  getSingleProductNote(
+                                                      widget.product.id)
                                           ? null
                                           : _saveNote,
                                       style: ElevatedButton.styleFrom(
