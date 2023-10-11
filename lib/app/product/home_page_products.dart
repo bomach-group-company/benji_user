@@ -1,5 +1,6 @@
 import 'package:benji/app/product/product_detail_screen.dart';
 import 'package:benji/src/common_widgets/button/category_button.dart';
+import 'package:benji/src/others/empty.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/models/category/sub_category.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
@@ -143,55 +144,60 @@ class _HomePageProductsState extends State<HomePageProducts> {
                       );
                     }),
                 kSizedBox,
-                FutureBuilder(
-                    future: _products,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: kAccentColor,
-                          ),
-                        );
-                      }
-                      // if (snapshot.hasData && snapshot.data!.isEmpty) {
-                      //   return const EmptyCard(
-                      //     removeButton: true,
-                      //   );
-                      // }
-                      return LayoutGrid(
-                        rowGap: kDefaultPadding / 2,
-                        columnGap: kDefaultPadding / 2,
-                        columnSizes: breakPointDynamic(
-                            media.width,
-                            [1.fr],
-                            [1.fr, 1.fr],
-                            [1.fr, 1.fr, 1.fr],
-                            [1.fr, 1.fr, 1.fr, 1.fr]),
-                        rowSizes: snapshot.data!.isEmpty
-                            ? [auto]
-                            : List.generate(
-                                snapshot.data!.length, (index) => auto),
-                        children: (snapshot.data!)
-                            .map(
-                              (item) => ProductCard(
-                                onTap: () {
-                                  Get.to(
-                                    () => ProductDetailScreen(product: item),
-                                    routeName: 'ProductDetailScreen',
-                                    duration: const Duration(milliseconds: 300),
-                                    fullscreenDialog: true,
-                                    curve: Curves.easeIn,
-                                    preventDuplicates: true,
-                                    popGesture: true,
-                                    transition: Transition.rightToLeft,
-                                  );
-                                },
-                                product: item,
+                activeSubCategory == ''
+                    ? const SizedBox()
+                    : FutureBuilder(
+                        future: _products,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: kAccentColor,
                               ),
-                            )
-                            .toList(),
-                      );
-                    }),
+                            );
+                          }
+                          if (snapshot.data!.isEmpty) {
+                            return const EmptyCard(
+                              removeButton: true,
+                            );
+                          }
+                          return LayoutGrid(
+                            rowGap: kDefaultPadding / 2,
+                            columnGap: kDefaultPadding / 2,
+                            columnSizes: breakPointDynamic(
+                                media.width,
+                                [1.fr],
+                                [1.fr, 1.fr],
+                                [1.fr, 1.fr, 1.fr],
+                                [1.fr, 1.fr, 1.fr, 1.fr]),
+                            rowSizes: snapshot.data!.isEmpty
+                                ? [auto]
+                                : List.generate(
+                                    snapshot.data!.length, (index) => auto),
+                            children: (snapshot.data!)
+                                .map(
+                                  (item) => ProductCard(
+                                    onTap: () {
+                                      Get.to(
+                                        () =>
+                                            ProductDetailScreen(product: item),
+                                        routeName: 'ProductDetailScreen',
+                                        duration:
+                                            const Duration(milliseconds: 300),
+                                        fullscreenDialog: true,
+                                        curve: Curves.easeIn,
+                                        preventDuplicates: true,
+                                        popGesture: true,
+                                        transition: Transition.rightToLeft,
+                                      );
+                                    },
+                                    product: item,
+                                  ),
+                                )
+                                .toList(),
+                          );
+                        }),
               ],
             ),
           ),
