@@ -2,19 +2,19 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
-Future<void> handleFCMBackgroundMessaging() async {
+Future<void> handleFCM() async {
   final fcmToken = await FirebaseMessaging.instance.getToken();
+
   if (kDebugMode) {
     print("This is the FCM token: $fcmToken");
   }
-  FirebaseMessaging.onBackgroundMessage((message) {
-    return _firebasePushHandler(message);
-  });
 
+  // FirebaseMessaging.onBackgroundMessage(
+  //     (message) => _firebasePushHandler(message));
   //When the app restarts
   FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
     if (kDebugMode) {
-      print("This is the FCM token: $fcmToken");
+      print("This is the FCM token after the app restarted: $fcmToken");
     }
     FirebaseMessaging.onBackgroundMessage((message) {
       return _firebasePushHandler(message);
@@ -29,7 +29,7 @@ Future<void> handleFCMBackgroundMessaging() async {
   });
 }
 
-Future<void> _firebasePushHandler(RemoteMessage message) {
+_firebasePushHandler(RemoteMessage message) {
   debugPrint("Message from push notification is $message.data");
-  return AwesomeNotifications().createNotificationFromJsonData(message.data);
+  AwesomeNotifications().createNotificationFromJsonData(message.data);
 }
