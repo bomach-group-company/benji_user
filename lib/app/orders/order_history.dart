@@ -28,6 +28,9 @@ class _OrdersHistoryState extends State<OrdersHistory> {
     super.initState();
     checkAuth(context);
     _orders = _getOrders();
+    if (kDebugMode) {
+      print(_orders);
+    }
   }
 
   late Future<List<Order>> _orders;

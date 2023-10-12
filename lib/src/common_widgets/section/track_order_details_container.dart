@@ -170,6 +170,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     color: kTextGreyColor,
+                    fontFamily: 'sen',
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                   ),

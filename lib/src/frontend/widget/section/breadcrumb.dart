@@ -49,6 +49,7 @@ class _MyBreadcrumbState extends State<MyBreadcrumb> {
             children: [
               Text(
                 widget.text,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 48,
                   fontWeight: FontWeight.w600,
