@@ -33,12 +33,12 @@ class _CartCardState extends State<CartCard> {
     await Get.to(
       () => const CartScreen(),
       routeName: 'CartScreen',
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 1000),
       fullscreenDialog: true,
       curve: Curves.easeIn,
       preventDuplicates: true,
       popGesture: true,
-      transition: Transition.rightToLeft,
+      transition: Transition.cupertinoDialog,
     );
     setState(() {});
   }

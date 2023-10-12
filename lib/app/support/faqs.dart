@@ -187,17 +187,17 @@ class _FAQsState extends State<FAQs> {
   }
 
 //========================= NAVIGAITON ====================\\
-  void _toHomePage() => Get.to(
+
+  void _toHomePage() => Get.offAll(
         () => const Home(),
         routeName: 'Home',
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 1000),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        preventDuplicates: true,
+        predicate: (route) => false,
         popGesture: true,
-        transition: Transition.topLevel,
+        transition: Transition.cupertinoDialog,
       );
-
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
