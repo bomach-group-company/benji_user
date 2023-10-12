@@ -56,7 +56,17 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
   //=================================== LOGIC ====================================\\
 
   Future<void> _handleRefresh() async {
-    setState(() {});
+    setState(() {
+      productAndSubCategoryName =
+          getVendorProductsAndSubCategoryName(widget.vendor.id)
+            ..then((value) {
+              try {
+                activeCategory = value.keys.toList()[0];
+              } catch (e) {
+                activeCategory = '';
+              }
+            });
+    });
   }
 
   //=================================== CONTROLLERS ====================================\\
