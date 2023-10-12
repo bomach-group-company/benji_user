@@ -22,6 +22,7 @@ import '../../src/repo/utils/base_url.dart';
 import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import '../auth/login.dart';
+import 'about_app.dart';
 import 'edit_profile.dart';
 import 'notification_page.dart';
 
@@ -272,6 +273,16 @@ class _SettingsState extends State<Settings> {
     );
     setState(() {});
   }
+
+  void _toAboutApp() => Get.to(
+        () => const AboutApp(),
+        routeName: 'AboutApp',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
 
   void _logOut() => Get.offAll(
         () => const Login(logout: true),
@@ -621,6 +632,47 @@ class _SettingsState extends State<Settings> {
                         textOff: "Disabled",
                         textOn: "Enabled",
                       ),
+                    ),
+                  ),
+                ),
+              ),
+              kHalfSizedBox,
+              InkWell(
+                onTap: _toAboutApp,
+                child: Container(
+                  width: mediaWidth,
+                  decoration: ShapeDecoration(
+                    color: kPrimaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    shadows: const [
+                      BoxShadow(
+                        color: Color(0x0F000000),
+                        blurRadius: 24,
+                        offset: Offset(0, 4),
+                        spreadRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: ListTile(
+                    enableFeedback: true,
+                    leading: FaIcon(
+                      FontAwesomeIcons.circleInfo,
+                      color: kAccentColor,
+                    ),
+                    title: const Text(
+                      "About the app",
+                      style: TextStyle(
+                        color: kTextBlackColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    trailing: const Icon(
+                      FontAwesomeIcons.chevronRight,
+                      size: 16,
+                      color: kTextBlackColor,
                     ),
                   ),
                 ),
