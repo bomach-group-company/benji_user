@@ -5,14 +5,12 @@ import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-import '../user/user_model.dart';
-
 class Order {
   final String id;
   final int totalPrice;
   final String assignedStatus;
   final String deliveryStatus;
-  final User client;
+  // final User client;
   // final Address deliveryAddress;
   // final List<OrderItem> orderItems;
   // final DateTime created;
@@ -22,7 +20,7 @@ class Order {
     required this.totalPrice,
     required this.assignedStatus,
     required this.deliveryStatus,
-    required this.client,
+    // required this.client,
     // required this.deliveryAddress,
     // required this.orderItems,
     // required this.created,
@@ -39,7 +37,7 @@ class Order {
       totalPrice: json['total_price'],
       assignedStatus: json['assigned_status'],
       deliveryStatus: json['delivery_status'],
-      client: User.fromJson(json['client']),
+      // client: User.fromJson(json['client']),
       // deliveryAddress: Address.fromJson(json['delivery_address']),
       // orderItems: orderItems,
       // created: DateTime.parse(json['created']),
