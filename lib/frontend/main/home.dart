@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 MyHero(
                                   image:
-                                      'assets/frontend/assets/hero/slider-2.png',
+                                      'assets/frontend/assets/hero/hero2.jpg',
                                   text1: 'Seamless Shopping and Delivery',
                                   text2: 'real-time tracking and fast delivery',
                                   buttonCarouselController:
@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 MyHero(
                                   image:
-                                      'assets/frontend/assets/hero/slider-3.png',
+                                      'assets/frontend/assets/hero/hero3.jpg',
                                   text1: 'Our Logistics at Your Service!',
                                   text2: 'Get your packages at your doorstep',
                                   buttonCarouselController:
