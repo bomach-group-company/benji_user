@@ -665,7 +665,7 @@ class _HomePageState extends State<HomePage> {
                           alignment: WrapAlignment.center,
                           children: [
                             MyBorderCard(
-                              icon: Icons.car_crash,
+                              icon: Icons.speed,
                               title: 'Fast Shopping',
                               subtitle: 'Shop with easy',
                             ),
