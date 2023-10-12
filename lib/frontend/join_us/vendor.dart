@@ -296,7 +296,7 @@ class _VendorTabState extends State<VendorTab> {
         ),
         kHalfSizedBox,
         MyTextFormField(
-          hintText: "enter state your business is located",
+          hintText: "Enter state your business is located",
           textCapitalization: TextCapitalization.words,
           controller: _businessTypeEC,
           textInputAction: TextInputAction.next,
@@ -306,7 +306,7 @@ class _VendorTabState extends State<VendorTab> {
             RegExp pattern = RegExp(r'^.{1,}$');
             if (value == null || value!.isEmpty) {
               _businessTypeFN.requestFocus();
-              return "Enter a business type";
+              return "Enter state";
             } else if (!pattern.hasMatch(value)) {
               _businessTypeFN.requestFocus();
               return "Please enter a valid state";

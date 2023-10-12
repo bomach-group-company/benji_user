@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/utils/base_url.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/foundation.dart';
@@ -14,7 +13,7 @@ class Order {
   final String assignedStatus;
   final String deliveryStatus;
   final User client;
-  final Address deliveryAddress;
+  // final Address deliveryAddress;
   // final List<OrderItem> orderItems;
   // final DateTime created;
 
@@ -24,7 +23,7 @@ class Order {
     required this.assignedStatus,
     required this.deliveryStatus,
     required this.client,
-    required this.deliveryAddress,
+    // required this.deliveryAddress,
     // required this.orderItems,
     // required this.created,
   });
@@ -41,7 +40,7 @@ class Order {
       assignedStatus: json['assigned_status'],
       deliveryStatus: json['delivery_status'],
       client: User.fromJson(json['client']),
-      deliveryAddress: Address.fromJson(json['delivery_address']),
+      // deliveryAddress: Address.fromJson(json['delivery_address']),
       // orderItems: orderItems,
       // created: DateTime.parse(json['created']),
     );
