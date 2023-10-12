@@ -251,7 +251,6 @@ class _CategoryPageState extends State<CategoryPage> {
                                         ),
                                       );
                                     } else {
-                                      print('_products $_products');
                                       return snapshot.data.isEmpty
                                           ? const EmptyCard(
                                               removeButton: true,
