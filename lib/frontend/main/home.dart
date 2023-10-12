@@ -60,9 +60,11 @@ class _HomePageState extends State<HomePage> {
     recommendedProduct = Future(() => []);
     productsData = fetchAllProduct(8)
       ..then((value) {
-        trendingProduct = Future(() => value.items);
-        todayProduct = Future(() => value.items);
-        recommendedProduct = Future(() => value.items);
+        setState(() {
+          trendingProduct = Future(() => value.items);
+          todayProduct = Future(() => value.items);
+          recommendedProduct = Future(() => value.items);
+        });
       });
     super.initState();
   }
@@ -74,19 +76,6 @@ class _HomePageState extends State<HomePage> {
   late Future<List<Product>> recommendedProduct;
 
   String productPopId = '';
-
-  // Future<Map<String, dynamic>> _getData() async {
-  //   List<Category> categoriesData = await fetchCategories();
-  //   AllProduct productsData = await fetchAllProduct(8);
-
-  //   return {
-  //     'productsData': productsData,
-  //     'categoriesData': categoriesData,
-  //     'trendingProduct': productsData.items,
-  //     'todayProduct': productsData.items,
-  //     'recommendedProduct': productsData.items
-  //   };
-  // }
 
   @override
   void dispose() {
