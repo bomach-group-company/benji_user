@@ -54,23 +54,39 @@ class _HomePageState extends State<HomePage> {
           }
         });
       });
+    categoriesData = fetchCategories();
+    trendingProduct = Future(() => []);
+    todayProduct = Future(() => []);
+    recommendedProduct = Future(() => []);
+    productsData = fetchAllProduct(8)
+      ..then((value) {
+        trendingProduct = Future(() => value.items);
+        todayProduct = Future(() => value.items);
+        recommendedProduct = Future(() => value.items);
+      });
     super.initState();
   }
 
+  late Future<List<Category>> categoriesData;
+  late Future<AllProduct> productsData;
+  late Future<List<Product>> trendingProduct;
+  late Future<List<Product>> todayProduct;
+  late Future<List<Product>> recommendedProduct;
+
   String productPopId = '';
 
-  Future<Map<String, dynamic>> _getData() async {
-    List<Category> categoriesData = await fetchCategories();
-    AllProduct productsData = await fetchAllProduct(8);
+  // Future<Map<String, dynamic>> _getData() async {
+  //   List<Category> categoriesData = await fetchCategories();
+  //   AllProduct productsData = await fetchAllProduct(8);
 
-    return {
-      'productsData': productsData,
-      'categoriesData': categoriesData,
-      'trendingProduct': productsData.items,
-      'todayProduct': productsData.items,
-      'recommendedProduct': productsData.items
-    };
-  }
+  //   return {
+  //     'productsData': productsData,
+  //     'categoriesData': categoriesData,
+  //     'trendingProduct': productsData.items,
+  //     'todayProduct': productsData.items,
+  //     'recommendedProduct': productsData.items
+  //   };
+  // }
 
   @override
   void dispose() {
@@ -92,122 +108,114 @@ class _HomePageState extends State<HomePage> {
       // ignore: prefer_const_constructors
       appBar: MyAppbar(hideSearch: false),
       body: SafeArea(
-        child: FutureBuilder(
-          future: _getData(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
-              if (snapshot.hasError) {
-                return const Center(
-                  child: Text('Error occured try refresh or contacting admin'),
-                );
-              }
-              return Center(
-                child: CircularProgressIndicator(
-                  color: kAccentColor,
-                ),
-              );
-            } else {
-              return Stack(
-                children: [
-                  Column(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    physics: const BouncingScrollPhysics(),
+                    controller: _scrollController,
                     children: [
-                      Expanded(
-                        child: ListView(
-                          physics: const BouncingScrollPhysics(),
-                          controller: _scrollController,
+                      CarouselSlider(
+                        carouselController: buttonCarouselController,
+                        options: CarouselOptions(
+                          autoPlay: true,
+                          height: media.width > 1000
+                              ? media.height
+                              : media.width > 600
+                                  ? media.width * 0.70
+                                  : media.width * 0.90,
+                          viewportFraction: 1.0,
+                          padEnds: false,
+                        ),
+                        items: [
+                          MyHero(
+                            image: 'assets/frontend/assets/hero/hero1.jpg',
+                            text1: 'Shop smarter and happier',
+                            text2: 'Say goodbye to the hassle of shopping',
+                            buttonCarouselController: buttonCarouselController,
+                          ),
+                          MyHero(
+                            image: 'assets/frontend/assets/hero/hero2.jpg',
+                            text1: 'Seamless Shopping and Delivery',
+                            text2: 'real-time tracking and fast delivery',
+                            buttonCarouselController: buttonCarouselController,
+                          ),
+                          MyHero(
+                            image: 'assets/frontend/assets/hero/hero3.jpg',
+                            text1: 'Our Logistics at Your Service!',
+                            text2: 'Get your packages at your doorstep',
+                            buttonCarouselController: buttonCarouselController,
+                          ),
+                        ],
+                      ),
+                      kSizedBox,
+                      kSizedBox,
+                      kSizedBox,
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: breakPoint(
+                            media.width,
+                            25 - 13,
+                            100 - 15,
+                            100 - 15,
+                          ),
+                        ),
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                            scrollPhysics: const BouncingScrollPhysics(),
+                            // autoPlay: true,
+                            height: MediaQuery.of(context).size.width *
+                                breakPoint(media.width, 0.3, 0.22, 0.16),
+                            viewportFraction:
+                                breakPoint(media.width, 0.5, 0.5, 0.3333),
+                            padEnds: false,
+                          ),
+                          items: const [
+                            MyImageCard(
+                              image: 'assets/frontend/assets/sale/banner-1.png',
+                            ),
+                            MyImageCard(
+                                image:
+                                    'assets/frontend/assets/sale/banner-2.png'),
+                            MyImageCard(
+                                image:
+                                    'assets/frontend/assets/sale/banner-3.png'),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                            horizontal: breakPoint(media.width, 25, 100, 100),
+                            vertical: 50),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            CarouselSlider(
-                              carouselController: buttonCarouselController,
-                              options: CarouselOptions(
-                                autoPlay: true,
-                                height: media.width > 1000
-                                    ? media.height
-                                    : media.width > 600
-                                        ? media.width * 0.70
-                                        : media.width * 0.90,
-                                viewportFraction: 1.0,
-                                padEnds: false,
-                              ),
-                              items: [
-                                MyHero(
-                                  image:
-                                      'assets/frontend/assets/hero/hero1.jpg',
-                                  text1: 'Shop smarter and happier',
-                                  text2:
-                                      'Say goodbye to the hassle of shopping',
-                                  buttonCarouselController:
-                                      buttonCarouselController,
-                                ),
-                                MyHero(
-                                  image:
-                                      'assets/frontend/assets/hero/hero2.jpg',
-                                  text1: 'Seamless Shopping and Delivery',
-                                  text2: 'real-time tracking and fast delivery',
-                                  buttonCarouselController:
-                                      buttonCarouselController,
-                                ),
-                                MyHero(
-                                  image:
-                                      'assets/frontend/assets/hero/hero3.jpg',
-                                  text1: 'Our Logistics at Your Service!',
-                                  text2: 'Get your packages at your doorstep',
-                                  buttonCarouselController:
-                                      buttonCarouselController,
-                                ),
-                              ],
+                            const EndToEndRow(
+                              widget1: MyFancyText(text: 'Categories'),
+                              widget2:
+                                  MyOutlinedButton(navigate: CategoriesPage()),
                             ),
                             kSizedBox,
-                            kSizedBox,
-                            kSizedBox,
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                horizontal: breakPoint(
-                                  media.width,
-                                  25 - 13,
-                                  100 - 15,
-                                  100 - 15,
-                                ),
-                              ),
-                              child: CarouselSlider(
-                                options: CarouselOptions(
-                                  scrollPhysics: const BouncingScrollPhysics(),
-                                  // autoPlay: true,
-                                  height: MediaQuery.of(context).size.width *
-                                      breakPoint(media.width, 0.3, 0.22, 0.16),
-                                  viewportFraction:
-                                      breakPoint(media.width, 0.5, 0.5, 0.3333),
-                                  padEnds: false,
-                                ),
-                                items: const [
-                                  MyImageCard(
-                                    image:
-                                        'assets/frontend/assets/sale/banner-1.png',
-                                  ),
-                                  MyImageCard(
-                                      image:
-                                          'assets/frontend/assets/sale/banner-2.png'),
-                                  MyImageCard(
-                                      image:
-                                          'assets/frontend/assets/sale/banner-3.png'),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal:
-                                      breakPoint(media.width, 25, 100, 100),
-                                  vertical: 50),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  const EndToEndRow(
-                                    widget1: MyFancyText(text: 'Categories'),
-                                    widget2: MyOutlinedButton(
-                                        navigate: CategoriesPage()),
-                                  ),
-                                  kSizedBox,
-                                  CarouselSlider(
+                            FutureBuilder(
+                                future: categoriesData,
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    if (snapshot.hasError) {
+                                      return const Center(
+                                        child: Text(
+                                            'Error occured try refresh or contacting admin'),
+                                      );
+                                    }
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: kAccentColor,
+                                      ),
+                                    );
+                                  }
+                                  return CarouselSlider(
                                     options: CarouselOptions(
                                       pageSnapping: false,
                                       // enableInfiniteScroll: false,
@@ -221,8 +229,7 @@ class _HomePageState extends State<HomePage> {
                                           media.width, 1 / 2, 1 / 4, 1 / 6),
                                       padEnds: false,
                                     ),
-                                    items: (snapshot.data['categoriesData']
-                                            as List<Category>)
+                                    items: (snapshot.data as List<Category>)
                                         .map(
                                           (item) => MyClickable(
                                             navigate: CategoryPage(
@@ -237,15 +244,32 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         )
                                         .toList(),
-                                  ),
-                                  kSizedBox,
-                                  const EndToEndRow(
-                                    widget1: MyFancyText(text: 'Trending'),
-                                    widget2: MyOutlinedButton(
-                                        navigate: CategoriesPage()),
-                                  ),
-                                  kSizedBox,
-                                  LayoutGrid(
+                                  );
+                                }),
+                            kSizedBox,
+                            const EndToEndRow(
+                              widget1: MyFancyText(text: 'Trending'),
+                              widget2:
+                                  MyOutlinedButton(navigate: CategoriesPage()),
+                            ),
+                            kSizedBox,
+                            FutureBuilder(
+                                future: trendingProduct,
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    if (snapshot.hasError) {
+                                      return const Center(
+                                        child: Text(
+                                            'Error occured try refresh or contacting admin'),
+                                      );
+                                    }
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: kAccentColor,
+                                      ),
+                                    );
+                                  }
+                                  return LayoutGrid(
                                     columnSizes: breakPointDynamic(
                                         media.width,
                                         [1.fr],
@@ -261,8 +285,7 @@ class _HomePageState extends State<HomePage> {
                                       auto,
                                       auto
                                     ],
-                                    children: (snapshot.data['trendingProduct']
-                                            as List<Product>)
+                                    children: (snapshot.data as List<Product>)
                                         .map(
                                           (item) => MyCard(
                                             product: item,
@@ -287,372 +310,405 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         )
                                         .toList(),
-                                  )
-                                ],
-                              ),
-                            ),
-                            AspectRatio(
-                              aspectRatio: 5,
-                              child: Image.asset(
-                                'assets/frontend/assets/banner/Benji-banner1.jpg',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            kSizedBox,
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                horizontal:
-                                    breakPoint(media.width, 25, 100, 100),
-                              ),
-                              child: Column(
-                                children: [
-                                  const Padding(
-                                    padding: EdgeInsets.all(15.0),
-                                    child: EndToEndRow(
-                                      widget1:
-                                          MyFancyText(text: 'Today\'s Special'),
-                                      widget2: MyOutlinedButton(
-                                          navigate: CategoriesPage()),
-                                    ),
-                                  ),
-                                  kSizedBox,
-                                  LayoutGrid(
-                                    columnSizes: breakPointDynamic(
-                                        media.width,
-                                        [1.fr],
-                                        [1.fr, 1.fr],
-                                        [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: const [
-                                      auto,
-                                      auto,
-                                      auto,
-                                      auto,
-                                      auto,
-                                      auto,
-                                      auto,
-                                      auto
-                                    ],
-                                    children: (snapshot.data['todayProduct']
-                                            as List<Product>)
-                                        .map(
-                                          (item) => MyCard(
-                                            product: item,
-                                            navigateCategory: CategoryPage(
-                                              activeSubCategories:
-                                                  item.subCategory.name,
-                                              activeSubCategoriesId:
-                                                  item.subCategory.id,
-                                              activeCategoriesId:
-                                                  item.subCategory.category.id,
-                                              activeCategories: item
-                                                  .subCategory.category.name,
-                                            ),
-                                            navigate:
-                                                ProductPage(product: item),
-                                            action: () {
-                                              setState(() {
-                                                showCard = true;
-                                                productPopId = item.id;
-                                              });
-                                            },
-                                          ),
-                                        )
-                                        .toList(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            kSizedBox,
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 15,
-                              ),
-                              child: CarouselSlider(
-                                options: CarouselOptions(
-                                  scrollPhysics: const BouncingScrollPhysics(),
-                                  // autoPlay: true,
-                                  height: MediaQuery.of(context).size.width *
-                                      breakPoint(media.width, 0.5, 0.44, 0.24),
-                                  viewportFraction:
-                                      breakPoint(media.width, 0.5, 0.5, 1 / 4),
-                                  padEnds: false,
-                                ),
-                                items: const [
-                                  MyImageCard(
-                                    image:
-                                        'assets/frontend/assets/mid_paragraph/banner-1.png',
-                                  ),
-                                  MyImageCard(
-                                      image:
-                                          'assets/frontend/assets/mid_paragraph/banner-2.png'),
-                                  MyImageCard(
-                                      image:
-                                          'assets/frontend/assets/mid_paragraph/banner-3.png'),
-                                  MyImageCard(
-                                      image:
-                                          'assets/frontend/assets/mid_paragraph/banner-3.png'),
-                                ],
-                              ),
-                            ),
-                            kSizedBox,
-                            kSizedBox,
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                horizontal:
-                                    breakPoint(media.width, 25, 100, 100),
-                              ),
-                              child: Column(
-                                children: [
-                                  const Padding(
-                                      padding: EdgeInsets.all(15.0),
-                                      child: EndToEndRow(
-                                        widget1:
-                                            MyFancyText(text: 'Recommended'),
-                                        widget2: MyOutlinedButton(
-                                            navigate: CategoriesPage()),
-                                      )),
-                                  kSizedBox,
-                                  LayoutGrid(
-                                    columnSizes: breakPointDynamic(
-                                        media.width,
-                                        [1.fr],
-                                        [1.fr, 1.fr],
-                                        [1.fr, 1.fr, 1.fr, 1.fr]),
-                                    rowSizes: const [
-                                      auto,
-                                      auto,
-                                      auto,
-                                      auto,
-                                      auto,
-                                      auto,
-                                      auto,
-                                      auto
-                                    ],
-                                    children: (snapshot
-                                                .data['recommendedProduct']
-                                            as List<Product>)
-                                        .map(
-                                          (item) => MyCard(
-                                            product: item,
-                                            navigateCategory: CategoryPage(
-                                              activeSubCategories:
-                                                  item.subCategory.name,
-                                              activeSubCategoriesId:
-                                                  item.subCategory.id,
-                                              activeCategoriesId:
-                                                  item.subCategory.category.id,
-                                              activeCategories: item
-                                                  .subCategory.category.name,
-                                            ),
-                                            navigate:
-                                                ProductPage(product: item),
-                                            action: () {
-                                              setState(() {
-                                                showCard = true;
-                                                productPopId = item.id;
-                                              });
-                                            },
-                                          ),
-                                        )
-                                        .toList(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            kSizedBox,
-                            kSizedBox,
-                            AspectRatio(
-                              aspectRatio: 5,
-                              child: Image.asset(
-                                'assets/frontend/assets/banner/Benji-banner2.jpg',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: breakPoint(media.width, 25, 50, 50),
-                                vertical: 60,
-                              ),
-                              width: double.infinity,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/frontend/assets/paragraph_bg/mobile_app_bg.png'),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              child: LayoutGrid(
-                                columnSizes: breakPointDynamic(
-                                    media.width, [1.fr], [1.fr], [1.fr, 1.fr]),
-                                rowSizes: const [auto, auto],
-                                // rowGap: 40,
-                                // columnGap: 24,
-                                children: [
-                                  SizedBox(
-                                    child: Image.asset(
-                                      'assets/frontend/assets/device/mobile_app_1.png',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        deviceType(media.width) > 2
-                                            ? const SizedBox(
-                                                height: kDefaultPadding * 2,
-                                              )
-                                            : kHalfSizedBox,
-                                        const MyFancyText(
-                                            text: 'Ecommerce and courier App'),
-                                        kSizedBox,
-                                        kSizedBox,
-                                        const Text(
-                                          'Experience the seamless Shopping, Secure and efficient Delivery - Our Logistics at Your Service!.',
-                                          style: TextStyle(
-                                              fontSize: 25,
-                                              color: Colors.black54),
-                                        ),
-                                        kSizedBox,
-                                        kHalfSizedBox,
-                                        Row(
-                                          children: [
-                                            Container(
-                                              constraints: BoxConstraints.loose(
-                                                const Size(100, 50),
-                                              ),
-                                              child: Image.asset(
-                                                  'assets/frontend/assets/store/playstore.png'),
-                                            ),
-                                            kWidthSizedBox,
-                                            Container(
-                                              constraints: BoxConstraints.loose(
-                                                const Size(100, 30),
-                                              ),
-                                              child: Image.asset(
-                                                  'assets/frontend/assets/store/appstore.png'),
-                                            ),
-                                          ],
-                                        ),
-                                        kSizedBox,
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            kSizedBox,
-                            // Container(
-                            //   margin: EdgeInsets.symmetric(
-                            //       horizontal:
-                            //           breakPoint(media.width, 25, 100, 100),
-                            //       vertical: 50),
-                            //   child: Column(
-                            //     children: [
-                            //       const Padding(
-                            //         padding: EdgeInsets.all(15.0),
-                            //         child: EndToEndRow(
-                            //           widget1:
-                            //               MyFancyText(text: 'Latest Blogs'),
-                            //           widget2: MyOutlinedButton(
-                            //               navigate: BlogsPage()),
-                            //         ),
-                            //       ),
-                            //       kSizedBox,
-                            //       kSizedBox,
-                            //       LayoutGrid(
-                            //         columnSizes: breakPointDynamic(
-                            //             media.width,
-                            //             [1.fr],
-                            //             [1.fr, 1.fr],
-                            //             [1.fr, 1.fr, 1.fr]),
-                            //         rowSizes: const [auto, auto, auto],
-                            //         children: const [
-                            //           MyBlogCard(
-                            //             date: '1 July 2022',
-                            //             from: 'Admin',
-                            //             title:
-                            //                 'The Ultimate Hangover Burger: Egg in a Hole Burger Grilled Cheese',
-                            //             image:
-                            //                 'assets/frontend/assets/blog/blog-1.jpeg',
-                            //             description:
-                            //                 'Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy',
-                            //           ),
-                            //           MyBlogCard(
-                            //             date: '1 July 2022',
-                            //             from: 'Admin',
-                            //             title:
-                            //                 'The Ultimate Hangover Burger: Egg in a Hole Burger Grilled Cheese',
-                            //             image:
-                            //                 'assets/frontend/assets/blog/blog-2.jpeg',
-                            //             description:
-                            //                 'Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy',
-                            //           ),
-                            //           MyBlogCard(
-                            //             date: '1 July 2022',
-                            //             from: 'Admin',
-                            //             title:
-                            //                 'The Ultimate Hangover Burger: Egg in a Hole Burger Grilled Cheese',
-                            //             image:
-                            //                 'assets/frontend/assets/blog/blog-1.jpeg',
-                            //             description:
-                            //                 'Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy',
-                            //           ),
-                            //         ],
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                horizontal:
-                                    breakPoint(media.width, 25, 120, 120),
-                              ),
-                              child: const Wrap(
-                                spacing: 15,
-                                runSpacing: 10,
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                alignment: WrapAlignment.center,
-                                children: [
-                                  MyBorderCard(
-                                    icon: Icons.car_crash,
-                                    title: 'Fast Shopping',
-                                    subtitle: 'Shop with easy',
-                                  ),
-                                  MyBorderCard(
-                                    icon: Icons.pin_drop,
-                                    title: 'Real-time Order Tracking',
-                                    subtitle: 'Know where your package is at',
-                                  ),
-                                  MyBorderCard(
-                                    icon: Icons.car_crash,
-                                    title: 'Secure Shipping',
-                                    subtitle: 'Your order is safe with us',
-                                  ),
-                                ],
-                              ),
-                            ),
-                            kSizedBox,
-                            kSizedBox,
-                            const Footer(),
+                                  );
+                                })
                           ],
                         ),
                       ),
+                      AspectRatio(
+                        aspectRatio: 5,
+                        child: Image.asset(
+                          'assets/frontend/assets/banner/Benji-banner1.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      kSizedBox,
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: breakPoint(media.width, 25, 100, 100),
+                        ),
+                        child: Column(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(15.0),
+                              child: EndToEndRow(
+                                widget1: MyFancyText(text: 'Today\'s Special'),
+                                widget2: MyOutlinedButton(
+                                    navigate: CategoriesPage()),
+                              ),
+                            ),
+                            kSizedBox,
+                            FutureBuilder(
+                                future: todayProduct,
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    if (snapshot.hasError) {
+                                      return const Center(
+                                        child: Text(
+                                            'Error occured try refresh or contacting admin'),
+                                      );
+                                    }
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: kAccentColor,
+                                      ),
+                                    );
+                                  }
+                                  return LayoutGrid(
+                                    columnSizes: breakPointDynamic(
+                                        media.width,
+                                        [1.fr],
+                                        [1.fr, 1.fr],
+                                        [1.fr, 1.fr, 1.fr, 1.fr]),
+                                    rowSizes: const [
+                                      auto,
+                                      auto,
+                                      auto,
+                                      auto,
+                                      auto,
+                                      auto,
+                                      auto,
+                                      auto
+                                    ],
+                                    children: (snapshot.data as List<Product>)
+                                        .map(
+                                          (item) => MyCard(
+                                            product: item,
+                                            navigateCategory: CategoryPage(
+                                              activeSubCategories:
+                                                  item.subCategory.name,
+                                              activeSubCategoriesId:
+                                                  item.subCategory.id,
+                                              activeCategoriesId:
+                                                  item.subCategory.category.id,
+                                              activeCategories: item
+                                                  .subCategory.category.name,
+                                            ),
+                                            navigate:
+                                                ProductPage(product: item),
+                                            action: () {
+                                              setState(() {
+                                                showCard = true;
+                                                productPopId = item.id;
+                                              });
+                                            },
+                                          ),
+                                        )
+                                        .toList(),
+                                  );
+                                }),
+                          ],
+                        ),
+                      ),
+                      kSizedBox,
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                        ),
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                            scrollPhysics: const BouncingScrollPhysics(),
+                            // autoPlay: true,
+                            height: MediaQuery.of(context).size.width *
+                                breakPoint(media.width, 0.5, 0.44, 0.24),
+                            viewportFraction:
+                                breakPoint(media.width, 0.5, 0.5, 1 / 4),
+                            padEnds: false,
+                          ),
+                          items: const [
+                            MyImageCard(
+                              image:
+                                  'assets/frontend/assets/mid_paragraph/banner-1.png',
+                            ),
+                            MyImageCard(
+                                image:
+                                    'assets/frontend/assets/mid_paragraph/banner-2.png'),
+                            MyImageCard(
+                                image:
+                                    'assets/frontend/assets/mid_paragraph/banner-3.png'),
+                            MyImageCard(
+                                image:
+                                    'assets/frontend/assets/mid_paragraph/banner-3.png'),
+                          ],
+                        ),
+                      ),
+                      kSizedBox,
+                      kSizedBox,
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: breakPoint(media.width, 25, 100, 100),
+                        ),
+                        child: Column(
+                          children: [
+                            const Padding(
+                                padding: EdgeInsets.all(15.0),
+                                child: EndToEndRow(
+                                  widget1: MyFancyText(text: 'Recommended'),
+                                  widget2: MyOutlinedButton(
+                                      navigate: CategoriesPage()),
+                                )),
+                            kSizedBox,
+                            FutureBuilder(
+                                future: recommendedProduct,
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    if (snapshot.hasError) {
+                                      return const Center(
+                                        child: Text(
+                                            'Error occured try refresh or contacting admin'),
+                                      );
+                                    }
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: kAccentColor,
+                                      ),
+                                    );
+                                  }
+                                  return LayoutGrid(
+                                    columnSizes: breakPointDynamic(
+                                        media.width,
+                                        [1.fr],
+                                        [1.fr, 1.fr],
+                                        [1.fr, 1.fr, 1.fr, 1.fr]),
+                                    rowSizes: const [
+                                      auto,
+                                      auto,
+                                      auto,
+                                      auto,
+                                      auto,
+                                      auto,
+                                      auto,
+                                      auto
+                                    ],
+                                    children: (snapshot.data as List<Product>)
+                                        .map(
+                                          (item) => MyCard(
+                                            product: item,
+                                            navigateCategory: CategoryPage(
+                                              activeSubCategories:
+                                                  item.subCategory.name,
+                                              activeSubCategoriesId:
+                                                  item.subCategory.id,
+                                              activeCategoriesId:
+                                                  item.subCategory.category.id,
+                                              activeCategories: item
+                                                  .subCategory.category.name,
+                                            ),
+                                            navigate:
+                                                ProductPage(product: item),
+                                            action: () {
+                                              setState(() {
+                                                showCard = true;
+                                                productPopId = item.id;
+                                              });
+                                            },
+                                          ),
+                                        )
+                                        .toList(),
+                                  );
+                                }),
+                          ],
+                        ),
+                      ),
+                      kSizedBox,
+                      kSizedBox,
+                      AspectRatio(
+                        aspectRatio: 5,
+                        child: Image.asset(
+                          'assets/frontend/assets/banner/Benji-banner2.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: breakPoint(media.width, 25, 50, 50),
+                          vertical: 60,
+                        ),
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                                'assets/frontend/assets/paragraph_bg/mobile_app_bg.png'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        child: LayoutGrid(
+                          columnSizes: breakPointDynamic(
+                              media.width, [1.fr], [1.fr], [1.fr, 1.fr]),
+                          rowSizes: const [auto, auto],
+                          // rowGap: 40,
+                          // columnGap: 24,
+                          children: [
+                            SizedBox(
+                              child: Image.asset(
+                                'assets/frontend/assets/device/mobile_app_1.png',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            SizedBox(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  deviceType(media.width) > 2
+                                      ? const SizedBox(
+                                          height: kDefaultPadding * 2,
+                                        )
+                                      : kHalfSizedBox,
+                                  const MyFancyText(
+                                      text: 'Ecommerce and courier App'),
+                                  kSizedBox,
+                                  kSizedBox,
+                                  const Text(
+                                    'Experience the seamless Shopping, Secure and efficient Delivery - Our Logistics at Your Service!.',
+                                    style: TextStyle(
+                                        fontSize: 25, color: Colors.black54),
+                                  ),
+                                  kSizedBox,
+                                  kHalfSizedBox,
+                                  Row(
+                                    children: [
+                                      Container(
+                                        constraints: BoxConstraints.loose(
+                                          const Size(100, 50),
+                                        ),
+                                        child: Image.asset(
+                                            'assets/frontend/assets/store/playstore.png'),
+                                      ),
+                                      kWidthSizedBox,
+                                      Container(
+                                        constraints: BoxConstraints.loose(
+                                          const Size(100, 30),
+                                        ),
+                                        child: Image.asset(
+                                            'assets/frontend/assets/store/appstore.png'),
+                                      ),
+                                    ],
+                                  ),
+                                  kSizedBox,
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      kSizedBox,
+                      // Container(
+                      //   margin: EdgeInsets.symmetric(
+                      //       horizontal:
+                      //           breakPoint(media.width, 25, 100, 100),
+                      //       vertical: 50),
+                      //   child: Column(
+                      //     children: [
+                      //       const Padding(
+                      //         padding: EdgeInsets.all(15.0),
+                      //         child: EndToEndRow(
+                      //           widget1:
+                      //               MyFancyText(text: 'Latest Blogs'),
+                      //           widget2: MyOutlinedButton(
+                      //               navigate: BlogsPage()),
+                      //         ),
+                      //       ),
+                      //       kSizedBox,
+                      //       kSizedBox,
+                      //       LayoutGrid(
+                      //         columnSizes: breakPointDynamic(
+                      //             media.width,
+                      //             [1.fr],
+                      //             [1.fr, 1.fr],
+                      //             [1.fr, 1.fr, 1.fr]),
+                      //         rowSizes: const [auto, auto, auto],
+                      //         children: const [
+                      //           MyBlogCard(
+                      //             date: '1 July 2022',
+                      //             from: 'Admin',
+                      //             title:
+                      //                 'The Ultimate Hangover Burger: Egg in a Hole Burger Grilled Cheese',
+                      //             image:
+                      //                 'assets/frontend/assets/blog/blog-1.jpeg',
+                      //             description:
+                      //                 'Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy',
+                      //           ),
+                      //           MyBlogCard(
+                      //             date: '1 July 2022',
+                      //             from: 'Admin',
+                      //             title:
+                      //                 'The Ultimate Hangover Burger: Egg in a Hole Burger Grilled Cheese',
+                      //             image:
+                      //                 'assets/frontend/assets/blog/blog-2.jpeg',
+                      //             description:
+                      //                 'Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy',
+                      //           ),
+                      //           MyBlogCard(
+                      //             date: '1 July 2022',
+                      //             from: 'Admin',
+                      //             title:
+                      //                 'The Ultimate Hangover Burger: Egg in a Hole Burger Grilled Cheese',
+                      //             image:
+                      //                 'assets/frontend/assets/blog/blog-1.jpeg',
+                      //             description:
+                      //                 'Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy',
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: breakPoint(media.width, 25, 120, 120),
+                        ),
+                        child: const Wrap(
+                          spacing: 15,
+                          runSpacing: 10,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          alignment: WrapAlignment.center,
+                          children: [
+                            MyBorderCard(
+                              icon: Icons.car_crash,
+                              title: 'Fast Shopping',
+                              subtitle: 'Shop with easy',
+                            ),
+                            MyBorderCard(
+                              icon: Icons.pin_drop,
+                              title: 'Real-time Order Tracking',
+                              subtitle: 'Know where your package is at',
+                            ),
+                            MyBorderCard(
+                              icon: Icons.car_crash,
+                              title: 'Secure Shipping',
+                              subtitle: 'Your order is safe with us',
+                            ),
+                          ],
+                        ),
+                      ),
+                      kSizedBox,
+                      kSizedBox,
+                      const Footer(),
                     ],
                   ),
-                  Builder(builder: (context) {
-                    Product data = (snapshot.data['productsData'] as AllProduct)
-                        .items
-                        .firstWhere(
-                          (element) => element.id == productPopId,
-                          orElse: () =>
-                              (snapshot.data['productsData'] as AllProduct)
-                                  .items
-                                  .first,
-                        );
+                ),
+              ],
+            ),
+            FutureBuilder(
+                future: productsData,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    if (snapshot.hasError) {
+                      return const Center(
+                        child: Text(
+                            'Error occured try refresh or contacting admin'),
+                      );
+                    }
+                    return const SizedBox();
+                  }
+                  return Builder(builder: (context) {
+                    Product data =
+                        (snapshot.data as AllProduct).items.firstWhere(
+                              (element) => element.id == productPopId,
+                              orElse: () =>
+                                  (snapshot.data as AllProduct).items.first,
+                            );
                     return MyCardLg(
                       navigateCategory: CategoryPage(
                         activeSubCategories: data.subCategory.name,
@@ -669,11 +725,9 @@ class _HomePageState extends State<HomePage> {
                       },
                       product: data,
                     );
-                  }),
-                ],
-              );
-            }
-          },
+                  });
+                }),
+          ],
         ),
       ),
       endDrawer: const MyDrawer(),

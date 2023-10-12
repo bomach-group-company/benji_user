@@ -22,6 +22,13 @@ class MyLaptopAppBar extends StatefulWidget {
 }
 
 class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
+  @override
+  void initState() {
+    _category = fetchCategories();
+    super.initState();
+  }
+
+  late Future<List<Category>> _category;
   bool visible = false;
   bool isHovered = false;
 
@@ -73,7 +80,7 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
               kWidthSizedBox,
               kWidthSizedBox,
               FutureBuilder(
-                  future: fetchCategories(),
+                  future: _category,
                   builder: (context, snapshot) {
                     return PopupMenuButton(
                       offset: const Offset(0, -25),
