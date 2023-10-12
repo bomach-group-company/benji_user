@@ -397,7 +397,7 @@ class _HomeState extends State<Home> {
                 tooltip: "Scroll to top",
                 hoverColor: kAccentColor,
                 hoverElevation: 50.0,
-                child: const Icon(Icons.keyboard_arrow_up),
+                child: const FaIcon(FontAwesomeIcons.chevronUp, size: 18),
               )
             : const SizedBox(),
         appBar: AppBar(

@@ -2,9 +2,11 @@ import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../src/providers/constants.dart';
+import 'faqs.dart';
 
 class HelpAndSupport extends StatefulWidget {
   const HelpAndSupport({super.key});
@@ -33,6 +35,19 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
 
 //============================================== CONTROLLERS =================================================\\
   final _scrollController = ScrollController();
+
+//============================================== NAVIGATION =================================================\\
+
+  void _toFAQsPage() => Get.to(
+        () => const FAQs(),
+        routeName: 'FAQs',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +89,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
               ),
               kSizedBox,
               InkWell(
-                onTap: () {},
+                onTap: _toFAQsPage,
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
                   width: media.width,
@@ -153,7 +168,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
                       ),
                     ),
                     title: const Text(
-                      "File a Complaint",
+                      "File a complaint",
                       style: TextStyle(
                         color: kTextBlackColor,
                         fontSize: 16,
