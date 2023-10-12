@@ -150,10 +150,8 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
                       onSelected: (value) {
                         Get.off(
                           () => CategoryPage(
-                            activeCategoriesId:
-                                (snapshot.data as List<Category>)[value].id,
-                            activeCategories:
-                                (snapshot.data as List<Category>)[value].name,
+                            activeCategory:
+                                (snapshot.data as List<Category>)[value],
                           ),
                           preventDuplicates: false,
                           routeName: 'CategoryPage',

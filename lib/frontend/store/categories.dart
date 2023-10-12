@@ -103,8 +103,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 .map(
                                   (item) => MyClickable(
                                     navigate: CategoryPage(
-                                      activeCategoriesId: item.id,
-                                      activeCategories: item.name,
+                                      activeCategory: item,
                                     ),
                                     child: SizedBox(
                                       height: 220,

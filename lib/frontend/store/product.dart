@@ -207,28 +207,15 @@ class _ProductPageState extends State<ProductPage> {
                                             Expanded(
                                               child: MyClickable(
                                                 navigate: CategoryPage(
-                                                  activeSubCategoriesId:
+                                                  activeSubCategory:
+                                                      (snapshot.data['product']
+                                                              as Product)
+                                                          .subCategory,
+                                                  activeCategory:
                                                       (snapshot.data['product']
                                                               as Product)
                                                           .subCategory
-                                                          .id,
-                                                  activeSubCategories:
-                                                      (snapshot.data['product']
-                                                              as Product)
-                                                          .subCategory
-                                                          .name,
-                                                  activeCategoriesId:
-                                                      (snapshot.data['product']
-                                                              as Product)
-                                                          .subCategory
-                                                          .category
-                                                          .id,
-                                                  activeCategories:
-                                                      (snapshot.data['product']
-                                                              as Product)
-                                                          .subCategory
-                                                          .category
-                                                          .name,
+                                                          .category,
                                                 ),
                                                 child: Text(
                                                   snapshot.data['product']
@@ -480,14 +467,9 @@ class _ProductPageState extends State<ProductPage> {
                                                       product: item,
                                                       navigateCategory:
                                                           CategoryPage(
-                                                        activeCategoriesId: item
+                                                        activeCategory: item
                                                             .subCategory
-                                                            .category
-                                                            .id,
-                                                        activeCategories: item
-                                                            .subCategory
-                                                            .category
-                                                            .name,
+                                                            .category,
                                                       ),
                                                       navigate: ProductPage(
                                                           product: item),
@@ -527,10 +509,8 @@ class _ProductPageState extends State<ProductPage> {
                       );
                       return MyCardLg(
                         navigateCategory: CategoryPage(
-                          activeSubCategories: data.subCategory.name,
-                          activeSubCategoriesId: data.subCategory.id,
-                          activeCategoriesId: data.subCategory.category.id,
-                          activeCategories: data.subCategory.category.name,
+                          activeSubCategory: data.subCategory,
+                          activeCategory: data.subCategory.category,
                         ),
                         navigate: ProductPage(product: data),
                         visible: showCard,

@@ -190,14 +190,10 @@ class _SearchPageState extends State<SearchPage> {
                                       .map((item) => MyCard(
                                             product: item,
                                             navigateCategory: CategoryPage(
-                                              activeSubCategories:
-                                                  item.subCategory.name,
-                                              activeSubCategoriesId:
-                                                  item.subCategory.id,
-                                              activeCategoriesId:
-                                                  item.subCategory.category.id,
-                                              activeCategories: item
-                                                  .subCategory.category.name,
+                                              activeSubCategory:
+                                                  item.subCategory,
+                                              activeCategory:
+                                                  item.subCategory.category,
                                             ),
                                             navigate:
                                                 ProductPage(product: item),
@@ -234,10 +230,8 @@ class _SearchPageState extends State<SearchPage> {
                 );
                 return MyCardLg(
                   navigateCategory: CategoryPage(
-                    activeSubCategories: data.subCategory.name,
-                    activeSubCategoriesId: data.subCategory.id,
-                    activeCategoriesId: data.subCategory.category.id,
-                    activeCategories: data.subCategory.category.name,
+                    activeSubCategory: data.subCategory,
+                    activeCategory: data.subCategory.category,
                   ),
                   navigate: ProductPage(product: data),
                   visible: showCard,
