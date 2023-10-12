@@ -83,6 +83,7 @@ class _MyDropDownState extends State<MyDropDown> {
                               activeCategoriesId: widget.items[index - 1].id,
                               activeCategories: widget.items[index - 1].name,
                             ),
+                            preventDuplicates: false,
                             routeName: 'CategoryPage',
                             duration: const Duration(milliseconds: 300),
                             fullscreenDialog: true,

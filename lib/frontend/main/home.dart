@@ -174,14 +174,17 @@ class _HomePageState extends State<HomePage> {
                           ),
                           items: const [
                             MyImageCard(
-                              image: 'assets/frontend/assets/sale/banner-1.png',
+                              image: 'assets/frontend/assets/sale/banner4.jpg',
                             ),
                             MyImageCard(
                                 image:
-                                    'assets/frontend/assets/sale/banner-2.png'),
+                                    'assets/frontend/assets/sale/banner2.jpg'),
                             MyImageCard(
                                 image:
-                                    'assets/frontend/assets/sale/banner-3.png'),
+                                    'assets/frontend/assets/sale/banner3.jpg'),
+                            MyImageCard(
+                                image:
+                                    'assets/frontend/assets/sale/banner1.jpg'),
                           ],
                         ),
                       ),
@@ -519,80 +522,88 @@ class _HomePageState extends State<HomePage> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: breakPoint(media.width, 25, 50, 50),
-                          vertical: 60,
-                        ),
-                        width: double.infinity,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                                'assets/frontend/assets/paragraph_bg/mobile_app_bg.png'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        child: LayoutGrid(
-                          columnSizes: breakPointDynamic(
-                              media.width, [1.fr], [1.fr], [1.fr, 1.fr]),
-                          rowSizes: const [auto, auto],
-                          // rowGap: 40,
-                          // columnGap: 24,
-                          children: [
-                            SizedBox(
-                              child: Image.asset(
-                                'assets/frontend/assets/device/mobile_app_1.png',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  deviceType(media.width) > 2
-                                      ? const SizedBox(
-                                          height: kDefaultPadding * 2,
-                                        )
-                                      : kHalfSizedBox,
-                                  const MyFancyText(
-                                      text: 'Ecommerce and courier App'),
-                                  kSizedBox,
-                                  kSizedBox,
-                                  const Text(
-                                    'Experience the seamless Shopping, Secure and efficient Delivery - Our Logistics at Your Service!.',
-                                    style: TextStyle(
-                                        fontSize: 25, color: Colors.black54),
-                                  ),
-                                  kSizedBox,
-                                  kHalfSizedBox,
-                                  Row(
-                                    children: [
-                                      Container(
-                                        constraints: BoxConstraints.loose(
-                                          const Size(100, 50),
-                                        ),
-                                        child: Image.asset(
-                                            'assets/frontend/assets/store/playstore.png'),
-                                      ),
-                                      kWidthSizedBox,
-                                      Container(
-                                        constraints: BoxConstraints.loose(
-                                          const Size(100, 30),
-                                        ),
-                                        child: Image.asset(
-                                            'assets/frontend/assets/store/appstore.png'),
-                                      ),
-                                    ],
-                                  ),
-                                  kSizedBox,
-                                ],
-                              ),
-                            )
-                          ],
+                      AspectRatio(
+                        aspectRatio: 1.3,
+                        child: Image.asset(
+                          'assets/frontend/assets/unknown/mid-image.jpg',
+                          fit: BoxFit.contain,
                         ),
                       ),
-                      kSizedBox,
+                      // Container(
+                      //   padding: EdgeInsets.symmetric(
+                      //     horizontal: breakPoint(media.width, 25, 50, 50),
+                      //     vertical: 60,
+                      //   ),
+                      //   width: media.width,
+
+                      //   decoration: const BoxDecoration(
+                      //     image: DecorationImage(
+                      //       image: AssetImage(
+                      //           'assets/frontend/assets/unknown/mid-image.jpg'),
+                      //       fit: BoxFit.cover,
+                      //     ),
+                      //   ),
+                      //   // child: LayoutGrid(
+                      //   //   columnSizes: breakPointDynamic(
+                      //   //       media.width, [1.fr], [1.fr], [1.fr, 1.fr]),
+                      //   //   rowSizes: const [auto, auto],
+                      //   //   // rowGap: 40,
+                      //   //   // columnGap: 24,
+                      //   //   children: [
+                      //   //     SizedBox(
+                      //   //       child: Image.asset(
+                      //   //         'assets/frontend/assets/device/mobile_app_1.png',
+                      //   //         fit: BoxFit.cover,
+                      //   //       ),
+                      //   //     ),
+                      //   //     SizedBox(
+                      //   //       child: Column(
+                      //   //         crossAxisAlignment: CrossAxisAlignment.start,
+                      //   //         mainAxisAlignment: MainAxisAlignment.start,
+                      //   //         children: [
+                      //   //           deviceType(media.width) > 2
+                      //   //               ? const SizedBox(
+                      //   //                   height: kDefaultPadding * 2,
+                      //   //                 )
+                      //   //               : kHalfSizedBox,
+                      //   //           const MyFancyText(
+                      //   //               text: 'Ecommerce and courier App'),
+                      //   //           kSizedBox,
+                      //   //           kSizedBox,
+                      //   //           const Text(
+                      //   //             'Experience the seamless Shopping, Secure and efficient Delivery - Our Logistics at Your Service!.',
+                      //   //             style: TextStyle(
+                      //   //                 fontSize: 25, color: Colors.black54),
+                      //   //           ),
+                      //   //           kSizedBox,
+                      //   //           kHalfSizedBox,
+                      //   //           Row(
+                      //   //             children: [
+                      //   //               Container(
+                      //   //                 constraints: BoxConstraints.loose(
+                      //   //                   const Size(100, 50),
+                      //   //                 ),
+                      //   //                 child: Image.asset(
+                      //   //                     'assets/frontend/assets/store/playstore.png'),
+                      //   //               ),
+                      //   //               kWidthSizedBox,
+                      //   //               Container(
+                      //   //                 constraints: BoxConstraints.loose(
+                      //   //                   const Size(100, 30),
+                      //   //                 ),
+                      //   //                 child: Image.asset(
+                      //   //                     'assets/frontend/assets/store/appstore.png'),
+                      //   //               ),
+                      //   //             ],
+                      //   //           ),
+                      //   //           kSizedBox,
+                      //   //         ],
+                      //   //       ),
+                      //   //     )
+                      //   //   ],
+                      //   // ),
+                      // ),
+                      // kSizedBox,
                       // Container(
                       //   margin: EdgeInsets.symmetric(
                       //       horizontal:
