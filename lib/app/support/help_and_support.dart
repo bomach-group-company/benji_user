@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 import '../../src/providers/constants.dart';
 import 'faqs.dart';
 import 'file_a_complaint.dart';
+import 'live_chat.dart';
 
 class HelpAndSupport extends StatefulWidget {
   const HelpAndSupport({super.key});
@@ -53,6 +54,16 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
   void _toFileAComplaint() => Get.to(
         () => const FileAComplaint(),
         routeName: 'FileAComplaint',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+  void _toLiveChatPage() => Get.to(
+        () => const LiveChat(),
+        routeName: 'LiveChat',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -197,7 +208,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
               ),
               kSizedBox,
               InkWell(
-                onTap: () {},
+                onTap: _toLiveChatPage,
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
                   width: media.width,
@@ -228,7 +239,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
                       ),
                     ),
                     title: const Text(
-                      "Ask for help",
+                      "Live chat",
                       style: TextStyle(
                         color: kTextBlackColor,
                         fontSize: 16,
