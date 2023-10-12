@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 class Order {
   final String id;
-  final int totalPrice;
+  final double totalPrice;
   final String assignedStatus;
   final String deliveryStatus;
   // final User client;

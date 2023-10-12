@@ -174,14 +174,17 @@ class _HomePageState extends State<HomePage> {
                           ),
                           items: const [
                             MyImageCard(
-                              image: 'assets/frontend/assets/sale/banner-1.png',
+                              image: 'assets/frontend/assets/sale/banner4.jpg',
                             ),
                             MyImageCard(
                                 image:
-                                    'assets/frontend/assets/sale/banner-2.png'),
+                                    'assets/frontend/assets/sale/banner2.jpg'),
                             MyImageCard(
                                 image:
-                                    'assets/frontend/assets/sale/banner-3.png'),
+                                    'assets/frontend/assets/sale/banner3.jpg'),
+                            MyImageCard(
+                                image:
+                                    'assets/frontend/assets/sale/banner1.jpg'),
                           ],
                         ),
                       ),
