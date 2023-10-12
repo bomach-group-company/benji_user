@@ -155,6 +155,7 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
                             activeCategories:
                                 (snapshot.data as List<Category>)[value].name,
                           ),
+                          preventDuplicates: false,
                           routeName: 'CategoryPage',
                           duration: const Duration(milliseconds: 300),
                           fullscreenDialog: true,
