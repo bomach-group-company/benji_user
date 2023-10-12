@@ -60,6 +60,8 @@ dependencies:
   firebase_messaging:
   rename:
   file_picker: ^5.5.0
+  flutter_chat_ui: ^1.6.9
+  flutter_chat_types:
 
 dev_dependencies:
   flutter_test:

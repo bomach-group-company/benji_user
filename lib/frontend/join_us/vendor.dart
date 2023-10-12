@@ -1,4 +1,4 @@
-// ignore_for_file: invalid_use_of_protected_member, use_build_context_synchronously
+// ignore_for_file: invalid_use_of_protected_member, use_build_context_synchronously, unused_element
 
 import 'dart:io';
 
@@ -423,6 +423,7 @@ class _VendorTabState extends State<VendorTab> {
             );
 
             if (result != null) {
+              // ignore: unused_local_variable
               List<File> files =
                   result.files.map((file) => File(file.path!)).toList();
             } else {
@@ -449,7 +450,7 @@ class _VendorTabState extends State<VendorTab> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.cloud_upload),
+                  const FaIcon(FontAwesomeIcons.cloudArrowUp),
                   // Image.asset(
                   //   "assets/icons/image-upload.png",
                   // ),

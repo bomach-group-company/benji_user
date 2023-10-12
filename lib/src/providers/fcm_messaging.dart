@@ -9,25 +9,29 @@ Future<void> handleFCM() async {
     print("This is the FCM token: $fcmToken");
   }
 
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   //When the app restarts
-  // FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-  //   if (kDebugMode) {
-  //     print("This is the FCM token after the app restarted: $fcmToken");
-  //   }
-  //   FirebaseMessaging.onBackgroundMessage((message) {
-  //     return _firebasePushHandler(message);
-  //   });
-  //   // Note: This callback is fired at each app startup and whenever a new
-  //   // token is generated.
-  // }).onError((err) {
-  //   if (kDebugMode) {
-  //     print("This is the error: $err");
-  //   }
-  //   // Error getting token.
-  // });
+  FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+    if (kDebugMode) {
+      print("This is the FCM token after the app restarted: $fcmToken");
+    }
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    // Note: This callback is fired at each app startup and whenever a new
+    // token is generated.
+  }).onError((err) {
+    if (kDebugMode) {
+      print("This is the error: $err");
+    }
+    // Error getting token.
+  });
 }
 
-_firebasePushHandler(RemoteMessage message) {
-  debugPrint("Message from push notification is $message.data");
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  if (kDebugMode) {
+    print("Handling a background message: ${message.messageId}");
+  }
+
+  //call awesomenotification to how the push notification.
   AwesomeNotifications().createNotificationFromJsonData(message.data);
 }
