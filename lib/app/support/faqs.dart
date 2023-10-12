@@ -186,8 +186,7 @@ class _FAQsState extends State<FAQs> {
         duration: const Duration(seconds: 1), curve: Curves.linear);
   }
 
-//========================= NAVIGAITON ====================\\
-
+//============================================== NAVIGATION =================================================\\
   void _toHomePage() => Get.offAll(
         () => const Home(),
         routeName: 'Home',
@@ -230,7 +229,7 @@ class _FAQsState extends State<FAQs> {
               child: Scrollbar(
                 controller: _scrollController,
                 child: ListView(
-                  physics: const BouncingScrollPhysics(),
+                  physics: const ScrollPhysics(),
                   controller: _scrollController,
                   children: [
                     const MyBreadcrumb(
