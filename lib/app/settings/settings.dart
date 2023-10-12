@@ -520,8 +520,8 @@ class _SettingsState extends State<Settings> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios_rounded,
+                    trailing: const FaIcon(
+                      FontAwesomeIcons.chevronRight,
                       size: 16,
                       color: kTextBlackColor,
                     ),
@@ -562,8 +562,8 @@ class _SettingsState extends State<Settings> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios_rounded,
+                    trailing: const FaIcon(
+                      FontAwesomeIcons.chevronRight,
                       size: 16,
                       color: kTextBlackColor,
                     ),

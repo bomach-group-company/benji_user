@@ -24,10 +24,9 @@ void main() async {
   if (!kIsWeb) {
     await Firebase.initializeApp();
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
-    // FirebaseMessaging.onBackgroundMessage(_firebasePushHandler);
     await NotificationController.initializeNotification();
 
-    await handleFCMBackgroundMessaging();
+    await handleFCM();
   }
 
   // await dotenv.load();

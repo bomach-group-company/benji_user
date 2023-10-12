@@ -259,6 +259,8 @@ class _VendorLocationState extends State<VendorLocation> {
                     Polyline(
                       polylineId: const PolylineId("Route to the vendor"),
                       points: _polylineCoordinates,
+                      color: kAccentColor,
+                      width: 4,
                     ),
                   },
                   padding: EdgeInsets.only(

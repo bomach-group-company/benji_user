@@ -37,7 +37,6 @@ class _NotificationPageState extends State<NotificationPage> {
                 await NotificationController.showNotification(
                   title: "Title of the notification",
                   body: "Body of the notification",
-                  color: kSecondaryColor,
                   largeIcon: "asset://assets/icons/app_icon.png",
                 );
               },
@@ -122,6 +121,27 @@ class _NotificationPageState extends State<NotificationPage> {
                   body: "Body of the notification",
                   scheduled: true,
                   interval: 5,
+                );
+              },
+            ),
+            kSizedBox,
+            NotificationButton(
+              text: "Another notification",
+              onPressed: () async {
+                await NotificationController.showNotification(
+                  title: "Title of the notification",
+                  body: "Body of the notification",
+                  allowWhileIdle: true,
+                  actionButtons: [
+                    NotificationActionButton(
+                      key: "open",
+                      label: "Open",
+                      actionType: ActionType.Default,
+                      color: kSecondaryColor,
+                      autoDismissible: true,
+                      requireInputText: true,
+                    ),
+                  ],
                 );
               },
             ),

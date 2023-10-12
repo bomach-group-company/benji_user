@@ -16,9 +16,8 @@ class HomeDrawer extends StatefulWidget {
   final Function() toFavoritesPage;
   final Function() toOrdersPage;
   final Function() toAddressesPage;
-  final Function() toSendPackagePage;
-  final Function() toMyPackagesPage;
-  final Function() logOut;
+  final Function() toPackagesPage;
+  final Function() helpAndSupport;
 
   final String userID;
   const HomeDrawer({
@@ -26,13 +25,11 @@ class HomeDrawer extends StatefulWidget {
     required this.copyUserIdToClipBoard,
     required this.userID,
     required this.toOrdersPage,
-    // required this.toInvitesPage,
     required this.toAddressesPage,
-    required this.toSendPackagePage,
-    required this.logOut,
+    required this.helpAndSupport,
     required this.toFavoritesPage,
     required this.toSettings,
-    required this.toMyPackagesPage,
+    required this.toPackagesPage,
     required this.toCheckoutScreen,
   });
 
@@ -147,8 +144,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios_rounded,
+            trailing: const FaIcon(
+              FontAwesomeIcons.chevronRight,
               size: 16,
               color: kTextBlackColor,
             ),
@@ -167,48 +164,28 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios_rounded,
+            trailing: const FaIcon(
+              FontAwesomeIcons.chevronRight,
               size: 16,
               color: kTextBlackColor,
             ),
           ),
           ListTile(
-            onTap: widget.toSendPackagePage,
-            leading: FaIcon(
-              FontAwesomeIcons.bicycle,
-              color: kAccentColor,
-            ),
-            title: const Text(
-              'Send Package',
-              style: TextStyle(
-                color: kTextBlackColor,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 16,
-              color: kTextBlackColor,
-            ),
-          ),
-          ListTile(
-            onTap: widget.toMyPackagesPage,
+            onTap: widget.toPackagesPage,
             leading: FaIcon(
               FontAwesomeIcons.boxesStacked,
               color: kAccentColor,
             ),
             title: const Text(
-              'My Packages',
+              'Packages',
               style: TextStyle(
                 color: kTextBlackColor,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios_rounded,
+            trailing: const FaIcon(
+              FontAwesomeIcons.chevronRight,
               size: 16,
               color: kTextBlackColor,
             ),
@@ -227,8 +204,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios_rounded,
+            trailing: const FaIcon(
+              FontAwesomeIcons.chevronRight,
               size: 16,
               color: kTextBlackColor,
             ),
@@ -248,8 +225,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios_rounded,
+            trailing: const FaIcon(
+              FontAwesomeIcons.chevronRight,
               size: 16,
               color: kTextBlackColor,
             ),
@@ -268,28 +245,29 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios_rounded,
+            trailing: const FaIcon(
+              FontAwesomeIcons.chevronRight,
               size: 16,
               color: kTextBlackColor,
             ),
           ),
           ListTile(
-            onTap: widget.logOut,
+            onTap: widget.helpAndSupport,
             leading: FaIcon(
-              FontAwesomeIcons.rightFromBracket,
+              Icons.headset_mic_rounded,
               color: kAccentColor,
+              size: 26,
             ),
             title: const Text(
-              'Logout',
+              'Help and Support',
               style: TextStyle(
                 color: kTextBlackColor,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios_rounded,
+            trailing: const FaIcon(
+              FontAwesomeIcons.chevronRight,
               size: 16,
               color: kTextBlackColor,
             ),

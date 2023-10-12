@@ -2,16 +2,17 @@ import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji/src/common_widgets/button/category_button.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/product/product_card.dart';
 import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
+import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';
+import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import '../product/product_detail_screen.dart';
 
@@ -32,9 +33,20 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
   @override
   void initState() {
     super.initState();
-    _getData();
+    checkAuth(context);
+    productAndSubCategoryName =
+        getVendorProductsAndSubCategoryName(widget.vendor.id)
+          ..then((value) {
+            try {
+              activeCategory = value.keys.toList()[0];
+            } catch (e) {
+              activeCategory = '';
+            }
+          });
   }
 
+  late Future<Map<String, List<Product>>> productAndSubCategoryName;
+  String activeCategory = '';
   @override
   void dispose() {
     super.dispose();
@@ -42,27 +54,19 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
 //==========================================================================================\\
 
   //=================================== LOGIC ====================================\\
-  Map<String, List<Product>>? _productAndSubCategoryName;
-  String activeCategory = '';
-
-  _getData() async {
-    Map<String, List<Product>> productAndSubCategoryName =
-        await getVendorProductsAndSubCategoryName(widget.vendor.id);
-    try {
-      activeCategory = productAndSubCategoryName.keys.toList()[0];
-      // ignore: empty_catches
-    } catch (e) {}
-
-    setState(() {
-      _productAndSubCategoryName = productAndSubCategoryName;
-    });
-  }
 
   Future<void> _handleRefresh() async {
     setState(() {
-      _productAndSubCategoryName = null;
+      productAndSubCategoryName =
+          getVendorProductsAndSubCategoryName(widget.vendor.id)
+            ..then((value) {
+              try {
+                activeCategory = value.keys.toList()[0];
+              } catch (e) {
+                activeCategory = '';
+              }
+            });
     });
-    await _getData();
   }
 
   //=================================== CONTROLLERS ====================================\\
@@ -120,73 +124,86 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
           maintainBottomViewPadding: true,
           child: Scrollbar(
             controller: _scrollController,
-            child: _productAndSubCategoryName == null
-                ? Center(child: CircularProgressIndicator(color: kAccentColor))
-                : ListView(
+            child: FutureBuilder(
+                future: productAndSubCategoryName,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: kAccentColor,
+                      ),
+                    );
+                  }
+                  return Container(
                     padding: const EdgeInsets.all(kDefaultPadding / 2),
-                    dragStartBehavior: DragStartBehavior.down,
-                    physics: const BouncingScrollPhysics(),
-                    children: [
-                      SizedBox(
-                        height: 60,
-                        child: ListView.builder(
-                          itemCount:
-                              _productAndSubCategoryName!.keys.toList().length,
-                          scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) =>
-                              Padding(
-                            padding: const EdgeInsets.all(kDefaultPadding / 2),
-                            child: CategoryButton(
-                              onPressed: () {
-                                setState(() {
-                                  activeCategory = _productAndSubCategoryName!
-                                      .keys
-                                      .toList()[index];
-                                });
-                              },
-                              title: _productAndSubCategoryName!.keys
-                                  .toList()[index],
-                              bgColor: activeCategory ==
-                                      _productAndSubCategoryName!.keys
-                                          .toList()[index]
-                                  ? kAccentColor
-                                  : kDefaultCategoryBackgroundColor,
-                              categoryFontColor: activeCategory ==
-                                      _productAndSubCategoryName!.keys
-                                          .toList()[index]
-                                  ? kPrimaryColor
-                                  : kTextGreyColor,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 60,
+                          child: ListView.builder(
+                            itemCount: snapshot.data!.keys.toList().length,
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) =>
+                                Padding(
+                              padding:
+                                  const EdgeInsets.all(kDefaultPadding / 2),
+                              child: CategoryButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    activeCategory =
+                                        snapshot.data!.keys.toList()[index];
+                                  });
+                                },
+                                title: snapshot.data!.keys.toList()[index],
+                                bgColor: activeCategory ==
+                                        snapshot.data!.keys.toList()[index]
+                                    ? kAccentColor
+                                    : kDefaultCategoryBackgroundColor,
+                                categoryFontColor: activeCategory ==
+                                        snapshot.data!.keys.toList()[index]
+                                    ? kPrimaryColor
+                                    : kTextGreyColor,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      kHalfSizedBox,
-                      LayoutGrid(
-                        rowGap: kDefaultPadding / 2,
-                        columnGap: kDefaultPadding / 2,
-                        columnSizes: breakPointDynamic(
-                            media.width,
-                            [1.fr],
-                            [1.fr, 1.fr],
-                            [1.fr, 1.fr, 1.fr],
-                            [1.fr, 1.fr, 1.fr, 1.fr]),
-                        rowSizes: List.generate(
-                            _productAndSubCategoryName![activeCategory]!.length,
-                            (index) => auto),
-                        children: (_productAndSubCategoryName![activeCategory]
-                                as List<Product>)
-                            .map(
-                              (item) => ProductCard(
-                                product: item,
-                                onTap: () => _toProductDetailScreen(item),
+                        kHalfSizedBox,
+                        snapshot.data!.isEmpty
+                            ? const EmptyCard(
+                                removeButton: true,
+                              )
+                            : LayoutGrid(
+                                rowGap: kDefaultPadding / 2,
+                                columnGap: kDefaultPadding / 2,
+                                columnSizes: breakPointDynamic(
+                                    media.width,
+                                    [1.fr],
+                                    [1.fr, 1.fr],
+                                    [1.fr, 1.fr, 1.fr],
+                                    [1.fr, 1.fr, 1.fr, 1.fr]),
+                                rowSizes: snapshot
+                                        .data![activeCategory]!.isEmpty
+                                    ? [auto]
+                                    : List.generate(
+                                        snapshot.data![activeCategory]!.length,
+                                        (index) => auto),
+                                children: (snapshot.data![activeCategory]
+                                        as List<Product>)
+                                    .map(
+                                      (item) => ProductCard(
+                                        product: item,
+                                        onTap: () =>
+                                            _toProductDetailScreen(item),
+                                      ),
+                                    )
+                                    .toList(),
                               ),
-                            )
-                            .toList(),
-                      ),
-                      kSizedBox
-                    ],
-                  ),
+                        kSizedBox,
+                      ],
+                    ),
+                  );
+                }),
           ),
         ),
       ),

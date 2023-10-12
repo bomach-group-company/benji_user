@@ -1,21 +1,22 @@
-import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
+import 'package:benji/app/home/home.dart';
+import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/route_manager.dart';
 
 import '../../src/frontend/utils/constant.dart';
-import '../../src/frontend/widget/drawer/drawer.dart';
-import '../../src/frontend/widget/section/footer.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
-class FAQsPage extends StatefulWidget {
-  const FAQsPage({super.key});
+class FAQs extends StatefulWidget {
+  const FAQs({super.key});
 
   @override
-  State<FAQsPage> createState() => _FAQsPageState();
+  State<FAQs> createState() => _FAQsState();
 }
 
-class _FAQsPageState extends State<FAQsPage> {
+class _FAQsState extends State<FAQs> {
   List items = [
     [
       'What is Benji?',
@@ -185,6 +186,18 @@ class _FAQsPageState extends State<FAQsPage> {
         duration: const Duration(seconds: 1), curve: Curves.linear);
   }
 
+//========================= NAVIGAITON ====================\\
+
+  void _toHomePage() => Get.offAll(
+        () => const Home(),
+        routeName: 'Home',
+        duration: const Duration(milliseconds: 1000),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        predicate: (route) => false,
+        popGesture: true,
+        transition: Transition.cupertinoDialog,
+      );
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
@@ -192,105 +205,113 @@ class _FAQsPageState extends State<FAQsPage> {
     return Scaffold(
       drawerScrimColor: kTransparentColor,
       backgroundColor: kPrimaryColor,
-      appBar: const MyAppbar(),
+      appBar: MyAppBar(
+        title: "FAQs",
+        elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: _toHomePage,
+            icon: FaIcon(
+              FontAwesomeIcons.house,
+              color: kAccentColor,
+              size: deviceType(media.width) > 2 ? 30 : 24,
+            ),
+          ),
+        ],
+        backgroundColor: kPrimaryColor,
+        toolbarHeight: kToolbarHeight,
+      ),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
+              child: Scrollbar(
                 controller: _scrollController,
-                children: [
-                  const MyBreadcrumb(
-                    text: 'FAQs',
-                    current: 'faqs',
-                    hasBeadcrumb: true,
-                    back: 'home',
-                  ),
-                  kSizedBox,
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: breakPoint(media.width, 25, 50, 50),
+                child: ListView(
+                  physics: const BouncingScrollPhysics(),
+                  controller: _scrollController,
+                  children: [
+                    const MyBreadcrumb(
+                      text: 'FAQs',
+                      hasBeadcrumb: false,
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          children: items.map((item) {
-                            return Column(
-                              children: [
-                                Container(
-                                  decoration: const BoxDecoration(boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                      blurRadius: 1,
-                                    )
-                                  ]),
-                                  child: ExpansionTile(
-                                    iconColor: Colors.black45,
-                                    collapsedBackgroundColor: kPrimaryColor,
-                                    backgroundColor: Colors.white30,
-                                    title: Text(
-                                      item[0],
-                                      style: TextStyle(
-                                        color: kSecondaryColor,
+                    kSizedBox,
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: breakPoint(media.width, 25, 50, 50),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            children: items.map((item) {
+                              return Column(
+                                children: [
+                                  Container(
+                                    decoration: const BoxDecoration(boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        blurRadius: 1,
+                                      )
+                                    ]),
+                                    child: ExpansionTile(
+                                      iconColor: Colors.black45,
+                                      collapsedBackgroundColor: kPrimaryColor,
+                                      backgroundColor: Colors.white30,
+                                      title: Text(
+                                        item[0],
+                                        style: TextStyle(
+                                          color: kSecondaryColor,
+                                        ),
                                       ),
-                                    ),
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: kPrimaryColor,
-                                          border: const Border.symmetric(
-                                            horizontal: BorderSide(
-                                              width: 1,
-                                              color: Colors.black12,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: kPrimaryColor,
+                                            border: const Border.symmetric(
+                                              horizontal: BorderSide(
+                                                width: 1,
+                                                color: Colors.black12,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        padding: const EdgeInsets.all(20),
-                                        width: double.infinity,
-                                        child: Text(item[1]),
-                                      )
-                                    ],
+                                          padding: const EdgeInsets.all(20),
+                                          width: double.infinity,
+                                          child: Text(item[1]),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                kSizedBox,
-                              ],
-                            );
-                          }).toList(),
-                        ),
-                      ],
+                                  kSizedBox,
+                                ],
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  kSizedBox,
-                  kSizedBox,
-                  kSizedBox,
-                  const Footer(),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
         ),
       ),
-      endDrawer: const MyDrawer(),
       floatingActionButton: _showBackToTopButton == false
           ? null
-          : OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                  backgroundColor: kPrimaryColor,
-                  padding: const EdgeInsets.all(0),
-                  minimumSize: const Size(45, 45),
-                  foregroundColor: kAccentColor,
-                  side: BorderSide(color: kAccentColor)),
+          : FloatingActionButton(
               onPressed: _scrollToTop,
-              child: const Icon(
-                Icons.arrow_upward,
-                size: 20,
-                // color: kPrimaryColor,
-              ),
+              mini: deviceType(media.width) > 2 ? false : true,
+              backgroundColor: kAccentColor,
+              enableFeedback: true,
+              mouseCursor: SystemMouseCursors.click,
+              tooltip: "Scroll to top",
+              hoverColor: kAccentColor,
+              hoverElevation: 50.0,
+              child: const FaIcon(FontAwesomeIcons.chevronUp, size: 18),
             ),
     );
   }

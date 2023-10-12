@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:benji/app/cart/cart_screen.dart';
 import 'package:benji/app/favorites/favorites.dart';
+import 'package:benji/app/support/help_and_support.dart';
 import 'package:benji/src/common_widgets/vendor/vendors_card.dart';
 import 'package:benji/src/others/empty.dart';
 import 'package:benji/src/others/my_future_builder.dart';
@@ -37,12 +38,10 @@ import '../../src/repo/models/product/product.dart';
 import '../../src/repo/models/vendor/vendor.dart';
 import '../../theme/colors.dart';
 import '../address/addresses.dart';
-import '../auth/login.dart';
-import '../my_packages/my_packages.dart';
 import '../orders/order_history.dart';
+import '../packages/packages.dart';
 import '../product/home_page_products.dart';
 import '../product/product_detail_screen.dart';
-import '../send_package/send_package.dart';
 import '../settings/settings.dart';
 import '../vendor/popular_vendors.dart';
 import '../vendor/vendor_details.dart';
@@ -204,15 +203,15 @@ class _HomeState extends State<Home> {
   //========================================================================\\
 
   //==================================================== Navigation ===========================================================\\
-  void _logOut() => Get.offAll(
-        () => const Login(logout: true),
-        predicate: (route) => false,
-        routeName: 'Login',
+  void _toHelpAndSupport() => Get.to(
+        () => const HelpAndSupport(),
+        routeName: 'HelpAndSupport',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
+        preventDuplicates: true,
         popGesture: true,
-        transition: Transition.downToUp,
+        transition: Transition.rightToLeft,
       );
 
   void _toSettings() async {
@@ -239,16 +238,7 @@ class _HomeState extends State<Home> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
-  void _toSendPackageScreen() => Get.to(
-        () => const SendPackage(),
-        routeName: 'SendPackage',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+
   void _toFavoritesScreen() => Get.to(
         () => Favorites(
           vendorCoverImage:
@@ -324,12 +314,12 @@ class _HomeState extends State<Home> {
   void _toAddressesPage() => Get.to(
         () => const Addresses(),
         routeName: 'Addresses',
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 1000),
         fullscreenDialog: true,
         curve: Curves.easeIn,
         preventDuplicates: true,
         popGesture: true,
-        transition: Transition.rightToLeft,
+        transition: Transition.cupertinoDialog,
       );
 
   void _toProductDetailScreenPage(product) async {
@@ -357,9 +347,9 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toMyPackagesPage() => Get.to(
-        () => const MyPackages(),
-        routeName: 'MyPackages',
+  void _toPackagesPage() => Get.to(
+        () => const Packages(),
+        routeName: 'Packages',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -390,12 +380,11 @@ class _HomeState extends State<Home> {
               _copyToClipboard(context, data.code);
             },
             toAddressesPage: _toAddressScreen,
-            toMyPackagesPage: _toMyPackagesPage,
-            toSendPackagePage: _toSendPackageScreen,
+            toPackagesPage: _toPackagesPage,
             toFavoritesPage: _toFavoritesScreen,
             toCheckoutScreen: _toCheckoutScreen,
             toOrdersPage: _toOrdersScreen,
-            logOut: _logOut,
+            helpAndSupport: _toHelpAndSupport,
           ),
         ),
         floatingActionButton: _isScrollToTopBtnVisible
@@ -408,7 +397,7 @@ class _HomeState extends State<Home> {
                 tooltip: "Scroll to top",
                 hoverColor: kAccentColor,
                 hoverElevation: 50.0,
-                child: const Icon(Icons.keyboard_arrow_up),
+                child: const FaIcon(FontAwesomeIcons.chevronUp, size: 18),
               )
             : const SizedBox(),
         appBar: AppBar(
@@ -963,6 +952,7 @@ class _HomeState extends State<Home> {
                               .toList(),
                         );
                       }),
+                  kSizedBox,
                 ],
               ),
             ),
