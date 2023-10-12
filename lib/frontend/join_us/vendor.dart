@@ -1,5 +1,7 @@
 // ignore_for_file: invalid_use_of_protected_member, use_build_context_synchronously
 
+import 'dart:io';
+
 import 'package:benji/app/address/get_location_on_map.dart';
 import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:benji/src/common_widgets/snackbar/my_floating_snackbar.dart';
@@ -9,6 +11,7 @@ import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/providers/controllers.dart';
 import 'package:benji/src/repo/utils/base_url.dart';
 import 'package:benji/theme/colors.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -252,7 +255,7 @@ class _VendorTabState extends State<VendorTab> {
         ),
         kSizedBox,
         const Text(
-          'Business Type',
+          'Country',
           style: TextStyle(
             color: kTextBlackColor,
             fontSize: 14,
@@ -261,7 +264,39 @@ class _VendorTabState extends State<VendorTab> {
         ),
         kHalfSizedBox,
         MyTextFormField(
-          hintText: "Eg. Restaurant, Pharmacy etc",
+          hintText: "Enter country your business is located",
+          textCapitalization: TextCapitalization.words,
+          controller: _businessNameEC,
+          textInputAction: TextInputAction.next,
+          textInputType: TextInputType.name,
+          focusNode: _businessNameFN,
+          validator: (value) {
+            RegExp pattern = RegExp(r'^.{1,}$');
+            if (value == null || value!.isEmpty) {
+              _businessNameFN.requestFocus();
+              return "Enter a Country";
+            } else if (!pattern.hasMatch(value)) {
+              _businessNameFN.requestFocus();
+              return "Please enter a valid Country";
+            }
+            return null;
+          },
+          onSaved: (value) {
+            _businessNameEC.text = value!;
+          },
+        ),
+        kSizedBox,
+        const Text(
+          'State',
+          style: TextStyle(
+            color: kTextBlackColor,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        kHalfSizedBox,
+        MyTextFormField(
+          hintText: "Enter state your business is located",
           textCapitalization: TextCapitalization.words,
           controller: _businessTypeEC,
           textInputAction: TextInputAction.next,
@@ -271,15 +306,47 @@ class _VendorTabState extends State<VendorTab> {
             RegExp pattern = RegExp(r'^.{1,}$');
             if (value == null || value!.isEmpty) {
               _businessTypeFN.requestFocus();
-              return "Enter a business type";
+              return "Enter state";
             } else if (!pattern.hasMatch(value)) {
               _businessTypeFN.requestFocus();
-              return "Please enter a valid business type";
+              return "Please enter a valid state";
             }
             return null;
           },
           onSaved: (value) {
             _businessTypeEC.text = value!;
+          },
+        ),
+        kSizedBox,
+        const Text(
+          'Local Government Area',
+          style: TextStyle(
+            color: kTextBlackColor,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        kHalfSizedBox,
+        MyTextFormField(
+          hintText: "Enter Local Government Area",
+          textCapitalization: TextCapitalization.words,
+          controller: _businessNameEC,
+          textInputAction: TextInputAction.next,
+          textInputType: TextInputType.name,
+          focusNode: _businessNameFN,
+          validator: (value) {
+            RegExp pattern = RegExp(r'^.{1,}$');
+            if (value == null || value!.isEmpty) {
+              _businessNameFN.requestFocus();
+              return "Enter a Local Government Area";
+            } else if (!pattern.hasMatch(value)) {
+              _businessNameFN.requestFocus();
+              return "Please enter a valid Local Government Area";
+            }
+            return null;
+          },
+          onSaved: (value) {
+            _businessNameEC.text = value!;
           },
         ),
         kSizedBox,
@@ -296,13 +363,10 @@ class _VendorTabState extends State<VendorTab> {
           readOnly: true,
           controller: _locationEC,
           validator: (value) {
-            RegExp pickupAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
+            // RegExp pattern = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
             if (value!.isEmpty || value == null) {
               _locationFN.requestFocus();
-              return "Enter drop-off location";
-            } else if (!pickupAddress.hasMatch(value)) {
-              _locationFN.requestFocus();
-              return "Enter a valid address (must have a street number)";
+              return "Enter business address";
             }
             return null;
           },
@@ -347,44 +411,69 @@ class _VendorTabState extends State<VendorTab> {
           ),
         ),
         kSizedBox,
+        InkWell(
+          borderRadius: BorderRadius.circular(16),
+          splashColor: Colors.blue.shade50,
+          focusColor: Colors.blue.shade50,
+          highlightColor: Colors.blue.shade50,
+          onTap: () async {
+            FilePickerResult? result = await FilePicker.platform.pickFiles(
+              allowMultiple: true,
+              allowedExtensions: ['pdf', 'doc', 'docx'],
+            );
+
+            if (result != null) {
+              List<File> files =
+                  result.files.map((file) => File(file.path!)).toList();
+            } else {
+              // User canceled the picker
+            }
+            // Handle the selected file, e.g., save or upload it.
+          },
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 144,
+            decoration: ShapeDecoration(
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(
+                  width: 1,
+                  style: BorderStyle.solid,
+                  strokeAlign: BorderSide.strokeAlignOutside,
+                  color: Color(0xFFE6E6E6),
+                ),
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            child: Align(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.cloud_upload),
+                  // Image.asset(
+                  //   "assets/icons/image-upload.png",
+                  // ),
+                  kHalfSizedBox,
+                  Text(
+                    'Upload a document (Optional)',
+                    style: TextStyle(
+                      color: kTextGreyColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        kSizedBox,
         kHalfSizedBox,
         MyElevatedButton(
           title: "Submit",
           onPressed: () {},
         ),
-
         kSizedBox,
-        // const Text(
-        //   'Full name',
-        //   style: TextStyle(
-        //     color: kTextBlackColor,
-        //     fontSize: 14,
-        //     fontWeight: FontWeight.w500,
-        //   ),
-        // ),
-        // kHalfSizedBox,
-        // MyTextFormField(
-        //   hintText: "Enter full name",
-        //   textCapitalization: TextCapitalization.words,
-        //   controller: _nameEC,
-        //   textInputAction: TextInputAction.next,
-        //   textInputType: TextInputType.name,
-        //   focusNode: _nameFN,
-        //   validator: (value) {
-        //     RegExp pattern = RegExp(r'^.{3,}$');
-        //     if (value == null || value!.isEmpty) {
-        //       _nameFN.requestFocus();
-        //       return "Enter a full name";
-        //     } else if (!pattern.hasMatch(value)) {
-        //       _nameFN.requestFocus();
-        //       return "Please enter a valid name";
-        //     }
-        //     return null;
-        //   },
-        //   onSaved: (value) {
-        //     _nameEC.text = value!;
-        //   },
-        // ),
       ],
     );
   }

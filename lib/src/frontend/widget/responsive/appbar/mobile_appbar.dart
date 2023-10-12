@@ -38,6 +38,7 @@ class MyMobileAppBar extends StatelessWidget {
             child: Image.asset(
               'assets/frontend/assets/brand/benji-logo-resized-nobg.png',
               fit: BoxFit.cover,
+              width: 150,
             ),
           ),
           Row(

@@ -2,6 +2,7 @@ import 'package:benji/frontend/store/product.dart';
 import 'package:benji/src/frontend/model/product.dart';
 import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
 import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
+import 'package:benji/src/others/empty.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
@@ -173,15 +174,8 @@ class _SearchPageState extends State<SearchPage> {
                                 );
                               } else if (_getDataList == null ||
                                   _getDataList!.isEmpty) {
-                                return Container(
-                                  height:
-                                      breakPoint(media.width, 400, 500, 700),
-                                  decoration: const BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            'assets/frontend/assets/error/nodata.png'),
-                                        fit: BoxFit.fitHeight),
-                                  ),
+                                return const EmptyCard(
+                                  removeButton: true,
                                 );
                               } else {
                                 return LayoutGrid(

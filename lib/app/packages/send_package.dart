@@ -201,13 +201,14 @@ class _SendPackageState extends State<SendPackage> {
   // }
 
   Widget _controlsBuilder(context, details) {
+    final media = MediaQuery.of(context);
     return _nextPage == false
         ? ElevatedButton(
             onPressed: details.onStepContinue,
             style: ElevatedButton.styleFrom(
               backgroundColor: kAccentColor,
               elevation: 20.0,
-              fixedSize: Size(MediaQuery.of(context).size.width, 60),
+              fixedSize: Size(media.size.width, 60),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -228,8 +229,7 @@ class _SendPackageState extends State<SendPackage> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: kAccentColor,
                           elevation: 20.0,
-                          fixedSize:
-                              Size(MediaQuery.of(context).size.width / 2, 60),
+                          fixedSize: Size((media.size.width * 0.60) - 45, 60),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -243,8 +243,7 @@ class _SendPackageState extends State<SendPackage> {
                           backgroundColor: kPrimaryColor,
                           elevation: 20.0,
                           side: BorderSide(color: kAccentColor, width: 1.2),
-                          fixedSize:
-                              Size(MediaQuery.of(context).size.width / 5, 60),
+                          fixedSize: Size((media.size.width * 0.40) - 45, 60),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -263,8 +262,7 @@ class _SendPackageState extends State<SendPackage> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: kAccentColor,
                       elevation: 20.0,
-                      fixedSize:
-                          Size(MediaQuery.of(context).size.width / 2, 60),
+                      fixedSize: Size((media.size.width * 0.60) - 45, 60),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -278,8 +276,7 @@ class _SendPackageState extends State<SendPackage> {
                       backgroundColor: kPrimaryColor,
                       elevation: 20.0,
                       side: BorderSide(color: kAccentColor, width: 1.2),
-                      fixedSize:
-                          Size(MediaQuery.of(context).size.width / 5, 60),
+                      fixedSize: Size((media.size.width * 0.40) - 45, 60),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

@@ -176,6 +176,7 @@ class _MyCardState extends State<MyCard> {
                           '₦${widget.product.price}',
                           style: const TextStyle(
                             fontSize: 20,
+                            fontFamily: 'sen',
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1.2,
                           ),

@@ -40,7 +40,7 @@ class Footer extends StatelessWidget {
               50)),
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/frontend/assets/footer/footer_bg_1.jpg'),
+          image: AssetImage('assets/frontend/assets/footer/Benji-Footer.jpg'),
           fit: BoxFit.cover,
         ),
       ),
@@ -141,7 +141,11 @@ class Footer extends StatelessWidget {
                               children: [
                                 Container(
                                   constraints: BoxConstraints.loose(
-                                    const Size(150, 90),
+                                    Size(
+                                        deviceType(media.width) == 1
+                                            ? 110
+                                            : 150,
+                                        90),
                                   ),
                                   child: MyClickable(
                                       child: Image.asset(
@@ -150,7 +154,11 @@ class Footer extends StatelessWidget {
                                 kWidthSizedBox,
                                 Container(
                                   constraints: BoxConstraints.loose(
-                                    const Size(160, 100),
+                                    Size(
+                                        deviceType(media.width) == 1
+                                            ? 110
+                                            : 160,
+                                        100),
                                   ),
                                   child: MyClickable(
                                       child: Image.asset(

@@ -29,6 +29,8 @@ class ReusableAuthenticationFirstHalf extends StatelessWidget {
     return Center(
       child: Column(
         children: [
+          kSizedBox,
+          kSizedBox,
           AnimatedContainer(
             duration: duration,
             curve: curves,
