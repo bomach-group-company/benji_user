@@ -89,3 +89,16 @@ Future<List<Product>> fetchProductFilterBySubCategory(
     throw Exception('Failed to load products');
   }
 }
+
+Future<List<Product>> fetchProducts([final int limit = 8]) async {
+  final response = await http
+      .get(Uri.parse('$baseFrontendUrl/products/listProduct?limit=$limit'));
+  print(response.body);
+  if (response.statusCode == 200) {
+    return (jsonDecode(response.body)['items'] as List)
+        .map((item) => Product.fromJson(item))
+        .toList();
+  } else {
+    throw Exception('Failed to load products');
+  }
+}

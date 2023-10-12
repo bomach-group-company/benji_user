@@ -9,7 +9,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
-import '../../src/frontend/model/all_product.dart';
 import '../../src/frontend/model/category.dart';
 import '../../src/frontend/model/product.dart';
 import '../../src/frontend/utils/constant.dart';
@@ -55,22 +54,23 @@ class _HomePageState extends State<HomePage> {
         });
       });
     categoriesData = fetchCategories();
-    trendingProduct = Future(() => []);
-    todayProduct = Future(() => []);
-    recommendedProduct = Future(() => []);
-    productsData = fetchAllProduct(8)
+    trendingProduct = fetchProducts()
       ..then((value) {
-        setState(() {
-          trendingProduct = Future(() => value.items);
-          todayProduct = Future(() => value.items);
-          recommendedProduct = Future(() => value.items);
-        });
+        productsData.addAll(value);
+      });
+    todayProduct = fetchProducts()
+      ..then((value) {
+        productsData.addAll(value);
+      });
+    recommendedProduct = fetchProducts()
+      ..then((value) {
+        productsData.addAll(value);
       });
     super.initState();
   }
 
+  List<Product> productsData = [];
   late Future<List<Category>> categoriesData;
-  late Future<AllProduct> productsData;
   late Future<List<Product>> trendingProduct;
   late Future<List<Product>> todayProduct;
   late Future<List<Product>> recommendedProduct;
@@ -675,41 +675,30 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              FutureBuilder(
-                  future: productsData,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      if (snapshot.hasError) {
-                        return const Center(
-                          child: Text(
-                              'Error occured try refresh or contacting admin'),
+              productsData.isEmpty
+                  ? const SizedBox()
+                  : Builder(
+                      builder: (context) {
+                        Product data = productsData.firstWhere(
+                          (element) => element.id == productPopId,
+                          orElse: () => productsData.first,
                         );
-                      }
-                      return const SizedBox();
-                    }
-                    return Builder(builder: (context) {
-                      Product data =
-                          (snapshot.data as AllProduct).items.firstWhere(
-                                (element) => element.id == productPopId,
-                                orElse: () =>
-                                    (snapshot.data as AllProduct).items.first,
-                              );
-                      return MyCardLg(
-                        navigateCategory: CategoryPage(
-                          activeSubCategory: data.subCategory,
-                          activeCategory: data.subCategory.category,
-                        ),
-                        navigate: ProductPage(product: data),
-                        visible: showCard,
-                        close: () {
-                          setState(() {
-                            showCard = false;
-                          });
-                        },
-                        product: data,
-                      );
-                    });
-                  }),
+                        return MyCardLg(
+                          navigateCategory: CategoryPage(
+                            activeSubCategory: data.subCategory,
+                            activeCategory: data.subCategory.category,
+                          ),
+                          navigate: ProductPage(product: data),
+                          visible: showCard,
+                          close: () {
+                            setState(() {
+                              showCard = false;
+                            });
+                          },
+                          product: data,
+                        );
+                      },
+                    ),
             ],
           ),
         ),
