@@ -56,15 +56,21 @@ class _HomePageState extends State<HomePage> {
     categoriesData = fetchCategories();
     trendingProduct = fetchProducts()
       ..then((value) {
-        productsData.addAll(value);
+        setState(() {
+          productsData.addAll(value);
+        });
       });
     todayProduct = fetchProducts()
       ..then((value) {
-        productsData.addAll(value);
+        setState(() {
+          productsData.addAll(value);
+        });
       });
     recommendedProduct = fetchProducts()
       ..then((value) {
-        productsData.addAll(value);
+        setState(() {
+          productsData.addAll(value);
+        });
       });
     super.initState();
   }
