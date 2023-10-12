@@ -16,6 +16,7 @@ class MyClickable extends StatelessWidget {
           if (navigate != null) {
             Get.off(
               () => navigate!,
+              preventDuplicates: false,
               routeName: navigate.runtimeType.toString(),
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,

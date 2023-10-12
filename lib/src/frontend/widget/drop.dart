@@ -80,8 +80,7 @@ class _MyDropDownState extends State<MyDropDown> {
                         onTap: () {
                           Get.off(
                             () => CategoryPage(
-                              activeCategoriesId: widget.items[index - 1].id,
-                              activeCategories: widget.items[index - 1].name,
+                              activeCategory: widget.items[index - 1],
                             ),
                             preventDuplicates: false,
                             routeName: 'CategoryPage',
