@@ -256,6 +256,11 @@ class Footer extends StatelessWidget {
               ),
             ],
           ),
+          deviceType(media.width) <= 2
+              ? const SizedBox(
+                  height: kDefaultPadding * 3,
+                )
+              : const SizedBox(),
           Divider(
             color: const Color(0xffdc3545).withOpacity(0.2),
           ),

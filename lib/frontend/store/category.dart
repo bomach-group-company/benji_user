@@ -1,32 +1,29 @@
 import 'package:benji/frontend/store/categories.dart';
 import 'package:benji/frontend/store/product.dart';
+import 'package:benji/src/frontend/model/category.dart';
+import 'package:benji/src/frontend/model/sub_category.dart';
+import 'package:benji/src/frontend/widget/cards/product_card_lg.dart';
 import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
 import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
+import 'package:benji/src/others/empty.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
-import '../../src/frontend/model/all_product.dart';
-import '../../src/frontend/model/all_sub_category.dart';
 import '../../src/frontend/model/product.dart';
 import '../../src/frontend/utils/constant.dart';
 import '../../src/frontend/widget/cards/product_card.dart';
-import '../../src/frontend/widget/cards/product_card_lg.dart';
 import '../../src/frontend/widget/drawer/drawer.dart';
 import '../../src/frontend/widget/section/footer.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
 class CategoryPage extends StatefulWidget {
-  final String activeCategories;
-  final String activeCategoriesId;
-  final String activeSubCategories;
-  final String activeSubCategoriesId;
+  final Category activeCategory;
+  final SubCategory? activeSubCategory;
   const CategoryPage({
     super.key,
-    required this.activeCategories,
-    required this.activeCategoriesId,
-    this.activeSubCategories = 'All',
-    this.activeSubCategoriesId = '',
+    required this.activeCategory,
+    this.activeSubCategory,
   });
 
   @override
@@ -36,17 +33,15 @@ class CategoryPage extends StatefulWidget {
 class _CategoryPageState extends State<CategoryPage> {
   bool _showBackToTopButton = false;
   late ScrollController _scrollController;
-  String activeSubCategories = '';
-  String activeSubCategoriesId = '';
+  String activeSubCategoryId = '';
 
   bool showCard = false;
 
   String productPopId = '';
-  Future<List<Product>>? _getDataList;
-  List<Product>? productsData;
 
   @override
   void initState() {
+    activeSubCategoryId = widget.activeSubCategory?.id ?? '';
     _scrollController = ScrollController()
       ..addListener(() {
         setState(() {
@@ -58,33 +53,21 @@ class _CategoryPageState extends State<CategoryPage> {
         });
       });
 
-    activeSubCategories = widget.activeSubCategories;
-    activeSubCategoriesId = widget.activeSubCategoriesId;
+    _subCategories = fetchSubCategoryFilterByCategory(widget.activeCategory.id);
+    _getProducts();
 
     super.initState();
-    _getDataList = _getData();
   }
 
-  Future<List<Product>> _getData() async {
-    AllProduct data;
-    if (activeSubCategories == 'All' && activeSubCategoriesId == '') {
-      data = await fetchAllProductFilterByCategory(
-          widget.activeCategoriesId, 1, 13);
-      return data.items;
+  late Future<List<SubCategory>> _subCategories;
+  late Future<List<Product>> _products;
+
+  _getProducts() {
+    if (activeSubCategoryId == '') {
+      _products = fetchProductFilterByCategory(widget.activeCategory.id, 1, 13);
+    } else {
+      _products = fetchProductFilterBySubCategory(activeSubCategoryId, 1, 13);
     }
-
-    data =
-        await fetchAllProductFilterBySubCategory(activeSubCategoriesId, 1, 13);
-    return data.items;
-  }
-
-  Future<List<List<String>>> _getSubCategory() async {
-    AllSubCatogory data =
-        await fetchSubCategoriesFilterByCategory(widget.activeCategoriesId);
-    return [
-          ['', 'All']
-        ] +
-        data.items.map((item) => [item.id, item.name]).toList();
   }
 
   @override
@@ -120,8 +103,8 @@ class _CategoryPageState extends State<CategoryPage> {
                     controller: _scrollController,
                     children: [
                       MyBreadcrumb(
-                        text: widget.activeCategories,
-                        current: widget.activeCategories,
+                        text: widget.activeCategory.name,
+                        current: widget.activeCategory.name,
                         hasBeadcrumb: true,
                         back: 'categories',
                         backNav: const CategoriesPage(),
@@ -139,10 +122,14 @@ class _CategoryPageState extends State<CategoryPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 FutureBuilder(
-                                    future: _getSubCategory(),
+                                    future: _subCategories,
                                     builder: (BuildContext context,
                                         AsyncSnapshot snapshot) {
                                       if (!snapshot.hasData) {
+                                        if (snapshot.hasError) {
+                                          return Text(
+                                              snapshot.error.toString());
+                                        }
                                         return Row(
                                           children: [
                                             OutlinedButton(
@@ -161,50 +148,87 @@ class _CategoryPageState extends State<CategoryPage> {
                                           ],
                                         );
                                       } else {
+                                        print('sub cat ${snapshot.data}');
                                         return Container(
                                           margin: const EdgeInsets.symmetric(
                                               horizontal: 15),
                                           child: SingleChildScrollView(
                                             scrollDirection: Axis.horizontal,
                                             child: Row(
-                                              children: (snapshot.data
-                                                      as List<List<String>>)
-                                                  .map((item) {
-                                                return Row(
-                                                  children: [
-                                                    OutlinedButton(
-                                                      style: OutlinedButton
-                                                          .styleFrom(
-                                                        minimumSize:
-                                                            const Size(10, 50),
-                                                        backgroundColor:
-                                                            activeSubCategoriesId ==
-                                                                    item[0]
-                                                                ? kAccentColor
-                                                                : Colors.white,
-                                                        foregroundColor:
-                                                            activeSubCategoriesId ==
-                                                                    item[0]
-                                                                ? Colors.white
-                                                                : kAccentColor,
-                                                      ),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          activeSubCategories =
-                                                              item[1];
-                                                          activeSubCategoriesId =
-                                                              item[0];
-                                                          _getDataList = null;
-                                                          _getDataList =
-                                                              _getData();
-                                                        });
-                                                      },
-                                                      child: Text(item[1]),
-                                                    ),
-                                                    kHalfWidthSizedBox,
-                                                  ],
-                                                );
-                                              }).toList(),
+                                              children: [
+                                                    Row(
+                                                      children: [
+                                                        OutlinedButton(
+                                                          style: OutlinedButton
+                                                              .styleFrom(
+                                                            minimumSize:
+                                                                const Size(
+                                                                    10, 50),
+                                                            backgroundColor:
+                                                                activeSubCategoryId ==
+                                                                        ''
+                                                                    ? kAccentColor
+                                                                    : Colors
+                                                                        .white,
+                                                            foregroundColor:
+                                                                activeSubCategoryId ==
+                                                                        ''
+                                                                    ? Colors
+                                                                        .white
+                                                                    : kAccentColor,
+                                                          ),
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              activeSubCategoryId =
+                                                                  '';
+                                                              _getProducts();
+                                                            });
+                                                          },
+                                                          child:
+                                                              const Text('All'),
+                                                        ),
+                                                        kHalfWidthSizedBox,
+                                                      ],
+                                                    )
+                                                  ] +
+                                                  (snapshot.data
+                                                          as List<SubCategory>)
+                                                      .map((item) {
+                                                    return Row(
+                                                      children: [
+                                                        OutlinedButton(
+                                                          style: OutlinedButton
+                                                              .styleFrom(
+                                                            minimumSize:
+                                                                const Size(
+                                                                    10, 50),
+                                                            backgroundColor:
+                                                                activeSubCategoryId ==
+                                                                        item.id
+                                                                    ? kAccentColor
+                                                                    : Colors
+                                                                        .white,
+                                                            foregroundColor:
+                                                                activeSubCategoryId ==
+                                                                        item.id
+                                                                    ? Colors
+                                                                        .white
+                                                                    : kAccentColor,
+                                                          ),
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              activeSubCategoryId =
+                                                                  item.id;
+                                                              _getProducts();
+                                                            });
+                                                          },
+                                                          child:
+                                                              Text(item.name),
+                                                        ),
+                                                        kHalfWidthSizedBox,
+                                                      ],
+                                                    );
+                                                  }).toList(),
                                             ),
                                           ),
                                         );
@@ -212,16 +236,14 @@ class _CategoryPageState extends State<CategoryPage> {
                                     }),
                                 kSizedBox,
                                 FutureBuilder(
-                                  future: _getDataList,
+                                  future: _products,
                                   builder: (BuildContext context,
                                       AsyncSnapshot snapshot) {
                                     if (!snapshot.hasData ||
                                         snapshot.connectionState ==
                                             ConnectionState.waiting) {
                                       if (snapshot.hasError) {
-                                        return const Center(
-                                          child: Text('Error occured refresh'),
-                                        );
+                                        return Text(snapshot.error.toString());
                                       }
                                       return Center(
                                         child: CircularProgressIndicator(
@@ -229,59 +251,61 @@ class _CategoryPageState extends State<CategoryPage> {
                                         ),
                                       );
                                     } else {
-                                      productsData =
-                                          (snapshot.data as List<Product>);
-                                      return Column(
-                                        children: [
-                                          LayoutGrid(
-                                            columnSizes: breakPointDynamic(
-                                                media.width,
-                                                [1.fr],
-                                                [1.fr, 1.fr],
-                                                [1.fr, 1.fr, 1.fr, 1.fr]),
-                                            rowSizes: (snapshot.data
-                                                        as List<Product>)
-                                                    .isEmpty
-                                                ? [auto]
-                                                : List.filled(
-                                                    (snapshot.data
-                                                            as List<Product>)
-                                                        .length,
-                                                    auto),
-                                            children: (snapshot.data
-                                                    as List<Product>)
-                                                .map((item) => MyCard(
-                                                      navigateCategory:
-                                                          CategoryPage(
-                                                        activeSubCategories:
-                                                            item.subCategory
-                                                                .name,
-                                                        activeSubCategoriesId:
-                                                            item.subCategory.id,
-                                                        activeCategoriesId: item
-                                                            .subCategory
-                                                            .category
-                                                            .id,
-                                                        activeCategories: item
-                                                            .subCategory
-                                                            .category
-                                                            .name,
-                                                      ),
-                                                      navigate: ProductPage(
-                                                          product: item),
-                                                      action: () {
-                                                        setState(() {
-                                                          showCard = true;
-                                                          productPopId =
-                                                              item.id;
-                                                        });
-                                                      },
-                                                      product: item,
-                                                    ))
-                                                .toList(),
-                                          ),
-                                        ],
-                                      );
+                                      return snapshot.data.isEmpty
+                                          ? const EmptyCard(
+                                              removeButton: true,
+                                            )
+                                          : Column(
+                                              children: [
+                                                LayoutGrid(
+                                                  columnSizes:
+                                                      breakPointDynamic(
+                                                          media.width, [
+                                                    1.fr
+                                                  ], [
+                                                    1.fr,
+                                                    1.fr
+                                                  ], [
+                                                    1.fr,
+                                                    1.fr,
+                                                    1.fr,
+                                                    1.fr
+                                                  ]),
+                                                  rowSizes: (snapshot.data
+                                                              as List<Product>)
+                                                          .isEmpty
+                                                      ? [auto]
+                                                      : List.filled(
+                                                          snapshot.data.length,
+                                                          auto),
+                                                  children: (snapshot.data
+                                                          as List<Product>)
+                                                      .map((item) => MyCard(
+                                                            navigateCategory:
+                                                                CategoryPage(
+                                                              activeSubCategory:
+                                                                  item.subCategory,
+                                                              activeCategory: item
+                                                                  .subCategory
+                                                                  .category,
+                                                            ),
+                                                            navigate:
+                                                                ProductPage(
+                                                                    product:
+                                                                        item),
+                                                            action: () {
+                                                              setState(() {
+                                                                showCard = true;
+                                                                productPopId =
+                                                                    item.id;
+                                                              });
+                                                            },
+                                                            product: item,
+                                                          ))
+                                                      .toList(),
+                                                ),
+                                              ],
+                                            );
                                     }
                                   },
                                 ),
@@ -299,32 +323,33 @@ class _CategoryPageState extends State<CategoryPage> {
                 ),
               ],
             ),
-            Builder(builder: (context) {
-              if (productsData == null || productsData!.isEmpty) {
-                return const Text('');
-              } else {
-                Product data = (productsData!).firstWhere(
-                  (element) => element.id == productPopId,
-                  orElse: () => (productsData!).first,
-                );
-                return MyCardLg(
-                  navigateCategory: CategoryPage(
-                    activeSubCategories: data.subCategory.name,
-                    activeSubCategoriesId: data.subCategory.id,
-                    activeCategoriesId: data.subCategory.category.id,
-                    activeCategories: data.subCategory.category.name,
-                  ),
-                  navigate: ProductPage(product: data),
-                  visible: showCard,
-                  close: () {
-                    setState(() {
-                      showCard = false;
-                    });
-                  },
-                  product: data,
-                );
-              }
-            }),
+            FutureBuilder(
+              future: _products,
+              builder: (context, snapshot) {
+                if (snapshot.data == null || snapshot.data!.isEmpty) {
+                  return const Text('');
+                } else {
+                  Product data = (snapshot.data!).firstWhere(
+                    (element) => element.id == productPopId,
+                    orElse: () => (snapshot.data!).first,
+                  );
+                  return MyCardLg(
+                    navigateCategory: CategoryPage(
+                      activeSubCategory: data.subCategory,
+                      activeCategory: data.subCategory.category,
+                    ),
+                    navigate: ProductPage(product: data),
+                    visible: showCard,
+                    close: () {
+                      setState(() {
+                        showCard = false;
+                      });
+                    },
+                    product: data,
+                  );
+                }
+              },
+            ),
           ],
         ),
       ),

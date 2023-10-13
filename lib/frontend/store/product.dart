@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:benji/frontend/store/categories.dart';
 import 'package:benji/frontend/store/category.dart';
 import 'package:benji/src/frontend/model/product.dart';
@@ -9,7 +7,6 @@ import 'package:benji/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
-import '../../src/frontend/model/all_product.dart';
 import '../../src/frontend/utils/constant.dart';
 import '../../src/frontend/widget/button.dart';
 import '../../src/frontend/widget/cards/product_card.dart';
@@ -55,8 +52,13 @@ class _ProductPageState extends State<ProductPage> {
         });
       });
 
+    related = fetchProductFilterByCategory(
+        widget.product.subCategory.category.id, 1, 6);
+
     super.initState();
   }
+
+  late Future<List<Product>> related;
 
   Future<void> _cartAddFunction() async {
     await addToCart(widget.product.id.toString());
@@ -73,13 +75,13 @@ class _ProductPageState extends State<ProductPage> {
     return count > 0;
   }
 
-  Future<Map<String, dynamic>> _getData() async {
-    return {
-      'product': widget.product,
-      'related': await fetchAllProductFilterByCategory(
-          widget.product.subCategory.category.id, 1, 6)
-    };
-  }
+  // Future<Map<String, dynamic>> _getData() async {
+  //   return {
+  //     'product': widget.product,
+  //     'related': await fetchAllProductFilterByCategory(
+  //         widget.product.subCategory.category.id, 1, 6)
+  //   };
+  // }
 
   @override
   void dispose() {
@@ -114,439 +116,282 @@ class _ProductPageState extends State<ProductPage> {
         child: MyAppbar(hideSearch: false),
       ),
       body: SafeArea(
-        child: FutureBuilder(
-            future: _getData(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (!snapshot.hasData) {
-                if (snapshot.hasError) {
-                  return const Center(
-                    child: Text('Error occured refresh'),
-                  );
-                }
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: kAccentColor,
-                  ),
-                );
-              } else {
-                return Stack(
+          child: Stack(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: ListView(
+                  physics: const BouncingScrollPhysics(),
+                  controller: _scrollController,
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: ListView(
-                            physics: const BouncingScrollPhysics(),
-                            controller: _scrollController,
+                    kSizedBox,
+                    kSizedBox,
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: breakPoint(media.width, 25, 50, 50),
+                      ),
+                      child: LayoutGrid(
+                        columnSizes: breakPointDynamic(media.width, [1.fr],
+                            [18.fr, 32.fr], [18.fr, 32.fr]),
+                        rowSizes: const [
+                          auto,
+                          auto,
+                        ],
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                              right: breakPoint(media.width, 0, 20, 20),
+                            ),
+                            height: media.height * 0.5,
+                            decoration: BoxDecoration(
+                                image: const DecorationImage(
+                                  image: AssetImage(
+                                      "assets/images/products/okra-soup.png"),
+                                  fit: BoxFit.contain,
+                                ),
+                                border: Border.all(color: Colors.black12),
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              kSizedBox,
-                              kSizedBox,
-                              Container(
-                                margin: EdgeInsets.symmetric(
-                                  horizontal:
-                                      breakPoint(media.width, 25, 50, 50),
-                                ),
-                                child: LayoutGrid(
-                                  columnSizes: breakPointDynamic(media.width,
-                                      [1.fr], [18.fr, 32.fr], [18.fr, 32.fr]),
-                                  rowSizes: const [
-                                    auto,
-                                    auto,
-                                  ],
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        right:
-                                            breakPoint(media.width, 0, 20, 20),
-                                      ),
-                                      height: media.height * 0.5,
-                                      decoration: BoxDecoration(
-                                          image: const DecorationImage(
-                                            image: AssetImage(
-                                                "assets/images/products/okra-soup.png"),
-                                            fit: BoxFit.contain,
-                                          ),
-                                          border:
-                                              Border.all(color: Colors.black12),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        deviceType(media.width) == 1
-                                            ? kSizedBox
-                                            : const SizedBox(),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.spa,
-                                              color: kAccentColor,
-                                            ),
-                                            kHalfWidthSizedBox,
-                                            Expanded(
-                                              child: Text(
-                                                snapshot.data['product'].name,
-                                                style: const TextStyle(
-                                                  fontSize: 25,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        kHalfSizedBox,
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: MyClickable(
-                                                navigate: CategoryPage(
-                                                  activeSubCategoriesId:
-                                                      (snapshot.data['product']
-                                                              as Product)
-                                                          .subCategory
-                                                          .id,
-                                                  activeSubCategories:
-                                                      (snapshot.data['product']
-                                                              as Product)
-                                                          .subCategory
-                                                          .name,
-                                                  activeCategoriesId:
-                                                      (snapshot.data['product']
-                                                              as Product)
-                                                          .subCategory
-                                                          .category
-                                                          .id,
-                                                  activeCategories:
-                                                      (snapshot.data['product']
-                                                              as Product)
-                                                          .subCategory
-                                                          .category
-                                                          .name,
-                                                ),
-                                                child: Text(
-                                                  snapshot.data['product']
-                                                      .subCategory.name,
-                                                  style: TextStyle(
-                                                    color: kSecondaryColor,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        kSizedBox,
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                '₦$price',
-                                                style: const TextStyle(
-                                                  fontSize: 22,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        // const Divider(height: 30),
-                                        // const Row(
-                                        //   children: [
-                                        //     Expanded(
-                                        //       child: Text(
-                                        //         'Weight',
-                                        //         textAlign: TextAlign.start,
-                                        //         style: TextStyle(
-                                        //           fontSize: 20,
-                                        //           fontWeight: FontWeight.w400,
-                                        //         ),
-                                        //       ),
-                                        //     ),
-                                        //   ],
-                                        // ),
-                                        // Row(
-                                        //   children: [
-                                        //     SizedBox(
-                                        //       width: breakPoint(
-                                        //         media.width,
-                                        //         media.width * 0.35,
-                                        //         media.width * 0.26,
-                                        //         media.width * 0.15,
-                                        //       ),
-                                        //       child: RadioListTile(
-                                        //         activeColor: kSecondaryColor,
-                                        //         splashRadius: 0,
-                                        //         toggleable: true,
-                                        //         contentPadding: EdgeInsets.zero,
-                                        //         value: 1,
-                                        //         groupValue: _selectedRadioValue,
-                                        //         onChanged: _handleRadioValueChanged,
-                                        //         title: const Row(
-                                        //           children: [
-                                        //             Text(
-                                        //               '1kg : ',
-                                        //               style: TextStyle(
-                                        //                 color: Colors.black,
-                                        //               ),
-                                        //             ),
-                                        //             Text(
-                                        //               '₦40.00',
-                                        //               style: TextStyle(
-                                        //                 color: Colors.black45,
-                                        //               ),
-                                        //             ),
-                                        //           ],
-                                        //         ),
-                                        //       ),
-                                        //     ),
-                                        //   ],
-                                        // ),
-                                        // Row(
-                                        //   children: [
-                                        //     SizedBox(
-                                        //       width: breakPoint(
-                                        //         media.width,
-                                        //         media.width * 0.35,
-                                        //         media.width * 0.26,
-                                        //         media.width * 0.15,
-                                        //       ),
-                                        //       child: RadioListTile(
-                                        //         activeColor: kSecondaryColor,
-                                        //         splashRadius: 0,
-                                        //         toggleable: true,
-                                        //         contentPadding: EdgeInsets.zero,
-                                        //         value: 2,
-                                        //         groupValue: _selectedRadioValue,
-                                        //         onChanged: _handleRadioValueChanged,
-                                        //         title: const Row(
-                                        //           children: [
-                                        //             Text(
-                                        //               '500g : ',
-                                        //               style: TextStyle(
-                                        //                 color: Colors.black,
-                                        //               ),
-                                        //             ),
-                                        //             Text(
-                                        //               '₦20.00',
-                                        //               style: TextStyle(
-                                        //                 color: Colors.black45,
-                                        //               ),
-                                        //             ),
-                                        //           ],
-                                        //         ),
-                                        //       ),
-                                        //     ),
-                                        //   ],
-                                        // ),
-                                        const Divider(height: 30),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            FutureBuilder(
-                                              future: _cartCount(),
-                                              initialData: false,
-                                              builder: (BuildContext context,
-                                                  AsyncSnapshot snapshot) {
-                                                return snapshot.data
-                                                    ? ElevatedButton(
-                                                        onPressed:
-                                                            _cartRemoveFunction,
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          backgroundColor:
-                                                              kAccentColor,
-                                                          minimumSize: Size(
-                                                              breakPoint(
-                                                                media.width,
-                                                                media.width *
-                                                                    0.43,
-                                                                media.width *
-                                                                    0.27,
-                                                                media.width *
-                                                                    0.28,
-                                                              ),
-                                                              50),
-                                                        ),
-                                                        child: const Text(
-                                                            'REMOVE'),
-                                                      )
-                                                    : ElevatedButton(
-                                                        onPressed:
-                                                            _cartAddFunction,
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          backgroundColor:
-                                                              kAccentColor,
-                                                          minimumSize: Size(
-                                                              breakPoint(
-                                                                media.width,
-                                                                media.width *
-                                                                    0.43,
-                                                                media.width *
-                                                                    0.27,
-                                                                media.width *
-                                                                    0.28,
-                                                              ),
-                                                              50),
-                                                        ),
-                                                        child: const Text(
-                                                            'ADD TO CART'),
-                                                      );
-                                              },
-                                            ),
-                                            const SizedBox()
-                                          ],
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              kSizedBox,
-                              kSizedBox,
-                              Container(
-                                margin: EdgeInsets.symmetric(
-                                  horizontal:
-                                      breakPoint(media.width, 25, 50, 50),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Description',
-                                      style: TextStyle(
-                                        color: kSecondaryColor,
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    kSizedBox,
-                                    Text(
-                                      snapshot.data['product'].description,
+                              deviceType(media.width) == 1
+                                  ? kSizedBox
+                                  : const SizedBox(),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.spa,
+                                    color: kAccentColor,
+                                  ),
+                                  kHalfWidthSizedBox,
+                                  Expanded(
+                                    child: Text(
+                                      widget.product.name,
                                       style: const TextStyle(
-                                        color: Colors.black45,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    kSizedBox,
-                                    kSizedBox,
-                                    Column(
-                                      children: [
-                                        const Padding(
-                                          padding: EdgeInsets.all(15.0),
-                                          child: EndToEndRow(
-                                            widget1:
-                                                MyFancyText(text: 'Related'),
-                                            widget2: MyOutlinedButton(
-                                                navigate: CategoriesPage()),
-                                          ),
+                                  )
+                                ],
+                              ),
+                              kHalfSizedBox,
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: MyClickable(
+                                      navigate: CategoryPage(
+                                        activeSubCategory:
+                                            widget.product.subCategory,
+                                        activeCategory:
+                                            widget.product.subCategory.category,
+                                      ),
+                                      child: Text(
+                                        widget.product.subCategory.name,
+                                        style: TextStyle(
+                                          color: kSecondaryColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
                                         ),
-                                        kSizedBox,
-                                        Builder(builder: (context) {
-                                          List data = ((snapshot.data['related']
-                                                      as AllProduct)
-                                                  .items)
-                                              .where((element) =>
-                                                  element !=
-                                                  snapshot.data['product'].id)
-                                              .toList();
-                                          data = data.sublist(
-                                              0, min(data.length, 4));
-
-                                          return LayoutGrid(
-                                            columnSizes: breakPointDynamic(
-                                                media.width,
-                                                [1.fr],
-                                                [1.fr, 1.fr],
-                                                [1.fr, 1.fr, 1.fr, 1.fr]),
-                                            rowSizes: const [
-                                              auto,
-                                              auto,
-                                              auto,
-                                              auto,
-                                            ],
-                                            children: (data)
-                                                .map((item) => MyCard(
-                                                      product: item,
-                                                      navigateCategory:
-                                                          CategoryPage(
-                                                        activeCategoriesId: item
-                                                            .subCategory
-                                                            .category
-                                                            .id,
-                                                        activeCategories: item
-                                                            .subCategory
-                                                            .category
-                                                            .name,
-                                                      ),
-                                                      navigate: ProductPage(
-                                                          product: item),
-                                                      action: () {
-                                                        setState(() {
-                                                          showCard = true;
-                                                          productPopId =
-                                                              item.id;
-                                                        });
-                                                      },
-                                                    ))
-                                                .toList(),
-                                          );
-                                        }),
-                                      ],
+                                      ),
                                     ),
-                                  ],
+                                  ),
+                                ],
+                              ),
+                              kSizedBox,
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      '₦$price',
+                                      style: const TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const Divider(height: 30),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  FutureBuilder(
+                                    future: _cartCount(),
+                                    initialData: false,
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot snapshot) {
+                                      return snapshot.data
+                                          ? ElevatedButton(
+                                              onPressed: _cartRemoveFunction,
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: kAccentColor,
+                                                minimumSize: Size(
+                                                    breakPoint(
+                                                      media.width,
+                                                      media.width * 0.43,
+                                                      media.width * 0.27,
+                                                      media.width * 0.28,
+                                                    ),
+                                                    50),
+                                              ),
+                                              child: const Text('REMOVE'),
+                                            )
+                                          : ElevatedButton(
+                                              onPressed: _cartAddFunction,
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: kAccentColor,
+                                                minimumSize: Size(
+                                                    breakPoint(
+                                                      media.width,
+                                                      media.width * 0.43,
+                                                      media.width * 0.27,
+                                                      media.width * 0.28,
+                                                    ),
+                                                    50),
+                                              ),
+                                              child: const Text('ADD TO CART'),
+                                            );
+                                    },
+                                  ),
+                                  const SizedBox()
+                                ],
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    kSizedBox,
+                    kSizedBox,
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: breakPoint(media.width, 25, 50, 50),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Description',
+                            style: TextStyle(
+                              color: kSecondaryColor,
+                              fontSize: 30,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          kSizedBox,
+                          Text(
+                            widget.product.description,
+                            style: const TextStyle(
+                              color: Colors.black45,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          kSizedBox,
+                          kSizedBox,
+                          Column(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.all(15.0),
+                                child: EndToEndRow(
+                                  widget1: MyFancyText(text: 'Related'),
+                                  widget2: MyOutlinedButton(
+                                      navigate: CategoriesPage()),
                                 ),
                               ),
                               kSizedBox,
-                              kSizedBox,
-                              kSizedBox,
-                              const Footer(),
+                              FutureBuilder(
+                                  future: related,
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: kAccentColor,
+                                        ),
+                                      );
+                                    }
+                                    return LayoutGrid(
+                                      columnSizes: breakPointDynamic(
+                                          media.width,
+                                          [1.fr],
+                                          [1.fr, 1.fr],
+                                          [1.fr, 1.fr, 1.fr, 1.fr]),
+                                      rowSizes: const [
+                                        auto,
+                                        auto,
+                                        auto,
+                                        auto,
+                                      ],
+                                      children: (snapshot.data ?? [])
+                                          .map((item) => MyCard(
+                                                product: item,
+                                                navigateCategory: CategoryPage(
+                                                  activeCategory:
+                                                      item.subCategory.category,
+                                                ),
+                                                navigate:
+                                                    ProductPage(product: item),
+                                                action: () {
+                                                  setState(() {
+                                                    showCard = true;
+                                                    productPopId = item.id;
+                                                  });
+                                                },
+                                              ))
+                                          .toList(),
+                                    );
+                                  }),
                             ],
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                    Builder(builder: (context) {
-                      Product data =
-                          ((snapshot.data['related'] as AllProduct).items)
-                              .firstWhere(
-                        (element) => element.id == productPopId,
-                        orElse: () => (snapshot.data['related'] as AllProduct)
-                            .items
-                            .first,
-                      );
-                      return MyCardLg(
-                        navigateCategory: CategoryPage(
-                          activeSubCategories: data.subCategory.name,
-                          activeSubCategoriesId: data.subCategory.id,
-                          activeCategoriesId: data.subCategory.category.id,
-                          activeCategories: data.subCategory.category.name,
-                        ),
-                        navigate: ProductPage(product: data),
-                        visible: showCard,
-                        close: () {
-                          setState(() {
-                            showCard = false;
-                          });
-                        },
-                        product: data,
-                      );
-                    }),
+                    kSizedBox,
+                    kSizedBox,
+                    kSizedBox,
+                    const Footer(),
                   ],
+                ),
+              ),
+            ],
+          ),
+          FutureBuilder(
+              future: related,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const SizedBox();
+                }
+
+                Product data = snapshot.data!.firstWhere(
+                  (element) => element.id == productPopId,
+                  orElse: () => snapshot.data!.first,
                 );
-              }
-            }),
-      ),
+                return MyCardLg(
+                  navigateCategory: CategoryPage(
+                    activeSubCategory: data.subCategory,
+                    activeCategory: data.subCategory.category,
+                  ),
+                  navigate: ProductPage(product: data),
+                  visible: showCard,
+                  close: () {
+                    setState(() {
+                      showCard = false;
+                    });
+                  },
+                  product: data,
+                );
+              }),
+        ],
+      )),
       endDrawer: const MyDrawer(),
       floatingActionButton: _showBackToTopButton == false
           ? null

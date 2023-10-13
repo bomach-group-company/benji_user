@@ -53,3 +53,19 @@ Future<SubCategory> fetchSubCategory(id) async {
     throw Exception('Failed to load sub category');
   }
 }
+
+Future<List<SubCategory>> fetchSubCategoryFilterByCategory(
+    final String categoryId,
+    [final int start = 1,
+    final int end = 9]) async {
+  final response = await http.get(Uri.parse(
+      '$baseFrontendUrl/sub_categories/filterSubCategoryByCategory?category_id=$categoryId&start=$start&end=$end'));
+  print(response.body);
+  if (response.statusCode == 200) {
+    return (jsonDecode(response.body)['items'] as List)
+        .map((item) => SubCategory.fromJson(item))
+        .toList();
+  } else {
+    throw Exception('Failed to load SubCategory');
+  }
+}

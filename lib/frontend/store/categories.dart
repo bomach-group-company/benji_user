@@ -35,9 +35,11 @@ class _CategoriesPageState extends State<CategoriesPage> {
           }
         });
       });
-
+    _categories = fetchCategories();
     super.initState();
   }
+
+  late Future<List<Category>> _categories;
 
   @override
   void dispose() {
@@ -60,38 +62,38 @@ class _CategoriesPageState extends State<CategoriesPage> {
       // ignore: prefer_const_constructors
       appBar: MyAppbar(hideSearch: false),
       body: SafeArea(
-        child: FutureBuilder(
-          future: fetchCategories(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
-              if (snapshot.hasError) {
-                return const Center(
-                  child: Text('Error occured refresh'),
-                );
-              }
-              return Center(
-                child: CircularProgressIndicator(
-                  color: kAccentColor,
-                ),
-              );
-            } else {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: ListView(
+                physics: const BouncingScrollPhysics(),
+                controller: _scrollController,
                 children: [
-                  Expanded(
-                    child: ListView(
-                      physics: const BouncingScrollPhysics(),
-                      controller: _scrollController,
-                      children: [
-                        const MyBreadcrumb(
-                          text: 'Categories',
-                          current: 'Categories',
-                          hasBeadcrumb: true,
-                          back: 'home',
-                        ),
-                        kSizedBox,
-                        Container(
+                  const MyBreadcrumb(
+                    text: 'Categories',
+                    current: 'Categories',
+                    hasBeadcrumb: true,
+                    back: 'home',
+                  ),
+                  kSizedBox,
+                  FutureBuilder(
+                    future: _categories,
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (!snapshot.hasData) {
+                        if (snapshot.hasError) {
+                          return const Center(
+                            child: Text('Error occured refresh'),
+                          );
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: kAccentColor,
+                          ),
+                        );
+                      } else {
+                        return Container(
                           margin: EdgeInsets.symmetric(
                             horizontal: breakPoint(media.width, 25, 50, 50),
                           ),
@@ -101,8 +103,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 .map(
                                   (item) => MyClickable(
                                     navigate: CategoryPage(
-                                      activeCategoriesId: item.id,
-                                      activeCategories: item.name,
+                                      activeCategory: item,
                                     ),
                                     child: SizedBox(
                                       height: 220,
@@ -117,18 +118,18 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 )
                                 .toList(),
                           ),
-                        ),
-                        kSizedBox,
-                        kSizedBox,
-                        kSizedBox,
-                        const Footer(),
-                      ],
-                    ),
+                        );
+                      }
+                    },
                   ),
+                  kSizedBox,
+                  kSizedBox,
+                  kSizedBox,
+                  const Footer(),
                 ],
-              );
-            }
-          },
+              ),
+            ),
+          ],
         ),
       ),
       endDrawer: const MyDrawer(),
