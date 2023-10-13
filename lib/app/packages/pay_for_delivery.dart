@@ -1,10 +1,12 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unused_field
+
+import 'dart:math';
 
 import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_monnify/flutter_monnify.dart';
+import 'package:flutter_squad/flutter_squad.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +14,6 @@ import 'package:lottie/lottie.dart';
 
 import '../../src/common_widgets/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
-import '../../src/providers/keys.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../src/repo/utils/base_url.dart';
@@ -165,52 +166,30 @@ class _PayForDeliveryState extends State<PayForDelivery> {
     return response.statusCode == 200 && response.body == '"Package Created."';
   }
 
+//======== Place Order =======\\
   _placeOrder() async {
     setState(() {
       _processingRequest = true;
     });
 
     // User? user = await getUser();
-    DateTime now = DateTime.now();
-    String formattedDateAndTime = formatDateAndTime(now);
+    // DateTime now = DateTime.now();
+    // String formattedDateAndTime = formatDateAndTime(now);
 
-    Map<String, dynamic> monnifyPayload() {
-      return {
-        "amount": _totalPrice,
-        "currency": _currency,
-        "reference": formattedDateAndTime,
-        "customerFullName": "$_userFirstName $_userLastName",
-        "customerEmail": "$_userEmail",
-        "apiKey": monnifyApiKey,
-        "contractCode": monnifyContractCode,
-        "paymentDescription": _paymentDescription,
-        "final metadata": {"name": "$_userFirstName", "age": 23},
-        // "incomeSplitConfig": [
-        //   {
-        //     "subAccountCode": "MFY_SUB_342113621921",
-        //     "feePercentage": 50,
-        //     "splitAmount": 1900,
-        //     "feeBearer": true
-        //   },
-        //   {
-        //     "subAccountCode": "MFY_SUB_342113621922",
-        //     "feePercentage": 50,
-        //     "splitAmount": 2100,
-        //     "feeBearer": true
-        //   }
-        // ],
-        "paymentMethod": ["CARD", "ACCOUNT_TRANSFER", "USSD", "PHONE_NUMBER"],
-      };
-    }
+    SquadTransactionResponse? response = await Squad.checkout(
+      context,
+      charge(),
+      sandbox: true,
+      showAppbar: false,
+      appBar: AppBarConfig(
+        color: kAccentColor,
+        leadingIcon: const FaIcon(FontAwesomeIcons.solidCircleXmark),
+      ),
+    );
+    debugPrint(
+      "Squad transaction completed======>${response?.toJson().toString()}",
+    );
 
-    // TransactionResponse? response = await Monnify().checkout(
-    //   context,
-    //   monnifyPayload(),
-    //   appBar: AppBarConfig(
-    //       titleColor: kPrimaryColor, backgroundColor: kAccentColor),
-    //   toast: ToastConfig(color: kBlackColor, backgroundColor: kAccentColor),
-    //   displayToast: false,
-    // );
     //     .then(
     //   (value) async {
     //     bool res = await createDeliveryItem(
@@ -263,12 +242,33 @@ class _PayForDeliveryState extends State<PayForDelivery> {
     //     }
     //   },
     // );
+  }
 
-    //call the backend to verify transaction status before providing value
-    // if (kDebugMode) {
-    //   print("Future completed======>${response?.toJson().toString()}");
-    //   print("Future completed11======>${response?.message.toString()}");
-    // }
+  Charge charge() {
+    return Charge(
+      amount: (_subTotal * 100).toInt() + (deliveryFee * 100).toInt(),
+      publicKey: "sandbox_pk_f875813b167c9425ee6476078b56f0a0b57609b39e2c",
+      email: "$_userEmail",
+      currencyCode: _currency,
+      transactionRef: "BENJI-PYM-${generateRandomString(10)}",
+      paymentChannels: ["card", "bank", "ussd", "transfer"],
+      customerName: "$_userFirstName $_userLastName",
+      callbackUrl: null,
+      metadata: {"name": _userFirstName, "age": 23},
+      passCharge: true,
+    );
+  }
+
+  String generateRandomString(int len) {
+    const chars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random rnd = Random();
+    return String.fromCharCodes(
+      Iterable.generate(
+        len,
+        (_) => chars.codeUnitAt(rnd.nextInt(chars.length)),
+      ),
+    );
   }
 
   //===================== Scroll to Top ==========================\\
@@ -341,7 +341,6 @@ class _PayForDeliveryState extends State<PayForDelivery> {
             ),
           ],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         floatingActionButton: _isScrollToTopBtnVisible
             ? FloatingActionButton(

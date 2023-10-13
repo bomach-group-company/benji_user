@@ -201,7 +201,6 @@ class _AddressesState extends State<Addresses> {
         appBar: MyAppBar(
           elevation: 0.0,
           title: "Addresses",
-          toolbarHeight: kToolbarHeight,
           backgroundColor: kPrimaryColor,
           actions: const [],
         ),

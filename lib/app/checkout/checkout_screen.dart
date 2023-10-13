@@ -51,7 +51,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   String? _userFirstName;
   String? _userLastName;
   String? _userEmail;
-  final String _paymentDescription = "Benji app product purchase";
+  // final String _paymentDescription = "Benji app product purchase";
   final String _currency = "NGN";
 
   //===================== GlobalKeys =======================\\
@@ -112,6 +112,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       _subTotal += (item.price * cartItems[item.id]);
     }
 
+    serviceFee = (_subTotal + deliveryFee) * 0.010101;
+
+    serviceFee = min(double.parse(serviceFee.toStringAsFixed(2)), 1500);
+
     _totalPrice = _subTotal + deliveryFee + serviceFee;
 
     setState(() {
@@ -132,19 +136,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       context,
       charge(),
       sandbox: true,
-      showAppbar: true,
-      appBar: AppBarConfig(
-        color: kAccentColor,
-        leadingIcon: const FaIcon(FontAwesomeIcons.solidCircleXmark),
-      ),
+      showAppbar: false,
     );
     debugPrint(
-        "Squad transaction completed======>${response?.toJson().toString()}");
+      "Squad transaction completed======>${response?.toJson().toString()}",
+    );
   }
 
   Charge charge() {
     return Charge(
-      amount: _totalPrice.toInt() * 100,
+      amount: (_subTotal * 100).toInt() + (deliveryFee * 100).toInt(),
       publicKey: "sandbox_pk_f875813b167c9425ee6476078b56f0a0b57609b39e2c",
       email: "$_userEmail",
       currencyCode: _currency,
@@ -204,14 +205,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var mediaWidth = MediaQuery.of(context).size.width;
-    var mediaHeight = MediaQuery.of(context).size.height;
+    var media = MediaQuery.of(context).size;
 
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
-        toolbarHeight: 80,
         elevation: 0.0,
         backgroundColor: kPrimaryColor,
         title: "Checkout",
@@ -289,7 +288,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           onTap: _toDeliverTo,
                           borderRadius: BorderRadius.circular(10),
                           child: Container(
-                            width: mediaWidth,
+                            width: media.width,
                             padding: const EdgeInsets.all(10),
                             decoration: ShapeDecoration(
                               color: kPrimaryColor,
@@ -362,7 +361,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         ),
                         kSizedBox,
                         Container(
-                          width: mediaWidth,
+                          width: media.width,
                           padding: const EdgeInsets.all(kDefaultPadding),
                           decoration: ShapeDecoration(
                             color: kPrimaryColor,
@@ -394,7 +393,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return SizedBox(
-                                      width: mediaWidth,
+                                      width: media.width,
                                       child: Text(
                                         '${_data!['cartItems'][_data!['product'][index].id]}x  ${_data!['product'][index].name}',
                                         maxLines: 2,
@@ -414,7 +413,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         ),
                         kSizedBox,
                         Container(
-                          width: mediaWidth,
+                          width: media.width,
                           padding: const EdgeInsets.all(kDefaultPadding),
                           decoration: ShapeDecoration(
                             color: kPrimaryColor,
@@ -579,7 +578,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 //====================================== Add Coupon ====================================\\
 
               // Container(
-              //   width: mediaWidth,
+              //   width: media.width,
               //   padding: EdgeInsets.all(
               //     kDefaultPadding,
               //   ),

@@ -10,6 +10,10 @@ bool productInCart(String productId) {
   return cart.containsKey(productId);
 }
 
+Future<void> clearCart() async {
+  prefs.setString(cartname, '{}');
+}
+
 Future addToCart(String productId) async {
   Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
   if (cart.containsKey(productId)) {

@@ -9,6 +9,7 @@ import 'package:benji/src/repo/utils/user_cart.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl/intl.dart';
 
@@ -106,6 +107,24 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   //================================== Navigation =======================================\\
+  _clearCart() async {
+    await clearCart();
+    mySnackBar(
+      context,
+      kSuccessColor,
+      "Cart Cleared!",
+      "Cart items removed",
+      const Duration(
+        seconds: 1,
+      ),
+    );
+    setState(() {
+      _data = null;
+    });
+    await _getData();
+  }
+
+  //================================== Navigation =======================================\\
 
   void _toProductDetailScreen(product) => Get.to(
         () => ProductDetailScreen(product: product),
@@ -131,7 +150,7 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
+    var media = MediaQuery.of(context).size;
 
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
@@ -139,9 +158,18 @@ class _CartScreenState extends State<CartScreen> {
         appBar: MyAppBar(
           title: "Cart",
           elevation: 0.0,
-          actions: const [],
+          actions: [
+            IconButton(
+              onPressed: _itemCount == 0 ? null : _clearCart,
+              tooltip: "Clear cart",
+              icon: FaIcon(
+                FontAwesomeIcons.solidTrashCan,
+                size: 20,
+                color: _itemCount == 0 ? kLightGreyColor : kAccentColor,
+              ),
+            ),
+          ],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         extendBody: true,
         extendBodyBehindAppBar: true,
@@ -183,7 +211,7 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                       kSizedBox,
                       Container(
-                        width: mediaWidth,
+                        width: media.width,
                         height: 50,
                         padding: const EdgeInsets.all(10),
                         decoration: ShapeDecoration(
@@ -262,7 +290,7 @@ class _CartScreenState extends State<CartScreen> {
                         rowGap: kDefaultPadding / 2,
                         columnGap: kDefaultPadding / 2,
                         columnSizes: breakPointDynamic(
-                            mediaWidth,
+                            media.width,
                             [1.fr],
                             [1.fr, 1.fr],
                             [1.fr, 1.fr, 1.fr],

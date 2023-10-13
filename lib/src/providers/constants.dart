@@ -55,6 +55,6 @@ String formatDateAndTime(DateTime dateTime) {
 
 //===================== Number format ==========================\\
 String formattedText(double value) {
-  final numberFormat = NumberFormat('#,##0');
+  final numberFormat = NumberFormat('#,##0.00');
   return numberFormat.format(value);
 }

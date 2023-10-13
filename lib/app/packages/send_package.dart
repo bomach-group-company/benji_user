@@ -787,7 +787,6 @@ class _SendPackageState extends State<SendPackage> {
           elevation: 0.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,

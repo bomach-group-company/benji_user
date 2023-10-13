@@ -205,7 +205,6 @@ class _VendorDetailsState extends State<VendorDetails>
           title: "Vendor Details",
           elevation: 0.0,
           backgroundColor: kPrimaryColor,
-          toolbarHeight: 40,
           actions: [
             IconButton(
               onPressed: () {

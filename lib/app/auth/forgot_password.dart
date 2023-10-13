@@ -114,7 +114,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           elevation: 0.0,
           actions: [],
           backgroundColor: kTransparentColor,
-          toolbarHeight: kToolbarHeight,
         ),
         extendBody: true,
         extendBodyBehindAppBar: true,

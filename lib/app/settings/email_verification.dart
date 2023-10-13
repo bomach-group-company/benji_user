@@ -91,7 +91,6 @@ class _EmailVerificationState extends State<EmailVerification> {
           elevation: 0.0,
           actions: [],
           backgroundColor: kTransparentColor,
-          toolbarHeight: kToolbarHeight,
         ),
         extendBody: true,
         extendBodyBehindAppBar: true,

@@ -218,7 +218,6 @@ class _FAQsState extends State<FAQs> {
           ),
         ],
         backgroundColor: kPrimaryColor,
-        toolbarHeight: kToolbarHeight,
       ),
       body: SafeArea(
         child: Column(

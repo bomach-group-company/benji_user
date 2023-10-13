@@ -168,7 +168,6 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
           elevation: 0.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(20),

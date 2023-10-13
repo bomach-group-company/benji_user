@@ -74,7 +74,6 @@ class _TrackOrderState extends State<TrackOrder> {
       appBar: MyAppBar(
         elevation: 0,
         title: "Track Order",
-        toolbarHeight: 80,
         backgroundColor: kPrimaryColor,
         actions: [
           IconButton(

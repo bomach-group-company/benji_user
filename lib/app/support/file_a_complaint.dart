@@ -66,7 +66,6 @@ class _FileAComplaintState extends State<FileAComplaint> {
           ),
         ],
         backgroundColor: kPrimaryColor,
-        toolbarHeight: kToolbarHeight,
       ),
       extendBody: true,
       extendBodyBehindAppBar: true,
