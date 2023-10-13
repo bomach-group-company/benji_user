@@ -137,13 +137,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       charge(),
       sandbox: true,
       showAppbar: false,
-      appBar: AppBarConfig(
-        color: kAccentColor,
-        leadingIcon: const FaIcon(FontAwesomeIcons.solidCircleXmark),
-      ),
     );
     debugPrint(
-        "Squad transaction completed======>${response?.toJson().toString()}");
+      "Squad transaction completed======>${response?.toJson().toString()}",
+    );
   }
 
   Charge charge() {
@@ -208,14 +205,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var mediaWidth = MediaQuery.of(context).size.width;
-    var mediaHeight = MediaQuery.of(context).size.height;
+    var media = MediaQuery.of(context).size;
 
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
-        toolbarHeight: 80,
         elevation: 0.0,
         backgroundColor: kPrimaryColor,
         title: "Checkout",
@@ -293,7 +288,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           onTap: _toDeliverTo,
                           borderRadius: BorderRadius.circular(10),
                           child: Container(
-                            width: mediaWidth,
+                            width: media.width,
                             padding: const EdgeInsets.all(10),
                             decoration: ShapeDecoration(
                               color: kPrimaryColor,
@@ -366,7 +361,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         ),
                         kSizedBox,
                         Container(
-                          width: mediaWidth,
+                          width: media.width,
                           padding: const EdgeInsets.all(kDefaultPadding),
                           decoration: ShapeDecoration(
                             color: kPrimaryColor,
@@ -398,7 +393,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return SizedBox(
-                                      width: mediaWidth,
+                                      width: media.width,
                                       child: Text(
                                         '${_data!['cartItems'][_data!['product'][index].id]}x  ${_data!['product'][index].name}',
                                         maxLines: 2,
@@ -418,7 +413,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         ),
                         kSizedBox,
                         Container(
-                          width: mediaWidth,
+                          width: media.width,
                           padding: const EdgeInsets.all(kDefaultPadding),
                           decoration: ShapeDecoration(
                             color: kPrimaryColor,
@@ -583,7 +578,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 //====================================== Add Coupon ====================================\\
 
               // Container(
-              //   width: mediaWidth,
+              //   width: media.width,
               //   padding: EdgeInsets.all(
               //     kDefaultPadding,
               //   ),

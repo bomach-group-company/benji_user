@@ -73,7 +73,6 @@ class _PaymentMethodState extends State<PaymentMethod>
           title: "Payment Method",
           elevation: 0,
           backgroundColor: kPrimaryColor,
-          toolbarHeight: 40,
           actions: const [],
         ),
         extendBodyBehindAppBar: true,

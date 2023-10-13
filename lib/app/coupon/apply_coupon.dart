@@ -65,7 +65,6 @@ class _ApplyCouponState extends State<ApplyCoupon> {
           elevation: 0.0,
           title: "Apply Coupon",
           backgroundColor: kPrimaryColor,
-          toolbarHeight: 80,
           actions: const [],
         ),
         body: Container(

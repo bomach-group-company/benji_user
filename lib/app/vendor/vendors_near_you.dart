@@ -126,7 +126,6 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
         appBar: MyAppBar(
           elevation: 0.0,
           title: "Vendors Near You",
-          toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
           actions: const [],
         ),

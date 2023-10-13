@@ -148,7 +148,6 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
           elevation: 0.0,
           actions: [],
           backgroundColor: kTransparentColor,
-          toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,

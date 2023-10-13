@@ -197,7 +197,6 @@ class _DeliverToState extends State<DeliverTo> {
         appBar: MyAppBar(
           elevation: 0.0,
           title: "Add a delivery location",
-          toolbarHeight: kToolbarHeight,
           backgroundColor: kPrimaryColor,
           actions: const [],
         ),

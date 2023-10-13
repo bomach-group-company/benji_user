@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:benji/src/frontend/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
@@ -12,7 +13,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double elevation;
   final Color backgroundColor;
   final List<Widget> actions;
-  final double toolbarHeight;
+
   @override
   Size get preferredSize => const Size.fromHeight(45);
   const MyAppBar({
@@ -21,7 +22,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.elevation,
     required this.actions,
     required this.backgroundColor,
-    required this.toolbarHeight,
   });
 //========================================= FUNCTIONS ============================================\\
 
@@ -30,8 +30,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return AppBar(
-      toolbarHeight: toolbarHeight,
+      toolbarHeight:
+          deviceType(media.width) >= 3 ? kToolbarHeight * 1.5 : kToolbarHeight,
       automaticallyImplyLeading: false,
       elevation: elevation,
       backgroundColor: backgroundColor,

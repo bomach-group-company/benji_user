@@ -139,7 +139,6 @@ class _ResetPasswordState extends State<ResetPassword> {
           elevation: 0.0,
           actions: [],
           backgroundColor: kTransparentColor,
-          toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,

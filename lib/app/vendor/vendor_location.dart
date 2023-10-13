@@ -236,7 +236,6 @@ class _VendorLocationState extends State<VendorLocation> {
         backgroundColor: kPrimaryColor,
         elevation: 0.0,
         actions: const [],
-        toolbarHeight: kToolbarHeight,
       ),
       body: Stack(
         children: [

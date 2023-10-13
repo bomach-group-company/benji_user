@@ -86,7 +86,6 @@ class _HomePageProductsState extends State<HomePageProducts> {
         appBar: MyAppBar(
           elevation: 0.0,
           title: "Products",
-          toolbarHeight: kToolbarHeight,
           backgroundColor: kPrimaryColor,
           actions: const [],
         ),

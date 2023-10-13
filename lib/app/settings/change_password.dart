@@ -141,7 +141,6 @@ class _ChangePasswordState extends State<ChangePassword> {
           elevation: 0.0,
           actions: [],
           backgroundColor: kTransparentColor,
-          toolbarHeight: kToolbarHeight,
         ),
         extendBody: true,
         extendBodyBehindAppBar: true,

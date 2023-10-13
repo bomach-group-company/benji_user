@@ -51,7 +51,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
           MyAppBar(
             elevation: 0.0,
             title: "",
-            toolbarHeight: kToolbarHeight,
             backgroundColor: kPrimaryColor,
             actions: const [],
           ),

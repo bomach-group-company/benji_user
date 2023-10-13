@@ -60,6 +60,7 @@ dependencies:
   flutter_chat_types:
   fluttertoast:
   flutter_squad: ^0.0.1
+  flutter_monnify:
 
 dev_dependencies:
   flutter_test:

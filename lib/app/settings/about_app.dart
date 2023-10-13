@@ -66,7 +66,6 @@ class _AboutAppState extends State<AboutApp> {
           ),
         ],
         backgroundColor: kPrimaryColor,
-        toolbarHeight: kToolbarHeight,
       ),
       extendBody: true,
       extendBodyBehindAppBar: true,

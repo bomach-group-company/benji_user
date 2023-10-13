@@ -210,7 +210,6 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
           elevation: 0.0,
           actions: [],
           backgroundColor: kTransparentColor,
-          toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,

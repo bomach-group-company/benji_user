@@ -78,6 +78,8 @@ class _OrdersHistoryState extends State<OrdersHistory> {
 
   Future<void> _handleRefresh() async {
     setState(() {
+      _orders = _getOrders();
+
       _scrollController.addListener(_scrollListener);
     });
   }
@@ -95,7 +97,6 @@ class _OrdersHistoryState extends State<OrdersHistory> {
           appBar: MyAppBar(
             elevation: 0.0,
             title: "My Orders ",
-            toolbarHeight: 80,
             backgroundColor: kPrimaryColor,
             actions: const [],
           ),
