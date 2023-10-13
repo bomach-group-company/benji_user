@@ -43,7 +43,7 @@ Future<bool> setNotificationStatus(bool status) async {
 class NotificationController {
   static Future<void> initializeNotification() async {
     await AwesomeNotifications().initialize(
-      null,
+      "resource://drawable/app_icon",
       [
         NotificationChannel(
           channelKey: "basic_channel",

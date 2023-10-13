@@ -148,7 +148,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                           ],
                                         );
                                       } else {
-                                        print('sub cat ${snapshot.data}');
+                                        debugPrint('sub cat ${snapshot.data}');
                                         return Container(
                                           margin: const EdgeInsets.symmetric(
                                               horizontal: 15),
