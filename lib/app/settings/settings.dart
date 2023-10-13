@@ -174,9 +174,11 @@ class _SettingsState extends State<Settings> {
   //===================== Notification Function ==========================\\
   notificationFunc() async {
     if (!notificationsIsOn) {
-      // enableNotifications(!notificationsIsOn);
+      enableNotifications(!notificationsIsOn);
+      debugPrint(enableNotifications.toString());
     } else if (notificationsIsOn) {
-      // disableNotifications(notificationsIsOn);
+      disableNotifications(notificationsIsOn);
+      debugPrint(disableNotifications.toString());
     }
     setState(() {
       notificationsIsOn = !notificationsIsOn;
@@ -281,7 +283,7 @@ class _SettingsState extends State<Settings> {
         fullscreenDialog: true,
         curve: Curves.easeIn,
         popGesture: true,
-        transition: Transition.downToUp,
+        transition: Transition.rightToLeft,
       );
 
   void _logOut() => Get.offAll(
@@ -292,7 +294,7 @@ class _SettingsState extends State<Settings> {
         fullscreenDialog: true,
         curve: Curves.easeIn,
         popGesture: true,
-        transition: Transition.downToUp,
+        transition: Transition.upToDown,
       );
 
   @override
@@ -584,6 +586,7 @@ class _SettingsState extends State<Settings> {
               kHalfSizedBox,
               InkWell(
                 onTap: toNotificationsPage,
+                borderRadius: BorderRadius.circular(12),
                 child: Container(
                   width: mediaWidth,
                   decoration: ShapeDecoration(
@@ -601,10 +604,9 @@ class _SettingsState extends State<Settings> {
                     ],
                   ),
                   child: ListTile(
-                    enableFeedback: true,
                     leading: FaIcon(
                       FontAwesomeIcons.solidBell,
-                      color: kAccentColor,
+                      color: notificationsIsOn ? kAccentColor : kGreyColor,
                     ),
                     title: Text(
                       notificationsIsOn
@@ -617,16 +619,19 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                     trailing: IconButton(
-                      onPressed: notificationFunc,
+                      onPressed: null,
+                      mouseCursor: SystemMouseCursors.cell,
+                      tooltip: notificationsIsOn
+                          ? "Disable push notifications"
+                          : "Enable push notifications",
                       icon: AnimatedSwitch(
+                        onTap: notificationFunc,
                         onChanged: (bool state) async {
                           if (kDebugMode) {
-                            print('turned ${(state) ? 'on' : 'off'}');
+                            print(
+                                'push notifications turned ${(state) ? 'on' : 'off'}');
                           }
-                          notificationFunc;
                         },
-                        height: 20,
-                        width: 20,
                         colorOff: kGreyColor,
                         colorOn: kAccentColor,
                         textOff: "Disabled",

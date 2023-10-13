@@ -320,8 +320,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double mediaHeight = MediaQuery.of(context).size.height;
-    double mediaWidth = MediaQuery.of(context).size.width;
+    var media = MediaQuery.of(context).size;
+
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: GestureDetector(
@@ -389,10 +389,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 children: [
                   FlutterCarousel.builder(
                     options: CarouselOptions(
-                      height: deviceType(mediaWidth) > 3 &&
-                              deviceType(mediaWidth) < 5
-                          ? mediaHeight * 0.5
-                          : mediaHeight * 0.42,
+                      height: deviceType(media.width) > 3 &&
+                              deviceType(media.width) < 5
+                          ? media.height * 0.5
+                          : media.height * 0.42,
                       viewportFraction: 1.0,
                       initialPage: 0,
                       enableInfiniteScroll: true,
@@ -431,7 +431,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         Padding(
                       padding: const EdgeInsets.all(10),
                       child: Container(
-                        width: mediaWidth,
+                        width: media.width,
                         decoration: ShapeDecoration(
                           shape: const RoundedRectangleBorder(
                               borderRadius:
@@ -454,7 +454,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: mediaWidth,
+                          width: media.width,
                           padding: const EdgeInsets.all(kDefaultPadding),
                           decoration: ShapeDecoration(
                             color: const Color(0xFFFEF8F8),
@@ -492,7 +492,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   ),
                                   kHalfSizedBox,
                                   SizedBox(
-                                    width: mediaWidth / 2.3,
+                                    width: media.width / 2.3,
                                     child: Text(
                                       widget.product.name,
                                       overflow: TextOverflow.ellipsis,
@@ -521,7 +521,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   ),
                                   kHalfSizedBox,
                                   SizedBox(
-                                    width: mediaWidth / 3,
+                                    width: media.width / 3,
                                     child: Text(
                                       "₦ ${formattedText(widget.product.price)}",
                                       overflow: TextOverflow.ellipsis,
@@ -542,7 +542,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                         kSizedBox,
                         SizedBox(
-                          width: mediaWidth / 3,
+                          width: media.width / 3,
                           child: Text.rich(
                             TextSpan(
                               children: [
@@ -570,7 +570,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                         kSizedBox,
                         Container(
-                          width: mediaWidth,
+                          width: media.width,
                           padding: const EdgeInsets.all(kDefaultPadding),
                           decoration: ShapeDecoration(
                             color: const Color(0xFFFEF8F8),
@@ -630,7 +630,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 ),
                                 child: _isAddedToCart
                                     ? Container(
-                                        width: mediaWidth,
+                                        width: media.width,
                                         height: 55,
                                         decoration: ShapeDecoration(
                                           color: const Color(0xFFFAFAFA),
@@ -743,7 +743,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             : _deleteNote,
                                         style: ElevatedButton.styleFrom(
                                           fixedSize:
-                                              Size((mediaWidth / 2 - 20), 40),
+                                              Size((media.width / 2 - 20), 40),
                                           backgroundColor:
                                               kDefaultCategoryBackgroundColor,
                                           shape: RoundedRectangleBorder(
@@ -773,7 +773,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                           disabledBackgroundColor:
                                               kAccentColor.withOpacity(0.5),
                                           fixedSize:
-                                              Size((mediaWidth / 2 - 20), 40),
+                                              Size((media.width / 2 - 20), 40),
                                           backgroundColor: kAccentColor,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
@@ -798,7 +798,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               )
                             : kSizedBox,
                         Container(
-                          width: mediaWidth,
+                          width: media.width,
                           padding: const EdgeInsets.all(kDefaultPadding),
                           decoration: ShapeDecoration(
                             color: const Color(0xFFFEF8F8),
