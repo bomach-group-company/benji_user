@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:benji/src/frontend/model/product.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 import '../utils/constant.dart';
@@ -30,7 +31,7 @@ class AllProduct {
 Future<AllProduct> fetchAllProduct([final int limit = 8]) async {
   final response = await http
       .get(Uri.parse('$baseFrontendUrl/products/listProduct?limit=$limit'));
-  print(response.body);
+  debugPrint(response.body);
   if (response.statusCode == 200) {
     return AllProduct.fromJson(jsonDecode(response.body));
   } else {
