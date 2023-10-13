@@ -1,15 +1,16 @@
 // ignore_for_file: unused_local_variable
 
+import 'dart:math';
+
 import 'package:benji/app/home/home.dart';
 import 'package:benji/src/common_widgets/snackbar/my_floating_snackbar.dart';
-import 'package:benji/src/providers/keys.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_monnify/flutter_monnify.dart';
+// import 'package:flutter_monnify/flutter_monnify.dart';
+import 'package:flutter_squad/flutter_squad.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -126,54 +127,46 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final String text = 'Generated Link code here';
 
   //PLACE ORDER
-
   void _placeOrder() async {
-    DateTime now = DateTime.now();
-    String formattedDateAndTime = formatDateAndTime(now);
-
-    Map<String, dynamic> monnifyPayload() {
-      return {
-        "amount": _totalPrice,
-        "currency": _currency,
-        "reference": formattedDateAndTime,
-        "customerFullName": "$_userFirstName $_userLastName",
-        "customerEmail": "$_userEmail",
-        "apiKey": monnifyApiKey,
-        "contractCode": monnifyContractCode,
-        "paymentDescription": _paymentDescription,
-        "final metadata": {"name": "$_userFirstName", "age": 23},
-        // "incomeSplitConfig": [
-        //   {
-        //     "subAccountCode": "MFY_SUB_342113621921",
-        //     "feePercentage": 50,
-        //     "splitAmount": 1900,
-        //     "feeBearer": true
-        //   },
-        //   {
-        //     "subAccountCode": "MFY_SUB_342113621922",
-        //     "feePercentage": 50,
-        //     "splitAmount": 2100,
-        //     "feeBearer": true
-        //   }
-        // ],
-        "paymentMethod": ["CARD", "ACCOUNT_TRANSFER", "USSD", "PHONE_NUMBER"],
-      };
-    }
-
-    TransactionResponse? response = await Monnify().checkout(
+    SquadTransactionResponse? response = await Squad.checkout(
       context,
-      monnifyPayload(),
+      charge(),
+      sandbox: true,
+      showAppbar: true,
       appBar: AppBarConfig(
-          titleColor: kPrimaryColor, backgroundColor: kAccentColor),
-      toast: ToastConfig(color: kBlackColor, backgroundColor: kAccentColor),
-      displayToast: false,
+        color: kAccentColor,
+        leadingIcon: const FaIcon(FontAwesomeIcons.solidCircleXmark),
+      ),
     );
+    debugPrint(
+        "Squad transaction completed======>${response?.toJson().toString()}");
+  }
 
-    //call the backend to verify transaction status before providing value
-    if (kDebugMode) {
-      print("Future completed======>${response?.toJson().toString()}");
-      print("Future completed11======>${response?.message.toString()}");
-    }
+  Charge charge() {
+    return Charge(
+      amount: _totalPrice.toInt() * 100,
+      publicKey: "sandbox_pk_f875813b167c9425ee6476078b56f0a0b57609b39e2c",
+      email: "$_userEmail",
+      currencyCode: _currency,
+      transactionRef: "BENJI-PYM-${generateRandomString(10)}",
+      paymentChannels: ["card", "bank", "ussd", "transfer"],
+      customerName: "$_userFirstName $_userLastName",
+      callbackUrl: null,
+      metadata: {"name": _userFirstName, "age": 23},
+      passCharge: true,
+    );
+  }
+
+  String generateRandomString(int len) {
+    const chars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random rnd = Random();
+    return String.fromCharCodes(
+      Iterable.generate(
+        len,
+        (_) => chars.codeUnitAt(rnd.nextInt(chars.length)),
+      ),
+    );
   }
 
   void _toHomeScreen() => Get.offAll(
@@ -566,9 +559,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             : MyElevatedButton(
                                 title:
                                     "Place Order - ₦${formattedText(_totalPrice)}",
-                                onPressed: () {
-                                  _placeOrder();
-                                },
+                                onPressed: _placeOrder,
                               ),
                         kSizedBox,
                       ],

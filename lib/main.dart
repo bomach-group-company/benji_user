@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:upgrader/upgrader.dart';
 
 import 'src/providers/controllers.dart';
 import 'src/providers/fcm_messaging.dart';
@@ -20,9 +19,6 @@ void main() async {
     const SystemUiOverlayStyle(statusBarColor: kTransparentColor),
   );
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Only call clearSavedSettings() during testing to reset internal values.
-  await Upgrader.clearSavedSettings(); // REMOVE this for release builds
 
   prefs = await SharedPreferences.getInstance();
   if (!kIsWeb) {
@@ -54,11 +50,9 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       //This is the home route
-      home: UpgradeAlert(
-        child: WillPopScope(
-          onWillPop: () => _showExitConfirmationDialog(context),
-          child: const StartupSplashscreen(),
-        ),
+      home: WillPopScope(
+        onWillPop: () => _showExitConfirmationDialog(context),
+        child: const StartupSplashscreen(),
       ),
       // initialRoute: AppRoutes.startupSplashscreen,
       // getPages: AppRoutes.routes,

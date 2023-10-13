@@ -3,9 +3,8 @@
 import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_monnify/flutter_monnify.dart';
+// import 'package:flutter_monnify/flutter_monnify.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
@@ -204,14 +203,14 @@ class _PayForDeliveryState extends State<PayForDelivery> {
       };
     }
 
-    TransactionResponse? response = await Monnify().checkout(
-      context,
-      monnifyPayload(),
-      appBar: AppBarConfig(
-          titleColor: kPrimaryColor, backgroundColor: kAccentColor),
-      toast: ToastConfig(color: kBlackColor, backgroundColor: kAccentColor),
-      displayToast: false,
-    );
+    // TransactionResponse? response = await Monnify().checkout(
+    //   context,
+    //   monnifyPayload(),
+    //   appBar: AppBarConfig(
+    //       titleColor: kPrimaryColor, backgroundColor: kAccentColor),
+    //   toast: ToastConfig(color: kBlackColor, backgroundColor: kAccentColor),
+    //   displayToast: false,
+    // );
     //     .then(
     //   (value) async {
     //     bool res = await createDeliveryItem(
@@ -266,10 +265,10 @@ class _PayForDeliveryState extends State<PayForDelivery> {
     // );
 
     //call the backend to verify transaction status before providing value
-    if (kDebugMode) {
-      print("Future completed======>${response?.toJson().toString()}");
-      print("Future completed11======>${response?.message.toString()}");
-    }
+    // if (kDebugMode) {
+    //   print("Future completed======>${response?.toJson().toString()}");
+    //   print("Future completed11======>${response?.message.toString()}");
+    // }
   }
 
   //===================== Scroll to Top ==========================\\
