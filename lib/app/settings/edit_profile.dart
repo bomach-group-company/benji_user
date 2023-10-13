@@ -142,7 +142,6 @@ class _EditProfileState extends State<EditProfile> {
           elevation: 0.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         bottomNavigationBar: _isLoading
             ? Center(

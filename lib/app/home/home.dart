@@ -405,6 +405,9 @@ class _HomeState extends State<Home> {
           automaticallyImplyLeading: false,
           titleSpacing: 0,
           elevation: 0.0,
+          toolbarHeight: deviceType(media.width) >= 3
+              ? kToolbarHeight * 1.2
+              : kToolbarHeight,
           title: Row(
             children: [
               Builder(

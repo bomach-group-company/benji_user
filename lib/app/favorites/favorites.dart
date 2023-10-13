@@ -169,7 +169,6 @@ class _FavoritesState extends State<Favorites>
           elevation: 0.0,
           actions: const [CartCard(), kHalfWidthSizedBox],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,

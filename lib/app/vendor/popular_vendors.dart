@@ -129,7 +129,6 @@ class _PopularVendorsState extends State<PopularVendors> {
         appBar: MyAppBar(
           elevation: 0.0,
           title: "Popular Vendors ",
-          toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
           actions: const [],
         ),

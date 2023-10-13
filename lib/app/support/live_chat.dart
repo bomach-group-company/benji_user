@@ -84,7 +84,6 @@ class _LiveChatState extends State<LiveChat> {
         elevation: 0,
         actions: const [],
         backgroundColor: kPrimaryColor,
-        toolbarHeight: kToolbarHeight,
       ),
       extendBody: true,
       extendBodyBehindAppBar: true,

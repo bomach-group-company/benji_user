@@ -55,7 +55,6 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
         elevation: 0.0,
         actions: const [],
         backgroundColor: kPrimaryColor,
-        toolbarHeight: kToolbarHeight,
       ),
       body: SafeArea(
         child: Column(

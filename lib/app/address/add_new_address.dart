@@ -243,7 +243,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
         appBar: MyAppBar(
           elevation: 0.0,
           title: "New Address ",
-          toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
           actions: const [],
         ),

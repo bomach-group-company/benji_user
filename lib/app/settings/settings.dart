@@ -307,7 +307,6 @@ class _SettingsState extends State<Settings> {
         elevation: 0.0,
         actions: const [],
         backgroundColor: kPrimaryColor,
-        toolbarHeight: kToolbarHeight,
       ),
       extendBody: true,
       extendBodyBehindAppBar: true,

@@ -253,7 +253,6 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
         appBar: MyAppBar(
           elevation: 0.0,
           title: "Edit Address ",
-          toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
           actions: const [],
         ),

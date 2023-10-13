@@ -361,7 +361,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ),
             ],
             backgroundColor: kPrimaryColor,
-            toolbarHeight: kToolbarHeight,
           ),
           floatingActionButton: _isScrollToTopBtnVisible
               ? FloatingActionButton(

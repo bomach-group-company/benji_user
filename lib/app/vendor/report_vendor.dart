@@ -112,7 +112,6 @@ class _ReportVendorState extends State<ReportVendor> {
           elevation: 0.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         bottomSheet: _submittingRequest
             ? SizedBox(

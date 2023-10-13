@@ -145,7 +145,6 @@ class _PackagesState extends State<Packages>
             ),
           ],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         extendBody: true,
         extendBodyBehindAppBar: true,

@@ -119,7 +119,6 @@ class _ReportPackageState extends State<ReportPackage> {
           elevation: 0.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         bottomSheet: _submittingReport
             ? SizedBox(

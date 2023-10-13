@@ -81,7 +81,6 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
         elevation: 0,
         actions: const [],
         backgroundColor: kPrimaryColor,
-        toolbarHeight: kToolbarHeight,
       ),
       extendBody: true,
       extendBodyBehindAppBar: true,
