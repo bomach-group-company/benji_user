@@ -625,6 +625,7 @@ class _SettingsState extends State<Settings> {
                           ? "Disable push notifications"
                           : "Enable push notifications",
                       icon: AnimatedSwitch(
+                        value: notificationsIsOn,
                         onTap: notificationFunc,
                         onChanged: (bool state) async {
                           if (kDebugMode) {

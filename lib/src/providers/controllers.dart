@@ -23,11 +23,11 @@ class LatLngDetailController extends GetxController {
 
 enableNotifications(bool status) async {
   await NotificationController.initializeNotification();
+  await setNotificationStatus(true);
 }
 
 disableNotifications(bool status) async {
-  await AwesomeNotifications().cancelAll();
-  await AwesomeNotifications().dispose();
+  await setNotificationStatus(false);
 }
 
 bool isNotificationEnabled() {
