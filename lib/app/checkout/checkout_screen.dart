@@ -51,7 +51,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   String? _userFirstName;
   String? _userLastName;
   String? _userEmail;
-  final String _paymentDescription = "Benji app product purchase";
+  // final String _paymentDescription = "Benji app product purchase";
   final String _currency = "NGN";
 
   //===================== GlobalKeys =======================\\
@@ -112,6 +112,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       _subTotal += (item.price * cartItems[item.id]);
     }
 
+    serviceFee = (_subTotal + deliveryFee) * 0.010101;
+
+    serviceFee = min(double.parse(serviceFee.toStringAsFixed(2)), 1500);
+
     _totalPrice = _subTotal + deliveryFee + serviceFee;
 
     setState(() {
@@ -132,7 +136,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       context,
       charge(),
       sandbox: true,
-      showAppbar: true,
+      showAppbar: false,
       appBar: AppBarConfig(
         color: kAccentColor,
         leadingIcon: const FaIcon(FontAwesomeIcons.solidCircleXmark),
@@ -144,7 +148,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Charge charge() {
     return Charge(
-      amount: _totalPrice.toInt() * 100,
+      amount: (_subTotal * 100).toInt() + (deliveryFee * 100).toInt(),
       publicKey: "sandbox_pk_f875813b167c9425ee6476078b56f0a0b57609b39e2c",
       email: "$_userEmail",
       currencyCode: _currency,

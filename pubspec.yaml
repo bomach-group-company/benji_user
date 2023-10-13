@@ -45,7 +45,6 @@ dependencies:
   screenshot: ^2.1.0
   path_provider: ^2.1.1
   pdf: ^3.10.4
-  # flutter_monnify: ^0.0.3
   http_parser: ^4.0.2
   agora_uikit:
   carousel_slider: ^4.2.1

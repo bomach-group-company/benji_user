@@ -131,7 +131,7 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
+    var media = MediaQuery.of(context).size;
 
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
@@ -183,7 +183,7 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                       kSizedBox,
                       Container(
-                        width: mediaWidth,
+                        width: media.width,
                         height: 50,
                         padding: const EdgeInsets.all(10),
                         decoration: ShapeDecoration(
@@ -262,7 +262,7 @@ class _CartScreenState extends State<CartScreen> {
                         rowGap: kDefaultPadding / 2,
                         columnGap: kDefaultPadding / 2,
                         columnSizes: breakPointDynamic(
-                            mediaWidth,
+                            media.width,
                             [1.fr],
                             [1.fr, 1.fr],
                             [1.fr, 1.fr, 1.fr],
