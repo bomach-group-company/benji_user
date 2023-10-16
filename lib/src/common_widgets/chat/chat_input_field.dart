@@ -3,20 +3,6 @@ import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ChatBody extends StatelessWidget {
-  const ChatBody({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        Spacer(),
-        ChatInputField(),
-      ],
-    );
-  }
-}
-
 class ChatInputField extends StatelessWidget {
   const ChatInputField({super.key});
 

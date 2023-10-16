@@ -25,6 +25,8 @@ class _OrdersHistoryState extends State<OrdersHistory> {
   void initState() {
     super.initState();
     checkAuth(context);
+    _scrollController.addListener(_scrollListener);
+
     _orders = _getOrders();
   }
 
@@ -79,8 +81,6 @@ class _OrdersHistoryState extends State<OrdersHistory> {
   Future<void> _handleRefresh() async {
     setState(() {
       _orders = _getOrders();
-
-      _scrollController.addListener(_scrollListener);
     });
   }
   //========================================================================\\
