@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:benji/app/address/deliver_to.dart';
 import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
@@ -113,7 +115,7 @@ class _CartScreenState extends State<CartScreen> {
       context,
       kSuccessColor,
       "Cart Cleared!",
-      "Cart items removed",
+      "Items removed successfully",
       const Duration(
         seconds: 1,
       ),
