@@ -644,7 +644,7 @@ class _SendPackageState extends State<SendPackage> {
               kHalfSizedBox,
               ItemDropDownMenu(
                 itemEC: _itemCategoryEC,
-                mediaWidth: mediaWidth,
+                mediaWidth: mediaWidth - 70,
                 hintText: "Choose category",
                 dropdownMenuEntries2: _category
                     .map(
@@ -664,7 +664,7 @@ class _SendPackageState extends State<SendPackage> {
               kHalfSizedBox,
               ItemDropDownMenu(
                 itemEC: _itemWeightEC,
-                mediaWidth: mediaWidth,
+                mediaWidth: mediaWidth - 70,
                 hintText: "Choose weight",
                 dropdownMenuEntries2: _weight
                     .map(
