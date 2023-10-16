@@ -1,5 +1,6 @@
 import 'package:benji/app/packages/item_category_dropdown_menu.dart';
 import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
@@ -32,13 +33,16 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
   }
 
 //============================================== ALL VARIABLES =================================================\\
+  final _orders = ['#564895', '#86214', '#552255'];
+  final _products = ['item1', 'item2', 'itemn'];
 
 //============================================== BOOL VALUES =================================================\\
 
 //============================================== CONTROLLERS =================================================\\
   final _scrollController = ScrollController();
   final _itemOrderEC = TextEditingController();
-  final _orders = ['one', 'two', 'five'];
+  final _itemProductEC = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
 //============================================== NAVIGATION =================================================\\
 
@@ -90,48 +94,80 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
         maintainBottomViewPadding: true,
         child: Scrollbar(
           controller: _scrollController,
-          child: ListView(
-            controller: _scrollController,
-            padding: const EdgeInsets.all(10),
-            physics: const BouncingScrollPhysics(),
-            children: [
-              Center(
-                child: Lottie.asset(
-                  "assets/animations/help_and_support/frame_1.json",
-                  height: 250,
-                  fit: BoxFit.contain,
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              controller: _scrollController,
+              padding: const EdgeInsets.all(10),
+              physics: const BouncingScrollPhysics(),
+              children: [
+                Center(
+                  child: Lottie.asset(
+                    "assets/animations/help_and_support/frame_1.json",
+                    height: 250,
+                    fit: BoxFit.contain,
+                  ),
                 ),
-              ),
-              const Text(
-                "Fill the form",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: kTextBlackColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
+                const Text(
+                  "Fill the form",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: kTextBlackColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-              kSizedBox,
-              const Text(
-                "Select Order",
-                style: TextStyle(
-                  fontSize: 17.6,
-                  fontWeight: FontWeight.w400,
+                kSizedBox,
+                const Text(
+                  "Select Order",
+                  style: TextStyle(
+                    fontSize: 17.6,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-              ),
-              kHalfSizedBox,
-              ItemDropDownMenu(
-                itemEC: _itemOrderEC,
-                mediaWidth: media.width - 20,
-                hintText: "Choose order",
-                dropdownMenuEntries2: _orders
-                    .map((item) => DropdownMenuEntry(
-                          value: item,
-                          label: item,
-                        ))
-                    .toList(),
-              ),
-            ],
+                kHalfSizedBox,
+                ItemDropDownMenu(
+                  itemEC: _itemOrderEC,
+                  mediaWidth: media.width - 20,
+                  hintText: "Choose order",
+                  dropdownMenuEntries2: _orders
+                      .map((item) => DropdownMenuEntry(
+                            value: item,
+                            label: item,
+                          ))
+                      .toList(),
+                ),
+                kSizedBox,
+                const Text(
+                  "Select Product",
+                  style: TextStyle(
+                    fontSize: 17.6,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                kHalfSizedBox,
+                ItemDropDownMenu(
+                  itemEC: _itemProductEC,
+                  mediaWidth: media.width - 20,
+                  hintText: "Choose product",
+                  dropdownMenuEntries2: _products
+                      .map((item) => DropdownMenuEntry(
+                            value: item,
+                            label: item,
+                          ))
+                      .toList(),
+                ),
+                kSizedBox,
+                MyElevatedButton(
+                  title: 'Start chat',
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      // do someting
+                    }
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),
