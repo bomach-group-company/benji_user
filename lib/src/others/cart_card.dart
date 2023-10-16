@@ -57,7 +57,7 @@ class _CartCardState extends State<CartCard> {
               splashRadius: 20,
               icon: Icon(
                 Icons.shopping_cart_outlined,
-                size: deviceType(mediaWidth) > 2 ? 36 : 28,
+                size: 28,
                 color: kAccentColor,
               ),
             ),
@@ -66,8 +66,8 @@ class _CartCardState extends State<CartCard> {
             top: 5,
             right: 5,
             child: Container(
-              height: deviceType(mediaWidth) > 2 ? 22 : 20,
-              width: deviceType(mediaWidth) > 2 ? 22 : 20,
+              height: 20,
+              width: 20,
               decoration: ShapeDecoration(
                 color: kAccentColor,
                 shape: RoundedRectangleBorder(
@@ -85,7 +85,7 @@ class _CartCardState extends State<CartCard> {
                         snapshot.data!,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: deviceType(mediaWidth) > 2 ? 12 : 9,
+                          fontSize: 9,
                           fontWeight: FontWeight.w400,
                         ),
                       );
