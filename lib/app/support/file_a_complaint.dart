@@ -1,3 +1,4 @@
+import 'package:benji/app/support/select_order_product.dart';
 import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
 import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
 import 'package:flutter/material.dart';
@@ -41,13 +42,24 @@ class _FileAComplaintState extends State<FileAComplaint> {
   void _toHomePage() => Get.offAll(
         () => const Home(),
         routeName: 'Home',
-        duration: const Duration(milliseconds: 1000),
+        duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
         predicate: (route) => false,
         popGesture: true,
         transition: Transition.cupertinoDialog,
       );
+
+  void _toSelectOrderProductPage() => Get.to(
+        () => const SelectOrderProduct(),
+        routeName: 'SelectOrderProduct',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -131,7 +143,7 @@ class _FileAComplaintState extends State<FileAComplaint> {
               ),
               kSizedBox,
               InkWell(
-                onTap: () {},
+                onTap: _toSelectOrderProductPage,
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
                   width: media.width,

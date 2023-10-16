@@ -405,9 +405,7 @@ class _HomeState extends State<Home> {
           automaticallyImplyLeading: false,
           titleSpacing: 0,
           elevation: 0.0,
-          toolbarHeight: deviceType(media.width) >= 3
-              ? kToolbarHeight * 1.2
-              : kToolbarHeight,
+          toolbarHeight: kToolbarHeight,
           title: Row(
             children: [
               Builder(
@@ -420,7 +418,7 @@ class _HomeState extends State<Home> {
                     "assets/icons/drawer-icon.png",
                     color: kAccentColor,
                     fit: BoxFit.cover,
-                    height: deviceType(media.width) > 2 ? 36 : 20,
+                    height: deviceType(media.width) > 2 ? 25 : 20,
                   ),
                 ),
               ),
@@ -451,7 +449,7 @@ class _HomeState extends State<Home> {
               icon: FaIcon(
                 FontAwesomeIcons.magnifyingGlass,
                 color: kAccentColor,
-                size: deviceType(media.width) > 2 ? 30 : 24,
+                size: 24,
               ),
             ),
             // ignore: prefer_const_constructors

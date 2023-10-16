@@ -197,124 +197,127 @@ class _CartScreenState extends State<CartScreen> {
                   controller: _scrollController,
                   radius: const Radius.circular(10),
                   scrollbarOrientation: ScrollbarOrientation.right,
-                  child: ListView(
-                    controller: _scrollController,
-                    padding: const EdgeInsets.all(kDefaultPadding / 2),
-                    physics: const BouncingScrollPhysics(),
-                    children: [
-                      Text(
-                        "Cart Summary".toUpperCase(),
-                        style: TextStyle(
-                          color: kTextGreyColor,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      kSizedBox,
-                      Container(
-                        width: media.width,
-                        height: 50,
-                        padding: const EdgeInsets.all(10),
-                        decoration: ShapeDecoration(
-                          color: kPrimaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          shadows: const [
-                            BoxShadow(
-                              color: Color(0x0F000000),
-                              blurRadius: 24,
-                              offset: Offset(0, 4),
-                              spreadRadius: 0,
-                            )
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: _data!.isEmpty
+                      ? const EmptyCard()
+                      : ListView(
+                          controller: _scrollController,
+                          padding: const EdgeInsets.all(kDefaultPadding / 2),
+                          physics: const BouncingScrollPhysics(),
                           children: [
-                            const Text(
-                              "Subtotal",
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
                             Text(
-                              "₦ ${formattedText(_subTotal)}",
-                              style: const TextStyle(
-                                color: kTextBlackColor,
-                                fontFamily: 'sen',
-                                fontWeight: FontWeight.w700,
+                              "Cart Summary".toUpperCase(),
+                              style: TextStyle(
+                                color: kTextGreyColor,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
+                            kSizedBox,
+                            Container(
+                              width: media.width,
+                              height: 50,
+                              padding: const EdgeInsets.all(10),
+                              decoration: ShapeDecoration(
+                                color: kPrimaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                shadows: const [
+                                  BoxShadow(
+                                    color: Color(0x0F000000),
+                                    blurRadius: 24,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    "Subtotal",
+                                    style: TextStyle(
+                                      color: kTextBlackColor,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  Text(
+                                    "₦ ${formattedText(_subTotal)}",
+                                    style: const TextStyle(
+                                      color: kTextBlackColor,
+                                      fontFamily: 'sen',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            kSizedBox,
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "Cart".toUpperCase(),
+                                    style: TextStyle(
+                                      color: kTextGreyColor,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: "(",
+                                    style: TextStyle(
+                                      color: kTextGreyColor,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: formattedText(_itemCount.toDouble())
+                                        .toUpperCase(),
+                                    style: const TextStyle(
+                                      color: kTextBlackColor,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: ")",
+                                    style: TextStyle(
+                                      color: kTextGreyColor,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            kSizedBox,
+                            LayoutGrid(
+                              rowGap: kDefaultPadding / 2,
+                              columnGap: kDefaultPadding / 2,
+                              columnSizes: breakPointDynamic(
+                                  media.width,
+                                  [1.fr],
+                                  [1.fr, 1.fr],
+                                  [1.fr, 1.fr, 1.fr],
+                                  [1.fr, 1.fr, 1.fr, 1.fr]),
+                              rowSizes: _data!.isEmpty
+                                  ? [auto]
+                                  : List.generate(
+                                      _data!.length, (index) => auto),
+                              children: (_data as List<Product>)
+                                  .map(
+                                    (item) => ProductCartContainer(
+                                      decrementQuantity: () =>
+                                          decrementQuantity(item),
+                                      incrementQuantity: () =>
+                                          incrementQuantity(item),
+                                      product: item,
+                                      onTap: () => _toProductDetailScreen(item),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                            const SizedBox(height: kDefaultPadding * 5),
                           ],
                         ),
-                      ),
-                      kSizedBox,
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: "Cart".toUpperCase(),
-                              style: TextStyle(
-                                color: kTextGreyColor,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "(",
-                              style: TextStyle(
-                                color: kTextGreyColor,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            TextSpan(
-                              text: formattedText(_itemCount.toDouble())
-                                  .toUpperCase(),
-                              style: const TextStyle(
-                                color: kTextBlackColor,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            TextSpan(
-                              text: ")",
-                              style: TextStyle(
-                                color: kTextGreyColor,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      kSizedBox,
-                      LayoutGrid(
-                        rowGap: kDefaultPadding / 2,
-                        columnGap: kDefaultPadding / 2,
-                        columnSizes: breakPointDynamic(
-                            media.width,
-                            [1.fr],
-                            [1.fr, 1.fr],
-                            [1.fr, 1.fr, 1.fr],
-                            [1.fr, 1.fr, 1.fr, 1.fr]),
-                        rowSizes: _data!.isEmpty
-                            ? [auto]
-                            : List.generate(_data!.length, (index) => auto),
-                        children: (_data as List<Product>)
-                            .map(
-                              (item) => ProductCartContainer(
-                                decrementQuantity: () =>
-                                    decrementQuantity(item),
-                                incrementQuantity: () =>
-                                    incrementQuantity(item),
-                                product: item,
-                                onTap: () => _toProductDetailScreen(item),
-                              ),
-                            )
-                            .toList(),
-                      ),
-                      _data!.isEmpty ? const EmptyCard() : const SizedBox(),
-                      const SizedBox(height: kDefaultPadding * 5),
-                    ],
-                  ),
                 ),
         ),
       ),

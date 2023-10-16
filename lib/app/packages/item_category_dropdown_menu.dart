@@ -22,7 +22,7 @@ class ItemDropDownMenu extends StatelessWidget {
       onSelected: (value) {
         itemEC.text = value!.toString();
       },
-      width: mediaWidth / 1.28,
+      width: mediaWidth,
       hintText: hintText,
       inputDecorationTheme: InputDecorationTheme(
         errorStyle: const TextStyle(

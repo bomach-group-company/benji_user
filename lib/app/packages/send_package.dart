@@ -465,11 +465,11 @@ class _SendPackageState extends State<SendPackage> {
                 readOnly: true,
                 controller: _dropOffEC,
                 validator: (value) {
-                  RegExp pickupAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
+                  RegExp dropoffAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
                   if (value!.isEmpty || value == null) {
                     dropOffFN.requestFocus();
                     return "Enter drop-off location";
-                  } else if (!pickupAddress.hasMatch(value)) {
+                  } else if (!dropoffAddress.hasMatch(value)) {
                     dropOffFN.requestFocus();
                     return "Enter a valid address (must have a street number)";
                   }
@@ -480,7 +480,7 @@ class _SendPackageState extends State<SendPackage> {
                 },
                 textInputAction: TextInputAction.done,
                 focusNode: dropOffFN,
-                hintText: "Pick location",
+                hintText: "Drop off location",
                 textInputType: TextInputType.text,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(kDefaultPadding),
@@ -644,7 +644,7 @@ class _SendPackageState extends State<SendPackage> {
               kHalfSizedBox,
               ItemDropDownMenu(
                 itemEC: _itemCategoryEC,
-                mediaWidth: mediaWidth,
+                mediaWidth: mediaWidth - 70,
                 hintText: "Choose category",
                 dropdownMenuEntries2: _category
                     .map(
@@ -664,7 +664,7 @@ class _SendPackageState extends State<SendPackage> {
               kHalfSizedBox,
               ItemDropDownMenu(
                 itemEC: _itemWeightEC,
-                mediaWidth: mediaWidth,
+                mediaWidth: mediaWidth - 70,
                 hintText: "Choose weight",
                 dropdownMenuEntries2: _weight
                     .map(
