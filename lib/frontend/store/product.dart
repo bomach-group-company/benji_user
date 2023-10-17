@@ -333,6 +333,9 @@ class _ProductPageState extends State<ProductPage> {
                                       ],
                                       children: (snapshot.data ?? [])
                                           .map((item) => MyCard(
+                                                refresh: () {
+                                                  setState(() {});
+                                                },
                                                 product: item,
                                                 navigateCategory: CategoryPage(
                                                   activeCategory:
@@ -376,6 +379,9 @@ class _ProductPageState extends State<ProductPage> {
                   orElse: () => snapshot.data!.first,
                 );
                 return MyCardLg(
+                  refresh: () {
+                    setState(() {});
+                  },
                   navigateCategory: CategoryPage(
                     activeSubCategory: data.subCategory,
                     activeCategory: data.subCategory.category,

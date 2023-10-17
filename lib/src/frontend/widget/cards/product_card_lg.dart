@@ -14,6 +14,7 @@ class MyCardLg extends StatefulWidget {
   final Function()? close;
   final Widget? navigateCategory;
   final bool visible;
+  final Function()? refresh;
 
   const MyCardLg({
     super.key,
@@ -22,6 +23,7 @@ class MyCardLg extends StatefulWidget {
     this.close,
     this.navigate,
     this.navigateCategory,
+    this.refresh,
   });
 
   @override
@@ -36,12 +38,12 @@ class _MyCardLgState extends State<MyCardLg> {
 
   Future<void> _cartAddFunction() async {
     await addToCart(widget.product.id.toString());
-    setState(() {});
+    widget.refresh == null ? setState(() {}) : widget.refresh!();
   }
 
   Future<void> _cartRemoveFunction() async {
     await removeFromCart(widget.product.id.toString());
-    setState(() {});
+    widget.refresh == null ? setState(() {}) : widget.refresh!();
   }
 
   Future<bool> _cartCount() async {
