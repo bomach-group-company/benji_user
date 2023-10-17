@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:benji/src/frontend/model/category.dart';
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 import '../utils/constant.dart';
@@ -61,7 +60,6 @@ Future<List<SubCategory>> fetchSubCategoryFilterByCategory(
     final int end = 9]) async {
   final response = await http.get(Uri.parse(
       '$baseFrontendUrl/sub_categories/filterSubCategoryByCategory?category_id=$categoryId&start=$start&end=$end'));
-  debugPrint(response.body);
   if (response.statusCode == 200) {
     return (jsonDecode(response.body)['items'] as List)
         .map((item) => SubCategory.fromJson(item))
