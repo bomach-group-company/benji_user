@@ -2,7 +2,7 @@ import 'package:benji/frontend/store/categories.dart';
 import 'package:benji/frontend/store/category.dart';
 import 'package:benji/frontend/store/product.dart';
 import 'package:benji/services/squad_integration.dart';
-import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
+import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/frontend/widget/cards/product_card_lg.dart';
 import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:benji/src/frontend/widget/section/hero.dart';
