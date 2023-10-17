@@ -120,13 +120,13 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {
                             SquadPopup.openSquadPopup(
                                 onClose: () {
-                                  debugPrint('emma');
+                                  debugPrint('emma onClose');
                                 },
                                 onLoad: () {
-                                  debugPrint('emma');
+                                  debugPrint('emma onLoad');
                                 },
                                 onSuccess: () {
-                                  debugPrint('emma');
+                                  debugPrint('emma onSuccess');
                                 },
                                 email: 'emmaa@gmail.com',
                                 amount: '100000',
