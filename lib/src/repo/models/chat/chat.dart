@@ -18,12 +18,6 @@ class ChatMessage {
 
 List demoChatMessages = [
   ChatMessage(
-    text: "Hi",
-    messageType: ChatMessageType.text,
-    messageStatus: MessageStatus.viewed,
-    isSender: false,
-  ),
-  ChatMessage(
     text: "Hello, how are you?",
     messageType: ChatMessageType.text,
     messageStatus: MessageStatus.viewed,
