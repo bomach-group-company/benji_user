@@ -65,6 +65,7 @@ dependencies:
   cached_network_image:
   flutter_native_image:
   chatview:
+  js: ^0.6.7
 
 dev_dependencies:
   flutter_test:
