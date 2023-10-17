@@ -2,8 +2,6 @@
 
 import 'dart:js' as js;
 
-import '../services/squad_interop.dart' as squad;
-
 class SquadPopup {
   static Future<void> openSquadPopup({
     required Function() onClose,
@@ -14,22 +12,16 @@ class SquadPopup {
     required String currencycode,
   }) async {
     js.context.callMethod(
-      squad.SquadPay(
-        js.allowInterop(
-          onClose,
-        ),
-        js.allowInterop(
-          onLoad,
-        ),
-        js.allowInterop(
-          onSuccess,
-        ),
+      'SquadPay',
+      [
+        onClose,
+        onLoad,
+        onSuccess,
         'sandbox_pk_416415c8a3d27e85e971a3d0475734442ffbb124b579',
         email,
         amount,
         currencycode,
-      ),
-      [],
+      ],
     );
   }
 }

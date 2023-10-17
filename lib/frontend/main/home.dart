@@ -128,8 +128,8 @@ class _HomePageState extends State<HomePage> {
                                 onSuccess: () {
                                   debugPrint('emma onSuccess');
                                 },
-                                email: 'emmaa@gmail.com',
-                                amount: '100000',
+                                email: 'emmaabb@gmail.com',
+                                amount: '5600000',
                                 currencycode: 'NGN');
                           },
                         ),
