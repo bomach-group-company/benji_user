@@ -10,9 +10,6 @@ async function SquadPay(onClose, onLoad, onSuccess, key, email, amount, currency
     customer_name: customername,
     // pass_charge: true,
   });
-  await squadInstance.setup();
-  await squadInstance.open();
-  console.dir(squadInstance.data);
-  console.dir(squadInstance.message);
-  return await squadInstance;
+  squadInstance.setup();
+  squadInstance.open();
 }

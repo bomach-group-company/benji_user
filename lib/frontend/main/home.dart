@@ -1,8 +1,6 @@
 import 'package:benji/frontend/store/categories.dart';
 import 'package:benji/frontend/store/category.dart';
 import 'package:benji/frontend/store/product.dart';
-import 'package:benji/services/squad_integration.dart';
-import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
 import 'package:benji/src/frontend/widget/cards/product_card_lg.dart';
 import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:benji/src/frontend/widget/section/hero.dart';
@@ -115,27 +113,6 @@ class _HomePageState extends State<HomePage> {
                     child: ListView(
                       physics: const BouncingScrollPhysics(),
                       children: [
-                        MyElevatedButton(
-                          title: 'click me',
-                          onPressed: () {
-                            SquadPopup.openSquadPopup(
-                              onClose: () {
-                                debugPrint('emma onClose');
-                              },
-                              onLoad: () {
-                                debugPrint('emma onLoad');
-                              },
-                              onSuccess: (resp) {
-                                debugPrint('emma onSuccess d $resp');
-                              },
-                              email: 'imamama@gmail.com',
-                              amount: '5600000',
-                              currencycode: 'NGN',
-                              customername: 'imamama',
-                            );
-                          },
-                        ),
-                        kSizedBox,
                         CarouselSlider(
                           carouselController: buttonCarouselController,
                           options: CarouselOptions(

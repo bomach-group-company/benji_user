@@ -7,13 +7,13 @@ class SquadPopup {
   static Future<void> openSquadPopup({
     required Function() onClose,
     required Function() onLoad,
-    required Function(String resp) onSuccess,
+    required Function(dynamic resp) onSuccess,
     required String email,
     required String amount,
     required String currencycode,
     required String customername,
   }) async {
-    dynamic resp = js.context.callMethod(
+    js.context.callMethod(
       'SquadPay',
       [
         onClose,
@@ -26,6 +26,5 @@ class SquadPopup {
         customername,
       ],
     );
-    print('holalaaakkkkknd $resp');
   }
 }
