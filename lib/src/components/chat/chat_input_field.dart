@@ -3,18 +3,21 @@ import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../providers/responsive_constant.dart';
+
 class ChatInputField extends StatelessWidget {
   const ChatInputField({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: kDefaultPadding / 2,
         vertical: kDefaultPadding / 2,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: kPrimaryColor,
         boxShadow: [
           BoxShadow(
             offset: const Offset(0, 4),
@@ -27,6 +30,8 @@ class ChatInputField extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {},
+            enableFeedback: true,
+            splashRadius: deviceType(media.width) > 2 ? 80 : 50,
             icon: FaIcon(
               FontAwesomeIcons.faceSmile,
               color: kAccentColor,
@@ -35,6 +40,8 @@ class ChatInputField extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {},
+            splashRadius: deviceType(media.width) > 2 ? 80 : 50,
+            enableFeedback: true,
             icon: FaIcon(
               FontAwesomeIcons.camera,
               size: 20,
@@ -54,6 +61,9 @@ class ChatInputField extends StatelessWidget {
               child: const TextField(
                 decoration: InputDecoration(
                   hintText: "Type a message",
+                  hintStyle: TextStyle(
+                    color: kGreyColor1,
+                  ),
                   border: InputBorder.none,
                 ),
               ),
@@ -61,6 +71,8 @@ class ChatInputField extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {},
+            splashRadius: deviceType(media.width) > 2 ? 80 : 50,
+            enableFeedback: true,
             icon: FaIcon(
               Icons.send,
               color: kAccentColor,

@@ -1,5 +1,5 @@
 import 'package:benji/app/product/product_detail_screen.dart';
-import 'package:benji/src/common_widgets/button/category_button.dart';
+import 'package:benji/src/components/button/category_button.dart';
 import 'package:benji/src/others/empty.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/models/category/sub_category.dart';
@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/product/product_card.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/product/product_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/product/product.dart';

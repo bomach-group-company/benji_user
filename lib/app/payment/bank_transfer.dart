@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/button/my_outlined_elevatedbutton.dart';
-import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
+import '../../src/components/button/my_outlined_elevatedbutton.dart';
+import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../splash_screens/payment_successful_screen.dart';

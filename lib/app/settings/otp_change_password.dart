@@ -7,10 +7,10 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/section/reusable_authentication_first_half.dart';
-import '../../src/common_widgets/snackbar/my_fixed_snack_bar.dart';
-import '../../src/common_widgets/textformfield/otp_textFormField.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/section/reusable_authentication_first_half.dart';
+import '../../src/components/snackbar/my_fixed_snack_bar.dart';
+import '../../src/components/textformfield/otp_textFormField.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';

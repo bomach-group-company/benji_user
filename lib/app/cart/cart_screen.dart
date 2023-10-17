@@ -1,10 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:benji/app/address/deliver_to.dart';
-import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
-import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
-import 'package:benji/src/common_widgets/product/cart_product_container.dart';
-import 'package:benji/src/common_widgets/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/components/appbar/my_appbar.dart';
+import 'package:benji/src/components/button/my_elevatedbutton.dart';
+import 'package:benji/src/components/product/cart_product_container.dart';
+import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';

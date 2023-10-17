@@ -1,13 +1,13 @@
-import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
-import 'package:benji/src/common_widgets/button/category_button.dart';
+import 'package:benji/src/components/appbar/my_appbar.dart';
+import 'package:benji/src/components/button/category_button.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/product/product_card.dart';
-import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
+import '../../src/components/product/product_card.dart';
+import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';

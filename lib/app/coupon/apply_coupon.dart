@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/button/my_elevatedbutton.dart';
-import '../../src/common_widgets/textformfield/my textformfield.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
+import '../../src/components/textformfield/my textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 

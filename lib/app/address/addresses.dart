@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/button/my_elevatedbutton.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/address/address_model.dart';

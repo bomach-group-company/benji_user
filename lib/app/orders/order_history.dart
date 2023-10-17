@@ -5,8 +5,8 @@ import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/section/track_order_details_container.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/section/track_order_details_container.dart';
 import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';

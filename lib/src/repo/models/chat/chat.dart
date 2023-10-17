@@ -18,15 +18,39 @@ class ChatMessage {
 
 List demoChatMessages = [
   ChatMessage(
-    text: "Hi",
+    text: "Hello, how are you?",
+    messageType: ChatMessageType.text,
+    messageStatus: MessageStatus.viewed,
+    isSender: true,
+  ),
+  ChatMessage(
+    text: "I'm good, how are you?",
     messageType: ChatMessageType.text,
     messageStatus: MessageStatus.viewed,
     isSender: false,
   ),
   ChatMessage(
-    text: "Hello, how are you?",
+    text: "I'm good as well",
     messageType: ChatMessageType.text,
     messageStatus: MessageStatus.viewed,
     isSender: true,
+  ),
+  ChatMessage(
+    text: "How's your day going?",
+    messageType: ChatMessageType.text,
+    messageStatus: MessageStatus.viewed,
+    isSender: true,
+  ),
+  ChatMessage(
+    text: "Oh it's going fine",
+    messageType: ChatMessageType.text,
+    messageStatus: MessageStatus.viewed,
+    isSender: false,
+  ),
+  ChatMessage(
+    text: "What about you??",
+    messageType: ChatMessageType.text,
+    messageStatus: MessageStatus.viewed,
+    isSender: false,
   ),
 ];

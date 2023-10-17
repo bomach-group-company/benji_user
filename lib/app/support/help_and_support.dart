@@ -1,4 +1,4 @@
-import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

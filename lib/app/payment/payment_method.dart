@@ -1,7 +1,7 @@
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 
-import '../../src/common_widgets/appbar/my_appbar.dart';
+import '../../src/components/appbar/my_appbar.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../theme/colors.dart';

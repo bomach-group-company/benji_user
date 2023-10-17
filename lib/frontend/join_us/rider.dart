@@ -1,10 +1,10 @@
 // ignore_for_file: invalid_use_of_protected_member, use_build_context_synchronously, unused_element
 
 import 'package:benji/app/address/get_location_on_map.dart';
-import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
-import 'package:benji/src/common_widgets/snackbar/my_floating_snackbar.dart';
-import 'package:benji/src/common_widgets/textformfield/my%20textformfield.dart';
-import 'package:benji/src/common_widgets/textformfield/my_maps_textformfield.dart';
+import 'package:benji/src/components/button/my_elevatedbutton.dart';
+import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/components/textformfield/my%20textformfield.dart';
+import 'package:benji/src/components/textformfield/my_maps_textformfield.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/providers/controllers.dart';
 import 'package:benji/src/repo/utils/base_url.dart';

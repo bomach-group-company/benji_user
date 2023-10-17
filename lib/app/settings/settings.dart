@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:animated_switch/animated_switch.dart';
 import 'package:benji/app/settings/change_password.dart';
-import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/providers/responsive_constant.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
+import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/others/my_future_builder.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/controllers.dart';

@@ -1,5 +1,5 @@
 import 'package:benji/app/packages/send_package.dart';
-import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/models/package/delivery_item.dart';
 import 'package:benji/src/repo/utils/helpers.dart';

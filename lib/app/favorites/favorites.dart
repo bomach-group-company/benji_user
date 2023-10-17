@@ -1,8 +1,8 @@
 // ignore_for_file: unused_local_variable
 import 'package:benji/app/vendor/vendor_details.dart';
-import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
-import 'package:benji/src/common_widgets/product/product_card.dart';
-import 'package:benji/src/common_widgets/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/components/appbar/my_appbar.dart';
+import 'package:benji/src/components/product/product_card.dart';
+import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:benji/src/repo/utils/favorite.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/vendor/vendors_card.dart';
+import '../../src/components/vendor/vendors_card.dart';
 import '../../src/others/cart_card.dart';
 import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';

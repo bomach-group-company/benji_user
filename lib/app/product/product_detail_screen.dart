@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:benji/src/common_widgets/textformfield/message_textformfield.dart';
+import 'package:benji/src/components/textformfield/message_textformfield.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/models/product/product.dart';
@@ -16,11 +16,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:readmore/readmore.dart';
 
-import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/button/my_elevatedbutton.dart';
-import '../../src/common_widgets/rating_view/customer_review_card.dart';
-import '../../src/common_widgets/section/rate_product_dialog.dart';
-import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
+import '../../src/components/rating_view/customer_review_card.dart';
+import '../../src/components/section/rate_product_dialog.dart';
+import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/others/cart_card.dart';
 import '../../src/others/empty.dart';
 import '../../src/providers/responsive_constant.dart';

@@ -2,7 +2,7 @@
 
 import 'dart:math';
 
-import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 
-import '../../src/common_widgets/button/my_elevatedbutton.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/user/user_model.dart';

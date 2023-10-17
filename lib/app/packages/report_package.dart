@@ -1,14 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:benji/src/common_widgets/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
 import '../../../src/providers/constants.dart';
-import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/button/my_elevatedbutton.dart';
-import '../../src/common_widgets/textformfield/message_textformfield.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
+import '../../src/components/textformfield/message_textformfield.dart';
 import '../../theme/colors.dart';
 
 class ReportPackage extends StatefulWidget {

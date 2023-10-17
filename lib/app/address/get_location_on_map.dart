@@ -15,9 +15,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/button/my_elevatedbutton.dart';
-import '../../src/common_widgets/textformfield/my textformfield.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
+import '../../src/components/textformfield/my textformfield.dart';
 import '../../theme/colors.dart';
 
 class GetLocationOnMap extends StatefulWidget {

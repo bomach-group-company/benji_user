@@ -10,10 +10,10 @@ import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../src/providers/constants.dart';
-import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/button/my_elevatedbutton.dart';
-import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
-import '../../src/common_widgets/textformfield/message_textformfield.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
+import '../../src/components/snackbar/my_floating_snackbar.dart';
+import '../../src/components/textformfield/message_textformfield.dart';
 import '../../theme/colors.dart';
 
 class ReportProduct extends StatefulWidget {
