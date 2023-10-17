@@ -119,18 +119,20 @@ class _HomePageState extends State<HomePage> {
                           title: 'click me',
                           onPressed: () {
                             SquadPopup.openSquadPopup(
-                                onClose: () {
-                                  debugPrint('emma onClose');
-                                },
-                                onLoad: () {
-                                  debugPrint('emma onLoad');
-                                },
-                                onSuccess: () {
-                                  debugPrint('emma onSuccess');
-                                },
-                                email: 'emmaabb@gmail.com',
-                                amount: '5600000',
-                                currencycode: 'NGN');
+                              onClose: () {
+                                debugPrint('emma onClose');
+                              },
+                              onLoad: () {
+                                debugPrint('emma onLoad');
+                              },
+                              onSuccess: (resp) {
+                                debugPrint('emma onSuccess d $resp');
+                              },
+                              email: 'imamama@gmail.com',
+                              amount: '5600000',
+                              currencycode: 'NGN',
+                              customername: 'imamama',
+                            );
                           },
                         ),
                         kSizedBox,

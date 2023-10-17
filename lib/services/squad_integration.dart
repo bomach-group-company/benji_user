@@ -1,17 +1,19 @@
 // ignore_for_file: avoid_web_libraries_in_flutter
 
 import 'dart:js' as js;
+// import 'package:js/js.dart' as js;
 
 class SquadPopup {
   static Future<void> openSquadPopup({
     required Function() onClose,
     required Function() onLoad,
-    required Function() onSuccess,
+    required Function(String resp) onSuccess,
     required String email,
     required String amount,
     required String currencycode,
+    required String customername,
   }) async {
-    js.context.callMethod(
+    dynamic resp = js.context.callMethod(
       'SquadPay',
       [
         onClose,
@@ -21,7 +23,9 @@ class SquadPopup {
         email,
         amount,
         currencycode,
+        customername,
       ],
     );
+    print('holalaaakkkkknd $resp');
   }
 }
