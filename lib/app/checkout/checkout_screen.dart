@@ -3,11 +3,14 @@
 import 'dart:math';
 
 import 'package:benji/app/home/home.dart';
+import 'package:benji/app/orders/track_order.dart';
+import 'package:benji/services/squad_integration.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_monnify/flutter_monnify.dart';
 import 'package:flutter_squad/flutter_squad.dart';
@@ -140,6 +143,34 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
     debugPrint(
       "Squad transaction completed======>${response?.toJson().toString()}",
+    );
+  }
+
+  void _placeOrderWeb() async {
+    SquadPopup.openSquadPopup(
+      onClose: () {
+        debugPrint('emma onClose');
+      },
+      onLoad: () {
+        debugPrint('emma onLoad');
+      },
+      onSuccess: (resp) {
+        debugPrint('emma onSuccess data $resp');
+        Get.to(
+          () => const TrackOrder(),
+          routeName: 'TrackOrder',
+          duration: const Duration(milliseconds: 300),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          preventDuplicates: true,
+          popGesture: true,
+          transition: Transition.rightToLeft,
+        );
+      },
+      email: 'emmachi@gmail.com',
+      amount: '77600000',
+      currencycode: 'NGN',
+      customername: 'emmachi',
     );
   }
 
@@ -558,7 +589,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             : MyElevatedButton(
                                 title:
                                     "Place Order - ₦${formattedText(_totalPrice)}",
-                                onPressed: _placeOrder,
+                                onPressed:
+                                    kIsWeb ? _placeOrderWeb : _placeOrder,
                               ),
                         kSizedBox,
                       ],

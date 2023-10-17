@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:benji/src/frontend/model/sub_category.dart';
 import 'package:benji/src/frontend/model/vendor.dart';
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 import '../utils/constant.dart';
@@ -94,7 +93,6 @@ Future<List<Product>> fetchProductFilterBySubCategory(
 Future<List<Product>> fetchProducts([final int limit = 8]) async {
   final response = await http
       .get(Uri.parse('$baseFrontendUrl/products/listProduct?limit=$limit'));
-  debugPrint(response.body);
   if (response.statusCode == 200) {
     return (jsonDecode(response.body)['items'] as List)
         .map((item) => Product.fromJson(item))
