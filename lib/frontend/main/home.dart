@@ -290,6 +290,9 @@ class _HomePageState extends State<HomePage> {
                                       children: (snapshot.data as List<Product>)
                                           .map(
                                             (item) => MyCard(
+                                              refresh: () {
+                                                setState(() {});
+                                              },
                                               product: item,
                                               navigateCategory: CategoryPage(
                                                 activeSubCategory:
@@ -372,6 +375,9 @@ class _HomePageState extends State<HomePage> {
                                       children: (snapshot.data as List<Product>)
                                           .map(
                                             (item) => MyCard(
+                                              refresh: () {
+                                                setState(() {});
+                                              },
                                               product: item,
                                               navigateCategory: CategoryPage(
                                                 activeSubCategory:
@@ -478,6 +484,9 @@ class _HomePageState extends State<HomePage> {
                                       children: (snapshot.data as List<Product>)
                                           .map(
                                             (item) => MyCard(
+                                              refresh: () {
+                                                setState(() {});
+                                              },
                                               product: item,
                                               navigateCategory: CategoryPage(
                                                 activeSubCategory:
@@ -690,6 +699,9 @@ class _HomePageState extends State<HomePage> {
                           orElse: () => productsData.first,
                         );
                         return MyCardLg(
+                          refresh: () {
+                            setState(() {});
+                          },
                           navigateCategory: CategoryPage(
                             activeSubCategory: data.subCategory,
                             activeCategory: data.subCategory.category,
