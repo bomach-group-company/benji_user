@@ -4,7 +4,7 @@ import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/rating_view/customer_review_card.dart';
+import '../../src/components/rating_view/customer_review_card.dart';
 import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
 import 'all_vendor_reviews.dart';

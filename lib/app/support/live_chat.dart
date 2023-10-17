@@ -1,7 +1,7 @@
-import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:flutter/material.dart';
 
-import '../../src/common_widgets/chat/chat_body.dart';
+import '../../src/components/chat/chat_body.dart';
 import '../../theme/colors.dart';
 
 class LiveChat extends StatelessWidget {
@@ -26,8 +26,6 @@ class LiveChat extends StatelessWidget {
         actions: const [],
         backgroundColor: kPrimaryColor,
       ),
-      extendBody: true,
-      extendBodyBehindAppBar: true,
       body: ChatBody(),
     );
   }

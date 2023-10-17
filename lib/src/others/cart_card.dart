@@ -4,7 +4,6 @@ import 'package:get/route_manager.dart';
 
 import '../../app/cart/cart_screen.dart';
 import '../../theme/colors.dart';
-import '../providers/responsive_constant.dart';
 
 class CartCard extends StatefulWidget {
   final String? cartCount;
@@ -45,7 +44,6 @@ class _CartCardState extends State<CartCard> {
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: _toCartScreen,
       child: Stack(
@@ -84,7 +82,7 @@ class _CartCardState extends State<CartCard> {
                       return Text(
                         snapshot.data!,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 9,
                           fontWeight: FontWeight.w400,
                         ),

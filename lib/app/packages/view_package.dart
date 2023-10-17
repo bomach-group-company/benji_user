@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/repo/models/package/delivery_item.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';

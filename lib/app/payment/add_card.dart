@@ -1,17 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../src/common_widgets/button/my_elevatedbutton.dart';
-import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
-import '../../src/common_widgets/textformfield/card_expiry_textformfield.dart';
-import '../../src/common_widgets/textformfield/flex_textfield.dart';
-import '../../src/common_widgets/textformfield/name_textformfield.dart';
-import '../../src/common_widgets/textformfield/number_textformfield.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
+import '../../src/components/snackbar/my_floating_snackbar.dart';
+import '../../src/components/textformfield/card_expiry_textformfield.dart';
+import '../../src/components/textformfield/flex_textfield.dart';
+import '../../src/components/textformfield/name_textformfield.dart';
+import '../../src/components/textformfield/number_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/credit_card/credit_card.dart';

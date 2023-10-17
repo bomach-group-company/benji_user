@@ -1,12 +1,12 @@
-import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
+import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/rating_view/customer_review_card.dart';
-import '../../src/common_widgets/section/rate_vendor_dialog.dart';
-import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/rating_view/customer_review_card.dart';
+import '../../src/components/section/rate_vendor_dialog.dart';
+import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../src/repo/models/rating/ratings.dart';

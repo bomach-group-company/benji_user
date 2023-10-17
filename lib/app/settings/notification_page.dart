@@ -1,10 +1,10 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
+import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 
-import '../../src/common_widgets/button/notification_button.dart';
+import '../../src/components/button/notification_button.dart';
 import '../../src/providers/controllers.dart';
 
 class NotificationPage extends StatefulWidget {

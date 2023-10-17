@@ -1,5 +1,5 @@
 import 'package:benji/app/product/product_detail_screen.dart';
-import 'package:benji/src/common_widgets/product/product_card.dart';
+import 'package:benji/src/components/product/product_card.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:flutter/material.dart';

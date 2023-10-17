@@ -1,10 +1,10 @@
-import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
+import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/appbar/my_appbar.dart';
+import '../../src/components/appbar/my_appbar.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
 import '../home/home.dart';

@@ -29,7 +29,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     return AppBar(
       automaticallyImplyLeading: false,
       elevation: elevation,

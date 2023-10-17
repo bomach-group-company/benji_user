@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:benji/app/cart/cart_screen.dart';
 import 'package:benji/app/favorites/favorites.dart';
 import 'package:benji/app/support/help_and_support.dart';
-import 'package:benji/src/common_widgets/vendor/vendors_card.dart';
+import 'package:benji/src/components/vendor/vendors_card.dart';
 import 'package:benji/src/others/empty.dart';
 import 'package:benji/src/others/my_future_builder.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
@@ -20,16 +20,15 @@ import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../src/common_widgets/appbar/appbar_delivery_location.dart';
-import '../../src/common_widgets/product/product_card.dart';
-import '../../src/common_widgets/section/category_items.dart';
-import '../../src/common_widgets/section/custom_show_search.dart';
-import '../../src/common_widgets/section/see_all_container.dart';
-import '../../src/common_widgets/simple_item/category_item.dart';
-import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
+import '../../src/components/appbar/appbar_delivery_location.dart';
+import '../../src/components/product/product_card.dart';
+import '../../src/components/section/category_items.dart';
+import '../../src/components/section/custom_show_search.dart';
+import '../../src/components/section/see_all_container.dart';
+import '../../src/components/simple_item/category_item.dart';
+import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/others/cart_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/controllers.dart';
@@ -64,12 +63,7 @@ class _HomeState extends State<Home> {
     NotificationController.initializeNotification();
 
     _products = getProducts();
-    _category = getCategories()
-      ..then((value) {
-        if (value.isNotEmpty) {
-          activeCategory = value[0].id;
-        }
-      });
+    _category = getCategories();
     _vendors = getVendors();
     _popularVendors = getPopularVendors();
     _currentAddress = getCurrentAddress();
@@ -188,12 +182,7 @@ class _HomeState extends State<Home> {
   Future<void> _handleRefresh() async {
     setState(() {
       _products = getProducts();
-      _category = getCategories()
-        ..then((value) {
-          if (value.isNotEmpty) {
-            activeCategory = value[0].id;
-          }
-        });
+      _category = getCategories();
       _vendors = getVendors();
       _popularVendors = getPopularVendors();
       _currentAddress = getCurrentAddress();
@@ -618,6 +607,9 @@ class _HomeState extends State<Home> {
                             ],
                           );
                         }
+                        if (snapshot.hasError) {
+                          return const Text('Error occurred refresh');
+                        }
                         return LayoutGrid(
                           columnGap: 10,
                           rowGap: 10,
@@ -689,6 +681,9 @@ class _HomeState extends State<Home> {
                             ),
                           );
                         }
+                        if (snapshot.hasError) {
+                          return const Text('Error occurred refresh');
+                        }
                         return SizedBox(
                           height: 250,
                           width: media.width,
@@ -739,6 +734,9 @@ class _HomeState extends State<Home> {
                             height: 200,
                             width: media.width - 20,
                           );
+                        }
+                        if (snapshot.hasError) {
+                          return const Text('Error occurred refresh');
                         }
                         return LayoutGrid(
                           rowGap: kDefaultPadding / 2,
@@ -846,6 +844,9 @@ class _HomeState extends State<Home> {
                             ],
                           );
                         }
+                        if (snapshot.hasError) {
+                          return const Text('Error occurred refresh');
+                        }
                         return LayoutGrid(
                           columnGap: 10,
                           rowGap: 10,
@@ -900,27 +901,11 @@ class _HomeState extends State<Home> {
                   FutureBuilder(
                       future: _products,
                       builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return const Text('Error occurred refresh');
+                        }
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          if (snapshot.hasError) {
-                            return Center(
-                                child: Column(
-                              children: [
-                                Lottie.asset(
-                                  "assets/animations/error/frame_1.json",
-                                  fit: BoxFit.contain,
-                                ),
-                                const Text(
-                                  'An unexpected error occured',
-                                  style: TextStyle(
-                                    color: kTextBlackColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ));
-                          }
                           return CardSkeleton(
                             height: 200,
                             width: media.width - 20,
@@ -930,6 +915,7 @@ class _HomeState extends State<Home> {
                             removeButton: true,
                           );
                         }
+
                         return LayoutGrid(
                           rowGap: kDefaultPadding / 2,
                           columnGap: kDefaultPadding / 2,

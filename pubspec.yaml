@@ -64,7 +64,7 @@ dependencies:
   photo_view:
   cached_network_image:
   flutter_native_image:
-  chatview:
+  chat_bubbles:
 
 dev_dependencies:
   flutter_test:

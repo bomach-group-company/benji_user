@@ -1,15 +1,11 @@
 import 'package:benji/app/packages/item_category_dropdown_menu.dart';
-import 'package:benji/src/common_widgets/appbar/my_appbar.dart';
-import 'package:benji/src/common_widgets/button/my_elevatedbutton.dart';
+import 'package:benji/src/components/appbar/my_appbar.dart';
+import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../src/providers/constants.dart';
-import 'faqs.dart';
-import 'file_a_complaint.dart';
-import 'live_chat.dart';
 
 class SelectOrderProduct extends StatefulWidget {
   const SelectOrderProduct({super.key});
@@ -46,37 +42,37 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
 
 //============================================== NAVIGATION =================================================\\
 
-  void _toFAQsPage() => Get.to(
-        () => const FAQs(),
-        routeName: 'FAQs',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  // void _toFAQsPage() => Get.to(
+  //       () => const FAQs(),
+  //       routeName: 'FAQs',
+  //       duration: const Duration(milliseconds: 300),
+  //       fullscreenDialog: true,
+  //       curve: Curves.easeIn,
+  //       preventDuplicates: true,
+  //       popGesture: true,
+  //       transition: Transition.rightToLeft,
+  //     );
 
-  void _toFileAComplaint() => Get.to(
-        () => const FileAComplaint(),
-        routeName: 'FileAComplaint',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
-  void _toLiveChatPage() => Get.to(
-        () => const LiveChat(),
-        routeName: 'LiveChat',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  // void _toFileAComplaint() => Get.to(
+  //       () => const FileAComplaint(),
+  //       routeName: 'FileAComplaint',
+  //       duration: const Duration(milliseconds: 300),
+  //       fullscreenDialog: true,
+  //       curve: Curves.easeIn,
+  //       preventDuplicates: true,
+  //       popGesture: true,
+  //       transition: Transition.rightToLeft,
+  //     );
+  // void _toLiveChatPage() => Get.to(
+  //       () => const LiveChat(),
+  //       routeName: 'LiveChat',
+  //       duration: const Duration(milliseconds: 300),
+  //       fullscreenDialog: true,
+  //       curve: Curves.easeIn,
+  //       preventDuplicates: true,
+  //       popGesture: true,
+  //       transition: Transition.rightToLeft,
+  //     );
 
   @override
   Widget build(BuildContext context) {

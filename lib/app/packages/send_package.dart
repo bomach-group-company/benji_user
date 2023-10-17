@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:benji/app/address/get_location_on_map.dart';
-import 'package:benji/src/common_widgets/textformfield/my_maps_textformfield.dart';
+import 'package:benji/src/components/textformfield/my_maps_textformfield.dart';
 import 'package:benji/src/providers/controllers.dart';
 import 'package:benji/src/repo/models/package/item_category.dart';
 import 'package:benji/src/repo/models/package/item_weight.dart';
@@ -12,10 +12,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/textformfield/my textformfield.dart';
-import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
-import '../../src/common_widgets/textformfield/number_textformfield.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/textformfield/my textformfield.dart';
+import '../../src/components/textformfield/my_intl_phonefield.dart';
+import '../../src/components/textformfield/number_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import 'choose_rider.dart';

@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/section/custom_show_search.dart';
-import '../../src/common_widgets/section/rate_vendor_dialog.dart';
-import '../../src/common_widgets/snackbar/my_floating_snackbar.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/section/custom_show_search.dart';
+import '../../src/components/section/rate_vendor_dialog.dart';
+import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../src/providers/responsive_constant.dart';

@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable, non_constant_identifier_names, avoid_print, use_build_context_synchronously
 
-import 'package:benji/src/common_widgets/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/models/user/user_model.dart';
 import 'package:benji/src/repo/utils/base_url.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
@@ -9,10 +9,10 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/button/my_elevatedbutton.dart';
-import '../../src/common_widgets/textformfield/my_intl_phonefield.dart';
-import '../../src/common_widgets/textformfield/name_textformfield.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
+import '../../src/components/textformfield/my_intl_phonefield.dart';
+import '../../src/components/textformfield/name_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 

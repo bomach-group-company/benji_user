@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/appbar/my_appbar.dart';
-import '../../src/common_widgets/vendor/vendors_card.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/vendor/vendors_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/vendor/vendor.dart';
