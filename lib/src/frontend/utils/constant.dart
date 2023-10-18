@@ -1,8 +1,8 @@
-// const String baseFrontendUrl = 'https://resource.bgbot.app/api/v1/frontend';
-const String baseFrontendUrl = 'https://benji-app.onrender.com/api/v1/frontend';
+const String baseFrontendUrl = 'https://resource.bgbot.app/api/v1/frontend';
+// const String baseFrontendUrl = 'https://benji-app.onrender.com/api/v1/frontend';
 
-// const String mediaBaseFrontendUrl = 'https://resource.bgbot.app';
-const String mediaBaseFrontendUrl = 'https://benji-app.onrender.com';
+const String mediaBaseFrontendUrl = 'https://resource.bgbot.app';
+// const String mediaBaseFrontendUrl = 'https://benji-app.onrender.com';
 
 const double laptopSize = 992;
 const double tabletSize = 768;

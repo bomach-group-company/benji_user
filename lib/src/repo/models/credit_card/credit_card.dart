@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../../utils/constants.dart';
+import '../../utils/constant.dart';
 import '../../utils/helpers.dart';
 import '../user/user_model.dart';
 

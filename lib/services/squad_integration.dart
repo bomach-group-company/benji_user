@@ -2,7 +2,7 @@
 
 import 'dart:js' as js;
 
-import 'package:benji/src/repo/utils/constants.dart';
+import 'package:benji/src/repo/utils/constant.dart';
 // import 'package:js/js.dart' as js;
 
 class SquadPopup {

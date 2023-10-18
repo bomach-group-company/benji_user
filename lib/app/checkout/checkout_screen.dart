@@ -8,7 +8,7 @@ import 'package:benji/services/squad_integration.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
-import 'package:benji/src/repo/utils/constants.dart';
+import 'package:benji/src/repo/utils/constant.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
 import 'package:flutter/foundation.dart';

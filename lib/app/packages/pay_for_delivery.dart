@@ -16,7 +16,7 @@ import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/models/user/user_model.dart';
-import '../../src/repo/utils/constants.dart';
+import '../../src/repo/utils/constant.dart';
 import '../home/home.dart';
 
 class PayForDelivery extends StatefulWidget {

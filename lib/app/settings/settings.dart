@@ -18,7 +18,7 @@ import '../../src/others/my_future_builder.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/controllers.dart';
 import '../../src/repo/models/user/user_model.dart';
-import '../../src/repo/utils/constants.dart';
+import '../../src/repo/utils/constant.dart';
 import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import '../auth/login.dart';
