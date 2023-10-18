@@ -761,7 +761,7 @@ class _HomeState extends State<Home> {
                                     vendorName:
                                         item.shopName ?? 'Not Available',
                                     typeOfBusiness:
-                                        item.shopType!.name ?? 'Not Available',
+                                        item.shopType?.name ?? 'Not Available',
                                     rating:
                                         " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
                                     cardImage:

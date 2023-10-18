@@ -9,7 +9,7 @@ class MyCicleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       child: Column(
         children: [
           ClipRRect(
@@ -30,10 +30,9 @@ class MyCicleCard extends StatelessWidget {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 18,
-                // height: 2.4,
               ),
             ),
-          )
+          ),
         ],
       ),
     );
