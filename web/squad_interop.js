@@ -8,7 +8,7 @@ async function SquadPay(onClose, onLoad, onSuccess, key, email, amount, currency
     amount: amount,
     currency_code: currencycode,
     customer_name: customername,
-    // pass_charge: true,
+    pass_charge: true,
   });
   squadInstance.setup();
   squadInstance.open();

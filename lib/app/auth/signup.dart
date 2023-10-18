@@ -19,7 +19,7 @@ import '../../src/components/textformfield/name_textformfield.dart';
 import '../../src/components/textformfield/password_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
-import '../../src/repo/utils/base_url.dart';
+import '../../src/repo/utils/constants.dart';
 import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import '../splash_screens/signup_splash_screen.dart';

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:benji/src/repo/models/user/user_model.dart';
 import 'package:http/http.dart' as http;
 
-import '../../utils/base_url.dart';
+import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
 
 class Address {

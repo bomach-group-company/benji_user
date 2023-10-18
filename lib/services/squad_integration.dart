@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_web_libraries_in_flutter
 
 import 'dart:js' as js;
+
+import 'package:benji/src/repo/utils/constants.dart';
 // import 'package:js/js.dart' as js;
 
 class SquadPopup {
@@ -19,7 +21,7 @@ class SquadPopup {
         onClose,
         onLoad,
         onSuccess,
-        'sandbox_pk_416415c8a3d27e85e971a3d0475734442ffbb124b579',
+        squadPublicKey,
         email,
         amount,
         currencycode,
