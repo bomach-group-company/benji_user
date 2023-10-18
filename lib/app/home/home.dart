@@ -902,7 +902,8 @@ class _HomeState extends State<Home> {
                       future: _products,
                       builder: (context, snapshot) {
                         if (snapshot.hasError) {
-                          return const Text('Error occurred refresh');
+                          return const Text(
+                              'An unexpected error occurred, please refresh');
                         }
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
