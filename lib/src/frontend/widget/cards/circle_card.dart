@@ -25,9 +25,12 @@ class MyCicleCard extends StatelessWidget {
           Expanded(
             child: Text(
               text,
+              maxLines: 4,
+              softWrap: true,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 18,
-                height: 2.4,
+                // height: 2.4,
               ),
             ),
           )
