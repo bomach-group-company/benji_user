@@ -8,14 +8,14 @@ import 'package:lottie/lottie.dart';
 
 import '../../src/providers/constants.dart';
 
-class SelectOrderProduct extends StatefulWidget {
-  const SelectOrderProduct({super.key});
+class SelectOrder extends StatefulWidget {
+  const SelectOrder({super.key});
 
   @override
-  State<SelectOrderProduct> createState() => _SelectOrderProductState();
+  State<SelectOrder> createState() => _SelectOrderState();
 }
 
-class _SelectOrderProductState extends State<SelectOrderProduct> {
+class _SelectOrderState extends State<SelectOrder> {
   //================================================= INITIAL STATE AND DISPOSE =====================================================\\
   @override
   void initState() {
@@ -132,26 +132,6 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
                   mediaWidth: media.width - 20,
                   hintText: "Choose order",
                   dropdownMenuEntries2: _orders
-                      .map((item) => DropdownMenuEntry(
-                            value: item,
-                            label: item,
-                          ))
-                      .toList(),
-                ),
-                kSizedBox,
-                const Text(
-                  "Select Product",
-                  style: TextStyle(
-                    fontSize: 17.6,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                kHalfSizedBox,
-                ItemDropDownMenu(
-                  itemEC: _itemProductEC,
-                  mediaWidth: media.width - 20,
-                  hintText: "Choose product",
-                  dropdownMenuEntries2: _products
                       .map((item) => DropdownMenuEntry(
                             value: item,
                             label: item,

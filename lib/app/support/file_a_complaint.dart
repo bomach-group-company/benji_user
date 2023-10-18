@@ -1,3 +1,4 @@
+import 'package:benji/app/support/select_order.dart';
 import 'package:benji/app/support/select_order_product.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
@@ -60,6 +61,15 @@ class _FileAComplaintState extends State<FileAComplaint> {
         transition: Transition.rightToLeft,
       );
 
+  void _toSelectOrderPage() => Get.to(
+        () => const SelectOrder(),
+        routeName: 'SelectOrder',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -95,7 +105,7 @@ class _FileAComplaintState extends State<FileAComplaint> {
                     MyBreadcrumb(text: "File a Complaint", hasBeadcrumb: false),
               ),
               InkWell(
-                onTap: () {},
+                onTap: _toSelectOrderPage,
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
                   width: media.width,
@@ -175,54 +185,6 @@ class _FileAComplaintState extends State<FileAComplaint> {
                     ),
                     title: const Text(
                       "Report a product",
-                      style: TextStyle(
-                        color: kTextBlackColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    trailing: const FaIcon(
-                      FontAwesomeIcons.chevronRight,
-                      size: 16,
-                      color: kTextBlackColor,
-                    ),
-                  ),
-                ),
-              ),
-              kSizedBox,
-              InkWell(
-                onTap: () {},
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  width: media.width,
-                  decoration: ShapeDecoration(
-                    color: kPrimaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x0F000000),
-                        blurRadius: 24,
-                        offset: Offset(0, 4),
-                        spreadRadius: 0,
-                      ),
-                    ],
-                  ),
-                  child: ListTile(
-                    enableFeedback: true,
-                    leading: Container(
-                      height: 50,
-                      width: 50,
-                      alignment: Alignment.centerLeft,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/icons/store.png"),
-                        ),
-                      ),
-                    ),
-                    title: const Text(
-                      "Report a vendor",
                       style: TextStyle(
                         color: kTextBlackColor,
                         fontSize: 16,

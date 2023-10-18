@@ -8,7 +8,6 @@ import 'package:lottie/lottie.dart';
 import '../../src/providers/constants.dart';
 import 'faqs.dart';
 import 'file_a_complaint.dart';
-import 'live_chat.dart';
 
 class HelpAndSupport extends StatefulWidget {
   const HelpAndSupport({super.key});
@@ -54,16 +53,6 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
   void _toFileAComplaint() => Get.to(
         () => const FileAComplaint(),
         routeName: 'FileAComplaint',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
-  void _toLiveChatPage() => Get.to(
-        () => const LiveChat(),
-        routeName: 'LiveChat',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -191,54 +180,6 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
                     ),
                     title: const Text(
                       "File a complaint",
-                      style: TextStyle(
-                        color: kTextBlackColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    trailing: const FaIcon(
-                      FontAwesomeIcons.chevronRight,
-                      size: 16,
-                      color: kTextBlackColor,
-                    ),
-                  ),
-                ),
-              ),
-              kSizedBox,
-              InkWell(
-                onTap: _toLiveChatPage,
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  width: media.width,
-                  decoration: ShapeDecoration(
-                    color: kPrimaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x0F000000),
-                        blurRadius: 24,
-                        offset: Offset(0, 4),
-                        spreadRadius: 0,
-                      ),
-                    ],
-                  ),
-                  child: ListTile(
-                    enableFeedback: true,
-                    leading: Container(
-                      height: 50,
-                      width: 50,
-                      alignment: Alignment.centerLeft,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/icons/support.png"),
-                        ),
-                      ),
-                    ),
-                    title: const Text(
-                      "Live chat",
                       style: TextStyle(
                         color: kTextBlackColor,
                         fontSize: 16,

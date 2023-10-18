@@ -59,13 +59,10 @@ dependencies:
   flutter_chat_types:
   fluttertoast:
   flutter_squad: ^0.0.1
-  flutter_monnify:
   scroll_to_index:
   photo_view:
   cached_network_image:
   flutter_native_image:
-  chat_bubbles:
-  chatview:
   js: ^0.6.7
 
 dev_dependencies:
