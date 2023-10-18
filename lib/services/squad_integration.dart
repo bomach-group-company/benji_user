@@ -14,6 +14,7 @@ class SquadPopup {
     required String amount,
     required String currencycode,
     required String customername,
+    required Map metadata,
   }) async {
     js.context.callMethod(
       'SquadPay',
@@ -26,6 +27,7 @@ class SquadPopup {
         amount,
         currencycode,
         customername,
+        metadata
       ],
     );
   }

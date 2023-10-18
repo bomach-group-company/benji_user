@@ -175,6 +175,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           ((_subTotal * 100).toInt() + (deliveryFee * 100).toInt()).toString(),
       currencycode: 'NGN',
       customername: "${user?.firstName ?? ''} ${user?.lastName ?? ''}",
+      metadata: {"order_id": "order_id"},
     );
   }
 
@@ -188,7 +189,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       paymentChannels: ["card", "bank", "ussd", "transfer"],
       customerName: "${user?.firstName ?? ''} ${user?.lastName ?? ''}",
       callbackUrl: null,
-      // metadata: {"name": {user?.firstName ?? ''}, "age": 23},
+      metadata: {"order_id": "order_id"},
       passCharge: true,
     );
   }

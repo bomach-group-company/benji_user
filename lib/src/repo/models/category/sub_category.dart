@@ -49,6 +49,9 @@ Future<List<SubCategory>> getSubCategoriesBycategory(id) async {
   final response = await http.get(
       Uri.parse('$baseURL/sub_categories/category/$id'),
       headers: await authHeader());
+  print(response.body);
+  print(response.statusCode);
+  print(id);
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => SubCategory.fromJson(item))
