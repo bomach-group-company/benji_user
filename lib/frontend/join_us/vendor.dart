@@ -1,7 +1,5 @@
 // ignore_for_file: invalid_use_of_protected_member, use_build_context_synchronously, unused_element
 
-import 'dart:io';
-
 import 'package:benji/app/address/get_location_on_map.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
@@ -11,7 +9,6 @@ import 'package:benji/src/frontend/utils/constant.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/providers/controllers.dart';
 import 'package:benji/theme/colors.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -418,64 +415,64 @@ class _VendorTabState extends State<VendorTab> {
             ),
           ),
           kSizedBox,
-          InkWell(
-            borderRadius: BorderRadius.circular(16),
-            splashColor: Colors.blue.shade50,
-            focusColor: Colors.blue.shade50,
-            highlightColor: Colors.blue.shade50,
-            onTap: () async {
-              FilePickerResult? result = await FilePicker.platform.pickFiles(
-                allowMultiple: true,
-                allowedExtensions: ['pdf', 'doc', 'docx'],
-              );
+          // InkWell(
+          //   borderRadius: BorderRadius.circular(16),
+          //   splashColor: Colors.blue.shade50,
+          //   focusColor: Colors.blue.shade50,
+          //   highlightColor: Colors.blue.shade50,
+          //   onTap: () async {
+          //     FilePickerResult? result = await FilePicker.platform.pickFiles(
+          //       allowMultiple: true,
+          //       allowedExtensions: ['pdf', 'doc', 'docx'],
+          //     );
 
-              if (result != null) {
-                // ignore: unused_local_variable
-                List<File> files =
-                    result.files.map((file) => File(file.path!)).toList();
-              } else {
-                // User canceled the picker
-              }
-              // Handle the selected file, e.g., save or upload it.
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 144,
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(
-                    width: 1,
-                    style: BorderStyle.solid,
-                    strokeAlign: BorderSide.strokeAlignOutside,
-                    color: Color(0xFFE6E6E6),
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-              child: Align(
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const FaIcon(FontAwesomeIcons.cloudArrowUp),
-                    // Image.asset(
-                    //   "assets/icons/image-upload.png",
-                    // ),
-                    kHalfSizedBox,
-                    Text(
-                      'Upload a document (Optional)',
-                      style: TextStyle(
-                        color: kTextGreyColor,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          kSizedBox,
+          //     if (result != null) {
+          //       // ignore: unused_local_variable
+          //       List<File> files =
+          //           result.files.map((file) => File(file.path!)).toList();
+          //     } else {
+          //       // User canceled the picker
+          //     }
+          //     // Handle the selected file, e.g., save or upload it.
+          //   },
+          //   child: Container(
+          //     width: MediaQuery.of(context).size.width,
+          //     height: 144,
+          //     decoration: ShapeDecoration(
+          //       shape: RoundedRectangleBorder(
+          //         side: const BorderSide(
+          //           width: 1,
+          //           style: BorderStyle.solid,
+          //           strokeAlign: BorderSide.strokeAlignOutside,
+          //           color: Color(0xFFE6E6E6),
+          //         ),
+          //         borderRadius: BorderRadius.circular(16),
+          //       ),
+          //     ),
+          //     child: Align(
+          //       alignment: Alignment.center,
+          //       child: Column(
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [
+          //           const FaIcon(FontAwesomeIcons.cloudArrowUp),
+          //           // Image.asset(
+          //           //   "assets/icons/image-upload.png",
+          //           // ),
+          //           kHalfSizedBox,
+          //           Text(
+          //             'Upload a document (Optional)',
+          //             style: TextStyle(
+          //               color: kTextGreyColor,
+          //               fontSize: 12,
+          //               fontWeight: FontWeight.w400,
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // kSizedBox,
           kHalfSizedBox,
           MyElevatedButton(
             isLoading: isLoading,
