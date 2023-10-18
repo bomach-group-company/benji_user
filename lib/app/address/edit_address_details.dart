@@ -26,7 +26,7 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/keys.dart';
 import '../../src/repo/models/googleMaps/autocomplete_prediction.dart';
 import '../../src/repo/models/googleMaps/places_autocomplete_response.dart';
-import '../../src/repo/utils/base_url.dart';
+import '../../src/repo/utils/constant.dart';
 import '../../src/repo/utils/network_utils.dart';
 import '../../theme/colors.dart';
 

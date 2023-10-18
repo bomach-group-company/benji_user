@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:benji/src/repo/models/shop_type.dart';
 import 'package:http/http.dart' as http;
 
-import '../../utils/base_url.dart';
+import '../../utils/constant.dart';
 import '../../utils/helpers.dart';
 
 class VendorModel {

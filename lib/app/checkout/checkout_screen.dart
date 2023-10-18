@@ -3,11 +3,12 @@
 import 'dart:math';
 
 import 'package:benji/app/home/home.dart';
-import 'package:benji/app/orders/track_order.dart';
+import 'package:benji/app/splash_screens/payment_successful_screen.dart';
 import 'package:benji/services/squad_integration.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
+import 'package:benji/src/repo/utils/constant.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
 import 'package:flutter/foundation.dart';
@@ -40,20 +41,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   void initState() {
     super.initState();
     _getData();
-    _getUserData();
+    checkAuth(context);
+    getUser().then((value) {
+      setState(() {
+        user = value;
+      });
+    });
   }
 
   //=================================== ALL VARIABLES ==========================================\\
+  User? user;
   Map? _data;
   double _subTotal = 0;
   double _totalPrice = 0;
   double deliveryFee = 700;
   double serviceFee = 0;
-  // double insuranceFee = 0;
-  // double discountFee = 0;
-  String? _userFirstName;
-  String? _userLastName;
-  String? _userEmail;
   // final String _paymentDescription = "Benji app product purchase";
   final String _currency = "NGN";
 
@@ -75,16 +77,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       _data = null;
     });
     await _getData();
-  }
-
-  _getUserData() async {
-    checkAuth(context);
-    User? user = await getUser();
-    setState(() {
-      _userFirstName = user!.firstName;
-      _userLastName = user.lastName;
-      _userEmail = user.email;
-    });
   }
 
   _getData() async {
@@ -141,6 +133,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       sandbox: true,
       showAppbar: false,
     );
+    if (response != null) {
+      Get.to(
+        () => const PaymentSuccessful(),
+        routeName: 'PaymentSuccessful',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+    }
     debugPrint(
       "Squad transaction completed======>${response?.toJson().toString()}",
     );
@@ -155,10 +159,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         debugPrint('emma onLoad');
       },
       onSuccess: (resp) {
-        debugPrint('emma onSuccess data $resp');
         Get.to(
-          () => const TrackOrder(),
-          routeName: 'TrackOrder',
+          () => const PaymentSuccessful(),
+          routeName: 'PaymentSuccessful',
           duration: const Duration(milliseconds: 300),
           fullscreenDialog: true,
           curve: Curves.easeIn,
@@ -167,24 +170,25 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           transition: Transition.rightToLeft,
         );
       },
-      email: 'emmachi@gmail.com',
-      amount: '77600000',
+      email: user?.email ?? '',
+      amount:
+          ((_subTotal * 100).toInt() + (deliveryFee * 100).toInt()).toString(),
       currencycode: 'NGN',
-      customername: 'emmachi',
+      customername: "${user?.firstName ?? ''} ${user?.lastName ?? ''}",
     );
   }
 
   Charge charge() {
     return Charge(
       amount: (_subTotal * 100).toInt() + (deliveryFee * 100).toInt(),
-      publicKey: "sandbox_pk_f875813b167c9425ee6476078b56f0a0b57609b39e2c",
-      email: "$_userEmail",
+      publicKey: squadPublicKey,
+      email: user?.email ?? '',
       currencyCode: _currency,
-      transactionRef: "BENJI-PYM-${generateRandomString(10)}",
+      // transactionRef: "BENJI-PYM-${generateRandomString(10)}",
       paymentChannels: ["card", "bank", "ussd", "transfer"],
-      customerName: "$_userFirstName $_userLastName",
+      customerName: "${user?.firstName ?? ''} ${user?.lastName ?? ''}",
       callbackUrl: null,
-      metadata: {"name": _userFirstName, "age": 23},
+      // metadata: {"name": {user?.firstName ?? ''}, "age": 23},
       passCharge: true,
     );
   }

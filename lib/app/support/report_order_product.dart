@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/models/user/user_model.dart';
-import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:benji/src/repo/utils/constant.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
@@ -16,18 +16,18 @@ import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/components/textformfield/message_textformfield.dart';
 import '../../theme/colors.dart';
 
-class ReportVendor extends StatefulWidget {
-  final VendorModel vendor;
-  const ReportVendor({
+class ReportOrderProduct extends StatefulWidget {
+  final Product product;
+  const ReportOrderProduct({
     super.key,
-    required this.vendor,
+    required this.product,
   });
 
   @override
-  State<ReportVendor> createState() => _ReportVendorState();
+  State<ReportOrderProduct> createState() => _ReportOrderProductState();
 }
 
-class _ReportVendorState extends State<ReportVendor> {
+class _ReportOrderProductState extends State<ReportOrderProduct> {
   //============================================ ALL VARIABLES ===========================================\\
 
   //============================================ BOOL VALUES ===========================================\\
@@ -44,19 +44,20 @@ class _ReportVendorState extends State<ReportVendor> {
 
   //============================================ FUNCTIONS ===========================================\\
   Future<bool> report() async {
+    User? user = await getUser();
+    final url = Uri.parse('$baseURL/endpoint to report an order product');
+
+    Map body = {
+      'client_id': user!.id.toString(),
+      'vendor_id': widget.product.vendorId.id.toString(),
+      'product_id': widget.product.id.toString(),
+      'comment': _messageEC.text.toString(),
+    };
+
+    final response =
+        await http.post(url, body: body, headers: await authHeader());
     try {
-      User? user = await getUser();
-      final url = Uri.parse(
-          '$baseURL/clients/clientReportVendor/${user!.id}/${widget.vendor.id}?message=${_messageEC.text}');
-
-      Map body = {};
-
-      final response =
-          await http.post(url, body: body, headers: await authHeader());
-
-      bool res = response.statusCode == 200 &&
-          response.body == '"Report made successfully"';
-      return res;
+      return response.statusCode == 200;
     } catch (e) {
       return false;
     }
@@ -83,7 +84,6 @@ class _ReportVendorState extends State<ReportVendor> {
         _submittingRequest = false;
       });
 
-      //Go back;
       Get.back();
     } else {
       setState(() {
@@ -176,7 +176,7 @@ class _ReportVendorState extends State<ReportVendor> {
                   SizedBox(
                     width: 332,
                     child: Text(
-                      "Why do you want to report this vendor?",
+                      "What is wrong with this product?",
                       style: TextStyle(
                         color: kTextGreyColor,
                         fontSize: 14,

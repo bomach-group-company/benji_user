@@ -5,9 +5,9 @@ import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/components/textformfield/my%20textformfield.dart';
 import 'package:benji/src/components/textformfield/my_maps_textformfield.dart';
+import 'package:benji/src/frontend/utils/constant.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/providers/controllers.dart';
-import 'package:benji/src/repo/utils/base_url.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +27,8 @@ class _CRMTabState extends State<CRMTab> {
   String? latitude;
 
   String? longitude;
+  bool isLoading = false;
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   // controller
   final TextEditingController _nameEC = TextEditingController();
@@ -55,36 +57,45 @@ class _CRMTabState extends State<CRMTab> {
   final FocusNode _locationFN = FocusNode();
 
   _submit() async {
-    final url = Uri.parse('$baseURL/joinus/createCrmRequest');
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+      final url = Uri.parse('$baseFrontendUrl/joinus/createCrmRequest');
 
-    final body = {
-      'fullname': _nameEC.text,
-      'email': _userEmailEC.text,
-      'phone': _phonenumberEC.text,
-      'address': _locationEC.text,
-      'latitude': longitude,
-      'longitude': longitude,
-    };
-    if (kDebugMode) {
-      print("This is the body: $body");
-    }
-    final response = await http.post(url, body: body);
-    if (response.body == '"created"') {
-      mySnackBar(
-        context,
-        kSuccessColor,
-        "Success!",
-        "Request summited",
-        const Duration(seconds: 2),
-      );
-    } else {
-      mySnackBar(
-        context,
-        kAccentColor,
-        "Failed!",
-        "Request Failed",
-        const Duration(seconds: 2),
-      );
+      final body = {
+        'fullname': _nameEC.text,
+        'email': _userEmailEC.text,
+        'phone': _phonenumberEC.text,
+        'address': _locationEC.text,
+        'latitude': longitude,
+        'longitude': longitude,
+      };
+      if (kDebugMode) {
+        print("This is the body: $body");
+      }
+      final response = await http.post(url, body: body);
+      if (response.body == '"created"') {
+        mySnackBar(
+          context,
+          kSuccessColor,
+          "Success!",
+          "Request summited",
+          const Duration(seconds: 2),
+        );
+        _formKey.currentState!.reset();
+      } else {
+        mySnackBar(
+          context,
+          kAccentColor,
+          "Failed!",
+          "Request Failed",
+          const Duration(seconds: 2),
+        );
+      }
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -114,180 +125,178 @@ class _CRMTabState extends State<CRMTab> {
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        kSizedBox,
-        kSizedBox,
-        const Text(
-          'Full name',
-          style: TextStyle(
-            color: kTextBlackColor,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          kSizedBox,
+          kSizedBox,
+          const Text(
+            'Full name',
+            style: TextStyle(
+              color: kTextBlackColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-        ),
-        kHalfSizedBox,
-        MyTextFormField(
-          hintText: "Enter full name",
-          textCapitalization: TextCapitalization.words,
-          controller: _nameEC,
-          textInputAction: TextInputAction.next,
-          textInputType: TextInputType.name,
-          focusNode: _nameFN,
-          validator: (value) {
-            RegExp pattern = RegExp(r'^.{3,}$');
-            if (value == null || value!.isEmpty) {
-              _nameFN.requestFocus();
-              return "Enter a full name";
-            } else if (!pattern.hasMatch(value)) {
-              _nameFN.requestFocus();
-              return "Please enter a valid name";
-            }
-            return null;
-          },
-          onSaved: (value) {
-            _nameEC.text = value!;
-          },
-        ),
-        kSizedBox,
-        const Text(
-          'Email Address',
-          style: TextStyle(
-            color: kTextBlackColor,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
+          kHalfSizedBox,
+          MyTextFormField(
+            hintText: "Enter full name",
+            textCapitalization: TextCapitalization.words,
+            controller: _nameEC,
+            textInputAction: TextInputAction.next,
+            textInputType: TextInputType.name,
+            focusNode: _nameFN,
+            validator: (value) {
+              RegExp pattern = RegExp(r'^.{3,}$');
+              if (value == null || value!.isEmpty) {
+                return "Enter a full name";
+              } else if (!pattern.hasMatch(value)) {
+                return "Please enter a valid name";
+              }
+              return null;
+            },
+            onSaved: (value) {
+              _nameEC.text = value!;
+            },
           ),
-        ),
-        kHalfSizedBox,
-        MyTextFormField(
-          hintText: "Eg. johndoe@gmail.com",
-          textCapitalization: TextCapitalization.words,
-          controller: _userEmailEC,
-          focusNode: _userEmailFN,
-          textInputAction: TextInputAction.next,
-          textInputType: TextInputType.name,
-          validator: (value) {
-            RegExp emailPattern = RegExp(
-              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
-            );
-            if (value == null || value!.isEmpty) {
-              _userEmailFN.requestFocus();
-              return "Enter your email address";
-            } else if (!emailPattern.hasMatch(value)) {
-              _userEmailFN.requestFocus();
-              return "Please enter a valid email address";
-            }
-            return null;
-          },
-          onSaved: (value) {
-            _userEmailEC.text = value;
-          },
-        ),
-        kSizedBox,
-        const Text(
-          'Phone number',
-          style: TextStyle(
-            color: kTextBlackColor,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
+          kSizedBox,
+          const Text(
+            'Email Address',
+            style: TextStyle(
+              color: kTextBlackColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-        ),
-        kHalfSizedBox,
-        MyTextFormField(
-          hintText: "eg. +2349077457301",
-          textCapitalization: TextCapitalization.words,
-          controller: _phonenumberEC,
-          textInputAction: TextInputAction.next,
-          textInputType: TextInputType.name,
-          focusNode: _phonenumberFN,
-          validator: (value) {
-            RegExp pattern = RegExp(r'^\d{10}$');
-            if (value == null || value!.isEmpty) {
-              _phonenumberFN.requestFocus();
-              return "Enter a phone number";
-            } else if (!pattern.hasMatch(value)) {
-              _phonenumberFN.requestFocus();
-              return "Please enter a valid phone number";
-            }
-            return null;
-          },
-          onSaved: (value) {
-            _phonenumberEC.text = value!;
-          },
-        ),
-        kSizedBox,
-        const Text(
-          'Address',
-          style: TextStyle(
-            color: kTextBlackColor,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
+          kHalfSizedBox,
+          MyTextFormField(
+            hintText: "Eg. johndoe@gmail.com",
+            textCapitalization: TextCapitalization.words,
+            controller: _userEmailEC,
+            focusNode: _userEmailFN,
+            textInputAction: TextInputAction.next,
+            textInputType: TextInputType.name,
+            validator: (value) {
+              RegExp emailPattern = RegExp(
+                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+              );
+              if (value == null || value!.isEmpty) {
+                return "Enter your email address";
+              } else if (!emailPattern.hasMatch(value)) {
+                return "Please enter a valid email address";
+              }
+              return null;
+            },
+            onSaved: (value) {
+              _userEmailEC.text = value;
+            },
           ),
-        ),
-        kHalfSizedBox,
-        MyMapsTextFormField(
-          readOnly: true,
-          controller: _locationEC,
-          validator: (value) {
-            RegExp pickupAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
-            if (value!.isEmpty || value == null) {
-              _locationFN.requestFocus();
-              return "Enter drop-off location";
-            } else if (!pickupAddress.hasMatch(value)) {
-              _locationFN.requestFocus();
-              return "Enter a valid address (must have a street number)";
-            }
-            return null;
-          },
-          onSaved: (value) {
-            _locationEC.text = value;
-          },
-          textInputAction: TextInputAction.done,
-          focusNode: _locationFN,
-          hintText: "Pick location",
-          textInputType: TextInputType.text,
-          prefixIcon: Padding(
-            padding: const EdgeInsets.all(kDefaultPadding),
-            child: FaIcon(
-              FontAwesomeIcons.locationDot,
+          kSizedBox,
+          const Text(
+            'Phone number',
+            style: TextStyle(
+              color: kTextBlackColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          kHalfSizedBox,
+          MyTextFormField(
+            hintText: "eg. +2349077457301",
+            textCapitalization: TextCapitalization.words,
+            controller: _phonenumberEC,
+            textInputAction: TextInputAction.next,
+            textInputType: TextInputType.name,
+            focusNode: _phonenumberFN,
+            validator: (value) {
+              RegExp pattern = RegExp(
+                  r'^(?:\+?\d{1,3}[\s.-]?)?\(?\d{1,4}\)?[\s.-]?\d{1,4}[\s.-]?\d{1,9}$');
+              if (value == null || value!.isEmpty) {
+                return "Enter a phone number";
+              } else if (!pattern.hasMatch(value)) {
+                return "Please enter a valid phone number";
+              }
+              return null;
+            },
+            onSaved: (value) {
+              _phonenumberEC.text = value!;
+            },
+          ),
+          kSizedBox,
+          const Text(
+            'Address',
+            style: TextStyle(
+              color: kTextBlackColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          kHalfSizedBox,
+          MyMapsTextFormField(
+            readOnly: true,
+            controller: _locationEC,
+            validator: (value) {
+              RegExp pickupAddress = RegExp(r'^.{3,}$');
+
+              if (value!.isEmpty || value == null) {
+                return "Enter address";
+              } else if (!pickupAddress.hasMatch(value)) {
+                return "Enter a valid address";
+              }
+              return null;
+            },
+            onSaved: (value) {
+              _locationEC.text = value;
+            },
+            textInputAction: TextInputAction.done,
+            focusNode: _locationFN,
+            hintText: "Pick location",
+            textInputType: TextInputType.text,
+            prefixIcon: Padding(
+              padding: const EdgeInsets.all(kDefaultPadding),
+              child: FaIcon(
+                FontAwesomeIcons.locationDot,
+                color: kAccentColor,
+                size: 18,
+              ),
+            ),
+          ),
+          kSizedBox,
+          Divider(
+            height: 10,
+            thickness: 2,
+            color: kLightGreyColor,
+          ),
+          ElevatedButton.icon(
+            onPressed: _toGetLocationOnMapDrop,
+            icon: FaIcon(
+              FontAwesomeIcons.locationArrow,
               color: kAccentColor,
               size: 18,
             ),
-          ),
-        ),
-        kSizedBox,
-        Divider(
-          height: 10,
-          thickness: 2,
-          color: kLightGreyColor,
-        ),
-        ElevatedButton.icon(
-          onPressed: _toGetLocationOnMapDrop,
-          icon: FaIcon(
-            FontAwesomeIcons.locationArrow,
-            color: kAccentColor,
-            size: 18,
-          ),
-          label: const Text("Locate on map"),
-          style: ElevatedButton.styleFrom(
-            elevation: 0,
-            backgroundColor: kLightGreyColor,
-            foregroundColor: kTextBlackColor,
-            fixedSize: Size(media.width, 40),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+            label: const Text("Locate on map"),
+            style: ElevatedButton.styleFrom(
+              elevation: 0,
+              backgroundColor: kLightGreyColor,
+              foregroundColor: kTextBlackColor,
+              fixedSize: Size(media.width, 40),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           ),
-        ),
-        kSizedBox,
-        kHalfSizedBox,
-        MyElevatedButton(
-          title: "Submit",
-          onPressed: _submit,
-        ),
-        kSizedBox,
-      ],
+          kSizedBox,
+          kHalfSizedBox,
+          MyElevatedButton(
+            isLoading: isLoading,
+            title: "Submit",
+            onPressed: _submit,
+          ),
+          kSizedBox,
+        ],
+      ),
     );
   }
 }
