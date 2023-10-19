@@ -40,7 +40,7 @@ class Product {
       name: json['name'],
       description: json['description'],
       price: json['price'].toDouble(),
-      quantityAvailable: json['quantity_available'],
+      quantityAvailable: json['quantity_available'] ?? 0,
       productImage: json['product_image'],
       isAvailable: json['is_available'],
       isTrending: json['is_trending'],
@@ -89,10 +89,8 @@ Future<List<Product>> getProducts() async {
     Uri.parse('$baseURL/products/listProduct'),
     headers: await authHeader(),
   );
-
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
-        .sublist(0, 1)
         .map((item) => Product.fromJson(item))
         .toList();
   } else {

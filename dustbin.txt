@@ -1,0 +1,13 @@
+  
+  ////// used to debug why app failed to fetch data
+  // List<Product> res = [];
+  // for (var element in (jsonDecode(response.body) as List)) {
+  //   try {
+  //     print('in it now ${element['id']}');
+  //     res.add(Product.fromJson(element));
+  //   } catch (e) {
+  //     print(element['id']);
+  //   }
+  // }
+  // return res;
+  

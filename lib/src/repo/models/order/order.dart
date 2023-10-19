@@ -60,11 +60,9 @@ Future<List<Order>> getOrders(id) async {
   }
 }
 
-Future<bool> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
+Future<String> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
   int? userId = (await getUser())!.id;
-  if (kDebugMode) {
-    print(jsonEncode(formatOfOrder));
-  }
+
   final response = await http.post(
     Uri.parse('$baseURL/orders/createOrder?client_id=$userId'),
     headers: await authHeader(),
@@ -74,5 +72,8 @@ Future<bool> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
     print(response.body);
     print(response.statusCode);
   }
-  return response.statusCode == 200;
+  String res = jsonDecode(response.body)['message']
+      .toString()
+      .split('Order Created Successfully. ')[1];
+  return res;
 }
