@@ -46,13 +46,16 @@ class CategoryItem extends StatelessWidget {
                   ),
                 ),
           kHalfSizedBox,
-          Text(
-            showAll ? 'All' : category!.name,
-            softWrap: true,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-            textWidthBasis: TextWidthBasis.parent,
+          SizedBox(
+            width: 60,
+            child: Text(
+              showAll ? 'All' : category!.name,
+              softWrap: true,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              textWidthBasis: TextWidthBasis.parent,
+            ),
           )
         ],
       ),
