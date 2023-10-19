@@ -21,12 +21,13 @@ class SubCategory {
     required this.category,
   });
 
-  factory SubCategory.fromJson(Map<String, dynamic> json) {
+  factory SubCategory.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return SubCategory(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      isActive: json['is_active'],
+      id: json['id'] ?? NA,
+      name: json['name'] ?? NA,
+      description: json['description'] ?? NA,
+      isActive: json['is_active'] ?? false,
       category: Category.fromJson(json['category']),
     );
   }
@@ -41,7 +42,7 @@ Future<List<SubCategory>> getSubCategories() async {
         .map((item) => SubCategory.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load sub category');
+    return [];
   }
 }
 
@@ -49,11 +50,14 @@ Future<List<SubCategory>> getSubCategoriesBycategory(id) async {
   final response = await http.get(
       Uri.parse('$baseURL/sub_categories/category/$id'),
       headers: await authHeader());
+  print(response.body);
+  print(response.statusCode);
+  print(id);
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => SubCategory.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load sub category');
+    return [];
   }
 }

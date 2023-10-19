@@ -15,7 +15,8 @@ class AllVendor {
     required this.perPage,
   });
 
-  factory AllVendor.fromJson(Map<String, dynamic> json) {
+  factory AllVendor.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return AllVendor(
       items: json['items'],
       total: json['total'],

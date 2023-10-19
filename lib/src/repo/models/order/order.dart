@@ -33,11 +33,11 @@ class Order {
     // }
 
     return Order(
-      id: json['id'],
-      totalPrice: json['total_price'],
-      assignedStatus: json['assigned_status'],
-      deliveryStatus: json['delivery_status'],
-      // client: User.fromJson(json['client']),
+      id: json['id'] ?? NA,
+      totalPrice: json['total_price'] ?? 0.0,
+      assignedStatus: json['assigned_status'] ?? NA,
+      deliveryStatus: json['delivery_status'] ?? NA,
+      // client: User.fromJson(json['client']) ?? NA,
       // deliveryAddress: Address.fromJson(json['delivery_address']),
       // orderItems: orderItems,
       // created: DateTime.parse(json['created']),
@@ -56,15 +56,13 @@ Future<List<Order>> getOrders(id) async {
         .map((item) => Order.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load order');
+    return [];
   }
 }
 
-Future<bool> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
+Future<String> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
   int? userId = (await getUser())!.id;
-  if (kDebugMode) {
-    print(jsonEncode(formatOfOrder));
-  }
+
   final response = await http.post(
     Uri.parse('$baseURL/orders/createOrder?client_id=$userId'),
     headers: await authHeader(),
@@ -74,5 +72,8 @@ Future<bool> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
     print(response.body);
     print(response.statusCode);
   }
-  return response.statusCode == 200;
+  String res = jsonDecode(response.body)['message']
+      .toString()
+      .split('Order Created Successfully. ')[1];
+  return res;
 }

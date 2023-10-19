@@ -28,8 +28,10 @@ import '../address/deliver_to.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final List<Map<String, dynamic>> formatOfOrder;
+  final String orderID;
 
-  const CheckoutScreen({super.key, required this.formatOfOrder});
+  const CheckoutScreen(
+      {super.key, required this.formatOfOrder, required this.orderID});
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -134,6 +136,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       showAppbar: false,
     );
     if (response != null) {
+      await clearCart();
       Get.to(
         () => const PaymentSuccessful(),
         routeName: 'PaymentSuccessful',
@@ -159,22 +162,25 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         debugPrint('emma onLoad');
       },
       onSuccess: (resp) {
-        Get.to(
-          () => const PaymentSuccessful(),
-          routeName: 'PaymentSuccessful',
-          duration: const Duration(milliseconds: 300),
-          fullscreenDialog: true,
-          curve: Curves.easeIn,
-          preventDuplicates: true,
-          popGesture: true,
-          transition: Transition.rightToLeft,
-        );
+        clearCart().then((value) {
+          Get.to(
+            () => const PaymentSuccessful(),
+            routeName: 'PaymentSuccessful',
+            duration: const Duration(milliseconds: 300),
+            fullscreenDialog: true,
+            curve: Curves.easeIn,
+            preventDuplicates: true,
+            popGesture: true,
+            transition: Transition.rightToLeft,
+          );
+        });
       },
       email: user?.email ?? '',
       amount:
           ((_subTotal * 100).toInt() + (deliveryFee * 100).toInt()).toString(),
       currencycode: 'NGN',
       customername: "${user?.firstName ?? ''} ${user?.lastName ?? ''}",
+      metadata: {"order_id": widget.orderID},
     );
   }
 
@@ -188,7 +194,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       paymentChannels: ["card", "bank", "ussd", "transfer"],
       customerName: "${user?.firstName ?? ''} ${user?.lastName ?? ''}",
       callbackUrl: null,
-      // metadata: {"name": {user?.firstName ?? ''}, "age": 23},
+      metadata: {
+        "order_id": widget.orderID
+      }, // i will pass in the order id here
       passCharge: true,
     );
   }

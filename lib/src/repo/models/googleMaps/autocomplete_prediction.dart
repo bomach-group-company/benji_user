@@ -13,7 +13,8 @@ class AutocompletePrediction {
     this.structuredFormatting,
   });
 
-  factory AutocompletePrediction.fromJson(Map<String, dynamic> json) {
+  factory AutocompletePrediction.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return AutocompletePrediction(
       description: json['description'] as String?,
       placeId: json['place_id'] as String?,
@@ -35,7 +36,8 @@ class StructuredFormatting {
     this.secondaryText,
   });
 
-  factory StructuredFormatting.fromJson(Map<String, dynamic> json) {
+  factory StructuredFormatting.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return StructuredFormatting(
       mainText: json['main_text'] as String?,
       secondaryText: json['secondary_text'] as String?,

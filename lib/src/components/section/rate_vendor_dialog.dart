@@ -314,7 +314,7 @@ _causeOfRating(
                   hintText: "Enter your review (required)",
                   maxLines: 8,
                   keyboardType: TextInputType.multiline,
-                  maxLength: 6000,
+                  maxLength: 1000,
                 ),
               ),
               kSizedBox,

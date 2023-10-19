@@ -37,7 +37,8 @@ class Vendor {
     this.shopType,
   });
 
-  factory Vendor.fromJson(Map<String, dynamic> json) {
+  factory Vendor.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return Vendor(
       id: json['id'],
       email: json['email'],

@@ -137,13 +137,13 @@ class _DeliverToState extends State<DeliverTo> {
       print('it $formatOfOrder');
     }
     //not after adding the address now post it to the endpoint
-    await createOrder(formatOfOrder);
+    String orderID = await createOrder(formatOfOrder);
     // need to check if the order was created and get the delivery fee
     if (widget.inCheckout) {
       Get.back();
     } else {
       Get.off(
-        () => CheckoutScreen(formatOfOrder: formatOfOrder),
+        () => CheckoutScreen(formatOfOrder: formatOfOrder, orderID: orderID),
         routeName: 'CheckoutScreen',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -257,10 +257,12 @@ class _DeliverToState extends State<DeliverTo> {
                                               width: min(
                                                   mediaWidth - 200,
                                                   15.0 *
-                                                      _addressData!['addresses']
-                                                              [index]
-                                                          .title
-                                                          .length),
+                                                          _addressData![
+                                                                      'addresses']
+                                                                  [index]
+                                                              ?.title
+                                                              ?.length ??
+                                                      1),
                                               child: Text(
                                                 _addressData!['addresses']
                                                         [index]
@@ -329,7 +331,8 @@ class _DeliverToState extends State<DeliverTo> {
                                           ),
                                           child: Text(
                                             _addressData!['addresses'][index]
-                                                .details,
+                                                    ?.details ??
+                                                '',
                                             style: TextStyle(
                                               color: kTextGreyColor,
                                               fontSize: 13,

@@ -13,10 +13,11 @@ class ItemCategory {
     required this.name,
   });
 
-  factory ItemCategory.fromJson(Map<String, dynamic> json) {
+  factory ItemCategory.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return ItemCategory(
-      id: json['id'],
-      name: json['name'],
+      id: json['id'] ?? NA,
+      name: json['name'] ?? NA,
     );
   }
 }
@@ -31,6 +32,6 @@ Future<List<ItemCategory>> getPackageCategory() async {
         .map((item) => ItemCategory.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load items category');
+    return [];
   }
 }

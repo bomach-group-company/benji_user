@@ -1,4 +1,4 @@
-async function SquadPay(onClose, onLoad, onSuccess, key, email, amount, currencycode, customername) {
+async function SquadPay(onClose, onLoad, onSuccess, key, email, amount, currencycode, customername, metadata) {
   const squadInstance = new squad({
     onClose: onClose,
     onLoad: onLoad,
@@ -9,6 +9,7 @@ async function SquadPay(onClose, onLoad, onSuccess, key, email, amount, currency
     currency_code: currencycode,
     customer_name: customername,
     pass_charge: true,
+    metadata: metadata,
   });
   squadInstance.setup();
   squadInstance.open();

@@ -154,7 +154,7 @@ class _SelectOrderState extends State<SelectOrder> {
                   hintText: "Enter your message here",
                   maxLines: 10,
                   keyboardType: TextInputType.text,
-                  maxLength: 6000,
+                  maxLength: 1000,
                   validator: (value) {
                     if (value == null || value!.isEmpty) {
                       _messageFN.requestFocus();

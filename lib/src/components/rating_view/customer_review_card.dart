@@ -82,7 +82,7 @@ class CostumerReviewCard extends StatelessWidget {
               ),
               kHalfWidthSizedBox,
               SizedBox(
-                width: mediaWidth / 2.5,
+                width: mediaWidth - 60 - 45,
                 child: Text(
                   "${rating.client.firstName!} ${rating.client.lastName!}",
                   overflow: TextOverflow.ellipsis,
@@ -99,7 +99,7 @@ class CostumerReviewCard extends StatelessWidget {
           ),
           kSizedBox,
           SizedBox(
-            width: mediaWidth / 2.5,
+            width: mediaWidth - 60,
             child: Text(
               rating.comment!,
               overflow: TextOverflow.ellipsis,

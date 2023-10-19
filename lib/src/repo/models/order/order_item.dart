@@ -15,11 +15,12 @@ class OrderItem {
     // required this.quantity,
   });
 
-  factory OrderItem.fromJson(Map<String, dynamic> json) {
+  factory OrderItem.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return OrderItem(
-      id: json['id'],
-      // product: json['product'],
-      // quantity: json['quantity'],
+      id: json['id'] ?? NA,
+      // product: json['product'] ?? NA,
+      // quantity: json['quantity'] ?? 0,
     );
   }
 
@@ -43,6 +44,6 @@ Future<List<OrderItem>> getOrderItems(id) async {
         .map((item) => OrderItem.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load order items');
+    return [];
   }
 }

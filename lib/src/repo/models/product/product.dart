@@ -34,17 +34,18 @@ class Product {
     required this.subCategoryId,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) {
+  factory Product.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return Product(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      price: json['price'].toDouble(),
-      quantityAvailable: json['quantity_available'],
+      id: json['id'] ?? NA,
+      name: json['name'] ?? NA,
+      description: json['description'] ?? NA,
+      price: json['price'].toDouble() ?? 0.0,
+      quantityAvailable: json['quantity_available'] ?? 0,
       productImage: json['product_image'],
-      isAvailable: json['is_available'],
-      isTrending: json['is_trending'],
-      isRecommended: json['is_recommended'],
+      isAvailable: json['is_available'] ?? false,
+      isTrending: json['is_trending'] ?? false,
+      isRecommended: json['is_recommended'] ?? false,
       vendorId: VendorModel.fromJson(json['vendor']),
       subCategoryId: SubCategory.fromJson(json['sub_category']),
     );
@@ -67,7 +68,7 @@ Future<Map<String, List<Product>>> getVendorProductsAndSubCategoryName(
       },
     );
   } else {
-    throw Exception('Failed to load user product');
+    return {};
   }
 }
 
@@ -84,18 +85,17 @@ Future<Product> getProductById(String id) async {
   }
 }
 
-Future<List<Product>> getProducts({limit = 10}) async {
+Future<List<Product>> getProducts() async {
   final response = await http.get(
     Uri.parse('$baseURL/products/listProduct'),
     headers: await authHeader(),
   );
-
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => Product.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load user product');
+    return [];
   }
 }
 
@@ -111,7 +111,7 @@ Future<List<Product>> getProductsByCategory(categoryId) async {
   } else if (response.body == '"No matching query"') {
     return [];
   } else {
-    throw Exception('Failed to load user product');
+    return [];
   }
 }
 
@@ -127,7 +127,7 @@ Future<List<Product>> getProductsBySubCategory(subCategoryId) async {
   } else if (response.body == '"No matching query"') {
     return [];
   } else {
-    throw Exception('Failed to load user product');
+    return [];
   }
 }
 
@@ -146,7 +146,7 @@ Future<List<Product>> getProductsByVendorSubCategory(
   } else if (response.body == '"No matching query"') {
     return [];
   } else {
-    throw Exception('Failed to load user product');
+    return [];
   }
 }
 
@@ -163,7 +163,7 @@ Future<List<Product>> getProductsByVendor(vendorId,
         .map((item) => Product.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load user product');
+    return [];
   }
 }
 
@@ -180,6 +180,6 @@ Future<List<Product>> getProductsBySearching(query) async {
   } else if (response.body == '"No matching query"') {
     return [];
   } else {
-    throw Exception('Failed to load user product');
+    return [];
   }
 }

@@ -24,11 +24,12 @@ class Ratings {
     required this.product,
   });
 
-  factory Ratings.fromJson(Map<String, dynamic> json) {
+  factory Ratings.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return Ratings(
-      id: json['id'],
-      ratingValue: json['rating_value'],
-      comment: json['comment'],
+      id: json['id'] ?? NA,
+      ratingValue: json['rating_value'] ?? 0.0,
+      comment: json['comment'] ?? NA,
       created: DateTime.parse(json['created']),
       client: User.fromJson(json['client']),
       product:
@@ -49,7 +50,7 @@ Future<List<Ratings>> getRatingsByVendorId(int id,
         .map((item) => Ratings.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load ratings');
+    return [];
   }
 }
 
@@ -66,7 +67,7 @@ Future<List<Ratings>> getRatingsByVendorIdAndRating(int id, int rating,
         .map((item) => Ratings.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load ratings');
+    return [];
   }
 }
 
@@ -81,7 +82,7 @@ Future<List<Ratings>> getRatingsByProductId(String id,
         .map((item) => Ratings.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load ratings');
+    return [];
   }
 }
 
@@ -98,6 +99,6 @@ Future<List<Ratings>> getRatingsByProductIdAndRating(String id, int rating,
         .map((item) => Ratings.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load ratings');
+    return [];
   }
 }

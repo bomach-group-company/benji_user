@@ -20,7 +20,8 @@ class SubCategory {
     required this.isActive,
   });
 
-  factory SubCategory.fromJson(Map<String, dynamic> json) {
+  factory SubCategory.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return SubCategory(
       id: json['id'],
       name: json['name'],

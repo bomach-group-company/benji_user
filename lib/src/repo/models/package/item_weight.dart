@@ -17,12 +17,13 @@ class ItemWeight {
     required this.title,
   });
 
-  factory ItemWeight.fromJson(Map<String, dynamic> json) {
+  factory ItemWeight.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return ItemWeight(
-      id: json['id'],
-      start: json['start'],
-      end: json['end'],
-      title: json['title'],
+      id: json['id'] ?? NA,
+      start: json['start'] ?? 0,
+      end: json['end'] ?? 0,
+      title: json['title'] ?? NA,
     );
   }
 }
@@ -37,6 +38,6 @@ Future<List<ItemWeight>> getPackageWeight() async {
         .map((item) => ItemWeight.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load items weight');
+    return [];
   }
 }

@@ -730,9 +730,28 @@ class _HomeState extends State<Home> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return CardSkeleton(
-                            height: 200,
-                            width: media.width - 20,
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: List.filled(
+                              breakPoint(
+                                media.width,
+                                1,
+                                2,
+                                3,
+                                4,
+                              ).toInt(),
+                              CardSkeleton(
+                                  height: 200,
+                                  width: (media.width /
+                                          breakPoint(
+                                            media.width,
+                                            1,
+                                            2,
+                                            3,
+                                            4,
+                                          )) -
+                                      20),
+                            ),
                           );
                         }
                         if (snapshot.hasError) {
@@ -761,7 +780,7 @@ class _HomeState extends State<Home> {
                                     vendorName:
                                         item.shopName ?? 'Not Available',
                                     typeOfBusiness:
-                                        item.shopType!.name ?? 'Not Available',
+                                        item.shopType?.name ?? 'Not Available',
                                     rating:
                                         " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
                                     cardImage:
@@ -906,9 +925,28 @@ class _HomeState extends State<Home> {
                         }
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return CardSkeleton(
-                            height: 200,
-                            width: media.width - 20,
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: List.filled(
+                              breakPoint(
+                                media.width,
+                                1,
+                                2,
+                                3,
+                                4,
+                              ).toInt(),
+                              CardSkeleton(
+                                  height: 200,
+                                  width: (media.width /
+                                          breakPoint(
+                                            media.width,
+                                            1,
+                                            2,
+                                            3,
+                                            4,
+                                          )) -
+                                      20),
+                            ),
                           );
                         } else if (snapshot.data!.isEmpty) {
                           return const EmptyCard(

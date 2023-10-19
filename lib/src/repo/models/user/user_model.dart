@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:benji/src/repo/utils/constant.dart';
+
 class User {
   final int? id;
   final String? email;
@@ -25,18 +27,19 @@ class User {
     this.code,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
+  factory User.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return User(
-      id: json['id'],
-      email: json['email'],
-      phone: json['phone'],
-      username: json['username'],
-      firstName: json['first_name'],
-      lastName: json['last_name'],
-      gender: json['gender'],
-      image: json['image'],
-      token: json['token'],
-      code: json['code'],
+      id: json['id'] ?? 0,
+      email: json['email'] ?? NA,
+      phone: json['phone'] ?? NA,
+      username: json['username'] ?? NA,
+      firstName: json['first_name'] ?? NA,
+      lastName: json['last_name'] ?? NA,
+      gender: json['gender'] ?? NA,
+      image: json['image'] ?? NA,
+      token: json['token'] ?? NA,
+      code: json['code'] ?? NA,
     );
   }
 }
