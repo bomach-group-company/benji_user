@@ -154,8 +154,7 @@ class _FavoritesState extends State<Favorites>
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     String formattedDateAndTime = formatDateAndTime(now);
-    double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
+    var media = MediaQuery.of(context).size;
 
 //====================================================================================\\
 
@@ -182,7 +181,7 @@ class _FavoritesState extends State<Favorites>
                   horizontal: kDefaultPadding,
                 ),
                 child: Container(
-                  width: mediaWidth,
+                  width: media.width,
                   decoration: BoxDecoration(
                     color: kDefaultCategoryBackgroundColor,
                     borderRadius: BorderRadius.circular(50),
@@ -227,7 +226,7 @@ class _FavoritesState extends State<Favorites>
                 padding: const EdgeInsets.symmetric(
                   horizontal: kDefaultPadding / 2,
                 ),
-                width: mediaWidth,
+                width: media.width,
                 child: _selectedtabbar == 0
                     ? FutureBuilder(
                         future: _products,
@@ -243,7 +242,7 @@ class _FavoritesState extends State<Favorites>
                                         rowGap: kDefaultPadding / 2,
                                         columnGap: kDefaultPadding / 2,
                                         columnSizes: breakPointDynamic(
-                                            mediaWidth,
+                                            media.width,
                                             [1.fr],
                                             [1.fr, 1.fr],
                                             [1.fr, 1.fr, 1.fr],
@@ -289,7 +288,7 @@ class _FavoritesState extends State<Favorites>
                                         rowGap: kDefaultPadding / 2,
                                         columnGap: kDefaultPadding / 2,
                                         columnSizes: breakPointDynamic(
-                                            mediaWidth,
+                                            media.width,
                                             [1.fr],
                                             [1.fr, 1.fr],
                                             [1.fr, 1.fr, 1.fr],

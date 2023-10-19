@@ -265,7 +265,7 @@ class _SettingsState extends State<Settings> {
   void _toChangePassword() async {
     await Get.to(
       () => const ChangePassword(),
-      routeName: 'ForgotPassword',
+      routeName: 'ChangePassword',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,
@@ -308,14 +308,10 @@ class _SettingsState extends State<Settings> {
         actions: const [],
         backgroundColor: kPrimaryColor,
       ),
-      extendBody: true,
-      extendBodyBehindAppBar: true,
       body: SafeArea(
         maintainBottomViewPadding: true,
         child: Scrollbar(
           controller: _scrollController,
-          radius: const Radius.circular(10),
-          scrollbarOrientation: ScrollbarOrientation.right,
           child: ListView(
             controller: _scrollController,
             physics: const BouncingScrollPhysics(),
