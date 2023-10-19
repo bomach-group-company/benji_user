@@ -69,22 +69,21 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
 
   @override
   Widget build(BuildContext context) {
-    double mediaHeight = MediaQuery.of(context).size.height;
-    double mediaWidth = MediaQuery.of(context).size.width;
+    var media = MediaQuery.of(context).size;
     return Scaffold(
       body: ListView(
         physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.all(kDefaultPadding),
         children: [
           SizedBox(
-            height: mediaHeight,
-            width: mediaWidth,
+            height: media.height,
+            width: media.width,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  height: mediaHeight / 4,
-                  width: mediaWidth / 2,
+                  height: media.height / 4,
+                  width: media.width / 2,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image:

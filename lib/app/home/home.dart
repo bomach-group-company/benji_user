@@ -144,9 +144,7 @@ class _HomeState extends State<Home> {
       kSuccessColor,
       "Success!",
       "ID copied to clipboard",
-      const Duration(
-        seconds: 2,
-      ),
+      const Duration(seconds: 2),
     );
   }
 
@@ -608,7 +606,8 @@ class _HomeState extends State<Home> {
                           );
                         }
                         if (snapshot.hasError) {
-                          return const Text('Error occurred refresh');
+                          return const Text(
+                              'An unexpected error occurred, please refresh');
                         }
                         return LayoutGrid(
                           columnGap: 10,
@@ -682,7 +681,9 @@ class _HomeState extends State<Home> {
                           );
                         }
                         if (snapshot.hasError) {
-                          return const Text('Error occurred refresh');
+                          return const Text(
+                            'An unexpected error occurred, please refresh',
+                          );
                         }
                         return SizedBox(
                           height: 250,
@@ -736,7 +737,8 @@ class _HomeState extends State<Home> {
                           );
                         }
                         if (snapshot.hasError) {
-                          return const Text('Error occurred refresh');
+                          return const Text(
+                              'An unexpected error occurred, please refresh');
                         }
                         return LayoutGrid(
                           rowGap: kDefaultPadding / 2,
@@ -845,7 +847,8 @@ class _HomeState extends State<Home> {
                           );
                         }
                         if (snapshot.hasError) {
-                          return const Text('Error occurred refresh');
+                          return const Text(
+                              'An unexpected error occurred, please refresh');
                         }
                         return LayoutGrid(
                           columnGap: 10,

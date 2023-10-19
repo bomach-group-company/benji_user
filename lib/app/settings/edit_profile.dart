@@ -33,6 +33,7 @@ class _EditProfileState extends State<EditProfile> {
 
 //======================================== ALL VARIABLES ==============================================\\
   final String countryDialCode = '234';
+
 //======================================== GLOBAL KEYS ==============================================\\
   final _formKey = GlobalKey<FormState>();
 

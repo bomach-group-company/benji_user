@@ -422,8 +422,8 @@ class _SettingsState extends State<Settings> {
                                             BorderRadius.circular(100),
                                       ),
                                     ),
-                                    child: Icon(
-                                      Icons.edit_outlined,
+                                    child: FaIcon(
+                                      FontAwesomeIcons.pencil,
                                       color: kPrimaryColor,
                                     ),
                                   ),
