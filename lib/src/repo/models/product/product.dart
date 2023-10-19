@@ -68,7 +68,7 @@ Future<Map<String, List<Product>>> getVendorProductsAndSubCategoryName(
       },
     );
   } else {
-    throw Exception('Failed to load user product');
+    return {};
   }
 }
 
@@ -95,7 +95,7 @@ Future<List<Product>> getProducts() async {
         .map((item) => Product.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load user product');
+    return [];
   }
 }
 
@@ -111,7 +111,7 @@ Future<List<Product>> getProductsByCategory(categoryId) async {
   } else if (response.body == '"No matching query"') {
     return [];
   } else {
-    throw Exception('Failed to load user product');
+    return [];
   }
 }
 
@@ -127,7 +127,7 @@ Future<List<Product>> getProductsBySubCategory(subCategoryId) async {
   } else if (response.body == '"No matching query"') {
     return [];
   } else {
-    throw Exception('Failed to load user product');
+    return [];
   }
 }
 
@@ -146,7 +146,7 @@ Future<List<Product>> getProductsByVendorSubCategory(
   } else if (response.body == '"No matching query"') {
     return [];
   } else {
-    throw Exception('Failed to load user product');
+    return [];
   }
 }
 
@@ -163,7 +163,7 @@ Future<List<Product>> getProductsByVendor(vendorId,
         .map((item) => Product.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load user product');
+    return [];
   }
 }
 
@@ -180,6 +180,6 @@ Future<List<Product>> getProductsBySearching(query) async {
   } else if (response.body == '"No matching query"') {
     return [];
   } else {
-    throw Exception('Failed to load user product');
+    return [];
   }
 }

@@ -42,7 +42,7 @@ Future<List<SubCategory>> getSubCategories() async {
         .map((item) => SubCategory.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load sub category');
+    return [];
   }
 }
 
@@ -58,6 +58,6 @@ Future<List<SubCategory>> getSubCategoriesBycategory(id) async {
         .map((item) => SubCategory.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load sub category');
+    return [];
   }
 }

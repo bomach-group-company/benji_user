@@ -79,7 +79,7 @@ Future<List<DeliveryItem>> getDeliveryItemsByClientAndStatus(
         .map((item) => DeliveryItem.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load delivery items');
+    return [];
   }
 }
 

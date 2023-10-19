@@ -52,7 +52,7 @@ Future<List<Address>> getAddressesByUser() async {
         .map((item) => Address.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load user address');
+    return [];
   }
 }
 
@@ -99,6 +99,6 @@ Future<bool> deleteAddress(
   if (response.statusCode == 200) {
     return response.body == "Address deleted successfully";
   } else {
-    throw Exception('Failed to delete address');
+    return false;
   }
 }

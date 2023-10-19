@@ -32,6 +32,6 @@ Future<List<ItemCategory>> getPackageCategory() async {
         .map((item) => ItemCategory.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load items category');
+    return [];
   }
 }

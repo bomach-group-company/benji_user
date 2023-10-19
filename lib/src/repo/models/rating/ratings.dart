@@ -50,7 +50,7 @@ Future<List<Ratings>> getRatingsByVendorId(int id,
         .map((item) => Ratings.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load ratings');
+    return [];
   }
 }
 
@@ -67,7 +67,7 @@ Future<List<Ratings>> getRatingsByVendorIdAndRating(int id, int rating,
         .map((item) => Ratings.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load ratings');
+    return [];
   }
 }
 
@@ -82,7 +82,7 @@ Future<List<Ratings>> getRatingsByProductId(String id,
         .map((item) => Ratings.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load ratings');
+    return [];
   }
 }
 
@@ -99,6 +99,6 @@ Future<List<Ratings>> getRatingsByProductIdAndRating(String id, int rating,
         .map((item) => Ratings.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load ratings');
+    return [];
   }
 }

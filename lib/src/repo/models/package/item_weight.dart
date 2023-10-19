@@ -38,6 +38,6 @@ Future<List<ItemWeight>> getPackageWeight() async {
         .map((item) => ItemWeight.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load items weight');
+    return [];
   }
 }

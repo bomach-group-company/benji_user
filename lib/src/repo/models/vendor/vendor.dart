@@ -92,7 +92,7 @@ Future<List<VendorModel>> getPopularVendors() async {
         .map((item) => VendorModel.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load vendor');
+    return [];
   }
 }
 
@@ -107,6 +107,6 @@ Future<List<VendorModel>> getVendors({start = 1, end = 10}) async {
         .map((item) => VendorModel.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load vendor');
+    return [];
   }
 }

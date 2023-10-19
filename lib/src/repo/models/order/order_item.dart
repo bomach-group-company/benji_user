@@ -44,6 +44,6 @@ Future<List<OrderItem>> getOrderItems(id) async {
         .map((item) => OrderItem.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load order items');
+    return [];
   }
 }

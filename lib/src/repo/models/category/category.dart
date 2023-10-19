@@ -38,6 +38,6 @@ Future<List<Category>> getCategories() async {
         .map((item) => Category.fromJson(item))
         .toList();
   } else {
-    throw Exception('Failed to load category');
+    return [];
   }
 }
