@@ -257,10 +257,12 @@ class _DeliverToState extends State<DeliverTo> {
                                               width: min(
                                                   mediaWidth - 200,
                                                   15.0 *
-                                                      _addressData!['addresses']
-                                                              [index]
-                                                          .title
-                                                          .length),
+                                                          _addressData![
+                                                                      'addresses']
+                                                                  [index]
+                                                              ?.title
+                                                              ?.length ??
+                                                      1),
                                               child: Text(
                                                 _addressData!['addresses']
                                                         [index]
@@ -329,7 +331,8 @@ class _DeliverToState extends State<DeliverTo> {
                                           ),
                                           child: Text(
                                             _addressData!['addresses'][index]
-                                                .details,
+                                                    ?.details ??
+                                                '',
                                             style: TextStyle(
                                               color: kTextGreyColor,
                                               fontSize: 13,

@@ -189,7 +189,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       paymentChannels: ["card", "bank", "ussd", "transfer"],
       customerName: "${user?.firstName ?? ''} ${user?.lastName ?? ''}",
       callbackUrl: null,
-      metadata: {"order_id": "order_id"},
+      metadata: {"order_id": "order_id"}, // i will pass in the order id here
       passCharge: true,
     );
   }
