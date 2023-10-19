@@ -17,7 +17,8 @@ class Category {
     required this.isActive,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) {
+  factory Category.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return Category(
       id: json['id'],
       name: json['name'],

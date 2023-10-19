@@ -25,7 +25,8 @@ class Address {
     this.longitude,
   });
 
-  factory Address.fromJson(Map<String, dynamic> json) {
+  factory Address.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return Address(
       id: json['id'] ?? NA,
       title: json['title'] ?? NA,

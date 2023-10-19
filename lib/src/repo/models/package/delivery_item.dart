@@ -44,7 +44,8 @@ class DeliveryItem {
     required this.status,
   });
 
-  factory DeliveryItem.fromJson(Map<String, dynamic> json) {
+  factory DeliveryItem.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return DeliveryItem(
       id: json['id'] ?? NA,
       clientId: User.fromJson(json['client']),

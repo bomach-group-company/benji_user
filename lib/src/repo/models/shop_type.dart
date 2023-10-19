@@ -13,7 +13,8 @@ class ShopTypeModel {
     this.isActive,
   });
 
-  factory ShopTypeModel.fromJson(Map<String, dynamic> json) {
+  factory ShopTypeModel.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return ShopTypeModel(
       id: json['id'] ?? NA,
       name: json['name'] ?? NA,

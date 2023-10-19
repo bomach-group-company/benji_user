@@ -24,7 +24,8 @@ class Ratings {
     required this.product,
   });
 
-  factory Ratings.fromJson(Map<String, dynamic> json) {
+  factory Ratings.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return Ratings(
       id: json['id'] ?? NA,
       ratingValue: json['rating_value'] ?? 0.0,

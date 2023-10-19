@@ -15,7 +15,8 @@ class OrderItem {
     // required this.quantity,
   });
 
-  factory OrderItem.fromJson(Map<String, dynamic> json) {
+  factory OrderItem.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return OrderItem(
       id: json['id'] ?? NA,
       // product: json['product'] ?? NA,

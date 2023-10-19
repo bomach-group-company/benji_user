@@ -11,7 +11,8 @@ class Driver {
     required this.lastName,
   });
 
-  factory Driver.fromJson(Map<String, dynamic> json) {
+  factory Driver.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return Driver(
       id: json['id'] ?? NA,
       firstName: json['first_name'] ?? NA,

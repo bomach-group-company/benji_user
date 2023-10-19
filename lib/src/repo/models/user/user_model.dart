@@ -27,7 +27,8 @@ class User {
     this.code,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
+  factory User.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return User(
       id: json['id'] ?? 0,
       email: json['email'] ?? NA,

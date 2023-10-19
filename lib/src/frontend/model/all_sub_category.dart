@@ -20,7 +20,8 @@ class AllSubCatogory {
     required this.end,
   });
 
-  factory AllSubCatogory.fromJson(Map<String, dynamic> json) {
+  factory AllSubCatogory.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return AllSubCatogory(
       items: (json['items'] as List)
           .map((item) => SubCategory.fromJson(item))

@@ -13,7 +13,8 @@ class Percentage {
     required this.stateCoordinatorPercentage,
   });
 
-  factory Percentage.fromJson(Map<String, dynamic> json) {
+  factory Percentage.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return Percentage(
       id: json['id'] ?? NA,
       riderPercentage: (json['rider_percentage'] ?? 0).toDouble(),

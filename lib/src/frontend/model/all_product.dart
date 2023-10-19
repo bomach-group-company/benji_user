@@ -16,7 +16,8 @@ class AllProduct {
     required this.perPage,
   });
 
-  factory AllProduct.fromJson(Map<String, dynamic> json) {
+  factory AllProduct.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return AllProduct(
       items: (json['items'] as List)
           .map((item) => Product.fromJson(item))

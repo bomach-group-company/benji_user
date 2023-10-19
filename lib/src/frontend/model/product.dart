@@ -33,7 +33,8 @@ class Product {
     required this.subCategory,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) {
+  factory Product.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return Product(
       id: json['id'],
       name: json['name'],

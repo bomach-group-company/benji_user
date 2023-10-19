@@ -13,7 +13,8 @@ class ItemCategory {
     required this.name,
   });
 
-  factory ItemCategory.fromJson(Map<String, dynamic> json) {
+  factory ItemCategory.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return ItemCategory(
       id: json['id'] ?? NA,
       name: json['name'] ?? NA,
