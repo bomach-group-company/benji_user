@@ -48,6 +48,7 @@ class CategoryItem extends StatelessWidget {
           kHalfSizedBox,
           SizedBox(
             width: 60,
+            height: 30,
             child: Text(
               showAll ? 'All' : category!.name,
               softWrap: true,
