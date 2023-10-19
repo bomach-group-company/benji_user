@@ -20,10 +20,10 @@ class Category {
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      isActive: json['is_active'],
+      id: json['id'] ?? NA,
+      name: json['name'] ?? NA,
+      description: json['description'] ?? NA,
+      isActive: json['is_active'] ?? false,
     );
   }
 }

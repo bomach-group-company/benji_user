@@ -23,10 +23,10 @@ class SubCategory {
 
   factory SubCategory.fromJson(Map<String, dynamic> json) {
     return SubCategory(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      isActive: json['is_active'],
+      id: json['id'] ?? NA,
+      name: json['name'] ?? NA,
+      description: json['description'] ?? NA,
+      isActive: json['is_active'] ?? false,
       category: Category.fromJson(json['category']),
     );
   }

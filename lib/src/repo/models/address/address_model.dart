@@ -27,13 +27,13 @@ class Address {
 
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
-      id: json['id'],
-      title: json['title'],
-      details: json['details'],
-      phone: json['phone'],
-      isCurrent: json['is_current'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
+      id: json['id'] ?? NA,
+      title: json['title'] ?? NA,
+      details: json['details'] ?? NA,
+      phone: json['phone'] ?? NA,
+      isCurrent: json['is_current'] ?? false,
+      latitude: json['latitude'] ?? NA,
+      longitude: json['longitude'] ?? NA,
     );
   }
 }

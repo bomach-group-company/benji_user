@@ -16,10 +16,10 @@ class OffsetLimitBase {
   factory OffsetLimitBase.fromJson(Map<String, dynamic> json) {
     return OffsetLimitBase(
       items: json['items'] ?? [],
-      total: json['total'],
-      perPage: json['per_page'],
-      start: json['start'],
-      end: json['end'],
+      total: json['total'] ?? 0,
+      perPage: json['per_page'] ?? 0,
+      start: json['start'] ?? 0,
+      end: json['end'] ?? 0,
     );
   }
 }
