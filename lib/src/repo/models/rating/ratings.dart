@@ -26,9 +26,9 @@ class Ratings {
 
   factory Ratings.fromJson(Map<String, dynamic> json) {
     return Ratings(
-      id: json['id'],
-      ratingValue: json['rating_value'],
-      comment: json['comment'],
+      id: json['id'] ?? NA,
+      ratingValue: json['rating_value'] ?? 0.0,
+      comment: json['comment'] ?? NA,
       created: DateTime.parse(json['created']),
       client: User.fromJson(json['client']),
       product:

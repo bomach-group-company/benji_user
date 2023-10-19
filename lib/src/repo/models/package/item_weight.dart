@@ -19,10 +19,10 @@ class ItemWeight {
 
   factory ItemWeight.fromJson(Map<String, dynamic> json) {
     return ItemWeight(
-      id: json['id'],
-      start: json['start'],
-      end: json['end'],
-      title: json['title'],
+      id: json['id'] ?? NA,
+      start: json['start'] ?? 0,
+      end: json['end'] ?? 0,
+      title: json['title'] ?? NA,
     );
   }
 }

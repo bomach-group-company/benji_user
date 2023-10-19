@@ -33,11 +33,11 @@ class Order {
     // }
 
     return Order(
-      id: json['id'],
-      totalPrice: json['total_price'],
-      assignedStatus: json['assigned_status'],
-      deliveryStatus: json['delivery_status'],
-      // client: User.fromJson(json['client']),
+      id: json['id'] ?? NA,
+      totalPrice: json['total_price'] ?? 0.0,
+      assignedStatus: json['assigned_status'] ?? NA,
+      deliveryStatus: json['delivery_status'] ?? NA,
+      // client: User.fromJson(json['client']) ?? NA,
       // deliveryAddress: Address.fromJson(json['delivery_address']),
       // orderItems: orderItems,
       // created: DateTime.parse(json['created']),

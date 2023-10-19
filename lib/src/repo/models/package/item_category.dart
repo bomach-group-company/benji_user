@@ -15,8 +15,8 @@ class ItemCategory {
 
   factory ItemCategory.fromJson(Map<String, dynamic> json) {
     return ItemCategory(
-      id: json['id'],
-      name: json['name'],
+      id: json['id'] ?? NA,
+      name: json['name'] ?? NA,
     );
   }
 }
