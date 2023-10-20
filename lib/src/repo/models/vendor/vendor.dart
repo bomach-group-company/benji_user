@@ -46,24 +46,22 @@ class VendorModel {
   factory VendorModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return VendorModel(
-      id: json['id'],
-      email: json['email'],
-      phone: json['phone'],
-      username: json['username'],
-      code: json['code'],
-      isOnline: json['is_online'],
-      firstName: json['first_name'],
-      lastName: json['last_name'],
-      gender: json['gender'],
-      address: json['address'],
-      shopName: json['shop_name'],
-      averageRating: json['average_rating'],
-      numberOfClientsReactions: json['number_of_clients_reactions'],
+      id: json['id'] ?? 0,
+      email: json['email'] ?? NA,
+      phone: json['phone'] ?? NA,
+      username: json['username'] ?? NA,
+      code: json['code'] ?? NA,
+      isOnline: json['is_online'] ?? false,
+      firstName: json['first_name'] ?? NA,
+      lastName: json['last_name'] ?? NA,
+      gender: json['gender'] ?? NA,
+      address: json['address'] ?? NA,
+      shopName: json['shop_name'] ?? NA,
+      averageRating: json['average_rating'] ?? 0.0,
+      numberOfClientsReactions: json['number_of_clients_reactions'] ?? 0,
       shopImage: json['shop_image'],
       profileLogo: json['profileLogo'],
-      shopType: json['shop_type'] == null
-          ? null
-          : ShopTypeModel.fromJson(json['shop_type']),
+      shopType: ShopTypeModel.fromJson(json['shop_type']),
     );
   }
 }
@@ -74,6 +72,8 @@ Future<VendorModel> getVendorById(id) async {
     headers: await authHeader(),
   );
 
+  print(response.body);
+  print(response.statusCode);
   if (response.statusCode == 200) {
     return VendorModel.fromJson(jsonDecode(response.body));
   } else {
