@@ -123,86 +123,89 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
           maintainBottomViewPadding: true,
           child: Scrollbar(
             controller: _scrollController,
-            child: FutureBuilder(
-                future: productAndSubCategoryName,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: kAccentColor,
-                      ),
-                    );
-                  }
-                  return Container(
-                    padding: const EdgeInsets.all(kDefaultPadding / 2),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 60,
-                          child: ListView.builder(
-                            itemCount: snapshot.data!.keys.toList().length,
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) =>
-                                Padding(
-                              padding:
-                                  const EdgeInsets.all(kDefaultPadding / 2),
-                              child: CategoryButton(
-                                onPressed: () async {
-                                  setState(() {
-                                    activeCategory =
-                                        snapshot.data!.keys.toList()[index];
-                                  });
-                                },
-                                title: snapshot.data!.keys.toList()[index],
-                                bgColor: activeCategory ==
-                                        snapshot.data!.keys.toList()[index]
-                                    ? kAccentColor
-                                    : kDefaultCategoryBackgroundColor,
-                                categoryFontColor: activeCategory ==
-                                        snapshot.data!.keys.toList()[index]
-                                    ? kPrimaryColor
-                                    : kTextGreyColor,
+            child: SingleChildScrollView(
+              child: FutureBuilder(
+                  future: productAndSubCategoryName,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: kAccentColor,
+                        ),
+                      );
+                    }
+                    return Container(
+                      padding: const EdgeInsets.all(kDefaultPadding / 2),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 60,
+                            child: ListView.builder(
+                              itemCount: snapshot.data!.keys.toList().length,
+                              scrollDirection: Axis.horizontal,
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) =>
+                                  Padding(
+                                padding:
+                                    const EdgeInsets.all(kDefaultPadding / 2),
+                                child: CategoryButton(
+                                  onPressed: () async {
+                                    setState(() {
+                                      activeCategory =
+                                          snapshot.data!.keys.toList()[index];
+                                    });
+                                  },
+                                  title: snapshot.data!.keys.toList()[index],
+                                  bgColor: activeCategory ==
+                                          snapshot.data!.keys.toList()[index]
+                                      ? kAccentColor
+                                      : kDefaultCategoryBackgroundColor,
+                                  categoryFontColor: activeCategory ==
+                                          snapshot.data!.keys.toList()[index]
+                                      ? kPrimaryColor
+                                      : kTextGreyColor,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        kHalfSizedBox,
-                        snapshot.data!.isEmpty
-                            ? const EmptyCard(
-                                removeButton: true,
-                              )
-                            : LayoutGrid(
-                                rowGap: kDefaultPadding / 2,
-                                columnGap: kDefaultPadding / 2,
-                                columnSizes: breakPointDynamic(
-                                    media.width,
-                                    [1.fr],
-                                    [1.fr, 1.fr],
-                                    [1.fr, 1.fr, 1.fr],
-                                    [1.fr, 1.fr, 1.fr, 1.fr]),
-                                rowSizes: snapshot
-                                        .data![activeCategory]!.isEmpty
-                                    ? [auto]
-                                    : List.generate(
-                                        snapshot.data![activeCategory]!.length,
-                                        (index) => auto),
-                                children: (snapshot.data![activeCategory]
-                                        as List<Product>)
-                                    .map(
-                                      (item) => ProductCard(
-                                        product: item,
-                                        onTap: () =>
-                                            _toProductDetailScreen(item),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                        kSizedBox,
-                      ],
-                    ),
-                  );
-                }),
+                          kHalfSizedBox,
+                          snapshot.data!.isEmpty
+                              ? const EmptyCard(
+                                  removeButton: true,
+                                )
+                              : LayoutGrid(
+                                  rowGap: kDefaultPadding / 2,
+                                  columnGap: kDefaultPadding / 2,
+                                  columnSizes: breakPointDynamic(
+                                      media.width,
+                                      [1.fr],
+                                      [1.fr, 1.fr],
+                                      [1.fr, 1.fr, 1.fr],
+                                      [1.fr, 1.fr, 1.fr, 1.fr]),
+                                  rowSizes:
+                                      snapshot.data![activeCategory]!.isEmpty
+                                          ? [auto]
+                                          : List.generate(
+                                              snapshot.data![activeCategory]!
+                                                  .length,
+                                              (index) => auto),
+                                  children: (snapshot.data![activeCategory]
+                                          as List<Product>)
+                                      .map(
+                                        (item) => ProductCard(
+                                          product: item,
+                                          onTap: () =>
+                                              _toProductDetailScreen(item),
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                          kSizedBox,
+                        ],
+                      ),
+                    );
+                  }),
+            ),
           ),
         ),
       ),
