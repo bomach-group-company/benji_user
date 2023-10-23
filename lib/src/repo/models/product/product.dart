@@ -85,13 +85,13 @@ Future<Product> getProductById(String id) async {
   }
 }
 
-Future<List<Product>> getProducts() async {
+Future<List<Product>> getProducts([start = 0, end = 5]) async {
   final response = await http.get(
-    Uri.parse('$baseURL/products/listProduct'),
+    Uri.parse('$baseURL/products/listProduct?start=$start&end=$end'),
     headers: await authHeader(),
   );
   if (response.statusCode == 200) {
-    return (jsonDecode(response.body) as List)
+    return (jsonDecode(response.body)['items'] as List)
         .map((item) => Product.fromJson(item))
         .toList();
   } else {

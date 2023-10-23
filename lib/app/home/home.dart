@@ -62,7 +62,11 @@ class _HomeState extends State<Home> {
     checkAuth(context);
     NotificationController.initializeNotification();
 
-    _products = getProducts();
+    getProducts(start, end).then((value) {
+      setState(() {
+        _products = value;
+      });
+    });
     _category = getCategories();
     _vendors = getVendors();
     _popularVendors = getPopularVendors();
@@ -70,7 +74,7 @@ class _HomeState extends State<Home> {
     _scrollController.addListener(_scrollListener);
   }
 
-  late Future<List<Product>> _products;
+  List<Product>? _products;
   late Future<List<Category>> _category;
   late Future<List<VendorModel>> _vendors;
   late Future<List<VendorModel>> _popularVendors;
@@ -85,6 +89,11 @@ class _HomeState extends State<Home> {
   }
 
 //============================================== ALL VARIABLES =================================================\\
+  int start = 0;
+  int end = 10;
+  bool loadMore = false;
+  bool thatsAllData = false;
+
   String activeCategory = '';
   String cartCount = '';
 //============================================== BOOL VALUES =================================================\\
@@ -175,13 +184,41 @@ class _HomeState extends State<Home> {
         _isScrollToTopBtnVisible = false;
       });
     }
+    if (loadMore || thatsAllData) return;
+
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      setState(() {
+        loadMore = true;
+        start = end;
+        end = end + 10;
+      });
+
+      _products ??= [];
+      if (!thatsAllData) {
+        List<Product> products = await getProducts(start, end);
+        thatsAllData = products.isEmpty;
+        _products!.addAll(products);
+        setState(() {});
+      }
+
+      await _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 25),
+        curve: Curves.easeInOut,
+      );
+
+      setState(() {
+        loadMore = false;
+      });
+    }
   }
 
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
     setState(() {
-      _products = getProducts();
       _category = getCategories();
       _vendors = getVendors();
       _popularVendors = getPopularVendors();
@@ -917,67 +954,76 @@ class _HomeState extends State<Home> {
                         );
                       }),
                   kSizedBox,
-                  FutureBuilder(
-                      future: _products,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          return const Text('Error occurred refresh');
-                        }
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: List.filled(
-                              breakPoint(
-                                media.width,
-                                1,
-                                2,
-                                3,
-                                4,
-                              ).toInt(),
-                              CardSkeleton(
-                                  height: 200,
-                                  width: (media.width /
-                                          breakPoint(
-                                            media.width,
-                                            1,
-                                            2,
-                                            3,
-                                            4,
-                                          )) -
-                                      20),
-                            ),
-                          );
-                        } else if (snapshot.data!.isEmpty) {
-                          return const EmptyCard(
-                            removeButton: true,
-                          );
-                        }
-
-                        return LayoutGrid(
-                          rowGap: kDefaultPadding / 2,
-                          columnGap: kDefaultPadding / 2,
-                          columnSizes: breakPointDynamic(
+                  _products == null
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: List.filled(
+                            breakPoint(
                               media.width,
-                              [1.fr],
-                              [1.fr, 1.fr],
-                              [1.fr, 1.fr, 1.fr],
-                              [1.fr, 1.fr, 1.fr, 1.fr]),
-                          rowSizes: snapshot.data!.isEmpty
-                              ? [auto]
-                              : List.generate(
-                                  snapshot.data!.length, (index) => auto),
-                          children: (snapshot.data as List<Product>)
-                              .map(
-                                (item) => ProductCard(
-                                  product: item,
-                                  onTap: () => _toProductDetailScreenPage(item),
-                                ),
-                              )
-                              .toList(),
-                        );
-                      }),
+                              1,
+                              2,
+                              3,
+                              4,
+                            ).toInt(),
+                            CardSkeleton(
+                                height: 200,
+                                width: (media.width /
+                                        breakPoint(
+                                          media.width,
+                                          1,
+                                          2,
+                                          3,
+                                          4,
+                                        )) -
+                                    20),
+                          ),
+                        )
+                      : _products!.isEmpty
+                          ? const EmptyCard(
+                              removeButton: true,
+                            )
+                          : LayoutGrid(
+                              rowGap: kDefaultPadding / 2,
+                              columnGap: kDefaultPadding / 2,
+                              columnSizes: breakPointDynamic(
+                                  media.width,
+                                  [1.fr],
+                                  [1.fr, 1.fr],
+                                  [1.fr, 1.fr, 1.fr],
+                                  [1.fr, 1.fr, 1.fr, 1.fr]),
+                              rowSizes: _products!.isEmpty
+                                  ? [auto]
+                                  : List.generate(
+                                      _products!.length, (index) => auto),
+                              children: (_products as List<Product>)
+                                  .map(
+                                    (item) => ProductCard(
+                                      product: item,
+                                      onTap: () =>
+                                          _toProductDetailScreenPage(item),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+
                   kSizedBox,
+                  thatsAllData
+                      ? Container(
+                          margin: const EdgeInsets.only(top: 20, bottom: 20),
+                          height: 10,
+                          width: 10,
+                          decoration: ShapeDecoration(
+                              shape: const CircleBorder(),
+                              color: kPageSkeletonColor),
+                        )
+                      : const SizedBox(),
+                  loadMore
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: kAccentColor,
+                          ),
+                        )
+                      : const SizedBox()
                 ],
               ),
             ),

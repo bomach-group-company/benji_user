@@ -29,12 +29,13 @@ class Category {
   }
 }
 
-Future<List<Category>> getCategories() async {
-  final response = await http.get(Uri.parse('$baseURL/categories/list'),
+Future<List<Category>> getCategories([start = 0, end = 100]) async {
+  final response = await http.get(
+      Uri.parse('$baseURL/categories/list?start=$start&end=$end'),
       headers: await authHeader());
 
   if (response.statusCode == 200) {
-    return (jsonDecode(response.body) as List)
+    return (jsonDecode(response.body)['items'] as List)
         .map((item) => Category.fromJson(item))
         .toList();
   } else {

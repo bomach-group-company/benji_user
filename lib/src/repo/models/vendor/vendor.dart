@@ -94,7 +94,7 @@ Future<List<VendorModel>> getPopularVendors() async {
   }
 }
 
-Future<List<VendorModel>> getVendors({start = 1, end = 10}) async {
+Future<List<VendorModel>> getVendors({start = 0, end = 5}) async {
   final response = await http.get(
     Uri.parse('$baseURL/vendors/getAllVendor?start=$start&end=$end'),
     headers: await authHeader(),
