@@ -25,6 +25,14 @@ Future<User?> getUser() async {
   return modelUser(user);
 }
 
+User? getUserSync() {
+  String? user = prefs.getString('user');
+  if (user == null) {
+    return null;
+  }
+  return modelUser(user);
+}
+
 checkUserAuth() async {
   User? haveUser = await getUser();
   if (haveUser == null) {

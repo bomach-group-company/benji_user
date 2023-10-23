@@ -2,6 +2,9 @@ import 'package:benji/app/packages/item_category_dropdown_menu.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/textformfield/message_textformfield.dart';
+import 'package:benji/src/repo/models/complain/complain.dart';
+import 'package:benji/src/repo/models/order/order.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -20,6 +23,16 @@ class _SelectOrderState extends State<SelectOrder> {
   @override
   void initState() {
     super.initState();
+    _getData();
+  }
+
+  List<Order> _orders = [];
+
+  _getData() async {
+    int? userId = getUserSync()!.id;
+
+    _orders = await getOrders(userId);
+    setState(() {});
   }
 
   @override
@@ -30,15 +43,15 @@ class _SelectOrderState extends State<SelectOrder> {
   }
 
 //============================================== ALL VARIABLES =================================================\\
-  final _orders = ['#564895', '#86214', '#552255'];
-  final _products = ['item1', 'item2', 'itemn'];
 
-//============================================== BOOL VALUES =================================================\\
+//============================================== FUNCTIONS =================================================\\
+  _submit() async {
+    await makeComplain(_itemOrderEC.text, _messageEC.text, 'order');
+  }
 
 //============================================== CONTROLLERS =================================================\\
   final _scrollController = ScrollController();
   final _itemOrderEC = TextEditingController();
-  final _itemProductEC = TextEditingController();
   final _messageEC = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -133,8 +146,8 @@ class _SelectOrderState extends State<SelectOrder> {
                   hintText: "Choose order",
                   dropdownMenuEntries2: _orders
                       .map((item) => DropdownMenuEntry(
-                            value: item,
-                            label: item,
+                            value: item.id,
+                            label: item.id,
                           ))
                       .toList(),
                 ),
@@ -169,7 +182,7 @@ class _SelectOrderState extends State<SelectOrder> {
                   title: 'Send',
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      // do someting
+                      _submit();
                     }
                   },
                 )

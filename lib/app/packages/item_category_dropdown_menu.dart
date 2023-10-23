@@ -9,19 +9,22 @@ class ItemDropDownMenu extends StatelessWidget {
     required this.mediaWidth,
     required this.hintText,
     required this.dropdownMenuEntries2,
+    this.onSelected,
   });
 
   final TextEditingController itemEC;
   final double mediaWidth;
   final String hintText;
   final List<DropdownMenuEntry<Object>> dropdownMenuEntries2;
+  final Function(dynamic value)? onSelected;
 
   @override
   Widget build(BuildContext context) {
     return DropdownMenu(
-      onSelected: (value) {
-        itemEC.text = value!.toString();
-      },
+      onSelected: onSelected ??
+          (value) {
+            itemEC.text = value!.toString();
+          },
       width: mediaWidth,
       hintText: hintText,
       inputDecorationTheme: InputDecorationTheme(

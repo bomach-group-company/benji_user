@@ -72,8 +72,6 @@ Future<VendorModel> getVendorById(id) async {
     headers: await authHeader(),
   );
 
-  print(response.body);
-  print(response.statusCode);
   if (response.statusCode == 200) {
     return VendorModel.fromJson(jsonDecode(response.body));
   } else {
