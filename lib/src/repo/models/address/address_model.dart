@@ -7,22 +7,22 @@ import '../../utils/constant.dart';
 import '../../utils/helpers.dart';
 
 class Address {
-  final String? id;
-  final String? title;
-  final String? details;
-  final String? phone;
-  final bool? isCurrent;
-  final String? latitude;
-  final String? longitude;
+  final String id;
+  final String title;
+  final String details;
+  final String phone;
+  final bool isCurrent;
+  final String latitude;
+  final String longitude;
 
   Address({
-    this.id,
-    this.title,
-    this.details,
-    this.phone,
-    this.isCurrent,
-    this.latitude,
-    this.longitude,
+    required this.id,
+    required this.title,
+    required this.details,
+    required this.phone,
+    required this.isCurrent,
+    required this.latitude,
+    required this.longitude,
   });
 
   factory Address.fromJson(Map<String, dynamic>? json) {

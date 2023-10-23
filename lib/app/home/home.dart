@@ -184,7 +184,9 @@ class _HomeState extends State<Home> {
         _isScrollToTopBtnVisible = false;
       });
     }
-    if (loadMore || thatsAllData) return;
+    if (loadMore || thatsAllData || _products == null || _products!.isEmpty) {
+      return;
+    }
 
     if (_scrollController.offset >=
             _scrollController.position.maxScrollExtent &&
@@ -195,11 +197,12 @@ class _HomeState extends State<Home> {
         end = end + 10;
       });
 
-      _products ??= [];
       if (!thatsAllData) {
         List<Product> products = await getProducts(start, end);
         thatsAllData = products.isEmpty;
-        _products!.addAll(products);
+        if (_products != null) {
+          _products!.addAll(products);
+        }
         setState(() {});
       }
 
@@ -745,7 +748,7 @@ class _HomeState extends State<Home> {
                                   vendorName: snapshot.data![index].shopName ??
                                       "Not Available",
                                   typeOfBusiness:
-                                      snapshot.data![index].shopType?.name ??
+                                      snapshot.data![index].shopType.name ??
                                           'Not Available',
                                   rating:
                                       '${(snapshot.data![index].averageRating ?? 0.0).toStringAsPrecision(2)} (${snapshot.data![index].numberOfClientsReactions ?? 0})',
@@ -817,7 +820,7 @@ class _HomeState extends State<Home> {
                                     vendorName:
                                         item.shopName ?? 'Not Available',
                                     typeOfBusiness:
-                                        item.shopType?.name ?? 'Not Available',
+                                        item.shopType.name ?? 'Not Available',
                                     rating:
                                         " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
                                     cardImage:

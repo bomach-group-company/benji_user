@@ -8,18 +8,18 @@ import '../../utils/constant.dart';
 import '../../utils/helpers.dart';
 
 class Ratings {
-  final String? id;
-  final double? ratingValue;
-  final String? comment;
-  final DateTime? created;
+  final String id;
+  final double ratingValue;
+  final String comment;
+  final DateTime created;
   final User client;
-  final Product? product;
+  final Product product;
 
   Ratings({
-    this.id,
-    this.ratingValue,
-    this.comment,
-    this.created,
+    required this.id,
+    required this.ratingValue,
+    required this.comment,
+    required this.created,
     required this.client,
     required this.product,
   });
@@ -30,10 +30,11 @@ class Ratings {
       id: json['id'] ?? NA,
       ratingValue: json['rating_value'] ?? 0.0,
       comment: json['comment'] ?? NA,
-      created: DateTime.parse(json['created']),
+      created: json['created'] == null
+          ? DateTime.now()
+          : DateTime.parse(json['created']),
       client: User.fromJson(json['client']),
-      product:
-          json['product'] == null ? null : Product.fromJson(json['product']),
+      product: Product.fromJson(json['product']),
     );
   }
 }

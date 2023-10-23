@@ -7,40 +7,40 @@ import '../../utils/constant.dart';
 import '../../utils/helpers.dart';
 
 class VendorModel {
-  final int? id;
-  final String? email;
-  final String? phone;
-  final String? username;
-  final String? code;
-  final bool? isOnline;
-  final String? firstName;
-  final String? lastName;
-  final String? gender;
-  final String? address;
-  final String? shopName;
-  final double? averageRating;
-  final int? numberOfClientsReactions;
+  final int id;
+  final String email;
+  final String phone;
+  final String username;
+  final String code;
+  final bool isOnline;
+  final String firstName;
+  final String lastName;
+  final String gender;
+  final String address;
+  final String shopName;
+  final double averageRating;
+  final int numberOfClientsReactions;
   final String? shopImage;
   final String? profileLogo;
-  final ShopTypeModel? shopType;
+  final ShopTypeModel shopType;
 
   VendorModel({
-    this.id,
-    this.email,
-    this.phone,
-    this.username,
-    this.code,
-    this.isOnline = true,
-    this.firstName,
-    this.lastName,
-    this.gender,
-    this.address,
-    this.shopName,
-    this.averageRating,
-    this.numberOfClientsReactions,
-    this.shopImage,
-    this.profileLogo,
-    this.shopType,
+    required this.id,
+    required this.email,
+    required this.phone,
+    required this.username,
+    required this.code,
+    required this.isOnline,
+    required this.firstName,
+    required this.lastName,
+    required this.gender,
+    required this.address,
+    required this.shopName,
+    required this.averageRating,
+    required this.numberOfClientsReactions,
+    required this.shopImage,
+    required this.profileLogo,
+    required this.shopType,
   });
 
   factory VendorModel.fromJson(Map<String, dynamic>? json) {
