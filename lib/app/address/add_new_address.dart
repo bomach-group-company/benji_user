@@ -473,9 +473,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                 kSizedBox,
                 _isLoading
                     ? Center(
-                        child: CircularProgressIndicator(
-                          color: kAccentColor,
-                        ),
+                        child: CircularProgressIndicator(color: kAccentColor),
                       )
                     : MyOutlinedElevatedButton(
                         title: "Set As Default Address",

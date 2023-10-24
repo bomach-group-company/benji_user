@@ -115,8 +115,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           actions: [],
           backgroundColor: kTransparentColor,
         ),
-        extendBody: true,
-        extendBodyBehindAppBar: true,
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: LayoutGrid(

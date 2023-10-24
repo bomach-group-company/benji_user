@@ -60,6 +60,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     checkAuth(context);
+    _carouselController.startAutoPlay();
     NotificationController.initializeNotification();
 
     getProducts(start, end).then((value) {
@@ -83,6 +84,8 @@ class _HomeState extends State<Home> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _carouselController.stopAutoPlay();
+
     _scrollController.removeListener(() {});
 
     super.dispose();
@@ -96,6 +99,7 @@ class _HomeState extends State<Home> {
 
   String activeCategory = '';
   String cartCount = '';
+
 //============================================== BOOL VALUES =================================================\\
   final bool _vendorStatus = true;
   bool _isScrollToTopBtnVisible = false;
@@ -116,7 +120,6 @@ class _HomeState extends State<Home> {
   final double _offlineVendorsRating = 4.0;
 
   //==================================================== CONTROLLERS ======================================================\\
-  final TextEditingController _searchController = TextEditingController();
   final _scrollController = ScrollController();
   final CarouselController _carouselController = CarouselController();
 
@@ -125,7 +128,7 @@ class _HomeState extends State<Home> {
   final List<String> _carouselImages = <String>[
     "assets/images/products/best-choice-restaurant.png",
     "assets/images/products/burgers.png",
-    "assets/images/products/chizzy's-food.png",
+    "assets/images/products/chizzy_food.png",
     "assets/images/products/golden-toast.png",
     "assets/images/products/new-food.png",
     "assets/images/products/okra-soup.png",
@@ -153,9 +156,7 @@ class _HomeState extends State<Home> {
       kSuccessColor,
       "Success!",
       "ID copied to clipboard",
-      const Duration(
-        seconds: 2,
-      ),
+      const Duration(seconds: 2),
     );
   }
 
@@ -648,7 +649,8 @@ class _HomeState extends State<Home> {
                           );
                         }
                         if (snapshot.hasError) {
-                          return const Text('Error occurred refresh');
+                          return const Text(
+                              'An unexpected error occurred, please refresh');
                         }
                         return LayoutGrid(
                           columnGap: 10,
@@ -722,7 +724,9 @@ class _HomeState extends State<Home> {
                           );
                         }
                         if (snapshot.hasError) {
-                          return const Text('Error occurred refresh');
+                          return const Text(
+                            'An unexpected error occurred, please refresh',
+                          );
                         }
                         return SizedBox(
                           height: 250,
@@ -795,7 +799,8 @@ class _HomeState extends State<Home> {
                           );
                         }
                         if (snapshot.hasError) {
-                          return const Text('Error occurred refresh');
+                          return const Text(
+                              'An unexpected error occurred, please refresh');
                         }
                         return LayoutGrid(
                           rowGap: kDefaultPadding / 2,
@@ -904,7 +909,8 @@ class _HomeState extends State<Home> {
                           );
                         }
                         if (snapshot.hasError) {
-                          return const Text('Error occurred refresh');
+                          return const Text(
+                              'An unexpected error occurred, please refresh');
                         }
                         return LayoutGrid(
                           columnGap: 10,
@@ -957,6 +963,7 @@ class _HomeState extends State<Home> {
                         );
                       }),
                   kSizedBox,
+
                   _products == null
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
