@@ -3,7 +3,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:benji/app/auth/forgot_password.dart';
 import 'package:benji/main.dart';
 import 'package:benji/src/repo/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -102,16 +101,18 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
         ),
       );
 
-      Get.to(
-        () => const ForgotPassword(),
-        routeName: 'ForgotPassword',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+      Get.back();
+
+      // Get.to(
+      //   () => const ForgotPassword(),
+      //   routeName: 'ForgotPassword',
+      //   duration: const Duration(milliseconds: 300),
+      //   fullscreenDialog: true,
+      //   curve: Curves.easeIn,
+      //   preventDuplicates: true,
+      //   popGesture: true,
+      //   transition: Transition.rightToLeft,
+      // );
     }
 
     final url = Uri.parse('$baseURL/auth/requestForgotPassword/$userEmail');

@@ -56,7 +56,6 @@ dependencies:
   firebase_messaging:
   rename:
   file_picker: ^5.5.0
-  flutter_chat_types:
   fluttertoast:
   flutter_squad: ^0.0.1
   scroll_to_index:

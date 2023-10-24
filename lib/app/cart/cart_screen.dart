@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
-import 'package:intl/intl.dart';
 
 import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
@@ -100,12 +99,6 @@ class _CartScreenState extends State<CartScreen> {
     _itemCount = await countCartItem();
 
     setState(() {});
-  }
-
-  //===================== Number format ==========================\\
-  String formattedText(double value) {
-    final numberFormat = NumberFormat('#,##0');
-    return numberFormat.format(value);
   }
 
   //================================== Navigation =======================================\\
