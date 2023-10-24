@@ -260,8 +260,8 @@ class _DeliverToState extends State<DeliverTo> {
                                                           _addressData![
                                                                       'addresses']
                                                                   [index]
-                                                              ?.title
-                                                              ?.length ??
+                                                              .title
+                                                              .length ??
                                                       1),
                                               child: Text(
                                                 _addressData!['addresses']

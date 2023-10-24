@@ -1,6 +1,7 @@
 import 'package:benji/app/packages/item_category_dropdown_menu.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
+import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/components/textformfield/message_textformfield.dart';
 import 'package:benji/src/repo/models/complain/complain.dart';
 import 'package:benji/src/repo/models/order/order.dart';
@@ -8,6 +9,7 @@ import 'package:benji/src/repo/models/order/order_item.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../src/providers/constants.dart';
@@ -56,10 +58,42 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
   }
 
 //============================================== ALL VARIABLES =================================================\\
-
+  bool _isLoading = false;
 //============================================== FUNCTIONS =================================================\\
   _submit() async {
-    await makeComplain(_itemProductEC.text, _messageEC.text, 'orderitems');
+    setState(() {
+      _isLoading = true;
+    });
+    bool res =
+        await makeComplain(_itemProductEC.text, _messageEC.text, 'orderitems');
+
+    if (res) {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Complain received",
+        const Duration(seconds: 2),
+      );
+      Get.back();
+
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      mySnackBar(
+        context,
+        kErrorColor,
+        "Failed!",
+        "Error occured please fill all fields",
+        const Duration(seconds: 2),
+      );
+      Get.back();
+
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
 //============================================== CONTROLLERS =================================================\\
@@ -196,6 +230,7 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
                 ),
                 kSizedBox,
                 MyElevatedButton(
+                  isLoading: _isLoading,
                   title: 'Send',
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {

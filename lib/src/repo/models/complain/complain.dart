@@ -35,19 +35,20 @@ class Conplain {
   }
 }
 
-Future<bool> makeComplain([itemId, message, topic]) async {
+Future<bool> makeComplain(String itemId, String message, String topic) async {
   int? userId = (await getUser())!.id;
   final url = Uri.parse('$baseURL/ticket/createTicket');
 
   final body = {
     'topic': topic,
-    'item_id': userId,
+    'item_id': itemId,
     'message': message,
-    'user_id': itemId,
+    'user_id': userId.toString(),
   };
   print("This is the body: $body");
   final response =
       await http.post(url, body: body, headers: await authHeader());
+  print("This is the body response: ${response.body}");
 
   return response.statusCode == 200;
 }

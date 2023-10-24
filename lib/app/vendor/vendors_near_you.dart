@@ -189,7 +189,7 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                             cardImage: 'assets/images/vendors/ntachi-osa.png',
                             vendorName: item.shopName ?? "Not Available",
                             typeOfBusiness:
-                                item.shopType?.name ?? 'Not Available',
+                                item.shopType.name ?? 'Not Available',
                             rating:
                                 "${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
                           );
@@ -207,9 +207,14 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                             )
                           : const SizedBox(),
                       loadMore
-                          ? Center(
-                              child: CircularProgressIndicator(
-                                  color: kAccentColor),
+                          ? Column(
+                              children: [
+                                kSizedBox,
+                                Center(
+                                  child: CircularProgressIndicator(
+                                      color: kAccentColor),
+                                ),
+                              ],
                             )
                           : const SizedBox()
                     ],

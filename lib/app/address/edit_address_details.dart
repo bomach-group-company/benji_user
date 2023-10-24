@@ -85,8 +85,8 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   }
 
   Future<bool> updateAddress({bool is_current = true}) async {
-    final url =
-        Uri.parse('$baseURL/address/changeAddressDetails/${widget.address.id}');
+    final url = Uri.parse(
+        '$baseURL/address/changeAddressDetails/${widget.address.id}/');
 
     final body = {
       'title': _addressTitleEC.text,
@@ -95,12 +95,15 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
       'latitude': latitude,
       'longitude': longitude,
     };
+    print(body);
     final response = await http.put(url,
         body: jsonEncode(body), headers: await authHeader());
+    print(response.body);
+    print(response.statusCode);
     try {
-      Address.fromJson(jsonDecode(response.body));
+      print('got passed hear');
       if (is_current) {
-        setCurrentAddress(widget.address.id!);
+        setCurrentAddress(widget.address.id);
       }
       return response.statusCode == 200;
     } catch (e) {

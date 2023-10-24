@@ -79,14 +79,14 @@ Future<VendorModel> getVendorById(id) async {
   }
 }
 
-Future<List<VendorModel>> getPopularVendors() async {
+Future<List<VendorModel>> getPopularVendors({start = 0, end = 4}) async {
   final response = await http.get(
-    Uri.parse('$baseURL/clients/getPopularVendors'),
+    Uri.parse('$baseURL/clients/getPopularVendors?start=$start&end=$end'),
     headers: await authHeader(),
   );
 
   if (response.statusCode == 200) {
-    return (jsonDecode(response.body) as List)
+    return (jsonDecode(response.body)['items'] as List)
         .map((item) => VendorModel.fromJson(item))
         .toList();
   } else {

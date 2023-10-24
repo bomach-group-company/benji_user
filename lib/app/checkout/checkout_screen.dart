@@ -356,7 +356,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      _data!['deliverTo'].title.toUpperCase() ??
+                                      _data!['deliverTo']
+                                              ?.title
+                                              .toUpperCase() ??
                                           'Select location',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
