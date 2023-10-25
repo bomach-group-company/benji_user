@@ -28,11 +28,11 @@ class Category {
   }
 }
 
-Future<List<Category>> fetchCategories() async {
+Future<List<Category>> fetchCategories([int start = 0, int end = 100]) async {
   final response =
-      await http.get(Uri.parse('$baseFrontendUrl/categories/list'));
+      await http.get(Uri.parse('$baseFrontendUrl/categories/list?start=$start&end=$end'));
   if (response.statusCode == 200) {
-    return (jsonDecode(response.body) as List)
+    return (jsonDecode(response.body)['items'] as List)
         .map((item) => Category.fromJson(item))
         .toList();
   } else {

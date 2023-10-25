@@ -1,6 +1,10 @@
+import 'package:benji/src/components/button/my_elevatedbutton.dart';
+import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
 import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import '../../src/frontend/utils/constant.dart';
 import '../../src/frontend/widget/drawer/drawer.dart';
@@ -18,9 +22,58 @@ class ContactUs extends StatefulWidget {
 class _ContactUsState extends State<ContactUs> {
   final _formKey = GlobalKey<FormState>();
   bool _showBackToTopButton = false;
+  bool isLoading = false;
 
   // scroll controller
   late ScrollController _scrollController;
+
+  // controller
+  final TextEditingController _firstNameEC = TextEditingController();
+  final TextEditingController _lastNameEC = TextEditingController();
+  final TextEditingController _emailEC = TextEditingController();
+  final TextEditingController _messageEC = TextEditingController();
+
+  _submit() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+      final url = Uri.parse('$baseFrontendUrl/contact/createContactus');
+
+      final body = {
+        'first_name': _firstNameEC.text,
+        'last_name': _lastNameEC.text,
+        'email': _emailEC.text,
+        'message': _messageEC.text,
+      };
+      final response = await http.post(url, body: body);
+
+      if (kDebugMode) {
+        print("This is the body: $body,,,,,,, ${response.body}");
+      }
+      if (response.statusCode == 200) {
+        mySnackBar(
+          context,
+          kSuccessColor,
+          "Success!",
+          "Request summited",
+          const Duration(seconds: 2),
+        );
+        _formKey.currentState!.reset();
+      } else {
+        mySnackBar(
+          context,
+          kAccentColor,
+          "Failed!",
+          "Request Failed",
+          const Duration(seconds: 2),
+        );
+      }
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -84,32 +137,6 @@ class _ContactUsState extends State<ContactUs> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Wrap(
-                        //   spacing: media.width * 0.0135,
-                        //   runSpacing: 15,
-                        //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   // crossAxisAlignment: CrossAxisAlignment.start,
-                        //   children: const [
-                        //     SimpleCard(
-                        //       title: 'Working Hours',
-                        //       sub: 'infotechgravity@gmail.com',
-                        //     ),
-                        //     SimpleCard(
-                        //       title: 'Working Hours',
-                        //       sub: 'infotechgravity@gmail.com',
-                        //     ),
-                        //     SimpleCard(
-                        //       title: 'Working Hours',
-                        //       sub: 'infotechgravity@gmail.com',
-                        //     ),
-                        //     SimpleCard(
-                        //       title: 'Working Hours',
-                        //       sub: 'infotechgravity@gmail.com',
-                        //     ),
-                        //   ],
-                        // ),
-                        // kSizedBox,
-                        // kSizedBox,
                         Container(
                           width: media.width,
                           padding: EdgeInsets.symmetric(
@@ -161,6 +188,7 @@ class _ContactUsState extends State<ContactUs> {
                                       children: [
                                         Expanded(
                                           child: TextFormField(
+                                            controller: _firstNameEC,
                                             cursorColor: Colors.black,
                                             cursorHeight: 20,
                                             cursorWidth: 1,
@@ -185,6 +213,7 @@ class _ContactUsState extends State<ContactUs> {
                                         kWidthSizedBox,
                                         Expanded(
                                           child: TextFormField(
+                                            controller: _lastNameEC,
                                             cursorColor: Colors.black,
                                             cursorHeight: 20,
                                             cursorWidth: 1,
@@ -210,6 +239,7 @@ class _ContactUsState extends State<ContactUs> {
                                     ),
                                     kSizedBox,
                                     TextFormField(
+                                      controller: _emailEC,
                                       cursorColor: Colors.black,
                                       cursorHeight: 20,
                                       cursorWidth: 1,
@@ -228,6 +258,7 @@ class _ContactUsState extends State<ContactUs> {
                                     ),
                                     kSizedBox,
                                     TextFormField(
+                                      controller: _messageEC,
                                       cursorColor: Colors.black,
                                       cursorHeight: 20,
                                       cursorWidth: 1,
@@ -248,19 +279,11 @@ class _ContactUsState extends State<ContactUs> {
                                       },
                                     ),
                                     kSizedBox,
-                                    Container(
-                                      alignment: Alignment.centerRight,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            fixedSize: const Size(90, 40),
-                                            backgroundColor: kAccentColor),
-                                        onPressed: () {},
-                                        child: const Text(
-                                          'Submit',
-                                          style: TextStyle(fontSize: 17),
-                                        ),
-                                      ),
-                                    )
+                                    MyElevatedButton(
+                                      isLoading: isLoading,
+                                      title: "Submit",
+                                      onPressed: _submit,
+                                    ),
                                   ],
                                 ),
                               )
