@@ -60,7 +60,6 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     checkAuth(context);
-    _carouselController.startAutoPlay();
     NotificationController.initializeNotification();
 
     getProducts(start, end).then((value) {
