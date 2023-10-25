@@ -38,10 +38,10 @@ class _AboutVendorState extends State<AboutVendor> {
 
     List<Ratings> ratings;
     if (active == 'all') {
-      ratings = await getRatingsByVendorId(widget.vendor.id!);
+      ratings = await getRatingsByVendorId(widget.vendor.id);
     } else {
       ratings = await getRatingsByVendorIdAndRating(
-          widget.vendor.id!, int.parse(active));
+          widget.vendor.id, int.parse(active));
     }
 
     setState(() {
@@ -103,7 +103,7 @@ class _AboutVendorState extends State<AboutVendor> {
             child: Text(
               widget.vendor.shopType == null
                   ? 'Not Available'
-                  : widget.vendor.shopType!.description ?? 'Not Available',
+                  : widget.vendor.shopType.description ?? 'Not Available',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -275,7 +275,7 @@ class _AboutVendorState extends State<AboutVendor> {
                             });
 
                             List<Ratings> ratings =
-                                await getRatingsByVendorId(widget.vendor.id!);
+                                await getRatingsByVendorId(widget.vendor.id);
 
                             setState(() {
                               _ratings = ratings;
@@ -315,7 +315,7 @@ class _AboutVendorState extends State<AboutVendor> {
 
                                         List<Ratings> ratings =
                                             await getRatingsByVendorIdAndRating(
-                                                widget.vendor.id!,
+                                                widget.vendor.id,
                                                 int.parse(active));
 
                                         setState(() {

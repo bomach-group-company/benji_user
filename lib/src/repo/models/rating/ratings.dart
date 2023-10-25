@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/models/user/user_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,7 +12,6 @@ class Ratings {
   final String comment;
   final DateTime created;
   final User client;
-  final Product product;
 
   Ratings({
     required this.id,
@@ -21,7 +19,6 @@ class Ratings {
     required this.comment,
     required this.created,
     required this.client,
-    required this.product,
   });
 
   factory Ratings.fromJson(Map<String, dynamic>? json) {
@@ -34,7 +31,6 @@ class Ratings {
           ? DateTime.now()
           : DateTime.parse(json['created']),
       client: User.fromJson(json['client']),
-      product: Product.fromJson(json['product']),
     );
   }
 }
@@ -45,7 +41,9 @@ Future<List<Ratings>> getRatingsByVendorId(int id,
     Uri.parse('$baseURL/vendors/$id/getAllVendorRatings?start=$start&end=$end'),
     headers: await authHeader(),
   );
-
+  (jsonDecode(response.body)['items'] as List)
+      .map((item) => Ratings.fromJson(item))
+      .toList();
   if (response.statusCode == 200) {
     return (jsonDecode(response.body)['items'] as List)
         .map((item) => Ratings.fromJson(item))

@@ -184,7 +184,7 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
                 ),
                 kSizedBox,
                 const Text(
-                  "Select Product",
+                  "Select orderitem",
                   style: TextStyle(
                     fontSize: 17.6,
                     fontWeight: FontWeight.w400,
