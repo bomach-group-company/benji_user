@@ -85,13 +85,13 @@ Future<Product> getProductById(String id) async {
   }
 }
 
-Future<List<Product>> getProducts() async {
+Future<List<Product>> getProducts([start = 0, end = 5]) async {
   final response = await http.get(
-    Uri.parse('$baseURL/products/listProduct'),
+    Uri.parse('$baseURL/products/listProduct?start=$start&end=$end'),
     headers: await authHeader(),
   );
   if (response.statusCode == 200) {
-    return (jsonDecode(response.body) as List)
+    return (jsonDecode(response.body)['items'] as List)
         .map((item) => Product.fromJson(item))
         .toList();
   } else {
@@ -115,13 +115,15 @@ Future<List<Product>> getProductsByCategory(categoryId) async {
   }
 }
 
-Future<List<Product>> getProductsBySubCategory(subCategoryId) async {
+Future<List<Product>> getProductsBySubCategory(subCategoryId,
+    {int start = 0, int end = 9}) async {
   final response = await http.get(
-    Uri.parse('$baseURL/clients/filterProductsBySubCategory/$subCategoryId'),
+    Uri.parse(
+        '$baseURL/clients/filterProductsBySubCategory/$subCategoryId?start=$start&end=$end'),
     headers: await authHeader(),
   );
   if (response.statusCode == 200 && response.body != '"No matching query"') {
-    return (jsonDecode(response.body) as List)
+    return (jsonDecode(response.body)['items'] as List)
         .map((item) => Product.fromJson(item))
         .toList();
   } else if (response.body == '"No matching query"') {

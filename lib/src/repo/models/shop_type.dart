@@ -1,16 +1,16 @@
 import 'package:benji/src/repo/utils/constant.dart';
 
 class ShopTypeModel {
-  final String? id;
-  final String? name;
-  final String? description;
-  final bool? isActive;
+  final String id;
+  final String name;
+  final String description;
+  final bool isActive;
 
   ShopTypeModel({
-    this.id,
-    this.name,
-    this.description,
-    this.isActive,
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.isActive,
   });
 
   factory ShopTypeModel.fromJson(Map<String, dynamic>? json) {

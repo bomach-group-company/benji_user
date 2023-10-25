@@ -1,9 +1,15 @@
 import 'package:benji/app/packages/item_category_dropdown_menu.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
+import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/components/textformfield/message_textformfield.dart';
+import 'package:benji/src/repo/models/complain/complain.dart';
+import 'package:benji/src/repo/models/order/order.dart';
+import 'package:benji/src/repo/models/order/order_item.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../src/providers/constants.dart';
@@ -20,6 +26,28 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
   @override
   void initState() {
     super.initState();
+    _getData();
+  }
+
+  List<Order> _orders = [];
+  Order? _activeOrders;
+  List<OrderItem> _orderitems = [];
+
+  _getData() async {
+    int? userId = getUserSync()!.id;
+
+    _orders = await getOrders(userId);
+    _activeOrders ??= _orders.first;
+    if (_activeOrders != null) {
+      _orderitems = await getOrderItems(_activeOrders?.id);
+    }
+    setState(() {});
+  }
+
+  _getItems(orderId) async {
+    _activeOrders = _orders.firstWhere((element) => element.id == orderId);
+    _orderitems = await getOrderItems(_activeOrders?.id);
+    setState(() {});
   }
 
   @override
@@ -30,10 +58,43 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
   }
 
 //============================================== ALL VARIABLES =================================================\\
-  final _orders = ['#564895', '#86214', '#552255'];
-  final _products = ['item1', 'item2', 'itemn'];
+  bool _isLoading = false;
+//============================================== FUNCTIONS =================================================\\
+  _submit() async {
+    setState(() {
+      _isLoading = true;
+    });
+    bool res =
+        await makeComplain(_itemProductEC.text, _messageEC.text, 'orderitems');
 
-//============================================== BOOL VALUES =================================================\\
+    if (res) {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Complain received",
+        const Duration(seconds: 2),
+      );
+      Get.back();
+
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      mySnackBar(
+        context,
+        kErrorColor,
+        "Failed!",
+        "Error occured please fill all fields",
+        const Duration(seconds: 2),
+      );
+      Get.back();
+
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
 //============================================== CONTROLLERS =================================================\\
   final _scrollController = ScrollController();
@@ -50,27 +111,6 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
   // void _toFAQsPage() => Get.to(
   //       () => const FAQs(),
   //       routeName: 'FAQs',
-  //       duration: const Duration(milliseconds: 300),
-  //       fullscreenDialog: true,
-  //       curve: Curves.easeIn,
-  //       preventDuplicates: true,
-  //       popGesture: true,
-  //       transition: Transition.rightToLeft,
-  //     );
-
-  // void _toFileAComplaint() => Get.to(
-  //       () => const FileAComplaint(),
-  //       routeName: 'FileAComplaint',
-  //       duration: const Duration(milliseconds: 300),
-  //       fullscreenDialog: true,
-  //       curve: Curves.easeIn,
-  //       preventDuplicates: true,
-  //       popGesture: true,
-  //       transition: Transition.rightToLeft,
-  //     );
-  // void _toLiveChatPage() => Get.to(
-  //       () => const LiveChat(),
-  //       routeName: 'LiveChat',
   //       duration: const Duration(milliseconds: 300),
   //       fullscreenDialog: true,
   //       curve: Curves.easeIn,
@@ -128,13 +168,17 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
                 ),
                 kHalfSizedBox,
                 ItemDropDownMenu(
+                  onSelected: (value) {
+                    _itemOrderEC.text = value!.toString();
+                    _getItems(_itemOrderEC.text);
+                  },
                   itemEC: _itemOrderEC,
                   mediaWidth: media.width - 20,
                   hintText: "Choose order",
                   dropdownMenuEntries2: _orders
                       .map((item) => DropdownMenuEntry(
-                            value: item,
-                            label: item,
+                            value: item.id,
+                            label: item.id,
                           ))
                       .toList(),
                 ),
@@ -150,11 +194,11 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
                 ItemDropDownMenu(
                   itemEC: _itemProductEC,
                   mediaWidth: media.width - 20,
-                  hintText: "Choose product",
-                  dropdownMenuEntries2: _products
+                  hintText: "Choose orderitem",
+                  dropdownMenuEntries2: _orderitems
                       .map((item) => DropdownMenuEntry(
-                            value: item,
-                            label: item,
+                            value: item.id,
+                            label: item.id,
                           ))
                       .toList(),
                 ),
@@ -186,10 +230,11 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
                 ),
                 kSizedBox,
                 MyElevatedButton(
+                  isLoading: _isLoading,
                   title: 'Send',
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      // do someting
+                      _submit();
                     }
                   },
                 )

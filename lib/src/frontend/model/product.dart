@@ -91,9 +91,9 @@ Future<List<Product>> fetchProductFilterBySubCategory(
   }
 }
 
-Future<List<Product>> fetchProducts([final int limit = 8]) async {
+Future<List<Product>> fetchProducts([int start = 0, int end = 9]) async {
   final response = await http
-      .get(Uri.parse('$baseFrontendUrl/products/listProduct?limit=$limit'));
+      .get(Uri.parse('$baseFrontendUrl/products/listProduct?start=$start&end=$end'));
   if (response.statusCode == 200) {
     return (jsonDecode(response.body)['items'] as List)
         .map((item) => Product.fromJson(item))

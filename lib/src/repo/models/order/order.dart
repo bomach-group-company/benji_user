@@ -50,7 +50,7 @@ Future<List<Order>> getOrders(id) async {
     Uri.parse('$baseURL/clients/listClientOrders/$id'),
     headers: await authHeader(),
   );
-
+  print(response.body);
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => Order.fromJson(item))

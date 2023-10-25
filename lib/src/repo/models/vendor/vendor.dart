@@ -7,63 +7,61 @@ import '../../utils/constant.dart';
 import '../../utils/helpers.dart';
 
 class VendorModel {
-  final int? id;
-  final String? email;
-  final String? phone;
-  final String? username;
-  final String? code;
-  final bool? isOnline;
-  final String? firstName;
-  final String? lastName;
-  final String? gender;
-  final String? address;
-  final String? shopName;
-  final double? averageRating;
-  final int? numberOfClientsReactions;
+  final int id;
+  final String email;
+  final String phone;
+  final String username;
+  final String code;
+  final bool isOnline;
+  final String firstName;
+  final String lastName;
+  final String gender;
+  final String address;
+  final String shopName;
+  final double averageRating;
+  final int numberOfClientsReactions;
   final String? shopImage;
   final String? profileLogo;
-  final ShopTypeModel? shopType;
+  final ShopTypeModel shopType;
 
   VendorModel({
-    this.id,
-    this.email,
-    this.phone,
-    this.username,
-    this.code,
-    this.isOnline = true,
-    this.firstName,
-    this.lastName,
-    this.gender,
-    this.address,
-    this.shopName,
-    this.averageRating,
-    this.numberOfClientsReactions,
-    this.shopImage,
-    this.profileLogo,
-    this.shopType,
+    required this.id,
+    required this.email,
+    required this.phone,
+    required this.username,
+    required this.code,
+    required this.isOnline,
+    required this.firstName,
+    required this.lastName,
+    required this.gender,
+    required this.address,
+    required this.shopName,
+    required this.averageRating,
+    required this.numberOfClientsReactions,
+    required this.shopImage,
+    required this.profileLogo,
+    required this.shopType,
   });
 
   factory VendorModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return VendorModel(
-      id: json['id'],
-      email: json['email'],
-      phone: json['phone'],
-      username: json['username'],
-      code: json['code'],
-      isOnline: json['is_online'],
-      firstName: json['first_name'],
-      lastName: json['last_name'],
-      gender: json['gender'],
-      address: json['address'],
-      shopName: json['shop_name'],
-      averageRating: json['average_rating'],
-      numberOfClientsReactions: json['number_of_clients_reactions'],
+      id: json['id'] ?? 0,
+      email: json['email'] ?? NA,
+      phone: json['phone'] ?? NA,
+      username: json['username'] ?? NA,
+      code: json['code'] ?? NA,
+      isOnline: json['is_online'] ?? false,
+      firstName: json['first_name'] ?? NA,
+      lastName: json['last_name'] ?? NA,
+      gender: json['gender'] ?? NA,
+      address: json['address'] ?? NA,
+      shopName: json['shop_name'] ?? NA,
+      averageRating: json['average_rating'] ?? 0.0,
+      numberOfClientsReactions: json['number_of_clients_reactions'] ?? 0,
       shopImage: json['shop_image'],
       profileLogo: json['profileLogo'],
-      shopType: json['shop_type'] == null
-          ? null
-          : ShopTypeModel.fromJson(json['shop_type']),
+      shopType: ShopTypeModel.fromJson(json['shop_type']),
     );
   }
 }
@@ -81,14 +79,14 @@ Future<VendorModel> getVendorById(id) async {
   }
 }
 
-Future<List<VendorModel>> getPopularVendors() async {
+Future<List<VendorModel>> getPopularVendors({start = 0, end = 4}) async {
   final response = await http.get(
-    Uri.parse('$baseURL/clients/getPopularVendors'),
+    Uri.parse('$baseURL/clients/getPopularVendors?start=$start&end=$end'),
     headers: await authHeader(),
   );
 
   if (response.statusCode == 200) {
-    return (jsonDecode(response.body) as List)
+    return (jsonDecode(response.body)['items'] as List)
         .map((item) => VendorModel.fromJson(item))
         .toList();
   } else {
@@ -96,7 +94,7 @@ Future<List<VendorModel>> getPopularVendors() async {
   }
 }
 
-Future<List<VendorModel>> getVendors({start = 1, end = 10}) async {
+Future<List<VendorModel>> getVendors({start = 0, end = 5}) async {
   final response = await http.get(
     Uri.parse('$baseURL/vendors/getAllVendor?start=$start&end=$end'),
     headers: await authHeader(),

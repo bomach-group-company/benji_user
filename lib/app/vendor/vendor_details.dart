@@ -258,9 +258,9 @@ class _VendorDetailsState extends State<VendorDetails>
                         child: Container(
                           height: deviceType(media.width) > 3 &&
                                   deviceType(media.width) < 5
-                              ? media.height * 0.325
+                              ? media.height * 0.4
                               : deviceType(media.width) > 2
-                                  ? media.height * 0.305
+                                  ? media.height * 0.415
                                   : media.height * 0.28,
                           decoration: BoxDecoration(
                             color: kPageSkeletonColor,
@@ -275,7 +275,7 @@ class _VendorDetailsState extends State<VendorDetails>
                       ),
                       Positioned(
                         top: deviceType(media.width) > 2
-                            ? media.height * 0.21
+                            ? media.height * 0.25
                             : media.height * 0.13,
                         left: kDefaultPadding,
                         right: kDefaultPadding,
@@ -460,19 +460,16 @@ class _VendorDetailsState extends State<VendorDetails>
                       Positioned(
                         top: deviceType(media.width) > 3 &&
                                 deviceType(media.width) < 5
-                            ? media.height * 0.12
+                            ? media.height * 0.15
                             : deviceType(media.width) > 2
-                                ? media.height * 0.14
+                                ? media.height * 0.15
                                 : media.height * 0.08,
-                        left: deviceType(media.width) > 3 &&
-                                deviceType(media.width) < 5
-                            ? media.width / 2.24
-                            : deviceType(media.width) > 2
-                                ? media.width / 2.36
-                                : media.width / 2.7,
+                        left: deviceType(media.width) > 2
+                            ? (media.width / 2) - (126 / 2)
+                            : (media.width / 2) - (100 / 2),
                         child: Container(
-                          width: deviceType(media.width) > 2 ? 150 : 100,
-                          height: deviceType(media.width) > 2 ? 150 : 100,
+                          width: deviceType(media.width) > 2 ? 126 : 100,
+                          height: deviceType(media.width) > 2 ? 126 : 100,
                           decoration: ShapeDecoration(
                             color: kPageSkeletonColor,
                             image: const DecorationImage(

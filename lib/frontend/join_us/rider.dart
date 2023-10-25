@@ -73,7 +73,7 @@ class _RiderTabState extends State<RiderTab> {
       if (kDebugMode) {
         print("This is the body: $body,,,,,,, ${response.body}");
       }
-      if (response.body == '"created"') {
+      if (response.statusCode == 200) {
         mySnackBar(
           context,
           kSuccessColor,

@@ -1,9 +1,14 @@
 import 'package:benji/app/packages/item_category_dropdown_menu.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
+import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/components/textformfield/message_textformfield.dart';
+import 'package:benji/src/repo/models/complain/complain.dart';
+import 'package:benji/src/repo/models/order/order.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../src/providers/constants.dart';
@@ -20,6 +25,16 @@ class _SelectOrderState extends State<SelectOrder> {
   @override
   void initState() {
     super.initState();
+    _getData();
+  }
+
+  List<Order> _orders = [];
+
+  _getData() async {
+    int? userId = getUserSync()!.id;
+
+    _orders = await getOrders(userId);
+    setState(() {});
   }
 
   @override
@@ -30,15 +45,46 @@ class _SelectOrderState extends State<SelectOrder> {
   }
 
 //============================================== ALL VARIABLES =================================================\\
-  final _orders = ['#564895', '#86214', '#552255'];
-  final _products = ['item1', 'item2', 'itemn'];
+  bool _isLoading = false;
+//============================================== FUNCTIONS =================================================\\
+  _submit() async {
+    setState(() {
+      _isLoading = true;
+    });
+    bool res = await makeComplain(_itemOrderEC.text, _messageEC.text, 'order');
 
-//============================================== BOOL VALUES =================================================\\
+    if (res) {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Complain received",
+        const Duration(seconds: 2),
+      );
+      Get.back();
+
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      mySnackBar(
+        context,
+        kErrorColor,
+        "Failed!",
+        "Error occured please fill all fields",
+        const Duration(seconds: 2),
+      );
+      Get.back();
+
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
 //============================================== CONTROLLERS =================================================\\
   final _scrollController = ScrollController();
   final _itemOrderEC = TextEditingController();
-  final _itemProductEC = TextEditingController();
   final _messageEC = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -133,8 +179,8 @@ class _SelectOrderState extends State<SelectOrder> {
                   hintText: "Choose order",
                   dropdownMenuEntries2: _orders
                       .map((item) => DropdownMenuEntry(
-                            value: item,
-                            label: item,
+                            value: item.id,
+                            label: item.id,
                           ))
                       .toList(),
                 ),
@@ -166,10 +212,11 @@ class _SelectOrderState extends State<SelectOrder> {
                 ),
                 kSizedBox,
                 MyElevatedButton(
+                  isLoading: _isLoading,
                   title: 'Send',
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      // do someting
+                      _submit();
                     }
                   },
                 )

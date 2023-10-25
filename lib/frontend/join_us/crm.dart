@@ -75,7 +75,7 @@ class _CRMTabState extends State<CRMTab> {
         print("This is the body: $body");
       }
       final response = await http.post(url, body: body);
-      if (response.body == '"created"') {
+      if (response.statusCode == 200) {
         mySnackBar(
           context,
           kSuccessColor,

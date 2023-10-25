@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:benji/app/vendor/vendor_details.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:flutter/gestures.dart';
@@ -93,13 +91,13 @@ class _PopularVendorsState extends State<PopularVendors> {
   bool _isScrollToTopBtnVisible = false;
 
   _getData() async {
-    List<VendorModel> vendor = await getPopularVendors();
+    List<VendorModel> vendor = await getPopularVendors(start: start, end: end);
 
     _vendor ??= [];
-    thatsAllData = start >= 10;
+    thatsAllData = vendor.isEmpty;
     if (!thatsAllData) {
       setState(() {
-        _vendor = _vendor! + vendor.sublist(0, min(5, vendor.length));
+        _vendor!.addAll(vendor);
       });
     }
   }
@@ -192,7 +190,7 @@ class _PopularVendorsState extends State<PopularVendors> {
                             cardImage: 'assets/images/vendors/ntachi-osa.png',
                             vendorName: item.shopName ?? "Not Available",
                             typeOfBusiness:
-                                item.shopType?.name ?? 'Not Available',
+                                item.shopType.name ?? 'Not Available',
                             rating:
                                 "${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
                           );
@@ -210,9 +208,14 @@ class _PopularVendorsState extends State<PopularVendors> {
                             )
                           : const SizedBox(),
                       loadMore
-                          ? Center(
-                              child: CircularProgressIndicator(
-                                  color: kAccentColor),
+                          ? Column(
+                              children: [
+                                kSizedBox,
+                                Center(
+                                  child: CircularProgressIndicator(
+                                      color: kAccentColor),
+                                ),
+                              ],
                             )
                           : const SizedBox()
                     ],
