@@ -495,7 +495,7 @@ class _HomeState extends State<Home> {
             child: Scrollbar(
               controller: _scrollController,
               child: ListView(
-                controller: _scrollController,
+                // controller: _scrollController,
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 padding: deviceType(media.width) > 2
