@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:benji/main.dart';
 import 'package:benji/src/repo/models/product/product.dart';
+import 'package:benji/src/repo/utils/vendor_note.dart';
 
 const String cartname = 'userCart';
 
@@ -96,10 +97,12 @@ Future<Map> getCartProduct([Function(String)? whenError]) async {
   for (String item in product.keys) {
     try {
       Product product = await getProductById(item);
+      String message = getSingleProductNote(item);
       int quantity = await countCartItemByProduct(item);
       res.add(product);
       formatOfOrder.add({
         "product_id": product.id,
+        "message": message,
         "quantity": quantity,
         "pre_total": quantity * product.price,
         // "delivery_address": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
