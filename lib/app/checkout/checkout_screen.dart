@@ -93,7 +93,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           seconds: 1,
         ),
       ),
-    ))['products'];
+    ))['products'] as List<Product>;
 
     Map<String, dynamic> cartItems = await getCartProductId();
 

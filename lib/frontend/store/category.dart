@@ -1,11 +1,13 @@
 import 'package:benji/frontend/store/categories.dart';
 import 'package:benji/frontend/store/product.dart';
-import 'package:benji/src/frontend/model/category.dart';
 import 'package:benji/src/frontend/model/sub_category.dart';
 import 'package:benji/src/frontend/widget/cards/product_card_lg.dart';
 import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
 import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
 import 'package:benji/src/others/empty.dart';
+import 'package:benji/src/repo/models/category/category.dart';
+import 'package:benji/src/repo/models/category/sub_category.dart';
+import 'package:benji/src/repo/models/product/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
@@ -287,9 +289,9 @@ class _CategoryPageState extends State<CategoryPage> {
                                                             navigateCategory:
                                                                 CategoryPage(
                                                               activeSubCategory:
-                                                                  item.subCategory,
+                                                                  item.subCategoryId,
                                                               activeCategory: item
-                                                                  .subCategory
+                                                                  .subCategoryId
                                                                   .category,
                                                             ),
                                                             navigate:
@@ -341,8 +343,8 @@ class _CategoryPageState extends State<CategoryPage> {
                       setState(() {});
                     },
                     navigateCategory: CategoryPage(
-                      activeSubCategory: data.subCategory,
-                      activeCategory: data.subCategory.category,
+                      activeSubCategory: data.subCategoryId,
+                      activeCategory: data.subCategoryId.category,
                     ),
                     navigate: ProductPage(product: data),
                     visible: showCard,

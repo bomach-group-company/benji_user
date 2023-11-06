@@ -1,117 +1,195 @@
 import 'dart:convert';
 
 import 'package:benji/main.dart';
+import 'package:benji/src/repo/models/cart_model/cart_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
-import 'package:benji/src/repo/utils/vendor_note.dart';
 
-const String cartname = 'userCart';
+const String cartname = 'userCartItems';
 
-bool productInCart(String productId) {
-  Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
-  return cart.containsKey(productId);
+AllCartItem getAllCartItem() {
+  List cart = jsonDecode(prefs.getString(cartname) ?? '[]');
+  AllCartItem allCart = AllCartItem.fromJson(cart);
+  return allCart;
+}
+
+Future<void> setAllCartItem(AllCartItem allCart) async {
+  setAllCartItem(allCart);
+}
+
+bool productInCart(Product product) {
+  AllCartItem allCart = getAllCartItem();
+
+  for (var cartItems in allCart.data) {
+    if (cartItems.vendorId == product.vendorId.id) {
+      for (var item in cartItems.productUser) {
+        if (item.productId == product.id) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
 }
 
 Future<void> clearCart() async {
-  prefs.setString(cartname, '{}');
+  await prefs.setString(cartname, '[]');
 }
 
-Future addToCart(String productId) async {
-  Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
-  if (cart.containsKey(productId)) {
-    cart[productId] += 1;
-  } else {
-    cart[productId] = 1;
+Future addToCart(Product product) async {
+  AllCartItem allCart = getAllCartItem();
+
+  ProductUserData productUserData = ProductUserData.fromJson(
+      {'product_id': product.id, 'pre_total': product.price});
+
+  VendorInfo vendorInfo = VendorInfo.fromJson(
+      {'vendor_id': product.vendorId.id, 'vendor_data': []});
+
+  for (var cartItems in allCart.data) {
+    if (cartItems.vendorId == product.vendorId.id) {
+      for (var item in cartItems.productUser) {
+        if (item.productId == product.id) {
+          item.quantity += 1;
+          setAllCartItem(allCart);
+          return;
+        }
+      }
+      cartItems.productUser.add(productUserData);
+      setAllCartItem(allCart);
+      return;
+    }
   }
-
-  prefs.setString(cartname, jsonEncode(cart));
+  allCart.data.add(vendorInfo);
+  allCart.data.last.productUser.add(productUserData);
+  setAllCartItem(allCart);
+  return;
 }
 
-Future<Map?> getCart() async {
-  Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
-  return cart.isEmpty ? null : cart;
+List<Map<String, dynamic>> getCart() {
+  AllCartItem allCart = getAllCartItem();
+
+  return allCart.toJson();
 }
 
-Future<int> countCartItem() async {
-  Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
+int countCartItem() {
+  AllCartItem allCart = getAllCartItem();
   int total = 0;
-  for (var productId in cart.keys) {
-    total = total + (cart[productId] as int);
+  for (var cartItem in allCart.data) {
+    for (var _ in cartItem.productUser) {
+      total += 1;
+    }
   }
   return total;
 }
 
-Future<int> countCartItemByProduct(String productId) async {
-  Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
-  int total = 0;
-  if (cart.containsKey(productId)) {
-    total = cart[productId];
+int countCartItemByProduct(Product product) {
+  AllCartItem allCart = getAllCartItem();
+  for (var cartItems in allCart.data) {
+    if (cartItems.vendorId == product.vendorId.id) {
+      for (var item in cartItems.productUser) {
+        if (item.productId == product.id) {
+          return item.quantity;
+        }
+      }
+    }
   }
-  return total;
+  return 0;
 }
 
-Future<String> countCartItemTo10() async {
-  Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
+String countCartItemTo10() {
+  AllCartItem allCart = getAllCartItem();
   int total = 0;
-  for (var productId in cart.keys) {
-    total = total + (cart[productId] as int);
-    if (total > 10) {
-      return '10+';
+  for (var cartItem in allCart.data) {
+    for (var _ in cartItem.productUser) {
+      total += 1;
+      if (total > 10) {
+        return '10+';
+      }
     }
   }
   return '$total';
 }
 
-Future minusFromCart(String productId) async {
-  Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
-  if (cart.containsKey(productId)) {
-    if (cart[productId] > 1) {
-      cart[productId] -= 1;
-    } else {
-      cart.remove(productId);
+Future minusFromCart(Product product) async {
+  AllCartItem allCart = getAllCartItem();
+
+  for (var cartItems in allCart.data) {
+    if (cartItems.vendorId == product.vendorId.id) {
+      for (var item in cartItems.productUser) {
+        if (item.productId == product.id) {
+          item.quantity -= 1;
+          if (item.quantity <= 0) {
+            cartItems.productUser
+                .removeWhere((element) => element.productId == item.productId);
+          }
+          setAllCartItem(allCart);
+          return;
+        }
+      }
+      if (cartItems.productUser.isEmpty) {
+        allCart.data
+            .removeWhere((element) => element.vendorId == cartItems.vendorId);
+      }
+      setAllCartItem(allCart);
+      return;
     }
   }
-  prefs.setString(cartname, jsonEncode(cart));
+  return;
 }
 
-Future removeFromCart(String productId) async {
-  Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
-  if (cart.containsKey(productId)) {
-    cart.remove(productId);
+Future removeFromCart(Product product) async {
+  AllCartItem allCart = getAllCartItem();
+
+  for (var cartItems in allCart.data) {
+    if (cartItems.vendorId == product.vendorId.id) {
+      for (var item in cartItems.productUser) {
+        if (item.productId == product.id) {
+          cartItems.productUser
+              .removeWhere((element) => element.productId == item.productId);
+          setAllCartItem(allCart);
+          return;
+        }
+      }
+      if (cartItems.productUser.isEmpty) {
+        allCart.data
+            .removeWhere((element) => element.vendorId == cartItems.vendorId);
+      }
+      setAllCartItem(allCart);
+      return;
+    }
   }
-  prefs.setString(cartname, jsonEncode(cart));
+  return;
 }
 
-Future<Map<String, dynamic>> getCartProductId() async {
-  Map cart = jsonDecode(prefs.getString(cartname) ?? '{}');
-  Map<String, dynamic> res = {};
-  for (var productId in cart.keys) {
-    res[productId] = cart[productId];
+Map<String, ProductUserData> getCartProductId() {
+  AllCartItem allCart = getAllCartItem();
+
+  Map<String, ProductUserData> res = {};
+
+  for (var cartItems in allCart.data) {
+    for (var item in cartItems.productUser) {
+      res[item.productId] = item;
+    }
   }
   return res;
 }
 
-Future<Map> getCartProduct([Function(String)? whenError]) async {
-  List<Product> res = [];
-  List<Map<String, dynamic>> formatOfOrder = [];
-  Map product = await getCartProductId();
-  for (String item in product.keys) {
-    try {
-      Product product = await getProductById(item);
-      String message = getSingleProductNote(item);
-      int quantity = await countCartItemByProduct(item);
-      res.add(product);
-      formatOfOrder.add({
-        "product_id": product.id,
-        "message": message,
-        "quantity": quantity,
-        "pre_total": quantity * product.price,
-        // "delivery_address": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-      });
-    } catch (e) {
-      if (whenError != null) {
-        whenError(item);
+Future<Map<String, List>> getCartProduct([Function(String)? whenError]) async {
+  AllCartItem allCart = getAllCartItem();
+  List<Product> products = [];
+  for (var cartItem in allCart.data) {
+    for (var item in cartItem.productUser) {
+      try {
+        Product product = await getProductById(item.productId);
+        products.add(product);
+        item.preTotal = product.price * item.quantity;
+      } catch (e) {
+        cartItem.productUser
+            .removeWhere((element) => element.productId == item.productId);
+        if (whenError != null) {
+          whenError(item.productId);
+        }
       }
     }
   }
-  return {'products': res, 'formatOfOrder': formatOfOrder};
+  return {'products': products, 'formatOfOrder': allCart.toJson()};
 }

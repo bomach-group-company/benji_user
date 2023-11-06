@@ -1,9 +1,9 @@
 import 'package:benji/frontend/store/category.dart';
+import 'package:benji/src/repo/models/category/category.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
 import '../../providers/constants.dart';
-import '../model/category.dart';
 
 class MyDropDown extends StatefulWidget {
   final bool visible;

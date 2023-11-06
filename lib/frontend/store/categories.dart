@@ -2,6 +2,7 @@ import 'package:benji/frontend/store/category.dart';
 import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
 import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
+import 'package:benji/src/repo/models/category/category.dart';
 import 'package:flutter/material.dart';
 
 import '../../src/frontend/model/category.dart';

@@ -3,6 +3,7 @@
 import 'dart:math';
 
 import 'package:benji/app/checkout/checkout_screen.dart';
+import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/order/order.dart';
 import 'package:flutter/foundation.dart';
@@ -47,7 +48,7 @@ class _DeliverToState extends State<DeliverTo> {
   //=========================== BOOL VALUES ====================================\\
   bool _isLoading = false;
 
-  String _currentOption = '';
+  Address? _currentOption;
   late List<Map<String, dynamic>> formatOfOrder;
 
   //===================== CONTROLLERS =======================\\
@@ -56,18 +57,18 @@ class _DeliverToState extends State<DeliverTo> {
   //===================================================================== FUNCTIONS =======================================================================\\
 
   _getData() async {
-    String current = '';
+    Address? current;
     try {
-      current = (await getCurrentAddress()).id ?? '';
+      current = await getCurrentAddress();
     } catch (e) {
-      current = '';
+      current = null;
     }
     _currentOption = current;
     List<Address> addresses = await getAddressesByUser();
 
-    if (current != '') {
+    if (current != null) {
       Address? itemToMove = addresses.firstWhere(
-        (elem) => elem.id == current,
+        (elem) => elem == current,
       );
 
       addresses.remove(itemToMove);
@@ -108,12 +109,12 @@ class _DeliverToState extends State<DeliverTo> {
   }
   //===================== FUNCTIONS =======================\\
 
-  Future<void> applyDeliveryAddress(String addressId) async {
+  Future<void> applyDeliveryAddress(Address? address) async {
     setState(() {
       _isLoading = true;
     });
 
-    if (_currentOption == '') {
+    if (_currentOption == null) {
       await Get.to(
         () => const AddNewAddress(),
         routeName: 'AddNewAddress',
@@ -126,43 +127,45 @@ class _DeliverToState extends State<DeliverTo> {
       );
       await _getData();
     }
-    // try {
-    await setCurrentAddress(addressId);
-    // here i need to create that order by sending it to the backend
-    formatOfOrder.map((item) {
-      item['delivery_address'] = addressId;
-      return item;
-    }).toList();
-    if (kDebugMode) {
-      print('it $formatOfOrder');
-    }
-    //not after adding the address now post it to the endpoint
-    String orderID = await createOrder(formatOfOrder);
-    // need to check if the order was created and get the delivery fee
-    if (widget.inCheckout) {
-      Get.back();
-    } else {
-      Get.off(
-        () => CheckoutScreen(formatOfOrder: formatOfOrder, orderID: orderID),
-        routeName: 'CheckoutScreen',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        popGesture: true,
-        transition: Transition.rightToLeft,
+    try {
+      await setCurrentAddress(address!.id);
+      // here i need to create that order by sending it to the backend
+      formatOfOrder.map((item) {
+        item['delivery_address'] = address.id;
+        item['latitude'] = address.latitude;
+        item['longitude'] = address.longitude;
+        return item;
+      }).toList();
+      if (kDebugMode) {
+        print('it $formatOfOrder');
+      }
+      //not after adding the address now post it to the endpoint
+      String orderID = await createOrder(formatOfOrder);
+      // need to check if the order was created and get the delivery fee
+      if (widget.inCheckout) {
+        Get.back();
+      } else {
+        Get.off(
+          () => CheckoutScreen(formatOfOrder: formatOfOrder, orderID: orderID),
+          routeName: 'CheckoutScreen',
+          duration: const Duration(milliseconds: 300),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          popGesture: true,
+          transition: Transition.rightToLeft,
+        );
+      }
+    } catch (e) {
+      mySnackBar(
+        context,
+        kAccentColor,
+        "No address selected!",
+        "Select address to add as default or add address",
+        const Duration(
+          seconds: 2,
+        ),
       );
     }
-    // } catch (e) {
-    //   mySnackBar(
-    //     context,
-    //     kAccentColor,
-    //     "No address selected!",
-    //     "Select address to add as default or add address",
-    //     const Duration(
-    //       seconds: 2,
-    //     ),
-    //   );
-    // }
 
     // if (widget.toCheckout) {
     //   if (widget.inCheckout && address != null) {

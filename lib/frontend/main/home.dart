@@ -5,6 +5,8 @@ import 'package:benji/src/frontend/widget/cards/product_card_lg.dart';
 import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:benji/src/frontend/widget/section/hero.dart';
 import 'package:benji/src/frontend/widget/text/fancy_text.dart';
+import 'package:benji/src/repo/models/category/category.dart';
+import 'package:benji/src/repo/models/product/product.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -296,9 +298,9 @@ class _HomePageState extends State<HomePage> {
                                               product: item,
                                               navigateCategory: CategoryPage(
                                                 activeSubCategory:
-                                                    item.subCategory,
+                                                    item.subCategoryId,
                                                 activeCategory:
-                                                    item.subCategory.category,
+                                                    item.subCategoryId.category,
                                               ),
                                               navigate:
                                                   ProductPage(product: item),
@@ -381,9 +383,9 @@ class _HomePageState extends State<HomePage> {
                                               product: item,
                                               navigateCategory: CategoryPage(
                                                 activeSubCategory:
-                                                    item.subCategory,
+                                                    item.subCategoryId,
                                                 activeCategory:
-                                                    item.subCategory.category,
+                                                    item.subCategoryId.category,
                                               ),
                                               navigate:
                                                   ProductPage(product: item),
@@ -490,9 +492,9 @@ class _HomePageState extends State<HomePage> {
                                               product: item,
                                               navigateCategory: CategoryPage(
                                                 activeSubCategory:
-                                                    item.subCategory,
+                                                    item.subCategoryId,
                                                 activeCategory:
-                                                    item.subCategory.category,
+                                                    item.subCategoryId.category,
                                               ),
                                               navigate:
                                                   ProductPage(product: item),
@@ -703,8 +705,8 @@ class _HomePageState extends State<HomePage> {
                             setState(() {});
                           },
                           navigateCategory: CategoryPage(
-                            activeSubCategory: data.subCategory,
-                            activeCategory: data.subCategory.category,
+                            activeSubCategory: data.subCategoryId,
+                            activeCategory: data.subCategoryId.category,
                           ),
                           navigate: ProductPage(product: data),
                           visible: showCard,

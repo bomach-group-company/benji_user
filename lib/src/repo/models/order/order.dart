@@ -61,6 +61,7 @@ Future<List<Order>> getOrders(id) async {
 }
 
 Future<String> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
+  print('formatOfOrder in createOrder $formatOfOrder');
   int? userId = (await getUser())!.id;
 
   final response = await http.post(
