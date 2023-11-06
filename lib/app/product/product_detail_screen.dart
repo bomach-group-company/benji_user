@@ -69,6 +69,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   // Logic
   _saveNote() async {
     await addNoteToProduct(widget.product, _vendorNoteEC.text);
+    setState(() {});
     if (kDebugMode) {
       print(_vendorNoteEC.text);
     }

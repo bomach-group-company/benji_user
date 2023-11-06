@@ -13,7 +13,7 @@ AllCartItem getAllCartItem() {
 }
 
 Future<void> setAllCartItem(AllCartItem allCart) async {
-  setAllCartItem(allCart);
+  prefs.setString(cartname, jsonEncode(allCart.toJson()));
 }
 
 bool productInCart(Product product) {
