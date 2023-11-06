@@ -8,7 +8,7 @@ import 'package:get/route_manager.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/section/reusable_authentication_first_half.dart';
-import '../../src/components/snackbar/my_fixed_snack_bar.dart';
+import '../../src/components/snackbar/my_fixed_snackbar.dart';
 import '../../src/components/textformfield/email_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
