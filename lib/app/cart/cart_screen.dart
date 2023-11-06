@@ -6,6 +6,7 @@ import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/product/cart_product_container.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
+import 'package:benji/src/repo/models/cart_model/cart_model.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
 import 'package:benji/theme/colors.dart';
@@ -43,7 +44,7 @@ class _CartScreenState extends State<CartScreen> {
 
   _getData() async {
     _subTotal = 0;
-    Map allData = await getCartProduct(
+    Map<String, List<dynamic>> allData = await getCartProduct(
       (data) => mySnackBar(
         context,
         kAccentColor,
@@ -54,15 +55,15 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
     );
-    List<Product> product = allData['products'];
-    Map<String, dynamic> cartItems = await getCartProductId();
+    List<Product> product = allData['products'] as List<Product>;
+    Map<String, ProductUserData> cartItems = getCartProductId();
 
     for (Product item in product) {
-      _subTotal += (item.price * cartItems[item.id]);
+      _subTotal += (item.price * (cartItems[item.id]?.quantity ?? 1));
     }
 
     setState(() {
-      formatOfOrder = allData['formatOfOrder'];
+      formatOfOrder = allData['formatOfOrder'] as List<Map<String, dynamic>>?;
       _data = product;
       _itemCount = _data!.length;
     });
@@ -84,7 +85,7 @@ class _CartScreenState extends State<CartScreen> {
 //==================================================== FUNCTIONS ==========================================================\\
 
   void incrementQuantity(Product product) async {
-    await addToCart(product.id);
+    await addToCart(product);
     if (_data != null) {
       _subTotal += product.price;
     }
@@ -92,11 +93,11 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void decrementQuantity(Product product) async {
-    await minusFromCart(product.id);
+    await minusFromCart(product);
     if (_data != null) {
       _subTotal -= product.price;
     }
-    _itemCount = await countCartItem();
+    _itemCount = countCartItem();
 
     setState(() {});
   }

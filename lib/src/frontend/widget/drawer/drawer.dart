@@ -4,6 +4,7 @@ import 'package:benji/frontend/main/about.dart';
 import 'package:benji/frontend/main/contact_us.dart';
 import 'package:benji/frontend/main/home.dart';
 import 'package:benji/src/frontend/model/category.dart';
+import 'package:benji/src/repo/models/category/category.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

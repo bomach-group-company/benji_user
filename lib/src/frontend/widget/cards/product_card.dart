@@ -1,4 +1,4 @@
-import 'package:benji/src/frontend/model/product.dart';
+import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
 
@@ -33,17 +33,17 @@ class _MyCardState extends State<MyCard> {
   }
 
   Future<void> _cartAddFunction() async {
-    await addToCart(widget.product.id.toString());
+    await addToCart(widget.product);
     widget.refresh == null ? setState(() {}) : widget.refresh!();
   }
 
   Future<void> _cartRemoveFunction() async {
-    await removeFromCart(widget.product.id.toString());
+    await removeFromCart(widget.product);
     widget.refresh == null ? setState(() {}) : widget.refresh!();
   }
 
   Future<bool> _cartCount() async {
-    int count = await countCartItemByProduct(widget.product.id.toString());
+    int count = countCartItemByProduct(widget.product);
     return count > 0;
   }
 
@@ -158,7 +158,7 @@ class _MyCardState extends State<MyCard> {
                         MyClickable(
                           navigate: widget.navigateCategory,
                           child: Text(
-                            widget.product.subCategory.name,
+                            widget.product.subCategoryId.name,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                                 overflow: TextOverflow.ellipsis,
