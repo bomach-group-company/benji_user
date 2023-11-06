@@ -20,7 +20,7 @@ class _CartCardState extends State<CartCard> {
   }
 
   Future<String> countCartFunc() async {
-    String data = await countCartItemTo10();
+    String data = countCartItemTo10();
     if (widget.cartCount == null) {
       return data;
     } else {

@@ -95,7 +95,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       ),
     ))['products'] as List<Product>;
 
-    Map<String, dynamic> cartItems = await getCartProductId();
+    Map<String, dynamic> cartItems = getCartProductId();
 
     Address? deliverTo;
     try {

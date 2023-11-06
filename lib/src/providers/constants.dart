@@ -58,3 +58,9 @@ String formattedText(double value) {
   final numberFormat = NumberFormat('#,##0.00');
   return numberFormat.format(value);
 }
+
+convertToCurrency(String e) {
+  String newStr = e.replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => "${m[0]},");
+  return newStr;
+}
