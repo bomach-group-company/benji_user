@@ -83,7 +83,7 @@ class ProductCard extends StatelessWidget {
                   kHalfSizedBox,
                   SizedBox(
                     child: Text(
-                      product.vendorId.shopName!,
+                      product.vendorId.shopName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(

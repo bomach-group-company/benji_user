@@ -9,7 +9,7 @@ import 'package:get/route_manager.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/section/reusable_authentication_first_half.dart';
-import '../../src/components/snackbar/my_fixed_snack_bar.dart';
+import '../../src/components/snackbar/my_fixed_snackbar.dart';
 import '../../src/components/textformfield/otp_textFormField.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
@@ -114,9 +114,7 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
       context,
       "OTP Verified".toUpperCase(),
       kSuccessColor,
-      const Duration(
-        seconds: 2,
-      ),
+      const Duration(seconds: 2),
     );
 
     // Navigate to the new page

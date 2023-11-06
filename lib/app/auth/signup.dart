@@ -13,7 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/components/section/reusable_authentication_first_half.dart';
-import '../../src/components/snackbar/my_fixed_snack_bar.dart';
+import '../../src/components/snackbar/my_fixed_snackbar.dart';
 import '../../src/components/textformfield/email_textformfield.dart';
 import '../../src/components/textformfield/name_textformfield.dart';
 import '../../src/components/textformfield/password_textformfield.dart';

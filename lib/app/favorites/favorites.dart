@@ -310,7 +310,7 @@ class _FavoritesState extends State<Favorites>
                                                           item.shopName ??
                                                               'Not Available',
                                                       typeOfBusiness:
-                                                          item.shopType!.name ??
+                                                          item.shopType.name ??
                                                               'Not Available',
                                                       rating:
                                                           " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",

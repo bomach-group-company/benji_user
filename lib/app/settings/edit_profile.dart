@@ -57,8 +57,8 @@ class _EditProfileState extends State<EditProfile> {
     checkAuth(context);
     User? user = await getUser();
 
-    _userFirstNameEC.text = user!.firstName!;
-    _userLastNameEC.text = user.lastName!;
+    _userFirstNameEC.text = user!.firstName;
+    _userLastNameEC.text = user.lastName;
     phoneNumberEC.text =
         (user.phone ?? '').replaceFirst('+$countryDialCode', '');
   }
@@ -87,7 +87,7 @@ class _EditProfileState extends State<EditProfile> {
 
     try {
       if (response.statusCode == 200 && get_response.statusCode == 200) {
-        await saveUser(get_response.body, user.token!);
+        await saveUser(get_response.body, user.token);
         return true;
       }
     } catch (e) {

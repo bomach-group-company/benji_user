@@ -95,7 +95,7 @@ class _AddressesState extends State<Addresses> {
         ),
         content: const SizedBox(height: 0),
         cancel: ElevatedButton(
-          onPressed: () => _deleteAddress(address.id!),
+          onPressed: () => _deleteAddress(address.id),
           style: ElevatedButton.styleFrom(
             backgroundColor: kPrimaryColor,
             elevation: 10.0,

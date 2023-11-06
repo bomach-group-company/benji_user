@@ -84,7 +84,7 @@ class CostumerReviewCard extends StatelessWidget {
               SizedBox(
                 width: mediaWidth - 112 - 45,
                 child: Text(
-                  "${rating.client.firstName!} ${rating.client.lastName!}",
+                  "${rating.client.firstName} ${rating.client.lastName}",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   textAlign: TextAlign.start,
@@ -101,7 +101,7 @@ class CostumerReviewCard extends StatelessWidget {
           SizedBox(
             width: mediaWidth - 80,
             child: Text(
-              rating.comment!,
+              rating.comment,
               overflow: TextOverflow.ellipsis,
               maxLines: 5,
               style: TextStyle(
@@ -135,7 +135,7 @@ class CostumerReviewCard extends StatelessWidget {
                 ],
               ),
               Text(
-                ' ${rating.created!.day} ${intToMonth(rating.created!.month)}, ${rating.created!.year}',
+                ' ${rating.created.day} ${intToMonth(rating.created.month)}, ${rating.created.year}',
                 textAlign: TextAlign.right,
                 style: TextStyle(
                   color: kTextGreyColor,
