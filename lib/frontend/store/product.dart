@@ -3,6 +3,7 @@ import 'package:benji/frontend/store/category.dart';
 import 'package:benji/src/frontend/model/product.dart';
 import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
+import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -53,7 +54,7 @@ class _ProductPageState extends State<ProductPage> {
       });
 
     related = fetchProductFilterByCategory(
-        widget.product.subCategory.category.id, 1, 6);
+        widget.product.subCategoryId.category.id, 1, 6);
 
     super.initState();
   }
@@ -61,17 +62,17 @@ class _ProductPageState extends State<ProductPage> {
   late Future<List<Product>> related;
 
   Future<void> _cartAddFunction() async {
-    await addToCart(widget.product.id.toString());
+    await addToCart(widget.product);
     setState(() {});
   }
 
   Future<void> _cartRemoveFunction() async {
-    await removeFromCart(widget.product.id.toString());
+    await removeFromCart(widget.product);
     setState(() {});
   }
 
   Future<bool> _cartCount() async {
-    int count = await countCartItemByProduct(widget.product.id.toString());
+    int count = countCartItemByProduct(widget.product);
     return count > 0;
   }
 
@@ -189,12 +190,12 @@ class _ProductPageState extends State<ProductPage> {
                                     child: MyClickable(
                                       navigate: CategoryPage(
                                         activeSubCategory:
-                                            widget.product.subCategory,
-                                        activeCategory:
-                                            widget.product.subCategory.category,
+                                            widget.product.subCategoryId,
+                                        activeCategory: widget
+                                            .product.subCategoryId.category,
                                       ),
                                       child: Text(
-                                        widget.product.subCategory.name,
+                                        widget.product.subCategoryId.name,
                                         style: TextStyle(
                                           color: kSecondaryColor,
                                           fontSize: 16,
@@ -338,8 +339,8 @@ class _ProductPageState extends State<ProductPage> {
                                                 },
                                                 product: item,
                                                 navigateCategory: CategoryPage(
-                                                  activeCategory:
-                                                      item.subCategory.category,
+                                                  activeCategory: item
+                                                      .subCategoryId.category,
                                                 ),
                                                 navigate:
                                                     ProductPage(product: item),
@@ -383,8 +384,8 @@ class _ProductPageState extends State<ProductPage> {
                     setState(() {});
                   },
                   navigateCategory: CategoryPage(
-                    activeSubCategory: data.subCategory,
-                    activeCategory: data.subCategory.category,
+                    activeSubCategory: data.subCategoryId,
+                    activeCategory: data.subCategoryId.category,
                   ),
                   navigate: ProductPage(product: data),
                   visible: showCard,

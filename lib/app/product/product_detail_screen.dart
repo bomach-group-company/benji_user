@@ -47,7 +47,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         });
       },
     );
-    _vendorNoteEC.text = getSingleProductNote(widget.product.id);
+    _vendorNoteEC.text = getSingleProductNote(widget.product);
     checkCart();
     _getData();
     _scrollController.addListener(_scrollListener);
@@ -68,14 +68,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   // Logic
   _saveNote() async {
-    await addNoteToProduct(widget.product.id, _vendorNoteEC.text);
+    await addNoteToProduct(widget.product, _vendorNoteEC.text);
+    setState(() {});
     if (kDebugMode) {
       print(_vendorNoteEC.text);
     }
   }
 
   _deleteNote() async {
-    await removeNoteFromProduct(widget.product.id);
+    await removeNoteFromProduct(widget.product);
     setState(() {
       _vendorNoteEC.text = '';
     });
@@ -154,7 +155,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   checkCart() async {
-    int countAll = await countCartItemByProduct(widget.product.id.toString());
+    int countAll = countCartItemByProduct(widget.product);
 
     setState(() {
       cartCountAll = countAll.toString();
@@ -218,17 +219,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //============================= Cart utility functions ============================\\
 
   void incrementQuantity() async {
-    await addToCart(widget.product.id.toString());
+    await addToCart(widget.product);
     await checkCart();
   }
 
   void decrementQuantity() async {
-    await minusFromCart(widget.product.id.toString());
+    await minusFromCart(widget.product);
     await checkCart();
   }
 
   Future<void> _cartAddFunction() async {
-    await addToCart(widget.product.id.toString());
+    await addToCart(widget.product);
     await checkCart();
 
     mySnackBar(
@@ -765,7 +766,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         onPressed: _vendorNoteEC.text == '' ||
                                                 _vendorNoteEC.text ==
                                                     getSingleProductNote(
-                                                        widget.product.id)
+                                                        widget.product)
                                             ? null
                                             : _saveNote,
                                         style: ElevatedButton.styleFrom(

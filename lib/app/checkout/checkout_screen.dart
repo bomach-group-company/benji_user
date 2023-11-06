@@ -4,7 +4,6 @@ import 'dart:math';
 
 import 'package:benji/app/home/home.dart';
 import 'package:benji/app/splash_screens/payment_successful_screen.dart';
-import 'package:benji/services/squad_integration.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
@@ -94,7 +93,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           seconds: 1,
         ),
       ),
-    ))['products'];
+    ))['products'] as List<Product>;
 
     Map<String, dynamic> cartItems = await getCartProductId();
 
@@ -153,36 +152,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  void _placeOrderWeb() async {
-    SquadPopup.openSquadPopup(
-      onClose: () {
-        debugPrint('emma onClose');
-      },
-      onLoad: () {
-        debugPrint('emma onLoad');
-      },
-      onSuccess: (resp) {
-        clearCart().then((value) {
-          Get.to(
-            () => const PaymentSuccessful(),
-            routeName: 'PaymentSuccessful',
-            duration: const Duration(milliseconds: 300),
-            fullscreenDialog: true,
-            curve: Curves.easeIn,
-            preventDuplicates: true,
-            popGesture: true,
-            transition: Transition.rightToLeft,
-          );
-        });
-      },
-      email: user?.email ?? '',
-      amount:
-          ((_subTotal * 100).toInt() + (deliveryFee * 100).toInt()).toString(),
-      currencycode: 'NGN',
-      customername: "${user?.firstName ?? ''} ${user?.lastName ?? ''}",
-      metadata: {"order_id": widget.orderID},
-    );
-  }
+  void _placeOrderWeb() async {}
 
   Charge charge() {
     return Charge(

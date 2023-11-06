@@ -1,8 +1,8 @@
 import 'package:benji/frontend/store/product.dart';
-import 'package:benji/src/frontend/model/product.dart';
 import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
 import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
 import 'package:benji/src/others/empty.dart';
+import 'package:benji/src/repo/models/product/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
@@ -191,9 +191,9 @@ class _SearchPageState extends State<SearchPage> {
                                             product: item,
                                             navigateCategory: CategoryPage(
                                               activeSubCategory:
-                                                  item.subCategory,
+                                                  item.subCategoryId,
                                               activeCategory:
-                                                  item.subCategory.category,
+                                                  item.subCategoryId.category,
                                             ),
                                             navigate:
                                                 ProductPage(product: item),
@@ -230,8 +230,8 @@ class _SearchPageState extends State<SearchPage> {
                 );
                 return MyCardLg(
                   navigateCategory: CategoryPage(
-                    activeSubCategory: data.subCategory,
-                    activeCategory: data.subCategory.category,
+                    activeSubCategory: data.subCategoryId,
+                    activeCategory: data.subCategoryId.category,
                   ),
                   navigate: ProductPage(product: data),
                   visible: showCard,

@@ -8,6 +8,7 @@ import 'package:benji/src/frontend/model/category.dart';
 import 'package:benji/src/frontend/widget/cart.dart';
 import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:benji/src/frontend/widget/text/hover_text.dart';
+import 'package:benji/src/repo/models/category/category.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
