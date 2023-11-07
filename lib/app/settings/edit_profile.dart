@@ -59,8 +59,7 @@ class _EditProfileState extends State<EditProfile> {
 
     _userFirstNameEC.text = user!.firstName;
     _userLastNameEC.text = user.lastName;
-    phoneNumberEC.text =
-        (user.phone ?? '').replaceFirst('+$countryDialCode', '');
+    phoneNumberEC.text = (user.phone).replaceFirst('+$countryDialCode', '');
   }
 
   Future<bool> updateProfile({bool is_current = true}) async {

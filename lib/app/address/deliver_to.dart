@@ -260,12 +260,10 @@ class _DeliverToState extends State<DeliverTo> {
                                               width: min(
                                                   mediaWidth - 200,
                                                   15.0 *
-                                                          _addressData![
-                                                                      'addresses']
-                                                                  [index]
-                                                              .title
-                                                              .length ??
-                                                      1),
+                                                      _addressData!['addresses']
+                                                              [index]
+                                                          .title
+                                                          .length),
                                               child: Text(
                                                 _addressData!['addresses']
                                                         [index]

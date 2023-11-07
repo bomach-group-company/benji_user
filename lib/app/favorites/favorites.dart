@@ -306,14 +306,11 @@ class _FavoritesState extends State<Favorites>
                                                       onTap: () {
                                                         _vendorDetailPage(item);
                                                       },
-                                                      vendorName:
-                                                          item.shopName ??
-                                                              'Not Available',
+                                                      vendorName: item.shopName,
                                                       typeOfBusiness:
-                                                          item.shopType.name ??
-                                                              'Not Available',
+                                                          item.shopType.name,
                                                       rating:
-                                                          " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
+                                                          " ${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
                                                       cardImage:
                                                           "assets/images/vendors/ntachi-osa.png"),
                                                 )
