@@ -47,22 +47,22 @@ class DeliveryItem {
   factory DeliveryItem.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return DeliveryItem(
-      id: json['id'] ?? NA,
+      id: json['id'] ?? notAvailable,
       clientId: User.fromJson(json['client']),
-      pickUpAddress: json['pickUpAddress'] ?? NA,
-      senderName: json['senderName'] ?? NA,
-      senderPhoneNumber: json['senderPhoneNumber'] ?? NA,
-      dropOffAddress: json['dropOffAddress'] ?? NA,
-      receiverName: json['receiverName'] ?? NA,
-      receiverPhoneNumber: json['receiverPhoneNumber'] ?? NA,
-      itemName: json['itemName'] ?? NA,
+      pickUpAddress: json['pickUpAddress'] ?? notAvailable,
+      senderName: json['senderName'] ?? notAvailable,
+      senderPhoneNumber: json['senderPhoneNumber'] ?? notAvailable,
+      dropOffAddress: json['dropOffAddress'] ?? notAvailable,
+      receiverName: json['receiverName'] ?? notAvailable,
+      receiverPhoneNumber: json['receiverPhoneNumber'] ?? notAvailable,
+      itemName: json['itemName'] ?? notAvailable,
       itemCategory: ItemCategory.fromJson(json['itemCategory']),
       itemWeight: ItemWeight.fromJson(json['itemWeight']),
       itemQuantity: json['itemQuantity'] ?? 0,
-      itemValue: json['itemValue'] ?? NA,
+      itemValue: json['itemValue'] ?? notAvailable,
       itemImage: json['itemImage'],
       prices: json['prices'] ?? 0.0,
-      status: json['status'] ?? NA,
+      status: json['status'] ?? notAvailable,
     );
   }
 }

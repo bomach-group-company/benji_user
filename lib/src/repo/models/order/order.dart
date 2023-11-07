@@ -33,10 +33,10 @@ class Order {
     // }
 
     return Order(
-      id: json['id'] ?? NA,
+      id: json['id'] ?? notAvailable,
       totalPrice: json['total_price'] ?? 0.0,
-      assignedStatus: json['assigned_status'] ?? NA,
-      deliveryStatus: json['delivery_status'] ?? NA,
+      assignedStatus: json['assigned_status'] ?? notAvailable,
+      deliveryStatus: json['delivery_status'] ?? notAvailable,
       // client: User.fromJson(json['client']) ?? NA,
       // deliveryAddress: Address.fromJson(json['delivery_address']),
       // orderItems: orderItems,

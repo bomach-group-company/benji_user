@@ -16,9 +16,9 @@ class ShopTypeModel {
   factory ShopTypeModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return ShopTypeModel(
-      id: json['id'] ?? NA,
-      name: json['name'] ?? NA,
-      description: json['description'] ?? NA,
+      id: json['id'] ?? notAvailable,
+      name: json['name'] ?? notAvailable,
+      description: json['description'] ?? notAvailable,
       isActive: json['is_active'] ?? false,
     );
   }

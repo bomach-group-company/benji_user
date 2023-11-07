@@ -18,8 +18,8 @@ class OrderItem {
   factory OrderItem.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return OrderItem(
-      id: json['id'] ?? NA,
-      // product: json['product'] ?? NA,
+      id: json['id'] ?? notAvailable,
+      // product: json['product'] ?? notAvailable,
       // quantity: json['quantity'] ?? 0,
     );
   }

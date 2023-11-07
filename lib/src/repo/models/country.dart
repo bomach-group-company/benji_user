@@ -12,8 +12,8 @@ class Country {
   factory Country.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return Country(
-      code: json['code'] ?? NA,
-      name: json['name'] ?? NA,
+      code: json['code'] ?? notAvailable,
+      name: json['name'] ?? notAvailable,
     );
   }
 }

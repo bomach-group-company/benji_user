@@ -16,7 +16,7 @@ class Percentage {
   factory Percentage.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return Percentage(
-      id: json['id'] ?? NA,
+      id: json['id'] ?? notAvailable,
       riderPercentage: (json['rider_percentage'] ?? 0).toDouble(),
       agentPercentage: (json['agent_percentage'] ?? 0).toDouble(),
       stateCoordinatorPercentage:

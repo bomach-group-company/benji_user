@@ -28,7 +28,7 @@ class Conplain {
       id: json['id'] ?? '',
       topic: json['topic'] ?? '',
       itemId: json['item_id'] ?? '',
-      message: json['message'] ?? NA,
+      message: json['message'] ?? notAvailable,
       status: json['status'] ?? false,
       user: User.fromJson(json['user']),
     );
