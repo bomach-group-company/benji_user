@@ -142,8 +142,7 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
     final response = await http.get(url);
     try {
       Map resp = jsonDecode(response.body);
-      bool res =
-          response.statusCode == 200 && resp['message'].toString() == 'true';
+      bool res = response.statusCode == 200;
       await prefs.setString('token', resp['otp']);
       return res;
     } catch (e) {
