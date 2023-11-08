@@ -95,13 +95,13 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
       'latitude': latitude,
       'longitude': longitude,
     };
-    print(body);
+    consoleLog("$body");
     final response = await http.put(url,
         body: jsonEncode(body), headers: await authHeader());
-    print(response.body);
-    print(response.statusCode);
+    consoleLog(response.body);
+    consoleLog("${response.statusCode}");
     try {
-      print('got passed hear');
+      consoleLog('got passed hear');
       if (is_current) {
         setCurrentAddress(widget.address.id);
       }
@@ -150,10 +150,10 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   void initState() {
     super.initState();
     checkAuth(context);
-    _addressTitleEC.text = widget.address.title ?? '';
-    _mapsLocationEC.text = widget.address.details ?? '';
+    _addressTitleEC.text = widget.address.title;
+    _mapsLocationEC.text = widget.address.details;
     _phoneNumberEC.text =
-        (widget.address.phone ?? '').replaceFirst('+$countryDialCode', '');
+        (widget.address.phone).replaceFirst('+$countryDialCode', '');
     latitude = widget.address.latitude;
     longitude = widget.address.longitude;
   }
@@ -202,7 +202,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
           "key": googlePlacesApiKey, //google places api key
         });
     if (kDebugMode) {
-      print(uri);
+      consoleLog("$uri");
     }
     String? response = await NetworkUtility.fetchUrl(uri);
     if (response != null) {
@@ -215,7 +215,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
       }
 
       if (kDebugMode) {
-        print(response);
+        consoleLog(response);
       }
     }
   }
@@ -234,15 +234,15 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
       transition: Transition.rightToLeft,
     );
     if (kDebugMode) {
-      print(latLngDetailController.latLngDetail.value);
+      consoleLog("${latLngDetailController.latLngDetail.value}");
     }
     latitude = latLngDetailController.latLngDetail.value[0];
     longitude = latLngDetailController.latLngDetail.value[1];
     _mapsLocationEC.text = latLngDetailController.latLngDetail.value[2];
     latLngDetailController.setEmpty();
     if (kDebugMode) {
-      print("LATLNG: $latitude,$longitude");
-      print(_mapsLocationEC.text);
+      consoleLog("LATLNG: $latitude,$longitude");
+      consoleLog(_mapsLocationEC.text);
     }
   }
 
@@ -398,7 +398,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                                       _typing = true;
                                     });
                                     if (kDebugMode) {
-                                      print(
+                                      consoleLog(
                                           "ONCHANGED VALUE: ${selectedLocation.value}");
                                     }
                                   },

@@ -44,7 +44,7 @@ class _AddressesState extends State<Addresses> {
   _getData() async {
     String current = '';
     try {
-      current = (await getCurrentAddress()).id ?? '';
+      current = (await getCurrentAddress()).id;
     } catch (e) {
       current = '';
     }

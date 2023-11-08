@@ -310,7 +310,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                 SizedBox(
                                   width: media.width - 200,
                                   child: Text(
-                                    widget.vendor.shopName ?? 'Not Available',
+                                    widget.vendor.shopName,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
@@ -337,8 +337,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                       ),
                                       kHalfWidthSizedBox,
                                       Text(
-                                        widget.vendor.address ??
-                                            'Not Available',
+                                        widget.vendor.address,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                           fontSize: 14,
@@ -350,7 +349,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                 ),
                                 kHalfSizedBox,
                                 InkWell(
-                                  onTap: widget.vendor.address == null
+                                  onTap: widget.vendor.address.isEmpty
                                       ? null
                                       : _toVendorLocation,
                                   borderRadius: BorderRadius.circular(10),
@@ -365,7 +364,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                       ),
                                     ),
                                     child: Text(
-                                      widget.vendor.address == null
+                                      widget.vendor.address.isEmpty
                                           ? "Not Available"
                                           : "Show on map",
                                       textAlign: TextAlign.center,
@@ -402,7 +401,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                           ),
                                           const SizedBox(width: 5),
                                           Text(
-                                            '${(widget.vendor.averageRating ?? 0).toPrecision(1)}',
+                                            '${(widget.vendor.averageRating).toPrecision(1)}',
                                             style: const TextStyle(
                                               color: kBlackColor,
                                               fontSize: 14,
@@ -428,13 +427,12 @@ class _VendorDetailsState extends State<VendorDetails>
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            widget.vendor.isOnline ?? false
+                                            widget.vendor.isOnline
                                                 ? "Online"
                                                 : 'Offline',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color: widget.vendor.isOnline ??
-                                                      false
+                                              color: widget.vendor.isOnline
                                                   ? kSuccessColor
                                                   : kAccentColor,
                                               fontSize: 14,

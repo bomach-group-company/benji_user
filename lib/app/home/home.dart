@@ -748,13 +748,11 @@ class _HomeState extends State<Home> {
                                   },
                                   cardImage:
                                       "assets/images/vendors/ntachi-osa.png",
-                                  vendorName: snapshot.data![index].shopName ??
-                                      "Not Available",
+                                  vendorName: snapshot.data![index].shopName,
                                   typeOfBusiness:
-                                      snapshot.data![index].shopType.name ??
-                                          'Not Available',
+                                      snapshot.data![index].shopType.name,
                                   rating:
-                                      '${(snapshot.data![index].averageRating ?? 0.0).toStringAsPrecision(2)} (${snapshot.data![index].numberOfClientsReactions ?? 0})',
+                                      '${(snapshot.data![index].averageRating).toStringAsPrecision(2)} (${snapshot.data![index].numberOfClientsReactions})',
                                   distance: "30 mins",
                                 ),
                               ),
@@ -821,12 +819,10 @@ class _HomeState extends State<Home> {
                                     onTap: () {
                                       _toVendorPage(item);
                                     },
-                                    vendorName:
-                                        item.shopName ?? 'Not Available',
-                                    typeOfBusiness:
-                                        item.shopType.name ?? 'Not Available',
+                                    vendorName: item.shopName,
+                                    typeOfBusiness: item.shopType.name,
                                     rating:
-                                        " ${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
+                                        " ${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
                                     cardImage:
                                         "assets/images/vendors/ntachi-osa.png"),
                               )

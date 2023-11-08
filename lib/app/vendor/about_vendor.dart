@@ -2,7 +2,7 @@ import 'package:benji/src/repo/models/rating/ratings.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import '../../src/components/rating_view/customer_review_card.dart';
 import '../../src/others/empty.dart';
@@ -101,9 +101,9 @@ class _AboutVendorState extends State<AboutVendor> {
               ],
             ),
             child: Text(
-              widget.vendor.shopType == null
+              widget.vendor.shopType.isBlank == true
                   ? 'Not Available'
-                  : widget.vendor.shopType.description ?? 'Not Available',
+                  : widget.vendor.shopType.description,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,

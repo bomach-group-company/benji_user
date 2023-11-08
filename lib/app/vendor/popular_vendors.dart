@@ -188,11 +188,10 @@ class _PopularVendorsState extends State<PopularVendors> {
                             },
                             removeDistance: true,
                             cardImage: 'assets/images/vendors/ntachi-osa.png',
-                            vendorName: item.shopName ?? "Not Available",
-                            typeOfBusiness:
-                                item.shopType.name ?? 'Not Available',
+                            vendorName: item.shopName,
+                            typeOfBusiness: item.shopType.name,
                             rating:
-                                "${((item.averageRating) ?? 0.0).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions ?? 0).toString()})",
+                                "${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
                           );
                         }).toList(),
                       ),

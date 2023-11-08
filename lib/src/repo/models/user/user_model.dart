@@ -31,15 +31,15 @@ class User {
     json ??= {};
     return User(
       id: json['id'] ?? 0,
-      email: json['email'] ?? NA,
-      phone: json['phone'] ?? NA,
-      username: json['username'] ?? NA,
-      firstName: json['first_name'] ?? NA,
-      lastName: json['last_name'] ?? NA,
-      gender: json['gender'] ?? NA,
-      image: json['image'] ?? NA,
-      token: json['token'] ?? NA,
-      code: json['code'] ?? NA,
+      email: json['email'] ?? notAvailable,
+      phone: json['phone'] ?? notAvailable,
+      username: json['username'] ?? notAvailable,
+      firstName: json['first_name'] ?? notAvailable,
+      lastName: json['last_name'] ?? notAvailable,
+      gender: json['gender'] ?? notAvailable,
+      image: json['image'] ?? notAvailable,
+      token: json['token'] ?? notAvailable,
+      code: json['code'] ?? notAvailable,
     );
   }
 }

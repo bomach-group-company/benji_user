@@ -36,10 +36,10 @@ class _VendorLocationState extends State<VendorLocation> {
   void initState() {
     super.initState();
     // _getPolyPoints();
-    _markerTitle = <String>["Me", widget.vendor.shopName ?? 'Not Available'];
+    _markerTitle = <String>["Me", widget.vendor.shopName];
     _markerSnippet = <String>[
       "My Location",
-      "${(widget.vendor.averageRating ?? 0).toPrecision(1)} Rating"
+      "${(widget.vendor.averageRating).toPrecision(1)} Rating"
     ];
     _loadMapData();
   }
@@ -330,7 +330,7 @@ class _VendorLocationState extends State<VendorLocation> {
                   SizedBox(
                     width: mediaWidth - 200,
                     child: Text(
-                      widget.vendor.shopName ?? 'Not Available',
+                      widget.vendor.shopName,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       textAlign: TextAlign.center,
@@ -356,7 +356,7 @@ class _VendorLocationState extends State<VendorLocation> {
                         ),
                         kHalfWidthSizedBox,
                         Text(
-                          widget.vendor.address ?? 'Not Available',
+                          widget.vendor.address,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: 14,
@@ -413,7 +413,7 @@ class _VendorLocationState extends State<VendorLocation> {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              '${(widget.vendor.averageRating ?? 0).toPrecision(1)}',
+                              '${(widget.vendor.averageRating).toPrecision(1)}',
                               style: const TextStyle(
                                 color: kBlackColor,
                                 fontSize: 14,
@@ -437,12 +437,10 @@ class _VendorLocationState extends State<VendorLocation> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              widget.vendor.isOnline ?? false
-                                  ? "Online"
-                                  : 'Offline',
+                              widget.vendor.isOnline ? "Online" : 'Offline',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: widget.vendor.isOnline ?? false
+                                color: widget.vendor.isOnline
                                     ? kSuccessColor
                                     : kAccentColor,
                                 fontSize: 14,

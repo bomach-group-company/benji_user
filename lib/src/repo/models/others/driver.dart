@@ -14,9 +14,9 @@ class Driver {
   factory Driver.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return Driver(
-      id: json['id'] ?? NA,
-      firstName: json['first_name'] ?? NA,
-      lastName: json['last_name'] ?? NA,
+      id: json['id'] ?? notAvailable,
+      firstName: json['first_name'] ?? notAvailable,
+      lastName: json['last_name'] ?? notAvailable,
     );
   }
 }

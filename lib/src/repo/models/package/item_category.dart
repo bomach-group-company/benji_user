@@ -16,8 +16,8 @@ class ItemCategory {
   factory ItemCategory.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return ItemCategory(
-      id: json['id'] ?? NA,
-      name: json['name'] ?? NA,
+      id: json['id'] ?? notAvailable,
+      name: json['name'] ?? notAvailable,
     );
   }
 }

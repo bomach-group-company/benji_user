@@ -24,9 +24,9 @@ class SubCategory {
   factory SubCategory.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return SubCategory(
-      id: json['id'] ?? NA,
-      name: json['name'] ?? NA,
-      description: json['description'] ?? NA,
+      id: json['id'] ?? notAvailable,
+      name: json['name'] ?? notAvailable,
+      description: json['description'] ?? notAvailable,
       isActive: json['is_active'] ?? false,
       category: Category.fromJson(json['category']),
     );
@@ -50,9 +50,9 @@ Future<List<SubCategory>> getSubCategoriesBycategory(id) async {
   final response = await http.get(
       Uri.parse('$baseURL/sub_categories/category/$id'),
       headers: await authHeader());
-  print(response.body);
-  print(response.statusCode);
-  print(id);
+  consoleLog(response.body);
+  consoleLog("${response.statusCode}");
+  consoleLog(id);
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => SubCategory.fromJson(item))
