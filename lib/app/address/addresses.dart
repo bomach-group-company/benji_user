@@ -48,6 +48,7 @@ class _AddressesState extends State<Addresses> {
     } catch (e) {
       current = '';
     }
+    print('current $current');
     List<Address> addresses = await getAddressesByUser();
 
     if (current != '') {
