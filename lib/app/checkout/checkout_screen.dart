@@ -105,7 +105,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     }
 
     for (Product item in product) {
-      _subTotal += (item.price * cartItems[item.id]);
+      _subTotal += (item.price * cartItems[item.id].quantity);
     }
 
     serviceFee = (_subTotal + deliveryFee) * 0.010101;
@@ -410,7 +410,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     return SizedBox(
                                       width: media.width,
                                       child: Text(
-                                        '${_data!['cartItems'][_data!['product'][index].id]}x  ${_data!['product'][index].name}',
+                                        '${_data!['cartItems'][_data!['product'][index].id].quantity}x  ${_data!['product'][index].name}',
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
