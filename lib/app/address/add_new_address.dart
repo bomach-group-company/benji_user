@@ -115,8 +115,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
     final response =
         await http.post(url, body: body, headers: await authHeader());
 
-    return response.body == '"Address added successfully to ${user.email}"' &&
-        response.statusCode == 200;
+    return response.statusCode == 200;
   }
 
   //SET DEFAULT ADDRESS

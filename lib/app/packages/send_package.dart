@@ -1,15 +1,21 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:benji/app/address/get_location_on_map.dart';
+import 'package:benji/app/packages/pay_for_delivery.dart';
+import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/components/textformfield/my_maps_textformfield.dart';
 import 'package:benji/src/providers/controllers.dart';
 import 'package:benji/src/repo/models/package/item_category.dart';
 import 'package:benji/src/repo/models/package/item_weight.dart';
+import 'package:benji/src/repo/models/user/user_model.dart';
+import 'package:benji/src/repo/utils/constant.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
@@ -18,7 +24,6 @@ import '../../src/components/textformfield/my_intl_phonefield.dart';
 import '../../src/components/textformfield/number_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import 'choose_rider.dart';
 import 'item_category_dropdown_menu.dart';
 
 class SendPackage extends StatefulWidget {
@@ -54,9 +59,8 @@ class _SendPackageState extends State<SendPackage> {
   final _itemCategoryEC = TextEditingController();
   final _itemWeightEC = TextEditingController();
   final _itemQuantityEC = TextEditingController();
+  final _itemValueEC = TextEditingController();
   // var _AddressesState = TextEditingController();
-
-  late final TextEditingController _itemValueEC = TextEditingController();
 
   final LatLngDetailController latLngDetailController =
       Get.put(LatLngDetailController());
@@ -92,30 +96,61 @@ class _SendPackageState extends State<SendPackage> {
   }
 
   _toPayForDelivery() async {
-    Get.to(
-      () => const ChooseRider(),
+    final url = Uri.parse('$baseURL/sendPackage/createItemPackage/');
+    final User? user = await getUser();
 
-      // PayForDelivery(
-      //   status: "Pending payment",
-      //   senderName: _senderNameEC.text,
-      //   senderPhoneNumber: _senderPhoneEC.text,
-      //   receiverName: _receiverNameEC.text,
-      //   receiverPhoneNumber: _receiverPhoneEC.text,
-      //   receiverLocation: _dropOffEC.text,
-      //   itemName: _itemNameEC.text,
-      //   itemQuantity: _itemQuantityEC.text,
-      //   itemWeight: _itemWeightEC.text,
-      //   itemValue: _itemValueEC.text,
-      //   itemCategoryId: _itemCategoryEC.text,
-      // ),
-      routeName: 'PayForDelivery',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
+    Map data = {
+      'client_id ': user?.id.toString(),
+      'pickUpAddress ': _pickupEC.text,
+      'senderName': _senderNameEC.text,
+      'senderPhoneNumber': _senderPhoneEC.text,
+      'dropOffAddress': _dropOffEC.text,
+      'receiverName': _receiverNameEC.text,
+      'receiverPhoneNumber': _receiverPhoneEC.text,
+      'itemName ': _itemNameEC.text,
+      'itemCategory_id': _itemCategoryEC.text,
+      'itemWeight_id': _itemWeightEC.text,
+      'itemQuantity ': _itemQuantityEC.text,
+      'itemValue': _itemValueEC.text,
+    };
+    if (kDebugMode) {
+      print("This is the body: $data");
+    }
+    final response =
+        await http.post(url, body: data, headers: await authHeader());
+
+    if (response.statusCode.toString().startsWith('')) {
+      Get.to(
+        () => PayForDelivery(
+          status: "Pending payment",
+          senderName: _senderNameEC.text,
+          senderPhoneNumber: _senderPhoneEC.text,
+          receiverName: _receiverNameEC.text,
+          receiverPhoneNumber: _receiverPhoneEC.text,
+          receiverLocation: _dropOffEC.text,
+          itemName: _itemNameEC.text,
+          itemQuantity: _itemQuantityEC.text,
+          itemWeight: _itemWeightEC.text,
+          itemValue: _itemValueEC.text,
+          itemCategoryId: _itemCategoryEC.text,
+        ),
+        routeName: 'PayForDelivery',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+    } else {
+      mySnackBar(
+        context,
+        kErrorColor,
+        "Failed!",
+        "Make sure you have filled all fields appropriately",
+        const Duration(seconds: 2),
+      );
+    }
   }
 
   _continueStep() {
