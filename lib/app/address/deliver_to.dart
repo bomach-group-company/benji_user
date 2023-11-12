@@ -236,9 +236,9 @@ class _DeliverToState extends State<DeliverTo> {
                                         vertical: kDefaultPadding / 2,
                                       ),
                                       child: RadioListTile(
-                                        value: _addressData!['addresses']
-                                            [index],
-                                        groupValue: _currentOption,
+                                        value: _addressData!['addresses'][index]
+                                            .id,
+                                        groupValue: _currentOption?.id ?? '',
                                         activeColor: kAccentColor,
                                         enableFeedback: true,
                                         controlAffinity:
@@ -280,9 +280,9 @@ class _DeliverToState extends State<DeliverTo> {
                                               ),
                                             ),
                                             kWidthSizedBox,
-                                            _currentOption !=
-                                                    _addressData!['addresses']
-                                                            [index]
+                                            _currentOption?.id !=
+                                                    (_addressData!['addresses']
+                                                            [index] as Address)
                                                         .id
                                                 ? const SizedBox()
                                                 : Container(

@@ -65,7 +65,7 @@ Future<String> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
   int? userId = (await getUser())!.id;
 
   final response = await http.post(
-    Uri.parse('$baseURL/orders/createOrder?client_id=$userId'),
+    Uri.parse('$baseURL/orders/create_order?client_id=$userId'),
     headers: await authHeader(),
     body: jsonEncode(formatOfOrder),
   );
