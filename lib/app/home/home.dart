@@ -324,8 +324,8 @@ class _HomeState extends State<Home> {
   void _toSeeProducts(
     Category category, {
     String id = '',
-  }) async {
-    await SubCategoryController.instance.setCategory(category);
+  }) {
+    SubCategoryController.instance.setCategory(category);
     Get.to(
       () => HomePageProducts(activeCategory: id),
       routeName: 'HomePageProducts',
@@ -558,9 +558,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   kSizedBox,
-                  GetBuilder<CategoryController>(initState: (state) {
-                    CategoryController.instance.getCategory();
-                  }, builder: (controller) {
+                  GetBuilder<CategoryController>(builder: (controller) {
                     if (controller.isLoad.value &&
                         controller.category.isEmpty) {
                       return Column(
@@ -658,127 +656,118 @@ class _HomeState extends State<Home> {
                     onPressed: _toSeeAllVendorsNearYou,
                   ),
                   kSizedBox,
-                  GetBuilder<VendorController>(
-                      initState: (state) =>
-                          VendorController.instance.getVendors(),
-                      builder: (controller) {
-                        if (controller.isLoad.value &&
-                            controller.vendorList.isEmpty) {
-                          return const SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                CardSkeleton(height: 200, width: 200),
-                                kHalfWidthSizedBox,
-                                CardSkeleton(height: 200, width: 200),
-                                kHalfWidthSizedBox,
-                                CardSkeleton(height: 200, width: 200),
-                              ],
-                            ),
-                          );
-                        }
-                        return SizedBox(
-                          height: 250,
-                          width: media.width,
-                          child: ListView.separated(
-                            itemCount: controller.vendorList.length,
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
-                            separatorBuilder: (context, index) =>
-                                deviceType(media.width) > 2
-                                    ? kWidthSizedBox
-                                    : kHalfWidthSizedBox,
-                            itemBuilder: (context, index) => InkWell(
-                              child: SizedBox(
-                                width: 200,
-                                child: VendorsCard(
-                                  removeDistance: false,
-                                  onTap: () {
-                                    _toVendorPage(controller.vendorList[index]);
-                                  },
-                                  cardImage:
-                                      "assets/images/vendors/ntachi-osa.png",
-                                  vendorName:
-                                      controller.vendorList[index].shopName,
-                                  typeOfBusiness: controller
-                                      .vendorList[index].shopType.name,
-                                  rating:
-                                      '${(controller.vendorList[index].averageRating).toStringAsPrecision(2)} (${controller.vendorList[index].numberOfClientsReactions})',
-                                  distance: "30 mins",
-                                ),
-                              ),
+                  GetBuilder<VendorController>(builder: (controller) {
+                    if (controller.isLoad.value &&
+                        controller.vendorList.isEmpty) {
+                      return const SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            CardSkeleton(height: 200, width: 200),
+                            kHalfWidthSizedBox,
+                            CardSkeleton(height: 200, width: 200),
+                            kHalfWidthSizedBox,
+                            CardSkeleton(height: 200, width: 200),
+                          ],
+                        ),
+                      );
+                    }
+                    return SizedBox(
+                      height: 250,
+                      width: media.width,
+                      child: ListView.separated(
+                        itemCount: controller.vendorList.length,
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        separatorBuilder: (context, index) =>
+                            deviceType(media.width) > 2
+                                ? kWidthSizedBox
+                                : kHalfWidthSizedBox,
+                        itemBuilder: (context, index) => InkWell(
+                          child: SizedBox(
+                            width: 200,
+                            child: VendorsCard(
+                              removeDistance: false,
+                              onTap: () {
+                                _toVendorPage(controller.vendorList[index]);
+                              },
+                              cardImage: "assets/images/vendors/ntachi-osa.png",
+                              vendorName: controller.vendorList[index].shopName,
+                              typeOfBusiness:
+                                  controller.vendorList[index].shopType.name,
+                              rating:
+                                  '${(controller.vendorList[index].averageRating).toStringAsPrecision(2)} (${controller.vendorList[index].numberOfClientsReactions})',
+                              distance: "30 mins",
                             ),
                           ),
-                        );
-                      }),
+                        ),
+                      ),
+                    );
+                  }),
                   kSizedBox,
                   SeeAllContainer(
                     title: "Popular Vendors",
                     onPressed: _toSeeAllPopularVendors,
                   ),
                   kSizedBox,
-                  GetBuilder<VendorController>(
-                      initState: (state) =>
-                          VendorController.instance.getPopularVendors(),
-                      builder: (controller) {
-                        if (controller.isLoad.value &&
-                            controller.vendorPopularList.isEmpty) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: List.filled(
-                              breakPoint(
-                                media.width,
-                                1,
-                                2,
-                                3,
-                                4,
-                              ).toInt(),
-                              CardSkeleton(
-                                  height: 200,
-                                  width: (media.width /
-                                          breakPoint(
-                                            media.width,
-                                            1,
-                                            2,
-                                            3,
-                                            4,
-                                          )) -
-                                      20),
-                            ),
-                          );
-                        }
+                  GetBuilder<VendorController>(builder: (controller) {
+                    if (controller.isLoad.value &&
+                        controller.vendorPopularList.isEmpty) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: List.filled(
+                          breakPoint(
+                            media.width,
+                            1,
+                            2,
+                            3,
+                            4,
+                          ).toInt(),
+                          CardSkeleton(
+                              height: 200,
+                              width: (media.width /
+                                      breakPoint(
+                                        media.width,
+                                        1,
+                                        2,
+                                        3,
+                                        4,
+                                      )) -
+                                  20),
+                        ),
+                      );
+                    }
 
-                        return LayoutGrid(
-                          rowGap: kDefaultPadding / 2,
-                          columnGap: kDefaultPadding / 2,
-                          columnSizes: breakPointDynamic(
-                              media.width,
-                              [1.fr],
-                              [1.fr, 1.fr],
-                              [1.fr, 1.fr, 1.fr],
-                              [1.fr, 1.fr, 1.fr, 1.fr]),
-                          rowSizes: controller.vendorPopularList.isEmpty
-                              ? [auto]
-                              : List.generate(
-                                  controller.vendorPopularList.length,
-                                  (index) => auto),
-                          children: (controller.vendorPopularList)
-                              .map(
-                                (item) => VendorsCard(
-                                    removeDistance: true,
-                                    onTap: () {
-                                      _toVendorPage(item);
-                                    },
-                                    vendorName: item.shopName,
-                                    typeOfBusiness: item.shopType.name,
-                                    rating:
-                                        " ${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
-                                    cardImage:
-                                        "assets/images/vendors/ntachi-osa.png"),
-                              )
-                              .toList(),
-                        );
-                      }),
+                    return LayoutGrid(
+                      rowGap: kDefaultPadding / 2,
+                      columnGap: kDefaultPadding / 2,
+                      columnSizes: breakPointDynamic(
+                          media.width,
+                          [1.fr],
+                          [1.fr, 1.fr],
+                          [1.fr, 1.fr, 1.fr],
+                          [1.fr, 1.fr, 1.fr, 1.fr]),
+                      rowSizes: controller.vendorPopularList.isEmpty
+                          ? [auto]
+                          : List.generate(controller.vendorPopularList.length,
+                              (index) => auto),
+                      children: (controller.vendorPopularList)
+                          .map(
+                            (item) => VendorsCard(
+                                removeDistance: true,
+                                onTap: () {
+                                  _toVendorPage(item);
+                                },
+                                vendorName: item.shopName,
+                                typeOfBusiness: item.shopType.name,
+                                rating:
+                                    " ${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
+                                cardImage:
+                                    "assets/images/vendors/ntachi-osa.png"),
+                          )
+                          .toList(),
+                    );
+                  }),
                   kSizedBox,
                   Container(
                     width: media.width,
@@ -801,9 +790,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   kSizedBox,
-                  GetBuilder<CategoryController>(initState: (state) {
-                    CategoryController.instance.getCategory();
-                  }, builder: (controller) {
+                  GetBuilder<CategoryController>(builder: (controller) {
                     if (controller.isLoad.value &&
                         controller.category.isEmpty) {
                       return Column(
@@ -902,8 +889,6 @@ class _HomeState extends State<Home> {
                   kSizedBox,
 
                   GetBuilder<ProductController>(
-                    initState: (state) =>
-                        ProductController.instance.getProduct(),
                     builder: (controller) {
                       if (controller.isLoad.value &&
                           controller.products.isEmpty) {

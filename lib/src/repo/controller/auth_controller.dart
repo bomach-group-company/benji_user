@@ -3,7 +3,10 @@
 import 'package:benji/app/auth/login.dart';
 import 'package:benji/app/home/home.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/repo/controller/category_controller.dart';
+import 'package:benji/src/repo/controller/product_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
+import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:benji/src/repo/models/user/user_model.dart';
 import 'package:benji/src/repo/services/helper.dart';
 import 'package:benji/src/repo/utils/helpers.dart';

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:benji/src/repo/controller/error_controller.dart';
+import 'package:benji/src/repo/controller/product_controller.dart';
 import 'package:benji/src/repo/models/category/category.dart';
 import 'package:benji/src/repo/models/category/sub_category.dart';
 import 'package:benji/src/repo/services/api_url.dart';
@@ -21,10 +22,11 @@ class SubCategoryController extends GetxController {
   var subcategory = <SubCategory>[].obs;
   var selectedCategory = Category.fromJson(null).obs;
 
-  setCategory(Category value) async {
+  setCategory(Category value) {
     selectedCategory.value = value;
+    subcategory.value = [];
     update();
-    await getSubCategory();
+    ProductController.instance.resetproductsBySubCategory();
   }
 
   Future getSubCategory() async {
