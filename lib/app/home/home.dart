@@ -839,7 +839,7 @@ class _HomeState extends State<Home> {
                     ),
                     child: Center(
                       child: Text(
-                        "Products".toUpperCase(),
+                        "Products Category".toUpperCase(),
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           color: kTextBlackColor,

@@ -1,9 +1,11 @@
+import 'package:benji/app/orders/track_order.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/models/order/order.dart';
 import 'package:benji/src/repo/models/user/user_model.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/section/track_order_details_container.dart';
@@ -76,13 +78,24 @@ class _OrdersHistoryState extends State<OrdersHistory> {
     }
   }
 
-  //===================== Handle refresh ==========================\\
+  //===================== Function ==========================\\
 
   Future<void> _handleRefresh() async {
     setState(() {
       _orders = _getOrders();
     });
   }
+
+  void _toOrderDetailsScreen() => Get.to(
+        () => const TrackOrder(),
+        routeName: 'TrackOrder',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
   //========================================================================\\
 
   @override
@@ -146,9 +159,11 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                                       kHalfSizedBox,
                                   physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.vertical,
-                                  itemBuilder: (context, index) =>
-                                      TrackOrderDetailsContainer(
-                                    order: snapshot.data![index],
+                                  itemBuilder: (context, index) => InkWell(
+                                    onTap: _toOrderDetailsScreen,
+                                    child: TrackOrderDetailsContainer(
+                                      order: snapshot.data![index],
+                                    ),
                                   ),
                                 ),
                               ),
