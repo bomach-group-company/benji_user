@@ -3,6 +3,7 @@
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/auth_controller.dart';
 import 'package:benji/src/repo/controller/category_controller.dart';
+import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
     CategoryController.instance.getCategory();
     AddressController.instance.getAdresses();
     AddressController.instance.getCurrentAddress();
+    OrderController.instance.getOrders();
     super.initState();
   }
 

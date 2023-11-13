@@ -28,7 +28,7 @@ class Address {
   factory Address.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return Address(
-      id: json['id'] ?? notAvailable,
+      id: json['id'] ?? '0',
       title: json['title'] ?? notAvailable,
       details: json['details'] ?? notAvailable,
       phone: json['phone'] ?? notAvailable,

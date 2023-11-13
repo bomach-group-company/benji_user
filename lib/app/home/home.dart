@@ -9,6 +9,7 @@ import 'package:benji/app/support/help_and_support.dart';
 import 'package:benji/src/components/vendor/vendors_card.dart';
 import 'package:benji/src/others/empty.dart';
 import 'package:benji/src/others/my_future_builder.dart';
+import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/category_controller.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
 import 'package:benji/src/repo/controller/sub_category_controller.dart';
@@ -416,20 +417,19 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              FutureBuilder(
-                  future: _currentAddress,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return AppBarDeliveryLocation(
-                        deliveryLocation: 'Loading...',
-                        toDeliverToPage: () {},
-                      );
-                    }
-                    return AppBarDeliveryLocation(
-                      deliveryLocation: snapshot.data?.title ?? 'Address',
-                      toDeliverToPage: _toAddressesPage,
-                    );
-                  }),
+              GetBuilder<AddressController>(builder: (controller) {
+                if (controller.isLoad.value &&
+                    controller.current.value.id == '0') {
+                  return AppBarDeliveryLocation(
+                    deliveryLocation: 'Loading...',
+                    toDeliverToPage: () {},
+                  );
+                }
+                return AppBarDeliveryLocation(
+                  deliveryLocation: controller.current.value.title,
+                  toDeliverToPage: _toAddressesPage,
+                );
+              }),
             ],
           ),
           actions: [

@@ -25,6 +25,8 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
   void initState() {
     super.initState();
     _scrollController.addListener(_scrollListener);
+    _scrollController.addListener(() =>
+        VendorController.instance.scrollListenerVendor(_scrollController));
   }
 
   Future<void> _scrollListener() async {
