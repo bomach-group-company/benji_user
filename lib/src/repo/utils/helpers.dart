@@ -53,7 +53,7 @@ checkUserAuth() async {
 
 checkAuth(context) async {
   User? haveUser = await getUser();
-  bool? isAuth = await isAuthorized();
+  bool? isAuth = await isAuthorizedOrNull();
   if (isAuth == null) {
     mySnackBar(
       context,
@@ -111,7 +111,7 @@ Future<Map<String, String>> authHeader(
   return res;
 }
 
-Future<bool?> isAuthorized() async {
+Future<bool?> isAuthorizedOrNull() async {
   try {
     final response = await http.get(
       Uri.parse('$baseURL/auth/'),
