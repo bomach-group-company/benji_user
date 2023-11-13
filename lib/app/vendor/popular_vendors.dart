@@ -1,15 +1,15 @@
 import 'package:benji/app/vendor/vendor_details.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
+import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/vendor/vendors_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
-import '../../src/repo/models/vendor/vendor.dart';
 import '../../theme/colors.dart';
 
 class PopularVendors extends StatefulWidget {
@@ -24,8 +24,9 @@ class _PopularVendorsState extends State<PopularVendors> {
   @override
   void initState() {
     super.initState();
-    _getData();
     _scrollController.addListener(_scrollListener);
+    _scrollController.addListener(() => VendorController.instance
+        .scrollListenerPopularVendor(_scrollController));
   }
 
   Future<void> _scrollListener() async {
@@ -39,28 +40,6 @@ class _PopularVendorsState extends State<PopularVendors> {
         _isScrollToTopBtnVisible == true) {
       setState(() {
         _isScrollToTopBtnVisible = false;
-      });
-    }
-    if (loadMore || thatsAllData) return;
-
-    if (_scrollController.offset >=
-            _scrollController.position.maxScrollExtent &&
-        !_scrollController.position.outOfRange) {
-      setState(() {
-        loadMore = true;
-        start = end;
-        end = end + 10;
-      });
-
-      await _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 25),
-        curve: Curves.easeInOut,
-      );
-      await _getData();
-
-      setState(() {
-        loadMore = false;
       });
     }
   }
@@ -83,24 +62,7 @@ class _PopularVendorsState extends State<PopularVendors> {
     _scrollController.removeListener(() {});
   }
 
-  List<VendorModel>? _vendor;
-  int start = 0;
-  int end = 10;
-  bool loadMore = false;
-  bool thatsAllData = false;
   bool _isScrollToTopBtnVisible = false;
-
-  _getData() async {
-    List<VendorModel> vendor = await getPopularVendors(start: start, end: end);
-
-    _vendor ??= [];
-    thatsAllData = vendor.isEmpty;
-    if (!thatsAllData) {
-      setState(() {
-        _vendor!.addAll(vendor);
-      });
-    }
-  }
 
 //============================================== CONTROLLERS =================================================\\
   final _scrollController = ScrollController();
@@ -108,14 +70,7 @@ class _PopularVendorsState extends State<PopularVendors> {
   //==================================================== FUNCTIONS ===========================================================\\
   //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {
-    setState(() {
-      _vendor = null;
-      start = 0;
-      end = 10;
-    });
-    await _getData();
-  }
+  Future<void> _handleRefresh() async {}
 
   //========================================================================\\
   @override
@@ -145,81 +100,86 @@ class _PopularVendorsState extends State<PopularVendors> {
             : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: _vendor == null
-              ? Center(child: CircularProgressIndicator(color: kAccentColor))
-              : Scrollbar(
-                  controller: _scrollController,
-                  scrollbarOrientation: ScrollbarOrientation.right,
-                  radius: const Radius.circular(10),
-                  child: ListView(
-                    dragStartBehavior: DragStartBehavior.down,
-                    controller: _scrollController,
-                    padding: deviceType(media.width) > 2
-                        ? const EdgeInsets.all(kDefaultPadding)
-                        : const EdgeInsets.all(kDefaultPadding / 2),
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    children: [
-                      LayoutGrid(
-                        rowGap: kDefaultPadding / 2,
-                        columnGap: kDefaultPadding / 2,
-                        columnSizes: breakPointDynamic(
-                            media.width,
-                            [1.fr],
-                            [1.fr, 1.fr],
-                            [1.fr, 1.fr, 1.fr],
-                            [1.fr, 1.fr, 1.fr, 1.fr]),
-                        rowSizes: _vendor!.isEmpty
-                            ? [auto]
-                            : List.generate(_vendor!.length, (index) => auto),
-                        children: (_vendor!).map((item) {
-                          return VendorsCard(
-                            onTap: () {
-                              Get.to(
-                                () => VendorDetails(vendor: item),
-                                routeName: 'VendorDetails',
-                                duration: const Duration(milliseconds: 300),
-                                fullscreenDialog: true,
-                                curve: Curves.easeIn,
-                                preventDuplicates: true,
-                                popGesture: true,
-                                transition: Transition.rightToLeft,
-                              );
-                            },
-                            removeDistance: true,
-                            cardImage: 'assets/images/vendors/ntachi-osa.png',
-                            vendorName: item.shopName,
-                            typeOfBusiness: item.shopType.name,
-                            rating:
-                                "${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
+          child: GetBuilder<VendorController>(builder: (controller) {
+            if (controller.isLoad.value &&
+                controller.vendorPopularList.isEmpty) {
+              return Center(
+                  child: CircularProgressIndicator(color: kAccentColor));
+            }
+            return Scrollbar(
+              controller: _scrollController,
+              scrollbarOrientation: ScrollbarOrientation.right,
+              radius: const Radius.circular(10),
+              child: ListView(
+                dragStartBehavior: DragStartBehavior.down,
+                controller: _scrollController,
+                padding: deviceType(media.width) > 2
+                    ? const EdgeInsets.all(kDefaultPadding)
+                    : const EdgeInsets.all(kDefaultPadding / 2),
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                children: [
+                  LayoutGrid(
+                    rowGap: kDefaultPadding / 2,
+                    columnGap: kDefaultPadding / 2,
+                    columnSizes: breakPointDynamic(
+                        media.width,
+                        [1.fr],
+                        [1.fr, 1.fr],
+                        [1.fr, 1.fr, 1.fr],
+                        [1.fr, 1.fr, 1.fr, 1.fr]),
+                    rowSizes: controller.vendorPopularList.isEmpty
+                        ? [auto]
+                        : List.generate(controller.vendorPopularList.length,
+                            (index) => auto),
+                    children: (controller.vendorPopularList).map((item) {
+                      return VendorsCard(
+                        onTap: () {
+                          Get.to(
+                            () => VendorDetails(vendor: item),
+                            routeName: 'VendorDetails',
+                            duration: const Duration(milliseconds: 300),
+                            fullscreenDialog: true,
+                            curve: Curves.easeIn,
+                            preventDuplicates: true,
+                            popGesture: true,
+                            transition: Transition.rightToLeft,
                           );
-                        }).toList(),
-                      ),
-                      thatsAllData
-                          ? Container(
-                              margin:
-                                  const EdgeInsets.only(top: 20, bottom: 20),
-                              height: 10,
-                              width: 10,
-                              decoration: ShapeDecoration(
-                                  shape: const CircleBorder(),
-                                  color: kPageSkeletonColor),
-                            )
-                          : const SizedBox(),
-                      loadMore
-                          ? Column(
-                              children: [
-                                kSizedBox,
-                                Center(
-                                  child: CircularProgressIndicator(
-                                      color: kAccentColor),
-                                ),
-                              ],
-                            )
-                          : const SizedBox()
-                    ],
+                        },
+                        removeDistance: true,
+                        cardImage: 'assets/images/vendors/ntachi-osa.png',
+                        vendorName: item.shopName,
+                        typeOfBusiness: item.shopType.name,
+                        rating:
+                            "${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
+                      );
+                    }).toList(),
                   ),
-                ),
+                  controller.loadedAllPopularVendor.value
+                      ? Container(
+                          margin: const EdgeInsets.only(top: 20, bottom: 20),
+                          height: 10,
+                          width: 10,
+                          decoration: ShapeDecoration(
+                              shape: const CircleBorder(),
+                              color: kPageSkeletonColor),
+                        )
+                      : const SizedBox(),
+                  controller.isLoadMorePopularVendor.value
+                      ? Column(
+                          children: [
+                            kSizedBox,
+                            Center(
+                              child: CircularProgressIndicator(
+                                  color: kAccentColor),
+                            ),
+                          ],
+                        )
+                      : const SizedBox()
+                ],
+              ),
+            );
+          }),
         ),
       ),
     );

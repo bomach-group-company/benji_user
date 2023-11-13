@@ -51,6 +51,19 @@ class VendorController extends GetxController {
     }
   }
 
+  Future<void> scrollListenerPopularVendor(scrollController) async {
+    if (VendorController.instance.loadedAllVendor.value) {
+      return;
+    }
+
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange) {
+      VendorController.instance.isLoadMoreVendor.value = true;
+      update();
+      await VendorController.instance.getPopularVendors();
+    }
+  }
+
   Future<void> scrollListenerProduct(scrollController, vendorId) async {
     if (VendorController.instance.loadedAllProduct.value) {
       return;
