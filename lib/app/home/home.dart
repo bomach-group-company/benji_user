@@ -18,6 +18,7 @@ import 'package:benji/src/repo/models/category/category.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/skeletons/app/card.dart';
 import 'package:benji/src/skeletons/page_skeleton.dart';
+import 'package:flutter/foundation.dart' as fnd;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -63,7 +64,9 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     checkAuth(context);
-    NotificationController.initializeNotification();
+    if (!fnd.kIsWeb) {
+      NotificationController.initializeNotification();
+    }
 
     _currentAddress = getCurrentAddress();
     _scrollController.addListener(_scrollListener);

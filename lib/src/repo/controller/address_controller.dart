@@ -20,6 +20,14 @@ class AddressController extends GetxController {
   var addresses = <Address>[].obs;
   var current = Address.fromJson(null).obs;
 
+  Future refreshData() async {
+    addresses.value = [];
+    current.value = Address.fromJson(null);
+    update();
+    await getAdresses();
+    await getCurrentAddress();
+  }
+
   Future getAdresses() async {
     isLoad.value = true;
     late String token;

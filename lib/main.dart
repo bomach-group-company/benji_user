@@ -1,4 +1,5 @@
 import 'package:benji/app/splash_screens/startup_splash_screen.dart';
+import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/auth_controller.dart';
 import 'package:benji/src/repo/controller/category_controller.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
@@ -47,6 +48,8 @@ void main() async {
   final url = Get.put(UrlLaunchController());
   final form = Get.put(FormController());
   final apiProcessor = Get.put(ApiProcessorController());
+  final address = Get.put(AddressController());
+  // final review = Get.put(ReviewsController());
 
   if (!kIsWeb) {
     await Firebase.initializeApp();
@@ -83,9 +86,6 @@ class MyApp extends StatelessWidget {
       ),
       // initialRoute: AppRoutes.startupSplashscreen,
       // getPages: AppRoutes.routes,
-      initialBinding: BindingsBuilder(() {
-        Get.put(LatLngDetailController());
-      }),
     );
   }
 }

@@ -1,5 +1,6 @@
 // ignore_for_file: unrelated_type_equality_checks
 
+import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/auth_controller.dart';
 import 'package:benji/src/repo/controller/category_controller.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
@@ -25,6 +26,8 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
     VendorController.instance.getVendors();
     VendorController.instance.getPopularVendors();
     CategoryController.instance.getCategory();
+    AddressController.instance.getAdresses();
+    AddressController.instance.getCurrentAddress();
     super.initState();
   }
 
