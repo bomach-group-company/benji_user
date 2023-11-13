@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:benji/app/address/get_location_on_map.dart';
+import 'package:benji/app/packages/packages.dart';
 import 'package:benji/app/packages/pay_for_delivery.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/components/textformfield/my_maps_textformfield.dart';
@@ -81,6 +82,17 @@ class _SendPackageState extends State<SendPackage> {
     super.initState();
     _getData();
   }
+
+  void _toSendPackageScreen() => Get.to(
+        () => const Packages(),
+        routeName: 'Packages',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 
   List<ItemCategory> _category = [];
   List<ItemWeight> _weight = [];
@@ -820,7 +832,33 @@ class _SendPackageState extends State<SendPackage> {
         appBar: MyAppBar(
           title: "Send Package",
           elevation: 0.0,
-          actions: const [],
+          actions: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: OutlinedButton(
+                onPressed: _toSendPackageScreen,
+                style: OutlinedButton.styleFrom(
+                  // padding: const EdgeInsets.all(10),
+                  disabledForegroundColor: kGreyColor,
+                  disabledBackgroundColor: kLightGreyColor,
+                  enabledMouseCursor: SystemMouseCursors.click,
+                  disabledMouseCursor: SystemMouseCursors.forbidden,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  side: BorderSide(color: kAccentColor),
+                ),
+                child: const Text(
+                  "My Packages",
+                  style: TextStyle(
+                    color: kTextBlackColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+            ),
+          ],
           backgroundColor: kPrimaryColor,
         ),
         body: SafeArea(

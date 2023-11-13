@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:benji/app/cart/cart_screen.dart';
 import 'package:benji/app/favorites/favorites.dart';
+import 'package:benji/app/packages/send_package.dart';
 import 'package:benji/app/support/help_and_support.dart';
 import 'package:benji/src/components/vendor/vendors_card.dart';
 import 'package:benji/src/others/empty.dart';
@@ -38,7 +39,6 @@ import '../../src/repo/models/vendor/vendor.dart';
 import '../../theme/colors.dart';
 import '../address/addresses.dart';
 import '../orders/order_history.dart';
-import '../packages/packages.dart';
 import '../product/home_page_products.dart';
 import '../product/product_detail_screen.dart';
 import '../settings/settings.dart';
@@ -377,8 +377,8 @@ class _HomeState extends State<Home> {
       );
 
   void _toPackagesPage() => Get.to(
-        () => const Packages(),
-        routeName: 'Packages',
+        () => const SendPackage(),
+        routeName: 'SendPackage',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

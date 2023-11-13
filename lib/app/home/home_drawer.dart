@@ -150,13 +150,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
           ),
           ListTile(
-            onTap: widget.toAddressesPage,
+            onTap: widget.toPackagesPage,
             leading: FaIcon(
-              FontAwesomeIcons.locationDot,
+              FontAwesomeIcons.boxesStacked,
               color: kAccentColor,
             ),
             title: const Text(
-              'Addresses',
+              'Send Package',
               style: TextStyle(
                 color: kTextBlackColor,
                 fontSize: 12,
@@ -170,13 +170,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
           ),
           ListTile(
-            onTap: widget.toPackagesPage,
+            onTap: widget.toOrdersPage,
             leading: FaIcon(
-              FontAwesomeIcons.boxesStacked,
+              FontAwesomeIcons.boxOpen,
               color: kAccentColor,
             ),
             title: const Text(
-              'Packages',
+              'My Orders',
               style: TextStyle(
                 color: kTextBlackColor,
                 fontSize: 12,
@@ -231,13 +231,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
           ),
           ListTile(
-            onTap: widget.toOrdersPage,
+            onTap: widget.toAddressesPage,
             leading: FaIcon(
-              FontAwesomeIcons.boxOpen,
+              FontAwesomeIcons.locationDot,
               color: kAccentColor,
             ),
             title: const Text(
-              'My Orders',
+              'Addresses',
               style: TextStyle(
                 color: kTextBlackColor,
                 fontSize: 12,
