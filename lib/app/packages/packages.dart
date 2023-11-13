@@ -1,4 +1,3 @@
-import 'package:benji/app/packages/send_package.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/models/package/delivery_item.dart';
@@ -73,17 +72,6 @@ class _PackagesState extends State<Packages>
 
 //================================================= Navigation ===================================================\\
 
-  void _toSendPackageScreen() => Get.to(
-        () => const SendPackage(),
-        routeName: 'SendPackage',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
-
   void _viewPendingPackage(deliveryItem) => Get.to(
         () => ViewPackage(deliveryItem: deliveryItem),
         routeName: 'ViewPackage',
@@ -117,33 +105,7 @@ class _PackagesState extends State<Packages>
         appBar: MyAppBar(
           title: "My Packages",
           elevation: 0,
-          actions: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: OutlinedButton(
-                onPressed: _toSendPackageScreen,
-                style: OutlinedButton.styleFrom(
-                  // padding: const EdgeInsets.all(10),
-                  disabledForegroundColor: kGreyColor,
-                  disabledBackgroundColor: kLightGreyColor,
-                  enabledMouseCursor: SystemMouseCursors.click,
-                  disabledMouseCursor: SystemMouseCursors.forbidden,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  side: BorderSide(color: kAccentColor),
-                ),
-                child: const Text(
-                  "Send Package",
-                  style: TextStyle(
-                    color: kTextBlackColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-            ),
-          ],
+          actions: const [],
           backgroundColor: kPrimaryColor,
         ),
         extendBody: true,

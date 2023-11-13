@@ -1,3 +1,5 @@
+import 'package:benji/src/components/image/my_image.dart';
+import 'package:benji/src/repo/models/order/order.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
@@ -11,7 +13,8 @@ import '../delivery/delivery_map.dart';
 import '../home/home.dart';
 
 class TrackOrder extends StatefulWidget {
-  const TrackOrder({super.key});
+  final Order order;
+  const TrackOrder({super.key, required this.order});
 
   @override
   State<TrackOrder> createState() => _TrackOrderState();
@@ -24,7 +27,13 @@ class _TrackOrderState extends State<TrackOrder> {
   final _scrollController = ScrollController();
 
   //=============================================== FUNCTIONS =================================================\\
+  bool dispatched() {
+    return widget.order.assignedStatus == 'ASSG';
+  }
 
+  bool delivered() {
+    return widget.order.deliveryStatus == 'COMP';
+  }
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {}
@@ -147,14 +156,6 @@ class _TrackOrderState extends State<TrackOrder> {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        Text(
-                          'Completed',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
                       ],
                     ),
                     Padding(
@@ -193,40 +194,31 @@ class _TrackOrderState extends State<TrackOrder> {
                             flex: 1,
                             child: Container(
                               height: 4,
-                              color: kAccentColor,
+                              color: dispatched()
+                                  ? kAccentColor
+                                  : const Color(0xFFC4C4C4),
                             ),
                           ),
-                          SizedBox(
-                            width: 26,
-                            height: 26,
+                          Container(
+                            width: 24,
+                            height: 24,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: ShapeDecoration(
+                              color: dispatched()
+                                  ? kAccentColor
+                                  : const Color(0xFFC4C4C4),
+                              shape: const OvalBorder(),
+                            ),
                             child: Stack(
                               children: [
                                 Positioned(
-                                  left: 4,
-                                  top: 4,
-                                  child: Container(
-                                    width: 18,
-                                    height: 18,
-                                    decoration: ShapeDecoration(
-                                      color: kAccentColor,
-                                      shape: const OvalBorder(),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 0,
-                                  top: 0,
-                                  child: Container(
-                                    width: 26,
-                                    height: 26,
-                                    decoration: ShapeDecoration(
-                                      shape: OvalBorder(
-                                        side: BorderSide(
-                                          width: 0.50,
-                                          color: kAccentColor,
-                                        ),
-                                      ),
-                                    ),
+                                  top: 2,
+                                  bottom: 2,
+                                  left: 2,
+                                  child: Icon(
+                                    Icons.check_rounded,
+                                    color: kPrimaryColor,
+                                    size: 20,
                                   ),
                                 ),
                               ],
@@ -235,41 +227,35 @@ class _TrackOrderState extends State<TrackOrder> {
                           Flexible(
                             flex: 1,
                             child: Container(
-                              height: 1,
-                              color: const Color(0xFFC4C4C4),
+                              height: 4,
+                              color: delivered()
+                                  ? kAccentColor
+                                  : const Color(0xFFC4C4C4),
                             ),
                           ),
                           Container(
-                            width: 18,
-                            height: 18,
-                            decoration: const ShapeDecoration(
-                              shape: OvalBorder(
-                                side: BorderSide(
-                                  width: 0.50,
-                                  color: Color(0xFFC4C4C4),
-                                ),
-                              ),
+                            width: 24,
+                            height: 24,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: ShapeDecoration(
+                              color: delivered()
+                                  ? kAccentColor
+                                  : const Color(0xFFC4C4C4),
+                              shape: const OvalBorder(),
                             ),
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: Container(
-                              height: 1,
-                              color: const Color(
-                                0xFFC4C4C4,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 18,
-                            height: 18,
-                            decoration: const ShapeDecoration(
-                              shape: OvalBorder(
-                                side: BorderSide(
-                                  width: 0.50,
-                                  color: Color(0xFFC4C4C4),
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  top: 2,
+                                  bottom: 2,
+                                  left: 2,
+                                  child: Icon(
+                                    Icons.check_rounded,
+                                    color: kPrimaryColor,
+                                    size: 20,
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
                         ],
@@ -312,19 +298,18 @@ class _TrackOrderState extends State<TrackOrder> {
                       ),
                       Row(
                         children: [
-                          SizedBox(
-                            width: deviceType(mediaWidth) > 2
-                                ? mediaWidth / 3
-                                : mediaWidth / 1.5,
-                            child: const Text(
-                              'Order received by vendor',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
+                          Text(
+                            dispatched()
+                                ? delivered()
+                                    ? 'Order delivered'
+                                    : 'Order received from vendor'
+                                : 'Order received',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: const TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           kWidthSizedBox,
@@ -368,86 +353,52 @@ class _TrackOrderState extends State<TrackOrder> {
                       ),
                     ),
                     kSizedBox,
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 90,
-                          height: 90,
-                          decoration: ShapeDecoration(
-                            image: const DecorationImage(
-                              image: AssetImage(
-                                "assets/images/products/chizzy's-food.png",
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                        ),
-                        kHalfWidthSizedBox,
-                        Column(
-                          children: [
-                            SizedBox(
-                              width: mediaWidth / 2,
-                              child: const Text(
-                                "Chizzy's Food",
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.start,
-                                maxLines: 2,
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                            kSizedBox,
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: mediaWidth / 4,
-                                  child: const Text(
-                                    '3 Item (s)',
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: widget.order.orderitems.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return kHalfSizedBox;
+                      },
+                      itemBuilder: (BuildContext context, int index) => Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                              width: 90,
+                              height: 90,
+                              child: MyImage(
+                                url: widget.order.orderitems[index].product
+                                        .productImage ??
+                                    '',
+                              )),
+                          kHalfWidthSizedBox,
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              kHalfSizedBox,
+                              SizedBox(
+                                width: mediaWidth - 200,
+                                child: Text(
+                                  widget.order.orderitems[index].product.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.start,
+                                  maxLines: 2,
+                                  style: const TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                kWidthSizedBox,
-                                SizedBox(
-                                  width: mediaWidth / 5,
-                                  child: Text(
-                                    'Waiting',
-                                    style: TextStyle(
-                                      color: kSecondaryColor,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            kSizedBox,
-                            SizedBox(
-                              width: mediaWidth / 2,
-                              child: Row(
+                              ),
+                              kSizedBox,
+                              Row(
                                 children: [
-                                  const FaIcon(
-                                    FontAwesomeIcons.solidCircleCheck,
-                                    color: kSuccessColor,
-                                    size: 18,
-                                  ),
-                                  kHalfWidthSizedBox,
                                   SizedBox(
-                                    width: mediaWidth / 5,
-                                    child: const Text(
-                                      'Paid',
-                                      style: TextStyle(
+                                    width: mediaWidth - 200,
+                                    child: Text(
+                                      '${widget.order.orderitems[index].quantity} Item (s)',
+                                      textAlign: TextAlign.start,
+                                      style: const TextStyle(
                                         color: kTextBlackColor,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w700,
@@ -456,138 +407,9 @@ class _TrackOrderState extends State<TrackOrder> {
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    kHalfSizedBox,
-                    Divider(color: kGreyColor, thickness: 1),
-                    kHalfSizedBox,
-                    const Text(
-                      'Delivery Officer',
-                      style: TextStyle(
-                        color: kTextBlackColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    kHalfSizedBox,
-                    ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 0),
-                      onTap: null,
-                      leading: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: ShapeDecoration(
-                          image: const DecorationImage(
-                            image: AssetImage(
-                              "assets/images/rider/martins-okafor.png",
-                            ),
-                            fit: BoxFit.cover,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                      title: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: mediaWidth / 2.2,
-                            child: const Text(
-                              'Martins Okafor ',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          kHalfSizedBox,
-                          Row(
-                            children: [
-                              FaIcon(
-                                FontAwesomeIcons.locationCrosshairs,
-                                size: 14,
-                                color: kGreyColor,
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                '3.2km away',
-                                style: TextStyle(
-                                  color: kTextGreyColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              )
                             ],
-                          )
+                          ),
                         ],
-                      ),
-                      trailing: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFFFDD5D5),
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                                width: 0.40, color: Color(0xFFD4DAF0)),
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                        ),
-                        child: IconButton(
-                          splashRadius: 30,
-                          onPressed: _callCustomer,
-                          icon: FaIcon(
-                            FontAwesomeIcons.phone,
-                            color: kAccentColor,
-                            size: 18,
-                          ),
-                        ),
-                      ),
-                    ),
-                    kSizedBox,
-                    InkWell(
-                      onTap: _toDeliveryMap,
-                      child: Container(
-                        width: mediaWidth,
-                        height: 50,
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                              width: 0.50,
-                              color: Color(0xFFDADADA),
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FaIcon(
-                              FontAwesomeIcons.locationDot,
-                              size: 14,
-                              color: kGreyColor,
-                            ),
-                            kHalfWidthSizedBox,
-                            const SizedBox(
-                              width: 90,
-                              child: Text(
-                                'View on map',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
                       ),
                     ),
                   ],

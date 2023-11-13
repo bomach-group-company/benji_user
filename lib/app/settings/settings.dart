@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:animated_switch/animated_switch.dart';
 import 'package:benji/app/settings/change_password.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/providers/responsive_constant.dart';
+import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +16,6 @@ import 'package:image_picker/image_picker.dart';
 import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/others/my_future_builder.dart';
 import '../../src/providers/constants.dart';
-import '../../src/providers/controllers.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../src/repo/utils/constant.dart';
 import '../../src/repo/utils/helpers.dart';
@@ -55,7 +54,6 @@ class _SettingsState extends State<Settings> {
   File? selectedImage;
 
 //============================================== BOOL VALUES =================================================\\
-  bool notificationsIsOn = isNotificationEnabled();
 
   //===================== COPY TO CLIPBOARD =======================\\
   void _copyToClipboard(BuildContext context, String userID) {
@@ -171,20 +169,6 @@ class _SettingsState extends State<Settings> {
 
   //==================================================== FUNCTIONS ===========================================================\\
 
-  //===================== Notification Function ==========================\\
-  notificationFunc() async {
-    if (!notificationsIsOn) {
-      enableNotifications(!notificationsIsOn);
-      debugPrint(enableNotifications.toString());
-    } else if (notificationsIsOn) {
-      disableNotifications(notificationsIsOn);
-      debugPrint(disableNotifications.toString());
-    }
-    setState(() {
-      notificationsIsOn = !notificationsIsOn;
-    });
-  }
-
   //===================== Profile Picture ==========================\\
 
   uploadProfilePic(ImageSource source) async {
@@ -286,16 +270,19 @@ class _SettingsState extends State<Settings> {
         transition: Transition.rightToLeft,
       );
 
-  void _logOut() => Get.offAll(
-        () => const Login(logout: true),
-        predicate: (route) => false,
-        routeName: 'Login',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        popGesture: true,
-        transition: Transition.upToDown,
-      );
+  void _logOut() async {
+    await UserController.instance.deleteUser();
+    Get.offAll(
+      () => const Login(),
+      predicate: (route) => false,
+      routeName: 'Login',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      popGesture: true,
+      transition: Transition.upToDown,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -418,9 +405,11 @@ class _SettingsState extends State<Settings> {
                                             BorderRadius.circular(100),
                                       ),
                                     ),
-                                    child: FaIcon(
-                                      FontAwesomeIcons.pencil,
-                                      color: kPrimaryColor,
+                                    child: Center(
+                                      child: FaIcon(
+                                        FontAwesomeIcons.pencil,
+                                        color: kPrimaryColor,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -574,65 +563,6 @@ class _SettingsState extends State<Settings> {
                       FontAwesomeIcons.chevronRight,
                       size: 16,
                       color: kTextBlackColor,
-                    ),
-                  ),
-                ),
-              ),
-              kHalfSizedBox,
-              InkWell(
-                onTap: toNotificationsPage,
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  width: mediaWidth,
-                  decoration: ShapeDecoration(
-                    color: kPrimaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x0F000000),
-                        blurRadius: 24,
-                        offset: Offset(0, 4),
-                        spreadRadius: 0,
-                      ),
-                    ],
-                  ),
-                  child: ListTile(
-                    leading: FaIcon(
-                      FontAwesomeIcons.solidBell,
-                      color: notificationsIsOn ? kAccentColor : kGreyColor,
-                    ),
-                    title: Text(
-                      notificationsIsOn
-                          ? "Disable Notifications"
-                          : "Enable Notifications",
-                      style: const TextStyle(
-                        color: kTextBlackColor,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    trailing: IconButton(
-                      onPressed: null,
-                      mouseCursor: SystemMouseCursors.cell,
-                      tooltip: notificationsIsOn
-                          ? "Disable push notifications"
-                          : "Enable push notifications",
-                      icon: AnimatedSwitch(
-                        value: notificationsIsOn,
-                        onTap: notificationFunc,
-                        onChanged: (bool state) async {
-                          if (kDebugMode) {
-                            print(
-                                'push notifications turned ${(state) ? 'on' : 'off'}');
-                          }
-                        },
-                        colorOff: kGreyColor,
-                        colorOn: kAccentColor,
-                        textOff: "Disabled",
-                        textOn: "Enabled",
-                      ),
                     ),
                   ),
                 ),

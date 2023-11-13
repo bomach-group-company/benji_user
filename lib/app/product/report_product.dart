@@ -113,30 +113,26 @@ class _ReportProductState extends State<ReportProduct> {
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
-        bottomSheet: _submittingRequest
-            ? SizedBox(
-                height: 100,
-                child: CircularProgressIndicator(color: kAccentColor),
-              )
-            : AnimatedContainer(
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut,
-                color: kPrimaryColor,
-                padding: const EdgeInsets.only(
-                  top: kDefaultPadding,
-                  left: kDefaultPadding,
-                  right: kDefaultPadding,
-                  bottom: kDefaultPadding,
-                ),
-                child: MyElevatedButton(
-                  onPressed: (() async {
-                    if (_formKey.currentState!.validate()) {
-                      _submitRequest();
-                    }
-                  }),
-                  title: "Submit",
-                ),
-              ),
+        bottomSheet: AnimatedContainer(
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+          color: kPrimaryColor,
+          padding: const EdgeInsets.only(
+            top: kDefaultPadding,
+            left: kDefaultPadding,
+            right: kDefaultPadding,
+            bottom: kDefaultPadding,
+          ),
+          child: MyElevatedButton(
+            isLoading: _submittingRequest,
+            onPressed: (() async {
+              if (_formKey.currentState!.validate()) {
+                _submitRequest();
+              }
+            }),
+            title: "Submit",
+          ),
+        ),
         body: SafeArea(
           child: FutureBuilder(
             future: null,

@@ -7,7 +7,7 @@ import 'package:benji/src/components/textformfield/my%20textformfield.dart';
 import 'package:benji/src/components/textformfield/my_maps_textformfield.dart';
 import 'package:benji/src/frontend/utils/constant.dart';
 import 'package:benji/src/providers/constants.dart';
-import 'package:benji/src/providers/controllers.dart';
+import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

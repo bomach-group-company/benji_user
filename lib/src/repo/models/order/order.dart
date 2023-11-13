@@ -1,46 +1,78 @@
 import 'dart:convert';
 
+import 'package:benji/src/repo/models/address/address_model.dart';
+import 'package:benji/src/repo/models/product/product.dart';
+import 'package:benji/src/repo/models/user/user_model.dart';
 import 'package:benji/src/repo/utils/constant.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+
 class Order {
-  final String id;
-  final double totalPrice;
-  final String assignedStatus;
-  final String deliveryStatus;
-  // final User client;
-  // final Address deliveryAddress;
-  // final List<OrderItem> orderItems;
-  // final DateTime created;
+  String id;
+  String code;
+  double totalPrice;
+  double deliveryFee;
+  String assignedStatus;
+  String deliveryStatus;
+  User client;
+  List<Orderitem> orderitems;
+  String created;
 
   Order({
     required this.id,
+    required this.code,
     required this.totalPrice,
+    required this.deliveryFee,
     required this.assignedStatus,
     required this.deliveryStatus,
-    // required this.client,
-    // required this.deliveryAddress,
-    // required this.orderItems,
-    // required this.created,
+    required this.client,
+    required this.orderitems,
+    required this.created,
   });
 
-  factory Order.fromJson(Map<String, dynamic> json) {
-    // List<OrderItem> orderItems = [];
-    // for (var item in json['orderitems']) {
-    //   orderItems.add(OrderItem.fromJson(item));
-    // }
-
+  factory Order.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
     return Order(
-      id: json['id'] ?? notAvailable,
-      totalPrice: json['total_price'] ?? 0.0,
-      assignedStatus: json['assigned_status'] ?? notAvailable,
-      deliveryStatus: json['delivery_status'] ?? notAvailable,
-      // client: User.fromJson(json['client']) ?? NA,
-      // deliveryAddress: Address.fromJson(json['delivery_address']),
-      // orderItems: orderItems,
-      // created: DateTime.parse(json['created']),
+      id: json["id"] ?? notAvailable,
+      code: json["code"] ?? notAvailable,
+      totalPrice: json["total_price"] ?? 0.0,
+      deliveryFee: json["delivery_fee"] ?? 0.0,
+      assignedStatus: json["assigned_status"] ?? "PEND",
+      deliveryStatus: json["delivery_status"] ?? "PEND",
+      client: User.fromJson(json["client"]),
+      orderitems: json["orderitems"] == null
+          ? []
+          : (json["orderitems"] as List)
+              .map((item) => Orderitem.fromJson(item))
+              .toList(),
+      created: json["created"] ?? notAvailable,
+    );
+  }
+}
+
+class Orderitem {
+  String id;
+  Product product;
+  int quantity;
+  Address deliveryAddress;
+
+  Orderitem({
+    required this.id,
+    required this.product,
+    required this.quantity,
+    required this.deliveryAddress,
+  });
+
+  factory Orderitem.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
+    return Orderitem(
+      id: json["id"] ?? notAvailable,
+      product: Product.fromJson(json["product"]),
+      deliveryAddress: Address.fromJson(json["delivery_address"]),
+      quantity: json["quantity"] ?? 0,
     );
   }
 }

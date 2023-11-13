@@ -3,9 +3,9 @@ import 'package:benji/src/providers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../app/home/home.dart';
-import '../../main.dart';
-import '../../theme/colors.dart';
+import '../../../app/home/home.dart';
+import '../../../main.dart';
+import '../../../theme/colors.dart';
 
 class LatLngDetailController extends GetxController {
   var latLngDetail = [].obs;

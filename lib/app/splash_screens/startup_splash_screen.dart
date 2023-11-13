@@ -1,19 +1,17 @@
 // ignore_for_file: unrelated_type_equality_checks
 
-import 'dart:async';
-
-import 'package:benji/frontend/main/home.dart';
-import 'package:benji/src/repo/utils/helpers.dart';
-import 'package:flutter/foundation.dart';
+import 'package:benji/src/repo/controller/address_controller.dart';
+import 'package:benji/src/repo/controller/auth_controller.dart';
+import 'package:benji/src/repo/controller/category_controller.dart';
+import 'package:benji/src/repo/controller/order_controller.dart';
+import 'package:benji/src/repo/controller/product_controller.dart';
+import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import '../../src/providers/constants.dart';
-import '../../src/repo/models/user/user_model.dart';
 import '../../theme/colors.dart';
-import '../home/home.dart';
-import '../onboarding/onboarding_screen.dart';
 
 class StartupSplashscreen extends StatefulWidget {
   const StartupSplashscreen({super.key});
@@ -25,82 +23,54 @@ class StartupSplashscreen extends StatefulWidget {
 class _StartupSplashscreenState extends State<StartupSplashscreen> {
   @override
   void initState() {
+    ProductController.instance.getProduct();
+    VendorController.instance.getVendors();
+    VendorController.instance.getPopularVendors();
+    CategoryController.instance.getCategory();
+    AddressController.instance.getAdresses();
+    AddressController.instance.getCurrentAddress();
+    OrderController.instance.getOrders();
     super.initState();
-    rememberUser().whenComplete(
-      () async {
-        Timer(
-          const Duration(seconds: 3),
-          () {
-            Get.offAll(
-              () => _obtainedUserDetails == null || _obtainedUserDetails == ""
-                  ? kIsWeb
-                      ? const HomePage()
-                      : const OnboardingScreen()
-                  : const Home(),
-              duration: const Duration(seconds: 1),
-              fullscreenDialog: true,
-              curve: Curves.easeIn,
-              routeName:
-                  _obtainedUserDetails == null || _obtainedUserDetails == ""
-                      ? kIsWeb
-                          ? 'HomePage'
-                          : "OnboadingScreen"
-                      : "Home",
-              predicate: (route) => false,
-              popGesture: true,
-              transition: Transition.fadeIn,
-            );
-          },
-        );
-      },
-    );
-  }
-
-  User? _obtainedUserDetails;
-
-  Future rememberUser() async {
-    final User? user = (await getUser());
-
-    setState(() {
-      _obtainedUserDetails = user;
-    });
-    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    return Scaffold(
-      body: ListView(
-        physics: const NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(kDefaultPadding),
-        children: [
-          SizedBox(
-            height: media.height,
-            width: media.width,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+    return GetBuilder<AuthController>(
+        init: AuthController(),
+        builder: (controller) {
+          return Scaffold(
+            body: ListView(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(kDefaultPadding),
               children: [
-                Container(
-                  height: media.height / 4,
-                  width: media.width / 2,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image:
-                          AssetImage("assets/images/splash_screen/frame_1.png"),
-                    ),
+                SizedBox(
+                  height: media.height,
+                  width: media.width,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: media.height / 4,
+                        width: media.width / 2,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                                "assets/images/splash_screen/frame_1.png"),
+                          ),
+                        ),
+                      ),
+                      kSizedBox,
+                      SpinKitThreeInOut(
+                        color: kSecondaryColor,
+                        size: 20,
+                      ),
+                    ],
                   ),
-                ),
-                kSizedBox,
-                SpinKitThreeInOut(
-                  color: kSecondaryColor,
-                  size: 20,
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
+        });
   }
 }

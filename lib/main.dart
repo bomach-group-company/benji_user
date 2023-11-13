@@ -1,4 +1,17 @@
 import 'package:benji/app/splash_screens/startup_splash_screen.dart';
+import 'package:benji/src/repo/controller/address_controller.dart';
+import 'package:benji/src/repo/controller/auth_controller.dart';
+import 'package:benji/src/repo/controller/category_controller.dart';
+import 'package:benji/src/repo/controller/error_controller.dart';
+import 'package:benji/src/repo/controller/form_controller.dart';
+import 'package:benji/src/repo/controller/login_controller.dart';
+import 'package:benji/src/repo/controller/order_controller.dart';
+import 'package:benji/src/repo/controller/product_controller.dart';
+import 'package:benji/src/repo/controller/profile_controller.dart';
+import 'package:benji/src/repo/controller/sub_category_controller.dart';
+import 'package:benji/src/repo/controller/url_launch_controller.dart';
+import 'package:benji/src/repo/controller/user_controller.dart';
+import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -7,8 +20,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'src/providers/controllers.dart';
 import 'src/providers/fcm_messaging.dart';
+import 'src/repo/controller/lat_lng_controllers.dart';
 import 'theme/app_theme.dart';
 import 'theme/colors.dart';
 
@@ -21,6 +34,23 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   prefs = await SharedPreferences.getInstance();
+
+  final user = Get.put(UserController());
+  final auth = Get.put(AuthController());
+  final userProfile = Get.put(ProfileController());
+  final login = Get.put(LoginController());
+  final vendor = Get.put(VendorController());
+  final order = Get.put(OrderController());
+  final category = Get.put(CategoryController());
+  final subCategory = Get.put(SubCategoryController());
+  final location = Get.put(LatLngDetailController());
+  final product = Get.put(ProductController());
+  final url = Get.put(UrlLaunchController());
+  final form = Get.put(FormController());
+  final apiProcessor = Get.put(ApiProcessorController());
+  final address = Get.put(AddressController());
+  // final review = Get.put(ReviewsController());
+
   if (!kIsWeb) {
     await Firebase.initializeApp();
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
@@ -56,9 +86,6 @@ class MyApp extends StatelessWidget {
       ),
       // initialRoute: AppRoutes.startupSplashscreen,
       // getPages: AppRoutes.routes,
-      initialBinding: BindingsBuilder(() {
-        Get.put(LatLngDetailController());
-      }),
     );
   }
 }

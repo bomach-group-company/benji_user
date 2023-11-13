@@ -1,18 +1,17 @@
 import 'package:benji/app/product/product_detail_screen.dart';
 import 'package:benji/src/components/button/category_button.dart';
-import 'package:benji/src/others/empty.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
-import 'package:benji/src/repo/models/category/sub_category.dart';
+import 'package:benji/src/repo/controller/product_controller.dart';
+import 'package:benji/src/repo/controller/sub_category_controller.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/product/product_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
-import '../../src/repo/models/product/product.dart';
 import '../../theme/colors.dart';
 
 class HomePageProducts extends StatefulWidget {
@@ -29,29 +28,20 @@ class _HomePageProductsState extends State<HomePageProducts> {
   void initState() {
     super.initState();
     checkAuth(context);
-    _products = Future(() => []);
 
-    _subCategories = getSubCategoriesBycategory(widget.activeCategory)
-      ..then((value) {
-        if (value.isNotEmpty) {
-          setState(() {
-            activeSubCategory = value[0].id;
-            _products = getProductsBySubCategory(activeSubCategory);
-          });
-        }
-      });
+    SubCategoryController.instance.getSubCategory().then((value) {
+      if (SubCategoryController.instance.subcategory.isNotEmpty) {
+        ProductController.instance
+            .setSubCategory(SubCategoryController.instance.subcategory[0]);
+      }
+    });
   }
-
-  late Future<List<SubCategory>> _subCategories;
-  late Future<List<Product>> _products;
 
   @override
   void dispose() {
     super.dispose();
     _scrollController.dispose();
   }
-
-  String activeSubCategory = '';
 
   //==================================================== ALL VARIABLES ===========================================================\\
 
@@ -63,18 +53,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
   //==================================================== FUNCTIONS ===========================================================\\
   //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {
-    _products = Future(() => []);
-
-    _subCategories = getSubCategoriesBycategory(widget.activeCategory)
-      ..then((value) {
-        if (value.isNotEmpty) {
-          activeSubCategory = value[0].id;
-          _products = getProductsBySubCategory(activeSubCategory);
-        }
-      });
-    setState(() {});
-  }
+  Future<void> _handleRefresh() async {}
   //========================================================================\\
 
   @override
@@ -101,102 +80,89 @@ class _HomePageProductsState extends State<HomePageProducts> {
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.all(kDefaultPadding / 2),
               children: [
-                FutureBuilder(
-                    future: _subCategories,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: kAccentColor,
-                          ),
-                        );
-                      }
-                      return SizedBox(
-                        height: 60,
-                        child: ListView.builder(
-                          itemCount: snapshot.data!.length,
-                          scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) =>
-                              Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: CategoryButton(
-                              onPressed: () {
-                                setState(() {
-                                  activeSubCategory = snapshot.data![index].id;
-                                  _products = getProductsBySubCategory(
-                                      activeSubCategory);
-                                });
-                              },
-                              title: snapshot.data![index].name,
-                              bgColor:
-                                  activeSubCategory == snapshot.data![index].id
-                                      ? kAccentColor
-                                      : kDefaultCategoryBackgroundColor,
-                              categoryFontColor:
-                                  activeSubCategory == snapshot.data![index].id
-                                      ? kPrimaryColor
-                                      : kTextGreyColor,
-                            ),
+                GetBuilder<SubCategoryController>(builder: (controller) {
+                  if (controller.isLoad.value &&
+                      controller.subcategory.isEmpty) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: kAccentColor,
+                      ),
+                    );
+                  }
+                  return SizedBox(
+                    height: 60,
+                    child: ListView.builder(
+                      itemCount: controller.subcategory.length,
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) => Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Obx(
+                          () => CategoryButton(
+                            onPressed: () {
+                              ProductController.instance.setSubCategory(
+                                  controller.subcategory[index]);
+                            },
+                            title: controller.subcategory[index].name,
+                            bgColor: ProductController.instance
+                                        .selectedSubCategory.value.id ==
+                                    controller.subcategory[index].id
+                                ? kAccentColor
+                                : kDefaultCategoryBackgroundColor,
+                            categoryFontColor: ProductController.instance
+                                        .selectedSubCategory.value.id ==
+                                    controller.subcategory[index].id
+                                ? kPrimaryColor
+                                : kTextGreyColor,
                           ),
                         ),
-                      );
-                    }),
+                      ),
+                    ),
+                  );
+                }),
                 kSizedBox,
-                activeSubCategory == ''
-                    ? const SizedBox()
-                    : FutureBuilder(
-                        future: _products,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(
-                                color: kAccentColor,
-                              ),
-                            );
-                          }
-                          if (snapshot.data!.isEmpty) {
-                            return const EmptyCard(
-                              removeButton: true,
-                            );
-                          }
-                          return LayoutGrid(
-                            rowGap: kDefaultPadding / 2,
-                            columnGap: kDefaultPadding / 2,
-                            columnSizes: breakPointDynamic(
-                                media.width,
-                                [1.fr],
-                                [1.fr, 1.fr],
-                                [1.fr, 1.fr, 1.fr],
-                                [1.fr, 1.fr, 1.fr, 1.fr]),
-                            rowSizes: snapshot.data!.isEmpty
-                                ? [auto]
-                                : List.generate(
-                                    snapshot.data!.length, (index) => auto),
-                            children: (snapshot.data!)
-                                .map(
-                                  (item) => ProductCard(
-                                    onTap: () {
-                                      Get.to(
-                                        () =>
-                                            ProductDetailScreen(product: item),
-                                        routeName: 'ProductDetailScreen',
-                                        duration:
-                                            const Duration(milliseconds: 300),
-                                        fullscreenDialog: true,
-                                        curve: Curves.easeIn,
-                                        preventDuplicates: true,
-                                        popGesture: true,
-                                        transition: Transition.rightToLeft,
-                                      );
-                                    },
-                                    product: item,
-                                  ),
-                                )
-                                .toList(),
-                          );
-                        }),
+                GetBuilder<ProductController>(builder: (controller) {
+                  if (controller.isLoad.value) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: kAccentColor,
+                      ),
+                    );
+                  }
+                  return LayoutGrid(
+                    rowGap: kDefaultPadding / 2,
+                    columnGap: kDefaultPadding / 2,
+                    columnSizes: breakPointDynamic(
+                        media.width,
+                        [1.fr],
+                        [1.fr, 1.fr],
+                        [1.fr, 1.fr, 1.fr],
+                        [1.fr, 1.fr, 1.fr, 1.fr]),
+                    rowSizes: controller.productsBySubCategory.isEmpty
+                        ? [auto]
+                        : List.generate(controller.productsBySubCategory.length,
+                            (index) => auto),
+                    children: (controller.productsBySubCategory)
+                        .map(
+                          (item) => ProductCard(
+                            onTap: () {
+                              Get.to(
+                                () => ProductDetailScreen(product: item),
+                                routeName: 'ProductDetailScreen',
+                                duration: const Duration(milliseconds: 300),
+                                fullscreenDialog: true,
+                                curve: Curves.easeIn,
+                                preventDuplicates: true,
+                                popGesture: true,
+                                transition: Transition.rightToLeft,
+                              );
+                            },
+                            product: item,
+                          ),
+                        )
+                        .toList(),
+                  );
+                }),
               ],
             ),
           ),
