@@ -20,6 +20,7 @@ class Api {
 
   static const myOrders = "/clients/listClientOrders/";
   static const category = "/categories/list";
+  static const sub_category = "/sub_categories/category/";
 }
 
 String header = "application/json";

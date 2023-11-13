@@ -1,30 +1,19 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'dart:io';
-
 import 'package:benji/theme/colors.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
 
 class ApiProcessorController extends GetxController {
-  static Future<dynamic> errorState(data, [bool dontShowError = true]) async {
+  static Future<dynamic> errorState(data) async {
     try {
-      if (data == null) {
-        return;
-      } else if (data.statusCode == 200) {
+      if (data.statusCode == 200) {
         return data.body;
-      } else {
-        if (dontShowError != true) {
-          errorSnack("Something went wrong");
-        }
-
-        return;
       }
-    } on SocketException {
-      errorSnack("Check your internet and try again");
+      errorSnack("Something went wrong");
       return;
     } catch (e) {
-      errorSnack(e);
+      errorSnack("Check your internet and try again");
       return;
     }
   }

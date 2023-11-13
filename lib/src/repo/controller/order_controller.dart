@@ -14,8 +14,6 @@ class OrderController extends GetxController {
     return Get.find<OrderController>();
   }
 
-  bool? isFirst;
-  OrderController({this.isFirst});
   var isLoad = false.obs;
   var orderList = <Order>[].obs;
 
@@ -58,8 +56,7 @@ class OrderController extends GetxController {
     loadNum.value += 10;
     token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
-    var responseData =
-        await ApiProcessorController.errorState(response, isFirst ?? true);
+    var responseData = await ApiProcessorController.errorState(response);
     if (responseData == null) {
       if (!first) {
         isLoadMore.value = false;
