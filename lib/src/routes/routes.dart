@@ -10,7 +10,6 @@ import 'package:benji/app/cart/cart_screen.dart';
 import 'package:benji/app/home/home.dart';
 import 'package:benji/app/onboarding/onboarding_screen.dart';
 import 'package:benji/app/orders/order_history.dart';
-import 'package:benji/app/orders/track_order.dart';
 import 'package:benji/app/packages/choose_rider.dart';
 import 'package:benji/app/packages/send_package.dart';
 import 'package:benji/app/settings/change_password.dart';
@@ -55,7 +54,6 @@ class AppRoutes {
     myGetPageBuilder(const CartScreen()),
     myGetPageBuilder(const OnboardingScreen()),
     myGetPageBuilder(const OrdersHistory()),
-    myGetPageBuilder(const TrackOrder()),
     myGetPageBuilder(const ChooseRider()),
     myGetPageBuilder(const SendPackage()),
     myGetPageBuilder(const ChangePassword()),

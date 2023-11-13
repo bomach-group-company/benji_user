@@ -1,3 +1,4 @@
+import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/repo/models/order/order.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -297,23 +298,18 @@ class _TrackOrderState extends State<TrackOrder> {
                       ),
                       Row(
                         children: [
-                          SizedBox(
-                            width: deviceType(mediaWidth) > 2
-                                ? mediaWidth / 3
-                                : mediaWidth / 1.5,
-                            child: Text(
-                              dispatched()
-                                  ? delivered()
-                                      ? 'Order delivered'
-                                      : 'Order received from vendor'
-                                  : 'Order received',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: const TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
+                          Text(
+                            dispatched()
+                                ? delivered()
+                                    ? 'Order delivered'
+                                    : 'Order received from vendor'
+                                : 'Order received',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: const TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           kWidthSizedBox,
@@ -357,86 +353,52 @@ class _TrackOrderState extends State<TrackOrder> {
                       ),
                     ),
                     kSizedBox,
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 90,
-                          height: 90,
-                          decoration: ShapeDecoration(
-                            image: const DecorationImage(
-                              image: AssetImage(
-                                "assets/images/products/chizzy's-food.png",
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                        ),
-                        kHalfWidthSizedBox,
-                        Column(
-                          children: [
-                            SizedBox(
-                              width: mediaWidth / 2,
-                              child: const Text(
-                                "Chizzy's Food",
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.start,
-                                maxLines: 2,
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                            kSizedBox,
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: mediaWidth / 4,
-                                  child: const Text(
-                                    '3 Item (s)',
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: widget.order.orderitems.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return kHalfSizedBox;
+                      },
+                      itemBuilder: (BuildContext context, int index) => Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                              width: 90,
+                              height: 90,
+                              child: MyImage(
+                                url: widget.order.orderitems[index].product
+                                        .productImage ??
+                                    '',
+                              )),
+                          kHalfWidthSizedBox,
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              kHalfSizedBox,
+                              SizedBox(
+                                width: mediaWidth - 200,
+                                child: Text(
+                                  widget.order.orderitems[index].product.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.start,
+                                  maxLines: 2,
+                                  style: const TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                kWidthSizedBox,
-                                SizedBox(
-                                  width: mediaWidth / 5,
-                                  child: Text(
-                                    'Waiting',
-                                    style: TextStyle(
-                                      color: kSecondaryColor,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            kSizedBox,
-                            SizedBox(
-                              width: mediaWidth / 2,
-                              child: Row(
+                              ),
+                              kSizedBox,
+                              Row(
                                 children: [
-                                  const FaIcon(
-                                    FontAwesomeIcons.solidCircleCheck,
-                                    color: kSuccessColor,
-                                    size: 18,
-                                  ),
-                                  kHalfWidthSizedBox,
                                   SizedBox(
-                                    width: mediaWidth / 5,
-                                    child: const Text(
-                                      'Paid',
-                                      style: TextStyle(
+                                    width: mediaWidth - 200,
+                                    child: Text(
+                                      '${widget.order.orderitems[index].quantity} Item (s)',
+                                      textAlign: TextAlign.start,
+                                      style: const TextStyle(
                                         color: kTextBlackColor,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w700,
@@ -445,10 +407,10 @@ class _TrackOrderState extends State<TrackOrder> {
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
