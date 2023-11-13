@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types
 
+import 'package:benji/app/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
@@ -7,13 +8,12 @@ import 'package:lottie/lottie.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../orders/track_order.dart';
 
 class PaymentSuccessful extends StatelessWidget {
   const PaymentSuccessful({super.key});
 
-  void _toTrackOrder() => Get.off(
-        () => const TrackOrder(),
+  void _toHomeder() => Get.off(
+        () => const Home(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -31,7 +31,7 @@ class PaymentSuccessful extends StatelessWidget {
       backgroundColor: kPrimaryColor,
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(kDefaultPadding),
-        child: MyElevatedButton(title: "Done", onPressed: _toTrackOrder),
+        child: MyElevatedButton(title: "Done", onPressed: _toHomeder),
       ),
       body: SafeArea(
         maintainBottomViewPadding: true,

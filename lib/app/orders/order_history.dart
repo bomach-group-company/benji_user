@@ -86,8 +86,8 @@ class _OrdersHistoryState extends State<OrdersHistory> {
     });
   }
 
-  void _toOrderDetailsScreen() => Get.to(
-        () => const TrackOrder(),
+  void _toOrderDetailsScreen(Order order) => Get.to(
+        () => TrackOrder(order: order),
         routeName: 'TrackOrder',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -160,7 +160,8 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                                   physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.vertical,
                                   itemBuilder: (context, index) => InkWell(
-                                    onTap: _toOrderDetailsScreen,
+                                    onTap: () => _toOrderDetailsScreen(
+                                        snapshot.data![index]),
                                     child: TrackOrderDetailsContainer(
                                       order: snapshot.data![index],
                                     ),

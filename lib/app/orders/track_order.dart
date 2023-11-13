@@ -1,3 +1,4 @@
+import 'package:benji/src/repo/models/order/order.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
@@ -11,7 +12,8 @@ import '../delivery/delivery_map.dart';
 import '../home/home.dart';
 
 class TrackOrder extends StatefulWidget {
-  const TrackOrder({super.key});
+  final Order order;
+  const TrackOrder({super.key, required this.order});
 
   @override
   State<TrackOrder> createState() => _TrackOrderState();
@@ -24,7 +26,13 @@ class _TrackOrderState extends State<TrackOrder> {
   final _scrollController = ScrollController();
 
   //=============================================== FUNCTIONS =================================================\\
+  bool dispatched() {
+    return widget.order.assignedStatus == 'ASSG';
+  }
 
+  bool delivered() {
+    return widget.order.deliveryStatus == 'COMP';
+  }
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {}
@@ -147,14 +155,6 @@ class _TrackOrderState extends State<TrackOrder> {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        Text(
-                          'Completed',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
                       ],
                     ),
                     Padding(
@@ -193,40 +193,31 @@ class _TrackOrderState extends State<TrackOrder> {
                             flex: 1,
                             child: Container(
                               height: 4,
-                              color: kAccentColor,
+                              color: dispatched()
+                                  ? kAccentColor
+                                  : const Color(0xFFC4C4C4),
                             ),
                           ),
-                          SizedBox(
-                            width: 26,
-                            height: 26,
+                          Container(
+                            width: 24,
+                            height: 24,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: ShapeDecoration(
+                              color: dispatched()
+                                  ? kAccentColor
+                                  : const Color(0xFFC4C4C4),
+                              shape: const OvalBorder(),
+                            ),
                             child: Stack(
                               children: [
                                 Positioned(
-                                  left: 4,
-                                  top: 4,
-                                  child: Container(
-                                    width: 18,
-                                    height: 18,
-                                    decoration: ShapeDecoration(
-                                      color: kAccentColor,
-                                      shape: const OvalBorder(),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 0,
-                                  top: 0,
-                                  child: Container(
-                                    width: 26,
-                                    height: 26,
-                                    decoration: ShapeDecoration(
-                                      shape: OvalBorder(
-                                        side: BorderSide(
-                                          width: 0.50,
-                                          color: kAccentColor,
-                                        ),
-                                      ),
-                                    ),
+                                  top: 2,
+                                  bottom: 2,
+                                  left: 2,
+                                  child: Icon(
+                                    Icons.check_rounded,
+                                    color: kPrimaryColor,
+                                    size: 20,
                                   ),
                                 ),
                               ],
@@ -235,41 +226,35 @@ class _TrackOrderState extends State<TrackOrder> {
                           Flexible(
                             flex: 1,
                             child: Container(
-                              height: 1,
-                              color: const Color(0xFFC4C4C4),
+                              height: 4,
+                              color: delivered()
+                                  ? kAccentColor
+                                  : const Color(0xFFC4C4C4),
                             ),
                           ),
                           Container(
-                            width: 18,
-                            height: 18,
-                            decoration: const ShapeDecoration(
-                              shape: OvalBorder(
-                                side: BorderSide(
-                                  width: 0.50,
-                                  color: Color(0xFFC4C4C4),
-                                ),
-                              ),
+                            width: 24,
+                            height: 24,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: ShapeDecoration(
+                              color: delivered()
+                                  ? kAccentColor
+                                  : const Color(0xFFC4C4C4),
+                              shape: const OvalBorder(),
                             ),
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: Container(
-                              height: 1,
-                              color: const Color(
-                                0xFFC4C4C4,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 18,
-                            height: 18,
-                            decoration: const ShapeDecoration(
-                              shape: OvalBorder(
-                                side: BorderSide(
-                                  width: 0.50,
-                                  color: Color(0xFFC4C4C4),
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  top: 2,
+                                  bottom: 2,
+                                  left: 2,
+                                  child: Icon(
+                                    Icons.check_rounded,
+                                    color: kPrimaryColor,
+                                    size: 20,
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
                         ],
