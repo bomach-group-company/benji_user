@@ -100,58 +100,35 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    // kHalfWidthSizedBox,
-                    // Container(
-                    //   width: 4,
-                    //   height: 4,
-                    //   decoration: const ShapeDecoration(
-                    //     color: Color(0xFFC4C4C4),
-                    //     shape: OvalBorder(),
-                    //   ),
-                    // ),
-                    // kHalfWidthSizedBox,
-                    // Text(
-                    //   '${order.orderItems.length} items',
-                    //   style: TextStyle(
-                    //     color: kTextGreyColor,
-                    //     fontSize: 14,
-                    //     fontWeight: FontWeight.w400,
-                    //   ),
-                    // )
+                    kHalfWidthSizedBox,
+                    Container(
+                      width: 4,
+                      height: 4,
+                      decoration: const ShapeDecoration(
+                        color: Color(0xFFC4C4C4),
+                        shape: OvalBorder(),
+                      ),
+                    ),
+                    kHalfWidthSizedBox,
+                    Text(
+                      '${order.orderitems.length} items',
+                      style: TextStyle(
+                        color: kTextGreyColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    )
                   ],
                 ),
-                // Row(
-                //   children: [
-                // Text(
-                //   '${intToMonth(order.created.month)} ${order.created.day}',
-                //   textAlign: TextAlign.right,
-                //   style: TextStyle(
-                //     color: kTextGreyColor,
-                //     fontSize: 14,
-                //     fontWeight: FontWeight.w400,
-                //   ),
-                // ),
-                // kHalfWidthSizedBox,
-                // Container(
-                //   width: 4,
-                //   height: 4,
-                //   decoration: const ShapeDecoration(
-                //     color: Color(0xFFC4C4C4),
-                //     shape: OvalBorder(),
-                //   ),
-                // ),
-                // kHalfWidthSizedBox,
-                // Text(
-                //   '${order.created.minute}:${order.created.second}',
-                //   textAlign: TextAlign.right,
-                //   style: TextStyle(
-                //     color: kTextGreyColor,
-                //     fontSize: 14,
-                //     fontWeight: FontWeight.w400,
-                //   ),
-                // ),
-                //   ],
-                // )
+                Text(
+                  order.created,
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                    color: kTextGreyColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ],
             ),
             Row(

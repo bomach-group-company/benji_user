@@ -301,11 +301,15 @@ class _TrackOrderState extends State<TrackOrder> {
                             width: deviceType(mediaWidth) > 2
                                 ? mediaWidth / 3
                                 : mediaWidth / 1.5,
-                            child: const Text(
-                              'Order received by vendor',
+                            child: Text(
+                              dispatched()
+                                  ? delivered()
+                                      ? 'Order delivered'
+                                      : 'Order received from vendor'
+                                  : 'Order received',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: kTextBlackColor,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
@@ -445,135 +449,6 @@ class _TrackOrderState extends State<TrackOrder> {
                           ],
                         ),
                       ],
-                    ),
-                    kHalfSizedBox,
-                    Divider(color: kGreyColor, thickness: 1),
-                    kHalfSizedBox,
-                    const Text(
-                      'Delivery Officer',
-                      style: TextStyle(
-                        color: kTextBlackColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    kHalfSizedBox,
-                    ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 0),
-                      onTap: null,
-                      leading: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: ShapeDecoration(
-                          image: const DecorationImage(
-                            image: AssetImage(
-                              "assets/images/rider/martins-okafor.png",
-                            ),
-                            fit: BoxFit.cover,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                      title: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: mediaWidth / 2.2,
-                            child: const Text(
-                              'Martins Okafor ',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          kHalfSizedBox,
-                          Row(
-                            children: [
-                              FaIcon(
-                                FontAwesomeIcons.locationCrosshairs,
-                                size: 14,
-                                color: kGreyColor,
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                '3.2km away',
-                                style: TextStyle(
-                                  color: kTextGreyColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      trailing: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFFFDD5D5),
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                                width: 0.40, color: Color(0xFFD4DAF0)),
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                        ),
-                        child: IconButton(
-                          splashRadius: 30,
-                          onPressed: _callCustomer,
-                          icon: FaIcon(
-                            FontAwesomeIcons.phone,
-                            color: kAccentColor,
-                            size: 18,
-                          ),
-                        ),
-                      ),
-                    ),
-                    kSizedBox,
-                    InkWell(
-                      onTap: _toDeliveryMap,
-                      child: Container(
-                        width: mediaWidth,
-                        height: 50,
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                              width: 0.50,
-                              color: Color(0xFFDADADA),
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FaIcon(
-                              FontAwesomeIcons.locationDot,
-                              size: 14,
-                              color: kGreyColor,
-                            ),
-                            kHalfWidthSizedBox,
-                            const SizedBox(
-                              width: 90,
-                              child: Text(
-                                'View on map',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
                     ),
                   ],
                 ),
