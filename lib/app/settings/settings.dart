@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:benji/app/settings/change_password.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/providers/responsive_constant.dart';
+import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -269,16 +270,19 @@ class _SettingsState extends State<Settings> {
         transition: Transition.rightToLeft,
       );
 
-  void _logOut() => Get.offAll(
-        () => const Login(logout: true),
-        predicate: (route) => false,
-        routeName: 'Login',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        popGesture: true,
-        transition: Transition.upToDown,
-      );
+  void _logOut() async {
+    await UserController.instance.deleteUser();
+    Get.offAll(
+      () => const Login(),
+      predicate: (route) => false,
+      routeName: 'Login',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      popGesture: true,
+      transition: Transition.upToDown,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

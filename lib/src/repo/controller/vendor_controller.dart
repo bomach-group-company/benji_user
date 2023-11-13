@@ -73,7 +73,7 @@ class VendorController extends GetxController {
     late String token;
     String id = UserController.instance.user.value.id.toString();
     var url =
-        "${Api.baseUrl}${Api.vendorList}?agent_id=$id&start=${loadNumVendor.value - 10}&end=${loadNumVendor.value}";
+        "${Api.baseUrl}${Api.vendorList}?start=${loadNumVendor.value - 10}&end=${loadNumVendor.value}";
     loadNumVendor.value += 10;
 
     token = UserController.instance.user.value.token;
@@ -110,7 +110,7 @@ class VendorController extends GetxController {
     isLoad.value = true;
 
     var url =
-        "${Api.baseUrl}${Api.getVendorProducts}$id?start=${loadNumProduct.value - 10}&end=${loadNumProduct.value}";
+        "${Api.baseUrl}${Api.getVendorProducts}$id/listMyProducts?start=${loadNumProduct.value - 10}&end=${loadNumProduct.value}";
     loadNumProduct.value += 10;
     String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
@@ -145,8 +145,7 @@ class VendorController extends GetxController {
       isLoad.value = true;
       late String token;
       update();
-      var url =
-          "${Api.baseUrl}${Api.listVendorOrders}$id?start=1&end=${end ?? 1}";
+      var url = "${Api.baseUrl}${Api.myOrders}$id";
       token = UserController.instance.user.value.token;
 
       try {

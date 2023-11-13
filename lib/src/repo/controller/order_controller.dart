@@ -54,8 +54,7 @@ class OrderController extends GetxController {
     }
     late String token;
     String id = UserController.instance.user.value.id.toString();
-    var url =
-        "${Api.baseUrl}${Api.orderList}$id/?start=${loadNum.value - 10}&end=${loadNum.value}";
+    var url = "${Api.baseUrl}${Api.myOrders}$id";
     loadNum.value += 10;
     token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);

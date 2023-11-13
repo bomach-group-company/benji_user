@@ -13,22 +13,12 @@ class Api {
   static const login = "/auth/token";
   static const getClient = "/clients/getClient/";
   static const user = "/auth/";
-  static const notification = "/agents/getAgentNotifications/";
   static const changePassword = "/auth/changeNewPassword/";
 
-//Vendor
-  static const vendorList = "/agents/listAllMyVendors";
-  static const agentCreateVendor = "/agents/agentCreateVendor";
-  static const getVendorProducts = "/agents/listVendorProducts/";
-  static const filterVendorProduct =
-      "/agents/filterVendorProductsBySubCategory";
-  static const listVendorOrders = "/agents/listVendorOrders/";
-  static const getVendorRatings = "/agents/getVendorAverageRating/";
+  static const vendorList = "/vendors/getAllVendor";
+  static const getVendorProducts = "/vendors/";
 
-  //order
-  static const orderList = "/agents/getAllMyVendorsOrders/";
-
-  //category
+  static const myOrders = "/clients/listClientOrders/";
   static const category = "/categories/list";
 }
 

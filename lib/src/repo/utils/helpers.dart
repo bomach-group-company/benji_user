@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:benji/main.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
@@ -36,10 +37,10 @@ User? getUserSync() {
 checkUserAuth() async {
   User? haveUser = await getUser();
   if (haveUser == null) {
+    await UserController.instance.deleteUser();
+
     return Get.offAll(
-      () => const Login(
-        logout: true,
-      ),
+      () => const Login(),
       routeName: 'Login',
       predicate: (route) => false,
       duration: const Duration(milliseconds: 300),
@@ -71,10 +72,10 @@ checkAuth(context) async {
       "Please login to continue",
       const Duration(seconds: 2),
     );
+    await UserController.instance.deleteUser();
+
     return Get.offAll(
-      () => const Login(
-        logout: true,
-      ),
+      () => const Login(),
       routeName: 'Login',
       predicate: (route) => false,
       duration: const Duration(milliseconds: 300),

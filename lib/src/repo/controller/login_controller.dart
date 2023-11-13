@@ -4,8 +4,8 @@ import 'dart:convert';
 
 import 'package:benji/app/home/home.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
-import 'package:benji/src/repo/controller/login_model.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
+import 'package:benji/src/repo/models/login_model.dart';
 import 'package:benji/src/repo/services/api_url.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
