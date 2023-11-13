@@ -5,7 +5,7 @@ import 'package:benji/app/packages/packages.dart';
 import 'package:benji/app/packages/pay_for_delivery.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/components/textformfield/my_maps_textformfield.dart';
-import 'package:benji/src/providers/controllers.dart';
+import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
 import 'package:benji/src/repo/models/package/item_category.dart';
 import 'package:benji/src/repo/models/package/item_weight.dart';
 import 'package:benji/src/repo/models/user/user_model.dart';

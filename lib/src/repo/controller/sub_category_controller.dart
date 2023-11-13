@@ -12,17 +12,17 @@ import 'package:http/http.dart' as http;
 
 import 'user_controller.dart';
 
-class CategoryController extends GetxController {
-  static CategoryController get instance {
-    return Get.find<CategoryController>();
+class SubCategoryController extends GetxController {
+  static SubCategoryController get instance {
+    return Get.find<SubCategoryController>();
   }
 
   var isLoad = false.obs;
-  var sub_category = <SubCategory>[].obs;
-  var selected_category = Category.fromJson(null).obs;
+  var subcategory = <SubCategory>[].obs;
+  var selectedCategory = Category.fromJson(null).obs;
 
   setCategory(Category value) async {
-    selected_category.value = value;
+    selectedCategory.value = value;
     update();
     await getSubCategory();
   }
@@ -30,12 +30,12 @@ class CategoryController extends GetxController {
   Future getSubCategory() async {
     isLoad.value = true;
     late String token;
-    var url = "${Api.baseUrl}${Api.sub_category}${selected_category.value.id}";
+    var url = "${Api.baseUrl}${Api.subCategory}${selectedCategory.value.id}";
     token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = ApiProcessorController.errorState(response);
-      sub_category.value = (jsonDecode(response!.body) as List)
+      subcategory.value = (jsonDecode(response!.body) as List)
           .map((e) => SubCategory.fromJson(e))
           .toList();
       update();

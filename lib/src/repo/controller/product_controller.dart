@@ -18,14 +18,14 @@ class ProductController extends GetxController {
 
   var isLoad = false.obs;
   var isLoadCreate = false.obs;
-  var vendorProductList = <Product>[].obs;
+  var products = <Product>[].obs;
 
   // product pagination
   var loadedAllProduct = false.obs;
   var isLoadMoreProduct = false.obs;
   var loadNumProduct = 10.obs;
 
-  Future<void> scrollListenerProduct(scrollController, vendorId) async {
+  Future<void> scrollListenerProduct(scrollController) async {
     if (ProductController.instance.loadedAllProduct.value) {
       return;
     }
@@ -34,12 +34,11 @@ class ProductController extends GetxController {
         !scrollController.position.outOfRange) {
       ProductController.instance.isLoadMoreProduct.value = true;
       update();
-      await ProductController.instance.getProduct(vendorId);
+      await ProductController.instance.getProduct();
     }
   }
 
-  Future getProduct(
-    id, {
+  Future getProduct({
     bool first = false,
   }) async {
     if (first) {
@@ -73,14 +72,13 @@ class ProductController extends GetxController {
       data = (jsonDecode(response!.body)['items'] as List)
           .map((e) => Product.fromJson(e))
           .toList();
-      vendorProductList.value += data;
+      products.value += data;
     } catch (e) {
       debugPrint(e.toString());
     }
     loadedAllProduct.value = data.isEmpty;
     isLoad.value = false;
     isLoadMoreProduct.value = false;
-
     update();
   }
 }

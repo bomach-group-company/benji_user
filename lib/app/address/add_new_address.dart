@@ -1,7 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:benji/src/components/textformfield/my_maps_textformfield.dart';
-import 'package:benji/src/providers/controllers.dart';
+import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
 import 'package:benji/src/providers/keys.dart';
 import 'package:benji/src/repo/models/googleMaps/autocomplete_prediction.dart';
 import 'package:benji/src/repo/utils/constant.dart';

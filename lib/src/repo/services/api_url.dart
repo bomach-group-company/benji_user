@@ -16,11 +16,12 @@ class Api {
   static const changePassword = "/auth/changeNewPassword/";
 
   static const vendorList = "/vendors/getAllVendor";
+  static const popularVendor = "/clients/getPopularVendors";
   static const getVendorProducts = "/vendors/";
 
   static const myOrders = "/clients/listClientOrders/";
   static const category = "/categories/list";
-  static const sub_category = "/sub_categories/category/";
+  static const subCategory = "/sub_categories/category/";
 }
 
 String header = "application/json";

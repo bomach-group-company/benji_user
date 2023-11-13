@@ -19,13 +19,19 @@ class VendorController extends GetxController {
 
   var isLoad = false.obs;
   var isLoadCreate = false.obs;
-  var vendorList = <VendorModel>[].obs;
   var vendorProductList = <Product>[].obs;
 
   // vendor pagination
   var loadNumVendor = 10.obs;
   var loadedAllVendor = false.obs;
   var isLoadMoreVendor = false.obs;
+  var vendorList = <VendorModel>[].obs;
+
+  // vendor pagination
+  var loadNumPopularVendor = 10.obs;
+  var loadedAllPopularVendor = false.obs;
+  var isLoadMorePopularVendor = false.obs;
+  var vendorPopularList = <VendorModel>[].obs;
 
   // product pagination
   var loadedAllProduct = false.obs;
@@ -79,6 +85,31 @@ class VendorController extends GetxController {
     isLoad.value = false;
     isLoadMoreVendor.value = false;
     loadedAllVendor.value = data.isEmpty;
+
+    update();
+  }
+
+  Future getPopularVendors() async {
+    isLoad.value = true;
+    late String token;
+    String id = UserController.instance.user.value.id.toString();
+    var url =
+        "${Api.baseUrl}${Api.popularVendor}?start=${loadNumPopularVendor.value - 10}&end=${loadNumPopularVendor.value}";
+    loadNumPopularVendor.value += 10;
+
+    token = UserController.instance.user.value.token;
+    List<VendorModel> data = [];
+    try {
+      http.Response? response = await HandleData.getApi(url, token);
+      var responseData = await ApiProcessorController.errorState(response);
+      data = (jsonDecode(response!.body)['items'] as List)
+          .map((e) => VendorModel.fromJson(e))
+          .toList();
+      vendorPopularList.value += data;
+    } catch (e) {}
+    isLoad.value = false;
+    isLoadMorePopularVendor.value = false;
+    loadedAllPopularVendor.value = data.isEmpty;
 
     update();
   }
