@@ -69,19 +69,19 @@ class _HomeState extends State<Home> {
       NotificationController.initializeNotification();
     }
 
-    _currentAddress = getCurrentAddress();
-    _scrollController.addListener(_scrollListener);
-    _scrollController.addListener(() =>
-        ProductController.instance.scrollListenerProduct(_scrollController));
+    currentAddress = getCurrentAddress();
+    scrollController.addListener(_scrollListener);
+    scrollController.addListener(() =>
+        ProductController.instance.scrollListenerProduct(scrollController));
   }
 
-  late Future<Address> _currentAddress;
+  late Future<Address> currentAddress;
 
   @override
   void dispose() {
-    _scrollController.dispose();
-    _carouselController.stopAutoPlay();
-    _scrollController.removeListener(() {});
+    scrollController.dispose();
+    carouselController.stopAutoPlay();
+    scrollController.removeListener(() {});
 
     super.dispose();
   }
@@ -115,8 +115,8 @@ class _HomeState extends State<Home> {
   final double _offlineVendorsRating = 4.0;
 
   //==================================================== CONTROLLERS ======================================================\\
-  final _scrollController = ScrollController();
-  final CarouselController _carouselController = CarouselController();
+  final scrollController = ScrollController();
+  final CarouselController carouselController = CarouselController();
 
 //===================== Images =======================\\
 
@@ -157,7 +157,7 @@ class _HomeState extends State<Home> {
 
   //===================== Scroll to Top ==========================\\
   Future<void> _scrollToTop() async {
-    await _scrollController.animateTo(
+    await scrollController.animateTo(
       0.0,
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
@@ -168,13 +168,13 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _scrollListener() async {
-    if (_scrollController.position.pixels >= 200 &&
+    if (scrollController.position.pixels >= 200 &&
         _isScrollToTopBtnVisible != true) {
       setState(() {
         _isScrollToTopBtnVisible = true;
       });
     }
-    if (_scrollController.position.pixels < 200 &&
+    if (scrollController.position.pixels < 200 &&
         _isScrollToTopBtnVisible == true) {
       setState(() {
         _isScrollToTopBtnVisible = false;
@@ -186,7 +186,7 @@ class _HomeState extends State<Home> {
 
   Future<void> _handleRefresh() async {
     setState(() {
-      _currentAddress = getCurrentAddress();
+      currentAddress = getCurrentAddress();
     });
   }
   //========================================================================\\
@@ -458,9 +458,9 @@ class _HomeState extends State<Home> {
             color: kAccentColor,
             semanticsLabel: "Pull to refresh",
             child: Scrollbar(
-              controller: _scrollController,
+              controller: scrollController,
               child: ListView(
-                // controller: _scrollController,
+                // controller: scrollController,
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 padding: deviceType(media.width) > 2
@@ -493,7 +493,7 @@ class _HomeState extends State<Home> {
                                 const Duration(milliseconds: 800),
                             autoPlayCurve: Curves.easeInOut,
                             enlargeCenterPage: true,
-                            controller: _carouselController,
+                            controller: carouselController,
                             onPageChanged: (index, value) {
                               setState(() {});
                             },
@@ -719,23 +719,11 @@ class _HomeState extends State<Home> {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: List.filled(
-                          breakPoint(
-                            media.width,
-                            1,
-                            2,
-                            3,
-                            4,
-                          ).toInt(),
+                          breakPoint(media.width, 1, 2, 3, 4).toInt(),
                           CardSkeleton(
                               height: 200,
                               width: (media.width /
-                                      breakPoint(
-                                        media.width,
-                                        1,
-                                        2,
-                                        3,
-                                        4,
-                                      )) -
+                                      breakPoint(media.width, 1, 2, 3, 4)) -
                                   20),
                         ),
                       );
@@ -898,23 +886,11 @@ class _HomeState extends State<Home> {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.filled(
-                            breakPoint(
-                              media.width,
-                              1,
-                              2,
-                              3,
-                              4,
-                            ).toInt(),
+                            breakPoint(media.width, 1, 2, 3, 4).toInt(),
                             CardSkeleton(
                                 height: 200,
                                 width: (media.width /
-                                        breakPoint(
-                                          media.width,
-                                          1,
-                                          2,
-                                          3,
-                                          4,
-                                        )) -
+                                        breakPoint(media.width, 1, 2, 3, 4)) -
                                     20),
                           ),
                         );
