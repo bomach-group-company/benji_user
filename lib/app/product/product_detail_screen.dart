@@ -50,13 +50,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     _vendorNoteEC.text = getSingleProductNote(widget.product);
     checkCart();
     _getData();
-    _scrollController.addListener(_scrollListener);
+    scrollController.addListener(scrollListener);
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
-    _scrollController.removeListener(() {});
+    scrollController.dispose();
+    scrollController.removeListener(() {});
     super.dispose();
   }
 
@@ -105,7 +105,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   //============================================================ ALL VARIABLES ===================================================================\\
   String? cartCountAll;
-  final List<String> _carouselImages = <String>[
+  final List<String> carouselImages = <String>[
     "assets/images/products/best-choice-restaurant.png",
     "assets/images/products/burgers.png",
     "assets/images/products/chizzy's-food.png",
@@ -116,40 +116,40 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   ];
 
 //====================================================== BOOL VALUES ========================================================\\
-  bool _isScrollToTopBtnVisible = false;
+  bool isScrollToTopBtnVisible = false;
   bool _isAddedToFavorites = false;
   bool _isAddedToCart = false;
   bool isLoading = false;
   bool justInPage = true;
 
   //==================================================== CONTROLLERS ======================================================\\
-  final ScrollController _scrollController = ScrollController();
-  final CarouselController _carouselController = CarouselController();
+  final scrollController = ScrollController();
+  final carouselController = CarouselController();
 
   //==================================================== FUNCTIONS ======================================================\\
 
-  Future<void> _scrollToTop() async {
-    await _scrollController.animateTo(
+  Future<void> scrollToTop() async {
+    await scrollController.animateTo(
       0.0,
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
     setState(() {
-      _isScrollToTopBtnVisible = false;
+      isScrollToTopBtnVisible = false;
     });
   }
 
-  Future<void> _scrollListener() async {
-    if (_scrollController.position.pixels >= 200 &&
-        _isScrollToTopBtnVisible != true) {
+  Future<void> scrollListener() async {
+    if (scrollController.position.pixels >= 200 &&
+        isScrollToTopBtnVisible != true) {
       setState(() {
-        _isScrollToTopBtnVisible = true;
+        isScrollToTopBtnVisible = true;
       });
     }
-    if (_scrollController.position.pixels < 200 &&
-        _isScrollToTopBtnVisible == true) {
+    if (scrollController.position.pixels < 200 &&
+        isScrollToTopBtnVisible == true) {
       setState(() {
-        _isScrollToTopBtnVisible = false;
+        isScrollToTopBtnVisible = false;
       });
     }
   }
@@ -335,24 +335,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             title: "Product Detail",
             elevation: 0.0,
             actions: [
-              AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeIn,
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: _addToFavorites,
-                        icon: FaIcon(
-                          _isAddedToFavorites
-                              ? FontAwesomeIcons.solidHeart
-                              : FontAwesomeIcons.heart,
-                          color: kAccentColor,
-                        ),
-                      ),
-                      // ignore: prefer_const_constructors
-                      CartCard(),
-                    ],
-                  )),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: _addToFavorites,
+                    icon: FaIcon(
+                      _isAddedToFavorites
+                          ? FontAwesomeIcons.solidHeart
+                          : FontAwesomeIcons.heart,
+                      color: kAccentColor,
+                    ),
+                  ),
+                  // ignore: prefer_const_constructors
+                  CartCard(),
+                ],
+              ),
               IconButton(
                 onPressed: () => showPopupMenu(context),
                 icon: FaIcon(
@@ -363,9 +360,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ],
             backgroundColor: kPrimaryColor,
           ),
-          floatingActionButton: _isScrollToTopBtnVisible
+          floatingActionButton: isScrollToTopBtnVisible
               ? FloatingActionButton(
-                  onPressed: _scrollToTop,
+                  onPressed: scrollToTop,
                   mini: true,
                   backgroundColor: kAccentColor,
                   enableFeedback: true,
@@ -379,11 +376,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           body: SafeArea(
             maintainBottomViewPadding: true,
             child: Scrollbar(
-              controller: _scrollController,
+              controller: scrollController,
               radius: const Radius.circular(10),
               scrollbarOrientation: ScrollbarOrientation.right,
               child: ListView(
-                controller: _scrollController,
+                controller: scrollController,
                 physics: const ScrollPhysics(),
                 dragStartBehavior: DragStartBehavior.down,
                 children: [
@@ -402,7 +399,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           const Duration(milliseconds: 800),
                       autoPlayCurve: Curves.easeInOut,
                       enlargeCenterPage: true,
-                      controller: _carouselController,
+                      controller: carouselController,
                       onPageChanged: (index, value) {
                         setState(() {});
                       },
@@ -425,7 +422,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         padding: const EdgeInsets.all(10),
                       ),
                     ),
-                    itemCount: _carouselImages.length,
+                    itemCount: carouselImages.length,
                     itemBuilder: (BuildContext context, int itemIndex,
                             int pageViewIndex) =>
                         Padding(
@@ -439,7 +436,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: AssetImage(
-                              _carouselImages[itemIndex],
+                              carouselImages[itemIndex],
                             ),
                           ),
                         ),
