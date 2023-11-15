@@ -68,7 +68,7 @@ class _DeliverToState extends State<DeliverTo> {
 
     if (current != null) {
       Address? itemToMove = addresses.firstWhere(
-        (elem) => elem == current,
+        (elem) => elem.id == current!.id,
       );
 
       addresses.remove(itemToMove);
@@ -129,13 +129,17 @@ class _DeliverToState extends State<DeliverTo> {
     }
     try {
       await setCurrentAddress(address!.id);
+      print(
+          '${address.id} ${address.latitude} ${address.longitude} ${address.title}');
       // here i need to create that order by sending it to the backend
-      formatOfOrder.map((item) {
-        item['delivery_address'] = address.id;
-        item['latitude'] = address.latitude;
-        item['longitude'] = address.longitude;
-        return item;
-      }).toList();
+      formatOfOrder
+          .map((cartItem) => (cartItem['vendor_data'] as List).map((item) {
+                item['delivery_address_id'] = address.id;
+                item['latitude'] = address.latitude;
+                item['longitude'] = address.longitude;
+                return item;
+              }).toList())
+          .toList();
       if (kDebugMode) {
         print('it $formatOfOrder');
       }
@@ -232,8 +236,8 @@ class _DeliverToState extends State<DeliverTo> {
                                         vertical: kDefaultPadding / 2,
                                       ),
                                       child: RadioListTile(
-                                        value: _addressData!['addresses'][index]
-                                            .id,
+                                        value: _addressData!['addresses']
+                                            [index],
                                         groupValue: _currentOption,
                                         activeColor: kAccentColor,
                                         enableFeedback: true,
@@ -247,8 +251,7 @@ class _DeliverToState extends State<DeliverTo> {
                                             () {
                                               _currentOption =
                                                   _addressData!['addresses']
-                                                          [index]
-                                                      .id;
+                                                      [index];
                                             },
                                           );
                                         }),

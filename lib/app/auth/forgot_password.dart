@@ -53,7 +53,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     final body = {};
     final response = await http.post(url, body: body);
 
-    return response.statusCode == 200 && response.body == '"Email Sent"';
+    return response.statusCode == 200;
   }
 
   Future<void> loadData() async {
