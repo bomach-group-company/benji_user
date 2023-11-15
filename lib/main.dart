@@ -22,6 +22,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/providers/fcm_messaging.dart';
 import 'src/repo/controller/lat_lng_controllers.dart';
+import 'src/repo/controller/notifications_controller.dart';
 import 'theme/app_theme.dart';
 import 'theme/colors.dart';
 
@@ -56,7 +57,7 @@ void main() async {
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
     await NotificationController.initializeNotification();
 
-    await handleFCM();
+    await FcmMessagingController.instance.handleFCM();
   }
 
   // await dotenv.load();
