@@ -125,43 +125,42 @@ class NotificationController extends GetxController {
     assert(!scheduled || (scheduled && interval != null));
 
     await AwesomeNotifications().createNotification(
-      content: NotificationContent(
-        id: createUniqueId(),
-        channelKey: "basic_channel",
-        title: title,
-        body: body,
-        actionType: actionType,
-        notificationLayout: notificationLayout,
-        summary: summary,
-        category: category,
-        payload: payload,
-        bigPicture: bigPicture,
-        color: color ?? kSecondaryColor,
-        icon: icon,
-        criticalAlert: criticalAlert,
-        customSound: customSound,
-        largeIcon: largeIcon,
-        hideLargeIconOnExpand: hideLargeIconOnExpand,
-        roundedBigPicture: roundedBigPicture,
-        roundedLargeIcon: roundedLargeIcon,
-        autoDismissible: autoDismissible,
-        showWhen: showWhen,
-        displayOnBackground: displayOnBackground,
-        displayOnForeground: displayOnForeground,
-        wakeUpScreen: wakeUpScreen,
-      ),
-      actionButtons: actionButtons,
-      schedule: scheduled
-          ? NotificationInterval(
-              interval: interval,
-              timeZone:
-                  await AwesomeNotifications().getLocalTimeZoneIdentifier(),
-              repeats: repeats,
-              allowWhileIdle: allowWhileIdle,
-              preciseAlarm: preciseAlarm,
-            )
-          : null,
-    );
+        content: NotificationContent(
+          id: createUniqueId(),
+          channelKey: "basic_channel",
+          title: title,
+          body: body,
+          actionType: actionType,
+          notificationLayout: notificationLayout,
+          summary: summary,
+          category: category,
+          payload: payload,
+          bigPicture: bigPicture,
+          color: color ?? kSecondaryColor,
+          icon: icon,
+          criticalAlert: criticalAlert,
+          customSound: customSound,
+          largeIcon: largeIcon,
+          hideLargeIconOnExpand: hideLargeIconOnExpand,
+          roundedBigPicture: roundedBigPicture,
+          roundedLargeIcon: roundedLargeIcon,
+          autoDismissible: autoDismissible,
+          showWhen: showWhen,
+          displayOnBackground: displayOnBackground,
+          displayOnForeground: displayOnForeground,
+          wakeUpScreen: wakeUpScreen,
+        ),
+        actionButtons: actionButtons,
+        schedule: scheduled
+            ? NotificationInterval(
+                interval: interval,
+                timeZone:
+                    await AwesomeNotifications().getLocalTimeZoneIdentifier(),
+                repeats: repeats,
+                allowWhileIdle: allowWhileIdle,
+                preciseAlarm: preciseAlarm,
+              )
+            : null);
   }
 
   enableNotifications(bool status) async {

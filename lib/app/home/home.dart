@@ -39,7 +39,7 @@ import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/others/cart_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
-import '../../src/repo/controller/lat_lng_controllers.dart';
+import '../../src/repo/controller/notifications_controller.dart';
 import '../../src/repo/models/vendor/vendor.dart';
 import '../../theme/colors.dart';
 import '../address/addresses.dart';
