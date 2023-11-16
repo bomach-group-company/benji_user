@@ -20,8 +20,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'src/providers/fcm_messaging.dart';
+import 'src/repo/controller/fcm_messaging_controller.dart';
 import 'src/repo/controller/lat_lng_controllers.dart';
+import 'src/repo/controller/notifications_controller.dart';
 import 'theme/app_theme.dart';
 import 'theme/colors.dart';
 
@@ -35,20 +36,35 @@ void main() async {
 
   prefs = await SharedPreferences.getInstance();
 
-  final user = Get.put(UserController());
-  final auth = Get.put(AuthController());
-  final userProfile = Get.put(ProfileController());
-  final login = Get.put(LoginController());
-  final vendor = Get.put(VendorController());
-  final order = Get.put(OrderController());
-  final category = Get.put(CategoryController());
-  final subCategory = Get.put(SubCategoryController());
-  final location = Get.put(LatLngDetailController());
-  final product = Get.put(ProductController());
-  final url = Get.put(UrlLaunchController());
-  final form = Get.put(FormController());
-  final apiProcessor = Get.put(ApiProcessorController());
-  final address = Get.put(AddressController());
+  Get.put(UserController());
+  Get.put(AuthController());
+  Get.put(ProfileController());
+  Get.put(LoginController());
+  Get.put(VendorController());
+  Get.put(OrderController());
+  Get.put(CategoryController());
+  Get.put(SubCategoryController());
+  Get.put(LatLngDetailController());
+  Get.put(ProductController());
+  Get.put(UrlLaunchController());
+  Get.put(FormController());
+  Get.put(ApiProcessorController());
+  Get.put(AddressController());
+
+  // final user = Get.put(UserController());
+  // final auth = Get.put(AuthController());
+  // final userProfile = Get.put(ProfileController());
+  // final login = Get.put(LoginController());
+  // final vendor = Get.put(VendorController());
+  // final order = Get.put(OrderController());
+  // final category = Get.put(CategoryController());
+  // final subCategory = Get.put(SubCategoryController());
+  // final location = Get.put(LatLngDetailController());
+  // final product = Get.put(ProductController());
+  // final url = Get.put(UrlLaunchController());
+  // final form = Get.put(FormController());
+  // final apiProcessor = Get.put(ApiProcessorController());
+  // final address = Get.put(AddressController());
   // final review = Get.put(ReviewsController());
 
   if (!kIsWeb) {
@@ -56,7 +72,7 @@ void main() async {
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
     await NotificationController.initializeNotification();
 
-    await handleFCM();
+    await FcmMessagingController.instance.handleFCM();
   }
 
   // await dotenv.load();
@@ -66,7 +82,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final navigatorKey = GlobalKey<NavigatorState>();
 
   // This widget is the root of the application.
   @override
