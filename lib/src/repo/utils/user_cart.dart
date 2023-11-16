@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:benji/main.dart';
+import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/models/cart_model/cart_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 
@@ -50,17 +51,22 @@ Future addToCart(Product product) async {
         if (item.productId == product.id) {
           item.quantity += 1;
           setAllCartItem(allCart);
+          CartController.instance.getCartProduct();
           return;
         }
       }
       cartItems.productUser.add(productUserData);
       setAllCartItem(allCart);
+      CartController.instance.getCartProduct();
+
       return;
     }
   }
   allCart.data.add(vendorInfo);
   allCart.data.last.productUser.add(productUserData);
   setAllCartItem(allCart);
+  CartController.instance.getCartProduct();
+
   return;
 }
 
@@ -122,6 +128,8 @@ Future minusFromCart(Product product) async {
                 .removeWhere((element) => element.productId == item.productId);
           }
           setAllCartItem(allCart);
+          CartController.instance.getCartProduct();
+
           return;
         }
       }
@@ -130,9 +138,13 @@ Future minusFromCart(Product product) async {
             .removeWhere((element) => element.vendorId == cartItems.vendorId);
       }
       setAllCartItem(allCart);
+      CartController.instance.getCartProduct();
+
       return;
     }
   }
+  CartController.instance.getCartProduct();
+
   return;
 }
 
@@ -146,6 +158,8 @@ Future removeFromCart(Product product) async {
           cartItems.productUser
               .removeWhere((element) => element.productId == item.productId);
           setAllCartItem(allCart);
+          CartController.instance.getCartProduct();
+
           return;
         }
       }
@@ -154,9 +168,13 @@ Future removeFromCart(Product product) async {
             .removeWhere((element) => element.vendorId == cartItems.vendorId);
       }
       setAllCartItem(allCart);
+      CartController.instance.getCartProduct();
+
       return;
     }
   }
+  CartController.instance.getCartProduct();
+
   return;
 }
 

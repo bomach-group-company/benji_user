@@ -1,6 +1,7 @@
 import 'package:benji/app/splash_screens/startup_splash_screen.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/auth_controller.dart';
+import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/category_controller.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/form_controller.dart';
@@ -50,22 +51,8 @@ void main() async {
   Get.put(FormController());
   Get.put(ApiProcessorController());
   Get.put(AddressController());
-
-  // final user = Get.put(UserController());
-  // final auth = Get.put(AuthController());
-  // final userProfile = Get.put(ProfileController());
-  // final login = Get.put(LoginController());
-  // final vendor = Get.put(VendorController());
-  // final order = Get.put(OrderController());
-  // final category = Get.put(CategoryController());
-  // final subCategory = Get.put(SubCategoryController());
-  // final location = Get.put(LatLngDetailController());
-  // final product = Get.put(ProductController());
-  // final url = Get.put(UrlLaunchController());
-  // final form = Get.put(FormController());
-  // final apiProcessor = Get.put(ApiProcessorController());
-  // final address = Get.put(AddressController());
-  // final review = Get.put(ReviewsController());
+  Get.put(CartController());
+  // Get.put(ReviewsController());
 
   if (!kIsWeb) {
     await Firebase.initializeApp();
