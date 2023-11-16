@@ -34,6 +34,7 @@ bool productInCart(Product product) {
 
 Future<void> clearCart() async {
   await prefs.setString(cartname, '[]');
+  CartController.instance.getCartProduct();
 }
 
 Future addToCart(Product product) async {

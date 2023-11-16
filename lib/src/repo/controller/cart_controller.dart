@@ -41,6 +41,7 @@ class CartController extends GetxController {
     AllCartItem allCart = getAllCartItem();
     List<Product> products = [];
     double total = 0.0;
+    print(allCart.data);
     for (var cartItem in allCart.data) {
       for (var item in cartItem.productUser) {
         try {
