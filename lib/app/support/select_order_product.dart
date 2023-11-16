@@ -62,6 +62,7 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
 
 //============================================== ALL VARIABLES =================================================\\
   bool _isLoading = false;
+  Order? selectedOrder;
 //============================================== FUNCTIONS =================================================\\
   _submit() async {
     setState(() {
@@ -175,7 +176,11 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
                   builder: (controller) => ItemDropDownMenu(
                     onSelected: (value) {
                       _itemOrderEC.text = value!.toString();
-                      _getItems(_itemOrderEC.text);
+                      setState(() {
+                        selectedOrder = OrderController.instance.orderList
+                            .firstWhere((element) => element.id == value);
+                        _getItems(_itemOrderEC.text);
+                      });
                     },
                     itemEC: _itemOrderEC,
                     mediaWidth: media.width - 20,
@@ -218,12 +223,26 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
                   itemEC: _itemProductEC,
                   mediaWidth: media.width - 20,
                   hintText: "Choose orderitem",
-                  dropdownMenuEntries2: _orderitems
-                      .map((item) => DropdownMenuEntry(
-                            value: item.id,
-                            label: item.id,
-                          ))
-                      .toList(),
+                  dropdownMenuEntries2: selectedOrder == null
+                      ? [
+                          const DropdownMenuEntry(
+                              value: 'Select Order first',
+                              label: 'Select Order first',
+                              enabled: false)
+                        ]
+                      : selectedOrder!.orderitems.isEmpty
+                          ? [
+                              const DropdownMenuEntry(
+                                  value: 'Order has no items',
+                                  label: 'Order has no items',
+                                  enabled: false)
+                            ]
+                          : selectedOrder!.orderitems
+                              .map((item) => DropdownMenuEntry(
+                                    value: item.id,
+                                    label: item.id,
+                                  ))
+                              .toList(),
                 ),
                 kSizedBox,
                 const Text(
