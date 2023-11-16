@@ -118,43 +118,47 @@ class _OrdersHistoryState extends State<OrdersHistory> {
             maintainBottomViewPadding: true,
             child: Column(
               children: [
-                GetBuilder<OrderController>(builder: (controller) {
-                  if (controller.isLoad.value && controller.orderList.isEmpty) {
-                    return SizedBox(
-                      height: media.height - 100,
-                      width: media.width,
-                      child: Center(
-                        child: CircularProgressIndicator(color: kAccentColor),
-                      ),
-                    );
-                  }
-                  return Flexible(
-                    flex: 1,
-                    fit: FlexFit.loose,
-                    child: controller.orderList.isEmpty
-                        ? const EmptyCard()
-                        : Scrollbar(
-                            controller: _scrollController,
-                            child: ListView.separated(
-                              controller: _scrollController,
-                              itemCount: controller.orderList.length,
-                              padding: const EdgeInsets.all(10),
-                              shrinkWrap: true,
-                              separatorBuilder: (context, index) =>
-                                  kHalfSizedBox,
-                              physics: const BouncingScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              itemBuilder: (context, index) => InkWell(
-                                onTap: () => _toOrderDetailsScreen(
-                                    controller.orderList[index]),
-                                child: TrackOrderDetailsContainer(
-                                  order: controller.orderList[index],
+                GetBuilder<OrderController>(
+                    initState: (state) => OrderController.instance.getOrders(),
+                    builder: (controller) {
+                      if (controller.isLoad.value &&
+                          controller.orderList.isEmpty) {
+                        return SizedBox(
+                          height: media.height - 100,
+                          width: media.width,
+                          child: Center(
+                            child:
+                                CircularProgressIndicator(color: kAccentColor),
+                          ),
+                        );
+                      }
+                      return Flexible(
+                        flex: 1,
+                        fit: FlexFit.loose,
+                        child: controller.orderList.isEmpty
+                            ? const EmptyCard()
+                            : Scrollbar(
+                                controller: _scrollController,
+                                child: ListView.separated(
+                                  controller: _scrollController,
+                                  itemCount: controller.orderList.length,
+                                  padding: const EdgeInsets.all(10),
+                                  shrinkWrap: true,
+                                  separatorBuilder: (context, index) =>
+                                      kHalfSizedBox,
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
+                                  itemBuilder: (context, index) => InkWell(
+                                    onTap: () => _toOrderDetailsScreen(
+                                        controller.orderList[index]),
+                                    child: TrackOrderDetailsContainer(
+                                      order: controller.orderList[index],
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                  );
-                }),
+                      );
+                    }),
               ],
             ),
           ),

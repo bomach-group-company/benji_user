@@ -2,6 +2,7 @@ import 'package:benji/app/product/home_page_products.dart';
 import 'package:benji/src/components/simple_item/category_item.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/providers/responsive_constant.dart';
+import 'package:benji/src/repo/controller/sub_category_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/route_manager.dart';
@@ -13,19 +14,26 @@ class CategoryItemSheet extends StatelessWidget {
   const CategoryItemSheet(
       {super.key, required this.category, this.isShop = true});
 
-  void _toSeeProducts({String id = ''}) => Get.to(
-        () => HomePageProducts(activeCategory: id),
-        routeName: 'HomePageProducts',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _toSeeProducts(
+    var category, {
+    String id = '',
+  }) {
+    SubCategoryController.instance.setCategory(category);
+    Get.to(
+      () => HomePageProducts(activeCategory: id),
+      routeName: 'HomePageProducts',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    print('oo category $category');
     final mediaWidth = MediaQuery.of(context).size.width;
     return ListView(
       shrinkWrap: true,
@@ -49,7 +57,8 @@ class CategoryItemSheet extends StatelessWidget {
                 return CategoryItem(
                   isShop: isShop,
                   category: category[item],
-                  nav: () => _toSeeProducts(id: category[item].id),
+                  nav: () =>
+                      _toSeeProducts(category[item], id: category[item].id),
                 );
               },
             ).toList(),

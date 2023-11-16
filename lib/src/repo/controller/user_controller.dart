@@ -24,6 +24,10 @@ class UserController extends GetxController {
     super.onInit();
   }
 
+  bool isUSer() {
+    return user.value.id != 0;
+  }
+
   Future checkAuth() async {
     if (await isAuthorized()) {
       Get.offAll(
@@ -58,7 +62,8 @@ class UserController extends GetxController {
     update();
   }
 
-  Future<bool> deleteUser() async {
-    return await prefs.remove('user');
+  Future deleteUser() async {
+    await prefs.remove('user');
+    setUserSync();
   }
 }

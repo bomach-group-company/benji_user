@@ -106,7 +106,9 @@ Future<String> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
     consoleLog("${response.statusCode}");
   }
   if (response.statusCode.toString().startsWith('2')) {
-    String res = jsonDecode(response.body)['order_id'].toString();
+    String res =
+        jsonDecode(response.body)['message'].toString().split(' ').last;
+    print(res);
     return res;
   }
   throw Exception('Failed to create order');

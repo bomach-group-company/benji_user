@@ -5,13 +5,14 @@ import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/components/textformfield/message_textformfield.dart';
+import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/models/complain/complain.dart';
 import 'package:benji/src/repo/models/order/order.dart';
 import 'package:benji/src/repo/models/order/order_item.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../src/providers/constants.dart';
@@ -61,6 +62,7 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
 
 //============================================== ALL VARIABLES =================================================\\
   bool _isLoading = false;
+  Order? selectedOrder;
 //============================================== FUNCTIONS =================================================\\
   _submit() async {
     setState(() {
@@ -169,20 +171,44 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
                   ),
                 ),
                 kHalfSizedBox,
-                ItemDropDownMenu(
-                  onSelected: (value) {
-                    _itemOrderEC.text = value!.toString();
-                    _getItems(_itemOrderEC.text);
-                  },
-                  itemEC: _itemOrderEC,
-                  mediaWidth: media.width - 20,
-                  hintText: "Choose order",
-                  dropdownMenuEntries2: _orders
-                      .map((item) => DropdownMenuEntry(
-                            value: item.id,
-                            label: item.id,
-                          ))
-                      .toList(),
+                GetBuilder<OrderController>(
+                  initState: (state) => OrderController.instance.getOrders(),
+                  builder: (controller) => ItemDropDownMenu(
+                    onSelected: (value) {
+                      _itemOrderEC.text = value!.toString();
+                      setState(() {
+                        selectedOrder = OrderController.instance.orderList
+                            .firstWhere((element) => element.id == value);
+                        _getItems(_itemOrderEC.text);
+                      });
+                    },
+                    itemEC: _itemOrderEC,
+                    mediaWidth: media.width - 20,
+                    hintText: "Choose order",
+                    dropdownMenuEntries2:
+                        controller.isLoad.value && controller.orderList.isEmpty
+                            ? [
+                                const DropdownMenuEntry(
+                                    value: 'Loading...',
+                                    label: 'Loading...',
+                                    enabled: false),
+                              ]
+                            : controller.orderList.isEmpty
+                                ? [
+                                    const DropdownMenuEntry(
+                                        value: 'EMPTY',
+                                        label: 'EMPTY',
+                                        enabled: false),
+                                  ]
+                                : controller.orderList
+                                    .map(
+                                      (item) => DropdownMenuEntry(
+                                        value: item.id,
+                                        label: item.code,
+                                      ),
+                                    )
+                                    .toList(),
+                  ),
                 ),
                 kSizedBox,
                 const Text(
@@ -197,12 +223,26 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
                   itemEC: _itemProductEC,
                   mediaWidth: media.width - 20,
                   hintText: "Choose orderitem",
-                  dropdownMenuEntries2: _orderitems
-                      .map((item) => DropdownMenuEntry(
-                            value: item.id,
-                            label: item.id,
-                          ))
-                      .toList(),
+                  dropdownMenuEntries2: selectedOrder == null
+                      ? [
+                          const DropdownMenuEntry(
+                              value: 'Select Order first',
+                              label: 'Select Order first',
+                              enabled: false)
+                        ]
+                      : selectedOrder!.orderitems.isEmpty
+                          ? [
+                              const DropdownMenuEntry(
+                                  value: 'Order has no items',
+                                  label: 'Order has no items',
+                                  enabled: false)
+                            ]
+                          : selectedOrder!.orderitems
+                              .map((item) => DropdownMenuEntry(
+                                    value: item.id,
+                                    label: item.id,
+                                  ))
+                              .toList(),
                 ),
                 kSizedBox,
                 const Text(

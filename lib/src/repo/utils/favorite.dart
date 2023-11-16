@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:benji/main.dart';
+import 'package:benji/src/repo/controller/favourite_controller.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
 
@@ -28,6 +29,7 @@ Future<bool> favoriteItP(String id) async {
   if (isSet == false) {
     throw Exception('Error occured while tring to set favorite');
   }
+  FavouriteController.instance.getProduct();
 
   return res;
 }
@@ -78,7 +80,7 @@ Future<bool> favoriteItV(String id) async {
   if (isSet == false) {
     throw Exception('Error occured while tring to set favorite');
   }
-
+  FavouriteController.instance.getVendor();
   return res;
 }
 

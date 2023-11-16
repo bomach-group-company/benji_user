@@ -417,19 +417,22 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              GetBuilder<AddressController>(builder: (controller) {
-                if (controller.isLoad.value &&
-                    controller.current.value.id == '0') {
-                  return AppBarDeliveryLocation(
-                    deliveryLocation: 'Loading...',
-                    toDeliverToPage: () {},
-                  );
-                }
-                return AppBarDeliveryLocation(
-                  deliveryLocation: controller.current.value.title,
-                  toDeliverToPage: _toAddressesPage,
-                );
-              }),
+              GetBuilder<AddressController>(
+                  initState: (state) =>
+                      AddressController.instance.getCurrentAddress(),
+                  builder: (controller) {
+                    if (controller.isLoad.value &&
+                        controller.current.value.id == '0') {
+                      return AppBarDeliveryLocation(
+                        deliveryLocation: 'Loading...',
+                        toDeliverToPage: () {},
+                      );
+                    }
+                    return AppBarDeliveryLocation(
+                      deliveryLocation: controller.current.value.title,
+                      toDeliverToPage: _toAddressesPage,
+                    );
+                  }),
             ],
           ),
           actions: [
@@ -561,204 +564,235 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   kSizedBox,
-                  GetBuilder<CategoryController>(builder: (controller) {
-                    if (controller.isLoad.value &&
-                        controller.category.isEmpty) {
-                      return Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  GetBuilder<CategoryController>(
+                      initState: (state) =>
+                          CategoryController.instance.getCategory(),
+                      builder: (controller) {
+                        if (controller.isLoad.value &&
+                            controller.category.isEmpty) {
+                          return Column(
                             children: [
-                              Shimmer.fromColors(
-                                highlightColor: kBlackColor.withOpacity(0.9),
-                                baseColor: kBlackColor.withOpacity(0.6),
-                                direction: ShimmerDirection.ltr,
-                                child: PageSkeleton(
-                                    height: 35, width: media.width / 7),
-                              ),
-                              kWidthSizedBox,
-                              Shimmer.fromColors(
-                                highlightColor: kBlackColor.withOpacity(0.9),
-                                baseColor: kBlackColor.withOpacity(0.6),
-                                direction: ShimmerDirection.ltr,
-                                child: PageSkeleton(
-                                    height: 35, width: media.width / 7),
-                              ),
-                              kWidthSizedBox,
-                              Shimmer.fromColors(
-                                highlightColor: kBlackColor.withOpacity(0.9),
-                                baseColor: kBlackColor.withOpacity(0.6),
-                                direction: ShimmerDirection.ltr,
-                                child: PageSkeleton(
-                                    height: 35, width: media.width / 7),
-                              ),
-                              kWidthSizedBox,
-                              Shimmer.fromColors(
-                                  highlightColor: kBlackColor.withOpacity(0.9),
-                                  baseColor: kBlackColor.withOpacity(0.6),
-                                  direction: ShimmerDirection.ltr,
-                                  child: PageSkeleton(
-                                      height: 35, width: media.width / 9)),
-                            ],
-                          ),
-                          kSizedBox,
-                        ],
-                      );
-                    }
-
-                    return LayoutGrid(
-                      columnGap: 10,
-                      rowGap: 10,
-                      columnSizes: breakPointDynamic(
-                        media.width,
-                        List.filled(4, 1.fr),
-                        List.filled(4, 1.fr),
-                        List.filled(8, 1.fr),
-                        List.filled(8, 1.fr),
-                      ),
-                      rowSizes: const [auto, auto],
-                      children: List.generate(
-                          min(8, controller.category.length + 1),
-                          (index) => index).map(
-                        (item) {
-                          int value = min(7, controller.category.length);
-                          if (item == value) {
-                            return CategoryItem(
-                              nav: () => showModalBottomSheet(
-                                context: context,
-                                elevation: 20,
-                                barrierColor: kBlackColor.withOpacity(0.6),
-                                showDragHandle: true,
-                                useSafeArea: true,
-                                isDismissible: true,
-                                isScrollControlled: true,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(
-                                      kDefaultPadding,
-                                    ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Shimmer.fromColors(
+                                    highlightColor:
+                                        kBlackColor.withOpacity(0.9),
+                                    baseColor: kBlackColor.withOpacity(0.6),
+                                    direction: ShimmerDirection.ltr,
+                                    child: PageSkeleton(
+                                        height: 35, width: media.width / 7),
                                   ),
-                                ),
-                                enableDrag: true,
-                                builder: (builder) => CategoryItemSheet(
-                                    category: controller.category),
+                                  kWidthSizedBox,
+                                  Shimmer.fromColors(
+                                    highlightColor:
+                                        kBlackColor.withOpacity(0.9),
+                                    baseColor: kBlackColor.withOpacity(0.6),
+                                    direction: ShimmerDirection.ltr,
+                                    child: PageSkeleton(
+                                        height: 35, width: media.width / 7),
+                                  ),
+                                  kWidthSizedBox,
+                                  Shimmer.fromColors(
+                                    highlightColor:
+                                        kBlackColor.withOpacity(0.9),
+                                    baseColor: kBlackColor.withOpacity(0.6),
+                                    direction: ShimmerDirection.ltr,
+                                    child: PageSkeleton(
+                                        height: 35, width: media.width / 7),
+                                  ),
+                                  kWidthSizedBox,
+                                  Shimmer.fromColors(
+                                      highlightColor:
+                                          kBlackColor.withOpacity(0.9),
+                                      baseColor: kBlackColor.withOpacity(0.6),
+                                      direction: ShimmerDirection.ltr,
+                                      child: PageSkeleton(
+                                          height: 35, width: media.width / 9)),
+                                ],
                               ),
-                            );
-                          }
-                          return CategoryItem(
-                            category: controller.category[item],
-                            nav: () => _toSeeProducts(controller.category[item],
-                                id: controller.category[item].id),
+                              kSizedBox,
+                            ],
                           );
-                        },
-                      ).toList(),
-                    );
-                  }),
+                        }
+
+                        return LayoutGrid(
+                          columnGap: 10,
+                          rowGap: 10,
+                          columnSizes: breakPointDynamic(
+                            media.width,
+                            List.filled(4, 1.fr),
+                            List.filled(4, 1.fr),
+                            List.filled(8, 1.fr),
+                            List.filled(8, 1.fr),
+                          ),
+                          rowSizes: const [auto, auto],
+                          children: List.generate(
+                              min(8, controller.category.length + 1),
+                              (index) => index).map(
+                            (item) {
+                              int value = min(7, controller.category.length);
+                              if (item == value) {
+                                return CategoryItem(
+                                  nav: () => showModalBottomSheet(
+                                    context: context,
+                                    elevation: 20,
+                                    barrierColor: kBlackColor.withOpacity(0.6),
+                                    showDragHandle: true,
+                                    useSafeArea: true,
+                                    isDismissible: true,
+                                    isScrollControlled: true,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(
+                                          kDefaultPadding,
+                                        ),
+                                      ),
+                                    ),
+                                    enableDrag: true,
+                                    builder: (builder) => CategoryItemSheet(
+                                        category: controller.category.value),
+                                  ),
+                                );
+                              }
+                              return CategoryItem(
+                                category: controller.category[item],
+                                nav: () => _toSeeProducts(
+                                    controller.category[item],
+                                    id: controller.category[item].id),
+                              );
+                            },
+                          ).toList(),
+                        );
+                      }),
                   SeeAllContainer(
                     title: "Vendors Near you",
                     onPressed: _toSeeAllVendorsNearYou,
                   ),
                   kSizedBox,
-                  GetBuilder<VendorController>(builder: (controller) {
-                    if (controller.isLoad.value &&
-                        controller.vendorList.isEmpty) {
-                      return const SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            CardSkeleton(height: 200, width: 200),
-                            kHalfWidthSizedBox,
-                            CardSkeleton(height: 200, width: 200),
-                            kHalfWidthSizedBox,
-                            CardSkeleton(height: 200, width: 200),
-                          ],
-                        ),
-                      );
-                    }
-                    return SizedBox(
-                      height: 250,
-                      width: media.width,
-                      child: ListView.separated(
-                        itemCount: controller.vendorList.length,
-                        scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
-                        separatorBuilder: (context, index) =>
-                            deviceType(media.width) > 2
-                                ? kWidthSizedBox
-                                : kHalfWidthSizedBox,
-                        itemBuilder: (context, index) => InkWell(
-                          child: SizedBox(
-                            width: 200,
-                            child: VendorsCard(
-                              removeDistance: false,
-                              onTap: () {
-                                _toVendorPage(controller.vendorList[index]);
-                              },
-                              cardImage: "assets/images/vendors/ntachi-osa.png",
-                              vendorName: controller.vendorList[index].shopName,
-                              typeOfBusiness:
-                                  controller.vendorList[index].shopType.name,
-                              rating:
-                                  '${(controller.vendorList[index].averageRating).toStringAsPrecision(2)} (${controller.vendorList[index].numberOfClientsReactions})',
-                              distance: "30 mins",
+                  GetBuilder<VendorController>(
+                      initState: (state) =>
+                          VendorController.instance.getVendors(),
+                      builder: (controller) {
+                        if (controller.isLoad.value &&
+                            controller.vendorList.isEmpty) {
+                          return const SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                CardSkeleton(height: 200, width: 200),
+                                kHalfWidthSizedBox,
+                                CardSkeleton(height: 200, width: 200),
+                                kHalfWidthSizedBox,
+                                CardSkeleton(height: 200, width: 200),
+                              ],
+                            ),
+                          );
+                        }
+                        return SizedBox(
+                          height: 250,
+                          width: media.width,
+                          child: ListView.separated(
+                            itemCount: controller.vendorList.length,
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            separatorBuilder: (context, index) =>
+                                deviceType(media.width) > 2
+                                    ? kWidthSizedBox
+                                    : kHalfWidthSizedBox,
+                            itemBuilder: (context, index) => InkWell(
+                              child: SizedBox(
+                                width: 200,
+                                child: VendorsCard(
+                                  removeDistance: false,
+                                  onTap: () {
+                                    _toVendorPage(controller.vendorList[index]);
+                                  },
+                                  cardImage:
+                                      "assets/images/vendors/ntachi-osa.png",
+                                  vendorName:
+                                      controller.vendorList[index].shopName,
+                                  typeOfBusiness: controller
+                                      .vendorList[index].shopType.name,
+                                  rating:
+                                      '${(controller.vendorList[index].averageRating).toStringAsPrecision(2)} (${controller.vendorList[index].numberOfClientsReactions})',
+                                  distance: "30 mins",
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    );
-                  }),
+                        );
+                      }),
                   kSizedBox,
                   SeeAllContainer(
                     title: "Popular Vendors",
                     onPressed: _toSeeAllPopularVendors,
                   ),
                   kSizedBox,
-                  GetBuilder<VendorController>(builder: (controller) {
-                    if (controller.isLoad.value &&
-                        controller.vendorPopularList.isEmpty) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: List.filled(
-                          breakPoint(media.width, 1, 2, 3, 4).toInt(),
-                          CardSkeleton(
-                              height: 200,
-                              width: (media.width /
-                                      breakPoint(media.width, 1, 2, 3, 4)) -
-                                  20),
-                        ),
-                      );
-                    }
+                  GetBuilder<VendorController>(
+                      initState: (state) => VendorController.instance
+                          .getPopularVendors(start: 0, end: 4),
+                      builder: (controller) {
+                        if (controller.isLoad.value &&
+                            controller.vendorPopularList.isEmpty) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: List.filled(
+                              breakPoint(media.width, 1, 2, 3, 4).toInt(),
+                              CardSkeleton(
+                                  height: 200,
+                                  width: (media.width /
+                                          breakPoint(media.width, 1, 2, 3, 4)) -
+                                      20),
+                            ),
+                          );
+                        }
 
-                    return LayoutGrid(
-                      rowGap: kDefaultPadding / 2,
-                      columnGap: kDefaultPadding / 2,
-                      columnSizes: breakPointDynamic(
-                          media.width,
-                          [1.fr],
-                          [1.fr, 1.fr],
-                          [1.fr, 1.fr, 1.fr],
-                          [1.fr, 1.fr, 1.fr, 1.fr]),
-                      rowSizes: controller.vendorPopularList.isEmpty
-                          ? [auto]
-                          : List.generate(controller.vendorPopularList.length,
-                              (index) => auto),
-                      children: (controller.vendorPopularList)
-                          .map(
-                            (item) => VendorsCard(
-                                removeDistance: true,
-                                onTap: () {
-                                  _toVendorPage(item);
-                                },
-                                vendorName: item.shopName,
-                                typeOfBusiness: item.shopType.name,
-                                rating:
-                                    " ${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
-                                cardImage:
-                                    "assets/images/vendors/ntachi-osa.png"),
-                          )
-                          .toList(),
-                    );
-                  }),
+                        return LayoutGrid(
+                          rowGap: kDefaultPadding / 2,
+                          columnGap: kDefaultPadding / 2,
+                          columnSizes: breakPointDynamic(
+                              media.width,
+                              [1.fr],
+                              [1.fr, 1.fr],
+                              [1.fr, 1.fr, 1.fr],
+                              [1.fr, 1.fr, 1.fr, 1.fr]),
+                          rowSizes: controller.vendorPopularList
+                                  .getRange(
+                                      0,
+                                      min(controller.vendorPopularList.length,
+                                          3))
+                                  .isEmpty
+                              ? [auto]
+                              : List.generate(
+                                  controller.vendorPopularList
+                                      .getRange(
+                                          0,
+                                          min(
+                                              controller
+                                                  .vendorPopularList.length,
+                                              3))
+                                      .length,
+                                  (index) => auto),
+                          children: (controller.vendorPopularList.getRange(0,
+                                  min(controller.vendorPopularList.length, 3)))
+                              .map(
+                                (item) => VendorsCard(
+                                    removeDistance: true,
+                                    onTap: () {
+                                      _toVendorPage(item);
+                                    },
+                                    vendorName: item.shopName,
+                                    typeOfBusiness: item.shopType.name,
+                                    rating:
+                                        " ${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
+                                    cardImage:
+                                        "assets/images/vendors/ntachi-osa.png"),
+                              )
+                              .toList(),
+                        );
+                      }),
                   kSizedBox,
                   Container(
                     width: media.width,
@@ -781,105 +815,116 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   kSizedBox,
-                  GetBuilder<CategoryController>(builder: (controller) {
-                    if (controller.isLoad.value &&
-                        controller.category.isEmpty) {
-                      return Column(
-                        children: [
-                          kSizedBox,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  GetBuilder<CategoryController>(
+                      initState: (state) =>
+                          CategoryController.instance.getCategory(),
+                      builder: (controller) {
+                        if (controller.isLoad.value &&
+                            controller.category.isEmpty) {
+                          return Column(
                             children: [
-                              Shimmer.fromColors(
-                                highlightColor: kBlackColor.withOpacity(0.9),
-                                baseColor: kBlackColor.withOpacity(0.6),
-                                direction: ShimmerDirection.ltr,
-                                child: PageSkeleton(
-                                    height: 35, width: media.width / 7),
-                              ),
-                              kWidthSizedBox,
-                              Shimmer.fromColors(
-                                highlightColor: kBlackColor.withOpacity(0.9),
-                                baseColor: kBlackColor.withOpacity(0.6),
-                                direction: ShimmerDirection.ltr,
-                                child: PageSkeleton(
-                                    height: 35, width: media.width / 7),
-                              ),
-                              kWidthSizedBox,
-                              Shimmer.fromColors(
-                                highlightColor: kBlackColor.withOpacity(0.9),
-                                baseColor: kBlackColor.withOpacity(0.6),
-                                direction: ShimmerDirection.ltr,
-                                child: PageSkeleton(
-                                    height: 35, width: media.width / 7),
-                              ),
-                              kWidthSizedBox,
-                              Shimmer.fromColors(
-                                  highlightColor: kBlackColor.withOpacity(0.9),
-                                  baseColor: kBlackColor.withOpacity(0.6),
-                                  direction: ShimmerDirection.ltr,
-                                  child: PageSkeleton(
-                                      height: 35, width: media.width / 9)),
-                            ],
-                          ),
-                          kSizedBox,
-                        ],
-                      );
-                    }
-
-                    return LayoutGrid(
-                      columnGap: 10,
-                      rowGap: 10,
-                      columnSizes: breakPointDynamic(
-                        media.width,
-                        List.filled(4, 1.fr),
-                        List.filled(4, 1.fr),
-                        List.filled(8, 1.fr),
-                        List.filled(8, 1.fr),
-                      ),
-                      rowSizes: const [auto, auto],
-                      children: List.generate(
-                          min(8, controller.category.length + 1),
-                          (index) => index).map(
-                        (item) {
-                          int value = min(7, controller.category.length);
-                          if (item == value) {
-                            return CategoryItem(
-                              nav: () => showModalBottomSheet(
-                                context: context,
-                                elevation: 20,
-                                barrierColor: kBlackColor.withOpacity(0.6),
-                                showDragHandle: true,
-                                useSafeArea: true,
-                                isDismissible: true,
-                                isScrollControlled: true,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(
-                                      kDefaultPadding,
-                                    ),
+                              kSizedBox,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Shimmer.fromColors(
+                                    highlightColor:
+                                        kBlackColor.withOpacity(0.9),
+                                    baseColor: kBlackColor.withOpacity(0.6),
+                                    direction: ShimmerDirection.ltr,
+                                    child: PageSkeleton(
+                                        height: 35, width: media.width / 7),
                                   ),
-                                ),
-                                enableDrag: true,
-                                builder: (builder) => CategoryItemSheet(
-                                    isShop: false,
-                                    category: controller.category),
+                                  kWidthSizedBox,
+                                  Shimmer.fromColors(
+                                    highlightColor:
+                                        kBlackColor.withOpacity(0.9),
+                                    baseColor: kBlackColor.withOpacity(0.6),
+                                    direction: ShimmerDirection.ltr,
+                                    child: PageSkeleton(
+                                        height: 35, width: media.width / 7),
+                                  ),
+                                  kWidthSizedBox,
+                                  Shimmer.fromColors(
+                                    highlightColor:
+                                        kBlackColor.withOpacity(0.9),
+                                    baseColor: kBlackColor.withOpacity(0.6),
+                                    direction: ShimmerDirection.ltr,
+                                    child: PageSkeleton(
+                                        height: 35, width: media.width / 7),
+                                  ),
+                                  kWidthSizedBox,
+                                  Shimmer.fromColors(
+                                      highlightColor:
+                                          kBlackColor.withOpacity(0.9),
+                                      baseColor: kBlackColor.withOpacity(0.6),
+                                      direction: ShimmerDirection.ltr,
+                                      child: PageSkeleton(
+                                          height: 35, width: media.width / 9)),
+                                ],
                               ),
-                            );
-                          }
-                          return CategoryItem(
-                            isShop: false,
-                            category: controller.category[item],
-                            nav: () => _toSeeProducts(controller.category[item],
-                                id: controller.category[item].id),
+                              kSizedBox,
+                            ],
                           );
-                        },
-                      ).toList(),
-                    );
-                  }),
+                        }
+
+                        return LayoutGrid(
+                          columnGap: 10,
+                          rowGap: 10,
+                          columnSizes: breakPointDynamic(
+                            media.width,
+                            List.filled(4, 1.fr),
+                            List.filled(4, 1.fr),
+                            List.filled(8, 1.fr),
+                            List.filled(8, 1.fr),
+                          ),
+                          rowSizes: const [auto, auto],
+                          children: List.generate(
+                              min(8, controller.category.length + 1),
+                              (index) => index).map(
+                            (item) {
+                              int value = min(7, controller.category.length);
+                              if (item == value) {
+                                return CategoryItem(
+                                  nav: () => showModalBottomSheet(
+                                    context: context,
+                                    elevation: 20,
+                                    barrierColor: kBlackColor.withOpacity(0.6),
+                                    showDragHandle: true,
+                                    useSafeArea: true,
+                                    isDismissible: true,
+                                    isScrollControlled: true,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(
+                                          kDefaultPadding,
+                                        ),
+                                      ),
+                                    ),
+                                    enableDrag: true,
+                                    builder: (builder) => CategoryItemSheet(
+                                        isShop: false,
+                                        category: controller.category),
+                                  ),
+                                );
+                              }
+                              return CategoryItem(
+                                isShop: false,
+                                category: controller.category[item],
+                                nav: () => _toSeeProducts(
+                                    controller.category[item],
+                                    id: controller.category[item].id),
+                              );
+                            },
+                          ).toList(),
+                        );
+                      }),
                   kSizedBox,
 
                   GetBuilder<ProductController>(
+                    initState: (state) =>
+                        ProductController.instance.getProduct(),
                     builder: (controller) {
                       if (controller.isLoad.value &&
                           controller.products.isEmpty) {

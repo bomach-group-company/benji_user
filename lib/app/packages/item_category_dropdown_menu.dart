@@ -1,3 +1,4 @@
+import 'package:benji/src/frontend/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 import '../../theme/colors.dart';
@@ -20,12 +21,16 @@ class ItemDropDownMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return DropdownMenu(
       onSelected: onSelected ??
           (value) {
             itemEC.text = value!.toString();
           },
       width: mediaWidth,
+      menuHeight: deviceType(media.width) >= 2
+          ? media.height * 0.6
+          : media.height * 0.4,
       hintText: hintText,
       inputDecorationTheme: InputDecorationTheme(
         errorStyle: const TextStyle(
