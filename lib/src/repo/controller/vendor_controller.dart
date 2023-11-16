@@ -108,9 +108,6 @@ class VendorController extends GetxController {
     String id = UserController.instance.user.value.id.toString();
     var url =
         "${Api.baseUrl}${Api.popularVendor}?start=${start ?? loadNumPopularVendor.value - 10}&end=${end ?? loadNumPopularVendor.value}";
-    print(url);
-    print(start);
-    print(end);
     if (end == null) {
       loadNumPopularVendor.value += 10;
     }

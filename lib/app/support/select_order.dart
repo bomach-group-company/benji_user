@@ -5,12 +5,13 @@ import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/components/textformfield/message_textformfield.dart';
+import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/models/complain/complain.dart';
 import 'package:benji/src/repo/models/order/order.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../src/providers/constants.dart';
@@ -175,16 +176,39 @@ class _SelectOrderState extends State<SelectOrder> {
                   ),
                 ),
                 kHalfSizedBox,
-                ItemDropDownMenu(
-                  itemEC: _itemOrderEC,
-                  mediaWidth: media.width - 20,
-                  hintText: "Choose order",
-                  dropdownMenuEntries2: _orders
-                      .map((item) => DropdownMenuEntry(
-                            value: item.id,
-                            label: item.id,
-                          ))
-                      .toList(),
+                GetBuilder<OrderController>(
+                  initState: (state) => OrderController.instance.getOrders(),
+                  builder: (controller) => ItemDropDownMenu(
+                    onSelected: (value) {
+                      _itemOrderEC.text = value!.toString();
+                    },
+                    itemEC: _itemOrderEC,
+                    mediaWidth: media.width - 20,
+                    hintText: "Choose order",
+                    dropdownMenuEntries2:
+                        controller.isLoad.value && controller.orderList.isEmpty
+                            ? [
+                                const DropdownMenuEntry(
+                                    value: 'Loading...',
+                                    label: 'Loading...',
+                                    enabled: false),
+                              ]
+                            : controller.orderList.isEmpty
+                                ? [
+                                    const DropdownMenuEntry(
+                                        value: 'EMPTY',
+                                        label: 'EMPTY',
+                                        enabled: false),
+                                  ]
+                                : controller.orderList
+                                    .map(
+                                      (item) => DropdownMenuEntry(
+                                        value: item.id,
+                                        label: item.code,
+                                      ),
+                                    )
+                                    .toList(),
+                  ),
                 ),
                 kSizedBox,
                 const Text(

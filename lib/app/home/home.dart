@@ -758,12 +758,25 @@ class _HomeState extends State<Home> {
                               [1.fr, 1.fr],
                               [1.fr, 1.fr, 1.fr],
                               [1.fr, 1.fr, 1.fr, 1.fr]),
-                          rowSizes: controller.vendorPopularList.isEmpty
+                          rowSizes: controller.vendorPopularList
+                                  .getRange(
+                                      0,
+                                      min(controller.vendorPopularList.length,
+                                          3))
+                                  .isEmpty
                               ? [auto]
                               : List.generate(
-                                  controller.vendorPopularList.length,
+                                  controller.vendorPopularList
+                                      .getRange(
+                                          0,
+                                          min(
+                                              controller
+                                                  .vendorPopularList.length,
+                                              3))
+                                      .length,
                                   (index) => auto),
-                          children: (controller.vendorPopularList)
+                          children: (controller.vendorPopularList.getRange(0,
+                                  min(controller.vendorPopularList.length, 3)))
                               .map(
                                 (item) => VendorsCard(
                                     removeDistance: true,
