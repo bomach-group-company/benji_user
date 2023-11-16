@@ -2,13 +2,11 @@
 import 'package:benji/app/vendor/vendor_details.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/product/product_card.dart';
-import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
-import 'package:benji/src/repo/models/vendor/vendor.dart';
-import 'package:benji/src/repo/utils/favorite.dart';
+import 'package:benji/src/repo/controller/favourite_controller.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import '../../src/components/vendor/vendors_card.dart';
 import '../../src/others/cart_card.dart';
@@ -16,7 +14,6 @@ import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../src/providers/responsive_constant.dart';
-import '../../src/repo/models/product/product.dart';
 import '../../theme/colors.dart';
 import '../product/product_detail_screen.dart';
 import 'favorite_products.dart';
@@ -49,52 +46,10 @@ class _FavoritesState extends State<Favorites>
   void initState() {
     super.initState();
     checkAuth(context);
-    _products = _getDataProduct();
-    _vendors = _getDataVendor();
     _tabBarController = TabController(length: 2, vsync: this);
   }
 
-  late Future<List<Product>> _products;
-  late Future<List<VendorModel>> _vendors;
-
-  Future<List<Product>> _getDataProduct() async {
-    List<Product> product = await getFavoriteProduct(
-      (data) => mySnackBar(
-        context,
-        kAccentColor,
-        "Error!",
-        "Item with id $data not found",
-        const Duration(
-          seconds: 1,
-        ),
-      ),
-    );
-
-    return product;
-  }
-
-  Future<List<VendorModel>> _getDataVendor() async {
-    List<VendorModel> vendor = await getFavoriteVendor(
-      (data) => mySnackBar(
-        context,
-        kAccentColor,
-        "Error!",
-        "Item with id $data not found",
-        const Duration(
-          seconds: 1,
-        ),
-      ),
-    );
-
-    return vendor;
-  }
-
-  Future<void> _handleRefresh() async {
-    setState(() {
-      _products = _getDataProduct();
-      _vendors = _getDataVendor();
-    });
-  }
+  Future<void> _handleRefresh() async {}
 
   @override
   void dispose() {
@@ -128,9 +83,6 @@ class _FavoritesState extends State<Favorites>
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    setState(() {
-      _products = _getDataProduct();
-    });
   }
 
   void _vendorDetailPage(vendor) async {
@@ -144,9 +96,6 @@ class _FavoritesState extends State<Favorites>
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    setState(() {
-      _vendors = _getDataVendor();
-    });
   }
 //====================================================================================\\
 
@@ -228,100 +177,105 @@ class _FavoritesState extends State<Favorites>
                 ),
                 width: media.width,
                 child: _selectedtabbar == 0
-                    ? FutureBuilder(
-                        future: _products,
-                        builder: (context, snapshot) {
-                          if (snapshot.data != null) {
-                            return Scrollbar(
-                              controller: _scrollController,
-                              radius: const Radius.circular(10),
-                              child: FavoriteProductsTab(
-                                list: snapshot.data!.isEmpty
-                                    ? const EmptyCard()
-                                    : LayoutGrid(
-                                        rowGap: kDefaultPadding / 2,
-                                        columnGap: kDefaultPadding / 2,
-                                        columnSizes: breakPointDynamic(
-                                            media.width,
-                                            [1.fr],
-                                            [1.fr, 1.fr],
-                                            [1.fr, 1.fr, 1.fr],
-                                            [1.fr, 1.fr, 1.fr, 1.fr]),
-                                        rowSizes: snapshot.data!.isEmpty
-                                            ? [auto]
-                                            : List.generate(
-                                                snapshot.data!.length,
-                                                (index) => auto),
-                                        children:
-                                            (snapshot.data as List<Product>)
-                                                .map(
-                                                  (item) => ProductCard(
-                                                    onTap: () =>
-                                                        _toProductDetailsScreen(
-                                                            item),
-                                                    product: item,
-                                                  ),
-                                                )
-                                                .toList(),
-                                      ),
+                    ? GetBuilder<FavouriteController>(
+                        initState: (state) =>
+                            FavouriteController.instance.getProduct(),
+                        builder: (controller) {
+                          if (controller.isLoad.value &&
+                              controller.favouriteProducts.isEmpty) {
+                            Center(
+                              child: CircularProgressIndicator(
+                                color: kAccentColor,
                               ),
                             );
                           }
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: kAccentColor,
+                          return Scrollbar(
+                            controller: _scrollController,
+                            radius: const Radius.circular(10),
+                            child: FavoriteProductsTab(
+                              list: controller.favouriteProducts.isEmpty
+                                  ? const EmptyCard()
+                                  : LayoutGrid(
+                                      rowGap: kDefaultPadding / 2,
+                                      columnGap: kDefaultPadding / 2,
+                                      columnSizes: breakPointDynamic(
+                                          media.width,
+                                          [1.fr],
+                                          [1.fr, 1.fr],
+                                          [1.fr, 1.fr, 1.fr],
+                                          [1.fr, 1.fr, 1.fr, 1.fr]),
+                                      rowSizes:
+                                          controller.favouriteProducts.isEmpty
+                                              ? [auto]
+                                              : List.generate(
+                                                  controller
+                                                      .favouriteProducts.length,
+                                                  (index) => auto),
+                                      children: (controller.favouriteProducts)
+                                          .map(
+                                            (item) => ProductCard(
+                                              onTap: () =>
+                                                  _toProductDetailsScreen(item),
+                                              product: item,
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
                             ),
                           );
                         },
                       )
-                    : FutureBuilder(
-                        future: _vendors,
-                        builder: (context, snapshot) {
-                          if (snapshot.data != null) {
-                            return FavoriteVendorsTab(
-                              list: Scrollbar(
-                                controller: _scrollController,
-                                radius: const Radius.circular(10),
-                                child: snapshot.data!.isEmpty
-                                    ? const EmptyCard()
-                                    : LayoutGrid(
-                                        rowGap: kDefaultPadding / 2,
-                                        columnGap: kDefaultPadding / 2,
-                                        columnSizes: breakPointDynamic(
-                                            media.width,
-                                            [1.fr],
-                                            [1.fr, 1.fr],
-                                            [1.fr, 1.fr, 1.fr],
-                                            [1.fr, 1.fr, 1.fr, 1.fr]),
-                                        rowSizes: snapshot.data!.isEmpty
-                                            ? [auto]
-                                            : List.generate(
-                                                snapshot.data!.length,
-                                                (index) => auto),
-                                        children:
-                                            (snapshot.data as List<VendorModel>)
-                                                .map(
-                                                  (item) => VendorsCard(
-                                                      removeDistance: true,
-                                                      onTap: () {
-                                                        _vendorDetailPage(item);
-                                                      },
-                                                      vendorName: item.shopName,
-                                                      typeOfBusiness:
-                                                          item.shopType.name,
-                                                      rating:
-                                                          " ${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
-                                                      cardImage:
-                                                          "assets/images/vendors/ntachi-osa.png"),
-                                                )
-                                                .toList(),
-                                      ),
+                    : GetBuilder<FavouriteController>(
+                        initState: (state) =>
+                            FavouriteController.instance.getVendor(),
+                        builder: (controller) {
+                          if (controller.isLoad.value &&
+                              controller.favouriteVendors.isEmpty) {
+                            Center(
+                              child: CircularProgressIndicator(
+                                color: kAccentColor,
                               ),
                             );
                           }
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: kAccentColor,
+                          return FavoriteVendorsTab(
+                            list: Scrollbar(
+                              controller: _scrollController,
+                              radius: const Radius.circular(10),
+                              child: controller.favouriteVendors.isEmpty
+                                  ? const EmptyCard()
+                                  : LayoutGrid(
+                                      rowGap: kDefaultPadding / 2,
+                                      columnGap: kDefaultPadding / 2,
+                                      columnSizes: breakPointDynamic(
+                                          media.width,
+                                          [1.fr],
+                                          [1.fr, 1.fr],
+                                          [1.fr, 1.fr, 1.fr],
+                                          [1.fr, 1.fr, 1.fr, 1.fr]),
+                                      rowSizes:
+                                          controller.favouriteVendors.isEmpty
+                                              ? [auto]
+                                              : List.generate(
+                                                  controller
+                                                      .favouriteVendors.length,
+                                                  (index) => auto),
+                                      children: (controller.favouriteVendors)
+                                          .map(
+                                            (item) => VendorsCard(
+                                                removeDistance: true,
+                                                onTap: () {
+                                                  _vendorDetailPage(item);
+                                                },
+                                                vendorName: item.shopName,
+                                                typeOfBusiness:
+                                                    item.shopType.name,
+                                                rating:
+                                                    " ${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
+                                                cardImage:
+                                                    "assets/images/vendors/ntachi-osa.png"),
+                                          )
+                                          .toList(),
+                                    ),
                             ),
                           );
                         }),

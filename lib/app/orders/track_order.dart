@@ -301,9 +301,9 @@ class _TrackOrderState extends State<TrackOrder> {
                           Text(
                             dispatched()
                                 ? delivered()
-                                    ? 'Order delivered'
-                                    : 'Order received from vendor'
-                                : 'Order received',
+                                    ? 'Your order has been delivered'
+                                    : 'Your order is on it\'s way'
+                                : 'Order received by the vendor',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: const TextStyle(

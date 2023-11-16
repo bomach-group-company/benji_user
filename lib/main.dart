@@ -4,6 +4,7 @@ import 'package:benji/src/repo/controller/auth_controller.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/category_controller.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
+import 'package:benji/src/repo/controller/favourite_controller.dart';
 import 'package:benji/src/repo/controller/form_controller.dart';
 import 'package:benji/src/repo/controller/login_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
@@ -52,6 +53,7 @@ void main() async {
   Get.put(ApiProcessorController());
   Get.put(AddressController());
   Get.put(CartController());
+  Get.put(FavouriteController());
   // Get.put(ReviewsController());
 
   if (!kIsWeb) {
