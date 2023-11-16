@@ -5,6 +5,7 @@ import 'package:benji/src/components/section/reusable_authentication_first_half.
 import 'package:benji/src/components/textformfield/email_textformfield.dart';
 import 'package:benji/src/components/textformfield/password_textformfield.dart';
 import 'package:benji/src/repo/controller/login_controller.dart';
+import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/login_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -27,6 +28,7 @@ class _LoginState extends State<Login> {
   //=========================== INITIAL STATE ====================================\\
   @override
   void initState() {
+    UserController.instance.deleteUser();
     super.initState();
     _isObscured = true;
   }

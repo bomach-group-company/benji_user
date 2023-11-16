@@ -1,6 +1,12 @@
 // ignore_for_file: camel_case_types
 
 import 'dart:async';
+import 'package:benji/src/repo/controller/address_controller.dart';
+import 'package:benji/src/repo/controller/auth_controller.dart';
+import 'package:benji/src/repo/controller/category_controller.dart';
+import 'package:benji/src/repo/controller/order_controller.dart';
+import 'package:benji/src/repo/controller/product_controller.dart';
+import 'package:benji/src/repo/controller/vendor_controller.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
@@ -19,6 +25,13 @@ class LoginSplashScreen extends StatefulWidget {
 class _LoginSplashScreenState extends State<LoginSplashScreen> {
   @override
   void initState() {
+    ProductController.instance.getProduct();
+    VendorController.instance.getVendors();
+    VendorController.instance.getPopularVendors();
+    CategoryController.instance.getCategory();
+    AddressController.instance.getAdresses();
+    AddressController.instance.getCurrentAddress();
+    OrderController.instance.getOrders();
     super.initState();
     Timer(
       const Duration(seconds: 2),

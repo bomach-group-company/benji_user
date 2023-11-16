@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:benji/app/home/home.dart';
+import 'package:benji/app/splash_screens/login_splash_screen.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/login_model.dart';
@@ -75,16 +75,18 @@ class LoginController extends GetxController {
             .saveUser(responseUserData.body, jsonData["token"]);
 
         ApiProcessorController.successSnack("Login Successful");
-
+        isLoad.value = false;
+        update();
         Get.offAll(
-          () => const Home(),
+          () => const LoginSplashScreen(),
           fullscreenDialog: true,
           curve: Curves.easeIn,
-          routeName: "Home",
+          routeName: "LoginSplashScreen",
           predicate: (route) => false,
           popGesture: true,
           transition: Transition.cupertinoDialog,
         );
+
         return;
       }
 
