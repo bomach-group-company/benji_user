@@ -27,6 +27,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
   @override
   void initState() {
     super.initState();
+    print('activeCategory activeCategory ${widget.activeCategory}');
     checkAuth(context);
 
     SubCategoryController.instance.getSubCategory().then((value) {
@@ -80,89 +81,97 @@ class _HomePageProductsState extends State<HomePageProducts> {
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.all(kDefaultPadding / 2),
               children: [
-                GetBuilder<SubCategoryController>(builder: (controller) {
-                  if (controller.isLoad.value &&
-                      controller.subcategory.isEmpty) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: kAccentColor,
-                      ),
-                    );
-                  }
-                  return SizedBox(
-                    height: 60,
-                    child: ListView.builder(
-                      itemCount: controller.subcategory.length,
-                      scrollDirection: Axis.horizontal,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (BuildContext context, int index) => Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Obx(
-                          () => CategoryButton(
-                            onPressed: () {
-                              ProductController.instance.setSubCategory(
-                                  controller.subcategory[index]);
-                            },
-                            title: controller.subcategory[index].name,
-                            bgColor: ProductController.instance
-                                        .selectedSubCategory.value.id ==
-                                    controller.subcategory[index].id
-                                ? kAccentColor
-                                : kDefaultCategoryBackgroundColor,
-                            categoryFontColor: ProductController.instance
-                                        .selectedSubCategory.value.id ==
-                                    controller.subcategory[index].id
-                                ? kPrimaryColor
-                                : kTextGreyColor,
+                GetBuilder<SubCategoryController>(
+                    initState: (state) =>
+                        SubCategoryController.instance.getSubCategory(),
+                    builder: (controller) {
+                      if (controller.isLoad.value &&
+                          controller.subcategory.isEmpty) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: kAccentColor,
+                          ),
+                        );
+                      }
+                      return SizedBox(
+                        height: 60,
+                        child: ListView.builder(
+                          itemCount: controller.subcategory.length,
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) =>
+                              Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Obx(
+                              () => CategoryButton(
+                                onPressed: () {
+                                  ProductController.instance.setSubCategory(
+                                      controller.subcategory[index]);
+                                },
+                                title: controller.subcategory[index].name,
+                                bgColor: ProductController.instance
+                                            .selectedSubCategory.value.id ==
+                                        controller.subcategory[index].id
+                                    ? kAccentColor
+                                    : kDefaultCategoryBackgroundColor,
+                                categoryFontColor: ProductController.instance
+                                            .selectedSubCategory.value.id ==
+                                        controller.subcategory[index].id
+                                    ? kPrimaryColor
+                                    : kTextGreyColor,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  );
-                }),
+                      );
+                    }),
                 kSizedBox,
-                GetBuilder<ProductController>(builder: (controller) {
-                  if (controller.isLoad.value) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: kAccentColor,
-                      ),
-                    );
-                  }
-                  return LayoutGrid(
-                    rowGap: kDefaultPadding / 2,
-                    columnGap: kDefaultPadding / 2,
-                    columnSizes: breakPointDynamic(
-                        media.width,
-                        [1.fr],
-                        [1.fr, 1.fr],
-                        [1.fr, 1.fr, 1.fr],
-                        [1.fr, 1.fr, 1.fr, 1.fr]),
-                    rowSizes: controller.productsBySubCategory.isEmpty
-                        ? [auto]
-                        : List.generate(controller.productsBySubCategory.length,
-                            (index) => auto),
-                    children: (controller.productsBySubCategory)
-                        .map(
-                          (item) => ProductCard(
-                            onTap: () {
-                              Get.to(
-                                () => ProductDetailScreen(product: item),
-                                routeName: 'ProductDetailScreen',
-                                duration: const Duration(milliseconds: 300),
-                                fullscreenDialog: true,
-                                curve: Curves.easeIn,
-                                preventDuplicates: true,
-                                popGesture: true,
-                                transition: Transition.rightToLeft,
-                              );
-                            },
-                            product: item,
+                GetBuilder<ProductController>(
+                    initState: (state) =>
+                        ProductController.instance.getProductsBySubCategory(),
+                    builder: (controller) {
+                      if (controller.isLoad.value) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: kAccentColor,
                           ),
-                        )
-                        .toList(),
-                  );
-                }),
+                        );
+                      }
+                      return LayoutGrid(
+                        rowGap: kDefaultPadding / 2,
+                        columnGap: kDefaultPadding / 2,
+                        columnSizes: breakPointDynamic(
+                            media.width,
+                            [1.fr],
+                            [1.fr, 1.fr],
+                            [1.fr, 1.fr, 1.fr],
+                            [1.fr, 1.fr, 1.fr, 1.fr]),
+                        rowSizes: controller.productsBySubCategory.isEmpty
+                            ? [auto]
+                            : List.generate(
+                                controller.productsBySubCategory.length,
+                                (index) => auto),
+                        children: (controller.productsBySubCategory)
+                            .map(
+                              (item) => ProductCard(
+                                onTap: () {
+                                  Get.to(
+                                    () => ProductDetailScreen(product: item),
+                                    routeName: 'ProductDetailScreen',
+                                    duration: const Duration(milliseconds: 300),
+                                    fullscreenDialog: true,
+                                    curve: Curves.easeIn,
+                                    preventDuplicates: true,
+                                    popGesture: true,
+                                    transition: Transition.rightToLeft,
+                                  );
+                                },
+                                product: item,
+                              ),
+                            )
+                            .toList(),
+                      );
+                    }),
               ],
             ),
           ),

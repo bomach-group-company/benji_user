@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable, non_constant_identifier_names, avoid_print, use_build_context_synchronously
 
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/user/user_model.dart';
 import 'package:benji/src/repo/utils/constant.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
@@ -86,7 +87,9 @@ class _EditProfileState extends State<EditProfile> {
 
     try {
       if (response.statusCode == 200 && get_response.statusCode == 200) {
-        await saveUser(get_response.body, user.token);
+        await UserController.instance.saveUser(get_response.body, user.token);
+        print(get_response.body);
+        print(get_response.statusCode);
         return true;
       }
     } catch (e) {

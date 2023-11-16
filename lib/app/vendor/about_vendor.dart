@@ -140,7 +140,7 @@ class _AboutVendorState extends State<AboutVendor> {
                 ),
               ],
             ),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
@@ -149,7 +149,7 @@ class _AboutVendorState extends State<AboutVendor> {
                   children: [
                     Row(
                       children: [
-                        Text(
+                        const Text(
                           "Mon. - Fri.",
                           style: TextStyle(
                             fontSize: 14,
@@ -157,9 +157,16 @@ class _AboutVendorState extends State<AboutVendor> {
                           ),
                         ),
                         kHalfWidthSizedBox,
-                        Text(
+                        const Text(
                           " - ",
                           style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          "${widget.vendor.weekOpeningHours} - ${widget.vendor.weekClosingHours}",
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),
@@ -169,7 +176,7 @@ class _AboutVendorState extends State<AboutVendor> {
                     kHalfSizedBox,
                     Row(
                       children: [
-                        Text(
+                        const Text(
                           "Sat.",
                           style: TextStyle(
                             fontSize: 14,
@@ -177,9 +184,16 @@ class _AboutVendorState extends State<AboutVendor> {
                           ),
                         ),
                         kHalfWidthSizedBox,
-                        Text(
+                        const Text(
                           " - ",
                           style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          "${widget.vendor.satOpeningHours} - ${widget.vendor.satClosingHours}",
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),
@@ -189,7 +203,7 @@ class _AboutVendorState extends State<AboutVendor> {
                     kHalfSizedBox,
                     Row(
                       children: [
-                        Text(
+                        const Text(
                           "Sun.",
                           style: TextStyle(
                             fontSize: 14,
@@ -197,9 +211,16 @@ class _AboutVendorState extends State<AboutVendor> {
                           ),
                         ),
                         kHalfWidthSizedBox,
-                        Text(
+                        const Text(
                           " - ",
                           style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          "${widget.vendor.sunWeekOpeningHours} - ${widget.vendor.sunWeekClosingHours}",
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),

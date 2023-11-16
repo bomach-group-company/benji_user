@@ -102,13 +102,18 @@ class VendorController extends GetxController {
     update();
   }
 
-  Future getPopularVendors() async {
+  Future getPopularVendors({int? start, int? end}) async {
     isLoad.value = true;
     late String token;
     String id = UserController.instance.user.value.id.toString();
     var url =
-        "${Api.baseUrl}${Api.popularVendor}?start=${loadNumPopularVendor.value - 10}&end=${loadNumPopularVendor.value}";
-    loadNumPopularVendor.value += 10;
+        "${Api.baseUrl}${Api.popularVendor}?start=${start ?? loadNumPopularVendor.value - 10}&end=${end ?? loadNumPopularVendor.value}";
+    print(url);
+    print(start);
+    print(end);
+    if (end == null) {
+      loadNumPopularVendor.value += 10;
+    }
 
     token = UserController.instance.user.value.token;
     List<VendorModel> data = [];
