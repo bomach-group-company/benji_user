@@ -18,7 +18,7 @@ class Order {
   String assignedStatus;
   String deliveryStatus;
   User client;
-  List<Orderitem> orderitems;
+  List<OrderItem> orderitems;
   String created;
 
   Order({
@@ -46,29 +46,29 @@ class Order {
       orderitems: json["orderitems"] == null
           ? []
           : (json["orderitems"] as List)
-              .map((item) => Orderitem.fromJson(item))
+              .map((item) => OrderItem.fromJson(item))
               .toList(),
       created: json["created"] ?? notAvailable,
     );
   }
 }
 
-class Orderitem {
+class OrderItem {
   String id;
   Product product;
   int quantity;
   Address deliveryAddress;
 
-  Orderitem({
+  OrderItem({
     required this.id,
     required this.product,
     required this.quantity,
     required this.deliveryAddress,
   });
 
-  factory Orderitem.fromJson(Map<String, dynamic>? json) {
+  factory OrderItem.fromJson(Map<String, dynamic>? json) {
     json ??= {};
-    return Orderitem(
+    return OrderItem(
       id: json["id"] ?? notAvailable,
       product: Product.fromJson(json["product"]),
       deliveryAddress: Address.fromJson(json["delivery_address"]),
@@ -90,26 +90,4 @@ Future<List<Order>> getOrders(id) async {
   } else {
     return [];
   }
-}
-
-Future<String> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
-  consoleLog('formatOfOrder in createOrder $formatOfOrder');
-  int? userId = (await getUser())!.id;
-
-  final response = await http.post(
-    Uri.parse('$baseURL/orders/create_order?client_id=$userId'),
-    headers: await authHeader(),
-    body: jsonEncode(formatOfOrder),
-  );
-  if (kDebugMode) {
-    consoleLog(response.body);
-    consoleLog("${response.statusCode}");
-  }
-  if (response.statusCode.toString().startsWith('2')) {
-    String res =
-        jsonDecode(response.body)['message'].toString().split(' ').last;
-    print(res);
-    return res;
-  }
-  throw Exception('Failed to create order');
 }

@@ -6,6 +6,8 @@ import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/order/order.dart';
 import 'package:benji/src/repo/services/api_url.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,6 +22,7 @@ class OrderController extends GetxController {
   var loadedAll = false.obs;
   var isLoadMore = false.obs;
   var loadNum = 10.obs;
+  var deliveryFee = 0.0.obs;
 
   Future<void> scrollListener(scrollController) async {
     if (OrderController.instance.loadedAll.value) {
@@ -77,5 +80,48 @@ class OrderController extends GetxController {
     isLoad.value = false;
     isLoadMore.value = false;
     update();
+  }
+
+  Future<String> createOrder(Map<String, dynamic> formatOfOrder) async {
+    consoleLog('formatOfOrder in createOrder $formatOfOrder');
+    int? userId = (await getUser())!.id;
+
+    final response = await http.post(
+      Uri.parse('$baseURL/orders/create_order?client_id=$userId'),
+      headers: await authHeader(),
+      body: jsonEncode(formatOfOrder),
+    );
+    if (kDebugMode) {
+      consoleLog(response.body);
+      consoleLog("${response.statusCode}");
+    }
+    if (response.statusCode.toString().startsWith('2')) {
+      String res =
+          jsonDecode(response.body)['message'].toString().split(' ').last;
+      print(res);
+      await getDeliveryFew(res);
+      return res;
+    }
+    throw Exception('Failed to create order');
+  }
+
+  Future getDeliveryFew(String orderId) async {
+    final response = await http.get(
+      Uri.parse('$baseURL/payments/getdeliveryfee/$orderId/order'),
+      headers: await authHeader(),
+    );
+    if (kDebugMode) {
+      consoleLog(response.body);
+      consoleLog("${response.statusCode}");
+    }
+    if (response.statusCode.toString().startsWith('2')) {
+      double res = (jsonDecode(response.body)['delivery_fee'] as double);
+      deliveryFee.value = res;
+      update();
+      print(res);
+      return;
+    } else {
+      throw Exception('Failed to get delivery fee');
+    }
   }
 }

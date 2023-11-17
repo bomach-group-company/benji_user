@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:benji/app/home/home.dart';
 import 'package:benji/app/splash_screens/payment_successful_screen.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/utils/constant.dart';
@@ -26,7 +27,7 @@ import '../../theme/colors.dart';
 import '../address/deliver_to.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  final List<Map<String, dynamic>> formatOfOrder;
+  final Map<String, dynamic> formatOfOrder;
   final String orderID;
 
   const CheckoutScreen(
@@ -55,7 +56,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Map? _data;
   double _subTotal = 0;
   double _totalPrice = 0;
-  double deliveryFee = 700;
+  double deliveryFee = OrderController.instance.deliveryFee.value;
   double serviceFee = 0;
   // final String _paymentDescription = "Benji app product purchase";
   final String _currency = "NGN";

@@ -8,8 +8,6 @@ import 'package:benji/src/components/textformfield/message_textformfield.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/models/complain/complain.dart';
 import 'package:benji/src/repo/models/order/order.dart';
-import 'package:benji/src/repo/models/order/order_item.dart';
-import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,28 +27,6 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
   @override
   void initState() {
     super.initState();
-    _getData();
-  }
-
-  List<Order> _orders = [];
-  Order? _activeOrders;
-  List<OrderItem> _orderitems = [];
-
-  _getData() async {
-    int? userId = getUserSync()!.id;
-
-    _orders = await getOrders(userId);
-    _activeOrders ??= _orders.first;
-    if (_activeOrders != null) {
-      _orderitems = await getOrderItems(_activeOrders?.id);
-    }
-    setState(() {});
-  }
-
-  _getItems(orderId) async {
-    _activeOrders = _orders.firstWhere((element) => element.id == orderId);
-    _orderitems = await getOrderItems(_activeOrders?.id);
-    setState(() {});
   }
 
   @override
@@ -179,7 +155,6 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
                       setState(() {
                         selectedOrder = OrderController.instance.orderList
                             .firstWhere((element) => element.id == value);
-                        _getItems(_itemOrderEC.text);
                       });
                     },
                     itemEC: _itemOrderEC,
