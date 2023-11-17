@@ -1,12 +1,13 @@
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
+import 'package:benji/src/repo/controller/package_controller.dart';
 import 'package:benji/src/repo/models/package/delivery_item.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
@@ -170,160 +171,167 @@ class _PackagesState extends State<Packages>
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: _selectedtabbar == 0
-                      ? FutureBuilder(
-                          future: _pending,
-                          builder: (context, snapshot) {
-                            if (snapshot.data != null) {
-                              return SizedBox(
-                                width: media.width,
-                                child: Column(
-                                  children: [
-                                    snapshot.data!.isEmpty
-                                        ? const EmptyCard(
-                                            removeButton: true,
-                                          )
-                                        : ListView.separated(
-                                            separatorBuilder:
-                                                (context, index) =>
-                                                    Divider(color: kGreyColor),
-                                            itemCount: snapshot.data!.length,
-                                            shrinkWrap: true,
-                                            physics:
-                                                const BouncingScrollPhysics(),
-                                            itemBuilder: (context, index) =>
-                                                ListTile(
-                                              onTap: () => _viewPendingPackage(
-                                                  snapshot.data![index]),
-                                              contentPadding:
-                                                  const EdgeInsets.all(0),
-                                              enableFeedback: true,
-                                              dense: true,
-                                              leading: FaIcon(
-                                                FontAwesomeIcons.boxesStacked,
-                                                color: kAccentColor,
-                                              ),
-                                              title: Text(
-                                                snapshot.data![index].itemName,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                style: const TextStyle(
-                                                  color: kTextBlackColor,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                              subtitle: Text.rich(
-                                                TextSpan(
-                                                  children: [
-                                                    const TextSpan(
-                                                        text: "Price:"),
-                                                    const TextSpan(text: " "),
-                                                    TextSpan(
-                                                      text:
-                                                          "₦${formattedText(snapshot.data![index].prices)}",
-                                                      style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontFamily: 'sen',
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              trailing: FaIcon(
-                                                FontAwesomeIcons.hourglassHalf,
-                                                color: kSecondaryColor,
-                                                size: 18,
-                                              ),
-                                            ),
-                                          ),
-                                  ],
+                      ? GetBuilder<MyPackageController>(
+                          initState: (state) => MyPackageController.instance
+                              .getDeliveryItemsByPending(),
+                          builder: (controller) {
+                            if (controller.isLoad.value &&
+                                controller.pendingPackages.isEmpty) {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: kAccentColor,
                                 ),
                               );
                             }
-                            return Center(
-                              child: CircularProgressIndicator(
-                                color: kAccentColor,
+                            return SizedBox(
+                              width: media.width,
+                              child: Column(
+                                children: [
+                                  controller.pendingPackages.isEmpty
+                                      ? const EmptyCard(
+                                          removeButton: true,
+                                        )
+                                      : ListView.separated(
+                                          separatorBuilder: (context, index) =>
+                                              Divider(color: kGreyColor),
+                                          itemCount:
+                                              controller.pendingPackages.length,
+                                          shrinkWrap: true,
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          itemBuilder: (context, index) =>
+                                              ListTile(
+                                            onTap: () => _viewPendingPackage(
+                                                controller
+                                                    .pendingPackages[index]),
+                                            contentPadding:
+                                                const EdgeInsets.all(0),
+                                            enableFeedback: true,
+                                            dense: true,
+                                            leading: FaIcon(
+                                              FontAwesomeIcons.boxesStacked,
+                                              color: kAccentColor,
+                                            ),
+                                            title: Text(
+                                              controller.pendingPackages[index]
+                                                  .itemName,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: const TextStyle(
+                                                color: kTextBlackColor,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            subtitle: Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  const TextSpan(
+                                                      text: "Price:"),
+                                                  const TextSpan(text: " "),
+                                                  TextSpan(
+                                                    text:
+                                                        "₦${formattedText(controller.pendingPackages[index].prices)}",
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontFamily: 'sen',
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            trailing: FaIcon(
+                                              FontAwesomeIcons.hourglassHalf,
+                                              color: kSecondaryColor,
+                                              size: 18,
+                                            ),
+                                          ),
+                                        ),
+                                ],
                               ),
                             );
                           },
                         )
-                      : FutureBuilder(
-                          future: _completed,
-                          builder: (context, snapshot) {
-                            if (snapshot.data != null) {
-                              return SizedBox(
-                                width: media.width,
-                                child: Column(
-                                  children: [
-                                    snapshot.data!.isEmpty
-                                        ? const EmptyCard(
-                                            removeButton: true,
-                                          )
-                                        : ListView.separated(
-                                            separatorBuilder:
-                                                (context, index) =>
-                                                    Divider(color: kGreyColor),
-                                            itemCount: snapshot.data!.length,
-                                            shrinkWrap: true,
-                                            physics:
-                                                const BouncingScrollPhysics(),
-                                            itemBuilder: (context, index) =>
-                                                ListTile(
-                                              onTap: () =>
-                                                  _viewDeliveredPackage(
-                                                      (snapshot.data![index])),
-                                              contentPadding:
-                                                  const EdgeInsets.all(0),
-                                              enableFeedback: true,
-                                              dense: true,
-                                              leading: FaIcon(
-                                                FontAwesomeIcons.boxesStacked,
-                                                color: kAccentColor,
-                                              ),
-                                              title: Text(
-                                                snapshot.data![index].itemName,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                style: const TextStyle(
-                                                  color: kTextBlackColor,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                              subtitle: Text.rich(
-                                                TextSpan(
-                                                  children: [
-                                                    const TextSpan(
-                                                        text: "Price:"),
-                                                    const TextSpan(text: " "),
-                                                    TextSpan(
-                                                      text:
-                                                          "₦${formattedText(snapshot.data![index].prices)}",
-                                                      style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontFamily: 'sen',
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              trailing: const FaIcon(
-                                                FontAwesomeIcons
-                                                    .solidCircleCheck,
-                                                color: kSuccessColor,
-                                                size: 18,
-                                              ),
-                                            ),
-                                          ),
-                                  ],
+                      : GetBuilder<MyPackageController>(
+                          initState: (state) => MyPackageController.instance
+                              .getDeliveryItemsByDelivered(),
+                          builder: (controller) {
+                            if (controller.isLoad.value &&
+                                controller.deliveredPackages.isEmpty) {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: kAccentColor,
                                 ),
                               );
                             }
-                            return Center(
-                              child: CircularProgressIndicator(
-                                color: kAccentColor,
+                            return SizedBox(
+                              width: media.width,
+                              child: Column(
+                                children: [
+                                  controller.deliveredPackages.isEmpty
+                                      ? const EmptyCard(
+                                          removeButton: true,
+                                        )
+                                      : ListView.separated(
+                                          separatorBuilder: (context, index) =>
+                                              Divider(color: kGreyColor),
+                                          itemCount: controller
+                                              .deliveredPackages.length,
+                                          shrinkWrap: true,
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          itemBuilder: (context, index) =>
+                                              ListTile(
+                                            onTap: () => _viewDeliveredPackage(
+                                                (controller
+                                                    .deliveredPackages[index])),
+                                            contentPadding:
+                                                const EdgeInsets.all(0),
+                                            enableFeedback: true,
+                                            dense: true,
+                                            leading: FaIcon(
+                                              FontAwesomeIcons.boxesStacked,
+                                              color: kAccentColor,
+                                            ),
+                                            title: Text(
+                                              controller
+                                                  .deliveredPackages[index]
+                                                  .itemName,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: const TextStyle(
+                                                color: kTextBlackColor,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            subtitle: Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  const TextSpan(
+                                                      text: "Price:"),
+                                                  const TextSpan(text: " "),
+                                                  TextSpan(
+                                                    text:
+                                                        "₦${formattedText(controller.deliveredPackages[index].prices)}",
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontFamily: 'sen',
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            trailing: const FaIcon(
+                                              FontAwesomeIcons.solidCircleCheck,
+                                              color: kSuccessColor,
+                                              size: 18,
+                                            ),
+                                          ),
+                                        ),
+                                ],
                               ),
                             );
                           },

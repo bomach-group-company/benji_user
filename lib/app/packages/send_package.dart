@@ -14,7 +14,7 @@ import 'package:benji/src/frontend/utils/constant.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/form_controller.dart';
 import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
-import 'package:benji/src/repo/controller/send_package_controller.dart';
+import 'package:benji/src/repo/controller/package_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/services/api_url.dart';
 import 'package:flutter/foundation.dart';
@@ -802,10 +802,10 @@ class _SendPackageState extends State<SendPackage> {
                 ),
               ),
               kHalfSizedBox,
-              GetBuilder<SendPackageController>(
-                init: SendPackageController(),
+              GetBuilder<MyPackageController>(
+                init: MyPackageController(),
                 initState: (controller) async {
-                  await SendPackageController.instance.getPackageCategory();
+                  await MyPackageController.instance.getPackageCategory();
                 },
                 builder: (controller) {
                   return controller.isLoad.value
@@ -851,10 +851,10 @@ class _SendPackageState extends State<SendPackage> {
                 ),
               ),
               kHalfSizedBox,
-              GetBuilder<SendPackageController>(
-                init: SendPackageController(),
+              GetBuilder<MyPackageController>(
+                init: MyPackageController(),
                 initState: (controller) async {
-                  await SendPackageController.instance.getPackageWeight();
+                  await MyPackageController.instance.getPackageWeight();
                 },
                 builder: (controller) {
                   return controller.isLoad.value
