@@ -2,21 +2,60 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:benji/src/repo/controller/error_controller.dart';
+import 'package:benji/src/repo/controller/user_controller.dart';
+import 'package:benji/src/repo/models/package/delivery_item.dart';
 import 'package:benji/src/repo/models/package/item_category.dart';
 import 'package:benji/src/repo/models/package/item_weight.dart';
+import 'package:benji/src/repo/models/user/user_model.dart';
 import 'package:benji/src/repo/services/api_url.dart';
 import 'package:benji/src/repo/services/helper.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-class SendPackageController extends GetxController {
-  static SendPackageController get instance {
-    return Get.find<SendPackageController>();
+class MyPackageController extends GetxController {
+  static MyPackageController get instance {
+    return Get.find<MyPackageController>();
   }
 
   var isLoad = false.obs;
   var packageCategory = <ItemCategory>[].obs;
   var packageWeight = <ItemWeight>[].obs;
+  var pendingPackages = <DeliveryItem>[].obs;
+  var deliveredPackages = <DeliveryItem>[].obs;
+
+  Future getDeliveryItemsByPending() async {
+    isLoad.value = true;
+    update();
+    User? user = UserController.instance.user.value;
+    final response = await http.get(
+        Uri.parse(
+            '$baseURL/sendPackage/gettemPackageByClientId/${user.id}/pending'),
+        headers: authHeader());
+    if (response.statusCode == 200) {
+      pendingPackages.value = (jsonDecode(response.body) as List)
+          .map((item) => DeliveryItem.fromJson(item))
+          .toList();
+    }
+    isLoad.value = false;
+    update();
+  }
+
+  Future getDeliveryItemsByDelivered() async {
+    isLoad.value = true;
+    update();
+    User? user = UserController.instance.user.value;
+    final response = await http.get(
+        Uri.parse(
+            '$baseURL/sendPackage/gettemPackageByClientId/${user.id}/completed'),
+        headers: authHeader());
+    if (response.statusCode == 200) {
+      deliveredPackages.value = (jsonDecode(response.body) as List)
+          .map((item) => DeliveryItem.fromJson(item))
+          .toList();
+    }
+    isLoad.value = false;
+    update();
+  }
 
   Future<void> getPackageCategory() async {
     isLoad.value = true;
