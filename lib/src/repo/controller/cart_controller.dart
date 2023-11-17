@@ -14,7 +14,7 @@ class CartController extends GetxController {
   var subTotal = 0.0.obs;
   var isLoad = false.obs;
   var cartProducts = <Product>[].obs;
-  var formatOfOrder = <Map<String, dynamic>>[].obs;
+  var formatOfOrder = <String, dynamic>{}.obs;
 
   Future clearCartProduct() async {
     clearCart();
@@ -38,22 +38,19 @@ class CartController extends GetxController {
   Future getCartProduct() async {
     isLoad.value = true;
     update();
-    AllCartItem allCart = getAllCartItem();
+    VendorInfo allCart = getAllCartItem();
     List<Product> products = [];
     double total = 0.0;
-    print(allCart.data);
-    for (var cartItem in allCart.data) {
-      for (var item in cartItem.productUser) {
-        try {
-          Product product = await getProductById(item.productId);
-          products.add(product);
-          item.preTotal = product.price * item.quantity;
-          total += (product.price * item.quantity);
-        } catch (e) {
-          cartItem.productUser
-              .removeWhere((element) => element.productId == item.productId);
-          ApiProcessorController.errorSnack('Failed to load ${item.productId}');
-        }
+    for (var cartItem in allCart.vendorData) {
+      try {
+        Product product = await getProductById(cartItem.productId);
+        products.add(product);
+        total += (product.price * cartItem.quantity);
+      } catch (e) {
+        allCart.vendorData
+            .removeWhere((element) => element.productId == cartItem.productId);
+        ApiProcessorController.errorSnack(
+            'Failed to load ${cartItem.productId}');
       }
     }
     isLoad.value = false;

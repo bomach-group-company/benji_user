@@ -8,7 +8,6 @@ import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
-import 'package:benji/src/repo/utils/user_cart.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -48,7 +47,7 @@ class _CartScreenState extends State<CartScreen> {
 
   //================================== Navigation =======================================\\
   _clearCart() async {
-    await clearCart();
+    await CartController.instance.clearCartProduct();
     mySnackBar(
       context,
       kSuccessColor,
@@ -58,8 +57,6 @@ class _CartScreenState extends State<CartScreen> {
         seconds: 1,
       ),
     );
-
-    CartController.instance.clearCartProduct();
   }
 
   //================================== Navigation =======================================\\
@@ -75,7 +72,7 @@ class _CartScreenState extends State<CartScreen> {
         transition: Transition.rightToLeft,
       );
 
-  void _toCheckoutScreen(List<Map<String, dynamic>> formatOfOrder) => Get.to(
+  void _toCheckoutScreen(Map<String, dynamic> formatOfOrder) => Get.to(
         () => DeliverTo(formatOfOrder: formatOfOrder),
         routeName: 'DeliverTo',
         duration: const Duration(milliseconds: 300),

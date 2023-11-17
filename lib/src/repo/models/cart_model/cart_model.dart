@@ -1,31 +1,19 @@
-class ProductUserData {
+class VendorDataModel {
   String productId;
   int quantity;
-  double preTotal;
-  String deliveryAddress;
-  String latitude;
-  String longitude;
   String message;
 
-  ProductUserData({
+  VendorDataModel({
     required this.productId,
     required this.quantity,
-    required this.preTotal,
-    required this.deliveryAddress,
-    required this.latitude,
-    required this.longitude,
     required this.message,
   });
 
-  factory ProductUserData.fromJson(Map<String, dynamic>? json) {
+  factory VendorDataModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
-    return ProductUserData(
+    return VendorDataModel(
       productId: json['product_id'] ?? '',
       quantity: json['quantity'] ?? 1,
-      preTotal: json['pre_total'] ?? 0,
-      deliveryAddress: json['delivery_address_id'] ?? '',
-      latitude: json['latitude'] ?? '',
-      longitude: json['longitude'] ?? '',
       message: json['message'] ?? '',
     );
   }
@@ -34,61 +22,46 @@ class ProductUserData {
     return {
       "product_id": productId,
       "quantity": quantity,
-      "pre_total": preTotal,
-      "delivery_address_id": deliveryAddress,
-      "latitude": latitude,
-      "longitude": longitude,
       "message": message,
     };
   }
 }
 
 class VendorInfo {
-  List<ProductUserData> productUser;
-  int vendorId;
+  List<VendorDataModel> vendorData;
+  String deliveryAddressId;
+  String latitude;
+  String longitude;
 
   VendorInfo({
-    required this.productUser,
-    required this.vendorId,
+    required this.vendorData,
+    required this.deliveryAddressId,
+    required this.latitude,
+    required this.longitude,
   });
 
   factory VendorInfo.fromJson(Map<String, dynamic>? json) {
     json ??= {};
 
-    List<dynamic> productUserList = json['vendor_data'] ?? [];
-    List<ProductUserData> productUser = productUserList
-        .map((productUserJson) => ProductUserData.fromJson(productUserJson))
+    List<dynamic> vendorDataList = json['vendor_data'] ?? [];
+    List<VendorDataModel> vendorData = vendorDataList
+        .map((vendorDataJson) => VendorDataModel.fromJson(vendorDataJson))
         .toList();
 
     return VendorInfo(
-      productUser: productUser,
-      vendorId: json['vendor_id'] ?? 0,
+      vendorData: vendorData,
+      deliveryAddressId: json['delivery_address_id'] ?? '',
+      latitude: json['latitude'] ?? '',
+      longitude: json['longitude'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "vendor_data": productUser.map((data) => data.toJson()).toList(),
-      "vendor_id": vendorId,
+      "vendor_data": vendorData.map((data) => data.toJson()).toList(),
+      'delivery_address_id': deliveryAddressId,
+      'latitude': latitude,
+      'longitude': longitude,
     };
-  }
-}
-
-class AllCartItem {
-  List<VendorInfo> data;
-
-  AllCartItem({
-    required this.data,
-  });
-
-  factory AllCartItem.fromJson(List? list) {
-    list ??= [];
-    return AllCartItem(
-      data: list.map((item) => VendorInfo.fromJson(item)).toList(),
-    );
-  }
-
-  List<Map<String, dynamic>> toJson() {
-    return data.map((item) => item.toJson()).toList();
   }
 }

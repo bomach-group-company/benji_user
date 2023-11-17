@@ -5,16 +5,11 @@ import 'package:benji/src/repo/utils/user_cart.dart';
 const vendornote = 'vendornote';
 
 Future addNoteToProduct(Product product, String vendorNote) async {
-  AllCartItem allCart = getAllCartItem();
+  VendorInfo allCart = getAllCartItem();
 
-  for (var cartItems in allCart.data) {
-    if (cartItems.vendorId == product.vendorId.id) {
-      for (var item in cartItems.productUser) {
-        if (item.productId == product.id) {
-          item.message = vendorNote;
-          break;
-        }
-      }
+  for (var cartItems in allCart.vendorData) {
+    if (cartItems.productId == product.id) {
+      cartItems.message = vendorNote;
       break;
     }
   }
@@ -23,16 +18,11 @@ Future addNoteToProduct(Product product, String vendorNote) async {
 }
 
 Future removeNoteFromProduct(Product product) async {
-  AllCartItem allCart = getAllCartItem();
+  VendorInfo allCart = getAllCartItem();
 
-  for (var cartItems in allCart.data) {
-    if (cartItems.vendorId == product.vendorId.id) {
-      for (var item in cartItems.productUser) {
-        if (item.productId == product.id) {
-          item.message = '';
-          break;
-        }
-      }
+  for (var cartItems in allCart.vendorData) {
+    if (cartItems.productId == product.id) {
+      cartItems.message = '';
       break;
     }
   }
@@ -41,16 +31,11 @@ Future removeNoteFromProduct(Product product) async {
 }
 
 String getSingleProductNote(Product product) {
-  AllCartItem allCart = getAllCartItem();
+  VendorInfo allCart = getAllCartItem();
 
-  for (var cartItems in allCart.data) {
-    if (cartItems.vendorId == product.vendorId.id) {
-      for (var item in cartItems.productUser) {
-        if (item.productId == product.id) {
-          return item.message;
-        }
-      }
-      break;
+  for (var cartItems in allCart.vendorData) {
+    if (cartItems.productId == product.id) {
+      return cartItems.message;
     }
   }
 
@@ -58,12 +43,10 @@ String getSingleProductNote(Product product) {
 }
 
 Future<Map> getProductsNote() async {
-  AllCartItem allCart = getAllCartItem();
+  VendorInfo allCart = getAllCartItem();
   Map note = {};
-  for (var cartItems in allCart.data) {
-    for (var item in cartItems.productUser) {
-      note[item.productId] = item.message;
-    }
+  for (var cartItems in allCart.vendorData) {
+    note[cartItems.productId] = cartItems.message;
   }
 
   return note;
