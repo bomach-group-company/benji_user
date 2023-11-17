@@ -130,26 +130,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ),
           kHalfSizedBox,
           ListTile(
-            onTap: widget.toSettings,
-            leading: FaIcon(
-              FontAwesomeIcons.gear,
-              color: kAccentColor,
-            ),
-            title: const Text(
-              'Settings',
-              style: TextStyle(
-                color: kTextBlackColor,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            trailing: const FaIcon(
-              FontAwesomeIcons.chevronRight,
-              size: 16,
-              color: kTextBlackColor,
-            ),
-          ),
-          ListTile(
             onTap: widget.toPackagesPage,
             leading: FaIcon(
               FontAwesomeIcons.boxesStacked,
@@ -271,6 +251,26 @@ class _HomeDrawerState extends State<HomeDrawer> {
               color: kTextBlackColor,
             ),
           ),
+          ListTile(
+            onTap: widget.toSettings,
+            leading: FaIcon(
+              FontAwesomeIcons.gear,
+              color: kAccentColor,
+            ),
+            title: const Text(
+              'Settings',
+              style: TextStyle(
+                color: kTextBlackColor,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            trailing: const FaIcon(
+              FontAwesomeIcons.chevronRight,
+              size: 16,
+              color: kTextBlackColor,
+            ),
+          )
         ],
       ),
     );

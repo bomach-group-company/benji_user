@@ -15,6 +15,11 @@ class Api {
   static const user = "/auth/";
   static const changePassword = "/auth/changeNewPassword/";
 
+//Item Packages
+  static const getPackageCategory = "/sendPackage/getPackageCategory/";
+  static const getPackageWeight = "/sendPackage/getPackageWeight/";
+  static const createItemPackage = "/sendPackage/createItemPackage/";
+
   static const vendorList = "/vendors/getAllVendor";
   static const popularVendor = "/clients/getPopularVendors";
   static const getVendorProducts = "/vendors/";

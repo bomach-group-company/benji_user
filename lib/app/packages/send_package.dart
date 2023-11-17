@@ -1,31 +1,33 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
+import 'dart:io';
+
 import 'package:benji/app/address/get_location_on_map.dart';
+import 'package:benji/app/packages/item_category_dropdown_menu.dart';
 import 'package:benji/app/packages/packages.dart';
-import 'package:benji/app/packages/pay_for_delivery.dart';
-import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/components/appbar/my_appbar.dart';
+import 'package:benji/src/components/textformfield/my%20textformfield.dart';
+import 'package:benji/src/components/textformfield/my_intl_phonefield.dart';
 import 'package:benji/src/components/textformfield/my_maps_textformfield.dart';
+import 'package:benji/src/components/textformfield/number_textformfield.dart';
+import 'package:benji/src/frontend/utils/constant.dart';
+import 'package:benji/src/repo/controller/error_controller.dart';
+import 'package:benji/src/repo/controller/form_controller.dart';
 import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
-import 'package:benji/src/repo/models/package/item_category.dart';
-import 'package:benji/src/repo/models/package/item_weight.dart';
-import 'package:benji/src/repo/models/user/user_model.dart';
-import 'package:benji/src/repo/utils/constant.dart';
-import 'package:benji/src/repo/utils/helpers.dart';
+import 'package:benji/src/repo/controller/send_package_controller.dart';
+import 'package:benji/src/repo/controller/user_controller.dart';
+import 'package:benji/src/repo/services/api_url.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/textformfield/my textformfield.dart';
-import '../../src/components/textformfield/my_intl_phonefield.dart';
-import '../../src/components/textformfield/number_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import 'item_category_dropdown_menu.dart';
+import 'pay_for_delivery.dart';
 
 class SendPackage extends StatefulWidget {
   const SendPackage({super.key});
@@ -35,39 +37,56 @@ class SendPackage extends StatefulWidget {
 }
 
 class _SendPackageState extends State<SendPackage> {
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+  }
+
+  //===================== BOOL VALUES =======================\\
+  bool isScrollToTopBtnVisible = false;
+
   //=============================== ALL VARIABLES ==================================\\
-  int _currentStep = 0;
-  bool _nextPage = false;
-  bool _continuePage = false;
-  final bool _processingRequest = false;
-  get mediaWidth => MediaQuery.of(context).size.width;
+  int currentStep = 0;
+  bool nextPage = false;
+  bool continuePage = false;
+  bool submittingForm = false;
+  get media => MediaQuery.of(context).size;
   String? latitudePick;
   String? longitudePick;
   String? latitudeDrop;
   String? longitudeDrop;
+  String itemCategory = "";
+  String itemWeight = "";
   //=============================== CONTROLLERS ==================================\\
 
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   //=============================== CONTROLLERS ==================================\\
-  final _pickupEC = TextEditingController();
-  final _senderNameEC = TextEditingController();
-  final _senderPhoneEC = TextEditingController();
-  final _dropOffEC = TextEditingController();
-  final _receiverNameEC = TextEditingController();
-  final _receiverPhoneEC = TextEditingController();
-  final _itemNameEC = TextEditingController();
-  final _itemCategoryEC = TextEditingController();
-  final _itemWeightEC = TextEditingController();
-  final _itemQuantityEC = TextEditingController();
-  final _itemValueEC = TextEditingController();
-  // var _AddressesState = TextEditingController();
+  final scrollController = ScrollController();
+  final pickupEC = TextEditingController();
+  final senderNameEC = TextEditingController();
+  final senderPhoneEC = TextEditingController();
+  final dropOffEC = TextEditingController();
+  final receiverNameEC = TextEditingController();
+  final receiverPhoneEC = TextEditingController();
+  final itemNameEC = TextEditingController();
+  final itemCategoryEC = TextEditingController();
+  final itemWeightEC = TextEditingController();
+  final itemQuantityEC = TextEditingController();
 
-  final LatLngDetailController latLngDetailController =
-      Get.put(LatLngDetailController());
+  final itemValueEC = TextEditingController();
+
+  final latLngDetailController = LatLngDetailController.instance;
   //=============================== FOCUS NODES ==================================\\
-  final _pickupFN = FocusNode();
-  final _senderNameFN = FocusNode();
+  final pickupFN = FocusNode();
+  final senderNameFN = FocusNode();
   var senderPhoneFN = FocusNode();
   var dropOffFN = FocusNode();
   var receiverNameFN = FocusNode();
@@ -77,74 +96,242 @@ class _SendPackageState extends State<SendPackage> {
   var itemValueFN = FocusNode();
 
   //=============================== FUNCTIONS ==================================\\
-  @override
-  void initState() {
-    super.initState();
-    _getData();
+
+  continueStep() {
+    if (currentStep < 2) {
+      setState(() {
+        nextPage = true;
+        currentStep = currentStep + 1;
+      });
+    }
+    if (currentStep == 2) {
+      setState(() {
+        nextPage = true;
+        continuePage = true;
+      });
+    }
   }
 
-  void _toSendPackageScreen() => Get.to(
-        () => const Packages(),
-        routeName: 'Packages',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  cancelStep() {
+    if (currentStep < 2) {
+      setState(() {
+        nextPage = false;
+      });
+    }
 
-  List<ItemCategory> _category = [];
-  List<ItemWeight> _weight = [];
+    if (currentStep > 0) {
+      setState(() {
+        currentStep = currentStep - 1;
+        continuePage = false;
+      });
+    }
+  }
 
-  _getData() async {
-    List<ItemCategory> category = await getPackageCategory();
-    List<ItemWeight> weight = await getPackageWeight();
+  void toGetLocationOnMapPick() async {
+    var result = await Get.to(
+      () => const GetLocationOnMap(),
+      routeName: 'GetLocationOnMap',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    if (result != null) {
+      String pinnedLocation = result['pinnedLocation'];
+      String latitude = result['latitude'];
+      String longitude = result['longitude'];
 
+      double latitudeValue = double.parse(latitude);
+      double longitudeValue = double.parse(longitude);
+
+      setState(() {
+        pickupEC.text = pinnedLocation;
+        latitudePick = latitudeValue.toString();
+        longitudePick = longitudeValue.toString();
+      });
+    }
+    // latitudePick = latLngDetailController.latLngDetail.value[0];
+    // longitudePick = latLngDetailController.latLngDetail.value[1];
+    // pickupEC.text = latLngDetailController.latLngDetail.value[2];
+    // latLngDetailController.setEmpty();
+    if (kDebugMode) {
+      print("LATLNG: $latitudePick,$longitudePick");
+      print("pickup text : ${pickupEC.text}");
+    }
+  }
+
+  void toGetLocationOnMapDrop() async {
+    var result = await Get.to(
+      () => const GetLocationOnMap(),
+      routeName: 'GetLocationOnMap',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+
+    if (result != null) {
+      String pinnedLocation = result['pinnedLocation'];
+      String latitude = result['latitude'];
+      String longitude = result['longitude'];
+
+      double latitudeValue = double.parse(latitude);
+      double longitudeValue = double.parse(longitude);
+
+      setState(() {
+        dropOffEC.text = pinnedLocation;
+        latitudeDrop = latitudeValue.toString();
+        longitudeDrop = longitudeValue.toString();
+      });
+    }
+
+    // latitudeDrop = latLngDetailController.latLngDetail.value[0];
+    // longitudeDrop = latLngDetailController.latLngDetail.value[1];
+    // dropOffEC.text = latLngDetailController.latLngDetail.value[2];
+    // latLngDetailController.setEmpty();
+    if (kDebugMode) {
+      print("LATLNG: $latitudeDrop,$longitudeDrop");
+      print("dropOff text : ${dropOffEC.text}");
+    }
+  }
+
+  _toPackageScreen() {
+    Get.to(
+      () => const Packages(),
+      routeName: 'Packages',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
+
+  //===================== Scroll to Top ==========================\\
+  Future<void> scrollToTop() async {
+    await scrollController.animateTo(
+      0.0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
     setState(() {
-      _category = category;
-      _weight = weight;
+      isScrollToTopBtnVisible = false;
     });
   }
 
-  _toPayForDelivery() async {
-    final url = Uri.parse('$baseURL/sendPackage/createItemPackage/');
-    final User? user = await getUser();
-
-    Map data = {
-      'client_id ': user?.id.toString(),
-      'pickUpAddress ': _pickupEC.text,
-      'senderName': _senderNameEC.text,
-      'senderPhoneNumber': _senderPhoneEC.text,
-      'dropOffAddress': _dropOffEC.text,
-      'receiverName': _receiverNameEC.text,
-      'receiverPhoneNumber': _receiverPhoneEC.text,
-      'itemName ': _itemNameEC.text,
-      'itemCategory_id': _itemCategoryEC.text,
-      'itemWeight_id': _itemWeightEC.text,
-      'itemQuantity ': _itemQuantityEC.text,
-      'itemValue': _itemValueEC.text,
-    };
-    if (kDebugMode) {
-      print("This is the body: $data");
+  Future<void> _scrollListener() async {
+    if (scrollController.position.pixels >= 100 &&
+        isScrollToTopBtnVisible != true) {
+      setState(() {
+        isScrollToTopBtnVisible = true;
+      });
     }
-    final response =
-        await http.post(url, body: data, headers: await authHeader());
+    if (scrollController.position.pixels < 100 &&
+        isScrollToTopBtnVisible == true) {
+      setState(() {
+        isScrollToTopBtnVisible = false;
+      });
+    }
+  }
 
-    if (response.statusCode.toString().startsWith('')) {
+  submitForm() async {
+    if (pickupEC.text.isEmpty) {
+      ApiProcessorController.errorSnack("Please fill in a pickup address");
+      return;
+    }
+    if (senderNameEC.text.isEmpty) {
+      ApiProcessorController.errorSnack("Please fill in your name");
+      return;
+    }
+    if (senderPhoneEC.text.isEmpty) {
+      ApiProcessorController.errorSnack("Please fill in your phone number");
+      return;
+    }
+    if (dropOffEC.text.isEmpty) {
+      ApiProcessorController.errorSnack("Please select a drop-off location");
+      return;
+    }
+    if (receiverNameEC.text.isEmpty) {
+      ApiProcessorController.errorSnack("Please fill in the receiver's name");
+      return;
+    }
+    if (receiverPhoneEC.text.isEmpty) {
+      ApiProcessorController.errorSnack(
+          "Please fill in the receiver's phone number");
+      return;
+    }
+    if (itemNameEC.text.isEmpty) {
+      ApiProcessorController.errorSnack("Please fill in the item's name");
+      return;
+    }
+    if (itemCategoryEC.text.isEmpty) {
+      ApiProcessorController.errorSnack("Please select the item category");
+      return;
+    }
+    if (itemWeightEC.text.isEmpty) {
+      ApiProcessorController.errorSnack("Please select the item weight");
+      return;
+    }
+    if (itemQuantityEC.text.isEmpty) {
+      ApiProcessorController.errorSnack(
+          "Please fill in the quantity of the item");
+      return;
+    }
+    // if (selectedImage == null) {
+    //   ApiProcessorController.errorSnack("Please select an image");
+    //   return;
+    // }
+    Map data = {
+      'client_id': UserController.instance.user.value.id.toString(),
+      'pickUpAddress': pickupEC.text,
+      'pickUpAddress_latitude': latitudePick,
+      'pickUpAddress_longitude': longitudePick,
+      'senderName': senderNameEC.text,
+      'senderPhoneNumber': senderPhoneEC.text,
+      'dropOffAddress': dropOffEC.text,
+      'dropOffAddress_latitude': latitudeDrop,
+      'dropOffAddress_longitude': longitudeDrop,
+      'receiverName': receiverNameEC.text,
+      'receiverPhoneNumber': receiverPhoneEC.text,
+      'itemName': itemNameEC.text,
+      'itemCategory_id': itemCategoryEC.text,
+      'itemWeight_id': itemWeightEC.text,
+      'itemQuantity': itemQuantityEC.text,
+      'itemValue': itemValueEC.text,
+    };
+    consoleLog(data.toString());
+    setState(() {
+      submittingForm = true;
+    });
+    await FormController.instance
+        .postAuth(Api.baseUrl + Api.createItemPackage, data, 'createPackage');
+    setState(() {
+      submittingForm = true;
+    });
+    if (FormController.instance.status.toString().startsWith('2')) {
+      var packageId =
+          FormController.instance.responseObject.containsKey('package_id')
+              ? FormController.instance.responseObject['package_id']
+              : null; // or provide a default value if needed
+      consoleLog("This is the package ID: $packageId");
       Get.to(
         () => PayForDelivery(
-          status: "Pending payment",
-          senderName: _senderNameEC.text,
-          senderPhoneNumber: _senderPhoneEC.text,
-          receiverName: _receiverNameEC.text,
-          receiverPhoneNumber: _receiverPhoneEC.text,
-          receiverLocation: _dropOffEC.text,
-          itemName: _itemNameEC.text,
-          itemQuantity: _itemQuantityEC.text,
-          itemWeight: _itemWeightEC.text,
-          itemValue: _itemValueEC.text,
-          itemCategoryId: _itemCategoryEC.text,
+          packageId: packageId,
+          senderName: senderNameEC.text,
+          senderPhoneNumber: senderPhoneEC.text,
+          receiverName: receiverNameEC.text,
+          receiverPhoneNumber: receiverPhoneEC.text,
+          receiverLocation: dropOffEC.text,
+          itemName: itemNameEC.text,
+          itemQuantity: itemQuantityEC.text,
+          itemWeight: itemWeight,
+          itemValue: itemValueEC.text,
+          itemCategory: itemCategory,
         ),
         routeName: 'PayForDelivery',
         duration: const Duration(milliseconds: 300),
@@ -154,86 +341,6 @@ class _SendPackageState extends State<SendPackage> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
-    } else {
-      mySnackBar(
-        context,
-        kErrorColor,
-        "Failed!",
-        "Make sure you have filled all fields appropriately",
-        const Duration(seconds: 2),
-      );
-    }
-  }
-
-  _continueStep() {
-    if (_currentStep < 2) {
-      setState(() {
-        _nextPage = true;
-        _currentStep = _currentStep + 1;
-      });
-    }
-    if (_currentStep == 2) {
-      setState(() {
-        _nextPage = true;
-        _continuePage = true;
-      });
-    }
-  }
-
-  _cancelStep() {
-    if (_currentStep < 2) {
-      setState(() {
-        _nextPage = false;
-      });
-    }
-
-    if (_currentStep > 0) {
-      setState(() {
-        _currentStep = _currentStep - 1;
-        _continuePage = false;
-      });
-    }
-  }
-
-  void _toGetLocationOnMapPick() async {
-    await Get.to(
-      () => const GetLocationOnMap(),
-      routeName: 'GetLocationOnMap',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
-    latitudePick = latLngDetailController.latLngDetail.value[0];
-    longitudePick = latLngDetailController.latLngDetail.value[1];
-    _pickupEC.text = latLngDetailController.latLngDetail.value[2];
-    latLngDetailController.setEmpty();
-    if (kDebugMode) {
-      print("LATLNG: $latitudePick,$longitudePick");
-      print(_pickupEC.text);
-    }
-  }
-
-  void _toGetLocationOnMapDrop() async {
-    await Get.to(
-      () => const GetLocationOnMap(),
-      routeName: 'GetLocationOnMap',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
-    latitudeDrop = latLngDetailController.latLngDetail.value[0];
-    longitudeDrop = latLngDetailController.latLngDetail.value[1];
-    _dropOffEC.text = latLngDetailController.latLngDetail.value[2];
-    latLngDetailController.setEmpty();
-    if (kDebugMode) {
-      print("LATLNG: $latitudeDrop,$longitudeDrop");
-      print(_dropOffEC.text);
     }
   }
 
@@ -247,9 +354,9 @@ class _SendPackageState extends State<SendPackage> {
   //   );
   // }
 
-  Widget _controlsBuilder(context, details) {
+  Widget controlsBuilder(context, details) {
     final media = MediaQuery.of(context);
-    return _nextPage == false
+    return nextPage == false
         ? ElevatedButton(
             onPressed: details.onStepContinue,
             style: ElevatedButton.styleFrom(
@@ -262,17 +369,14 @@ class _SendPackageState extends State<SendPackage> {
             ),
             child: const Text("Next"),
           )
-        : _continuePage == true
-            ? _processingRequest
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kAccentColor,
-                    ),
-                  )
-                : Row(
-                    children: [
-                      ElevatedButton(
-                        onPressed: _toPayForDelivery,
+        : continuePage == true
+            ? Row(
+                children: [
+                  GetBuilder<FormController>(
+                    builder: (controller) {
+                      submittingForm = controller.isLoad.value;
+                      return ElevatedButton(
+                        onPressed: controller.isLoad.value ? null : submitForm,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: kAccentColor,
                           elevation: 20.0,
@@ -281,27 +385,36 @@ class _SendPackageState extends State<SendPackage> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        child: const Text("Continue"),
+                        child: controller.isLoad.value
+                            ? CircularProgressIndicator(color: kPrimaryColor)
+                            : const Text("Submit"),
+                      );
+                    },
+                  ),
+                  kWidthSizedBox,
+                  OutlinedButton(
+                    onPressed: submittingForm ? null : details.onStepCancel,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          submittingForm ? kLightGreyColor : kPrimaryColor,
+                      elevation: 20.0,
+                      side: submittingForm
+                          ? BorderSide(color: kLightGreyColor, width: 1.2)
+                          : BorderSide(color: kAccentColor, width: 1.2),
+                      fixedSize: Size((media.size.width * 0.40) - 45, 60),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      kWidthSizedBox,
-                      OutlinedButton(
-                        onPressed: details.onStepCancel,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: kPrimaryColor,
-                          elevation: 20.0,
-                          side: BorderSide(color: kAccentColor, width: 1.2),
-                          fixedSize: Size((media.size.width * 0.40) - 45, 60),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Text(
-                          "Back",
-                          style: TextStyle(color: kAccentColor),
-                        ),
-                      )
-                    ],
+                    ),
+                    child: Text(
+                      "Back",
+                      style: TextStyle(
+                          color:
+                              submittingForm ? kTextGreyColor : kAccentColor),
+                    ),
                   )
+                ],
+              )
             : Row(
                 children: [
                   ElevatedButton(
@@ -337,11 +450,11 @@ class _SendPackageState extends State<SendPackage> {
               );
   }
 
-  List<Step> _steps() => [
+  List<Step> steps() => [
         Step(
           subtitle: const Text("details"),
-          isActive: _currentStep >= 0,
-          state: _currentStep > 0 ? StepState.complete : StepState.indexed,
+          isActive: currentStep >= 0,
+          state: currentStep > 0 ? StepState.complete : StepState.indexed,
           title: const Text(
             "Sender's",
             style: TextStyle(
@@ -356,30 +469,30 @@ class _SendPackageState extends State<SendPackage> {
               const Text(
                 "Pickup Address",
                 style: TextStyle(
-                  fontSize: 17.6,
+                  fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),
               ),
               kHalfSizedBox,
               MyMapsTextFormField(
                 readOnly: true,
-                controller: _pickupEC,
+                controller: pickupEC,
                 validator: (value) {
                   RegExp pickupAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
                   if (value!.isEmpty || value == null) {
-                    _pickupFN.requestFocus();
+                    pickupFN.requestFocus();
                     return "Enter pickup location";
                   } else if (!pickupAddress.hasMatch(value)) {
-                    _pickupFN.requestFocus();
+                    pickupFN.requestFocus();
                     return "Enter a valid address (must have a street number)";
                   }
                   return null;
                 },
                 onSaved: (value) {
-                  _pickupEC.text = value;
+                  pickupEC.text = value;
                 },
-                textInputAction: TextInputAction.done,
-                focusNode: _pickupFN,
+                textInputAction: TextInputAction.next,
+                focusNode: pickupFN,
                 hintText: "Pick location",
                 textInputType: TextInputType.text,
                 prefixIcon: Padding(
@@ -398,7 +511,7 @@ class _SendPackageState extends State<SendPackage> {
                 color: kLightGreyColor,
               ),
               ElevatedButton.icon(
-                onPressed: _toGetLocationOnMapPick,
+                onPressed: toGetLocationOnMapPick,
                 icon: FaIcon(
                   FontAwesomeIcons.locationArrow,
                   color: kAccentColor,
@@ -409,7 +522,7 @@ class _SendPackageState extends State<SendPackage> {
                   elevation: 0,
                   backgroundColor: kLightGreyColor,
                   foregroundColor: kTextBlackColor,
-                  fixedSize: Size(mediaWidth, 40),
+                  fixedSize: Size(media.width, 40),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -419,32 +532,32 @@ class _SendPackageState extends State<SendPackage> {
               const Text(
                 "Sender's Name",
                 style: TextStyle(
-                  fontSize: 17.6,
+                  fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),
               ),
               kHalfSizedBox,
               MyTextFormField(
-                controller: _senderNameEC,
+                controller: senderNameEC,
                 validator: (value) {
                   RegExp userNamePattern = RegExp(
                     r'^.{3,}$', //Min. of 3 characters
                   );
                   if (value == null || value!.isEmpty) {
-                    _senderNameFN.requestFocus();
+                    senderNameFN.requestFocus();
                     return "Enter your name";
                   } else if (!userNamePattern.hasMatch(value)) {
-                    _senderNameFN.requestFocus();
+                    senderNameFN.requestFocus();
                     return "Name must be at least 3 characters";
                   }
                   return null;
                 },
                 onSaved: (value) {
-                  _senderNameEC.text = value;
+                  senderNameEC.text = value;
                 },
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 textCapitalization: TextCapitalization.sentences,
-                focusNode: _senderNameFN,
+                focusNode: senderNameFN,
                 hintText: "Enter your name",
                 textInputType: TextInputType.name,
               ),
@@ -452,7 +565,7 @@ class _SendPackageState extends State<SendPackage> {
               const Text(
                 "Phone Number",
                 style: TextStyle(
-                  fontSize: 17.6,
+                  fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -467,7 +580,7 @@ class _SendPackageState extends State<SendPackage> {
                   Icons.arrow_drop_down_rounded,
                   color: kAccentColor,
                 ),
-                controller: _senderPhoneEC,
+                controller: senderPhoneEC,
                 textInputAction: TextInputAction.done,
                 focusNode: senderPhoneFN,
                 validator: (value) {
@@ -478,7 +591,7 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  _senderPhoneEC.text = value;
+                  senderPhoneEC.text = value;
                 },
               ),
               kSizedBox,
@@ -487,8 +600,8 @@ class _SendPackageState extends State<SendPackage> {
         ),
         Step(
           subtitle: const Text("details"),
-          isActive: _currentStep >= 1,
-          state: _currentStep > 1 ? StepState.complete : StepState.indexed,
+          isActive: currentStep >= 1,
+          state: currentStep > 1 ? StepState.complete : StepState.indexed,
           title: const Text(
             "Receiver's",
             style: TextStyle(
@@ -503,14 +616,14 @@ class _SendPackageState extends State<SendPackage> {
               const Text(
                 "Drop-off Address",
                 style: TextStyle(
-                  fontSize: 17.6,
+                  fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),
               ),
               kHalfSizedBox,
               MyMapsTextFormField(
                 readOnly: true,
-                controller: _dropOffEC,
+                controller: dropOffEC,
                 validator: (value) {
                   RegExp dropoffAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
                   if (value!.isEmpty || value == null) {
@@ -523,9 +636,9 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  _dropOffEC.text = value;
+                  dropOffEC.text = value;
                 },
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 focusNode: dropOffFN,
                 hintText: "Drop off location",
                 textInputType: TextInputType.text,
@@ -545,7 +658,7 @@ class _SendPackageState extends State<SendPackage> {
                 color: kLightGreyColor,
               ),
               ElevatedButton.icon(
-                onPressed: _toGetLocationOnMapDrop,
+                onPressed: toGetLocationOnMapDrop,
                 icon: FaIcon(
                   FontAwesomeIcons.locationArrow,
                   color: kAccentColor,
@@ -556,7 +669,7 @@ class _SendPackageState extends State<SendPackage> {
                   elevation: 0,
                   backgroundColor: kLightGreyColor,
                   foregroundColor: kTextBlackColor,
-                  fixedSize: Size(mediaWidth, 40),
+                  fixedSize: Size(media.width, 40),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -566,13 +679,13 @@ class _SendPackageState extends State<SendPackage> {
               const Text(
                 "Receiver's Name",
                 style: TextStyle(
-                  fontSize: 17.6,
+                  fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),
               ),
               kHalfSizedBox,
               MyTextFormField(
-                controller: _receiverNameEC,
+                controller: receiverNameEC,
                 validator: (value) {
                   RegExp userNamePattern = RegExp(
                     r'^.{3,}$', //Min. of 3 characters
@@ -587,9 +700,9 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  _receiverNameEC.text = value;
+                  receiverNameEC.text = value;
                 },
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 textCapitalization: TextCapitalization.sentences,
                 focusNode: receiverNameFN,
                 hintText: "Enter receiver's name",
@@ -599,7 +712,7 @@ class _SendPackageState extends State<SendPackage> {
               const Text(
                 "Phone Number",
                 style: TextStyle(
-                  fontSize: 17.6,
+                  fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -614,20 +727,20 @@ class _SendPackageState extends State<SendPackage> {
                   Icons.arrow_drop_down_rounded,
                   color: kAccentColor,
                 ),
-                controller: _receiverPhoneEC,
+                controller: receiverPhoneEC,
                 textInputAction: TextInputAction.done,
                 focusNode: receiverPhoneFN,
                 validator: (value) {
                   if (value == null ||
                       value.isEmpty ||
-                      _receiverPhoneEC.text.isEmpty) {
+                      receiverPhoneEC.text.isEmpty) {
                     receiverPhoneFN.requestFocus();
                     return "Enter receiver's phone number";
                   }
                   return null;
                 },
                 onSaved: (value) {
-                  _receiverPhoneEC.text = value;
+                  receiverPhoneEC.text = value;
                 },
               ),
               kSizedBox,
@@ -636,8 +749,8 @@ class _SendPackageState extends State<SendPackage> {
         ),
         Step(
           subtitle: const Text("details"),
-          isActive: _currentStep >= 2,
-          state: _currentStep > 2 ? StepState.complete : StepState.indexed,
+          isActive: currentStep >= 2,
+          state: currentStep > 2 ? StepState.complete : StepState.indexed,
           title: const Text(
             "Item",
             style: TextStyle(
@@ -651,13 +764,13 @@ class _SendPackageState extends State<SendPackage> {
               const Text(
                 "Item Name",
                 style: TextStyle(
-                  fontSize: 17.6,
+                  fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),
               ),
               kHalfSizedBox,
               MyTextFormField(
-                controller: _itemNameEC,
+                controller: itemNameEC,
                 validator: (value) {
                   RegExp userNamePattern = RegExp(
                     r'^.{3,}$', //Min. of 3 characters
@@ -672,10 +785,10 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  _itemNameEC.text = value;
+                  itemNameEC.text = value;
                 },
                 textInputAction: TextInputAction.next,
-                textCapitalization: TextCapitalization.sentences,
+                textCapitalization: TextCapitalization.words,
                 focusNode: itemNameFN,
                 hintText: "Enter the name of the item",
                 textInputType: TextInputType.name,
@@ -684,54 +797,113 @@ class _SendPackageState extends State<SendPackage> {
               const Text(
                 "Item Category",
                 style: TextStyle(
-                  fontSize: 17.6,
+                  fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),
               ),
               kHalfSizedBox,
-              ItemDropDownMenu(
-                itemEC: _itemCategoryEC,
-                mediaWidth: mediaWidth - 70,
-                hintText: "Choose category",
-                dropdownMenuEntries2: _category
-                    .map(
-                      (item) =>
-                          DropdownMenuEntry(value: item.id, label: item.name),
-                    )
-                    .toList(),
+              GetBuilder<SendPackageController>(
+                init: SendPackageController(),
+                initState: (controller) async {
+                  await SendPackageController.instance.getPackageCategory();
+                },
+                builder: (controller) {
+                  return controller.isLoad.value
+                      ? Center(
+                          child: CircularProgressIndicator(color: kAccentColor),
+                        )
+                      : ItemDropDownMenu(
+                          itemEC: itemCategoryEC,
+                          mediaWidth: media.width - 70,
+                          hintText: "Choose category",
+                          onSelected: (value) {
+                            final selectedCategory =
+                                controller.packageCategory.firstWhere(
+                              (category) => category.id == value,
+                            );
+                            // Set the category id to itemWeightEC
+                            itemCategoryEC.text = value.toString();
+                            // Set the category title to itemWeight
+                            itemCategory = selectedCategory.name;
+
+                            consoleLog(
+                              "This is the item category title: $itemCategory",
+                            );
+                            consoleLog(
+                                "This is the item category ID: ${itemCategoryEC.text}");
+                          },
+                          dropdownMenuEntries2: controller.packageCategory
+                              .map((category) => DropdownMenuEntry(
+                                    value: category.id,
+                                    label: category.name,
+                                  ))
+                              .toList(),
+                        );
+                },
               ),
+
               kSizedBox,
               const Text(
                 "Item Weight",
                 style: TextStyle(
-                  fontSize: 17.6,
+                  fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),
               ),
               kHalfSizedBox,
-              ItemDropDownMenu(
-                itemEC: _itemWeightEC,
-                mediaWidth: mediaWidth - 70,
-                hintText: "Choose weight",
-                dropdownMenuEntries2: _weight
-                    .map(
-                      (item) => DropdownMenuEntry(
-                          value: item.id,
-                          label: '${item.start}KG - ${item.end}KG'),
-                    )
-                    .toList(),
+              GetBuilder<SendPackageController>(
+                init: SendPackageController(),
+                initState: (controller) async {
+                  await SendPackageController.instance.getPackageWeight();
+                },
+                builder: (controller) {
+                  return controller.isLoad.value
+                      ? Center(
+                          child: CircularProgressIndicator(color: kAccentColor),
+                        )
+                      : ItemDropDownMenu(
+                          itemEC: itemWeightEC,
+                          mediaWidth: media.width - 70,
+                          hintText: "Choose weight",
+                          onSelected: (value) {
+                            final selectedWeight =
+                                controller.packageWeight.firstWhere(
+                              (category) => category.id == value,
+                            );
+                            // Set the weight id to itemWeightEC
+                            itemWeightEC.text = value.toString();
+                            // Set the weight title to itemWeight
+                            itemWeight =
+                                "${selectedWeight.start}KG - ${selectedWeight.end}KG";
+
+                            consoleLog(
+                              "This is the item weight title: $itemWeight",
+                            );
+                            consoleLog(
+                              "This is the item weight ID: ${itemWeightEC.text}",
+                            );
+                          },
+                          dropdownMenuEntries2: controller.packageWeight
+                              .map((category) => DropdownMenuEntry(
+                                    value: category.id,
+                                    label:
+                                        "${category.start}KG - ${category.end}KG ",
+                                  ))
+                              .toList(),
+                        );
+                },
               ),
               kSizedBox,
               const Text(
                 "Item Quantity",
                 style: TextStyle(
-                  fontSize: 17.6,
+                  fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),
               ),
               kHalfSizedBox,
               NumberTextFormField(
-                controller: _itemQuantityEC,
+                controller: itemQuantityEC,
                 validator: (value) {
                   if (value == null || value!.isEmpty) {
                     itemQuantityFN.requestFocus();
@@ -740,7 +912,7 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  _itemQuantityEC.text = value;
+                  itemQuantityEC.text = value;
                 },
                 textInputAction: TextInputAction.next,
                 focusNode: itemQuantityFN,
@@ -751,13 +923,13 @@ class _SendPackageState extends State<SendPackage> {
               const Text(
                 "Item Value",
                 style: TextStyle(
-                  fontSize: 17.6,
+                  fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),
               ),
               kHalfSizedBox,
               MyTextFormField(
-                controller: _itemValueEC,
+                controller: itemValueEC,
                 validator: (value) {
                   if (value == null || value!.isEmpty) {
                     itemValueFN.requestFocus();
@@ -766,7 +938,7 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  _itemValueEC.text = value;
+                  itemValueEC.text = value;
                 },
                 textInputAction: TextInputAction.done,
                 textCapitalization: TextCapitalization.sentences,
@@ -775,54 +947,201 @@ class _SendPackageState extends State<SendPackage> {
                 textInputType: TextInputType.number,
               ),
               kSizedBox,
-              InkWell(
-                borderRadius: BorderRadius.circular(16),
-                splashColor: Colors.blue.shade50,
-                focusColor: Colors.blue.shade50,
-                highlightColor: Colors.blue.shade50,
-                onTap: () {},
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 144,
-                  decoration: ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                        width: 1,
-                        style: BorderStyle.solid,
-                        strokeAlign: BorderSide.strokeAlignOutside,
-                        color: Color(0xFFE6E6E6),
-                      ),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.cloud_upload),
-                        // Image.asset(
-                        //   "assets/icons/image-upload.png",
-                        // ),
-                        kHalfSizedBox,
-                        Text(
-                          'Upload an image of the item',
-                          style: TextStyle(
-                            color: kTextGreyColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              kSizedBox,
+              // DottedBorder(
+              //   color: kLightGreyColor,
+              //   borderPadding: const EdgeInsets.all(3),
+              //   padding: const EdgeInsets.all(kDefaultPadding / 2),
+              //   borderType: BorderType.RRect,
+              //   radius: const Radius.circular(20),
+              //   child: Column(
+              //     children: [
+              //       selectedImage == null
+              //           ? Container(
+              //               width: media.width,
+              //               height: 144,
+              //               decoration: ShapeDecoration(
+              //                 image: const DecorationImage(
+              //                     image: AssetImage(
+              //                         "assets/icons/image-upload.png")),
+              //                 shape: RoundedRectangleBorder(
+              //                   side: const BorderSide(
+              //                     width: 0.50,
+              //                     color: Color(0xFFE6E6E6),
+              //                   ),
+              //                   borderRadius: BorderRadius.circular(20),
+              //                 ),
+              //               ),
+              //             )
+              //           : Container(
+              //               width: media.width,
+              //               height: deviceType(media.width) >= 2 ? 280 : 200,
+              //               decoration: ShapeDecoration(
+              //                 image: DecorationImage(
+              //                   image: FileImage(selectedImage!),
+              //                   fit: BoxFit.contain,
+              //                 ),
+              //                 shape: RoundedRectangleBorder(
+              //                   side: const BorderSide(
+              //                     width: 0.50,
+              //                     color: Color(0xFFE6E6E6),
+              //                   ),
+              //                   borderRadius: BorderRadius.circular(20),
+              //                 ),
+              //               ),
+              //             ),
+              //       InkWell(
+              //         onTap: () {
+              //           showModalBottomSheet(
+              //             context: context,
+              //             elevation: 20,
+              //             barrierColor: kBlackColor.withOpacity(0.8),
+              //             showDragHandle: true,
+              //             useSafeArea: true,
+              //             isDismissible: true,
+              //             isScrollControlled: true,
+              //             shape: const RoundedRectangleBorder(
+              //               borderRadius: BorderRadius.vertical(
+              //                 top: Radius.circular(kDefaultPadding),
+              //               ),
+              //             ),
+              //             enableDrag: true,
+              //             builder: ((builder) => uploadCoverImage()),
+              //           );
+              //         },
+              //         splashColor: kAccentColor.withOpacity(0.1),
+              //         borderRadius: BorderRadius.circular(10),
+              //         child: Container(
+              //           padding: const EdgeInsets.all(10),
+              //           child: Text(
+              //             'Upload item image',
+              //             textAlign: TextAlign.center,
+              //             style: TextStyle(
+              //               color: kAccentColor,
+              //               fontSize: 16,
+              //               fontWeight: FontWeight.w400,
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // kSizedBox,
             ],
           ),
         ),
       ];
+
+  Widget uploadCoverImage() => Container(
+        height: 140,
+        width: MediaQuery.of(context).size.width,
+        margin: const EdgeInsets.only(
+          left: kDefaultPadding,
+          right: kDefaultPadding,
+          bottom: kDefaultPadding,
+        ),
+        child: Column(
+          children: <Widget>[
+            const Text(
+              "Upload Image",
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            kSizedBox,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        pickCoverImage(ImageSource.camera);
+                      },
+                      borderRadius: BorderRadius.circular(100),
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                            side: BorderSide(
+                              width: 0.5,
+                              color: kLightGreyColor,
+                            ),
+                          ),
+                        ),
+                        child: Center(
+                          child: FaIcon(
+                            FontAwesomeIcons.camera,
+                            color: kAccentColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                    kHalfSizedBox,
+                    const Text("Camera"),
+                  ],
+                ),
+                kWidthSizedBox,
+                Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        pickCoverImage(ImageSource.gallery);
+                      },
+                      borderRadius: BorderRadius.circular(100),
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                            side: BorderSide(
+                              width: 0.5,
+                              color: kLightGreyColor,
+                            ),
+                          ),
+                        ),
+                        child: Center(
+                          child: FaIcon(
+                            FontAwesomeIcons.image,
+                            color: kAccentColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                    kHalfSizedBox,
+                    const Text("Gallery"),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+
+  //=========================== IMAGE PICKER ====================================\\
+
+  final ImagePicker _picker = ImagePicker();
+  File? selectedImage;
+  // File? selectedLogoImage;
+  //================================== function ====================================\\
+  pickCoverImage(ImageSource source) async {
+    final XFile? image = await _picker.pickImage(
+      source: source,
+    );
+    if (image != null) {
+      selectedImage = File(image.path);
+      Get.back();
+      setState(() {});
+    }
+  }
+
+  //Main App Widget
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -836,7 +1155,7 @@ class _SendPackageState extends State<SendPackage> {
             Container(
               padding: const EdgeInsets.all(10),
               child: OutlinedButton(
-                onPressed: _toSendPackageScreen,
+                onPressed: _toPackageScreen,
                 style: OutlinedButton.styleFrom(
                   // padding: const EdgeInsets.all(10),
                   disabledForegroundColor: kGreyColor,
@@ -861,24 +1180,39 @@ class _SendPackageState extends State<SendPackage> {
           ],
           backgroundColor: kPrimaryColor,
         ),
+        floatingActionButton: isScrollToTopBtnVisible
+            ? FloatingActionButton(
+                onPressed: scrollToTop,
+                mini: deviceType(media.width) > 2 ? false : true,
+                backgroundColor: kAccentColor,
+                enableFeedback: true,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Scroll to top",
+                hoverColor: kAccentColor,
+                hoverElevation: 50.0,
+                child: const FaIcon(FontAwesomeIcons.chevronUp, size: 18),
+              )
+            : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Container(
             padding: const EdgeInsets.all(kDefaultPadding / 2),
             child: Form(
-              key: _formKey,
-              child: Stepper(
-                physics: const BouncingScrollPhysics(),
-
-                currentStep: _currentStep,
-                onStepContinue: _continueStep,
-                onStepCancel: _cancelStep,
-                onStepTapped: null,
-                controlsBuilder: _controlsBuilder,
-                elevation: 0.0,
-                // stepIconBuilder: stepIconBuilder,
-                type: StepperType.horizontal,
-                steps: _steps(),
+              key: formKey,
+              child: Scrollbar(
+                child: Stepper(
+                  physics: const BouncingScrollPhysics(),
+                  controller: scrollController,
+                  currentStep: currentStep,
+                  onStepContinue: continueStep,
+                  onStepCancel: cancelStep,
+                  onStepTapped: null,
+                  controlsBuilder: controlsBuilder,
+                  elevation: 0.0,
+                  // stepIconBuilder: stepIconBuilder,
+                  type: StepperType.horizontal,
+                  steps: steps(),
+                ),
               ),
             ),
           ),
