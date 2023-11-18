@@ -16,15 +16,12 @@ import 'package:benji/src/repo/controller/sub_category_controller.dart';
 import 'package:benji/src/repo/controller/url_launch_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'src/repo/controller/fcm_messaging_controller.dart';
 import 'src/repo/controller/lat_lng_controllers.dart';
 import 'src/repo/controller/notifications_controller.dart';
 import 'theme/app_theme.dart';
@@ -61,11 +58,11 @@ void main() async {
   // Get.put(ReviewsController());
 
   if (!kIsWeb) {
-    await Firebase.initializeApp();
-    await FirebaseMessaging.instance.setAutoInitEnabled(true);
+    // await Firebase.initializeApp();
+    // await FirebaseMessaging.instance.setAutoInitEnabled(true);
     await NotificationController.initializeNotification();
 
-    await FcmMessagingController.instance.handleFCM();
+    // await FcmMessagingController.instance.handleFCM();
   }
 
   // await dotenv.load();
@@ -83,44 +80,13 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: "Benji",
       color: kPrimaryColor,
-      navigatorKey: navigatorKey,
+      navigatorKey: Get.key,
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       //This is the home route
-      home: WillPopScope(
-        onWillPop: () => _showExitConfirmationDialog(context),
-        child: const StartupSplashscreen(),
-      ),
-      // initialRoute: AppRoutes.startupSplashscreen,
-      // getPages: AppRoutes.routes,
+      home: const StartupSplashscreen(),
     );
   }
-}
-
-_showExitConfirmationDialog(BuildContext context) async {
-  return showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text('Exit App?'),
-        content: const Text('Are you sure you want to exit the app?'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false); // Don't exit
-            },
-            child: const Text('No'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(true); // Exit
-            },
-            child: const Text('Yes'),
-          ),
-        ],
-      );
-    },
-  );
 }

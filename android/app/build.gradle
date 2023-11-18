@@ -38,8 +38,8 @@ android {
     ndkVersion '26.0.10792818'
 
     compileOptions {
-        sourceCompatibility kotlin_version
-        targetCompatibility "17"
+        sourceCompatibility "1.8"
+        targetCompatibility "1.8"
     }
 
     kotlinOptions {
