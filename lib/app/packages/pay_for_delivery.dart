@@ -4,7 +4,6 @@ import 'dart:math';
 
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
-import 'package:benji/src/repo/controller/auth_controller.dart';
 import 'package:benji/src/repo/controller/payment_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/utils/constant.dart';
