@@ -13,7 +13,7 @@ class ApiProcessorController extends GetxController {
       errorSnack("Something went wrong");
       return;
     } catch (e) {
-      errorSnack("Check your internet and try again");
+      // errorSnack("Check your internet and try again");
       return;
     }
   }
