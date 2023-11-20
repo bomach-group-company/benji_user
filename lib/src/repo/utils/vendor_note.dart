@@ -5,12 +5,16 @@ import 'package:benji/src/repo/utils/user_cart.dart';
 const vendornote = 'vendornote';
 
 Future addNoteToProduct(Product product, String vendorNote) async {
-  VendorInfo allCart = getAllCartItem();
+  List<VendorInfo> allCart = getAllCartItem();
 
-  for (var cartItems in allCart.vendorData) {
-    if (cartItems.productId == product.id) {
-      cartItems.message = vendorNote;
-      break;
+  for (var cart in allCart) {
+    if (cart.vendorId == product.vendorId.id) {
+      for (var cartItems in cart.vendorData) {
+        if (cartItems.productId == product.id) {
+          cartItems.message = vendorNote;
+          break;
+        }
+      }
     }
   }
 
@@ -18,12 +22,16 @@ Future addNoteToProduct(Product product, String vendorNote) async {
 }
 
 Future removeNoteFromProduct(Product product) async {
-  VendorInfo allCart = getAllCartItem();
+  List<VendorInfo> allCart = getAllCartItem();
 
-  for (var cartItems in allCart.vendorData) {
-    if (cartItems.productId == product.id) {
-      cartItems.message = '';
-      break;
+  for (var cart in allCart) {
+    if (cart.vendorId == product.vendorId.id) {
+      for (var cartItems in cart.vendorData) {
+        if (cartItems.productId == product.id) {
+          cartItems.message = '';
+          break;
+        }
+      }
     }
   }
 
@@ -31,21 +39,26 @@ Future removeNoteFromProduct(Product product) async {
 }
 
 String getSingleProductNote(Product product) {
-  VendorInfo allCart = getAllCartItem();
+  List<VendorInfo> allCart = getAllCartItem();
 
-  for (var cartItems in allCart.vendorData) {
-    if (cartItems.productId == product.id) {
-      return cartItems.message;
+  for (var cart in allCart) {
+    if (cart.vendorId == product.vendorId.id) {
+      for (var cartItems in cart.vendorData) {
+        if (cartItems.productId == product.id) {
+          return cartItems.message;
+        }
+      }
     }
   }
 
   return '';
 }
 
-Future<Map> getProductsNote() async {
-  VendorInfo allCart = getAllCartItem();
+Future<Map> getProductsNote(int index) async {
+  List<VendorInfo> allCart = getAllCartItem();
   Map note = {};
-  for (var cartItems in allCart.vendorData) {
+
+  for (var cartItems in allCart[index].vendorData) {
     note[cartItems.productId] = cartItems.message;
   }
 

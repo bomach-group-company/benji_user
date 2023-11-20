@@ -1,5 +1,7 @@
 // ignore_for_file: unrelated_type_equality_checks
 
+import 'dart:async';
+
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/auth_controller.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
@@ -11,7 +13,6 @@ import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get.dart';
 
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
@@ -39,46 +40,48 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
       FavouriteController.instance.getVendor();
     }
     super.initState();
+    Timer(
+      const Duration(seconds: 2),
+      () {
+        AuthController.instance.checkAuth();
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    return GetBuilder<AuthController>(
-        init: AuthController(),
-        builder: (controller) {
-          return Scaffold(
-            body: ListView(
-              physics: const NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.all(kDefaultPadding),
+    return Scaffold(
+      body: ListView(
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(kDefaultPadding),
+        children: [
+          SizedBox(
+            height: media.height,
+            width: media.width,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: media.height,
-                  width: media.width,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: media.height / 4,
-                        width: media.width / 2,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                                "assets/images/splash_screen/frame_1.png"),
-                          ),
-                        ),
-                      ),
-                      kSizedBox,
-                      SpinKitThreeInOut(
-                        color: kSecondaryColor,
-                        size: 20,
-                      ),
-                    ],
+                Container(
+                  height: media.height / 4,
+                  width: media.width / 2,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image:
+                          AssetImage("assets/images/splash_screen/frame_1.png"),
+                    ),
                   ),
+                ),
+                kSizedBox,
+                SpinKitThreeInOut(
+                  color: kSecondaryColor,
+                  size: 20,
                 ),
               ],
             ),
-          );
-        });
+          ),
+        ],
+      ),
+    );
   }
 }

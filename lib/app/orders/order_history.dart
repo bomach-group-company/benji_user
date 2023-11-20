@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/section/track_order_details_container.dart';
-import '../../src/others/empty.dart';
+import '../../src/components/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';

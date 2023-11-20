@@ -44,7 +44,7 @@ class AddressController extends GetxController {
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
-      ApiProcessorController.errorSnack("An error occurred");
+      // ApiProcessorController.errorSnack("An error occurred");
     }
     isLoad.value = false;
     update();
@@ -63,7 +63,7 @@ class AddressController extends GetxController {
       update();
     } catch (e) {
       current.value = Address.fromJson(null);
-      ApiProcessorController.errorSnack("An error occurred");
+      // ApiProcessorController.errorSnack("An error occurred");
     }
     isLoad.value = false;
     update();

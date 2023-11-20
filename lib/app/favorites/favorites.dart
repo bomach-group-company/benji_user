@@ -9,8 +9,8 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/vendor/vendors_card.dart';
-import '../../src/others/cart_card.dart';
-import '../../src/others/empty.dart';
+import '../../src/components/others/cart_card.dart';
+import '../../src/components/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../src/providers/responsive_constant.dart';
@@ -262,17 +262,12 @@ class _FavoritesState extends State<Favorites>
                                       children: (controller.favouriteVendors)
                                           .map(
                                             (item) => VendorsCard(
-                                                removeDistance: true,
-                                                onTap: () {
-                                                  _vendorDetailPage(item);
-                                                },
-                                                vendorName: item.shopName,
-                                                typeOfBusiness:
-                                                    item.shopType.name,
-                                                rating:
-                                                    " ${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
-                                                cardImage:
-                                                    "assets/images/vendors/ntachi-osa.png"),
+                                              vendor: item,
+                                              removeDistance: true,
+                                              onTap: () {
+                                                _vendorDetailPage(item);
+                                              },
+                                            ),
                                           )
                                           .toList(),
                                     ),

@@ -1,3 +1,4 @@
+import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class ProductCard extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
       child: Container(
+        width: double.infinity,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
@@ -47,18 +49,20 @@ class ProductCard extends StatelessWidget {
           children: [
             Container(
               height: 186,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                color: kPageSkeletonColor,
+                shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(7.20),
                     topRight: Radius.circular(7.20),
                   ),
                 ),
-                image: DecorationImage(
-                  image: AssetImage("assets/images/products/okra-soup.png"),
-                  fit: BoxFit.fill,
-                ),
+                //   image: DecorationImage(
+                //     image: AssetImage("assets/images/products/okra-soup.png"),
+                //     fit: BoxFit.fill,
+                //   ),
               ),
+              child: Center(child: MyImage(url: product.productImage)),
             ),
             kSizedBox,
             Padding(

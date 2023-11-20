@@ -808,37 +808,42 @@ class _SendPackageState extends State<SendPackage> {
                   await MyPackageController.instance.getPackageCategory();
                 },
                 builder: (controller) {
-                  return controller.isLoad.value
-                      ? Center(
-                          child: CircularProgressIndicator(color: kAccentColor),
-                        )
-                      : ItemDropDownMenu(
-                          itemEC: itemCategoryEC,
-                          mediaWidth: media.width - 70,
-                          hintText: "Choose category",
-                          onSelected: (value) {
-                            final selectedCategory =
-                                controller.packageCategory.firstWhere(
-                              (category) => category.id == value,
-                            );
-                            // Set the category id to itemWeightEC
-                            itemCategoryEC.text = value.toString();
-                            // Set the category title to itemWeight
-                            itemCategory = selectedCategory.name;
+                  return ItemDropDownMenu(
+                    itemEC: itemCategoryEC,
+                    mediaWidth: media.width - 70,
+                    hintText: "Choose category",
+                    onSelected: (value) {
+                      final selectedCategory =
+                          controller.packageCategory.firstWhere(
+                        (category) => category.id == value,
+                      );
+                      // Set the category id to itemWeightEC
+                      itemCategoryEC.text = value.toString();
+                      // Set the category title to itemWeight
+                      itemCategory = selectedCategory.name;
 
-                            consoleLog(
-                              "This is the item category title: $itemCategory",
-                            );
-                            consoleLog(
-                                "This is the item category ID: ${itemCategoryEC.text}");
-                          },
-                          dropdownMenuEntries2: controller.packageCategory
-                              .map((category) => DropdownMenuEntry(
-                                    value: category.id,
-                                    label: category.name,
-                                  ))
-                              .toList(),
-                        );
+                      consoleLog(
+                        "This is the item category title: $itemCategory",
+                      );
+                      consoleLog(
+                          "This is the item category ID: ${itemCategoryEC.text}");
+                    },
+                    dropdownMenuEntries2: controller.isLoad.value &&
+                            controller.packageCategory.isEmpty
+                        ? [
+                            const DropdownMenuEntry(
+                              value: 'Loading...',
+                              label: 'Loading...',
+                              enabled: false,
+                            )
+                          ]
+                        : controller.packageCategory
+                            .map((category) => DropdownMenuEntry(
+                                  value: category.id,
+                                  label: category.name,
+                                ))
+                            .toList(),
+                  );
                 },
               ),
 
@@ -857,40 +862,45 @@ class _SendPackageState extends State<SendPackage> {
                   await MyPackageController.instance.getPackageWeight();
                 },
                 builder: (controller) {
-                  return controller.isLoad.value
-                      ? Center(
-                          child: CircularProgressIndicator(color: kAccentColor),
-                        )
-                      : ItemDropDownMenu(
-                          itemEC: itemWeightEC,
-                          mediaWidth: media.width - 70,
-                          hintText: "Choose weight",
-                          onSelected: (value) {
-                            final selectedWeight =
-                                controller.packageWeight.firstWhere(
-                              (category) => category.id == value,
-                            );
-                            // Set the weight id to itemWeightEC
-                            itemWeightEC.text = value.toString();
-                            // Set the weight title to itemWeight
-                            itemWeight =
-                                "${selectedWeight.start}KG - ${selectedWeight.end}KG";
+                  return ItemDropDownMenu(
+                    itemEC: itemWeightEC,
+                    mediaWidth: media.width - 70,
+                    hintText: "Choose weight",
+                    onSelected: (value) {
+                      final selectedWeight =
+                          controller.packageWeight.firstWhere(
+                        (category) => category.id == value,
+                      );
+                      // Set the weight id to itemWeightEC
+                      itemWeightEC.text = value.toString();
+                      // Set the weight title to itemWeight
+                      itemWeight =
+                          "${selectedWeight.start}KG - ${selectedWeight.end}KG";
 
-                            consoleLog(
-                              "This is the item weight title: $itemWeight",
-                            );
-                            consoleLog(
-                              "This is the item weight ID: ${itemWeightEC.text}",
-                            );
-                          },
-                          dropdownMenuEntries2: controller.packageWeight
-                              .map((category) => DropdownMenuEntry(
-                                    value: category.id,
-                                    label:
-                                        "${category.start}KG - ${category.end}KG ",
-                                  ))
-                              .toList(),
-                        );
+                      consoleLog(
+                        "This is the item weight title: $itemWeight",
+                      );
+                      consoleLog(
+                        "This is the item weight ID: ${itemWeightEC.text}",
+                      );
+                    },
+                    dropdownMenuEntries2: controller.isLoad.value &&
+                            controller.packageWeight.isEmpty
+                        ? [
+                            const DropdownMenuEntry(
+                              value: 'Loading...',
+                              label: 'Loading...',
+                              enabled: false,
+                            )
+                          ]
+                        : controller.packageWeight
+                            .map((category) => DropdownMenuEntry(
+                                  value: category.id,
+                                  label:
+                                      "${category.start}KG - ${category.end}KG ",
+                                ))
+                            .toList(),
+                  );
                 },
               ),
               kSizedBox,

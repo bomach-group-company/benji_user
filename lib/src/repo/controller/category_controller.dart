@@ -34,7 +34,7 @@ class CategoryController extends GetxController {
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
-      ApiProcessorController.errorSnack("An error occurred ERROR: $e");
+      // ApiProcessorController.errorSnack("An error occurred ERROR: $e");
     }
     isLoad.value = false;
     update();

@@ -4,27 +4,31 @@ import 'dart:math';
 
 import 'package:benji/app/checkout/checkout_screen.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/button/my_outlined_elevatedbutton.dart';
-import '../../src/others/empty.dart';
+import '../../src/components/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../theme/colors.dart';
 import 'add_new_address.dart';
 
 class DeliverTo extends StatefulWidget {
+  final int index;
   final Map<String, dynamic> formatOfOrder;
   final bool inCheckout;
   const DeliverTo(
-      {super.key, required this.formatOfOrder, this.inCheckout = false});
+      {super.key,
+      required this.formatOfOrder,
+      this.inCheckout = false,
+      required this.index});
 
   @override
   State<DeliverTo> createState() => _DeliverToState();
@@ -142,13 +146,17 @@ class _DeliverToState extends State<DeliverTo> {
       }
       //not after adding the address now post it to the endpoint
       String orderID =
-          await OrderController.instance.createOrder(formatOfOrder);
+          await OrderController.instance.createOrder([formatOfOrder]);
       // need to check if the order was created and get the delivery fee
       if (widget.inCheckout) {
         Get.back();
       } else {
         Get.off(
-          () => CheckoutScreen(formatOfOrder: formatOfOrder, orderID: orderID),
+          () => CheckoutScreen(
+            formatOfOrder: formatOfOrder,
+            orderID: orderID,
+            index: widget.index,
+          ),
           routeName: 'CheckoutScreen',
           duration: const Duration(milliseconds: 300),
           fullscreenDialog: true,
@@ -206,174 +214,159 @@ class _DeliverToState extends State<DeliverTo> {
           backgroundColor: kPrimaryColor,
           actions: const [],
         ),
-        body: _addressData == null
-            ? Center(
-                child: CircularProgressIndicator(color: kAccentColor),
-              )
-            : SafeArea(
-                maintainBottomViewPadding: true,
-                child: Scrollbar(
+        body: GetBuilder<AddressController>(
+          initState: (state) => AddressController.instance.getAdresses(),
+          builder: (controller) {
+            if (controller.addresses.isEmpty && controller.isLoad.value) {
+              return const EmptyCard(
+                removeButton: true,
+              );
+            }
+            return SafeArea(
+              maintainBottomViewPadding: true,
+              child: Scrollbar(
+                controller: _scrollController,
+                child: ListView(
                   controller: _scrollController,
-                  child: ListView(
-                    controller: _scrollController,
-                    scrollDirection: Axis.vertical,
-                    physics: const BouncingScrollPhysics(),
-                    padding: const EdgeInsets.all(kDefaultPadding),
-                    children: [
-                      Column(
-                        children: [
-                          _addressData!['addresses']!.isEmpty
-                              ? const EmptyCard(removeButton: true)
-                              : ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const BouncingScrollPhysics(),
-                                  itemCount: _addressData!['addresses'].length,
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      padding:
-                                          const EdgeInsetsDirectional.symmetric(
-                                        vertical: kDefaultPadding / 2,
-                                      ),
-                                      child: RadioListTile(
-                                        value: _addressData!['addresses'][index]
-                                            .id,
-                                        groupValue: _currentOption?.id ?? '',
-                                        activeColor: kAccentColor,
-                                        enableFeedback: true,
-                                        controlAffinity:
-                                            ListTileControlAffinity.trailing,
-                                        fillColor: MaterialStatePropertyAll(
-                                          kAccentColor,
-                                        ),
-                                        onChanged: ((value) {
-                                          setState(
-                                            () {
-                                              _currentOption =
-                                                  _addressData!['addresses']
-                                                      [index];
-                                            },
-                                          );
-                                        }),
-                                        title: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              width: min(
-                                                  mediaWidth - 200,
-                                                  15.0 *
-                                                      _addressData!['addresses']
-                                                              [index]
-                                                          .title
-                                                          .length),
-                                              child: Text(
-                                                _addressData!['addresses']
-                                                        [index]
-                                                    .title
-                                                    .toUpperCase(),
-                                                style: const TextStyle(
-                                                  color: kTextBlackColor,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                            ),
-                                            kWidthSizedBox,
-                                            _currentOption?.id !=
-                                                    (_addressData!['addresses']
-                                                            [index] as Address)
-                                                        .id
-                                                ? const SizedBox()
-                                                : Container(
-                                                    width: 60,
-                                                    height: 24,
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                      horizontal: 8,
-                                                      vertical: 4,
-                                                    ),
-                                                    decoration: ShapeDecoration(
-                                                      color: const Color(
-                                                          0xFFFFCFCF),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                      ),
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          'Default',
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                          style: TextStyle(
-                                                            color: kAccentColor,
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
-                                          ],
-                                        ),
-                                        subtitle: Padding(
-                                          padding: const EdgeInsets.only(
-                                            top: kDefaultPadding / 2,
-                                          ),
-                                          child: Text(
-                                            _addressData!['addresses'][index]
-                                                    ?.details ??
-                                                '',
-                                            style: TextStyle(
-                                              color: kTextGreyColor,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                  scrollDirection: Axis.vertical,
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.all(kDefaultPadding),
+                  children: [
+                    Column(
+                      children: [
+                        ListView.builder(
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            itemCount: controller.addresses.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                padding: const EdgeInsetsDirectional.symmetric(
+                                  vertical: kDefaultPadding / 2,
+                                ),
+                                child: RadioListTile(
+                                  value: controller.addresses[index].id,
+                                  groupValue: _currentOption?.id ?? '',
+                                  activeColor: kAccentColor,
+                                  enableFeedback: true,
+                                  controlAffinity:
+                                      ListTileControlAffinity.trailing,
+                                  fillColor: MaterialStatePropertyAll(
+                                    kAccentColor,
+                                  ),
+                                  onChanged: ((value) {
+                                    setState(
+                                      () {
+                                        _currentOption =
+                                            controller.addresses[index];
+                                      },
                                     );
                                   }),
-                          const SizedBox(
-                            height: kDefaultPadding * 2,
-                          ),
-                        ],
-                      ),
-                      MyOutlinedElevatedButton(
-                        title: "Add New Address",
-                        onPressed: _addAddress,
-                      ),
-                      const SizedBox(height: kDefaultPadding),
-                      _addressData!['addresses']!.isEmpty
-                          ? const SizedBox()
-                          : _isLoading
-                              ? Center(
-                                  child: CircularProgressIndicator(
-                                      color: kAccentColor),
-                                )
-                              : MyElevatedButton(
-                                  title: "Apply",
-                                  onPressed: () {
-                                    applyDeliveryAddress(_currentOption);
-                                  },
+                                  title: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: min(
+                                            mediaWidth - 200,
+                                            15.0 *
+                                                controller.addresses[index]
+                                                    .title.length),
+                                        child: Text(
+                                          controller.addresses[index].title
+                                              .toUpperCase(),
+                                          style: const TextStyle(
+                                            color: kTextBlackColor,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
+                                      kWidthSizedBox,
+                                      _currentOption?.id !=
+                                              (controller.addresses[index]).id
+                                          ? const SizedBox()
+                                          : Container(
+                                              width: 60,
+                                              height: 24,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 8,
+                                                vertical: 4,
+                                              ),
+                                              decoration: ShapeDecoration(
+                                                color: const Color(0xFFFFCFCF),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                              ),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'Default',
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                      color: kAccentColor,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                    ],
+                                  ),
+                                  subtitle: Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: kDefaultPadding / 2,
+                                    ),
+                                    child: Text(
+                                      controller.addresses[index].details,
+                                      style: TextStyle(
+                                        color: kTextGreyColor,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                      const SizedBox(height: kDefaultPadding * 2),
-                    ],
-                  ),
+                              );
+                            }),
+                        const SizedBox(
+                          height: kDefaultPadding * 2,
+                        ),
+                      ],
+                    ),
+                    MyOutlinedElevatedButton(
+                      title: "Add New Address",
+                      onPressed: _addAddress,
+                    ),
+                    const SizedBox(height: kDefaultPadding),
+                    controller.addresses.isEmpty
+                        ? const SizedBox()
+                        : _isLoading
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                    color: kAccentColor),
+                              )
+                            : MyElevatedButton(
+                                title: "Apply",
+                                onPressed: () {
+                                  applyDeliveryAddress(_currentOption);
+                                },
+                              ),
+                    const SizedBox(height: kDefaultPadding * 2),
+                  ],
                 ),
               ),
+            );
+          },
+        ),
       ),
     );
   }

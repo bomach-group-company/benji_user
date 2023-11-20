@@ -2,13 +2,13 @@
 
 import 'dart:math';
 
-import 'package:benji/app/cart/cart_screen.dart';
+import 'package:benji/app/cart/my_cart.dart';
 import 'package:benji/app/favorites/favorites.dart';
 import 'package:benji/app/packages/send_package.dart';
 import 'package:benji/app/support/help_and_support.dart';
+import 'package:benji/src/components/others/empty.dart';
+import 'package:benji/src/components/others/my_future_builder.dart';
 import 'package:benji/src/components/vendor/vendors_card.dart';
-import 'package:benji/src/others/empty.dart';
-import 'package:benji/src/others/my_future_builder.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/category_controller.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
@@ -30,13 +30,13 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../src/components/appbar/appbar_delivery_location.dart';
+import '../../src/components/others/cart_card.dart';
 import '../../src/components/product/product_card.dart';
 import '../../src/components/section/category_items.dart';
 import '../../src/components/section/custom_show_search.dart';
 import '../../src/components/section/see_all_container.dart';
 import '../../src/components/simple_item/category_item.dart';
 import '../../src/components/snackbar/my_floating_snackbar.dart';
-import '../../src/others/cart_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/controller/notifications_controller.dart';
@@ -259,8 +259,8 @@ class _HomeState extends State<Home> {
       );
 
   void _toCheckoutScreen() => Get.to(
-        () => const CartScreen(),
-        routeName: 'CartScreen',
+        () => const MyCarts(),
+        routeName: 'MyCarts',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -705,19 +705,11 @@ class _HomeState extends State<Home> {
                               child: SizedBox(
                                 width: 200,
                                 child: VendorsCard(
+                                  vendor: controller.vendorList[index],
                                   removeDistance: false,
                                   onTap: () {
                                     _toVendorPage(controller.vendorList[index]);
                                   },
-                                  cardImage:
-                                      "assets/images/vendors/ntachi-osa.png",
-                                  vendorName:
-                                      controller.vendorList[index].shopName,
-                                  typeOfBusiness: controller
-                                      .vendorList[index].shopType.name,
-                                  rating:
-                                      '${(controller.vendorList[index].averageRating).toStringAsPrecision(2)} (${controller.vendorList[index].numberOfClientsReactions})',
-                                  distance: "30 mins",
                                 ),
                               ),
                             ),
@@ -779,16 +771,12 @@ class _HomeState extends State<Home> {
                                   min(controller.vendorPopularList.length, 3)))
                               .map(
                                 (item) => VendorsCard(
-                                    removeDistance: true,
-                                    onTap: () {
-                                      _toVendorPage(item);
-                                    },
-                                    vendorName: item.shopName,
-                                    typeOfBusiness: item.shopType.name,
-                                    rating:
-                                        " ${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
-                                    cardImage:
-                                        "assets/images/vendors/ntachi-osa.png"),
+                                  vendor: item,
+                                  removeDistance: true,
+                                  onTap: () {
+                                    _toVendorPage(item);
+                                  },
+                                ),
                               )
                               .toList(),
                         );

@@ -134,6 +134,7 @@ class _PopularVendorsState extends State<PopularVendors> {
                             (index) => auto),
                     children: (controller.vendorPopularList).map((item) {
                       return VendorsCard(
+                        vendor: item,
                         onTap: () {
                           Get.to(
                             () => VendorDetails(vendor: item),
@@ -147,11 +148,6 @@ class _PopularVendorsState extends State<PopularVendors> {
                           );
                         },
                         removeDistance: true,
-                        cardImage: 'assets/images/vendors/ntachi-osa.png',
-                        vendorName: item.shopName,
-                        typeOfBusiness: item.shopType.name,
-                        rating:
-                            "${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
                       );
                     }).toList(),
                   ),

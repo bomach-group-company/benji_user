@@ -11,52 +11,79 @@ class CartController extends GetxController {
     return Get.find<CartController>();
   }
 
-  var subTotal = 0.0.obs;
+  var subTotal = <double>[].obs;
+  var countCartVendor = <int>[].obs;
   var isLoad = false.obs;
-  var cartProducts = <Product>[].obs;
-  var formatOfOrder = <String, dynamic>{}.obs;
+  var cartProducts = <List<Product>>[].obs;
+  var formatOfOrder = <Map<String, dynamic>>[].obs;
 
-  Future clearCartProduct() async {
-    clearCart();
+  removeAtIndexFast(int index) {
+    subTotal.removeAt(index);
+    countCartVendor.removeAt(index);
+    cartProducts.removeAt(index);
+    formatOfOrder.removeAt(index);
     update();
   }
 
-  void incrementQuantityForCartPage(Product product) async {
+  Future clearCartProduct(int index) async {
+    clearCart(index);
+    update();
+  }
+
+  void incrementQuantityForCartPage(Product product, int index) async {
     await addToCart(product);
-    subTotal.value += product.price;
+    subTotal.value[index] += product.price;
     update();
     getCartProduct();
   }
 
-  void decrementQuantityForCartPage(Product product) async {
+  void decrementQuantityForCartPage(Product product, int index) async {
     await minusFromCart(product);
-    subTotal.value -= product.price;
+    subTotal.value[index] -= product.price;
     update();
     getCartProduct();
   }
 
   Future getCartProduct() async {
+    List<VendorInfo> allCart = getAllCartItem();
     isLoad.value = true;
+    // subTotal.value = [];
+    // cartProducts.value = [];
+
+    // formatOfOrder.value = [];
     update();
-    VendorInfo allCart = getAllCartItem();
-    List<Product> products = [];
-    double total = 0.0;
-    for (var cartItem in allCart.vendorData) {
-      try {
-        Product product = await getProductById(cartItem.productId);
-        products.add(product);
-        total += (product.price * cartItem.quantity);
-      } catch (e) {
-        allCart.vendorData
-            .removeWhere((element) => element.productId == cartItem.productId);
-        ApiProcessorController.errorSnack(
-            'Failed to load ${cartItem.productId}');
+
+    List<double> totalList = [];
+    List<List<Product>> productsList = [];
+    List<int> countCartV = [];
+    for (var i = 0; i < allCart.length; i++) {
+      double total = 0.0;
+      List<Product> products = [];
+      countCartV.add(allCart[i].vendorData.length);
+      for (var j = 0; j < allCart[i].vendorData.length; j++) {
+        try {
+          Product product =
+              await getProductById(allCart[i].vendorData[j].productId);
+          products.add(product);
+          total += (product.price * allCart[i].vendorData[j].quantity);
+        } catch (e) {
+          allCart[i].vendorData.removeAt(j);
+          ApiProcessorController.errorSnack(
+              'Failed to load ${allCart[i].vendorData[j].productId}');
+        }
       }
+      totalList.add(total);
+      productsList.add(products);
     }
     isLoad.value = false;
-    subTotal.value = total;
-    cartProducts.value = products;
-    formatOfOrder.value = allCart.toJson();
+    subTotal.value = totalList;
+    cartProducts.value = productsList;
+    countCartVendor.value = countCartV;
+
+    formatOfOrder.value = [];
+    for (var cart in allCart) {
+      formatOfOrder.value.add(cart.toJson());
+    }
     update();
   }
 }

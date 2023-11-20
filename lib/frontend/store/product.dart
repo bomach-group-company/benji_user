@@ -1,5 +1,6 @@
 import 'package:benji/frontend/store/categories.dart';
 import 'package:benji/frontend/store/category.dart';
+import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/frontend/model/product.dart';
 import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
@@ -148,13 +149,17 @@ class _ProductPageState extends State<ProductPage> {
                             ),
                             height: media.height * 0.5,
                             decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                  image: AssetImage(
-                                      "assets/images/products/okra-soup.png"),
-                                  fit: BoxFit.contain,
-                                ),
+                                color: kPageSkeletonColor,
+                                // image: const DecorationImage(
+                                //   image: AssetImage(
+                                //       "assets/images/products/okra-soup.png"),
+                                //   fit: BoxFit.contain,
+                                // ),
                                 border: Border.all(color: Colors.black12),
                                 borderRadius: BorderRadius.circular(10)),
+                            child: Center(
+                                child:
+                                    MyImage(url: widget.product.productImage)),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,8 +1,8 @@
 // ignore_for_file: non_constant_identifier_names, use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:benji/src/components/textformfield/my_maps_textformfield.dart';
-import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
 import 'package:benji/src/providers/keys.dart';
+import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
 import 'package:benji/src/repo/models/googleMaps/autocomplete_prediction.dart';
 import 'package:benji/src/repo/utils/constant.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
@@ -18,10 +18,10 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/button/my_outlined_elevatedbutton.dart';
+import '../../src/components/others/location_list_tile.dart';
 import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/components/textformfield/my textformfield.dart';
 import '../../src/components/textformfield/my_intl_phonefield.dart';
-import '../../src/others/location_list_tile.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/googleMaps/places_autocomplete_response.dart';
 import '../../src/repo/models/user/user_model.dart';

@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import '../../src/others/empty.dart';
+import '../../src/components/others/empty.dart';
 import '../../src/providers/constants.dart';
 import 'view_package.dart';
 

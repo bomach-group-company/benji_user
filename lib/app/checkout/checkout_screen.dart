@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:benji/app/home/home.dart';
 import 'package:benji/app/splash_screens/payment_successful_screen.dart';
-import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
@@ -27,11 +27,15 @@ import '../../theme/colors.dart';
 import '../address/deliver_to.dart';
 
 class CheckoutScreen extends StatefulWidget {
+  final int index;
   final Map<String, dynamic> formatOfOrder;
   final String orderID;
 
   const CheckoutScreen(
-      {super.key, required this.formatOfOrder, required this.orderID});
+      {super.key,
+      required this.formatOfOrder,
+      required this.orderID,
+      required this.index});
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -82,21 +86,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   _getData() async {
+    print('formatOfOrder ${widget.formatOfOrder}');
     _subTotal = 0;
 
-    List<Product> product = (await getCartProduct(
-      (data) => mySnackBar(
-        context,
-        kAccentColor,
-        "Error!",
-        "Item with id $data not found",
-        const Duration(
-          seconds: 1,
-        ),
-      ),
-    ))['products'] as List<Product>;
+    List<Product> product = CartController.instance.cartProducts[widget.index];
 
-    Map<String, dynamic> cartItems = getCartProductId();
+    Map<String, dynamic> cartItems = getCartProductId(widget.index);
 
     Address? deliverTo;
     try {
@@ -136,7 +131,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       showAppbar: false,
     );
     if (response != null) {
-      await clearCart();
+      await clearCart(widget.index);
       Get.to(
         () => const PaymentSuccessful(),
         routeName: 'PaymentSuccessful',
@@ -197,7 +192,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   void _toDeliverTo() async {
     await Get.to(
-      () => DeliverTo(inCheckout: true, formatOfOrder: widget.formatOfOrder),
+      () => DeliverTo(
+          inCheckout: true,
+          formatOfOrder: widget.formatOfOrder,
+          index: widget.index),
       routeName: 'DeliverTo',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,

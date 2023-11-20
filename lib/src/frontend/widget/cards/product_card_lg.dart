@@ -1,3 +1,4 @@
+import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
@@ -119,16 +120,21 @@ class _MyCardLgState extends State<MyCardLg> {
                         MyClickable(
                           navigate: widget.navigate,
                           child: Container(
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                    "assets/images/products/okra-soup.png"),
-                              ),
-                              borderRadius: BorderRadius.only(
+                            decoration: BoxDecoration(
+                              color: kPageSkeletonColor,
+
+                              // image: DecorationImage(
+                              //   image: AssetImage(
+                              //       "assets/images/products/okra-soup.png"),
+                              // ),
+                              borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(10),
                                 topRight: Radius.circular(10),
                               ),
                             ),
+                            child: Center(
+                                child:
+                                    MyImage(url: widget.product.productImage)),
                           ),
                         ),
                         Padding(

@@ -4,23 +4,22 @@ import 'package:benji/app/address/deliver_to.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/product/cart_product_container.dart';
-import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import '../../src/others/empty.dart';
+import '../../src/components/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../product/product_detail_screen.dart';
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({super.key});
+  final int index;
+  const CartScreen({super.key, required this.index});
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -46,20 +45,6 @@ class _CartScreenState extends State<CartScreen> {
 //==================================================== FUNCTIONS ==========================================================\\
 
   //================================== Navigation =======================================\\
-  _clearCart() async {
-    await CartController.instance.clearCartProduct();
-    mySnackBar(
-      context,
-      kSuccessColor,
-      "Cart Cleared!",
-      "Items removed successfully",
-      const Duration(
-        seconds: 1,
-      ),
-    );
-  }
-
-  //================================== Navigation =======================================\\
 
   void _toProductDetailScreen(product) => Get.to(
         () => ProductDetailScreen(product: product),
@@ -73,7 +58,7 @@ class _CartScreenState extends State<CartScreen> {
       );
 
   void _toCheckoutScreen(Map<String, dynamic> formatOfOrder) => Get.to(
-        () => DeliverTo(formatOfOrder: formatOfOrder),
+        () => DeliverTo(formatOfOrder: formatOfOrder, index: widget.index),
         routeName: 'DeliverTo',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -96,20 +81,7 @@ class _CartScreenState extends State<CartScreen> {
               appBar: MyAppBar(
                 title: "Cart",
                 elevation: 0.0,
-                actions: [
-                  IconButton(
-                    onPressed:
-                        controller.cartProducts.isEmpty ? null : _clearCart,
-                    tooltip: "Clear cart",
-                    icon: FaIcon(
-                      FontAwesomeIcons.solidTrashCan,
-                      size: 20,
-                      color: controller.cartProducts.isEmpty
-                          ? kLightGreyColor
-                          : kAccentColor,
-                    ),
-                  ),
-                ],
+                actions: const [],
                 backgroundColor: kPrimaryColor,
               ),
               extendBody: true,
@@ -121,10 +93,10 @@ class _CartScreenState extends State<CartScreen> {
                     : Padding(
                         padding: const EdgeInsets.all(10),
                         child: MyElevatedButton(
-                          onPressed: () =>
-                              _toCheckoutScreen(controller.formatOfOrder),
+                          onPressed: () => _toCheckoutScreen(
+                              controller.formatOfOrder[widget.index]),
                           title:
-                              "Checkout (₦ ${formattedText(controller.subTotal.value)})",
+                              "Checkout (₦ ${formattedText(controller.subTotal.value[widget.index])})",
                         ),
                       ),
               ),
@@ -187,7 +159,7 @@ class _CartScreenState extends State<CartScreen> {
                                           ),
                                         ),
                                         Text(
-                                          "₦ ${formattedText(controller.subTotal.value)}",
+                                          "₦ ${formattedText(controller.subTotal.value[widget.index])}",
                                           style: const TextStyle(
                                             color: kTextBlackColor,
                                             fontFamily: 'sen',
@@ -216,7 +188,8 @@ class _CartScreenState extends State<CartScreen> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: controller.cartProducts.length
+                                          text: controller
+                                              .cartProducts[widget.index].length
                                               .toString(),
                                           style: const TextStyle(
                                             color: kTextBlackColor,
@@ -248,15 +221,16 @@ class _CartScreenState extends State<CartScreen> {
                                         : List.generate(
                                             controller.cartProducts.length,
                                             (index) => auto),
-                                    children: (controller.cartProducts)
+                                    children: (controller
+                                            .cartProducts[widget.index])
                                         .map(
                                           (item) => ProductCartContainer(
                                             decrementQuantity: () => controller
                                                 .decrementQuantityForCartPage(
-                                                    item),
+                                                    item, widget.index),
                                             incrementQuantity: () => controller
                                                 .incrementQuantityForCartPage(
-                                                    item),
+                                                    item, widget.index),
                                             product: item,
                                             onTap: () =>
                                                 _toProductDetailScreen(item),

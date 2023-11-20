@@ -1,6 +1,7 @@
 import 'dart:math';
 
-import 'package:benji/src/others/my_future_builder.dart';
+import 'package:benji/src/components/image/my_image.dart';
+import 'package:benji/src/components/others/my_future_builder.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -64,14 +65,15 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 width: 50,
                 decoration: ShapeDecoration(
                   color: kPageSkeletonColor,
-                  image: const DecorationImage(
-                    image: AssetImage(
-                      "assets/images/profile/avatar-image.jpg",
-                    ),
-                    fit: BoxFit.cover,
-                  ),
+                  // image: const DecorationImage(
+                  //   image: AssetImage(
+                  //     "assets/images/profile/avatar-image.jpg",
+                  //   ),
+                  //   fit: BoxFit.cover,
+                  // ),
                   shape: const OvalBorder(),
                 ),
+                child: Center(child: MyImage(url: data.image)),
               ),
               title: Text(
                 '${data.firstName} ${data.lastName}',
