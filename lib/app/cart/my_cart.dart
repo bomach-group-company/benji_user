@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:benji/app/address/add_new_address.dart';
 import 'package:benji/app/address/edit_address_details.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
@@ -8,7 +6,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/address/address_model.dart';
@@ -163,16 +160,9 @@ class _MyCartsState extends State<MyCarts> {
         backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
           elevation: 0.0,
-          title: "Addresses",
+          title: "My Carts",
           backgroundColor: kPrimaryColor,
           actions: const [],
-        ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: MyElevatedButton(
-            title: "Add new address",
-            onPressed: _toAddNewAddress,
-          ),
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
@@ -211,75 +201,14 @@ class _MyCartsState extends State<MyCarts> {
                                   size: 16,
                                   color: kAccentColor,
                                 ),
-                                title: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: min(
-                                          mediaWidth - 150,
-                                          15.0 *
-                                              controller.addresses[index].title
-                                                  .length),
-                                      child: Text(
-                                        controller.addresses[index].title
-                                                .toUpperCase() ??
-                                            '',
-                                        style: const TextStyle(
-                                          color: kTextBlackColor,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ),
-                                    kWidthSizedBox,
-                                    controller.current.value.id ==
-                                            controller.addresses[index].id
-                                        ? Container(
-                                            width: 60,
-                                            height: 24,
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 8,
-                                              vertical: 4,
-                                            ),
-                                            decoration: ShapeDecoration(
-                                              color: kAccentColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'Default',
-                                                  textAlign: TextAlign.right,
-                                                  style: TextStyle(
-                                                    color: kPrimaryColor,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        : const SizedBox(),
-                                  ],
-                                ),
-                                subtitle: Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: kDefaultPadding / 2,
-                                  ),
+                                title: SizedBox(
+                                  width: mediaWidth - 100,
                                   child: Text(
-                                    controller.addresses[index].details,
-                                    style: TextStyle(
-                                      color: kTextGreyColor,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
+                                    'Cart ${index + 1}',
+                                    style: const TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                 ),
