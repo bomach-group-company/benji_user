@@ -1,3 +1,4 @@
+import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
@@ -100,17 +101,19 @@ class _MyCardState extends State<MyCard> {
                   onTap: widget.action,
                   child: Center(
                     child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.vertical(
+                      decoration: BoxDecoration(
+                        color: kPageSkeletonColor,
+                        borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(10),
                         ),
-                        image: DecorationImage(
-                            image: AssetImage(
-                              "assets/images/products/okra-soup.png",
-                            ),
-                            fit: BoxFit.cover),
+                        // image: DecorationImage(
+                        //     image: AssetImage(
+                        //       "assets/images/products/okra-soup.png",
+                        //     ),
+                        //     fit: BoxFit.cover),
                       ),
+                      child: Center(
+                          child: MyImage(url: widget.product.productImage)),
                     ),
                   ),
                 ),

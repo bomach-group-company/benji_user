@@ -2,12 +2,15 @@
 
 import 'package:benji/app/auth/login.dart';
 import 'package:benji/app/home/home.dart';
+import 'package:benji/frontend/main/home.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/user/user_model.dart';
 import 'package:benji/src/repo/services/helper.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,7 +20,15 @@ class AuthController extends GetxController {
   }
 
   Future checkAuth() async {
-    if (await isAuthorized()) {
+    bool status;
+    try {
+      status = await isAuthorized();
+    } catch (e) {
+      ApiProcessorController.errorSnack('Check your internet');
+      status = false;
+    }
+
+    if (status) {
       Get.offAll(
         () => const Home(),
         fullscreenDialog: true,
@@ -28,15 +39,27 @@ class AuthController extends GetxController {
         transition: Transition.cupertinoDialog,
       );
     } else {
-      Get.offAll(
-        () => const Login(),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Login",
-        predicate: (route) => false,
-        popGesture: false,
-        transition: Transition.cupertinoDialog,
-      );
+      if (kIsWeb) {
+        Get.offAll(
+          () => const HomePage(),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          routeName: "HomePage",
+          predicate: (route) => false,
+          popGesture: false,
+          transition: Transition.cupertinoDialog,
+        );
+      } else {
+        Get.offAll(
+          () => const Login(),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          routeName: "Login",
+          predicate: (route) => false,
+          popGesture: false,
+          transition: Transition.cupertinoDialog,
+        );
+      }
     }
   }
 
