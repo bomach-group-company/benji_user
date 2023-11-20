@@ -262,17 +262,12 @@ class _FavoritesState extends State<Favorites>
                                       children: (controller.favouriteVendors)
                                           .map(
                                             (item) => VendorsCard(
-                                                removeDistance: true,
-                                                onTap: () {
-                                                  _vendorDetailPage(item);
-                                                },
-                                                vendorName: item.shopName,
-                                                typeOfBusiness:
-                                                    item.shopType.name,
-                                                rating:
-                                                    " ${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
-                                                cardImage:
-                                                    "assets/images/vendors/ntachi-osa.png"),
+                                              vendor: item,
+                                              removeDistance: true,
+                                              onTap: () {
+                                                _vendorDetailPage(item);
+                                              },
+                                            ),
                                           )
                                           .toList(),
                                     ),

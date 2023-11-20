@@ -1,3 +1,5 @@
+import 'package:benji/src/components/image/my_image.dart';
+import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -7,16 +9,12 @@ import '../../providers/responsive_constant.dart';
 
 class VendorsCard extends StatelessWidget {
   final Function() onTap;
+  final VendorModel vendor;
   final bool removeDistance;
-  final String cardImage, vendorName, typeOfBusiness, rating, distance;
   const VendorsCard({
     super.key,
     required this.onTap,
-    required this.vendorName,
-    required this.typeOfBusiness,
-    required this.rating,
-    required this.cardImage,
-    this.distance = "",
+    required this.vendor,
     this.removeDistance = false,
   });
 
@@ -49,15 +47,16 @@ class VendorsCard extends StatelessWidget {
               height: 128,
               decoration: BoxDecoration(
                 color: kPageSkeletonColor,
-                image: DecorationImage(
-                  image: AssetImage(cardImage),
-                  fit: BoxFit.cover,
-                ),
+                // image: DecorationImage(
+                //   image: AssetImage(cardImage),
+                //   fit: BoxFit.cover,
+                // ),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(7.20),
                   topRight: Radius.circular(7.20),
                 ),
               ),
+              child: Center(child: MyImage(url: vendor.shopImage)),
             ),
             kHalfSizedBox,
             Padding(
@@ -68,7 +67,7 @@ class VendorsCard extends StatelessWidget {
                 children: [
                   SizedBox(
                     child: Text(
-                      vendorName,
+                      vendor.shopName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -82,7 +81,7 @@ class VendorsCard extends StatelessWidget {
                   kHalfSizedBox,
                   SizedBox(
                     child: Text(
-                      typeOfBusiness,
+                      vendor.shopType.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -106,7 +105,7 @@ class VendorsCard extends StatelessWidget {
                         const SizedBox(width: 4.0),
                         SizedBox(
                           child: Text(
-                            rating,
+                            '${(vendor.averageRating).toStringAsPrecision(2)} (${vendor.numberOfClientsReactions})',
                             style: const TextStyle(
                               color: kTextBlackColor,
                               fontSize: 15,
@@ -130,10 +129,10 @@ class VendorsCard extends StatelessWidget {
                             ? const SizedBox()
                             : SizedBox(
                                 width: deviceType(media.width) > 2 ? 80 : 60,
-                                child: Text(
-                                  distance,
+                                child: const Text(
+                                  "30 mins",
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: kTextBlackColor,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,

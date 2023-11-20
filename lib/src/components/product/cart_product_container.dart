@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -66,16 +67,6 @@ class ProductCartContainerState extends State<ProductCartContainer> {
     }
   }
 
-  // void incrementQuantity() async {
-  //   await addToCart(widget.product.id);
-  //   await checkCart();
-  // }
-
-  // void decrementQuantity() async {
-  //   await removeFromCart(widget.product.id);
-  //   await checkCart();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return cartCountAll == '0'
@@ -104,19 +95,22 @@ class ProductCartContainerState extends State<ProductCartContainer> {
                 children: [
                   Container(
                     height: 186,
-                    decoration: const ShapeDecoration(
-                      shape: RoundedRectangleBorder(
+                    decoration: ShapeDecoration(
+                      color: kPageSkeletonColor,
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(7.20),
                           topRight: Radius.circular(7.20),
                         ),
                       ),
-                      image: DecorationImage(
-                        image:
-                            AssetImage("assets/images/products/okra-soup.png"),
-                        fit: BoxFit.fill,
-                      ),
+                      // image: DecorationImage(
+                      //   image:
+                      //       AssetImage("assets/images/products/okra-soup.png"),
+                      //   fit: BoxFit.fill,
+                      // ),
                     ),
+                    child: Center(
+                        child: MyImage(url: widget.product.productImage)),
                   ),
                   kSizedBox,
                   Padding(

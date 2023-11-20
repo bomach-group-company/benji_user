@@ -705,19 +705,11 @@ class _HomeState extends State<Home> {
                               child: SizedBox(
                                 width: 200,
                                 child: VendorsCard(
+                                  vendor: controller.vendorList[index],
                                   removeDistance: false,
                                   onTap: () {
                                     _toVendorPage(controller.vendorList[index]);
                                   },
-                                  cardImage:
-                                      "assets/images/vendors/ntachi-osa.png",
-                                  vendorName:
-                                      controller.vendorList[index].shopName,
-                                  typeOfBusiness: controller
-                                      .vendorList[index].shopType.name,
-                                  rating:
-                                      '${(controller.vendorList[index].averageRating).toStringAsPrecision(2)} (${controller.vendorList[index].numberOfClientsReactions})',
-                                  distance: "30 mins",
                                 ),
                               ),
                             ),
@@ -779,16 +771,12 @@ class _HomeState extends State<Home> {
                                   min(controller.vendorPopularList.length, 3)))
                               .map(
                                 (item) => VendorsCard(
-                                    removeDistance: true,
-                                    onTap: () {
-                                      _toVendorPage(item);
-                                    },
-                                    vendorName: item.shopName,
-                                    typeOfBusiness: item.shopType.name,
-                                    rating:
-                                        " ${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
-                                    cardImage:
-                                        "assets/images/vendors/ntachi-osa.png"),
+                                  vendor: item,
+                                  removeDistance: true,
+                                  onTap: () {
+                                    _toVendorPage(item);
+                                  },
+                                ),
                               )
                               .toList(),
                         );

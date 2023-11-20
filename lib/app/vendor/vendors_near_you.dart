@@ -134,6 +134,7 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                               controller.vendorList.length, (index) => auto),
                       children: (controller.vendorList).map((item) {
                         return VendorsCard(
+                          vendor: item,
                           onTap: () {
                             Get.to(
                               () => VendorDetails(vendor: item),
@@ -146,12 +147,6 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                               transition: Transition.rightToLeft,
                             );
                           },
-                          distance: "30 mins",
-                          cardImage: 'assets/images/vendors/ntachi-osa.png',
-                          vendorName: item.shopName,
-                          typeOfBusiness: item.shopType.name,
-                          rating:
-                              "${((item.averageRating)).toStringAsPrecision(2).toString()} (${(item.numberOfClientsReactions).toString()})",
                         );
                       }).toList(),
                     ),
