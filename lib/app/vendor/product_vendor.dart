@@ -10,7 +10,7 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/components/product/product_card.dart';
-import '../../src/others/empty.dart';
+import '../../src/components/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 

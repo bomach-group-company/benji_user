@@ -9,7 +9,7 @@ import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../theme/colors.dart';
-import '../../others/my_future_builder.dart';
+import '../others/my_future_builder.dart';
 import '../../providers/responsive_constant.dart';
 
 class CustomSearchDelegate extends SearchDelegate {

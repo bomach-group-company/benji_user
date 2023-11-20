@@ -9,8 +9,8 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/vendor/vendors_card.dart';
-import '../../src/others/cart_card.dart';
-import '../../src/others/empty.dart';
+import '../../src/components/others/cart_card.dart';
+import '../../src/components/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../src/providers/responsive_constant.dart';

@@ -1,9 +1,10 @@
 import 'package:benji/src/repo/controller/address_controller.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/others/empty.dart';
+import '../../src/components/others/empty.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
@@ -15,6 +16,12 @@ class MyCarts extends StatefulWidget {
 }
 
 class _MyCartsState extends State<MyCarts> {
+  @override
+  void initState() {
+    super.initState();
+    checkAuth(context);
+  }
+
   //==================================================== CONTROLLERS ======================================================\\
   final ScrollController _scrollController = ScrollController();
 

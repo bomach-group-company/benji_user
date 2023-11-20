@@ -21,7 +21,7 @@ import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/components/textformfield/my textformfield.dart';
 import '../../src/components/textformfield/my_intl_phonefield.dart';
 import '../../src/components/textformfield/my_maps_textformfield.dart';
-import '../../src/others/location_list_tile.dart';
+import '../../src/components/others/location_list_tile.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/keys.dart';
 import '../../src/repo/models/googleMaps/autocomplete_prediction.dart';

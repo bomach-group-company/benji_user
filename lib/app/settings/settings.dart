@@ -14,8 +14,8 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../src/components/others/my_future_builder.dart';
 import '../../src/components/snackbar/my_floating_snackbar.dart';
-import '../../src/others/my_future_builder.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../src/repo/utils/constant.dart';

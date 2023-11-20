@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../app/home/home.dart';
-import '../components/button/my_elevatedbutton.dart';
+import '../../../app/home/home.dart';
+import '../button/my_elevatedbutton.dart';
 
 class EmptyCard extends StatelessWidget {
   final bool removeButton;
