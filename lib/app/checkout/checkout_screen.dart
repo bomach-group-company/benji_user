@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:benji/app/home/home.dart';
 import 'package:benji/app/splash_screens/payment_successful_screen.dart';
-import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
@@ -88,18 +88,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   _getData() async {
     _subTotal = 0;
 
-    List<Product> product = (await getCartProduct(
-      widget.index,
-      (data) => mySnackBar(
-        context,
-        kAccentColor,
-        "Error!",
-        "Item with id $data not found",
-        const Duration(
-          seconds: 1,
-        ),
-      ),
-    ))['products'] as List<Product>;
+    List<Product> product = CartController.instance.cartProducts[widget.index];
 
     Map<String, dynamic> cartItems = getCartProductId(widget.index);
 

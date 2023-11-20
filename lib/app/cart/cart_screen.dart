@@ -4,14 +4,12 @@ import 'package:benji/app/address/deliver_to.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/product/cart_product_container.dart';
-import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/others/empty.dart';
@@ -45,20 +43,6 @@ class _CartScreenState extends State<CartScreen> {
   final ScrollController _scrollController = ScrollController();
 
 //==================================================== FUNCTIONS ==========================================================\\
-
-  //================================== Navigation =======================================\\
-  _clearCart() async {
-    await CartController.instance.clearCartProduct(widget.index);
-    mySnackBar(
-      context,
-      kSuccessColor,
-      "Cart Cleared!",
-      "Items removed successfully",
-      const Duration(
-        seconds: 1,
-      ),
-    );
-  }
 
   //================================== Navigation =======================================\\
 
@@ -97,20 +81,7 @@ class _CartScreenState extends State<CartScreen> {
               appBar: MyAppBar(
                 title: "Cart",
                 elevation: 0.0,
-                actions: [
-                  IconButton(
-                    onPressed:
-                        controller.cartProducts.isEmpty ? null : _clearCart,
-                    tooltip: "Clear cart",
-                    icon: FaIcon(
-                      FontAwesomeIcons.solidTrashCan,
-                      size: 20,
-                      color: controller.cartProducts.isEmpty
-                          ? kLightGreyColor
-                          : kAccentColor,
-                    ),
-                  ),
-                ],
+                actions: const [],
                 backgroundColor: kPrimaryColor,
               ),
               extendBody: true,
@@ -217,7 +188,8 @@ class _CartScreenState extends State<CartScreen> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: controller.cartProducts.length
+                                          text: controller
+                                              .cartProducts[widget.index].length
                                               .toString(),
                                           style: const TextStyle(
                                             color: kTextBlackColor,
