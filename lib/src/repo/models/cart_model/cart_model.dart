@@ -29,12 +29,14 @@ class VendorDataModel {
 
 class VendorInfo {
   List<VendorDataModel> vendorData;
+  int vendorId;
   String deliveryAddressId;
   String latitude;
   String longitude;
 
   VendorInfo({
     required this.vendorData,
+    required this.vendorId,
     required this.deliveryAddressId,
     required this.latitude,
     required this.longitude,
@@ -50,6 +52,7 @@ class VendorInfo {
 
     return VendorInfo(
       vendorData: vendorData,
+      vendorId: json['vendor_id'] ?? '',
       deliveryAddressId: json['delivery_address_id'] ?? '',
       latitude: json['latitude'] ?? '',
       longitude: json['longitude'] ?? '',
@@ -59,6 +62,7 @@ class VendorInfo {
   Map<String, dynamic> toJson() {
     return {
       "vendor_data": vendorData.map((data) => data.toJson()).toList(),
+      'vendor_id': vendorId,
       'delivery_address_id': deliveryAddressId,
       'latitude': latitude,
       'longitude': longitude,

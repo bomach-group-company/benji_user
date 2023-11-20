@@ -20,7 +20,8 @@ import '../../src/providers/responsive_constant.dart';
 import '../product/product_detail_screen.dart';
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({super.key});
+  final int index;
+  const CartScreen({super.key, required this.index});
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -47,7 +48,7 @@ class _CartScreenState extends State<CartScreen> {
 
   //================================== Navigation =======================================\\
   _clearCart() async {
-    await CartController.instance.clearCartProduct();
+    await CartController.instance.clearCartProduct(widget.index);
     mySnackBar(
       context,
       kSuccessColor,
@@ -73,7 +74,7 @@ class _CartScreenState extends State<CartScreen> {
       );
 
   void _toCheckoutScreen(Map<String, dynamic> formatOfOrder) => Get.to(
-        () => DeliverTo(formatOfOrder: formatOfOrder),
+        () => DeliverTo(formatOfOrder: formatOfOrder, index: widget.index),
         routeName: 'DeliverTo',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -121,10 +122,10 @@ class _CartScreenState extends State<CartScreen> {
                     : Padding(
                         padding: const EdgeInsets.all(10),
                         child: MyElevatedButton(
-                          onPressed: () =>
-                              _toCheckoutScreen(controller.formatOfOrder),
+                          onPressed: () => _toCheckoutScreen(
+                              controller.formatOfOrder[widget.index]),
                           title:
-                              "Checkout (₦ ${formattedText(controller.subTotal.value)})",
+                              "Checkout (₦ ${formattedText(controller.subTotal.value[widget.index])})",
                         ),
                       ),
               ),
@@ -187,7 +188,7 @@ class _CartScreenState extends State<CartScreen> {
                                           ),
                                         ),
                                         Text(
-                                          "₦ ${formattedText(controller.subTotal.value)}",
+                                          "₦ ${formattedText(controller.subTotal.value[widget.index])}",
                                           style: const TextStyle(
                                             color: kTextBlackColor,
                                             fontFamily: 'sen',
@@ -248,15 +249,16 @@ class _CartScreenState extends State<CartScreen> {
                                         : List.generate(
                                             controller.cartProducts.length,
                                             (index) => auto),
-                                    children: (controller.cartProducts)
+                                    children: (controller
+                                            .cartProducts[widget.index])
                                         .map(
                                           (item) => ProductCartContainer(
                                             decrementQuantity: () => controller
                                                 .decrementQuantityForCartPage(
-                                                    item),
+                                                    item, widget.index),
                                             incrementQuantity: () => controller
                                                 .incrementQuantityForCartPage(
-                                                    item),
+                                                    item, widget.index),
                                             product: item,
                                             onTap: () =>
                                                 _toProductDetailScreen(item),

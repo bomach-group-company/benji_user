@@ -21,10 +21,14 @@ import '../../theme/colors.dart';
 import 'add_new_address.dart';
 
 class DeliverTo extends StatefulWidget {
+  final int index;
   final Map<String, dynamic> formatOfOrder;
   final bool inCheckout;
   const DeliverTo(
-      {super.key, required this.formatOfOrder, this.inCheckout = false});
+      {super.key,
+      required this.formatOfOrder,
+      this.inCheckout = false,
+      required this.index});
 
   @override
   State<DeliverTo> createState() => _DeliverToState();
@@ -148,7 +152,11 @@ class _DeliverToState extends State<DeliverTo> {
         Get.back();
       } else {
         Get.off(
-          () => CheckoutScreen(formatOfOrder: formatOfOrder, orderID: orderID),
+          () => CheckoutScreen(
+            formatOfOrder: formatOfOrder,
+            orderID: orderID,
+            index: widget.index,
+          ),
           routeName: 'CheckoutScreen',
           duration: const Duration(milliseconds: 300),
           fullscreenDialog: true,

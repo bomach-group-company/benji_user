@@ -6,7 +6,6 @@ import 'package:benji/app/auth/login.dart';
 import 'package:benji/app/auth/otp_reset_password.dart';
 import 'package:benji/app/auth/reset_password.dart';
 import 'package:benji/app/auth/signup.dart';
-import 'package:benji/app/cart/cart_screen.dart';
 import 'package:benji/app/home/home.dart';
 import 'package:benji/app/onboarding/onboarding_screen.dart';
 import 'package:benji/app/orders/order_history.dart';
@@ -51,7 +50,6 @@ class AppRoutes {
     myGetPageBuilder(const OTPResetPassword()),
     myGetPageBuilder(const ResetPassword()),
     myGetPageBuilder(const SignUp()),
-    myGetPageBuilder(const CartScreen()),
     myGetPageBuilder(const OnboardingScreen()),
     myGetPageBuilder(const OrdersHistory()),
     myGetPageBuilder(const ChooseRider()),

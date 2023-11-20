@@ -18,11 +18,11 @@ import 'package:readmore/readmore.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
+import '../../src/components/others/cart_card.dart';
+import '../../src/components/others/empty.dart';
 import '../../src/components/rating_view/customer_review_card.dart';
 import '../../src/components/section/rate_product_dialog.dart';
 import '../../src/components/snackbar/my_floating_snackbar.dart';
-import '../../src/components/others/cart_card.dart';
-import '../../src/components/others/empty.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
 import 'report_product.dart';
@@ -40,6 +40,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   void initState() {
     super.initState();
+
+    cartCountAll = countCartItemByProduct(widget.product).toString();
+    _isAddedToCart = countCartItemByProduct(widget.product) > 0;
+    print('cartCountAll $cartCountAll _isAddedToCart $_isAddedToCart');
     getFavoritePSingle(widget.product.id.toString()).then(
       (value) {
         setState(() {
@@ -48,7 +52,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       },
     );
     _vendorNoteEC.text = getSingleProductNote(widget.product);
-    checkCart();
     _getData();
     scrollController.addListener(scrollListener);
   }
@@ -120,7 +123,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   bool _isAddedToFavorites = false;
   bool _isAddedToCart = false;
   bool isLoading = false;
-  bool justInPage = true;
 
   //==================================================== CONTROLLERS ======================================================\\
   final scrollController = ScrollController();
@@ -154,38 +156,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     }
   }
 
-  checkCart() async {
-    int countAll = countCartItemByProduct(widget.product);
-
-    setState(() {
-      cartCountAll = countAll.toString();
-      if (countAll != 0) {
-        _isAddedToCart = true;
-      } else {
-        _isAddedToCart = false;
-      }
-    });
-    if (_isAddedToCart == false && justInPage == false) {
-      mySnackBar(
-        context,
-        kSuccessColor,
-        "Success!",
-        "Item has been removed from cart.",
-        const Duration(
-          seconds: 1,
-        ),
-      );
-    }
-    if (!_isAddedToCart) {
-      await _deleteNote();
-    }
-    if (justInPage) {
-      setState(() {
-        justInPage = false;
-      });
-    }
-  }
-
   //============================ Favorite ================================\\
 
   void _addToFavorites() async {
@@ -208,29 +178,48 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    justInPage = true;
     setState(() {
-      cartCountAll = null;
+      cartCountAll = '0';
       _ratings = null;
     });
-    await checkCart();
   }
 
   //============================= Cart utility functions ============================\\
 
   void incrementQuantity() async {
     await addToCart(widget.product);
-    await checkCart();
+    setState(() {
+      cartCountAll = countCartItemByProduct(widget.product).toString();
+      _isAddedToCart = countCartItemByProduct(widget.product) > 0;
+    });
   }
 
   void decrementQuantity() async {
     await minusFromCart(widget.product);
-    await checkCart();
+    setState(() {
+      cartCountAll = countCartItemByProduct(widget.product).toString();
+      _isAddedToCart = countCartItemByProduct(widget.product) > 0;
+    });
+    if (countCartItemByProduct(widget.product) == 0) {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success!",
+        "Item has been removed from cart.",
+        const Duration(
+          seconds: 1,
+        ),
+      );
+    }
   }
 
   Future<void> _cartAddFunction() async {
     await addToCart(widget.product);
-    await checkCart();
+
+    setState(() {
+      cartCountAll = countCartItemByProduct(widget.product).toString();
+      _isAddedToCart = countCartItemByProduct(widget.product) > 0;
+    });
 
     mySnackBar(
       context,
@@ -674,7 +663,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                                 2),
                                                 child: Center(
                                                   child: Text(
-                                                    cartCountAll!,
+                                                    cartCountAll ?? '0',
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                       color: kTextWhiteColor,

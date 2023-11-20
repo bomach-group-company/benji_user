@@ -1,4 +1,5 @@
-import 'package:benji/src/repo/controller/address_controller.dart';
+import 'package:benji/app/cart/cart_screen.dart';
+import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,7 +32,18 @@ class _MyCartsState extends State<MyCarts> {
 
   //======================================= Navigation ==========================================\\
 
-  void _pickOption() {}
+  void _pickOption(int index) {
+    Get.to(
+      () => CartScreen(index: index),
+      routeName: 'CartScreen',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,57 +67,57 @@ class _MyCartsState extends State<MyCarts> {
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: GetBuilder<AddressController>(
-              initState: (state) => AddressController.instance.getAdresses(),
+          child: GetBuilder<CartController>(
+              // initState: (state) => CartController.instance.getCartProduct(),
               builder: (controller) {
-                if (controller.isLoad.value && controller.addresses.isEmpty) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: kAccentColor,
+            if (controller.isLoad.value && controller.cartProducts.isEmpty) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: kAccentColor,
+                ),
+              );
+            }
+            return Scrollbar(
+              controller: _scrollController,
+              radius: const Radius.circular(10),
+              scrollbarOrientation: ScrollbarOrientation.right,
+              child: controller.cartProducts.isEmpty
+                  ? const EmptyCard(removeButton: true)
+                  : ListView.builder(
+                      controller: _scrollController,
+                      itemCount: controller.cartProducts.length,
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          padding: const EdgeInsetsDirectional.symmetric(
+                            vertical: kDefaultPadding / 2,
+                          ),
+                          child: ListTile(
+                            onTap: () => _pickOption(index),
+                            enableFeedback: true,
+                            trailing: Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 16,
+                              color: kAccentColor,
+                            ),
+                            title: SizedBox(
+                              width: mediaWidth - 100,
+                              child: Text(
+                                'Cart ${index + 1}',
+                                style: const TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                }
-                return Scrollbar(
-                  controller: _scrollController,
-                  radius: const Radius.circular(10),
-                  scrollbarOrientation: ScrollbarOrientation.right,
-                  child: controller.addresses.isEmpty
-                      ? const EmptyCard(removeButton: true)
-                      : ListView.builder(
-                          controller: _scrollController,
-                          itemCount: controller.addresses.length,
-                          physics: const BouncingScrollPhysics(),
-                          scrollDirection: Axis.vertical,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              padding: const EdgeInsetsDirectional.symmetric(
-                                vertical: kDefaultPadding / 2,
-                              ),
-                              child: ListTile(
-                                onTap: () => _pickOption(),
-                                enableFeedback: true,
-                                trailing: Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: 16,
-                                  color: kAccentColor,
-                                ),
-                                title: SizedBox(
-                                  width: mediaWidth - 100,
-                                  child: Text(
-                                    'Cart ${index + 1}',
-                                    style: const TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                );
-              }),
+            );
+          }),
         ),
       ),
     );

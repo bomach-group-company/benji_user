@@ -27,11 +27,15 @@ import '../../theme/colors.dart';
 import '../address/deliver_to.dart';
 
 class CheckoutScreen extends StatefulWidget {
+  final int index;
   final Map<String, dynamic> formatOfOrder;
   final String orderID;
 
   const CheckoutScreen(
-      {super.key, required this.formatOfOrder, required this.orderID});
+      {super.key,
+      required this.formatOfOrder,
+      required this.orderID,
+      required this.index});
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -85,6 +89,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     _subTotal = 0;
 
     List<Product> product = (await getCartProduct(
+      widget.index,
       (data) => mySnackBar(
         context,
         kAccentColor,
@@ -96,7 +101,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       ),
     ))['products'] as List<Product>;
 
-    Map<String, dynamic> cartItems = getCartProductId();
+    Map<String, dynamic> cartItems = getCartProductId(widget.index);
 
     Address? deliverTo;
     try {
@@ -136,7 +141,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       showAppbar: false,
     );
     if (response != null) {
-      await clearCart();
+      await clearCart(widget.index);
       Get.to(
         () => const PaymentSuccessful(),
         routeName: 'PaymentSuccessful',
@@ -197,7 +202,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   void _toDeliverTo() async {
     await Get.to(
-      () => DeliverTo(inCheckout: true, formatOfOrder: widget.formatOfOrder),
+      () => DeliverTo(
+          inCheckout: true,
+          formatOfOrder: widget.formatOfOrder,
+          index: widget.index),
       routeName: 'DeliverTo',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,

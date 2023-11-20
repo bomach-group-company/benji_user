@@ -2,7 +2,7 @@
 
 import 'dart:math';
 
-import 'package:benji/app/cart/cart_screen.dart';
+import 'package:benji/app/cart/my_cart.dart';
 import 'package:benji/app/favorites/favorites.dart';
 import 'package:benji/app/packages/send_package.dart';
 import 'package:benji/app/support/help_and_support.dart';
@@ -259,8 +259,8 @@ class _HomeState extends State<Home> {
       );
 
   void _toCheckoutScreen() => Get.to(
-        () => const CartScreen(),
-        routeName: 'CartScreen',
+        () => const MyCarts(),
+        routeName: 'MyCarts',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
