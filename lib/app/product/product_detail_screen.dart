@@ -1,8 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:benji/src/components/product/product_card.dart';
 import 'package:benji/src/components/textformfield/message_textformfield.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
+import 'package:benji/src/repo/controller/product_controller.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/models/rating/ratings.dart';
 import 'package:benji/src/repo/utils/favorite.dart';
@@ -13,7 +15,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
@@ -232,6 +234,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
+  void _toProductDetailScreenPage(product) async {
+    await Get.to(
+      () => ProductDetailScreen(product: product),
+      routeName: 'ProductDetailScreen',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+    setState(() {});
+  }
   //=================================== Show Popup Menu =====================================\\
 
 //Show popup menu
@@ -369,6 +384,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               radius: const Radius.circular(10),
               scrollbarOrientation: ScrollbarOrientation.right,
               child: ListView(
+                shrinkWrap: true,
                 controller: scrollController,
                 physics: const ScrollPhysics(),
                 dragStartBehavior: DragStartBehavior.down,
@@ -783,6 +799,46 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 ],
                               )
                             : kSizedBox,
+                        // similar products will go here
+                        GetBuilder<ProductController>(
+                            initState: (state) =>
+                                ProductController.instance.getProduct(),
+                            builder: (controller) {
+                              if (controller.isLoad.value &&
+                                  controller.products.isEmpty) {
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: kAccentColor,
+                                  ),
+                                );
+                              }
+                              return SizedBox(
+                                height: 350,
+                                width: media.width,
+                                child: ListView.separated(
+                                  itemCount: controller.products.length,
+                                  scrollDirection: Axis.horizontal,
+                                  physics: const BouncingScrollPhysics(),
+                                  separatorBuilder: (context, index) =>
+                                      deviceType(media.width) > 2
+                                          ? kWidthSizedBox
+                                          : kHalfWidthSizedBox,
+                                  itemBuilder: (context, index) => InkWell(
+                                    child: SizedBox(
+                                      width: 200,
+                                      child: ProductCard(
+                                        product: controller.products[index],
+                                        onTap: () {
+                                          _toProductDetailScreenPage(
+                                              controller.products[index]);
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
+                        kSizedBox,
                         Container(
                           width: media.width,
                           padding: const EdgeInsets.all(kDefaultPadding),
