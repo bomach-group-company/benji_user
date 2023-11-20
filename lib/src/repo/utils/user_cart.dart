@@ -97,6 +97,7 @@ Future minusFromCart(Product product) async {
           }
           if (allCart[i].vendorData.isEmpty) {
             allCart.removeAt(i);
+            CartController.instance.removeAtIndexFast(i);
           }
           setAllCartItem(allCart);
           return;
@@ -116,6 +117,7 @@ Future removeFromCart(Product product) async {
           allCart[i].vendorData.removeAt(j);
           if (allCart[i].vendorData.isEmpty) {
             allCart.removeAt(i);
+            CartController.instance.removeAtIndexFast(i);
           }
           setAllCartItem(allCart);
           return;

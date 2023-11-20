@@ -86,6 +86,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   _getData() async {
+    print('formatOfOrder ${widget.formatOfOrder}');
     _subTotal = 0;
 
     List<Product> product = CartController.instance.cartProducts[widget.index];

@@ -104,7 +104,7 @@ class _MyCartsState extends State<MyCarts> {
                             title: SizedBox(
                               width: mediaWidth - 100,
                               child: Text(
-                                'Cart ${index + 1} (${controller.cartProducts[index].first.vendorId.shopName}) (${controller.cartProducts[index].first.name})',
+                                'Cart ${index + 1} - from ${controller.cartProducts[index].first.vendorId.shopName}',
                                 style: const TextStyle(
                                   color: kTextBlackColor,
                                   fontSize: 18,
@@ -115,7 +115,7 @@ class _MyCartsState extends State<MyCarts> {
                             subtitle: SizedBox(
                               width: mediaWidth - 100,
                               child: Text(
-                                'Count ${controller.countCartVendor[index]}',
+                                '${controller.countCartVendor[index]} items - ${controller.cartProducts[index].first.name}',
                                 style: const TextStyle(
                                   color: kTextBlackColor,
                                   fontSize: 14,

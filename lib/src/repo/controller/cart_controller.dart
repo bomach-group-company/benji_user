@@ -17,6 +17,14 @@ class CartController extends GetxController {
   var cartProducts = <List<Product>>[].obs;
   var formatOfOrder = <Map<String, dynamic>>[].obs;
 
+  removeAtIndexFast(int index) {
+    subTotal.removeAt(index);
+    countCartVendor.removeAt(index);
+    cartProducts.removeAt(index);
+    formatOfOrder.removeAt(index);
+    update();
+  }
+
   Future clearCartProduct(int index) async {
     clearCart(index);
     update();
