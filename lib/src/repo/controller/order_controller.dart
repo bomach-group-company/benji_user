@@ -82,7 +82,7 @@ class OrderController extends GetxController {
     update();
   }
 
-  Future<String> createOrder(Map<String, dynamic> formatOfOrder) async {
+  Future<String> createOrder(List<Map<String, dynamic>> formatOfOrder) async {
     consoleLog('formatOfOrder in createOrder $formatOfOrder');
     int? userId = (await getUser())!.id;
 

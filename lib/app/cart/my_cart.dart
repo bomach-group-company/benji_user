@@ -104,7 +104,7 @@ class _MyCartsState extends State<MyCarts> {
                             title: SizedBox(
                               width: mediaWidth - 100,
                               child: Text(
-                                'Cart ${index + 1} (${controller.cartProducts[index].first.vendorId.shopName})',
+                                'Cart ${index + 1} (${controller.cartProducts[index].first.vendorId.shopName}) (${controller.cartProducts[index].first.name})',
                                 style: const TextStyle(
                                   color: kTextBlackColor,
                                   fontSize: 18,

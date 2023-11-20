@@ -146,7 +146,7 @@ class _DeliverToState extends State<DeliverTo> {
       }
       //not after adding the address now post it to the endpoint
       String orderID =
-          await OrderController.instance.createOrder(formatOfOrder);
+          await OrderController.instance.createOrder([formatOfOrder]);
       // need to check if the order was created and get the delivery fee
       if (widget.inCheckout) {
         Get.back();
