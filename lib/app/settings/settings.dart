@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:benji/app/settings/change_password.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
+import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/providers/responsive_constant.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:flutter/foundation.dart';
@@ -341,14 +342,16 @@ class _SettingsState extends State<Settings> {
                                           : 150,
                                       decoration: ShapeDecoration(
                                         color: kPageSkeletonColor,
-                                        image: const DecorationImage(
-                                          image: AssetImage(
-                                            "assets/images/profile/avatar-image.jpg",
-                                          ),
-                                          fit: BoxFit.contain,
-                                        ),
+                                        // image: const DecorationImage(
+                                        //   image: AssetImage(
+                                        //     "assets/images/profile/avatar-image.jpg",
+                                        //   ),
+                                        //   fit: BoxFit.contain,
+                                        // ),
                                         shape: const OvalBorder(),
                                       ),
+                                      child: Center(
+                                          child: MyImage(url: snapshot.image)),
                                     )
                                   : Container(
                                       height: deviceType(mediaWidth) == 1
