@@ -8,14 +8,10 @@ import 'package:benji/src/repo/models/product/product.dart';
 const String cartname = 'userCartItemsStore';
 
 List<VendorInfo> getAllCartItem() {
-  print('above in getAllCartItem');
   String? cartAsString = prefs.getString(cartname);
-  print('cartAsString $cartAsString');
   List<Map<String, dynamic>> carts = cartAsString == null
       ? []
       : List<Map<String, dynamic>>.from(jsonDecode(cartAsString));
-
-  print('after getAllCartItem');
 
   List<VendorInfo> allCart = [];
   for (var cart in carts) {
