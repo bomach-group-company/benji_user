@@ -163,6 +163,10 @@ class _PayForDeliveryState extends State<PayForDelivery> {
   }
 
   Charge charge() {
+    dynamic meta = {
+      "client_id": UserController.instance.user.value.id,
+      "the_package_id": widget.packageId
+    };
     return Charge(
       amount: (subTotal * 100).toInt() + (deliveryFee * 100).toInt(),
       publicKey: squadPublicKey,
@@ -172,7 +176,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
       paymentChannels: ["card", "bank", "ussd", "transfer"],
       customerName: "$userFirstName $userLastName",
       callbackUrl: null,
-      metadata: {"name": userFirstName, "age": 23},
+      metadata: meta,
       passCharge: true,
     );
   }
