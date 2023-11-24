@@ -41,6 +41,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //==================================================== INITIAL STATE ======================================================\\
   @override
   void initState() {
+    print('happen before all in product detail');
     super.initState();
 
     cartCountAll = countCartItemByProduct(widget.product).toString();
