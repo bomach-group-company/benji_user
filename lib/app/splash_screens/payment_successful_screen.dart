@@ -1,8 +1,10 @@
 // ignore_for_file: camel_case_types
 
+import 'package:benji/app/cart/my_cart.dart';
 import 'package:benji/app/home/home.dart';
+import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../src/components/button/my_elevatedbutton.dart';
@@ -23,6 +25,17 @@ class PaymentSuccessful extends StatelessWidget {
         transition: Transition.rightToLeft,
       );
 
+  void _toMyCart() => Get.off(
+        () => const MyCarts(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "MyCarts",
+        preventDuplicates: true,
+        popGesture: false,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
     double mediaHeight = MediaQuery.of(context).size.height;
@@ -31,7 +44,12 @@ class PaymentSuccessful extends StatelessWidget {
       backgroundColor: kPrimaryColor,
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(kDefaultPadding),
-        child: MyElevatedButton(title: "Done", onPressed: _toHomeder),
+        child: GetBuilder<CartController>(builder: (controller) {
+          return MyElevatedButton(
+              title: "Done",
+              onPressed:
+                  controller.cartProducts.isEmpty ? _toHomeder : _toMyCart);
+        }),
       ),
       body: SafeArea(
         maintainBottomViewPadding: true,

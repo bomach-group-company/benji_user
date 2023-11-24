@@ -133,7 +133,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       showAppbar: false,
     );
     if (response != null) {
-      await clearCart(widget.index);
+      await CartController.instance.clearCartProduct(widget.index);
       Get.to(
         () => const PaymentSuccessful(),
         routeName: 'PaymentSuccessful',
@@ -154,8 +154,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Charge charge() {
     dynamic meta = {
-      "the_order_idds": widget.orderID,
-      "order_id": '111',
+      "the_order_id": widget.orderID,
       'client_id': UserController.instance.user.value.id
     };
     print('meta user data $meta');

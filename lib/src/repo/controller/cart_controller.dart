@@ -27,6 +27,7 @@ class CartController extends GetxController {
 
   Future clearCartProduct(int index) async {
     clearCart(index);
+    removeAtIndexFast(index);
     update();
   }
 
