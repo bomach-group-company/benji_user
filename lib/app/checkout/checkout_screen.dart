@@ -7,6 +7,7 @@ import 'package:benji/app/splash_screens/payment_successful_screen.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
+import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/utils/constant.dart';
@@ -152,6 +153,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   void _placeOrderWeb() async {}
 
   Charge charge() {
+    dynamic meta = {
+      "the_order_idds": widget.orderID,
+      "order_id": '111',
+      'client_id': UserController.instance.user.value.id
+    };
+    print('meta user data $meta');
     return Charge(
       amount: (_subTotal * 100).toInt() + (deliveryFee * 100).toInt(),
       publicKey: squadPublicKey,
@@ -161,9 +168,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       paymentChannels: ["card", "bank", "ussd", "transfer"],
       customerName: "${user?.firstName ?? ''} ${user?.lastName ?? ''}",
       callbackUrl: null,
-      metadata: {
-        "order_id": widget.orderID
-      }, // i will pass in the order id here
+      metadata: meta, // i will pass in the order id here
       passCharge: true,
     );
   }

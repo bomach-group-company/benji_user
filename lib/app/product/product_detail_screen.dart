@@ -558,9 +558,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: formattedText(widget
-                                      .product.quantityAvailable
-                                      .toDouble()),
+                                  text: widget.product.quantityAvailable
+                                      .toString(),
                                   style: const TextStyle(
                                     color: kTextBlackColor,
                                     fontSize: 15,
