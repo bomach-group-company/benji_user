@@ -15,6 +15,7 @@ import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/form_controller.dart';
 import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
 import 'package:benji/src/repo/controller/package_controller.dart';
+import 'package:benji/src/repo/controller/payment_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/services/api_url.dart';
 import 'package:flutter/foundation.dart';
@@ -128,7 +129,7 @@ class _SendPackageState extends State<SendPackage> {
   }
 
   void toGetLocationOnMapPick() async {
-    var result = await Get.to(
+    await Get.to(
       () => const GetLocationOnMap(),
       routeName: 'GetLocationOnMap',
       duration: const Duration(milliseconds: 300),
@@ -138,24 +139,21 @@ class _SendPackageState extends State<SendPackage> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    if (result != null) {
-      String pinnedLocation = result['pinnedLocation'];
-      String latitude = result['latitude'];
-      String longitude = result['longitude'];
+    print(
+        'pick LatLngDetailController.instance.latLngDetail.value ${LatLngDetailController.instance.latLngDetail.value}');
+    String pinnedLocation =
+        LatLngDetailController.instance.latLngDetail.value[2];
+    String latitude = LatLngDetailController.instance.latLngDetail.value[0];
+    String longitude = LatLngDetailController.instance.latLngDetail.value[1];
 
-      double latitudeValue = double.parse(latitude);
-      double longitudeValue = double.parse(longitude);
+    double latitudeValue = double.parse(latitude);
+    double longitudeValue = double.parse(longitude);
 
-      setState(() {
-        pickupEC.text = pinnedLocation;
-        latitudePick = latitudeValue.toString();
-        longitudePick = longitudeValue.toString();
-      });
-    }
-    // latitudePick = latLngDetailController.latLngDetail.value[0];
-    // longitudePick = latLngDetailController.latLngDetail.value[1];
-    // pickupEC.text = latLngDetailController.latLngDetail.value[2];
-    // latLngDetailController.setEmpty();
+    setState(() {
+      pickupEC.text = pinnedLocation;
+      latitudePick = latitudeValue.toString();
+      longitudePick = longitudeValue.toString();
+    });
     if (kDebugMode) {
       print("LATLNG: $latitudePick,$longitudePick");
       print("pickup text : ${pickupEC.text}");
@@ -163,7 +161,7 @@ class _SendPackageState extends State<SendPackage> {
   }
 
   void toGetLocationOnMapDrop() async {
-    var result = await Get.to(
+    await Get.to(
       () => const GetLocationOnMap(),
       routeName: 'GetLocationOnMap',
       duration: const Duration(milliseconds: 300),
@@ -174,20 +172,21 @@ class _SendPackageState extends State<SendPackage> {
       transition: Transition.rightToLeft,
     );
 
-    if (result != null) {
-      String pinnedLocation = result['pinnedLocation'];
-      String latitude = result['latitude'];
-      String longitude = result['longitude'];
+    print(
+        'drop LatLngDetailController.instance.latLngDetail.value ${LatLngDetailController.instance.latLngDetail.value}');
+    String pinnedLocation =
+        LatLngDetailController.instance.latLngDetail.value[2];
+    String latitude = LatLngDetailController.instance.latLngDetail.value[0];
+    String longitude = LatLngDetailController.instance.latLngDetail.value[1];
 
-      double latitudeValue = double.parse(latitude);
-      double longitudeValue = double.parse(longitude);
+    double latitudeValue = double.parse(latitude);
+    double longitudeValue = double.parse(longitude);
 
-      setState(() {
-        dropOffEC.text = pinnedLocation;
-        latitudeDrop = latitudeValue.toString();
-        longitudeDrop = longitudeValue.toString();
-      });
-    }
+    setState(() {
+      dropOffEC.text = pinnedLocation;
+      latitudeDrop = latitudeValue.toString();
+      longitudeDrop = longitudeValue.toString();
+    });
 
     // latitudeDrop = latLngDetailController.latLngDetail.value[0];
     // longitudeDrop = latLngDetailController.latLngDetail.value[1];
@@ -319,6 +318,7 @@ class _SendPackageState extends State<SendPackage> {
               ? FormController.instance.responseObject['package_id']
               : null; // or provide a default value if needed
       consoleLog("This is the package ID: $packageId");
+      await PaymentController.instance.getDeliveryFee(packageId);
       Get.to(
         () => PayForDelivery(
           packageId: packageId,
@@ -361,6 +361,7 @@ class _SendPackageState extends State<SendPackage> {
             onPressed: details.onStepContinue,
             style: ElevatedButton.styleFrom(
               backgroundColor: kAccentColor,
+              foregroundColor: kTextWhiteColor,
               elevation: 20.0,
               fixedSize: Size(media.size.width, 60),
               shape: RoundedRectangleBorder(
@@ -378,6 +379,7 @@ class _SendPackageState extends State<SendPackage> {
                       return ElevatedButton(
                         onPressed: controller.isLoad.value ? null : submitForm,
                         style: ElevatedButton.styleFrom(
+                          foregroundColor: kTextWhiteColor,
                           backgroundColor: kAccentColor,
                           elevation: 20.0,
                           fixedSize: Size((media.size.width * 0.60) - 45, 60),
@@ -420,6 +422,7 @@ class _SendPackageState extends State<SendPackage> {
                   ElevatedButton(
                     onPressed: details.onStepContinue,
                     style: ElevatedButton.styleFrom(
+                      foregroundColor: kTextWhiteColor,
                       backgroundColor: kAccentColor,
                       elevation: 20.0,
                       fixedSize: Size((media.size.width * 0.60) - 45, 60),
