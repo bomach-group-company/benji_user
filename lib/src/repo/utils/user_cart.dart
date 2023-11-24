@@ -5,11 +5,13 @@ import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/models/cart_model/cart_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 
-const String cartname = 'userCart';
+const String cartname = 'userCartItemsStore';
 
 List<VendorInfo> getAllCartItem() {
-  List<Map<String, dynamic>> carts = List<Map<String, dynamic>>.from(
-      jsonDecode(prefs.getString(cartname) ?? '[]'));
+  String? cartAsString = prefs.getString(cartname);
+  List<Map<String, dynamic>> carts = cartAsString == null
+      ? []
+      : List<Map<String, dynamic>>.from(jsonDecode(cartAsString));
 
   List<VendorInfo> allCart = [];
   for (var cart in carts) {
@@ -128,9 +130,10 @@ Future removeFromCart(Product product) async {
 }
 
 int countCartItemByProduct(Product product) {
+  print('above in countCartItemByProduct');
   int total = 0;
   List<VendorInfo> allCart = getAllCartItem();
-
+  print('allCart');
   for (var cart in allCart) {
     if (cart.vendorId == product.vendorId.id) {
       for (var cartItems in cart.vendorData) {

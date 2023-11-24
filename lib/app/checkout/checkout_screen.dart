@@ -4,8 +4,10 @@ import 'dart:math';
 
 import 'package:benji/app/home/home.dart';
 import 'package:benji/app/splash_screens/payment_successful_screen.dart';
+import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
+import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/utils/constant.dart';
@@ -131,7 +133,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       showAppbar: false,
     );
     if (response != null) {
-      await clearCart(widget.index);
+      await CartController.instance.clearCartProduct(widget.index);
       Get.to(
         () => const PaymentSuccessful(),
         routeName: 'PaymentSuccessful',
@@ -151,6 +153,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   void _placeOrderWeb() async {}
 
   Charge charge() {
+    dynamic meta = {
+      "the_order_id": widget.orderID,
+      'client_id': UserController.instance.user.value.id
+    };
+    print('meta user data $meta');
     return Charge(
       amount: (_subTotal * 100).toInt() + (deliveryFee * 100).toInt(),
       publicKey: squadPublicKey,
@@ -160,9 +167,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       paymentChannels: ["card", "bank", "ussd", "transfer"],
       customerName: "${user?.firstName ?? ''} ${user?.lastName ?? ''}",
       callbackUrl: null,
-      metadata: {
-        "order_id": widget.orderID
-      }, // i will pass in the order id here
+      metadata: meta, // i will pass in the order id here
       passCharge: true,
     );
   }
@@ -296,71 +301,74 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                         ),
                         kSizedBox,
-                        InkWell(
-                          onTap: _toDeliverTo,
-                          borderRadius: BorderRadius.circular(10),
-                          child: Container(
-                            width: media.width,
-                            padding: const EdgeInsets.all(10),
-                            decoration: ShapeDecoration(
-                              color: kPrimaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              shadows: const [
-                                BoxShadow(
-                                  color: Color(0x0F000000),
-                                  blurRadius: 24,
-                                  offset: Offset(0, 4),
-                                  spreadRadius: 7,
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      _data!['deliverTo']
-                                              ?.title
-                                              .toUpperCase() ??
-                                          'Select location',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: const TextStyle(
-                                        overflow: TextOverflow.ellipsis,
-                                        color: kTextBlackColor,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    kSizedBox,
-                                    Text(
-                                      _data!['deliverTo'].details ??
-                                          'Not Available',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                        color: kTextGreyColor,
-                                        overflow: TextOverflow.ellipsis,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
-                                      ),
+                        GetBuilder<AddressController>(
+                          builder: (contoller) {
+                            return InkWell(
+                              onTap: _toDeliverTo,
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                width: media.width,
+                                padding: const EdgeInsets.all(10),
+                                decoration: ShapeDecoration(
+                                  color: kPrimaryColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  shadows: const [
+                                    BoxShadow(
+                                      color: Color(0x0F000000),
+                                      blurRadius: 24,
+                                      offset: Offset(0, 4),
+                                      spreadRadius: 7,
                                     ),
                                   ],
                                 ),
-                                FaIcon(
-                                  FontAwesomeIcons.chevronRight,
-                                  color: kAccentColor,
-                                  size: 18,
-                                )
-                              ],
-                            ),
-                          ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          contoller.current.value.title
+                                              .toUpperCase(),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            color: kTextBlackColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                        kSizedBox,
+                                        Text(
+                                          contoller.current.value.details,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                            color: kTextGreyColor,
+                                            overflow: TextOverflow.ellipsis,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    FaIcon(
+                                      FontAwesomeIcons.chevronRight,
+                                      color: kAccentColor,
+                                      size: 18,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         const SizedBox(
                           height: kDefaultPadding * 2,

@@ -41,6 +41,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //==================================================== INITIAL STATE ======================================================\\
   @override
   void initState() {
+    print('happen before all in product detail');
     super.initState();
 
     cartCountAll = countCartItemByProduct(widget.product).toString();
@@ -557,9 +558,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: formattedText(widget
-                                      .product.quantityAvailable
-                                      .toDouble()),
+                                  text: widget.product.quantityAvailable
+                                      .toString(),
                                   style: const TextStyle(
                                     color: kTextBlackColor,
                                     fontSize: 15,

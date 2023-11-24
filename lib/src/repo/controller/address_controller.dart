@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/services/api_url.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -64,6 +65,28 @@ class AddressController extends GetxController {
     } catch (e) {
       current.value = Address.fromJson(null);
       // ApiProcessorController.errorSnack("An error occurred");
+    }
+    isLoad.value = false;
+    update();
+  }
+
+  Future setCurrentAddress(
+    String addressId,
+  ) async {
+    isLoad.value = true;
+
+    int? userId = (await getUser())!.id;
+
+    final response = await http.put(
+      Uri.parse(
+          '$baseURL/clients/setCurrentAddress/$addressId?user_id=$userId'),
+      headers: await authHeader(),
+    );
+
+    if (response.statusCode == 200) {
+      current.value = Address.fromJson(jsonDecode(response.body));
+    } else {
+      consoleLog('error in set current address in the address controller');
     }
     isLoad.value = false;
     update();

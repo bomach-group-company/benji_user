@@ -40,8 +40,9 @@ class _DeliverToState extends State<DeliverTo> {
   @override
   void initState() {
     super.initState();
-    _getData();
+    // _getData();
     formatOfOrder = widget.formatOfOrder;
+    _currentOption = AddressController.instance.current.value;
   }
 
   //========================================================================\\
@@ -60,33 +61,33 @@ class _DeliverToState extends State<DeliverTo> {
 
   //===================================================================== FUNCTIONS =======================================================================\\
 
-  _getData() async {
-    Address? current;
-    try {
-      current = await getCurrentAddress();
-    } catch (e) {
-      current = null;
-    }
-    _currentOption = current;
-    List<Address> addresses = await getAddressesByUser();
+  // _getData() async {
+  //   Address? current;
+  //   try {
+  //     current = await getCurrentAddress();
+  //   } catch (e) {
+  //     current = null;
+  //   }
+  //   _currentOption = current;
+  //   List<Address> addresses = await getAddressesByUser();
 
-    if (current != null) {
-      Address? itemToMove = addresses.firstWhere(
-        (elem) => elem.id == current!.id,
-      );
+  //   if (current != null) {
+  //     Address? itemToMove = addresses.firstWhere(
+  //       (elem) => elem.id == current!.id,
+  //     );
 
-      addresses.remove(itemToMove);
-      addresses.insert(0, itemToMove);
-    }
-    Map data = {
-      'current': current,
-      'addresses': addresses,
-    };
+  //     addresses.remove(itemToMove);
+  //     addresses.insert(0, itemToMove);
+  //   }
+  //   Map data = {
+  //     'current': current,
+  //     'addresses': addresses,
+  //   };
 
-    setState(() {
-      _addressData = data;
-    });
-  }
+  //   setState(() {
+  //     _addressData = data;
+  //   });
+  // }
 
   //===================== Handle refresh ==========================\\
 
@@ -95,7 +96,7 @@ class _DeliverToState extends State<DeliverTo> {
       _addressData = null;
     });
 
-    await _getData();
+    // await _getData();
   }
 
   void _addAddress() async {
@@ -109,7 +110,7 @@ class _DeliverToState extends State<DeliverTo> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    await _getData();
+    // await _getData();
   }
   //===================== FUNCTIONS =======================\\
 
@@ -129,10 +130,11 @@ class _DeliverToState extends State<DeliverTo> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
-      await _getData();
+      // await _getData();
     }
     try {
-      await setCurrentAddress(address!.id);
+      setCurrentAddress(address!.id);
+
       print(
           '${address.id} ${address.latitude} ${address.longitude} ${address.title}');
       // here i need to create that order by sending it to the backend
@@ -215,7 +217,10 @@ class _DeliverToState extends State<DeliverTo> {
           actions: const [],
         ),
         body: GetBuilder<AddressController>(
-          initState: (state) => AddressController.instance.getAdresses(),
+          initState: (state) {
+            AddressController.instance.getAdresses();
+            AddressController.instance.getCurrentAddress();
+          },
           builder: (controller) {
             if (controller.addresses.isEmpty && controller.isLoad.value) {
               return const EmptyCard(
@@ -285,7 +290,7 @@ class _DeliverToState extends State<DeliverTo> {
                                               (controller.addresses[index]).id
                                           ? const SizedBox()
                                           : Container(
-                                              width: 60,
+                                              width: 65,
                                               height: 24,
                                               padding:
                                                   const EdgeInsets.symmetric(

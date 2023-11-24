@@ -99,13 +99,13 @@ class OrderController extends GetxController {
       String res =
           jsonDecode(response.body)['message'].toString().split(' ').last;
       print(res);
-      await getDeliveryFew(res);
+      await getDeliveryFee(res);
       return res;
     }
     throw Exception('Failed to create order');
   }
 
-  Future getDeliveryFew(String orderId) async {
+  Future getDeliveryFee(String orderId) async {
     final response = await http.get(
       Uri.parse('$baseURL/payments/getdeliveryfee/$orderId/order'),
       headers: await authHeader(),
@@ -115,12 +115,14 @@ class OrderController extends GetxController {
       consoleLog("${response.statusCode}");
     }
     if (response.statusCode.toString().startsWith('2')) {
-      double res = (jsonDecode(response.body)['delivery_fee'] as double);
+      double res =
+          (double.parse(jsonDecode(response.body)['delivery_fee'].toString()));
       deliveryFee.value = res;
       update();
       print(res);
       return;
     } else {
+      print('got to except for delivery fee');
       throw Exception('Failed to get delivery fee');
     }
   }
