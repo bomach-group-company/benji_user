@@ -1,6 +1,5 @@
 // ignore_for_file: camel_case_types
 
-import 'package:benji/app/cart/my_cart.dart';
 import 'package:benji/app/home/home.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:flutter/material.dart';
@@ -25,16 +24,19 @@ class PaymentSuccessful extends StatelessWidget {
         transition: Transition.rightToLeft,
       );
 
-  void _toMyCart() => Get.off(
-        () => const MyCarts(),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "MyCarts",
-        preventDuplicates: true,
-        popGesture: false,
-        transition: Transition.rightToLeft,
-      );
+  void _toMyCart() {
+    Get.close(4);
+    //  Get.off(
+    //     () => const MyCarts(),
+    //     duration: const Duration(milliseconds: 300),
+    //     fullscreenDialog: true,
+    //     curve: Curves.easeIn,
+    //     routeName: "MyCarts",
+    //     preventDuplicates: true,
+    //     popGesture: false,
+    //     transition: Transition.rightToLeft,
+    //   );
+  }
 
   @override
   Widget build(BuildContext context) {

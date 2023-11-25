@@ -17,32 +17,32 @@ class CartController extends GetxController {
   var cartProducts = <List<Product>>[].obs;
   var formatOfOrder = <Map<String, dynamic>>[].obs;
 
-  removeAtIndexFast(int index) {
-    subTotal.removeAt(index);
-    countCartVendor.removeAt(index);
-    cartProducts.removeAt(index);
-    formatOfOrder.removeAt(index);
-    update();
-  }
+  // removeAtIndexFast(int index) {
+  //   subTotal.removeAt(index);
+  //   countCartVendor.removeAt(index);
+  //   cartProducts.removeAt(index);
+  //   formatOfOrder.removeAt(index);
+  //   update();
+  // }
 
   Future clearCartProduct(int index) async {
     clearCart(index);
-    removeAtIndexFast(index);
+    // removeAtIndexFast(index);
     update();
   }
 
   void incrementQuantityForCartPage(Product product, int index) async {
     await addToCart(product);
-    subTotal.value[index] += product.price;
-    update();
-    getCartProduct();
+    // subTotal.value[index] += product.price;
+    // update();
+    await getCartProduct();
   }
 
   void decrementQuantityForCartPage(Product product, int index) async {
     await minusFromCart(product);
-    subTotal.value[index] -= product.price;
-    update();
-    getCartProduct();
+    // subTotal.value[index] -= product.price;
+    // update();
+    await getCartProduct();
   }
 
   Future getCartProduct() async {

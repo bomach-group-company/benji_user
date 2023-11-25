@@ -76,7 +76,6 @@ class _VendorDetailsState extends State<VendorDetails>
   bool _isAddedToFavorites = false;
 
 //================================================= FUNCTIONS ===================================================\\
-
   void _addToFavorites() async {
     bool val = await favoriteItV(widget.vendor.id.toString());
     setState(() {

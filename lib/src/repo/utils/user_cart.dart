@@ -4,6 +4,7 @@ import 'package:benji/main.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/models/cart_model/cart_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
+import 'package:get/get.dart';
 
 const String cartname = 'userCartItemsStore';
 
@@ -99,7 +100,7 @@ Future minusFromCart(Product product) async {
           }
           if (allCart[i].vendorData.isEmpty) {
             allCart.removeAt(i);
-            CartController.instance.removeAtIndexFast(i);
+            Get.close(1);
           }
           setAllCartItem(allCart);
           return;
@@ -119,7 +120,7 @@ Future removeFromCart(Product product) async {
           allCart[i].vendorData.removeAt(j);
           if (allCart[i].vendorData.isEmpty) {
             allCart.removeAt(i);
-            CartController.instance.removeAtIndexFast(i);
+            Get.close(1);
           }
           setAllCartItem(allCart);
           return;
