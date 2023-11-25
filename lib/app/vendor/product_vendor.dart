@@ -61,13 +61,13 @@ class _ProductVendorState extends State<ProductVendor> {
   // }
 
 //=================================== Navigation =====================================\\
-  void _toVendorPage(VendorModel vendor) => Get.to(
+  void _toVendorDetailPage(VendorModel vendor) => Get.off(
         () => VendorDetails(vendor: vendor),
         routeName: 'VendorDetails',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        preventDuplicates: true,
+        preventDuplicates: false,
         popGesture: true,
         transition: Transition.rightToLeft,
       );
@@ -209,7 +209,7 @@ class _ProductVendorState extends State<ProductVendor> {
                           vendor: controller.vendorList[index],
                           removeDistance: false,
                           onTap: () {
-                            _toVendorPage(controller.vendorList[index]);
+                            _toVendorDetailPage(controller.vendorList[index]);
                           },
                         ),
                       ),

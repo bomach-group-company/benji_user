@@ -70,7 +70,7 @@ class _MyCartsState extends State<MyCarts> {
           child: GetBuilder<CartController>(
               // initState: (state) => CartController.instance.getCartProduct(),
               builder: (controller) {
-            if (controller.isLoad.value && controller.cartProducts.isEmpty) {
+            if (controller.isLoad.value) {
               return Center(
                 child: CircularProgressIndicator(
                   color: kAccentColor,

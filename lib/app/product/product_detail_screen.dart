@@ -132,6 +132,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final carouselController = CarouselController();
 
   //==================================================== FUNCTIONS ======================================================\\
+  void _toProductDetailScreenPage(product) {
+    Get.off(
+      () => ProductDetailScreen(product: product),
+      routeName: 'ProductDetailScreen',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: false,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
 
   Future<void> scrollToTop() async {
     await scrollController.animateTo(
@@ -235,19 +247,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  void _toProductDetailScreenPage(product) async {
-    await Get.to(
-      () => ProductDetailScreen(product: product),
-      routeName: 'ProductDetailScreen',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
-    setState(() {});
-  }
   //=================================== Show Popup Menu =====================================\\
 
 //Show popup menu
