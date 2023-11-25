@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:benji/app/packages/packages.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/repo/controller/payment_controller.dart';
@@ -86,7 +87,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
   int deliveryFee =
       PaymentController.instance.responseObject.containsKey('delivery_fee')
           ? PaymentController.instance.responseObject['delivery_fee']
-          : null;
+          : 0;
   double serviceFee = 0;
   String? userFirstName;
   String? userLastName;
@@ -125,6 +126,16 @@ class _PayForDeliveryState extends State<PayForDelivery> {
   //===================== BOOL VALUES =======================\\
 
   //===================== FUNCTIONS =======================\\
+  void toPackages() => Get.off(
+        () => const Packages(),
+        routeName: 'Packages',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 
   Future<void> callGetDeliveryFee() async {
     await PaymentController.instance.getDeliveryFee(widget.packageId);
@@ -144,7 +155,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
     );
 
     if (response != null && response.status.toString().startsWith("2")) {
-      Get.close(2);
+      toPackages();
     }
     debugPrint(
       "Squad transaction completed======>${response?.toJson().toString()}",
@@ -152,6 +163,10 @@ class _PayForDeliveryState extends State<PayForDelivery> {
   }
 
   Charge charge() {
+    dynamic meta = {
+      "client_id": UserController.instance.user.value.id,
+      "the_package_id": widget.packageId
+    };
     return Charge(
       amount: (subTotal * 100).toInt() + (deliveryFee * 100).toInt(),
       publicKey: squadPublicKey,
@@ -161,7 +176,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
       paymentChannels: ["card", "bank", "ussd", "transfer"],
       customerName: "$userFirstName $userLastName",
       callbackUrl: null,
-      metadata: {"name": userFirstName, "age": 23},
+      metadata: meta,
       passCharge: true,
     );
   }
