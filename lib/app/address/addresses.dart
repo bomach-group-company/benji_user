@@ -237,7 +237,7 @@ class _AddressesState extends State<Addresses> {
                                     controller.current.value.id ==
                                             controller.addresses[index].id
                                         ? Container(
-                                            width: 60,
+                                            width: 65,
                                             height: 24,
                                             padding: const EdgeInsets.symmetric(
                                               horizontal: 8,

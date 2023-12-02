@@ -10,7 +10,6 @@ import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_squad/flutter_squad.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
@@ -54,7 +53,6 @@ class _PayForDeliveryState extends State<PayForDelivery> {
   @override
   void initState() {
     super.initState();
-    getUserData();
     getTotalPrice();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       callGetDeliveryFee();
@@ -88,17 +86,13 @@ class _PayForDeliveryState extends State<PayForDelivery> {
       PaymentController.instance.responseObject.containsKey('delivery_fee')
           ? PaymentController.instance.responseObject['delivery_fee']
           : 0;
-  double serviceFee = 0;
-  String? userFirstName;
-  String? userLastName;
-  String? userEmail;
   final String paymentDescription = "Benji app delivery";
   final String currency = "NGN";
 
   // double insuranceFee = 0;
   // double discountFee = 0;
   getTotalPrice() {
-    totalPrice = subTotal + deliveryFee + serviceFee;
+    totalPrice = subTotal + deliveryFee;
   }
 
   final List<String> titles = <String>[
@@ -148,13 +142,13 @@ class _PayForDeliveryState extends State<PayForDelivery> {
       charge(),
       sandbox: true,
       showAppbar: false,
-      appBar: AppBarConfig(
-        color: kAccentColor,
-        leadingIcon: const FaIcon(FontAwesomeIcons.solidCircleXmark),
-      ),
+      // appBar: AppBarConfig(
+      //   color: kAccentColor,
+      //   leadingIcon: const FaIcon(FontAwesomeIcons.solidCircleXmark),
+      // ),
     );
 
-    if (response != null && response.status.toString().startsWith("2")) {
+    if (response != null) {
       toPackages();
     }
     debugPrint(
@@ -163,16 +157,23 @@ class _PayForDeliveryState extends State<PayForDelivery> {
   }
 
   Charge charge() {
+    var user = UserController.instance.user.value;
+    String userFirstName = user.firstName;
+    String userLastName = user.lastName;
+    String userEmail = user.email;
+
     dynamic meta = {
       "client_id": UserController.instance.user.value.id,
       "the_package_id": widget.packageId
     };
+    print('meta user data $meta');
+
     return Charge(
       amount: (subTotal * 100).toInt() + (deliveryFee * 100).toInt(),
       publicKey: squadPublicKey,
-      email: "$userEmail",
+      email: userEmail,
       currencyCode: currency,
-      transactionRef: "BENJI-PYM-${generateRandomString(10)}",
+      // transactionRef: "BENJI-PYM-${generateRandomString(10)}",
       paymentChannels: ["card", "bank", "ussd", "transfer"],
       customerName: "$userFirstName $userLastName",
       callbackUrl: null,
@@ -191,15 +192,6 @@ class _PayForDeliveryState extends State<PayForDelivery> {
         (_) => chars.codeUnitAt(rnd.nextInt(chars.length)),
       ),
     );
-  }
-
-  getUserData() async {
-    var user = UserController.instance.user.value;
-    setState(() {
-      userFirstName = user.firstName;
-      userLastName = user.lastName;
-      userEmail = user.email;
-    });
   }
 
   @override
@@ -338,32 +330,9 @@ class _PayForDeliveryState extends State<PayForDelivery> {
                           ),
                         ),
                       ),
-                      const Divider(height: 20, color: kGreyColor1),
+                      kSizedBox,
                       Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Subtotal',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              Text(
-                                '₦${doubleFormattedText(subTotal)}',
-                                style: TextStyle(
-                                  color: kTextGreyColor,
-                                  fontSize: 16,
-                                  fontFamily: 'Sen',
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],
-                          ),
-                          kSizedBox,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -387,28 +356,6 @@ class _PayForDeliveryState extends State<PayForDelivery> {
                             ],
                           ),
                           kSizedBox,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Service Fee',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              Text(
-                                '₦${doubleFormattedText(serviceFee)}',
-                                style: TextStyle(
-                                  color: kTextGreyColor,
-                                  fontSize: 16,
-                                  fontFamily: 'Sen',
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],
-                          ),
                         ],
                       ),
                       kHalfSizedBox,
