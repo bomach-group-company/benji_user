@@ -215,7 +215,7 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
                           : selectedOrder!.orderitems
                               .map((item) => DropdownMenuEntry(
                                     value: item.id,
-                                    label: item.id,
+                                    label: item.product.name,
                                   ))
                               .toList(),
                 ),
