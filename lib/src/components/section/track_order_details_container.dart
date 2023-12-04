@@ -46,12 +46,14 @@ class TrackOrderDetailsContainer extends StatelessWidget {
     'pend': kLoadingColor,
     'comp': kSuccessColor,
     'canc': kAccentColor,
+    'dispatched': kBlueLinkTextColor,
   };
 
   final Map status = {
     'pend': 'PENDING',
     'comp': 'COMPLETED',
     'canc': 'CANCELLED',
+    'dispatched': 'DISPATCHED',
   };
 
   @override

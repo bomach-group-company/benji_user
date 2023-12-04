@@ -37,7 +37,7 @@ class User {
       firstName: json['first_name'] ?? notAvailable,
       lastName: json['last_name'] ?? notAvailable,
       gender: json['gender'] ?? notAvailable,
-      image: json['image'] ?? notAvailable,
+      image: json['image'] ?? '',
       token: json['token'] ?? notAvailable,
       code: json['code'] ?? notAvailable,
     );

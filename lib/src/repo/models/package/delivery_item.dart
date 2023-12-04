@@ -20,7 +20,7 @@ class DeliveryItem {
   final ItemCategory itemCategory;
   final ItemWeight itemWeight;
   final int itemQuantity;
-  final int itemValue;
+  final double itemValue;
   final String? itemImage;
   final double prices;
   final String status;
@@ -45,6 +45,7 @@ class DeliveryItem {
   });
 
   factory DeliveryItem.fromJson(Map<String, dynamic>? json) {
+    // print('DeliveryItem  $json');
     json ??= {};
     return DeliveryItem(
       id: json['id'] ?? notAvailable,
@@ -59,7 +60,7 @@ class DeliveryItem {
       itemCategory: ItemCategory.fromJson(json['itemCategory']),
       itemWeight: ItemWeight.fromJson(json['itemWeight']),
       itemQuantity: json['itemQuantity'] ?? 0,
-      itemValue: json['itemValue'] ?? notAvailable,
+      itemValue: json['itemValue'] ?? 0.0,
       itemImage: json['itemImage'],
       prices: json['prices'] ?? 0.0,
       status: json['status'] ?? notAvailable,
@@ -74,6 +75,7 @@ Future<List<DeliveryItem>> getDeliveryItemsByClientAndStatus(
       Uri.parse(
           '$baseURL/sendPackage/gettemPackageByClientId/${user!.id}/$status'),
       headers: await authHeader());
+  print('packages ${response.statusCode} ${jsonDecode(response.body)}');
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => DeliveryItem.fromJson(item))

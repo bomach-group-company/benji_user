@@ -1,3 +1,4 @@
+import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/repo/models/order/order.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
   //=============================================== FUNCTIONS =================================================\\
   bool dispatched() {
-    return widget.order.assignedStatus == 'ASSG';
+    return widget.order.deliveryStatus == 'dispatched';
   }
 
   bool delivered() {
@@ -96,6 +97,14 @@ class _TrackOrderState extends State<TrackOrder> {
           ),
         ],
       ),
+      bottomNavigationBar: Container(
+          padding: const EdgeInsets.all(kDefaultPadding),
+          child: MyElevatedButton(
+            // disable: true,
+            title: "received",
+            onPressed: () {},
+            // isLoading: true,
+          )),
       body: RefreshIndicator(
         onRefresh: _handleRefresh,
         color: kAccentColor,

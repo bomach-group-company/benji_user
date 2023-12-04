@@ -17,6 +17,8 @@ class MyPackageController extends GetxController {
     return Get.find<MyPackageController>();
   }
 
+  var isLoadDelivered = false.obs;
+  var isLoadPending = false.obs;
   var isLoad = false.obs;
   var packageCategory = <ItemCategory>[].obs;
   var packageWeight = <ItemWeight>[].obs;
@@ -24,7 +26,8 @@ class MyPackageController extends GetxController {
   var deliveredPackages = <DeliveryItem>[].obs;
 
   Future getDeliveryItemsByPending() async {
-    isLoad.value = true;
+    print('got to the getDeliveryItemsByPending');
+    isLoadPending.value = true;
     update();
     User? user = UserController.instance.user.value;
     final response = await http.get(
@@ -36,12 +39,16 @@ class MyPackageController extends GetxController {
           .map((item) => DeliveryItem.fromJson(item))
           .toList();
     }
-    isLoad.value = false;
+    print('pendingPackages.value ${pendingPackages.value}');
+
+    isLoadPending.value = false;
     update();
   }
 
   Future getDeliveryItemsByDelivered() async {
-    isLoad.value = true;
+    print('got to the getDeliveryItemsByDelivered');
+
+    isLoadDelivered.value = true;
     update();
     User? user = UserController.instance.user.value;
     final response = await http.get(
@@ -53,7 +60,8 @@ class MyPackageController extends GetxController {
           .map((item) => DeliveryItem.fromJson(item))
           .toList();
     }
-    isLoad.value = false;
+    print('deliveredPackages.value ${deliveredPackages.value}');
+    isLoadDelivered.value = false;
     update();
   }
 

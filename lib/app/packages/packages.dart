@@ -1,7 +1,6 @@
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/controller/package_controller.dart';
-import 'package:benji/src/repo/models/package/delivery_item.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/gestures.dart';
@@ -27,13 +26,9 @@ class _PackagesState extends State<Packages>
   void initState() {
     super.initState();
     checkAuth(context);
-    _pending = _getDataPending();
-    _completed = _getDataCompleted();
     _tabBarController = TabController(length: 2, vsync: this);
   }
 
-  late Future<List<DeliveryItem>> _pending;
-  late Future<List<DeliveryItem>> _completed;
   @override
   void dispose() {
     _tabBarController.dispose();
@@ -45,24 +40,7 @@ class _PackagesState extends State<Packages>
   final _scrollController = ScrollController();
 //================================================= FUNCTIONS ===================================================\\
 
-  Future<List<DeliveryItem>> _getDataPending() async {
-    List<DeliveryItem> pending =
-        await getDeliveryItemsByClientAndStatus('pending');
-    return pending;
-  }
-
-  Future<List<DeliveryItem>> _getDataCompleted() async {
-    List<DeliveryItem> completed =
-        await getDeliveryItemsByClientAndStatus('completed');
-    return completed;
-  }
-
-  Future<void> _handleRefresh() async {
-    setState(() {
-      _pending = _getDataPending();
-      _completed = _getDataCompleted();
-    });
-  }
+  Future<void> _handleRefresh() async {}
 
   int _selectedtabbar = 0;
   void _clickOnTabBarOption(value) async {
@@ -175,7 +153,7 @@ class _PackagesState extends State<Packages>
                           initState: (state) => MyPackageController.instance
                               .getDeliveryItemsByPending(),
                           builder: (controller) {
-                            if (controller.isLoad.value &&
+                            if (controller.isLoadPending.value &&
                                 controller.pendingPackages.isEmpty) {
                               return Center(
                                 child: CircularProgressIndicator(
@@ -257,7 +235,7 @@ class _PackagesState extends State<Packages>
                           initState: (state) => MyPackageController.instance
                               .getDeliveryItemsByDelivered(),
                           builder: (controller) {
-                            if (controller.isLoad.value &&
+                            if (controller.isLoadDelivered.value &&
                                 controller.deliveredPackages.isEmpty) {
                               return Center(
                                 child: CircularProgressIndicator(

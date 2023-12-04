@@ -8,6 +8,7 @@ import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/category_controller.dart';
 import 'package:benji/src/repo/controller/favourite_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
+import 'package:benji/src/repo/controller/package_controller.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
@@ -38,6 +39,8 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
       CartController.instance.getCartProduct();
       FavouriteController.instance.getProduct();
       FavouriteController.instance.getVendor();
+      MyPackageController.instance.getDeliveryItemsByPending();
+      MyPackageController.instance.getDeliveryItemsByDelivered();
     }
     super.initState();
     Timer(
