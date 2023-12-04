@@ -16,6 +16,8 @@ class Order {
   double deliveryFee;
   String assignedStatus;
   String deliveryStatus;
+  String userDeliveryStatus;
+  String riderOutgoingDeliveryStatus;
   User client;
   List<OrderItem> orderitems;
   String created;
@@ -27,6 +29,8 @@ class Order {
     required this.deliveryFee,
     required this.assignedStatus,
     required this.deliveryStatus,
+    required this.userDeliveryStatus,
+    required this.riderOutgoingDeliveryStatus,
     required this.client,
     required this.orderitems,
     required this.created,
@@ -41,6 +45,9 @@ class Order {
       deliveryFee: json["delivery_fee"] ?? 0.0,
       assignedStatus: json["assigned_status"] ?? "PEND",
       deliveryStatus: json["delivery_status"] ?? "PEND",
+      userDeliveryStatus: json["user_delivery_status"] ?? "PEND",
+      riderOutgoingDeliveryStatus:
+          json["rider_outgoing_delivery_status"] ?? "PEND",
       client: User.fromJson(json["client"]),
       orderitems: json["orderitems"] == null
           ? []

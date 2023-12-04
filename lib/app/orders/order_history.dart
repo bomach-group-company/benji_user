@@ -1,6 +1,7 @@
 import 'package:benji/app/orders/track_order.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
+import 'package:benji/src/repo/controller/order_status_change.dart';
 import 'package:benji/src/repo/models/order/order.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/section/track_order_details_container.dart';
 import '../../src/components/others/empty.dart';
+import '../../src/components/section/track_order_details_container.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
@@ -74,16 +75,20 @@ class _OrdersHistoryState extends State<OrdersHistory> {
 
   Future<void> _handleRefresh() async {}
 
-  void _toOrderDetailsScreen(Order order) => Get.to(
-        () => TrackOrder(order: order),
-        routeName: 'TrackOrder',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void _toOrderDetailsScreen(Order order) {
+    OrderStatusChangeController.instance.setOrder(order);
+
+    Get.to(
+      () => const TrackOrder(),
+      routeName: 'TrackOrder',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
   //========================================================================\\
 
   @override
