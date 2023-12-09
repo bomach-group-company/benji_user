@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/components/product/product_card.dart';
 import 'package:benji/src/components/textformfield/message_textformfield.dart';
 import 'package:benji/src/providers/constants.dart';
@@ -389,65 +390,72 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 physics: const ScrollPhysics(),
                 dragStartBehavior: DragStartBehavior.down,
                 children: [
-                  FlutterCarousel.builder(
-                    options: CarouselOptions(
-                      height: deviceType(media.width) > 3 &&
-                              deviceType(media.width) < 5
-                          ? media.height * 0.5
-                          : media.height * 0.42,
-                      viewportFraction: 1.0,
-                      initialPage: 0,
-                      enableInfiniteScroll: true,
-                      autoPlay: true,
-                      autoPlayInterval: const Duration(seconds: 2),
-                      autoPlayAnimationDuration:
-                          const Duration(milliseconds: 800),
-                      autoPlayCurve: Curves.easeInOut,
-                      enlargeCenterPage: true,
-                      controller: carouselController,
-                      onPageChanged: (index, value) {
-                        setState(() {});
-                      },
-                      pageSnapping: true,
-                      scrollDirection: Axis.horizontal,
-                      physics: const BouncingScrollPhysics(),
-                      scrollBehavior: const ScrollBehavior(),
-                      pauseAutoPlayOnTouch: true,
-                      pauseAutoPlayOnManualNavigate: true,
-                      pauseAutoPlayInFiniteScroll: false,
-                      enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                      disableCenter: false,
-                      showIndicator: true,
-                      floatingIndicator: true,
-                      slideIndicator: CircularSlideIndicator(
-                        alignment: Alignment.bottomCenter,
-                        currentIndicatorColor: kAccentColor,
-                        indicatorBackgroundColor: kPrimaryColor,
-                        indicatorRadius: 5,
-                        padding: const EdgeInsets.all(10),
-                      ),
-                    ),
-                    itemCount: carouselImages.length,
-                    itemBuilder: (BuildContext context, int itemIndex,
-                            int pageViewIndex) =>
-                        Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Container(
-                        width: media.width,
-                        decoration: ShapeDecoration(
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              carouselImages[itemIndex],
-                            ),
-                          ),
-                        ),
-                      ),
+                  Container(
+                    decoration: const BoxDecoration(color: kGreyColor1),
+                    height: media.height * 0.4,
+                    child: MyImage(
+                      url: widget.product.productImage,
                     ),
                   ),
+                  // FlutterCarousel.builder(
+                  //   options: CarouselOptions(
+                  //     height: deviceType(media.width) > 3 &&
+                  //             deviceType(media.width) < 5
+                  //         ? media.height * 0.5
+                  //         : media.height * 0.42,
+                  //     viewportFraction: 1.0,
+                  //     initialPage: 0,
+                  //     enableInfiniteScroll: true,
+                  //     autoPlay: true,
+                  //     autoPlayInterval: const Duration(seconds: 2),
+                  //     autoPlayAnimationDuration:
+                  //         const Duration(milliseconds: 800),
+                  //     autoPlayCurve: Curves.easeInOut,
+                  //     enlargeCenterPage: true,
+                  //     controller: carouselController,
+                  //     onPageChanged: (index, value) {
+                  //       setState(() {});
+                  //     },
+                  //     pageSnapping: true,
+                  //     scrollDirection: Axis.horizontal,
+                  //     physics: const BouncingScrollPhysics(),
+                  //     scrollBehavior: const ScrollBehavior(),
+                  //     pauseAutoPlayOnTouch: true,
+                  //     pauseAutoPlayOnManualNavigate: true,
+                  //     pauseAutoPlayInFiniteScroll: false,
+                  //     enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                  //     disableCenter: false,
+                  //     showIndicator: true,
+                  //     floatingIndicator: true,
+                  //     slideIndicator: CircularSlideIndicator(
+                  //       alignment: Alignment.bottomCenter,
+                  //       currentIndicatorColor: kAccentColor,
+                  //       indicatorBackgroundColor: kPrimaryColor,
+                  //       indicatorRadius: 5,
+                  //       padding: const EdgeInsets.all(10),
+                  //     ),
+                  //   ),
+                  //   itemCount: carouselImages.length,
+                  //   itemBuilder: (BuildContext context, int itemIndex,
+                  //           int pageViewIndex) =>
+                  //       Padding(
+                  //     padding: const EdgeInsets.all(10),
+                  //     child: Container(
+                  //       width: media.width,
+                  //       decoration: ShapeDecoration(
+                  //         shape: const RoundedRectangleBorder(
+                  //             borderRadius:
+                  //                 BorderRadius.all(Radius.circular(20))),
+                  //         image: DecorationImage(
+                  //           fit: BoxFit.cover,
+                  //           image: AssetImage(
+                  //             carouselImages[itemIndex],
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   kSizedBox,
                   Padding(
                     padding: const EdgeInsets.all(kDefaultPadding / 2),
@@ -494,7 +502,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   ),
                                   kHalfSizedBox,
                                   SizedBox(
-                                    width: media.width / 2.3,
+                                    width: media.width * 0.4,
                                     child: Text(
                                       widget.product.name,
                                       overflow: TextOverflow.ellipsis,
@@ -523,7 +531,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   ),
                                   kHalfSizedBox,
                                   SizedBox(
-                                    width: media.width / 3,
+                                    width: media.width * 0.4,
                                     child: Text(
                                       "₦ ${formattedText(widget.product.price)}",
                                       overflow: TextOverflow.ellipsis,
