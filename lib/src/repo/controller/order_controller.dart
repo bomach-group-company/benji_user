@@ -72,7 +72,7 @@ class OrderController extends GetxController {
       data = (jsonDecode(responseData) as List)
           .map((e) => Order.fromJson(e))
           .toList();
-      orderList.value += data;
+      orderList.value = data;
     } catch (e) {
       consoleLog(e.toString());
     }

@@ -185,3 +185,20 @@ Future<List<Product>> getProductsBySearching(query) async {
     return [];
   }
 }
+
+Future<List<Product>> getSimitarProducts(query) async {
+  final response = await http.get(
+    Uri.parse('$baseURL/clients/searchProducts?query=$query'),
+    headers: await authHeader(),
+  );
+
+  if (response.statusCode == 200 && response.body != '"No matching query"') {
+    return (jsonDecode(response.body) as List)
+        .map((item) => Product.fromJson(item))
+        .toList();
+  } else if (response.body == '"No matching query"') {
+    return [];
+  } else {
+    return [];
+  }
+}

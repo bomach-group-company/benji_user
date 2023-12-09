@@ -75,8 +75,8 @@ class _OrdersHistoryState extends State<OrdersHistory> {
 
   Future<void> _handleRefresh() async {}
 
-  void _toOrderDetailsScreen(Order order) {
-    OrderStatusChangeController.instance.setOrder(order);
+  void _toOrderDetailsScreen(Order order) async {
+    await OrderStatusChangeController.instance.setOrder(order);
 
     Get.to(
       () => const TrackOrder(),

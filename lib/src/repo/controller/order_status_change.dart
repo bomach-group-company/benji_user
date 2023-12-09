@@ -20,10 +20,10 @@ class OrderStatusChangeController extends GetxController {
 
   var order = Order.fromJson(null).obs;
 
-  setOrder(Order newOrder) async {
+  Future setOrder(Order newOrder) async {
     order.value = newOrder;
     update();
-    await refreshOrder();
+    refreshOrder();
   }
 
   deleteCachedOrder() {
