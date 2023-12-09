@@ -92,13 +92,10 @@ Future<bool> deleteAddress(
   String addressId,
 ) async {
   final response = await http.delete(
-    Uri.parse('$baseURL/address/deleteAddress/$addressId'),
+    Uri.parse('$baseURL/address/deleteAddress/$addressId/'),
     headers: await authHeader(),
   );
+  print(response.body);
 
-  if (response.statusCode == 200) {
-    return response.body == "Address deleted successfully";
-  } else {
-    return false;
-  }
+  return response.statusCode == 200;
 }

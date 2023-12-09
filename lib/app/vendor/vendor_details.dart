@@ -2,6 +2,7 @@
 
 import 'package:benji/app/vendor/about_vendor.dart';
 import 'package:benji/app/vendor/product_vendor.dart';
+import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:benji/src/repo/utils/favorite.dart';
 import 'package:flutter/gestures.dart';
@@ -263,13 +264,14 @@ class _VendorDetailsState extends State<VendorDetails>
                                   : media.height * 0.28,
                           decoration: BoxDecoration(
                             color: kPageSkeletonColor,
-                            image: const DecorationImage(
-                              fit: BoxFit.fill,
-                              image: AssetImage(
-                                "assets/images/vendors/ntachi-osa.png",
-                              ),
-                            ),
+                            // image: const DecorationImage(
+                            //   fit: BoxFit.fill,
+                            //   image: AssetImage(
+                            //     "assets/images/vendors/ntachi-osa.png",
+                            //   ),
+                            // ),
                           ),
+                          child: MyImage(url: widget.vendor.shopImage),
                         ),
                       ),
                       Positioned(
@@ -469,14 +471,15 @@ class _VendorDetailsState extends State<VendorDetails>
                           height: deviceType(media.width) > 2 ? 126 : 100,
                           decoration: ShapeDecoration(
                             color: kPageSkeletonColor,
-                            image: const DecorationImage(
-                              image: AssetImage(
-                                "assets/images/vendors/ntachi-osa-logo.png",
-                              ),
-                              fit: BoxFit.cover,
-                            ),
+                            // image: const DecorationImage(
+                            //   image: AssetImage(
+                            //     "assets/images/vendors/ntachi-osa-logo.png",
+                            //   ),
+                            //   fit: BoxFit.cover,
+                            // ),
                             shape: const OvalBorder(),
                           ),
+                          child: MyImage(url: widget.vendor.profileLogo),
                         ),
                       ),
                     ],
