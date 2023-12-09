@@ -14,5 +14,6 @@ class LatLngDetailController extends GetxController {
   setEmpty() {
     latLngDetail.removeRange(0, latLngDetail.length);
     latLngDetail.addAll(['', '', '']);
+    update();
   }
 }
