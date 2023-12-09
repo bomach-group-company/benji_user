@@ -63,7 +63,9 @@ class FormController extends GetxController {
       return;
     }
 
-    ApiProcessorController.successSnack(successMsg);
+    if (successMsg != '') {
+      ApiProcessorController.successSnack(successMsg);
+    }
     isLoad.value = false;
     responseObject.value = jsonDecode(response.body) as Map;
     update([tag]);

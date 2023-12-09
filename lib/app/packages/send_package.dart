@@ -307,8 +307,8 @@ class _SendPackageState extends State<SendPackage> {
     setState(() {
       submittingForm = true;
     });
-    await FormController.instance
-        .postAuth(Api.baseUrl + Api.createItemPackage, data, 'createPackage');
+    await FormController.instance.postAuth(Api.baseUrl + Api.createItemPackage,
+        data, 'createPackage', "Error occurred", '');
     setState(() {
       submittingForm = true;
     });
