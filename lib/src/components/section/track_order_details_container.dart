@@ -44,14 +44,14 @@ class TrackOrderDetailsContainer extends StatelessWidget {
 
   final Map statusColor = {
     'pend': kLoadingColor,
-    'comp': kSuccessColor,
+    'confirmed': kSuccessColor,
     'canc': kAccentColor,
     'dispatched': kBlueLinkTextColor,
   };
 
   final Map status = {
     'pend': 'PENDING',
-    'comp': 'COMPLETED',
+    'confirmed': 'COMPLETED',
     'canc': 'CANCELLED',
     'dispatched': 'DISPATCHED',
   };
@@ -92,12 +92,12 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      status[order.deliveryStatus.toLowerCase()] ??
+                      status[order.userDeliveryStatus.toLowerCase()] ??
                           "Not Available",
                       style: TextStyle(
-                        color:
-                            statusColor[order.deliveryStatus.toLowerCase()] ??
-                                kSecondaryColor,
+                        color: statusColor[
+                                order.userDeliveryStatus.toLowerCase()] ??
+                            kSecondaryColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),

@@ -84,8 +84,11 @@ class _PayForDeliveryState extends State<PayForDelivery> {
   double totalPrice = 0;
   int deliveryFee =
       PaymentController.instance.responseObject.containsKey('delivery_fee')
-          ? PaymentController.instance.responseObject['delivery_fee']
-          : 0;
+          ? PaymentController.instance.responseObject['delivery_fee'] == 0
+              ? 1
+              : PaymentController.instance.responseObject['delivery_fee']
+          : 1;
+
   final String paymentDescription = "Benji app delivery";
   final String currency = "NGN";
 
