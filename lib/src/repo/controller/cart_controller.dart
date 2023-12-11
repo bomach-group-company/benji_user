@@ -48,10 +48,6 @@ class CartController extends GetxController {
   Future getCartProduct() async {
     List<VendorInfo> allCart = getAllCartItem();
     isLoad.value = true;
-    // subTotal.value = [];
-    // cartProducts.value = [];
-
-    // formatOfOrder.value = [];
     update();
 
     List<double> totalList = [];
