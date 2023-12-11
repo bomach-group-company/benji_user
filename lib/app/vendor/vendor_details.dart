@@ -509,17 +509,14 @@ class _VendorDetailsState extends State<VendorDetails>
                           child: TabBar(
                             controller: _tabBarController,
                             onTap: (value) => _clickOnTabBarOption(value),
+                            splashBorderRadius: BorderRadius.circular(50),
                             enableFeedback: true,
-                            dragStartBehavior: DragStartBehavior.start,
                             mouseCursor: SystemMouseCursors.click,
+                            indicatorSize: TabBarIndicatorSize.tab,
+                            dividerColor: kTransparentColor,
                             automaticIndicatorColorAdjustment: true,
-                            overlayColor:
-                                MaterialStatePropertyAll(kAccentColor),
                             labelColor: kPrimaryColor,
                             unselectedLabelColor: kTextGreyColor,
-                            indicatorColor: kAccentColor,
-                            indicatorWeight: 2,
-                            splashBorderRadius: BorderRadius.circular(50),
                             indicator: BoxDecoration(
                               color: kAccentColor,
                               borderRadius: BorderRadius.circular(50),

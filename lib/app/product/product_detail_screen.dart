@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:math';
+
 import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/components/product/product_card.dart';
 import 'package:benji/src/components/textformfield/message_textformfield.dart';
@@ -823,7 +825,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 height: 350,
                                 width: media.width,
                                 child: ListView.separated(
-                                  itemCount: controller.products.length,
+                                  itemCount: min(controller.products.length, 3),
                                   scrollDirection: Axis.horizontal,
                                   physics: const BouncingScrollPhysics(),
                                   separatorBuilder: (context, index) =>

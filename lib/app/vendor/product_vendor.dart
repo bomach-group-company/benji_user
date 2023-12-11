@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:benji/app/product/product_detail_screen.dart';
 import 'package:benji/app/vendor/all_vendor_products.dart';
 import 'package:benji/app/vendor/vendor_details.dart';
@@ -195,7 +197,7 @@ class _ProductVendorState extends State<ProductVendor> {
                   height: 250,
                   width: media.width,
                   child: ListView.separated(
-                    itemCount: controller.vendorList.length,
+                    itemCount: min(controller.vendorList.length, 3),
                     scrollDirection: Axis.horizontal,
                     physics: const BouncingScrollPhysics(),
                     separatorBuilder: (context, index) =>
