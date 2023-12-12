@@ -16,6 +16,7 @@ class Api {
   static const changePassword = "/auth/changeNewPassword/";
 
 //Item Packages
+  static const dispatchPackage = "/sendPackage/changePackageStatus";
   static const getPackageCategory = "/sendPackage/getPackageCategory/";
   static const getPackageWeight = "/sendPackage/getPackageWeight/";
   static const createItemPackage = "/sendPackage/createItemPackage/";

@@ -172,7 +172,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
     print('meta user data $meta');
 
     return Charge(
-      amount: (subTotal * 100).toInt() + (deliveryFee * 100).toInt(),
+      amount: (deliveryFee * 100).toInt(),
       publicKey: squadPublicKey,
       email: userEmail,
       currencyCode: currency,
