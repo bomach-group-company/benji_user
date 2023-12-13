@@ -73,7 +73,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   // ),
                   shape: const OvalBorder(),
                 ),
-                child: Center(child: MyImage(url: data.image)),
+                child: Center(child: MyImage(url: (data.image as String?))),
               ),
               title: Text(
                 '${data.firstName} ${data.lastName}',

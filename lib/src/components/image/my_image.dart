@@ -10,6 +10,7 @@ class MyImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('$baseImage$url this is image cached');
     return CachedNetworkImage(
       imageUrl: url == null ? '' : '$baseImage$url',
       fit: BoxFit.cover,

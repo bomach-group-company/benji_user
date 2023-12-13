@@ -184,7 +184,7 @@ class _SettingsState extends State<Settings> {
           Uri.parse('$baseURL/clients/changeClientProfileImage/${user!.id}');
 
       // Create a multipart request
-      final request = http.MultipartRequest('PUT', url);
+      final request = http.MultipartRequest('POST', url);
 
       // Set headers
       request.headers.addAll(await authHeader());
@@ -306,186 +306,196 @@ class _SettingsState extends State<Settings> {
             padding: const EdgeInsets.all(kDefaultPadding),
             children: [
               MyFutureBuilder(
-                future: getUser(),
-                child: (snapshot) => Container(
-                  width: mediaWidth,
-                  padding: const EdgeInsets.all(10),
-                  decoration: ShapeDecoration(
-                    color: kPrimaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x0F000000),
-                        blurRadius: 24,
-                        offset: Offset(0, 4),
-                        spreadRadius: 0,
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Stack(
-                            children: [
-                              selectedImage == null
-                                  ? Container(
-                                      height: deviceType(mediaWidth) == 1
-                                          ? 100
-                                          : 150,
-                                      width: deviceType(mediaWidth) == 1
-                                          ? 100
-                                          : 150,
-                                      decoration: ShapeDecoration(
-                                        color: kPageSkeletonColor,
-                                        // image: const DecorationImage(
-                                        //   image: AssetImage(
-                                        //     "assets/images/profile/avatar-image.jpg",
-                                        //   ),
-                                        //   fit: BoxFit.contain,
-                                        // ),
-                                        shape: const OvalBorder(),
-                                      ),
-                                      child: Center(
-                                          child: MyImage(url: snapshot.image)),
-                                    )
-                                  : Container(
-                                      height: deviceType(mediaWidth) == 1
-                                          ? 100
-                                          : 150,
-                                      width: deviceType(mediaWidth) == 1
-                                          ? 100
-                                          : 150,
-                                      decoration: ShapeDecoration(
-                                        color: kPageSkeletonColor,
-                                        image: DecorationImage(
-                                          image: FileImage(selectedImage!),
-                                          fit: BoxFit.cover,
-                                        ),
-                                        shape: const OvalBorder(),
-                                      ),
-                                    ),
-                              Positioned(
-                                bottom: 0,
-                                right: 5,
-                                child: InkWell(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      elevation: 20,
-                                      barrierColor:
-                                          kBlackColor.withOpacity(0.8),
-                                      showDragHandle: true,
-                                      useSafeArea: true,
-                                      isDismissible: true,
-                                      isScrollControlled: true,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(
-                                            kDefaultPadding,
-                                          ),
-                                        ),
-                                      ),
-                                      enableDrag: true,
-                                      builder: (builder) =>
-                                          _profilePicBottomSheet(),
-                                    );
-                                  },
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Container(
-                                    height:
-                                        deviceType(mediaWidth) == 1 ? 35 : 50,
-                                    width:
-                                        deviceType(mediaWidth) == 1 ? 35 : 50,
-                                    decoration: ShapeDecoration(
-                                      color: kAccentColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: FaIcon(
-                                        FontAwesomeIcons.pencil,
-                                        color: kPrimaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                  future: getUser(),
+                  child: (snapshot) {
+                    print(snapshot);
+                    print(baseImage + snapshot.image);
+                    print(selectedImage);
+                    return Container(
+                      width: mediaWidth,
+                      padding: const EdgeInsets.all(10),
+                      decoration: ShapeDecoration(
+                        color: kPrimaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        shadows: const [
+                          BoxShadow(
+                            color: Color(0x0F000000),
+                            blurRadius: 24,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
                           ),
                         ],
                       ),
-                      kWidthSizedBox,
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${snapshot.firstName} ${snapshot.lastName}',
-                              softWrap: true,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              textAlign: TextAlign.start,
-                              style: const TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            Text(
-                              snapshot.email,
-                              softWrap: true,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            Wrap(
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.only(top: 11),
-                                  child: Text(
-                                    snapshot.code,
-                                    softWrap: true,
-                                    style: const TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Stack(
+                                children: [
+                                  selectedImage == null
+                                      ? Container(
+                                          height: deviceType(mediaWidth) == 1
+                                              ? 100
+                                              : 150,
+                                          width: deviceType(mediaWidth) == 1
+                                              ? 100
+                                              : 150,
+                                          decoration: ShapeDecoration(
+                                            color: kPageSkeletonColor,
+                                            // image: const DecorationImage(
+                                            //   image: AssetImage(
+                                            //     "assets/images/profile/avatar-image.jpg",
+                                            //   ),
+                                            //   fit: BoxFit.contain,
+                                            // ),
+                                            shape: const OvalBorder(),
+                                          ),
+                                          child: Center(
+                                            child: MyImage(
+                                              url: (snapshot.image as String?),
+                                            ),
+                                          ),
+                                        )
+                                      : Container(
+                                          height: deviceType(mediaWidth) == 1
+                                              ? 100
+                                              : 150,
+                                          width: deviceType(mediaWidth) == 1
+                                              ? 100
+                                              : 150,
+                                          decoration: ShapeDecoration(
+                                            color: kPageSkeletonColor,
+                                            image: DecorationImage(
+                                              image: FileImage(selectedImage!),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            shape: const OvalBorder(),
+                                          ),
+                                        ),
+                                  Positioned(
+                                    bottom: 0,
+                                    right: 5,
+                                    child: InkWell(
+                                      onTap: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          elevation: 20,
+                                          barrierColor:
+                                              kBlackColor.withOpacity(0.8),
+                                          showDragHandle: true,
+                                          useSafeArea: true,
+                                          isDismissible: true,
+                                          isScrollControlled: true,
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(
+                                                kDefaultPadding,
+                                              ),
+                                            ),
+                                          ),
+                                          enableDrag: true,
+                                          builder: (builder) =>
+                                              _profilePicBottomSheet(),
+                                        );
+                                      },
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Container(
+                                        height: deviceType(mediaWidth) == 1
+                                            ? 35
+                                            : 50,
+                                        width: deviceType(mediaWidth) == 1
+                                            ? 35
+                                            : 50,
+                                        decoration: ShapeDecoration(
+                                          color: kAccentColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: FaIcon(
+                                            FontAwesomeIcons.pencil,
+                                            color: kPrimaryColor,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    _copyToClipboard(context, snapshot.code);
-                                  },
-                                  tooltip: "Copy ID",
-                                  mouseCursor: SystemMouseCursors.click,
-                                  icon: FaIcon(
-                                    FontAwesomeIcons.copy,
-                                    size: 14,
-                                    color: kAccentColor,
+                                ],
+                              ),
+                            ],
+                          ),
+                          kWidthSizedBox,
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${snapshot.firstName} ${snapshot.lastName}',
+                                  softWrap: true,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  textAlign: TextAlign.start,
+                                  style: const TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
                                   ),
+                                ),
+                                Text(
+                                  snapshot.email,
+                                  softWrap: true,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                Wrap(
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 11),
+                                      child: Text(
+                                        snapshot.code,
+                                        softWrap: true,
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        _copyToClipboard(
+                                            context, snapshot.code);
+                                      },
+                                      tooltip: "Copy ID",
+                                      mouseCursor: SystemMouseCursors.click,
+                                      icon: FaIcon(
+                                        FontAwesomeIcons.copy,
+                                        size: 14,
+                                        color: kAccentColor,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              ),
+                    );
+                  }),
               kSizedBox,
               InkWell(
                 onTap: _toEditProfile,

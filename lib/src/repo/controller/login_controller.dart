@@ -1,6 +1,7 @@
 // ignore_for_file: unrelated_type_equality_checks
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:benji/app/splash_screens/login_splash_screen.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
@@ -92,6 +93,8 @@ class LoginController extends GetxController {
 
       isLoad.value = false;
       update();
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
       ApiProcessorController.errorSnack("Invalid email or password. Try again");
       isLoad.value = false;
