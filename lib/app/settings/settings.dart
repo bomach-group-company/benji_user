@@ -204,6 +204,7 @@ class _SettingsState extends State<Settings> {
 
       // Check if the request was successful (status code 200)
       if (response.statusCode == 200) {
+        await UserController.instance.getUser();
         // Image successfully uploaded
         if (kDebugMode) {
           print(await response.stream.bytesToString());

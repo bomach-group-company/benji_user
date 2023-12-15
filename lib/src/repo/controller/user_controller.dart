@@ -6,9 +6,11 @@ import 'package:benji/app/auth/login.dart';
 import 'package:benji/app/home/home.dart';
 import 'package:benji/main.dart';
 import 'package:benji/src/repo/models/user/user_model.dart';
+import 'package:benji/src/repo/services/api_url.dart';
 import 'package:benji/src/repo/services/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class UserController extends GetxController {
   static UserController get instance {
@@ -65,5 +67,17 @@ class UserController extends GetxController {
   Future deleteUser() async {
     await prefs.remove('user');
     setUserSync();
+  }
+
+  Future getUser() async {
+    http.Response? responseUserData = await HandleData.getApi(
+        Api.baseUrl + Api.getClient + user.value.id.toString(),
+        user.value.token);
+    if (responseUserData == null || responseUserData.statusCode != 200) {
+      return;
+    }
+
+    saveUser(responseUserData.body, user.value.token);
+    update();
   }
 }

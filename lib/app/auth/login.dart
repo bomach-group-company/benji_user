@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, use_build_context_synchronously
 
+import 'package:benji/app/auth/signup.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/section/reusable_authentication_first_half.dart';
 import 'package:benji/src/components/textformfield/email_textformfield.dart';
@@ -70,6 +71,17 @@ class _LoginState extends State<Login> {
         curve: Curves.easeIn,
         routeName: "Forgot Password",
         preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+  void _toSignUpPage() => Get.offAll(
+        () => const SignUp(),
+        routeName: 'SignUp',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        predicate: (routes) => false,
         popGesture: true,
         transition: Transition.rightToLeft,
       );
@@ -266,6 +278,25 @@ class _LoginState extends State<Login> {
                       );
                     }),
                     kHalfSizedBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Don't have an account? ",
+                          style: TextStyle(
+                            color: Color(0xFF646982),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: _toSignUpPage,
+                          child: Text(
+                            "Sign up",
+                            style: TextStyle(color: kAccentColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                    kSizedBox,
                   ],
                 ),
               ),

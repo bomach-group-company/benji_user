@@ -10,7 +10,7 @@ class ApiProcessorController extends GetxController {
       if (data.statusCode == 200) {
         return data.body;
       }
-      errorSnack("Something went wrong");
+      // errorSnack("Something went wrong");
       return;
     } catch (e) {
       // errorSnack("Check your internet and try again");
