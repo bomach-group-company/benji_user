@@ -18,7 +18,6 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/button/my_outlined_elevatedbutton.dart';
-import '../../src/components/others/location_list_tile.dart';
 import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/components/textformfield/my textformfield.dart';
 import '../../src/components/textformfield/my_intl_phonefield.dart';
@@ -368,6 +367,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                 ),
                                 kHalfSizedBox,
                                 MyMapsTextFormField(
+                                  readOnly: true,
                                   controller: _mapsLocationEC,
                                   validator: (value) {
                                     if (value == null) {
@@ -430,39 +430,39 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   thickness: 2,
                                   color: kLightGreyColor,
                                 ),
-                                const Text(
-                                  "Suggestions:",
-                                  style: TextStyle(
-                                    color: kTextBlackColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kHalfSizedBox,
-                                SizedBox(
-                                  height: () {
-                                    if (_typing == false) {
-                                      return 0.0;
-                                    }
-                                    if (_typing == true) {
-                                      return 150.0;
-                                    }
-                                  }(),
-                                  child: Scrollbar(
-                                    child: ListView.builder(
-                                      physics: const BouncingScrollPhysics(),
-                                      controller: _scrollController,
-                                      shrinkWrap: true,
-                                      itemCount: placePredictions.length,
-                                      itemBuilder: (context, index) =>
-                                          LocationListTile(
-                                        onTap: () => _setLocation(index),
-                                        location: placePredictions[index]
-                                            .description!,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                // const Text(
+                                //   "Suggestions:",
+                                //   style: TextStyle(
+                                //     color: kTextBlackColor,
+                                //     fontSize: 16,
+                                //     fontWeight: FontWeight.w700,
+                                //   ),
+                                // ),
+                                // kHalfSizedBox,
+                                // SizedBox(
+                                //   height: () {
+                                //     if (_typing == false) {
+                                //       return 0.0;
+                                //     }
+                                //     if (_typing == true) {
+                                //       return 150.0;
+                                //     }
+                                //   }(),
+                                //   child: Scrollbar(
+                                //     child: ListView.builder(
+                                //       physics: const BouncingScrollPhysics(),
+                                //       controller: _scrollController,
+                                //       shrinkWrap: true,
+                                //       itemCount: placePredictions.length,
+                                //       itemBuilder: (context, index) =>
+                                //           LocationListTile(
+                                //         onTap: () => _setLocation(index),
+                                //         location: placePredictions[index]
+                                //             .description!,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ],
