@@ -1,3 +1,4 @@
+import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/repo/models/rating/ratings.dart';
 import 'package:flutter/material.dart';
 
@@ -73,11 +74,16 @@ class CostumerReviewCard extends StatelessWidget {
                 width: 45,
                 decoration: const ShapeDecoration(
                   shape: OvalBorder(),
-                  image: DecorationImage(
-                    image:
-                        AssetImage('assets/images/customers/ebuka_henry.png'),
-                    fit: BoxFit.cover,
-                  ),
+                  // image: DecorationImage(
+                  //   image:
+                  //       AssetImage('assets/images/customers/ebuka_henry.png'),
+                  //   fit: BoxFit.cover,
+                  // ),
+                ),
+                child: MyImage(
+                  url: rating.client.image,
+                  radiusBottom: 22,
+                  radiusTop: 22,
                 ),
               ),
               kHalfWidthSizedBox,

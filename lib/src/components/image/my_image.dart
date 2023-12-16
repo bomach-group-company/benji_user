@@ -6,22 +6,31 @@ import 'package:flutter/material.dart';
 
 class MyImage extends StatelessWidget {
   final String? url;
-  const MyImage({super.key, this.url});
+  final double radiusTop;
+  final double radiusBottom;
+
+  const MyImage(
+      {super.key, this.url, this.radiusTop = 15, this.radiusBottom = 15});
 
   @override
   Widget build(BuildContext context) {
-    print('$baseImage$url this is image cached');
-    return CachedNetworkImage(
-      imageUrl: url == null ? '' : '$baseImage$url',
-      fit: BoxFit.cover,
-      progressIndicatorBuilder: (context, url, downloadProgress) =>
-          const Center(
-              child: CupertinoActivityIndicator(
-        color: kRedColor,
-      )),
-      errorWidget: (context, url, error) => const Icon(
-        Icons.error,
-        color: kRedColor,
+    var media = MediaQuery.of(context).size;
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(radiusTop),
+          topRight: Radius.circular(radiusTop),
+          bottomLeft: Radius.circular(radiusBottom),
+          bottomRight: Radius.circular(radiusBottom)),
+      child: CachedNetworkImage(
+        imageUrl: url == null ? '' : baseImage + url!,
+        width: double.infinity,
+        height: media.height,
+        filterQuality: FilterQuality.high,
+        fit: BoxFit.fill, // Use BoxFit.fill to fill the parent container
+        progressIndicatorBuilder: (context, url, downloadProgress) =>
+            Center(child: CupertinoActivityIndicator(color: kAccentColor)),
+        errorWidget: (context, url, error) =>
+            Icon(Icons.error, color: kAccentColor),
       ),
     );
   }

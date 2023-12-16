@@ -64,18 +64,11 @@ class ProductController extends GetxController {
     }
   }
 
-  Future getProduct({
-    bool first = false,
-  }) async {
-    if (first) {
-      loadNumProduct.value = 10;
-    }
+  Future getProduct() async {
     if (loadedAllProduct.value) {
       return;
     }
-    if (!first) {
-      isLoadMoreProduct.value = true;
-    }
+
     isLoad.value = true;
 
     var url =
@@ -86,10 +79,6 @@ class ProductController extends GetxController {
     var responseData = await ApiProcessorController.errorState(response);
     if (responseData == null) {
       isLoad.value = false;
-      if (!first) {
-        isLoadMoreProduct.value = false;
-      }
-
       update();
       return;
     }
@@ -108,17 +97,9 @@ class ProductController extends GetxController {
     update();
   }
 
-  Future getProductsBySubCategory({
-    bool first = false,
-  }) async {
-    if (first) {
-      loadNumProductSubCategory.value = 10;
-    }
+  Future getProductsBySubCategory() async {
     if (loadedAllProductSubCategory.value) {
       return;
-    }
-    if (!first) {
-      isLoadMoreProductSubCategory.value = true;
     }
     isLoad.value = true;
     update();
@@ -130,9 +111,6 @@ class ProductController extends GetxController {
     var responseData = await ApiProcessorController.errorState(response);
     if (responseData == null) {
       isLoad.value = false;
-      if (!first) {
-        isLoadMoreProductSubCategory.value = false;
-      }
 
       update();
       return;

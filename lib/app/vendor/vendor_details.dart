@@ -5,7 +5,6 @@ import 'package:benji/app/vendor/product_vendor.dart';
 import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:benji/src/repo/utils/favorite.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -271,7 +270,10 @@ class _VendorDetailsState extends State<VendorDetails>
                             //   ),
                             // ),
                           ),
-                          child: MyImage(url: widget.vendor.shopImage),
+                          child: MyImage(
+                            url: widget.vendor.shopImage,
+                            radiusBottom: 0,
+                          ),
                         ),
                       ),
                       Positioned(

@@ -62,7 +62,12 @@ class ProductCard extends StatelessWidget {
                 //     fit: BoxFit.fill,
                 //   ),
               ),
-              child: Center(child: MyImage(url: product.productImage)),
+              child: Center(
+                  child: MyImage(
+                url: product.productImage,
+                radiusBottom: 0,
+                radiusTop: 7,
+              )),
             ),
             kSizedBox,
             Padding(

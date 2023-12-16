@@ -397,6 +397,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     height: media.height * 0.4,
                     child: MyImage(
                       url: widget.product.productImage,
+                      radiusBottom: 0,
+                      radiusTop: 0,
                     ),
                   ),
                   // FlutterCarousel.builder(
