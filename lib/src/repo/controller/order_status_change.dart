@@ -23,7 +23,7 @@ class OrderStatusChangeController extends GetxController {
   Future setOrder(Order newOrder) async {
     order.value = newOrder;
     update();
-    refreshOrder();
+    // refreshOrder();
   }
 
   deleteCachedOrder() {

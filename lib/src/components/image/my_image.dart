@@ -26,7 +26,7 @@ class MyImage extends StatelessWidget {
         width: double.infinity,
         height: media.height,
         filterQuality: FilterQuality.high,
-        fit: BoxFit.fill, // Use BoxFit.fill to fill the parent container
+        fit: BoxFit.cover, // Use BoxFit.fill to fill the parent container
         progressIndicatorBuilder: (context, url, downloadProgress) =>
             Center(child: CupertinoActivityIndicator(color: kAccentColor)),
         errorWidget: (context, url, error) =>

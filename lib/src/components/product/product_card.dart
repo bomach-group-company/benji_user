@@ -66,7 +66,7 @@ class ProductCard extends StatelessWidget {
                   child: MyImage(
                 url: product.productImage,
                 radiusBottom: 0,
-                radiusTop: 7,
+                radiusTop: 7.5,
               )),
             ),
             kSizedBox,

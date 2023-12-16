@@ -32,10 +32,6 @@ class _OrdersHistoryState extends State<OrdersHistory> {
   }
 
   //=================================== ALL VARIABLES ====================================\\
-
-  late Future<List<Order>> _orders;
-
-  //============================================== BOOL VALUES =================================================\\
   bool _isScrollToTopBtnVisible = false;
 
   //=================================== CONTROLLERS ====================================\\
@@ -75,7 +71,7 @@ class _OrdersHistoryState extends State<OrdersHistory> {
 
   Future<void> _handleRefresh() async {}
 
-  void _toOrderDetailsScreen(Order order) async {
+  Future _toOrderDetailsScreen(Order order) async {
     await OrderStatusChangeController.instance.setOrder(order);
 
     Get.to(
@@ -154,8 +150,9 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                                   physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.vertical,
                                   itemBuilder: (context, index) => InkWell(
-                                    onTap: () => _toOrderDetailsScreen(
-                                        controller.orderList[index]),
+                                    onTap: () async =>
+                                        await _toOrderDetailsScreen(
+                                            controller.orderList[index]),
                                     child: TrackOrderDetailsContainer(
                                       order: controller.orderList[index],
                                     ),
