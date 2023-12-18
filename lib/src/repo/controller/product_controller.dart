@@ -18,7 +18,9 @@ class ProductController extends GetxController {
   }
 
   var isLoad = false.obs;
+  var isLoadVendor = false.obs;
   var isLoadCreate = false.obs;
+  var vendorProducts = <Product>[].obs;
   var products = <Product>[].obs;
   var productsBySubCategory = <Product>[].obs;
   var selectedSubCategory = SubCategory.fromJson(null).obs;
@@ -127,6 +129,33 @@ class ProductController extends GetxController {
     loadedAllProductSubCategory.value = data.isEmpty;
     isLoad.value = false;
     isLoadMoreProductSubCategory.value = false;
+    update();
+  }
+
+  Future getProductsByVendorAndSubCategory(
+      String vendorId, String subCategoryId) async {
+    isLoadVendor.value = true;
+    update();
+    var url =
+        "${Api.baseUrl}/clients/filterVendorsProductsBySubCategory/$vendorId/$subCategoryId/";
+    String token = UserController.instance.user.value.token;
+    http.Response? response = await HandleData.getApi(url, token);
+    var responseData = await ApiProcessorController.errorState(response);
+    if (responseData == null) {
+      isLoadVendor.value = false;
+      update();
+      return;
+    }
+    List<Product> data = [];
+    try {
+      data = (jsonDecode(response!.body) as List)
+          .map((e) => Product.fromJson(e))
+          .toList();
+      vendorProducts.value += data;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    isLoadVendor.value = false;
     update();
   }
 }

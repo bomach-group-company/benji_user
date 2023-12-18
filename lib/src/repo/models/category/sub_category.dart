@@ -24,7 +24,7 @@ class SubCategory {
   factory SubCategory.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return SubCategory(
-      id: json['id'] ?? notAvailable,
+      id: json['id'] ?? '',
       name: json['name'] ?? notAvailable,
       description: json['description'] ?? notAvailable,
       isActive: json['is_active'] ?? false,

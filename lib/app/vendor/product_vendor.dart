@@ -4,7 +4,11 @@ import 'package:benji/app/product/product_detail_screen.dart';
 import 'package:benji/app/vendor/all_vendor_products.dart';
 import 'package:benji/app/vendor/vendor_details.dart';
 import 'package:benji/src/components/button/category_button.dart';
+import 'package:benji/src/components/others/empty.dart';
+import 'package:benji/src/components/product/product_card.dart';
 import 'package:benji/src/components/vendor/vendors_card.dart';
+import 'package:benji/src/repo/controller/product_controller.dart';
+import 'package:benji/src/repo/controller/sub_category_controller.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
@@ -14,8 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
 
-import '../../src/components/others/empty.dart';
-import '../../src/components/product/product_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 
@@ -35,19 +37,9 @@ class _ProductVendorState extends State<ProductVendor> {
   void initState() {
     super.initState();
     checkAuth(context);
-    productAndSubCategoryName =
-        getVendorProductsAndSubCategoryName(widget.vendor.id)
-          ..then((value) {
-            try {
-              activeCategory = value.keys.toList()[0];
-            } catch (e) {
-              activeCategory = '';
-            }
-          });
   }
 
   late Future<Map<String, List<Product>>> productAndSubCategoryName;
-  String activeCategory = '';
 
   // _getData() async {
   //   Map<String, List<Product>> productAndSubCategoryName =
@@ -104,84 +96,75 @@ class _ProductVendorState extends State<ProductVendor> {
       width: media.width,
       child: Column(
         children: [
-          FutureBuilder(
-            future: productAndSubCategoryName,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: kAccentColor,
-                  ),
-                );
-              }
-              return Container(
-                padding: const EdgeInsets.all(kDefaultPadding / 2),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 60,
-                      child: ListView.builder(
-                        itemCount: snapshot.data!.keys.toList().length,
-                        scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) =>
-                            Padding(
-                          padding: const EdgeInsets.all(kDefaultPadding / 2),
-                          child: CategoryButton(
-                            onPressed: () async {
-                              setState(() {
-                                activeCategory =
-                                    snapshot.data!.keys.toList()[index];
-                              });
-                            },
-                            title: snapshot.data!.keys.toList()[index],
-                            bgColor: activeCategory ==
-                                    snapshot.data!.keys.toList()[index]
-                                ? kAccentColor
-                                : kDefaultCategoryBackgroundColor,
-                            categoryFontColor: activeCategory ==
-                                    snapshot.data!.keys.toList()[index]
+          SizedBox(
+            height: 60,
+            child: GetBuilder<SubCategoryController>(
+                initState: (state) => SubCategoryController.instance
+                    .getSubCategoryAll(widget.vendor.id.toString()),
+                builder: (controller) {
+                  if (controller.isLoadForAll.value &&
+                      controller.allSubcategory.isEmpty) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: kAccentColor,
+                      ),
+                    );
+                  }
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.allSubcategory.length,
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) => Padding(
+                      padding: const EdgeInsets.all(kDefaultPadding / 2),
+                      child: CategoryButton(
+                        onPressed: () => controller.setSubCategory(
+                            controller.allSubcategory[index], widget.vendor),
+                        title: controller.allSubcategory[index].name,
+                        bgColor: controller.activeSubCategory.value.id ==
+                                controller.allSubcategory[index].id
+                            ? kAccentColor
+                            : kDefaultCategoryBackgroundColor,
+                        categoryFontColor:
+                            controller.activeSubCategory.value.id ==
+                                    controller.allSubcategory[index].id
                                 ? kPrimaryColor
                                 : kTextGreyColor,
-                          ),
-                        ),
                       ),
                     ),
-                    kHalfSizedBox,
-                    snapshot.data!.isEmpty
-                        ? const EmptyCard(
-                            removeButton: true,
-                          )
-                        : LayoutGrid(
-                            rowGap: kDefaultPadding / 2,
-                            columnGap: kDefaultPadding / 2,
-                            columnSizes: breakPointDynamic(
-                                media.width,
-                                [1.fr],
-                                [1.fr, 1.fr],
-                                [1.fr, 1.fr, 1.fr],
-                                [1.fr, 1.fr, 1.fr, 1.fr]),
-                            rowSizes: snapshot.data![activeCategory]!.isEmpty
-                                ? [auto]
-                                : List.generate(
-                                    snapshot.data![activeCategory]!.length,
-                                    (index) => auto),
-                            children: (snapshot.data![activeCategory]
-                                    as List<Product>)
-                                .map(
-                                  (item) => ProductCard(
-                                    product: item,
-                                    onTap: () => _toProductDetailScreen(item),
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                    kHalfSizedBox,
-                  ],
+                  );
+                }),
+          ),
+          GetBuilder<ProductController>(builder: (controller) {
+            if (controller.isLoadVendor.value) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: kAccentColor,
                 ),
               );
-            },
-          ),
+            }
+            if (controller.vendorProducts.isEmpty) {
+              return const EmptyCard();
+            }
+            return LayoutGrid(
+              rowGap: kDefaultPadding / 2,
+              columnGap: kDefaultPadding / 2,
+              columnSizes: breakPointDynamic(media.width, [1.fr], [1.fr, 1.fr],
+                  [1.fr, 1.fr, 1.fr], [1.fr, 1.fr, 1.fr, 1.fr]),
+              rowSizes: controller.vendorProducts.isEmpty
+                  ? [auto]
+                  : List.generate(
+                      controller.vendorProducts.length, (index) => auto),
+              children: (controller.vendorProducts)
+                  .map(
+                    (item) => ProductCard(
+                      product: item,
+                      onTap: () => _toProductDetailScreen(item),
+                    ),
+                  )
+                  .toList(),
+            );
+          }),
           kSizedBox,
           GetBuilder<VendorController>(
               initState: (state) => VendorController.instance.getVendors(),
