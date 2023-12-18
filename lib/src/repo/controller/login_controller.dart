@@ -1,5 +1,6 @@
 // ignore_for_file: unrelated_type_equality_checks
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -33,70 +34,45 @@ class LoginController extends GetxController {
       http.Response? response =
           await HandleData.postApi(Api.baseUrl + Api.login, null, finalData);
 
-      if (response == null || response.statusCode != 200) {
-        ApiProcessorController.errorSnack(
-            "Invalid email or password. Try again");
-        isLoad.value = false;
-        update();
-        return;
-      }
-
-      var jsonData = jsonDecode(response.body);
+      var jsonData = jsonDecode(response?.body ?? '');
 
       if (jsonData["token"] == false) {
         ApiProcessorController.errorSnack(
             "Invalid email or password. Try again");
         isLoad.value = false;
         update();
-      } else {
-        http.Response? responseUser =
-            await HandleData.getApi(Api.baseUrl + Api.user, jsonData["token"]);
-        if (responseUser == null || responseUser.statusCode != 200) {
-          ApiProcessorController.errorSnack(
-              "Invalid email or password. Try again");
-          isLoad.value = false;
-          update();
-          return;
-        }
-
-        http.Response? responseUserData = await HandleData.getApi(
-            Api.baseUrl +
-                Api.getClient +
-                jsonDecode(responseUser.body)['id'].toString(),
-            jsonData["token"]);
-        if (responseUserData == null || responseUserData.statusCode != 200) {
-          ApiProcessorController.errorSnack(
-              "Invalid email or password. Try again");
-          isLoad.value = false;
-          update();
-          return;
-        }
-
-        UserController.instance
-            .saveUser(responseUserData.body, jsonData["token"]);
-
-        ApiProcessorController.successSnack("Login Successful");
-        isLoad.value = false;
-        update();
-        Get.offAll(
-          () => const LoginSplashScreen(),
-          fullscreenDialog: true,
-          curve: Curves.easeIn,
-          routeName: "LoginSplashScreen",
-          predicate: (route) => false,
-          popGesture: true,
-          transition: Transition.cupertinoDialog,
-        );
-
         return;
       }
+      http.Response? responseUser =
+          await HandleData.getApi(Api.baseUrl + Api.user, jsonData["token"]);
 
+      http.Response? responseUserData = await HandleData.getApi(
+          Api.baseUrl +
+              Api.getClient +
+              jsonDecode(responseUser?.body ?? '')['id'].toString(),
+          jsonData["token"]);
+
+      if (responseUserData == null) {
+        throw const SocketException('Please connect to the internet');
+      }
+
+      UserController.instance
+          .saveUser(responseUserData.body, jsonData["token"]);
+
+      ApiProcessorController.successSnack("Login Successful");
       isLoad.value = false;
       update();
-    } on SocketException {
-      ApiProcessorController.errorSnack("Please connect to the internet");
+      Get.offAll(
+        () => const LoginSplashScreen(),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "LoginSplashScreen",
+        predicate: (route) => false,
+        popGesture: true,
+        transition: Transition.cupertinoDialog,
+      );
     } catch (e) {
-      ApiProcessorController.errorSnack("Invalid email or password. Try again");
+      ApiProcessorController.errorSnack("Please connect to the internet");
       isLoad.value = false;
       update();
     }

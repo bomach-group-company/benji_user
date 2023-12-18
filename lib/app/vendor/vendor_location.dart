@@ -36,6 +36,8 @@ class _VendorLocationState extends State<VendorLocation> {
   void initState() {
     super.initState();
     // _getPolyPoints();
+    _vendorLocation = LatLng(double.parse(widget.vendor.latitude),
+        double.parse(widget.vendor.longitude));
     _markerTitle = <String>["Me", widget.vendor.shopName];
     _markerSnippet = <String>[
       "My Location",
@@ -49,9 +51,7 @@ class _VendorLocationState extends State<VendorLocation> {
   //====================================== Setting Google Map Consts =========================================\\
 
   Position? _userPosition;
-
-  static const LatLng _vendorLocation =
-      LatLng(6.463810164127019, 7.539888438605598);
+  late LatLng _vendorLocation;
   final List<LatLng> _polylineCoordinates = [];
   // List<LatLng> _latLng = <LatLng>[_userLocation, _vendorLocation];
   Uint8List? _markerImage;

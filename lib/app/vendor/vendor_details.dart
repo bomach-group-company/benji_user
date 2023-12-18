@@ -3,6 +3,7 @@
 import 'package:benji/app/vendor/about_vendor.dart';
 import 'package:benji/app/vendor/product_vendor.dart';
 import 'package:benji/src/components/image/my_image.dart';
+import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:benji/src/repo/utils/favorite.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,36 @@ class _VendorDetailsState extends State<VendorDetails>
 
   Future<void> _handleRefresh() async {
     setState(() {});
+  }
+
+  _toVendorLocation() {
+    double latitude;
+    double longitude;
+    try {
+      latitude = double.parse(widget.vendor.latitude);
+      longitude = double.parse(widget.vendor.longitude);
+      if (latitude >= -90 &&
+          latitude <= 90 &&
+          longitude >= -180 &&
+          longitude <= 180) {
+      } else {
+        ApiProcessorController.errorSnack("Couldn't get the address");
+        return;
+      }
+    } catch (e) {
+      ApiProcessorController.errorSnack("Couldn't get the address");
+      return;
+    }
+    Get.to(
+      () => VendorLocation(vendor: widget.vendor),
+      routeName: 'VendorLocation',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
   }
 
 //==========================================================================================\\
@@ -178,19 +209,6 @@ class _VendorDetailsState extends State<VendorDetails>
   }
 
 //=================================== Navigation =====================================\\
-
-  void _toVendorLocation() => Get.to(
-        () => VendorLocation(
-          vendor: widget.vendor,
-        ),
-        routeName: 'VendorLocation',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
 
   @override
   Widget build(BuildContext context) {
