@@ -122,15 +122,15 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                     )
                   ],
                 ),
-                Text(
-                  order.created,
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: kTextGreyColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
+                // Text(
+                //   order.created,
+                //   textAlign: TextAlign.right,
+                //   style: TextStyle(
+                //     color: kTextGreyColor,
+                //     fontSize: 14,
+                //     fontWeight: FontWeight.w400,
+                //   ),
+                // ),
               ],
             ),
             Row(
