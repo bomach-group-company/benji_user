@@ -358,6 +358,8 @@ class _SettingsState extends State<Settings> {
                                           child: Center(
                                             child: MyImage(
                                               url: (snapshot.image as String?),
+                                              radiusBottom: 50,
+                                              radiusTop: 50,
                                             ),
                                           ),
                                         )

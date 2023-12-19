@@ -10,8 +10,10 @@ import 'package:benji/src/repo/controller/favourite_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/controller/package_controller.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
+import 'package:benji/src/repo/controller/sub_category_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
+import 'package:benji/src/repo/services/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -29,18 +31,23 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
   @override
   void initState() {
     if (UserController.instance.isUSer()) {
-      ProductController.instance.getProduct();
-      VendorController.instance.getVendors();
-      VendorController.instance.getPopularVendors(start: 0, end: 4);
-      CategoryController.instance.getCategory();
-      AddressController.instance.getAdresses();
-      AddressController.instance.getCurrentAddress();
-      OrderController.instance.getOrders();
-      CartController.instance.getCartProduct();
-      FavouriteController.instance.getProduct();
-      FavouriteController.instance.getVendor();
-      MyPackageController.instance.getDeliveryItemsByPending();
-      MyPackageController.instance.getDeliveryItemsByDelivered();
+      isAuthorized().then((value) {
+        if (value) {
+          ProductController.instance.getProduct();
+          VendorController.instance.getVendors();
+          VendorController.instance.getPopularVendors(start: 0, end: 4);
+          CategoryController.instance.getCategory();
+          SubCategoryController.instance.getSubCategoryAll();
+          AddressController.instance.getAdresses();
+          AddressController.instance.getCurrentAddress();
+          OrderController.instance.getOrders();
+          CartController.instance.getCartProduct();
+          FavouriteController.instance.getProduct();
+          FavouriteController.instance.getVendor();
+          MyPackageController.instance.getDeliveryItemsByPending();
+          MyPackageController.instance.getDeliveryItemsByDelivered();
+        }
+      });
     }
     super.initState();
     Timer(

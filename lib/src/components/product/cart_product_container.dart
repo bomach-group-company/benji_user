@@ -110,7 +110,11 @@ class ProductCartContainerState extends State<ProductCartContainer> {
                       // ),
                     ),
                     child: Center(
-                        child: MyImage(url: widget.product.productImage)),
+                        child: MyImage(
+                      url: widget.product.productImage,
+                      radiusBottom: 0,
+                      radiusTop: 7.5,
+                    )),
                   ),
                   kSizedBox,
                   Padding(
