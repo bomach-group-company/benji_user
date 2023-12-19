@@ -823,6 +823,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   ),
                                 );
                               }
+                              List<Product> products =
+                                  controller.products.value;
+                              products.shuffle();
                               return SizedBox(
                                 height: 350,
                                 width: media.width,
@@ -838,10 +841,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     child: SizedBox(
                                       width: 200,
                                       child: ProductCard(
-                                        product: controller.products[index],
+                                        product: products[index],
                                         onTap: () {
                                           _toProductDetailScreenPage(
-                                              controller.products[index]);
+                                              products[index]);
                                         },
                                       ),
                                     ),

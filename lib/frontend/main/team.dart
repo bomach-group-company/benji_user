@@ -20,6 +20,44 @@ class TeamPage extends StatefulWidget {
 class _TeamPageState extends State<TeamPage> {
   bool _showBackToTopButton = false;
   late ScrollController _scrollController;
+  List<List<String>> team = [
+    [
+      'Tochukwu David',
+      'CEO',
+      'Leads the entire team',
+      'assets/images/team/IMG-20231219-WA0021.jpg'
+    ],
+    [
+      'George Arinze',
+      'CTO / Engineering Manager',
+      'Manages the team especially the backend development',
+      'assets/images/team/IMG-20231010-WA0048.jpg'
+    ],
+    [
+      'Ozioma Ogbozor',
+      'Head marketing department',
+      'Leads the team on marketing and product testing',
+      'assets/images/team/IMG-20231010-WA0053.jpg'
+    ],
+    [
+      'Caleb Chinedu',
+      'Civil Engineer',
+      'Worked on Engineering',
+      'assets/images/team/IMG-20231010-WA0012.jpg'
+    ],
+    [
+      'Gideon Chukwuoma',
+      'Senior Software Engineer',
+      'Built out most of the UI and key features',
+      'assets/images/team/IMG-20231010-WA0018.jpg'
+    ],
+    [
+      'Emmanuel Nwaegunwa',
+      'Senior Software Engineer',
+      'Consumed most of the API on the app. Built and optimized the UI',
+      'assets/images/team/maxzeno.jpg'
+    ],
+  ];
 
   @override
   void initState() {
@@ -94,14 +132,14 @@ class _TeamPageState extends State<TeamPage> {
                       auto,
                       auto
                     ],
-                    children: const [
-                      MyTeamCard(),
-                      MyTeamCard(),
-                      MyTeamCard(),
-                      MyTeamCard(),
-                      MyTeamCard(),
-                      MyTeamCard(),
-                    ],
+                    children: team
+                        .map((item) => MyTeamCard(
+                              name: item[0],
+                              position: item[1],
+                              description: item[2],
+                              image: item[3],
+                            ))
+                        .toList(),
                   ),
                 ],
               ),

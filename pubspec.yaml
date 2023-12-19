@@ -106,6 +106,7 @@ flutter:
     - assets/images/splash_screen/
     - assets/images/onboarding_screen/
     - assets/images/vendors/
+    - assets/images/team/
     - assets/icons/
     - assets/images/rider/
     - assets/images/profile/

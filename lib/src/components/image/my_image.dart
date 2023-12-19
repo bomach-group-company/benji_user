@@ -24,7 +24,7 @@ class MyImage extends StatelessWidget {
       child: CachedNetworkImage(
         imageUrl: url == null ? '' : baseImage + url!,
         width: double.infinity,
-        height: media.height,
+        height: double.infinity,
         filterQuality: FilterQuality.high,
         fit: BoxFit.cover, // Use BoxFit.fill to fill the parent container
         progressIndicatorBuilder: (context, url, downloadProgress) =>

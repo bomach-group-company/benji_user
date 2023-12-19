@@ -144,7 +144,9 @@ class _ProductVendorState extends State<ProductVendor> {
               );
             }
             if (controller.vendorProducts.isEmpty) {
-              return const EmptyCard();
+              return const EmptyCard(
+                removeButton: true,
+              );
             }
             return LayoutGrid(
               rowGap: kDefaultPadding / 2,
@@ -176,6 +178,8 @@ class _ProductVendorState extends State<ProductVendor> {
                     ),
                   );
                 }
+                List<VendorModel> vendorList = controller.vendorList.value;
+                vendorList.shuffle();
                 return SizedBox(
                   height: 250,
                   width: media.width,
@@ -191,10 +195,10 @@ class _ProductVendorState extends State<ProductVendor> {
                       child: SizedBox(
                         width: 200,
                         child: VendorsCard(
-                          vendor: controller.vendorList[index],
+                          vendor: vendorList[index],
                           removeDistance: false,
                           onTap: () {
-                            _toVendorDetailPage(controller.vendorList[index]);
+                            _toVendorDetailPage(vendorList[index]);
                           },
                         ),
                       ),

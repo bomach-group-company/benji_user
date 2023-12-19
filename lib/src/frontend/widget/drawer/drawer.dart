@@ -213,7 +213,10 @@ class _MyDrawerState extends State<MyDrawer> {
                   transition: Transition.fadeIn,
                 );
               },
-              child: const Text('Login'),
+              child: const Text(
+                'Login',
+                style: TextStyle(color: kTextWhiteColor),
+              ),
             ),
           ),
         ],

@@ -4,7 +4,16 @@ import '../../../../theme/colors.dart';
 import '../../../providers/constants.dart';
 
 class MyTeamCard extends StatelessWidget {
-  const MyTeamCard({super.key});
+  const MyTeamCard(
+      {super.key,
+      required this.name,
+      required this.position,
+      required this.description,
+      required this.image});
+  final String name;
+  final String position;
+  final String description;
+  final String image;
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +33,13 @@ class MyTeamCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const CircleAvatar(
+          CircleAvatar(
             radius: 70,
-            backgroundImage:
-                AssetImage('assets/frontend/assets/team/team1.jpg'),
+            backgroundImage: AssetImage(image),
           ),
           kSizedBox,
           Text(
-            'Lorem',
+            name,
             style: TextStyle(
               color: kAccentColor,
               fontSize: 18,
@@ -39,18 +47,18 @@ class MyTeamCard extends StatelessWidget {
             ),
           ),
           kSizedBox,
-          const Text(
-            'Legal Adviser',
-            style: TextStyle(
+          Text(
+            position,
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
             ),
           ),
           kSizedBox,
-          const Text(
-            '"Lorem is dummy ip[sum text t . Lorem is dummy ip[sum text t . Lorem is dummy ip[sum text t . Lorem is dummy ip[sum text t . Lorem is dummy ip[sum text t . Lorem is dummy ip[sum text t ."',
+          Text(
+            '"$description"',
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               fontStyle: FontStyle.italic,
               fontWeight: FontWeight.w900,
