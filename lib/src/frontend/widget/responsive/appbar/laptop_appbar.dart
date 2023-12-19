@@ -217,7 +217,7 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: kAccentColor,
-                    fixedSize: const Size(80, 35)),
+                    fixedSize: const Size(100, 40)),
                 onPressed: () {
                   Get.off(
                     () => const Login(),
@@ -229,7 +229,10 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
                     transition: Transition.fadeIn,
                   );
                 },
-                child: const Text('Login'),
+                child: const Text(
+                  'Login',
+                  style: TextStyle(color: kTextWhiteColor),
+                ),
               ),
             ],
           ),
