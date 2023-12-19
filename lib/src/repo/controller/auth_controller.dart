@@ -84,6 +84,17 @@ class AuthController extends GetxController {
         const Duration(seconds: 2),
       );
       await UserController.instance.deleteUser();
+      if (kIsWeb) {
+        return Get.offAll(
+          () => const HomePage(),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          routeName: "HomePage",
+          predicate: (route) => false,
+          popGesture: false,
+          transition: Transition.cupertinoDialog,
+        );
+      }
       return Get.offAll(
         () => const Login(),
         routeName: 'Login',
