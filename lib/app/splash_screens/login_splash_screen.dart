@@ -9,7 +9,6 @@ import 'package:benji/src/repo/controller/favourite_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/controller/package_controller.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
-import 'package:benji/src/repo/controller/sub_category_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +35,6 @@ class _LoginSplashScreenState extends State<LoginSplashScreen> {
       CategoryController.instance.getCategory();
       AddressController.instance.getAdresses();
       AddressController.instance.getCurrentAddress();
-      SubCategoryController.instance.getSubCategoryAll();
 
       OrderController.instance.getOrders();
       CartController.instance.getCartProduct();

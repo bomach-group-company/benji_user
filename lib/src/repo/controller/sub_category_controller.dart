@@ -21,7 +21,7 @@ class SubCategoryController extends GetxController {
 
   var isLoadForAll = false.obs;
   var isLoad = false.obs;
-  var allSubcategory = <SubCategory>[].obs;
+  var allSubcategoryByVendor = <SubCategory>[].obs;
   var activeSubCategory = SubCategory.fromJson(null).obs;
 
   var subcategory = <SubCategory>[].obs;
@@ -64,26 +64,25 @@ class SubCategoryController extends GetxController {
     update();
   }
 
-  Future getSubCategoryAll([String vendorId = '']) async {
+  Future getSubCategoryAllByVendor(String vendorId) async {
     print('getSubCategoryAll');
+    allSubcategoryByVendor.value = [];
     isLoadForAll.value = true;
     late String token;
-    var url = "${Api.baseUrl}/sub_categories/list?start=0&end=100";
+    var url = "${Api.baseUrl}/vendors/$vendorId/listVendorProductSubcategory";
     token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = ApiProcessorController.errorState(response);
-      print(response!.body);
-      allSubcategory.value = (jsonDecode(response.body)['items'] as List)
+      print('response!.body getSubCategoryAllByVendor ${response!.body}');
+      allSubcategoryByVendor.value = (jsonDecode(response.body) as List)
           .map((e) => SubCategory.fromJson(e))
           .toList();
       isLoadForAll.value = false;
-      if (allSubcategory.isNotEmpty) {
-        activeSubCategory.value = allSubcategory[0];
-        if (vendorId != '') {
-          ProductController.instance.getProductsByVendorAndSubCategory(
-              vendorId, activeSubCategory.value.id);
-        }
+      if (allSubcategoryByVendor.isNotEmpty) {
+        activeSubCategory.value = allSubcategoryByVendor[0];
+        ProductController.instance.getProductsByVendorAndSubCategory(
+            vendorId, activeSubCategory.value.id);
       }
       update();
     } on SocketException {
