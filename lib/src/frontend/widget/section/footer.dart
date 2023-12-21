@@ -148,7 +148,7 @@ class Footer extends StatelessWidget {
                                         90),
                                   ),
                                   child: InkWell(
-                                      onTap: launchDownloadLink,
+                                      onTap: launchDownloadLinkAndroid,
                                       child: Image.asset(
                                           'assets/frontend/assets/store/playstore.png')),
                                 ),
