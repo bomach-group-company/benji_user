@@ -224,8 +224,7 @@ class _AddressesState extends State<Addresses> {
                                                   .length),
                                       child: Text(
                                         controller.addresses[index].title
-                                                .toUpperCase() ??
-                                            '',
+                                            .toUpperCase(),
                                         style: const TextStyle(
                                           color: kTextBlackColor,
                                           fontSize: 18,
