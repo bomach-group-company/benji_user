@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:benji/app/address/get_location_on_map.dart';
+import 'package:benji/src/components/others/location_list_tile.dart';
 import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
@@ -86,6 +87,17 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   Future<bool> updateAddress({bool is_current = true}) async {
     final url = Uri.parse(
         '$baseURL/address/changeAddressDetails/${widget.address.id}/');
+
+    if (latitude == null || longitude == null) {
+      if (selectedLocation.value == null) {
+        return false;
+      }
+      List<Location> location =
+          await locationFromAddress(selectedLocation.value!);
+      print('location $location hhhxs');
+      latitude = location[0].latitude.toString();
+      longitude = location[0].longitude.toString();
+    }
 
     final body = {
       'title': _addressTitleEC.text,
@@ -382,7 +394,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                                 ),
                                 kHalfSizedBox,
                                 MyMapsTextFormField(
-                                  readOnly: true,
+                                  // readOnly: true,
                                   controller: _mapsLocationEC,
                                   validator: (value) {
                                     if (value == null) {
@@ -445,39 +457,39 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                                   thickness: 2,
                                   color: kLightGreyColor,
                                 ),
-                                // const Text(
-                                //   "Suggestions:",
-                                //   style: TextStyle(
-                                //     color: kTextBlackColor,
-                                //     fontSize: 16,
-                                //     fontWeight: FontWeight.w700,
-                                //   ),
-                                // ),
-                                // kHalfSizedBox,
-                                // SizedBox(
-                                //   height: () {
-                                //     if (_typing == false) {
-                                //       return 0.0;
-                                //     }
-                                //     if (_typing == true) {
-                                //       return 150.0;
-                                //     }
-                                //   }(),
-                                //   child: Scrollbar(
-                                //     child: ListView.builder(
-                                //       physics: const BouncingScrollPhysics(),
-                                //       controller: _scrollController,
-                                //       shrinkWrap: true,
-                                //       itemCount: placePredictions.length,
-                                //       itemBuilder: (context, index) =>
-                                //           LocationListTile(
-                                //         onTap: () => _setLocation(index),
-                                //         location: placePredictions[index]
-                                //             .description!,
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
+                                const Text(
+                                  "Suggestions:",
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                kHalfSizedBox,
+                                SizedBox(
+                                  height: () {
+                                    if (_typing == false) {
+                                      return 0.0;
+                                    }
+                                    if (_typing == true) {
+                                      return 150.0;
+                                    }
+                                  }(),
+                                  child: Scrollbar(
+                                    child: ListView.builder(
+                                      physics: const BouncingScrollPhysics(),
+                                      controller: _scrollController,
+                                      shrinkWrap: true,
+                                      itemCount: placePredictions.length,
+                                      itemBuilder: (context, index) =>
+                                          LocationListTile(
+                                        onTap: () => _setLocation(index),
+                                        location: placePredictions[index]
+                                            .description!,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ],

@@ -9,7 +9,7 @@ import 'package:benji/frontend/main/refund_policy.dart';
 import 'package:benji/frontend/main/team.dart';
 import 'package:benji/frontend/main/term_condition.dart';
 import 'package:benji/frontend/store/categories.dart';
-import 'package:benji/src/frontend/widget/clickable.dart';
+import 'package:benji/src/repo/utils/url_lunch.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -147,7 +147,8 @@ class Footer extends StatelessWidget {
                                             : 150,
                                         90),
                                   ),
-                                  child: MyClickable(
+                                  child: InkWell(
+                                      onTap: launchDownloadLink,
                                       child: Image.asset(
                                           'assets/frontend/assets/store/playstore.png')),
                                 ),
@@ -160,7 +161,8 @@ class Footer extends StatelessWidget {
                                             : 160,
                                         100),
                                   ),
-                                  child: MyClickable(
+                                  child: InkWell(
+                                      onTap: () {},
                                       child: Image.asset(
                                           'assets/frontend/assets/store/appstore.png')),
                                 ),

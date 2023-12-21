@@ -100,10 +100,10 @@ class _ProductVendorState extends State<ProductVendor> {
             height: 60,
             child: GetBuilder<SubCategoryController>(
                 initState: (state) => SubCategoryController.instance
-                    .getSubCategoryAll(widget.vendor.id.toString()),
+                    .getSubCategoryAllByVendor(widget.vendor.id.toString()),
                 builder: (controller) {
                   if (controller.isLoadForAll.value &&
-                      controller.allSubcategory.isEmpty) {
+                      controller.allSubcategoryByVendor.isEmpty) {
                     return Center(
                       child: CircularProgressIndicator(
                         color: kAccentColor,
@@ -112,22 +112,23 @@ class _ProductVendorState extends State<ProductVendor> {
                   }
                   return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: controller.allSubcategory.length,
+                    itemCount: controller.allSubcategoryByVendor.length,
                     scrollDirection: Axis.horizontal,
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) => Padding(
                       padding: const EdgeInsets.all(kDefaultPadding / 2),
                       child: CategoryButton(
                         onPressed: () => controller.setSubCategory(
-                            controller.allSubcategory[index], widget.vendor),
-                        title: controller.allSubcategory[index].name,
+                            controller.allSubcategoryByVendor[index],
+                            widget.vendor),
+                        title: controller.allSubcategoryByVendor[index].name,
                         bgColor: controller.activeSubCategory.value.id ==
-                                controller.allSubcategory[index].id
+                                controller.allSubcategoryByVendor[index].id
                             ? kAccentColor
                             : kDefaultCategoryBackgroundColor,
                         categoryFontColor:
                             controller.activeSubCategory.value.id ==
-                                    controller.allSubcategory[index].id
+                                    controller.allSubcategoryByVendor[index].id
                                 ? kPrimaryColor
                                 : kTextGreyColor,
                       ),

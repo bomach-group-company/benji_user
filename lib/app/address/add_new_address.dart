@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, use_build_context_synchronously, invalid_use_of_protected_member
 
+import 'package:benji/src/components/others/location_list_tile.dart';
 import 'package:benji/src/components/textformfield/my_maps_textformfield.dart';
 import 'package:benji/src/providers/keys.dart';
 import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
@@ -82,15 +83,17 @@ class _AddNewAddressState extends State<AddNewAddress> {
   bool _isLoading2 = false;
   bool _typing = false;
   //===================== FUNCTIONS =======================\\
-  _setLocation(index) async {
+  Future _setLocation(index) async {
+    print('in _setLocation');
     final newLocation = placePredictions[index].description!;
     selectedLocation.value = newLocation;
 
     setState(() {
       _mapsLocationEC.text = newLocation;
     });
-
+    print(newLocation);
     List<Location> location = await locationFromAddress(newLocation);
+    print('location $location hhhxs');
     latitude = location[0].latitude.toString();
     longitude = location[0].longitude.toString();
   }
@@ -98,6 +101,17 @@ class _AddNewAddressState extends State<AddNewAddress> {
   Future<bool> addAddress({bool is_current = true}) async {
     final url = Uri.parse('$baseURL/address/addAddress');
     final User? user = await getUser();
+
+    if (latitude == null || longitude == null) {
+      if (selectedLocation.value == null) {
+        return false;
+      }
+      List<Location> location =
+          await locationFromAddress(selectedLocation.value!);
+      print('location $location hhhxs');
+      latitude = location[0].latitude.toString();
+      longitude = location[0].longitude.toString();
+    }
 
     final body = {
       'user_id': user!.id.toString(),
@@ -367,7 +381,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                 ),
                                 kHalfSizedBox,
                                 MyMapsTextFormField(
-                                  readOnly: true,
+                                  // readOnly: true,
                                   controller: _mapsLocationEC,
                                   validator: (value) {
                                     if (value == null) {
@@ -430,39 +444,40 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   thickness: 2,
                                   color: kLightGreyColor,
                                 ),
-                                // const Text(
-                                //   "Suggestions:",
-                                //   style: TextStyle(
-                                //     color: kTextBlackColor,
-                                //     fontSize: 16,
-                                //     fontWeight: FontWeight.w700,
-                                //   ),
-                                // ),
-                                // kHalfSizedBox,
-                                // SizedBox(
-                                //   height: () {
-                                //     if (_typing == false) {
-                                //       return 0.0;
-                                //     }
-                                //     if (_typing == true) {
-                                //       return 150.0;
-                                //     }
-                                //   }(),
-                                //   child: Scrollbar(
-                                //     child: ListView.builder(
-                                //       physics: const BouncingScrollPhysics(),
-                                //       controller: _scrollController,
-                                //       shrinkWrap: true,
-                                //       itemCount: placePredictions.length,
-                                //       itemBuilder: (context, index) =>
-                                //           LocationListTile(
-                                //         onTap: () => _setLocation(index),
-                                //         location: placePredictions[index]
-                                //             .description!,
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
+                                const Text(
+                                  "Suggestions:",
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                kHalfSizedBox,
+                                SizedBox(
+                                  height: () {
+                                    if (_typing == false) {
+                                      return 0.0;
+                                    }
+                                    if (_typing == true) {
+                                      return 150.0;
+                                    }
+                                  }(),
+                                  child: Scrollbar(
+                                    child: ListView.builder(
+                                      physics: const BouncingScrollPhysics(),
+                                      controller: _scrollController,
+                                      shrinkWrap: true,
+                                      itemCount: placePredictions.length,
+                                      itemBuilder: (context, index) =>
+                                          LocationListTile(
+                                        onTap: () async =>
+                                            await _setLocation(index),
+                                        location: placePredictions[index]
+                                            .description!,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ],

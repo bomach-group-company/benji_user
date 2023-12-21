@@ -6,22 +6,28 @@ import 'package:benji/app/address/get_location_on_map.dart';
 import 'package:benji/app/packages/item_category_dropdown_menu.dart';
 import 'package:benji/app/packages/packages.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
+import 'package:benji/src/components/others/location_list_tile.dart';
 import 'package:benji/src/components/textformfield/my%20textformfield.dart';
 import 'package:benji/src/components/textformfield/my_intl_phonefield.dart';
 import 'package:benji/src/components/textformfield/my_maps_textformfield.dart';
 import 'package:benji/src/components/textformfield/number_textformfield.dart';
 import 'package:benji/src/frontend/utils/constant.dart';
+import 'package:benji/src/providers/keys.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/form_controller.dart';
 import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
 import 'package:benji/src/repo/controller/package_controller.dart';
 import 'package:benji/src/repo/controller/payment_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
+import 'package:benji/src/repo/models/googleMaps/autocomplete_prediction.dart';
+import 'package:benji/src/repo/models/googleMaps/places_autocomplete_response.dart';
 import 'package:benji/src/repo/services/api_url.dart';
+import 'package:benji/src/repo/utils/network_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -95,8 +101,76 @@ class _SendPackageState extends State<SendPackage> {
   var itemNameFN = FocusNode();
   var itemQuantityFN = FocusNode();
   var itemValueFN = FocusNode();
+  var isTyping = false;
+  List<AutocompletePrediction> placePredictionsPick = [];
+  List<AutocompletePrediction> placePredictionsDrop = [];
+  final selectedLocationPick = ValueNotifier<String?>(null);
+  final selectedLocationDrop = ValueNotifier<String?>(null);
 
   //=============================== FUNCTIONS ==================================\\
+  void placeAutoCompletePick(String query) async {
+    Uri uri = Uri.https(
+        "maps.googleapis.com",
+        '/maps/api/place/autocomplete/json', //unencoder path
+        {
+          "input": query, //query params
+          "key": googlePlacesApiKey, //google places api key
+        });
+
+    String? response = await NetworkUtility.fetchUrl(uri);
+    PlaceAutocompleteResponse result =
+        PlaceAutocompleteResponse.parseAutoCompleteResult(response!);
+    if (result.predictions != null) {
+      setState(() {
+        placePredictionsPick = result.predictions!;
+      });
+    }
+  }
+
+  void placeAutoCompleteDrop(String query) async {
+    Uri uri = Uri.https(
+        "maps.googleapis.com",
+        '/maps/api/place/autocomplete/json', //unencoder path
+        {
+          "input": query, //query params
+          "key": googlePlacesApiKey, //google places api key
+        });
+
+    String? response = await NetworkUtility.fetchUrl(uri);
+    PlaceAutocompleteResponse result =
+        PlaceAutocompleteResponse.parseAutoCompleteResult(response!);
+    if (result.predictions != null) {
+      setState(() {
+        placePredictionsDrop = result.predictions!;
+      });
+    }
+  }
+
+  setLocationPick(index) async {
+    final newLocation = placePredictionsPick[index].description!;
+    selectedLocationPick.value = newLocation;
+
+    setState(() {
+      pickupEC.text = newLocation;
+    });
+
+    List<Location> location = await locationFromAddress(newLocation);
+    latitudePick = location[0].latitude.toString();
+    longitudePick = location[0].longitude.toString();
+  }
+
+  setLocationDrop(index) async {
+    final newLocation = placePredictionsDrop[index].description!;
+    selectedLocationDrop.value = newLocation;
+
+    setState(() {
+      dropOffEC.text = newLocation;
+    });
+
+    List<Location> location = await locationFromAddress(newLocation);
+    latitudeDrop = location[0].latitude.toString();
+    longitudeDrop = location[0].longitude.toString();
+  }
 
   continueStep() {
     if (currentStep < 2) {
@@ -478,7 +552,7 @@ class _SendPackageState extends State<SendPackage> {
               ),
               kHalfSizedBox,
               MyMapsTextFormField(
-                readOnly: true,
+                // readOnly: true,
                 controller: pickupEC,
                 validator: (value) {
                   RegExp pickupAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
@@ -490,6 +564,16 @@ class _SendPackageState extends State<SendPackage> {
                     return "Enter a valid address (must have a street number)";
                   }
                   return null;
+                },
+                onChanged: (value) {
+                  placeAutoCompletePick(value);
+                  setState(() {
+                    selectedLocationPick.value = value;
+                    isTyping = true;
+                  });
+                  if (kDebugMode) {
+                    print("ONCHANGED VALUE: ${selectedLocationPick.value}");
+                  }
                 },
                 onSaved: (value) {
                   pickupEC.text = value;
@@ -532,6 +616,43 @@ class _SendPackageState extends State<SendPackage> {
                 ),
               ),
               kHalfSizedBox,
+              Divider(
+                height: 10,
+                thickness: 2,
+                color: kLightGreyColor,
+              ),
+              const Text(
+                "Suggestions:",
+                style: TextStyle(
+                  color: kTextBlackColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              kHalfSizedBox,
+              SizedBox(
+                height: () {
+                  if (isTyping == false) {
+                    return 0.0;
+                  }
+                  if (isTyping == true) {
+                    return 150.0;
+                  }
+                }(),
+                child: Scrollbar(
+                  controller: scrollController,
+                  child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: placePredictionsPick.length,
+                    itemBuilder: (context, index) => LocationListTile(
+                      onTap: () => setLocationPick(index),
+                      location: placePredictionsPick[index].description!,
+                    ),
+                  ),
+                ),
+              ),
+              kSizedBox,
               const Text(
                 "Sender's Name",
                 style: TextStyle(
@@ -625,7 +746,7 @@ class _SendPackageState extends State<SendPackage> {
               ),
               kHalfSizedBox,
               MyMapsTextFormField(
-                readOnly: true,
+                // readOnly: true,
                 controller: dropOffEC,
                 validator: (value) {
                   RegExp dropoffAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
@@ -637,6 +758,16 @@ class _SendPackageState extends State<SendPackage> {
                     return "Enter a valid address (must have a street number)";
                   }
                   return null;
+                },
+                onChanged: (value) {
+                  placeAutoCompleteDrop(value);
+                  setState(() {
+                    selectedLocationDrop.value = value;
+                    isTyping = true;
+                  });
+                  if (kDebugMode) {
+                    print("ONCHANGED VALUE: ${selectedLocationDrop.value}");
+                  }
                 },
                 onSaved: (value) {
                   dropOffEC.text = value;
@@ -679,6 +810,43 @@ class _SendPackageState extends State<SendPackage> {
                 ),
               ),
               kHalfSizedBox,
+              Divider(
+                height: 10,
+                thickness: 2,
+                color: kLightGreyColor,
+              ),
+              const Text(
+                "Suggestions:",
+                style: TextStyle(
+                  color: kTextBlackColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              kHalfSizedBox,
+              SizedBox(
+                height: () {
+                  if (isTyping == false) {
+                    return 0.0;
+                  }
+                  if (isTyping == true) {
+                    return 150.0;
+                  }
+                }(),
+                child: Scrollbar(
+                  controller: scrollController,
+                  child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: placePredictionsDrop.length,
+                    itemBuilder: (context, index) => LocationListTile(
+                      onTap: () => setLocationDrop(index),
+                      location: placePredictionsDrop[index].description!,
+                    ),
+                  ),
+                ),
+              ),
+              kSizedBox,
               const Text(
                 "Receiver's Name",
                 style: TextStyle(
