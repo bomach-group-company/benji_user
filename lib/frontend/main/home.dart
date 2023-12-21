@@ -7,6 +7,7 @@ import 'package:benji/src/frontend/widget/section/hero.dart';
 import 'package:benji/src/frontend/widget/text/fancy_text.dart';
 import 'package:benji/src/repo/models/category/category.dart';
 import 'package:benji/src/repo/models/product/product.dart';
+import 'package:benji/src/repo/utils/url_lunch.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -574,16 +575,22 @@ class _HomePageState extends State<HomePage> {
                                           constraints: BoxConstraints.loose(
                                             const Size(100, 50),
                                           ),
-                                          child: Image.asset(
-                                              'assets/frontend/assets/store/playstore.png'),
+                                          child: InkWell(
+                                            onTap: launchDownloadLinkAndroid,
+                                            child: Image.asset(
+                                                'assets/frontend/assets/store/playstore.png'),
+                                          ),
                                         ),
                                         kWidthSizedBox,
                                         Container(
                                           constraints: BoxConstraints.loose(
                                             const Size(100, 30),
                                           ),
-                                          child: Image.asset(
-                                              'assets/frontend/assets/store/appstore.png'),
+                                          child: InkWell(
+                                            onTap: () {},
+                                            child: Image.asset(
+                                                'assets/frontend/assets/store/appstore.png'),
+                                          ),
                                         ),
                                       ],
                                     ),
