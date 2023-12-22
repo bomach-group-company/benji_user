@@ -212,6 +212,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
 
     String? response = await NetworkUtility.fetchUrl(uri);
     if (response != null) {
+      print('place auto $response');
       PlaceAutocompleteResponse result =
           PlaceAutocompleteResponse.parseAutoCompleteResult(response);
       if (result.predictions != null) {
