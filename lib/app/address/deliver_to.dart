@@ -110,6 +110,10 @@ class _DeliverToState extends State<DeliverTo> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
+    AddressController.instance.getAdresses();
+    AddressController.instance.getCurrentAddress().then((value) {
+      _currentOption = AddressController.instance.current.value;
+    });
     // await _getData();
   }
   //===================== FUNCTIONS =======================\\
