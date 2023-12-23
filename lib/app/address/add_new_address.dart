@@ -202,13 +202,20 @@ class _AddNewAddressState extends State<AddNewAddress> {
   }
 
   void placeAutoComplete(String query) async {
+    print('in the placeAutoComplete');
     Uri uri = Uri.https(
         "maps.googleapis.com",
         '/maps/api/place/autocomplete/json', //unencoder path
         {
           "input": query, //query params
-          "key": googlePlacesApiKey, //google places api key
+          "key": googlePlacesApiKey //google places api key
         });
+    print('the url $uri');
+
+    final responsedata = await http.get(uri);
+    print('responsedata.statusCode in placeAutoComplete');
+    print(responsedata.statusCode);
+    print(responsedata.body);
 
     String? response = await NetworkUtility.fetchUrl(uri);
     if (response != null) {
