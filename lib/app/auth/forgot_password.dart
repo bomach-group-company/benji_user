@@ -89,7 +89,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     } else {
       myFixedSnackBar(
         context,
-        "Something went wrong".toUpperCase(),
+        "Email not found".toUpperCase(),
         kAccentColor,
         const Duration(
           seconds: 2,

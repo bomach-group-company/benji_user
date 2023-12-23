@@ -3,11 +3,14 @@
 import 'dart:convert';
 
 import 'package:benji/app/terms/terms_and_conditions.dart';
+import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/textformfield/my_intl_phonefield.dart';
+import 'package:benji/src/repo/controller/signup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -537,14 +540,14 @@ class _SignUpState extends State<SignUp> {
                         setState(() {
                           isPWSuccess = true;
                         });
-                        myFixedSnackBar(
-                          context,
-                          "Password matches requirement",
-                          kSuccessColor,
-                          const Duration(
-                            seconds: 1,
-                          ),
-                        );
+                        // myFixedSnackBar(
+                        //   context,
+                        //   "Password matches requirement",
+                        //   kSuccessColor,
+                        //   const Duration(
+                        //     seconds: 1,
+                        //   ),
+                        // );
                       },
                       onFail: () {
                         setState(() {
@@ -569,7 +572,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                         Row(
                           children: [
-                            const Text('By clicking you accept our'),
+                            const Text('Accept our'),
                             InkWell(
                               onTap: _toTermsAndCondition,
                               borderRadius: BorderRadius.circular(12),
@@ -588,40 +591,22 @@ class _SignUpState extends State<SignUp> {
                       ],
                     ),
                     kSizedBox,
-                    _isLoading
-                        ? Center(
-                            child: CircularProgressIndicator(
-                              color: kAccentColor,
-                            ),
-                          )
-                        : ElevatedButton(
-                            onPressed: !isChecked
-                                ? null
-                                : (() async {
-                                    if (_formKey.currentState!.validate()) {
-                                      loadData();
-                                    }
-                                  }),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: kAccentColor,
-                              maximumSize: Size(media.width, 62),
-                              minimumSize: Size(media.width, 60),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              elevation: 10,
-                              shadowColor: kDarkGreyColor,
-                            ),
-                            child: Text(
-                              "Sign up".toUpperCase(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: kPrimaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
+                    GetBuilder<SignupController>(builder: (controller) {
+                      return MyElevatedButton(
+                        title: "SIGN UP",
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            await controller.signup(
+                                _userEmailEC.text,
+                                _userPasswordEC.text,
+                                _userPhoneNumberEC.text,
+                                _userFirstNameEC.text,
+                                _userLastNameEC.text);
+                          }
+                        },
+                        isLoading: controller.isLoad.value,
+                      );
+                    }),
                     kHalfSizedBox,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

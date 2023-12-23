@@ -69,14 +69,21 @@ class OrderController extends GetxController {
     }
     List<Order> data = [];
     try {
-      data = (jsonDecode(responseData) as List)
-          .map((e) => Order.fromJson(e))
-          .toList();
-      orderList.value = data;
+      if (jsonDecode(responseData) is List) {
+        data = (jsonDecode(responseData) as List)
+            .map((e) => Order.fromJson(e))
+            .toList();
+        orderList.value = data;
+        loadedAll.value = data.isEmpty;
+      } else {
+        orderList.value = [];
+        loadedAll.value = true;
+      }
     } catch (e) {
-      consoleLog(e.toString());
+      data = [];
+      orderList.value = data;
+      loadedAll.value = true;
     }
-    loadedAll.value = data.isEmpty;
     isLoad.value = false;
     isLoadMore.value = false;
     update();
