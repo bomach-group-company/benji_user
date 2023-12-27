@@ -127,6 +127,11 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
       (location) => _userPosition = location,
     );
 
+    if (kIsWeb) {
+      await _getPlaceMark(
+          LatLng(_userPosition!.latitude, _userPosition!.longitude));
+    }
+
     LatLng latLngPosition =
         LatLng(userLocation.latitude, userLocation.longitude);
     setState(() {
