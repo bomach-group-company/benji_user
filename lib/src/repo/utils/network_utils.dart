@@ -9,8 +9,6 @@ class NetworkUtility {
       {Map<String, String>? headers}) async {
     try {
       if (kIsWeb) {
-        print('$kIsWeb kIsWeb');
-        print('$baseURL/map/getMap/?url=${uri.toString()}');
         final response = await http.post(
             Uri.parse(
                 '$baseURL/map/getMap/?url=${Uri.encodeQueryComponent(uri.toString())}'),

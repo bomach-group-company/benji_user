@@ -8,6 +8,7 @@ import 'package:benji/src/repo/models/googleMaps/autocomplete_prediction.dart';
 import 'package:benji/src/repo/utils/constant.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/repo/utils/network_utils.dart';
+import 'package:benji/src/repo/utils/web_map.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -91,7 +92,30 @@ class _AddNewAddressState extends State<AddNewAddress> {
     setState(() {
       _mapsLocationEC.text = newLocation;
     });
-    print(newLocation);
+    Uri uri = Uri.https(
+        "maps.googleapis.com",
+        '/maps/api/geocode/json', //unencoder path
+        {
+          "address": newLocation, //query params
+          "key": googlePlacesApiKey //google places api key
+        });
+    if (kIsWeb) {
+      print(newLocation);
+      var resp = await http.get(uri);
+      // print(resp.body);
+      List coordinate = parseLatLng(resp.body);
+      if (coordinate.isEmpty) {
+        latitude = null;
+        longitude = null;
+        return;
+      }
+      latitude = coordinate[0].toString();
+
+      longitude = coordinate[1].toString();
+      print('coordinates: $latitude $longitude');
+      return;
+    }
+
     List<Location> location = await locationFromAddress(newLocation);
     print('location $location hhhxs');
     latitude = location[0].latitude.toString();
@@ -202,7 +226,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
   }
 
   void placeAutoComplete(String query) async {
-    print('in the placeAutoComplete');
     Uri uri = Uri.https(
         "maps.googleapis.com",
         '/maps/api/place/autocomplete/json', //unencoder path
@@ -210,11 +233,9 @@ class _AddNewAddressState extends State<AddNewAddress> {
           "input": query, //query params
           "key": googlePlacesApiKey //google places api key
         });
-    print('the url $uri');
 
     String? response = await NetworkUtility.fetchUrl(uri);
     if (response != null) {
-      print('place auto $response');
       PlaceAutocompleteResponse result =
           PlaceAutocompleteResponse.parseAutoCompleteResult(response);
       if (result.predictions != null) {

@@ -1,17 +1,27 @@
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class NetworkUtility {
-  static Future<String?> fetchUrl(Uri uri,
-      {Map<String, String>? headers}) async {
-    try {
-      final response = await http.get(uri, headers: headers);
-      if (response.statusCode == 200) {
-        return response.body;
-      }
-    } catch (e) {
-      debugPrint(e.toString());
+List parseLatLng(String jsonResponse) {
+  Map<String, dynamic> decodedResponse = jsonDecode(jsonResponse);
+
+  if (decodedResponse['status'] == 'OK') {
+    List<dynamic> results = decodedResponse['results'];
+
+    if (results.isNotEmpty) {
+      Map<String, dynamic> geometry = results[0]['geometry'];
+      Map<String, dynamic> location = geometry['location'];
+
+      double latitude = location['lat'];
+      double longitude = location['lng'];
+
+      print('Latitude: $latitude');
+      print('Longitude: $longitude');
+      return [latitude, longitude];
+    } else {
+      print('No results found');
+      return [];
     }
-    return null;
+  } else {
+    print('Error: ${decodedResponse['status']}');
+    return [];
   }
 }
