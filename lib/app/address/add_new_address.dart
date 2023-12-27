@@ -212,11 +212,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
         });
     print('the url $uri');
 
-    final responsedata = await http.get(uri);
-    print('responsedata.statusCode in placeAutoComplete');
-    print(responsedata.statusCode);
-    print(responsedata.body);
-
     String? response = await NetworkUtility.fetchUrl(uri);
     if (response != null) {
       print('place auto $response');

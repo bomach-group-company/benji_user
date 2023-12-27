@@ -107,13 +107,13 @@ class _HomePageState extends State<HomePage> {
       appBar: MyAppbar(hideSearch: false),
       body: SafeArea(
         child: Scrollbar(
-          controller: _scrollController,
           child: Stack(
             children: [
               Column(
                 children: [
                   Expanded(
                     child: ListView(
+                      controller: _scrollController,
                       physics: const BouncingScrollPhysics(),
                       children: [
                         CarouselSlider(
