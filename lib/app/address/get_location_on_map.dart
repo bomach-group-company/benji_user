@@ -1,11 +1,14 @@
 // ignore_for_file: unused_field, library_prefixes
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
 import 'package:benji/src/providers/constants.dart';
+import 'package:benji/src/providers/keys.dart';
 import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
 import 'package:benji/src/repo/models/googleMaps/location_service.dart';
+import 'package:benji/src/repo/utils/web_map.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +17,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
@@ -184,8 +188,16 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 //========================================================== Locate a place =============================================================\\
 
   Future<void> _locatePlace(Map<String, dynamic> place) async {
-    final double lat = place['geometry']['location']['lat'];
-    final double lng = place['geometry']['location']['lng'];
+    double lat;
+    double lng;
+    if (kIsWeb) {
+      lat = place['lat'];
+      lng = place['lng'];
+    } else {
+      lat = place['geometry']['location']['lat'];
+      lng = place['geometry']['location']['lng'];
+    }
+
     _goToSpecifiedLocation(LatLng(lat, lng), 20);
     if (kDebugMode) {
       print(LatLng(lat, lng));
@@ -207,6 +219,14 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
     setState(() {
       locationPinIsVisible = false;
     });
+    if (kIsWeb) {
+      List coord = await parseLatLng(_searchEC.text);
+      _locatePlace({
+        'lat': double.parse(coord[0] ?? 0),
+        'lng': double.parse(coord[1] ?? 0)
+      });
+      return;
+    }
     var place = await LocationService().getPlace(_searchEC.text);
     _locatePlace(place);
   }
@@ -224,6 +244,28 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 //========================================================== Get PlaceMark Address and LatLng =============================================================\\
 
   Future _getPlaceMark(LatLng position) async {
+    print('the position:- ${position.latitude},${position.longitude}');
+    if (kIsWeb) {
+      Uri uri = Uri.https("maps.googleapis.com", '/maps/api/geocode/json', {
+        "latlng": '${position.latitude},${position.longitude}',
+        "key": googlePlacesApiKey
+      });
+
+      var resp = await http.get(uri);
+      Map<String, dynamic> decodedResponse = jsonDecode(resp.body);
+
+      if (decodedResponse['status'] == 'OK') {
+        Map<String, dynamic> firstResult = decodedResponse['results'][0];
+
+        // Extract the formatted address
+        String formattedAddress = firstResult['formatted_address'];
+        print('formattedAddress $formattedAddress');
+        setState(() {
+          pinnedLocation = formattedAddress;
+        });
+      }
+      return;
+    }
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark address = placemarks[0];
@@ -239,7 +281,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 
 //==================== Select Location using ===============\\
   void _selectLocation() async {
-    _getPlaceMark(draggedLatLng);
+    await _getPlaceMark(draggedLatLng);
   }
 
 //============================================== Create Google Maps ==================================================\\
@@ -251,7 +293,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 
 //========================================================== Save Function =============================================================\\
   _saveFunc() async {
-    _getPlaceMark(draggedLatLng);
+    await _getPlaceMark(draggedLatLng);
     if (kDebugMode) {
       print("draggedLatLng: $draggedLatLng");
       print("PinnedLocation: $pinnedLocation");
