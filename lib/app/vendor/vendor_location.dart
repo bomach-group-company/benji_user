@@ -2,8 +2,11 @@
 // ignore_for_file: unused_field
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
+import 'package:benji/src/repo/utils/network_utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -191,6 +194,28 @@ class _VendorLocationState extends State<VendorLocation> {
     ).then(
       (location) => _userPosition = location,
     );
+    if (kIsWeb) {
+      String routeStr =
+          'https://maps.googleapis.com/maps/api/directions/json?origin=${userLocation.latitude},${userLocation.longitude}&destination=${_vendorLocation.latitude},${_vendorLocation.longitude}&mode=driving&avoidHighways=false&avoidFerries=true&avoidTolls=false&alternatives=false&key=$googleMapsApiKey';
+      print(routeStr);
+      String? response = await NetworkUtility.fetchUrl(Uri.parse(routeStr));
+      // var resp = await http.get(Uri.parse(routeStr));
+      if (response == null) {
+        return;
+      }
+      Map data = jsonDecode(response);
+
+      var overviewPolyline = NetworkUtil().decodeEncodedPolyline(
+          data['routes'][0]['overview_polyline']['points']);
+      print(overviewPolyline);
+      if (overviewPolyline.isNotEmpty) {
+        for (var point in overviewPolyline) {
+          _polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+        }
+        setState(() {});
+      }
+      return;
+    }
     PolylinePoints polyLinePoints = PolylinePoints();
     PolylineResult result = await polyLinePoints.getRouteBetweenCoordinates(
       googleMapsApiKey,

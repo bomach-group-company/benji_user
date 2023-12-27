@@ -14,7 +14,7 @@ class NetworkUtility {
                 '$baseURL/map/getMap/?url=${Uri.encodeQueryComponent(uri.toString())}'),
             headers: headers);
         if (response.statusCode == 200) {
-          print(response.body);
+          // print(response.body);
           return jsonEncode(jsonDecode(response.body)['details']);
         }
         return null;
