@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 
 Future<List> parseLatLng(String newLocation) async {
   if (kIsWeb) {
-    print(newLocation);
     Uri uri = Uri.https("maps.googleapis.com", '/maps/api/geocode/json',
         {"address": newLocation, "key": googlePlacesApiKey});
 

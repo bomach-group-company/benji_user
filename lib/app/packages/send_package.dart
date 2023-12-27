@@ -23,11 +23,11 @@ import 'package:benji/src/repo/models/googleMaps/autocomplete_prediction.dart';
 import 'package:benji/src/repo/models/googleMaps/places_autocomplete_response.dart';
 import 'package:benji/src/repo/services/api_url.dart';
 import 'package:benji/src/repo/utils/network_utils.dart';
+import 'package:benji/src/repo/utils/web_map.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -154,9 +154,10 @@ class _SendPackageState extends State<SendPackage> {
       pickupEC.text = newLocation;
     });
 
-    List<Location> location = await locationFromAddress(newLocation);
-    latitudePick = location[0].latitude.toString();
-    longitudePick = location[0].longitude.toString();
+    List location = await parseLatLng(newLocation);
+    print('location $location');
+    latitudePick = location[0];
+    longitudePick = location[1];
   }
 
   setLocationDrop(index) async {
@@ -167,9 +168,10 @@ class _SendPackageState extends State<SendPackage> {
       dropOffEC.text = newLocation;
     });
 
-    List<Location> location = await locationFromAddress(newLocation);
-    latitudeDrop = location[0].latitude.toString();
-    longitudeDrop = location[0].longitude.toString();
+    List location = await parseLatLng(newLocation);
+    print('location $location');
+    latitudeDrop = location[0];
+    longitudeDrop = location[1];
   }
 
   continueStep() {

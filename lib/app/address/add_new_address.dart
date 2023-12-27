@@ -85,7 +85,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
   bool _typing = false;
   //===================== FUNCTIONS =======================\\
   Future _setLocation(index) async {
-    print('in _setLocation');
     final newLocation = placePredictions[index].description!;
     selectedLocation.value = newLocation;
 
@@ -94,7 +93,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
     });
 
     List location = await parseLatLng(newLocation);
-    print('location $location hhhxs');
+    print('location $location');
     latitude = location[0];
     longitude = location[1];
   }

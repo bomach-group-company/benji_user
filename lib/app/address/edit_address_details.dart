@@ -7,6 +7,7 @@ import 'package:benji/src/components/others/location_list_tile.dart';
 import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
+import 'package:benji/src/repo/utils/web_map.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -79,9 +80,10 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
       _mapsLocationEC.text = newLocation;
     });
 
-    List<Location> location = await locationFromAddress(newLocation);
-    latitude = location[0].latitude.toString();
-    longitude = location[0].longitude.toString();
+    List location = await parseLatLng(newLocation);
+    print('location $location');
+    latitude = location[0];
+    longitude = location[1];
   }
 
   Future<bool> updateAddress({bool is_current = true}) async {
