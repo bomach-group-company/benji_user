@@ -208,6 +208,12 @@ class _VendorLocationState extends State<VendorLocation> {
       var overviewPolyline = NetworkUtil().decodeEncodedPolyline(
           data['routes'][0]['overview_polyline']['points']);
       print(overviewPolyline);
+      if (overviewPolyline.isNotEmpty) {
+        for (var point in overviewPolyline) {
+          _polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+        }
+        setState(() {});
+      }
       return;
     }
     PolylinePoints polyLinePoints = PolylinePoints();
