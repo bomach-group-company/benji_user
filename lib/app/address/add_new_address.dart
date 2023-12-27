@@ -92,34 +92,11 @@ class _AddNewAddressState extends State<AddNewAddress> {
     setState(() {
       _mapsLocationEC.text = newLocation;
     });
-    Uri uri = Uri.https(
-        "maps.googleapis.com",
-        '/maps/api/geocode/json', //unencoder path
-        {
-          "address": newLocation, //query params
-          "key": googlePlacesApiKey //google places api key
-        });
-    if (kIsWeb) {
-      print(newLocation);
-      var resp = await http.get(uri);
-      // print(resp.body);
-      List coordinate = parseLatLng(resp.body);
-      if (coordinate.isEmpty) {
-        latitude = null;
-        longitude = null;
-        return;
-      }
-      latitude = coordinate[0].toString();
 
-      longitude = coordinate[1].toString();
-      print('coordinates: $latitude $longitude');
-      return;
-    }
-
-    List<Location> location = await locationFromAddress(newLocation);
+    List location = await parseLatLng(newLocation);
     print('location $location hhhxs');
-    latitude = location[0].latitude.toString();
-    longitude = location[0].longitude.toString();
+    latitude = location[0];
+    longitude = location[1];
   }
 
   Future<bool> addAddress({bool is_current = true}) async {
