@@ -204,6 +204,9 @@ class _VendorLocationState extends State<VendorLocation> {
         return;
       }
       Map data = jsonDecode(response);
+      if (data['routes'].isEmpty) {
+        return;
+      }
 
       var overviewPolyline = NetworkUtil().decodeEncodedPolyline(
           data['routes'][0]['overview_polyline']['points']);
