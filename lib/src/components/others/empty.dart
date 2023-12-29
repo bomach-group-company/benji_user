@@ -7,28 +7,28 @@ import 'package:lottie/lottie.dart';
 import '../../../app/home/home.dart';
 import '../button/my_elevatedbutton.dart';
 
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+
 class EmptyCard extends StatelessWidget {
-  final bool removeButton;
+  final String emptyCardMessage;
+  final String buttonTitle;
+  final dynamic onPressed;
+  final bool showButton;
   const EmptyCard({
     super.key,
-    this.removeButton = false,
+    this.emptyCardMessage = "Oops! There is nothing here",
+    this.buttonTitle = "",
+    this.onPressed,
+    this.showButton = false,
   });
 
-  void _toHomeScreen() => Get.offAll(
-        () => const Home(),
-        routeName: 'Home',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        popGesture: false,
-        predicate: (routes) => false,
-        transition: Transition.rightToLeft,
-      );
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
+      padding: const EdgeInsets.all(kDefaultPadding),
       children: [
         Column(
           children: [
@@ -37,7 +37,8 @@ class EmptyCard extends StatelessWidget {
             ),
             kSizedBox,
             Text(
-              "Oops!, There is nothing here",
+              emptyCardMessage,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: kTextGreyColor,
                 fontSize: 18,
@@ -45,13 +46,22 @@ class EmptyCard extends StatelessWidget {
               ),
             ),
             kSizedBox,
-            removeButton == true
+            showButton == false
                 ? const SizedBox()
                 : MyElevatedButton(
-                    title: "Start shopping",
-                    onPressed: _toHomeScreen,
-                  ),
-            kSizedBox,
+              title: buttonTitle,
+              onPressed: onPressed ?? (){ Get.offAll(
+                    () => const Home(),
+                routeName: 'Home',
+                duration: const Duration(milliseconds: 300),
+                fullscreenDialog: true,
+                curve: Curves.easeIn,
+                popGesture: false,
+                predicate: (routes) => false,
+                transition: Transition.rightToLeft,
+              );
+              },
+            ),
           ],
         ),
       ],

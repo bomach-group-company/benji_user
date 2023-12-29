@@ -18,6 +18,7 @@ class MyPackageController extends GetxController {
   }
 
   var isLoadDelivered = false.obs;
+  var isLoadDispatched = false.obs;
   var isLoadPending = false.obs;
   var isLoad = false.obs;
   var packageCategory = <ItemCategory>[].obs;

@@ -157,7 +157,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       "the_order_id": widget.orderID,
       'client_id': UserController.instance.user.value.id
     };
-    print('meta user data $meta');
+    consoleLog('meta user data $meta');
     return Charge(
       amount: (_subTotal * 100).toInt() + (deliveryFee * 100).toInt(),
       publicKey: squadPublicKey,

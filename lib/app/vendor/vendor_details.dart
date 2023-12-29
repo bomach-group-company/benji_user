@@ -254,7 +254,6 @@ class _VendorDetailsState extends State<VendorDetails>
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
-            controller: _scrollController,
             child: ListView(
               controller: _scrollController,
               physics: const ScrollPhysics(),

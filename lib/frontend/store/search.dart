@@ -175,7 +175,7 @@ class _SearchPageState extends State<SearchPage> {
                               } else if (_getDataList == null ||
                                   _getDataList!.isEmpty) {
                                 return const EmptyCard(
-                                  removeButton: true,
+                                  showButton: false,
                                 );
                               } else {
                                 return LayoutGrid(

@@ -255,7 +255,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                     } else {
                                       return snapshot.data.isEmpty
                                           ? const EmptyCard(
-                                              removeButton: true,
+                                              showButton: false,
                                             )
                                           : Column(
                                               children: [

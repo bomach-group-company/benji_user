@@ -29,7 +29,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
   //=============================================== FUNCTIONS =================================================\\
   bool dispatched(Order order) {
-    return order.deliveryStatus == 'delivered';
+    return order.deliveryStatus == 'dispatched';
   }
 
   bool delivered(Order order) {
@@ -100,7 +100,7 @@ class _TrackOrderState extends State<TrackOrder> {
         ),
         bottomNavigationBar: Container(
           padding: const EdgeInsets.all(kDefaultPadding),
-          child: delivered(controller.order.value)
+          child: delivered(controller.order.value) || !dispatched(controller.order.value)
               ? MyElevatedButton(
                   disable: true,
                   title: "received",

@@ -34,12 +34,29 @@ class _PackagesState extends State<Packages>
     super.dispose();
   }
 
+//================================================= VARIABLES ===================================================\\
+  bool refreshing = false;
 //================================================= CONTROLLERS ===================================================\\
   late TabController _tabBarController;
   final _scrollController = ScrollController();
 //================================================= FUNCTIONS ===================================================\\
 
-  Future<void> _handleRefresh() async {}
+  Future<void> _handleRefresh() async {
+    setState(() {
+      refreshing = true;
+    });
+        (state) => MyPackageController.instance
+        .getDeliveryItemsByPending();
+            (state) => MyPackageController.instance
+            .getDeliveryItemsByDispatched();
+            (state) => MyPackageController.instance
+            .getDeliveryItemsByDelivered();
+    await Future.delayed(const Duration(milliseconds: 300), () {
+      setState(() {
+        refreshing = false;
+      });
+    });
+  }
 
   int _selectedtabbar = 0;
   void _clickOnTabBarOption(value) async {
@@ -51,6 +68,17 @@ class _PackagesState extends State<Packages>
 //================================================= Navigation ===================================================\\
 
   void _viewPendingPackage(deliveryItem) => Get.to(
+        () => ViewPackage(deliveryItem: deliveryItem),
+        routeName: 'ViewPackage',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.size,
+      );
+
+  void _viewDispatchedPackage(deliveryItem) => Get.to(
         () => ViewPackage(deliveryItem: deliveryItem),
         routeName: 'ViewPackage',
         duration: const Duration(milliseconds: 300),
@@ -97,47 +125,37 @@ class _PackagesState extends State<Packages>
               padding: const EdgeInsets.all(kDefaultPadding),
               physics: const BouncingScrollPhysics(),
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: kDefaultPadding,
-                  ),
-                  child: Container(
-                    width: media.width,
-                    decoration: BoxDecoration(
-                      color: kDefaultCategoryBackgroundColor,
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border.all(
-                        color: kLightGreyColor,
-                        style: BorderStyle.solid,
-                        strokeAlign: BorderSide.strokeAlignOutside,
-                      ),
+                Container(
+                  width: media.width,
+                  decoration: BoxDecoration(
+                    color: kDefaultCategoryBackgroundColor,
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border.all(
+                      color: kLightGreyColor,
+                      style: BorderStyle.solid,
+                      strokeAlign: BorderSide.strokeAlignOutside,
                     ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: TabBar(
-                            controller: _tabBarController,
-                            onTap: (value) => _clickOnTabBarOption(value),
-                            splashBorderRadius: BorderRadius.circular(50),
-                            enableFeedback: true,
-                            mouseCursor: SystemMouseCursors.click,
-                            indicatorSize: TabBarIndicatorSize.tab,
-                            dividerColor: kTransparentColor,
-                            automaticIndicatorColorAdjustment: true,
-                            labelColor: kPrimaryColor,
-                            unselectedLabelColor: kTextGreyColor,
-                            indicator: BoxDecoration(
-                              color: kAccentColor,
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            tabs: const [
-                              Tab(text: "Pending"),
-                              Tab(text: "Dispatched"),
-                              Tab(text: "Completed"),
-                            ],
-                          ),
-                        ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: TabBar(
+                      controller: _tabBarController,
+                      onTap: (value) => _clickOnTabBarOption(value),
+                      enableFeedback: true,
+                      mouseCursor: SystemMouseCursors.click,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      dividerColor: kTransparentColor,
+                      automaticIndicatorColorAdjustment: true,
+                      labelColor: kPrimaryColor,
+                      unselectedLabelColor: kTextGreyColor,
+                      indicator: BoxDecoration(
+                        color: kAccentColor,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      tabs: const [
+                        Tab(text: "Pending"),
+                        Tab(text: "Dispatched"),
+                        Tab(text: "Delivered"),
                       ],
                     ),
                   ),
@@ -145,7 +163,11 @@ class _PackagesState extends State<Packages>
                 kSizedBox,
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: _selectedtabbar == 0
+                  child: refreshing
+                      ? Center(
+                    child: CircularProgressIndicator(color: kAccentColor),
+                  )
+                      : _selectedtabbar == 0
                       ? GetBuilder<MyPackageController>(
                           initState: (state) => MyPackageController.instance
                               .getDeliveryItemsByPending(),
@@ -163,9 +185,13 @@ class _PackagesState extends State<Packages>
                               child: Column(
                                 children: [
                                   controller.pendingPackages.isEmpty
-                                      ? const EmptyCard(
-                                          removeButton: true,
-                                        )
+                                      ? EmptyCard(
+                                    emptyCardMessage:
+                                    "You don't have any packages yet",
+                                    showButton: true,
+                                    buttonTitle: "Send a package",
+                                    onPressed: (){Get.back();},
+                                  )
                                       : ListView.separated(
                                           separatorBuilder: (context, index) =>
                                               Divider(color: kGreyColor),
@@ -231,13 +257,12 @@ class _PackagesState extends State<Packages>
                       :
                   _selectedtabbar == 1
                       ?
-
                   GetBuilder<MyPackageController>(
                           initState: (state) => MyPackageController.instance
                               .getDeliveryItemsByDispatched(),
                           builder: (controller) {
-                            if (controller.isLoadDelivered.value &&
-                                controller.deliveredPackages.isEmpty) {
+                            if (controller.isLoadDispatched.value &&
+                                controller.dispatchedPackages.isEmpty) {
                               return Center(
                                 child: CircularProgressIndicator(
                                   color: kAccentColor,
@@ -248,34 +273,36 @@ class _PackagesState extends State<Packages>
                               width: media.width,
                               child: Column(
                                 children: [
-                                  controller.deliveredPackages.isEmpty
+                                  controller.dispatchedPackages.isEmpty
                                       ? const EmptyCard(
-                                          removeButton: true,
-                                        )
+                                    emptyCardMessage:
+                                    "You don't have any dispatched packages yet",
+                                  )
                                       : ListView.separated(
                                           separatorBuilder: (context, index) =>
                                               Divider(color: kGreyColor),
                                           itemCount: controller
-                                              .deliveredPackages.length,
+                                              .dispatchedPackages.length,
                                           shrinkWrap: true,
                                           physics:
                                               const BouncingScrollPhysics(),
                                           itemBuilder: (context, index) =>
                                               ListTile(
-                                            onTap: () => _viewDeliveredPackage(
+                                            onTap: () => _viewDispatchedPackage(
                                                 (controller
-                                                    .deliveredPackages[index])),
+                                                    .dispatchedPackages[index])),
                                             contentPadding:
                                                 const EdgeInsets.all(0),
                                             enableFeedback: true,
                                             dense: true,
                                             leading: FaIcon(
-                                              FontAwesomeIcons.boxesStacked,
+                                              FontAwesomeIcons
+                                                  .boxesStacked,
                                               color: kAccentColor,
                                             ),
                                             title: Text(
                                               controller
-                                                  .deliveredPackages[index]
+                                                  .dispatchedPackages[index]
                                                   .itemName,
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
@@ -293,7 +320,7 @@ class _PackagesState extends State<Packages>
                                                   const TextSpan(text: " "),
                                                   TextSpan(
                                                     text:
-                                                        "₦${formattedText(controller.deliveredPackages[index].prices)}",
+                                                        "₦${formattedText(controller.dispatchedPackages[index].prices)}",
                                                     style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.w700,
@@ -303,9 +330,10 @@ class _PackagesState extends State<Packages>
                                                 ],
                                               ),
                                             ),
-                                            trailing: const FaIcon(
-                                              FontAwesomeIcons.solidCircleCheck,
-                                              color: kSuccessColor,
+                                            trailing: FaIcon(
+                                              FontAwesomeIcons
+                                                  .bicycle,
+                                              color: kSecondaryColor,
                                               size: 18,
                                             ),
                                           ),
@@ -331,8 +359,9 @@ class _PackagesState extends State<Packages>
                         child: Column(
                           children: [
                             controller.deliveredPackages.isEmpty
-                                ? const EmptyCard(
-                              removeButton: true,
+                                ?  const EmptyCard(
+                              emptyCardMessage:
+                              "You don't have any delivered packages yet",
                             )
                                 : ListView.separated(
                               separatorBuilder: (context, index) =>

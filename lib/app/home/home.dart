@@ -362,7 +362,6 @@ class _HomeState extends State<Home> {
         onDrawerChanged: (isOpened) {
           setState(() {});
         },
-        drawerDragStartBehavior: DragStartBehavior.start,
         drawerEnableOpenDragGesture: true,
         endDrawerEnableOpenDragGesture: true,
         resizeToAvoidBottomInset: true,
@@ -392,7 +391,7 @@ class _HomeState extends State<Home> {
                 tooltip: "Scroll to top",
                 hoverColor: kAccentColor,
                 hoverElevation: 50.0,
-                child: const FaIcon(FontAwesomeIcons.chevronUp, size: 18),
+                child: FaIcon(FontAwesomeIcons.chevronUp, size: 18, color: kPrimaryColor),
               )
             : const SizedBox(),
         appBar: AppBar(
@@ -930,7 +929,7 @@ class _HomeState extends State<Home> {
                       }
                       if (controller.products.isEmpty) {
                         return const EmptyCard(
-                          removeButton: true,
+                          showButton: false,
                         );
                       }
                       return Column(

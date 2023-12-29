@@ -82,7 +82,7 @@ class _MyCartsState extends State<MyCarts> {
                   radius: const Radius.circular(10),
                   scrollbarOrientation: ScrollbarOrientation.right,
                   child: controller.cartProducts.isEmpty
-                      ? const EmptyCard(removeButton: true)
+                      ? const EmptyCard(showButton: false)
                       : ListView.builder(
                           controller: _scrollController,
                           itemCount: controller.cartProducts.length,

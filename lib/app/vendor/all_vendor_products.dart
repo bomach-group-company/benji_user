@@ -171,7 +171,7 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
                           kHalfSizedBox,
                           snapshot.data!.isEmpty
                               ? const EmptyCard(
-                                  removeButton: true,
+                                  showButton: false,
                                 )
                               : LayoutGrid(
                                   rowGap: kDefaultPadding / 2,
