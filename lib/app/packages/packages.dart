@@ -25,7 +25,7 @@ class _PackagesState extends State<Packages>
   void initState() {
     super.initState();
     checkAuth(context);
-    _tabBarController = TabController(length: 2, vsync: this);
+    _tabBarController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -133,6 +133,7 @@ class _PackagesState extends State<Packages>
                             ),
                             tabs: const [
                               Tab(text: "Pending"),
+                              Tab(text: "Dispatched"),
                               Tab(text: "Completed"),
                             ],
                           ),
@@ -227,9 +228,13 @@ class _PackagesState extends State<Packages>
                             );
                           },
                         )
-                      : GetBuilder<MyPackageController>(
+                      :
+                  _selectedtabbar == 1
+                      ?
+
+                  GetBuilder<MyPackageController>(
                           initState: (state) => MyPackageController.instance
-                              .getDeliveryItemsByDelivered(),
+                              .getDeliveryItemsByDispatched(),
                           builder: (controller) {
                             if (controller.isLoadDelivered.value &&
                                 controller.deliveredPackages.isEmpty) {
@@ -309,7 +314,89 @@ class _PackagesState extends State<Packages>
                               ),
                             );
                           },
+                        ): GetBuilder<MyPackageController>(
+                    initState: (state) => MyPackageController.instance
+                        .getDeliveryItemsByDelivered(),
+                    builder: (controller) {
+                      if (controller.isLoadDelivered.value &&
+                          controller.deliveredPackages.isEmpty) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: kAccentColor,
+                          ),
+                        );
+                      }
+                      return SizedBox(
+                        width: media.width,
+                        child: Column(
+                          children: [
+                            controller.deliveredPackages.isEmpty
+                                ? const EmptyCard(
+                              removeButton: true,
+                            )
+                                : ListView.separated(
+                              separatorBuilder: (context, index) =>
+                                  Divider(color: kGreyColor),
+                              itemCount: controller
+                                  .deliveredPackages.length,
+                              shrinkWrap: true,
+                              physics:
+                              const BouncingScrollPhysics(),
+                              itemBuilder: (context, index) =>
+                                  ListTile(
+                                    onTap: () => _viewDeliveredPackage(
+                                        (controller
+                                            .deliveredPackages[index])),
+                                    contentPadding:
+                                    const EdgeInsets.all(0),
+                                    enableFeedback: true,
+                                    dense: true,
+                                    leading: FaIcon(
+                                      FontAwesomeIcons.boxesStacked,
+                                      color: kAccentColor,
+                                    ),
+                                    title: Text(
+                                      controller
+                                          .deliveredPackages[index]
+                                          .itemName,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                        color: kTextBlackColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    subtitle: Text.rich(
+                                      TextSpan(
+                                        children: [
+                                          const TextSpan(
+                                              text: "Price:"),
+                                          const TextSpan(text: " "),
+                                          TextSpan(
+                                            text:
+                                            "₦${formattedText(controller.deliveredPackages[index].prices)}",
+                                            style: const TextStyle(
+                                              fontWeight:
+                                              FontWeight.w700,
+                                              fontFamily: 'sen',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    trailing: const FaIcon(
+                                      FontAwesomeIcons.solidCircleCheck,
+                                      color: kSuccessColor,
+                                      size: 18,
+                                    ),
+                                  ),
+                            ),
+                          ],
                         ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

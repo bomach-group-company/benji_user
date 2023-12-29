@@ -23,6 +23,7 @@ class MyPackageController extends GetxController {
   var packageCategory = <ItemCategory>[].obs;
   var packageWeight = <ItemWeight>[].obs;
   var pendingPackages = <DeliveryItem>[].obs;
+  var dispatchedPackages = <DeliveryItem>[].obs;
   var deliveredPackages = <DeliveryItem>[].obs;
 
   Future getDeliveryItemsByPending() async {
@@ -44,8 +45,27 @@ class MyPackageController extends GetxController {
     update();
   }
 
+  Future getDeliveryItemsByDispatched() async {
+    isLoadDelivered.value = true;
+    update();
+    User? user = UserController.instance.user.value;
+    final response = await http.get(
+        Uri.parse(
+            '$baseURL/sendPackage/gettemPackageByClientId/${user.id}/dispatched'),
+        headers: authHeader());
+    if (response.statusCode == 200) {
+      dispatchedPackages.value = (jsonDecode(response.body) as List)
+          .map((item) => DeliveryItem.fromJson(item))
+          .toList();
+    }
+    consoleLog('deliveredPackages.value ${dispatchedPackages.value}');
+    isLoadDelivered.value = false;
+    update();
+  }
+
+
   Future getDeliveryItemsByDelivered() async {
-    print('got to the getDeliveryItemsByDelivered');
+    consoleLog('got to the getDeliveryItemsByDelivered');
 
     isLoadDelivered.value = true;
     update();
