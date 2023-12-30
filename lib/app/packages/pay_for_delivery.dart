@@ -169,7 +169,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
           metaData: meta,
           onTransaction: (response) {
             print('the response from my alatpay $response');
-            if (response != null) {
+            if (response['status'] == true) {
               toPackages();
             }
           },
