@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, unused_field
 
+import 'dart:io';
 import 'dart:math';
 
 import 'package:benji/app/packages/packages.dart';
@@ -14,6 +15,7 @@ import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../src/providers/constants.dart';
+import '../../src/repo/controller/error_controller.dart';
 import '../../theme/colors.dart';
 
 class PayForDelivery extends StatefulWidget {
