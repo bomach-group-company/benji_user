@@ -105,8 +105,6 @@ class _ReportVendorState extends State<ReportVendor> {
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        extendBody: true,
-        extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           title: "Help and support",
           elevation: 0.0,

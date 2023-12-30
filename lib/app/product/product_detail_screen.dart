@@ -335,8 +335,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       child: GestureDetector(
         onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
         child: Scaffold(
-          extendBodyBehindAppBar: true,
-          extendBody: true,
+
           backgroundColor: kPrimaryColor,
           appBar: MyAppBar(
             title: "Product Detail",

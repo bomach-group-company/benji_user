@@ -111,8 +111,7 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
+
         appBar: MyAppBar(
           title: "All Products",
           elevation: 0.0,

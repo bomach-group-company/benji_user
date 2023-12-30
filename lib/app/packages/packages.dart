@@ -114,8 +114,7 @@ class _PackagesState extends State<Packages>
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
-        extendBody: true,
-        extendBodyBehindAppBar: true,
+
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(

@@ -85,7 +85,6 @@ class _CartScreenState extends State<CartScreen> {
             backgroundColor: kPrimaryColor,
           ),
           extendBody: true,
-          extendBodyBehindAppBar: true,
           bottomNavigationBar: Padding(
             padding: const EdgeInsets.all(kDefaultPadding),
             child: controller.cartProducts.isEmpty

@@ -4,6 +4,7 @@ import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
@@ -87,16 +88,16 @@ class _PopularVendorsState extends State<PopularVendors> {
         ),
         floatingActionButton: _isScrollToTopBtnVisible
             ? FloatingActionButton(
-                onPressed: _scrollToTop,
-                mini: true,
-                backgroundColor: kAccentColor,
-                enableFeedback: true,
-                mouseCursor: SystemMouseCursors.click,
-                tooltip: "Scroll to top",
-                hoverColor: kAccentColor,
-                hoverElevation: 50.0,
-                child: const Icon(Icons.keyboard_arrow_up),
-              )
+          onPressed: _scrollToTop,
+          mini: deviceType(media.width) > 2 ? false : true,
+          backgroundColor: kAccentColor,
+          enableFeedback: true,
+          mouseCursor: SystemMouseCursors.click,
+          tooltip: "Scroll to top",
+          hoverColor: kAccentColor,
+          hoverElevation: 50.0,
+          child: FaIcon(FontAwesomeIcons.chevronUp, size: 18, color: kPrimaryColor),
+        )
             : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,

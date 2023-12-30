@@ -146,7 +146,7 @@ class _ProductVendorState extends State<ProductVendor> {
                 ),
               );
             }
-            if (controller.isLoadVendor.value || controller.vendorProducts.isEmpty) {
+            if ( controller.vendorProducts.isEmpty) {
               return
                 Column(
                   children: [
