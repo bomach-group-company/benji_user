@@ -75,7 +75,7 @@ class AlatPayWidgetState extends State<AlatPayWidget> {
             phone: $phone,
             firstName: $firstName,
             lastName: $lastName,
-            metaData: $metaData,
+            metadata: $metaData,
             currency: $currency,
             amount: $amount,
 
@@ -97,6 +97,8 @@ class AlatPayWidgetState extends State<AlatPayWidget> {
 
     </html>
     """;
+
+    print(html);
   }
 
   @override
