@@ -16,7 +16,9 @@ import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
@@ -144,10 +146,26 @@ class _ProductVendorState extends State<ProductVendor> {
                 ),
               );
             }
-            if (controller.vendorProducts.isEmpty) {
-              return const EmptyCard(
-                removeButton: true,
-              );
+            if ( controller.vendorProducts.isEmpty) {
+              return
+                Column(
+                  children: [
+                    Lottie.asset(
+                      "assets/animations/empty/frame_1.json",
+                    ),
+                    kSizedBox,
+                    const Text("There are no products available right now", textAlign: TextAlign.center, style: TextStyle(
+                      fontSize: 20,
+
+                    ), ),
+                    kSizedBox,
+                    const Divider(
+                      thickness: 1,
+
+                    ),
+                    kSizedBox,
+                  ],
+                );
             }
             return LayoutGrid(
               rowGap: kDefaultPadding / 2,

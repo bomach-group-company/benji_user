@@ -105,8 +105,7 @@ class _ReportProductState extends State<ReportProduct> {
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        extendBody: true,
-        extendBodyBehindAppBar: true,
+
         appBar: MyAppBar(
           title: "Help and support",
           elevation: 0.0,

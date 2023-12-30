@@ -258,8 +258,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
           backgroundColor: kPrimaryColor,
           actions: const [],
         ),
-        extendBody: true,
-        extendBodyBehindAppBar: true,
+
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(

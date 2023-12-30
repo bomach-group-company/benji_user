@@ -112,7 +112,7 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                   tooltip: "Scroll to top",
                   hoverColor: kAccentColor,
                   hoverElevation: 50.0,
-                  child: const FaIcon(FontAwesomeIcons.chevronUp, size: 18),
+                  child: FaIcon(FontAwesomeIcons.chevronUp, size: 18, color: kPrimaryColor),
                 )
               : const SizedBox(),
           body: SafeArea(

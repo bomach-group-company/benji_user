@@ -161,8 +161,7 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
+
         appBar: MyAppBar(
           title: "All Reviews",
           elevation: 0.0,

@@ -383,7 +383,7 @@ class _AboutVendorState extends State<AboutVendor> {
                 ))
               : _ratings!.isEmpty
                   ? const EmptyCard(
-                      removeButton: true,
+                      showButton: false,
                     )
                   : Column(
                       children: [

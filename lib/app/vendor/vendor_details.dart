@@ -54,8 +54,18 @@ class _VendorDetailsState extends State<VendorDetails>
     super.dispose();
   }
 
+  //========================= VARIABLES =========================\\
+  bool refreshing = false;
+
   Future<void> _handleRefresh() async {
-    setState(() {});
+    setState(() {
+      refreshing = true;
+    });
+    await Future.delayed(const Duration(milliseconds: 300) );
+    setState(() {
+      refreshing = false;
+    });
+
   }
 
   _toVendorLocation() {
@@ -223,15 +233,15 @@ class _VendorDetailsState extends State<VendorDetails>
           elevation: 0.0,
           backgroundColor: kPrimaryColor,
           actions: [
-            IconButton(
-              onPressed: () {
-                showSearch(context: context, delegate: CustomSearchDelegate());
-              },
-              icon: FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
-                color: kAccentColor,
-              ),
-            ),
+            // IconButton(
+            //   onPressed: () {
+            //     showSearch(context: context, delegate: CustomSearchDelegate());
+            //   },
+            //   icon: FaIcon(
+            //     FontAwesomeIcons.magnifyingGlass,
+            //     color: kAccentColor,
+            //   ),
+            // ),
             IconButton(
               onPressed: _addToFavorites,
               icon: FaIcon(
@@ -250,11 +260,9 @@ class _VendorDetailsState extends State<VendorDetails>
             ),
           ],
         ),
-        extendBodyBehindAppBar: true,
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
-            controller: _scrollController,
             child: ListView(
               controller: _scrollController,
               physics: const ScrollPhysics(),
@@ -552,6 +560,8 @@ class _VendorDetailsState extends State<VendorDetails>
                   ),
                 ),
                 kSizedBox,
+                refreshing ? Center(child: CircularProgressIndicator(color: kAccentColor,)) :
+
                 Container(
                   padding: deviceType(media.width) > 2
                       ? const EdgeInsets.symmetric(horizontal: 20)

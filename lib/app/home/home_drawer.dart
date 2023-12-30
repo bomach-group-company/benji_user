@@ -43,18 +43,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return Drawer(
-      backgroundColor: kPrimaryColor,
       elevation: 10.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
       width: min(media.width * 0.7, 400),
       child: ListView(
         children: [
-          MyAppBar(
-            elevation: 0.0,
-            title: "",
-            backgroundColor: kPrimaryColor,
-            actions: const [],
-          ),
+          kSizedBox,
           MyFutureBuilder(
             future: getUser(),
             child: (data) => ListTile(
@@ -120,7 +114,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         tooltip: "Copy ID",
                         mouseCursor: SystemMouseCursors.click,
                         icon: FaIcon(
-                          FontAwesomeIcons.copy,
+                          FontAwesomeIcons.solidCopy,
                           size: 14,
                           color: kAccentColor,
                         ),

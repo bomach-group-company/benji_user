@@ -335,8 +335,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       child: GestureDetector(
         onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
         child: Scaffold(
-          extendBodyBehindAppBar: true,
-          extendBody: true,
+
           backgroundColor: kPrimaryColor,
           appBar: MyAppBar(
             title: "Product Detail",
@@ -377,7 +376,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   tooltip: "Scroll to top",
                   hoverColor: kAccentColor,
                   hoverElevation: 50.0,
-                  child: const Icon(Icons.keyboard_arrow_up),
+                  child: FaIcon(FontAwesomeIcons.chevronUp, size: 18, color: kPrimaryColor),
                 )
               : const SizedBox(),
           body: SafeArea(
@@ -1007,7 +1006,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 ),
                               )
                             : _ratings!.isEmpty
-                                ? const EmptyCard(removeButton: true)
+                                ? const EmptyCard(showButton: false)
                                 : ListView.separated(
                                     physics: const BouncingScrollPhysics(),
                                     separatorBuilder: (context, index) =>

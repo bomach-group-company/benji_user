@@ -58,9 +58,8 @@ android {
         minSdkVersion 21
         targetSdk 34
         versionCode 1
-        versionName 'test'
+        versionName flutterVersionName
         multiDexEnabled true
-        versionNameSuffix 'v0.0.1'
         signingConfig signingConfigs.debug
     }
 
@@ -93,7 +92,7 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22"
 //    implementation platform('com.google.firebase:firebase-bom:32.6.0')
 //    implementation 'com.google.firebase:firebase-analytics'
 //    implementation 'com.google.android.material:material:1.10.0'

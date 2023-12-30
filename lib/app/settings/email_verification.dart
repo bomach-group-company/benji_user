@@ -92,8 +92,7 @@ class _EmailVerificationState extends State<EmailVerification> {
           actions: [],
           backgroundColor: kTransparentColor,
         ),
-        extendBody: true,
-        extendBodyBehindAppBar: true,
+
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: LayoutGrid(

@@ -49,7 +49,7 @@ class _TeamPageState extends State<TeamPage> {
       'Gideon Chukwuoma',
       'Senior Software Engineer',
       'Built out most of the UI and key features',
-      'assets/images/team/IMG-20231010-WA0018.jpg'
+      'assets/images/team/Gideon.jpg'
     ],
     [
       'Emmanuel Nwaegunwa',

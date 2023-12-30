@@ -546,7 +546,7 @@ class _SendPackageState extends State<SendPackage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Pickup Address",
+                "Enter pickup address",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w400,
@@ -740,7 +740,7 @@ class _SendPackageState extends State<SendPackage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Drop-off Address",
+                "Enter drop-off address",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w400,
@@ -1373,7 +1373,7 @@ class _SendPackageState extends State<SendPackage> {
                 tooltip: "Scroll to top",
                 hoverColor: kAccentColor,
                 hoverElevation: 50.0,
-                child: const FaIcon(FontAwesomeIcons.chevronUp, size: 18),
+                child: FaIcon(FontAwesomeIcons.chevronUp, size: 18, color: kPrimaryColor),
               )
             : const SizedBox(),
         body: SafeArea(

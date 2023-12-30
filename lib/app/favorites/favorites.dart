@@ -110,8 +110,7 @@ class _FavoritesState extends State<Favorites>
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
+
         appBar: MyAppBar(
           title: "Favorites",
           elevation: 0.0,

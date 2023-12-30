@@ -228,7 +228,7 @@ class _DeliverToState extends State<DeliverTo> {
           builder: (controller) {
             if (controller.addresses.isEmpty && controller.isLoad.value) {
               return const EmptyCard(
-                removeButton: true,
+                showButton: false,
               );
             }
             return SafeArea(

@@ -272,8 +272,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
           backgroundColor: kPrimaryColor,
           actions: const [],
         ),
-        extendBody: true,
-        extendBodyBehindAppBar: true,
+
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(

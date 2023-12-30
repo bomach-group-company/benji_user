@@ -142,8 +142,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           actions: [],
           backgroundColor: kTransparentColor,
         ),
-        extendBody: true,
-        extendBodyBehindAppBar: true,
+
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: LayoutGrid(
