@@ -56,13 +56,14 @@ dependencies:
   rename:
   file_picker: ^5.5.0
   fluttertoast:
-  flutter_squad: ^0.0.1
+  # flutter_squad: ^0.0.1
   scroll_to_index:
   photo_view:
   cached_network_image:
   flutter_native_image:
   js: ^0.6.7
   flutter_google_places_web: ^1.0.2
+  webviewx: ^0.2.2
 
 dev_dependencies:
   flutter_test:

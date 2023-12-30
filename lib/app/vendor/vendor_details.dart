@@ -6,12 +6,12 @@ import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:benji/src/repo/utils/favorite.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/section/custom_show_search.dart';
 import '../../src/components/section/rate_vendor_dialog.dart';
 import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
@@ -61,16 +61,19 @@ class _VendorDetailsState extends State<VendorDetails>
     setState(() {
       refreshing = true;
     });
-    await Future.delayed(const Duration(milliseconds: 300) );
+    await Future.delayed(const Duration(milliseconds: 300));
     setState(() {
       refreshing = false;
     });
-
   }
 
   _toVendorLocation() {
     double latitude;
     double longitude;
+    if (kIsWeb) {
+      ApiProcessorController.errorSnack("Not supported on web");
+      return;
+    }
     try {
       latitude = double.parse(widget.vendor.latitude);
       longitude = double.parse(widget.vendor.longitude);
@@ -560,20 +563,23 @@ class _VendorDetailsState extends State<VendorDetails>
                   ),
                 ),
                 kSizedBox,
-                refreshing ? Center(child: CircularProgressIndicator(color: kAccentColor,)) :
-
-                Container(
-                  padding: deviceType(media.width) > 2
-                      ? const EdgeInsets.symmetric(horizontal: 20)
-                      : const EdgeInsets.symmetric(horizontal: 10),
-                  child: _selectedtabbar == 0
-                      ? ProductVendor(
-                          vendor: widget.vendor,
-                        )
-                      : AboutVendor(
-                          vendor: widget.vendor,
-                        ),
-                ),
+                refreshing
+                    ? Center(
+                        child: CircularProgressIndicator(
+                        color: kAccentColor,
+                      ))
+                    : Container(
+                        padding: deviceType(media.width) > 2
+                            ? const EdgeInsets.symmetric(horizontal: 20)
+                            : const EdgeInsets.symmetric(horizontal: 10),
+                        child: _selectedtabbar == 0
+                            ? ProductVendor(
+                                vendor: widget.vendor,
+                              )
+                            : AboutVendor(
+                                vendor: widget.vendor,
+                              ),
+                      ),
               ],
             ),
           ),

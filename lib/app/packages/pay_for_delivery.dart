@@ -5,11 +5,11 @@ import 'dart:math';
 import 'package:benji/app/packages/packages.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
+import 'package:benji/src/components/payment/alatpay.dart';
 import 'package:benji/src/repo/controller/payment_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/utils/constant.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_squad/flutter_squad.dart';
 import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
@@ -139,49 +139,42 @@ class _PayForDeliveryState extends State<PayForDelivery> {
   }
 
 //======== Place Order =======\\
-  Future<void> placeOrder() async {
-    SquadTransactionResponse? response = await Squad.checkout(
-      context,
-      charge(),
-      sandbox: true,
-      showAppbar: false,
-      // appBar: AppBarConfig(
-      //   color: kAccentColor,
-      //   leadingIcon: const FaIcon(FontAwesomeIcons.solidCircleXmark),
-      // ),
-    );
-
-    if (response != null) {
-      toPackages();
-    }
-    debugPrint(
-      "Squad transaction completed======>${response?.toJson().toString()}",
-    );
-  }
-
-  Charge charge() {
-    var user = UserController.instance.user.value;
-    String userFirstName = user.firstName;
-    String userLastName = user.lastName;
-    String userEmail = user.email;
-
-    dynamic meta = {
+  //PLACE ORDER
+  void placeOrder() {
+    String apiKey = alatPayPrimaryKey;
+    String businessId = alatPayBuinessId;
+    String email = UserController.instance.user.value.email;
+    String phone = UserController.instance.user.value.phone;
+    String firstName = UserController.instance.user.value.firstName;
+    String lastName = UserController.instance.user.value.lastName;
+    String currency = 'NGN';
+    String amount = (deliveryFee).toString();
+    Map meta = {
       "client_id": UserController.instance.user.value.id,
       "the_package_id": widget.packageId
     };
-    print('meta user data $meta');
 
-    return Charge(
-      amount: (deliveryFee * 100).toInt(),
-      publicKey: squadPublicKey,
-      email: userEmail,
-      currencyCode: currency,
-      // transactionRef: "BENJI-PYM-${generateRandomString(10)}",
-      paymentChannels: ["card", "bank", "ussd", "transfer"],
-      customerName: "$userFirstName $userLastName",
-      callbackUrl: null,
-      metadata: meta,
-      passCharge: true,
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return AlatPayWidget(
+          apiKey: apiKey,
+          businessId: businessId,
+          email: email,
+          phone: phone,
+          firstName: firstName,
+          lastName: lastName,
+          currency: currency,
+          amount: amount,
+          metaData: meta,
+          onTransaction: (response) {
+            print('the response from my alatpay $response');
+            if (response != null) {
+              toPackages();
+            }
+          },
+        );
+      }),
     );
   }
 

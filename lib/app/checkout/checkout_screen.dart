@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:benji/app/home/home.dart';
 import 'package:benji/app/splash_screens/payment_successful_screen.dart';
+import 'package:benji/src/components/payment/alatpay.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
@@ -13,10 +14,9 @@ import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/utils/constant.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_monnify/flutter_monnify.dart';
-import 'package:flutter_squad/flutter_squad.dart';
+// import 'package:flutter_squad/flutter_squad.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -63,7 +63,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   double _subTotal = 0;
   double _totalPrice = 0;
   double deliveryFee = OrderController.instance.deliveryFee.value;
-  double serviceFee = 0;
   // final String _paymentDescription = "Benji app product purchase";
   final String _currency = "NGN";
 
@@ -106,11 +105,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       _subTotal += (item.price * cartItems[item.id].quantity);
     }
 
-    serviceFee = (_subTotal + deliveryFee) * 0.010101;
-
-    serviceFee = min(double.parse(serviceFee.toStringAsFixed(2)), 1500);
-
-    _totalPrice = _subTotal + deliveryFee + serviceFee;
+    _totalPrice = _subTotal + deliveryFee;
 
     setState(() {
       _data = {
@@ -125,50 +120,51 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final String text = 'Generated Link code here';
 
   //PLACE ORDER
-  void _placeOrder() async {
-    SquadTransactionResponse? response = await Squad.checkout(
-      context,
-      charge(),
-      sandbox: true,
-      showAppbar: false,
-    );
-    if (response != null) {
-      await CartController.instance.clearCartProduct(widget.index);
-      Get.to(
-        () => const PaymentSuccessful(),
-        routeName: 'PaymentSuccessful',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
-    }
-    debugPrint(
-      "Squad transaction completed======>${response?.toJson().toString()}",
-    );
-  }
-
-  void _placeOrderWeb() async {}
-
-  Charge charge() {
-    dynamic meta = {
+  void _placeOrder() {
+    String apiKey = alatPayPrimaryKey;
+    String businessId = alatPayBuinessId;
+    String email = UserController.instance.user.value.email;
+    String phone = UserController.instance.user.value.phone;
+    String firstName = UserController.instance.user.value.firstName;
+    String lastName = UserController.instance.user.value.lastName;
+    String currency = 'NGN';
+    String amount = (_subTotal + deliveryFee).toString();
+    Map meta = {
       "the_order_id": widget.orderID,
       'client_id': UserController.instance.user.value.id
     };
-    consoleLog('meta user data $meta');
-    return Charge(
-      amount: (_subTotal * 100).toInt() + (deliveryFee * 100).toInt(),
-      publicKey: squadPublicKey,
-      email: user?.email ?? '',
-      currencyCode: _currency,
-      // transactionRef: "BENJI-PYM-${generateRandomString(10)}",
-      paymentChannels: ["card", "bank", "ussd", "transfer"],
-      customerName: "${user?.firstName ?? ''} ${user?.lastName ?? ''}",
-      callbackUrl: null,
-      metadata: meta, // i will pass in the order id here
-      passCharge: true,
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return AlatPayWidget(
+          apiKey: apiKey,
+          businessId: businessId,
+          email: email,
+          phone: phone,
+          firstName: firstName,
+          lastName: lastName,
+          currency: currency,
+          amount: amount,
+          metaData: meta,
+          onTransaction: (response) async {
+            print('the response from my alatpay $response');
+            if (response != null) {
+              await CartController.instance.clearCartProduct(widget.index);
+              Get.to(
+                () => const PaymentSuccessful(),
+                routeName: 'PaymentSuccessful',
+                duration: const Duration(milliseconds: 300),
+                fullscreenDialog: true,
+                curve: Curves.easeIn,
+                preventDuplicates: true,
+                popGesture: true,
+                transition: Transition.rightToLeft,
+              );
+            }
+          },
+        );
+      }),
     );
   }
 
@@ -515,30 +511,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       ),
                                     ],
                                   ),
-                                  kSizedBox,
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        'Service Fee',
-                                        style: TextStyle(
-                                          color: kTextBlackColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      Text(
-                                        '₦${formattedText(serviceFee)}',
-                                        style: TextStyle(
-                                          color: kTextGreyColor,
-                                          fontSize: 16,
-                                          fontFamily: 'Sen',
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                 ],
                               ),
                               kHalfSizedBox,
@@ -580,8 +552,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             : MyElevatedButton(
                                 title:
                                     "Place Order - ₦${formattedText(_totalPrice)}",
-                                onPressed:
-                                    kIsWeb ? _placeOrderWeb : _placeOrder,
+                                onPressed: _placeOrder,
                               ),
                         kSizedBox,
                       ],
