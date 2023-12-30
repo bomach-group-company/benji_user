@@ -56,7 +56,6 @@ dependencies:
   rename:
   file_picker: ^5.5.0
   fluttertoast:
-  # flutter_squad: ^0.0.1
   scroll_to_index:
   photo_view:
   cached_network_image:

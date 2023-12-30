@@ -27,7 +27,7 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/keys.dart';
 import '../../src/repo/models/googleMaps/autocomplete_prediction.dart';
 import '../../src/repo/models/googleMaps/places_autocomplete_response.dart';
-import '../../src/repo/utils/constant.dart';
+import '../../src/repo/utils/constants.dart';
 import '../../src/repo/utils/network_utils.dart';
 import '../../theme/colors.dart';
 
@@ -81,7 +81,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
     });
 
     List location = await parseLatLng(newLocation);
-    print('location $location');
+    consoleLog('location $location');
     latitude = location[0];
     longitude = location[1];
   }
@@ -96,7 +96,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
       }
       List<Location> location =
           await locationFromAddress(selectedLocation.value!);
-      print('location $location hhhxs');
+      consoleLog('location $location hhhxs');
       latitude = location[0].latitude.toString();
       longitude = location[0].longitude.toString();
     }

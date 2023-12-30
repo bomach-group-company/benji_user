@@ -2,7 +2,7 @@
 
 import 'package:benji/src/repo/models/user/user_model.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
-import 'package:benji/src/repo/utils/constant.dart';
+import 'package:benji/src/repo/utils/constants.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

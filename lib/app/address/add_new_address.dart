@@ -5,7 +5,7 @@ import 'package:benji/src/components/textformfield/my_maps_textformfield.dart';
 import 'package:benji/src/providers/keys.dart';
 import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
 import 'package:benji/src/repo/models/googleMaps/autocomplete_prediction.dart';
-import 'package:benji/src/repo/utils/constant.dart';
+import 'package:benji/src/repo/utils/constants.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/repo/utils/network_utils.dart';
 import 'package:benji/src/repo/utils/web_map.dart';

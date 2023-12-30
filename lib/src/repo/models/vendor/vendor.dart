@@ -4,7 +4,7 @@ import 'package:benji/src/repo/models/shop_type.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../../utils/constant.dart';
+import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
 
 class VendorModel {
