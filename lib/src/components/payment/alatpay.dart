@@ -78,13 +78,11 @@ class AlatPayWidgetState extends State<AlatPayWidget> {
             amount: $amount,
 
             onTransaction: function (response) {
-              paymentsuccess(response)
-              console.log("payment success", response)
+              paymentsuccess(JSON.stringify(response))
             },
 
             onClose: function () {
               paymentcancel("payment cancel")
-                console.log("payment cancel")
             }
         });
 
@@ -112,6 +110,7 @@ class AlatPayWidgetState extends State<AlatPayWidget> {
               callBack: (message) {
                 print('message success gotten $message');
                 dynamic resp = jsonDecode(message);
+                print('the resp $resp');
                 widget.onTransaction(resp);
               },
             ),

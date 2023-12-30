@@ -63,7 +63,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   double _subTotal = 0;
   double _totalPrice = 0;
   double deliveryFee = OrderController.instance.deliveryFee.value;
-  double serviceFee = 0;
   // final String _paymentDescription = "Benji app product purchase";
   final String _currency = "NGN";
 
@@ -106,11 +105,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       _subTotal += (item.price * cartItems[item.id].quantity);
     }
 
-    serviceFee = (_subTotal + deliveryFee) * 0.010101;
-
-    serviceFee = min(double.parse(serviceFee.toStringAsFixed(2)), 1500);
-
-    _totalPrice = _subTotal + deliveryFee + serviceFee;
+    _totalPrice = _subTotal + deliveryFee;
 
     setState(() {
       _data = {
@@ -507,30 +502,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       ),
                                       Text(
                                         '₦${formattedText(deliveryFee)}',
-                                        style: TextStyle(
-                                          color: kTextGreyColor,
-                                          fontSize: 16,
-                                          fontFamily: 'Sen',
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  kSizedBox,
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        'Service Fee',
-                                        style: TextStyle(
-                                          color: kTextBlackColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      Text(
-                                        '₦${formattedText(serviceFee)}',
                                         style: TextStyle(
                                           color: kTextGreyColor,
                                           fontSize: 16,
