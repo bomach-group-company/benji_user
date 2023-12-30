@@ -149,7 +149,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           metaData: meta,
           onTransaction: (response) async {
             print('the response from my alatpay $response');
-            if (response != null) {
+            if (response['status'] == true) {
               await CartController.instance.clearCartProduct(widget.index);
               Get.to(
                 () => const PaymentSuccessful(),

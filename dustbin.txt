@@ -1,3 +1,4 @@
+  {status: true, message: Success, data: {amount: 200, orderId: altpayalp582_30122023034815801, description: Card Checkout, paymentMethodId: 1, customer: {id: 568c9cc9-2f9d-4f60-8e29-08dbf7241b19, transactionId: 3232c457-e96a-4efb-801c-fa20d20d4828, createdAt: 2023-12-30T15:48:29.8232701, email: client20@gmail.com, phone: +2349025555556, firstName: client20, lastName: ent20, metadata: null}, id: 3232c457-e96a-4efb-801c-fa20d20d4828, merchantId: 541a6add-c8a8-409c-8c20-08dc0160363d, businessId: 110e9b55-c939-4b30-2005-08dc0162570b, channel: Card, callbackUrl: null, feeAmount: 2.4, businessName: Alpha logistics and courier se, currency: NGN, status: completed, statusReason: null, settlementType: manual, createdAt: 2023-12-30T15:48:29.8226805, updatedAt: 2023-12-30T15:49:29.4378637Z, ngnVirtualBankAccountNumber: 0286483942, usdVirtualAccountNumber: null}}
   
   ////// used to debug why app failed to fetch data
   // List<Product> res = [];
