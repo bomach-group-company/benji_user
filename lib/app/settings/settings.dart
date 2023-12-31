@@ -207,13 +207,13 @@ class _SettingsState extends State<Settings> {
         await UserController.instance.getUser();
         // Image successfully uploaded
         if (kDebugMode) {
-          print(await response.stream.bytesToString());
-          print('Image uploaded successfully');
+          consoleLog(await response.stream.bytesToString());
+          consoleLog('Image uploaded successfully');
         }
       } else {
         // Handle the error (e.g., server error)
         if (kDebugMode) {
-          print('Error uploading image: ${response.reasonPhrase}');
+          consoleLog('Error uploading image: ${response.reasonPhrase}');
         }
       }
     }
@@ -309,9 +309,9 @@ class _SettingsState extends State<Settings> {
               MyFutureBuilder(
                   future: getUser(),
                   child: (snapshot) {
-                    print(snapshot);
-                    print(baseImage + snapshot.image);
-                    print(selectedImage);
+                    consoleLog(snapshot);
+                    consoleLog(baseImage + snapshot.image);
+                    consoleLog(selectedImage.toString());
                     return Container(
                       width: mediaWidth,
                       padding: const EdgeInsets.all(10),
@@ -423,6 +423,7 @@ class _SettingsState extends State<Settings> {
                                         child: Center(
                                           child: FaIcon(
                                             FontAwesomeIcons.pencil,
+                                            size: 16,
                                             color: kPrimaryColor,
                                           ),
                                         ),
@@ -485,7 +486,7 @@ class _SettingsState extends State<Settings> {
                                       tooltip: "Copy ID",
                                       mouseCursor: SystemMouseCursors.click,
                                       icon: FaIcon(
-                                        FontAwesomeIcons.copy,
+                                        FontAwesomeIcons.solidCopy,
                                         size: 14,
                                         color: kAccentColor,
                                       ),
