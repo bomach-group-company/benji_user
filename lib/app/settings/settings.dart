@@ -212,9 +212,7 @@ class _SettingsState extends State<Settings> {
         }
       } else {
         // Handle the error (e.g., server error)
-        if (kDebugMode) {
           consoleLog('Error uploading image: ${response.reasonPhrase}');
-        }
       }
     }
   }
