@@ -287,7 +287,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     // double mediaHeight = MediaQuery.of(context).size.height;
-    double mediaWidth = MediaQuery.of(context).size.width;
+    var media = MediaQuery.of(context).size;
     return Scaffold(
       appBar: MyAppBar(
         title: "Settings",
@@ -311,7 +311,7 @@ class _SettingsState extends State<Settings> {
                     consoleLog(baseImage + snapshot.image);
                     consoleLog(selectedImage.toString());
                     return Container(
-                      width: mediaWidth,
+                      width: media.width,
                       padding: const EdgeInsets.all(10),
                       decoration: ShapeDecoration(
                         color: kPrimaryColor,
@@ -337,10 +337,10 @@ class _SettingsState extends State<Settings> {
                                 children: [
                                   selectedImage == null
                                       ? Container(
-                                          height: deviceType(mediaWidth) == 1
+                                          height: deviceType(media.width) == 1
                                               ? 100
                                               : 150,
-                                          width: deviceType(mediaWidth) == 1
+                                          width: deviceType(media.width) == 1
                                               ? 100
                                               : 150,
                                           decoration: ShapeDecoration(
@@ -362,10 +362,10 @@ class _SettingsState extends State<Settings> {
                                           ),
                                         )
                                       : Container(
-                                          height: deviceType(mediaWidth) == 1
+                                          height: deviceType(media.width) == 1
                                               ? 100
                                               : 150,
-                                          width: deviceType(mediaWidth) == 1
+                                          width: deviceType(media.width) == 1
                                               ? 100
                                               : 150,
                                           decoration: ShapeDecoration(
@@ -405,10 +405,10 @@ class _SettingsState extends State<Settings> {
                                       },
                                       borderRadius: BorderRadius.circular(100),
                                       child: Container(
-                                        height: deviceType(mediaWidth) == 1
+                                        height: deviceType(media.width) == 1
                                             ? 35
                                             : 50,
-                                        width: deviceType(mediaWidth) == 1
+                                        width: deviceType(media.width) == 1
                                             ? 35
                                             : 50,
                                         decoration: ShapeDecoration(
@@ -503,7 +503,7 @@ class _SettingsState extends State<Settings> {
                 onTap: _toEditProfile,
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
-                  width: mediaWidth,
+                  width: media.width,
                   decoration: ShapeDecoration(
                     color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
@@ -545,7 +545,7 @@ class _SettingsState extends State<Settings> {
                 onTap: _toChangePassword,
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
-                  width: mediaWidth,
+                  width: media.width,
                   decoration: ShapeDecoration(
                     color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
@@ -586,7 +586,7 @@ class _SettingsState extends State<Settings> {
               InkWell(
                 onTap: _toAboutApp,
                 child: Container(
-                  width: mediaWidth,
+                  width: media.width,
                   decoration: ShapeDecoration(
                     color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
@@ -628,7 +628,7 @@ class _SettingsState extends State<Settings> {
                 onTap: _logOut,
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
-                  width: mediaWidth,
+                  width: media.width,
                   decoration: ShapeDecoration(
                     color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
