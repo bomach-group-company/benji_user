@@ -39,7 +39,7 @@ class AppBarDeliveryLocation extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    deliveryLocation,
+                    deliveryLocation.contains("Not") ? "Add an address" : deliveryLocation,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(

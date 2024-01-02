@@ -307,9 +307,7 @@ class _SettingsState extends State<Settings> {
               MyFutureBuilder(
                   future: getUser(),
                   child: (snapshot) {
-                    consoleLog(snapshot);
-                    consoleLog(baseImage + snapshot.image);
-                    consoleLog(selectedImage.toString());
+
                     return Container(
                       width: media.width,
                       padding: const EdgeInsets.all(10),
