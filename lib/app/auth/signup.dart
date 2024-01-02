@@ -594,7 +594,7 @@ class _SignUpState extends State<SignUp> {
                     GetBuilder<SignupController>(builder: (controller) {
                       return MyElevatedButton(
                         title: "SIGN UP",
-                        onPressed: () async {
+                        onPressed: !isChecked ? null:  () async {
                           if (_formKey.currentState!.validate()) {
                             await controller.signup(
                                 _userEmailEC.text,
