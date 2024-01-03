@@ -47,13 +47,13 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
         }
       });
     }
-    super.initState();
     Timer(
       const Duration(seconds: 2),
       () {
         AuthController.instance.checkAuth();
       },
     );
+    super.initState();
   }
 
   @override
