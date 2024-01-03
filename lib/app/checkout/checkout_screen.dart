@@ -342,15 +342,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                           ),
                                         ),
                                         kSizedBox,
-                                        Text(
-                                          contoller.current.value.details,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            color: kTextGreyColor,
+                                        SizedBox(
+                                          width: media.width - 100,
+                                          child: Text(
+                                            contoller.current.value.details,
                                             overflow: TextOverflow.ellipsis,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400,
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                              color: kTextGreyColor,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,
+                                            ),
                                           ),
                                         ),
                                       ],

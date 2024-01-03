@@ -78,7 +78,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
+    var media = MediaQuery.of(context).size;
     return GetBuilder<OrderStatusChangeController>(builder: (controller) {
       return Scaffold(
         backgroundColor: kPrimaryColor,
@@ -100,7 +100,8 @@ class _TrackOrderState extends State<TrackOrder> {
         ),
         bottomNavigationBar: Container(
           padding: const EdgeInsets.all(kDefaultPadding),
-          child: delivered(controller.order.value) || !dispatched(controller.order.value)
+          child: delivered(controller.order.value) ||
+                  !dispatched(controller.order.value)
               ? MyElevatedButton(
                   disable: true,
                   title: "received",
@@ -124,7 +125,7 @@ class _TrackOrderState extends State<TrackOrder> {
               padding: const EdgeInsets.all(kDefaultPadding),
               children: [
                 Container(
-                  width: mediaWidth,
+                  width: media.width,
                   height: 105,
                   padding: const EdgeInsets.all(kDefaultPadding / 2),
                   decoration: ShapeDecoration(
@@ -285,7 +286,7 @@ class _TrackOrderState extends State<TrackOrder> {
                 ),
                 kSizedBox,
                 Container(
-                  width: mediaWidth,
+                  width: media.width,
                   height: 103,
                   decoration: ShapeDecoration(
                     color: kPrimaryColor,
@@ -311,7 +312,7 @@ class _TrackOrderState extends State<TrackOrder> {
                           'Status',
                           style: TextStyle(
                             color: kTextGreyColor,
-                            fontSize: deviceType(mediaWidth) > 2 ? 18 : 16,
+                            fontSize: deviceType(media.width) > 2 ? 18 : 16,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -397,7 +398,7 @@ class _TrackOrderState extends State<TrackOrder> {
                               children: [
                                 kHalfSizedBox,
                                 SizedBox(
-                                  width: mediaWidth - 200,
+                                  width: media.width - 200,
                                   child: Text(
                                     controller.order.value.orderitems[index]
                                         .product.name,
@@ -415,7 +416,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                      width: mediaWidth - 200,
+                                      width: media.width - 200,
                                       child: Text(
                                         '${controller.order.value.orderitems[index].quantity} Item (s)',
                                         textAlign: TextAlign.start,
