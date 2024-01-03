@@ -118,7 +118,7 @@ class AlatPayWidgetState extends State<AlatPayWidget> {
             DartCallback(
               name: 'paymentcancel',
               callBack: (message) {
-                print('message cancel gotten $message');
+                print('message cancel gotten');
                 if (widget.onClose == null) {
                   Navigator.pop(context);
                 } else {
