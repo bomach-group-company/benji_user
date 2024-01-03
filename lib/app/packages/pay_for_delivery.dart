@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, unused_field
 
+import 'dart:io';
 import 'dart:math';
 
 import 'package:benji/app/packages/packages.dart';
@@ -8,12 +9,14 @@ import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/payment/alatpay.dart';
 import 'package:benji/src/repo/controller/payment_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
-import 'package:benji/src/repo/utils/constant.dart';
+import 'package:benji/src/repo/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../src/providers/constants.dart';
+import '../../src/providers/keys.dart';
+import '../../src/repo/controller/error_controller.dart';
 import '../../theme/colors.dart';
 
 class PayForDelivery extends StatefulWidget {
@@ -137,7 +140,6 @@ class _PayForDeliveryState extends State<PayForDelivery> {
   }
 
 //======== Place Order =======\\
-  //PLACE ORDER
   void placeOrder() {
     String apiKey = alatPayPrimaryKey;
     String businessId = alatPayBuinessId;
@@ -151,29 +153,34 @@ class _PayForDeliveryState extends State<PayForDelivery> {
       "client_id": UserController.instance.user.value.id,
       "the_package_id": widget.packageId
     };
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) {
-        return AlatPayWidget(
-          apiKey: apiKey,
-          businessId: businessId,
-          email: email,
-          phone: phone,
-          firstName: firstName,
-          lastName: lastName,
-          currency: currency,
-          amount: amount,
-          metaData: meta,
-          onTransaction: (response) {
-            print('the response from my alatpay $response');
-            if (response['status'] == true) {
-              toPackages();
-            }
-          },
-        );
-      }),
-    );
+    try {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return AlatPayWidget(
+            apiKey: apiKey,
+            businessId: businessId,
+            email: email,
+            phone: phone,
+            firstName: firstName,
+            lastName: lastName,
+            currency: currency,
+            amount: amount,
+            metaData: meta,
+            onTransaction: (response) {
+              consoleLog('the response from my alatpay $response');
+              if (response != null) {
+                toPackages();
+              }
+            },
+          );
+        }),
+      );
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+    } catch (e) {
+      consoleLog(e.toString());
+    }
   }
 
   String generateRandomString(int len) {

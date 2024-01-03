@@ -56,7 +56,6 @@ dependencies:
   rename:
   file_picker: ^5.5.0
   fluttertoast:
-  # flutter_squad: ^0.0.1
   scroll_to_index:
   photo_view:
   cached_network_image:
@@ -141,6 +140,7 @@ flutter:
     - assets/frontend/assets/team/
     - assets/frontend/assets/error/
     - assets/frontend/assets/unknown/
+    - assets/audio/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

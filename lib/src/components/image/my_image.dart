@@ -1,4 +1,4 @@
-import 'package:benji/src/repo/utils/constant.dart';
+import 'package:benji/src/repo/utils/constants.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,7 +22,7 @@ class MyImage extends StatelessWidget {
           bottomLeft: Radius.circular(radiusBottom),
           bottomRight: Radius.circular(radiusBottom)),
       child: CachedNetworkImage(
-        imageUrl: url == null ? '' : baseImage + url!,
+        imageUrl: url == null ? '' : url!.startsWith("https") ? url! :  baseImage + url!,
         width: double.infinity,
         height: double.infinity,
         filterQuality: FilterQuality.high,

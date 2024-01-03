@@ -6,6 +6,7 @@ import 'package:get/route_manager.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/providers/responsive_constant.dart';
+import '../../src/repo/controller/notifications_controller.dart';
 import '../../theme/colors.dart';
 import '../home/home.dart';
 
@@ -150,7 +151,7 @@ class _AboutAppState extends State<AboutApp> {
                           ),
                         ),
                         const Text(
-                          "v0.0.1",
+                          "v1.0.0",
                           style: TextStyle(
                             color: kTextBlackColor,
                             fontSize: 16,
@@ -184,7 +185,14 @@ class _AboutAppState extends State<AboutApp> {
                       padding: const EdgeInsets.all(kDefaultPadding),
                       child: MyElevatedButton(
                         title: "Licenses",
-                        onPressed: () {},
+                        onPressed: () async {
+                          // await NotificationController.showNotification(
+                          //   title: "Payment Success",
+                          //   body: "Your payment of NGN${doubleFormattedText(2000)} was successful",
+                          //   largeIcon: "asset://assets/icons/success.png",
+                          //   customSound: "asset://assets/audio/success.wav",
+                          // );
+                        },
                       ),
                     ),
                   ],

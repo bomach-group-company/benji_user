@@ -6,7 +6,6 @@ import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../src/components/appbar/my_appbar.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
@@ -68,7 +67,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   shape: const OvalBorder(),
                 ),
                 child: Center(
-                    child: MyImage(
+                    child:   MyImage(
                   url: (data.image as String?),
                   radiusBottom: 24,
                   radiusTop: 24,

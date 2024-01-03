@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:webviewx/webviewx.dart';
 
+import '../../repo/services/api_url.dart';
+
 class AlatPayWidget extends StatefulWidget {
   final String apiKey;
   final String businessId;
@@ -73,7 +75,7 @@ class AlatPayWidgetState extends State<AlatPayWidget> {
             phone: $phone,
             firstName: $firstName,
             lastName: $lastName,
-            metadata: $metaData,
+            metaData: $metaData,
             currency: $currency,
             amount: $amount,
 
@@ -95,7 +97,6 @@ class AlatPayWidgetState extends State<AlatPayWidget> {
 
     </html>
     """;
-    print(html);
   }
 
   @override
@@ -109,9 +110,9 @@ class AlatPayWidgetState extends State<AlatPayWidget> {
             DartCallback(
               name: 'paymentsuccess',
               callBack: (message) {
-                print('message success gotten $message');
+                consoleLog('message success gotten $message');
                 dynamic resp = jsonDecode(message);
-                print('the resp $resp');
+                consoleLog('the resp $resp');
                 widget.onTransaction(resp);
               },
             ),
@@ -119,6 +120,7 @@ class AlatPayWidgetState extends State<AlatPayWidget> {
               name: 'paymentcancel',
               callBack: (message) {
                 print('message cancel gotten');
+
                 if (widget.onClose == null) {
                   Navigator.pop(context);
                 } else {

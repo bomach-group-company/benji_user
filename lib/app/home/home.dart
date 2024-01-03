@@ -20,7 +20,6 @@ import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/skeletons/app/card.dart';
 import 'package:benji/src/skeletons/page_skeleton.dart';
 import 'package:flutter/foundation.dart' as fnd;
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';

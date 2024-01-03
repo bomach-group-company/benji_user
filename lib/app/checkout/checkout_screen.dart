@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'dart:io';
 import 'dart:math';
 
 import 'package:benji/app/home/home.dart';
@@ -11,7 +12,7 @@ import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
-import 'package:benji/src/repo/utils/constant.dart';
+import 'package:benji/src/repo/utils/constants.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,9 @@ import 'package:lottie/lottie.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/keys.dart';
+import '../../src/repo/controller/error_controller.dart';
+import '../../src/repo/controller/notifications_controller.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../theme/colors.dart';
 import '../address/deliver_to.dart';
@@ -87,7 +91,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   _getData() async {
-    print('formatOfOrder ${widget.formatOfOrder}');
+    consoleLog('formatOfOrder ${widget.formatOfOrder}');
     _subTotal = 0;
 
     List<Product> product = CartController.instance.cartProducts[widget.index];
@@ -133,39 +137,51 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       "the_order_id": widget.orderID,
       'client_id': UserController.instance.user.value.id
     };
+    try {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return AlatPayWidget(
+            apiKey: apiKey,
+            businessId: businessId,
+            email: email,
+            phone: phone,
+            firstName: firstName,
+            lastName: lastName,
+            currency: currency,
+            amount: amount,
+            metaData: meta,
+            onClose: (){Get.close(2);},
+            onTransaction: (response) async {
+              consoleLog('the response from my alatpay $response');
+              if (response != null) {
+                await NotificationController.showNotification(
+                  title: "Payment Success",
+                  body: "Your payment of NGN$amount was successful",
+                  largeIcon: "asset://assets/icons/success.png",
+                  customSound: "asset://assets/audio/success.wav",
+                );
+                Get.to(
+                      () => const PaymentSuccessful(),
+                  routeName: 'PaymentSuccessful',
+                  duration: const Duration(milliseconds: 300),
+                  fullscreenDialog: true,
+                  curve: Curves.easeIn,
+                  preventDuplicates: true,
+                  popGesture: true,
+                  transition: Transition.rightToLeft,
+                );
+              }
+            },
+          );
+        }),
+      );
+  } on SocketException {
+  ApiProcessorController.errorSnack("Please connect to the internet");
+} catch (e) {
+consoleLog(e.toString());
+}
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) {
-        return AlatPayWidget(
-          apiKey: apiKey,
-          businessId: businessId,
-          email: email,
-          phone: phone,
-          firstName: firstName,
-          lastName: lastName,
-          currency: currency,
-          amount: amount,
-          metaData: meta,
-          onTransaction: (response) async {
-            print('the response from my alatpay $response');
-            if (response['status'] == true) {
-              await CartController.instance.clearCartProduct(widget.index);
-              Get.to(
-                () => const PaymentSuccessful(),
-                routeName: 'PaymentSuccessful',
-                duration: const Duration(milliseconds: 300),
-                fullscreenDialog: true,
-                curve: Curves.easeIn,
-                preventDuplicates: true,
-                popGesture: true,
-                transition: Transition.rightToLeft,
-              );
-            }
-          },
-        );
-      }),
-    );
   }
 
   String generateRandomString(int len) {

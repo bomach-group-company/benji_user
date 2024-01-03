@@ -1,4 +1,4 @@
-import 'package:benji/src/repo/utils/constant.dart';
+import 'package:benji/src/repo/utils/constants.dart';
 
 class ShopTypeModel {
   final String id;

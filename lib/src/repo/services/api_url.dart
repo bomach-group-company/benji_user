@@ -92,10 +92,17 @@ class HandleData {
     return response;
   }
 
+
   static Future put() async {}
   static Future delete() async {}
 }
 
-consoleLog(String val) {
-  return debugPrint(val);
+void consoleLog(String val) {
+  for (var i = 0; i < val.length; i += 1024) {
+    debugPrint(val.substring(i, i + 1024 < val.length ? i + 1024 : val.length));
+  }
+}
+
+void consoleLogToFile(String val) {
+  File('log.txt').writeAsStringSync(val);
 }

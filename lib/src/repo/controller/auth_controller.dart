@@ -14,6 +14,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../app/onboarding/onboarding_screen.dart';
+
 class AuthController extends GetxController {
   static AuthController get instance {
     return Get.find<AuthController>();
@@ -50,11 +52,23 @@ class AuthController extends GetxController {
           transition: Transition.cupertinoDialog,
         );
       } else {
+        if (await getUser() != null ){
+          return  Get.offAll(
+                () => const Login(),
+            fullscreenDialog: true,
+            curve: Curves.easeIn,
+            routeName: "Login",
+            predicate: (route) => false,
+            popGesture: false,
+            transition: Transition.cupertinoDialog,
+          );
+        }
+        return
         Get.offAll(
-          () => const Login(),
+          () => const OnboardingScreen(),
           fullscreenDialog: true,
           curve: Curves.easeIn,
-          routeName: "Login",
+          routeName: "OnboardingScreen",
           predicate: (route) => false,
           popGesture: false,
           transition: Transition.cupertinoDialog,

@@ -22,7 +22,7 @@ import '../../src/components/textformfield/name_textformfield.dart';
 import '../../src/components/textformfield/password_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
-import '../../src/repo/utils/constant.dart';
+import '../../src/repo/services/api_url.dart';
 import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import '../splash_screens/signup_splash_screen.dart';
@@ -594,7 +594,7 @@ class _SignUpState extends State<SignUp> {
                     GetBuilder<SignupController>(builder: (controller) {
                       return MyElevatedButton(
                         title: "SIGN UP",
-                        onPressed: () async {
+                        onPressed: !isChecked ? null:  () async {
                           if (_formKey.currentState!.validate()) {
                             await controller.signup(
                                 _userEmailEC.text,

@@ -5,6 +5,7 @@ import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/providers/responsive_constant.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
+import 'package:benji/src/repo/services/api_url.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,7 +19,6 @@ import '../../src/components/others/my_future_builder.dart';
 import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/user/user_model.dart';
-import '../../src/repo/utils/constant.dart';
 import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import '../auth/login.dart';
@@ -207,14 +207,12 @@ class _SettingsState extends State<Settings> {
         await UserController.instance.getUser();
         // Image successfully uploaded
         if (kDebugMode) {
-          print(await response.stream.bytesToString());
-          print('Image uploaded successfully');
+          consoleLog(await response.stream.bytesToString());
+          consoleLog('Image uploaded successfully');
         }
       } else {
         // Handle the error (e.g., server error)
-        if (kDebugMode) {
-          print('Error uploading image: ${response.reasonPhrase}');
-        }
+          consoleLog('Error uploading image: ${response.reasonPhrase}');
       }
     }
   }
@@ -289,7 +287,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     // double mediaHeight = MediaQuery.of(context).size.height;
-    double mediaWidth = MediaQuery.of(context).size.width;
+    var media = MediaQuery.of(context).size;
     return Scaffold(
       appBar: MyAppBar(
         title: "Settings",
@@ -309,11 +307,9 @@ class _SettingsState extends State<Settings> {
               MyFutureBuilder(
                   future: getUser(),
                   child: (snapshot) {
-                    print(snapshot);
-                    print(baseImage + snapshot.image);
-                    print(selectedImage);
+
                     return Container(
-                      width: mediaWidth,
+                      width: media.width,
                       padding: const EdgeInsets.all(10),
                       decoration: ShapeDecoration(
                         color: kPrimaryColor,
@@ -339,10 +335,10 @@ class _SettingsState extends State<Settings> {
                                 children: [
                                   selectedImage == null
                                       ? Container(
-                                          height: deviceType(mediaWidth) == 1
+                                          height: deviceType(media.width) == 1
                                               ? 100
                                               : 150,
-                                          width: deviceType(mediaWidth) == 1
+                                          width: deviceType(media.width) == 1
                                               ? 100
                                               : 150,
                                           decoration: ShapeDecoration(
@@ -364,10 +360,10 @@ class _SettingsState extends State<Settings> {
                                           ),
                                         )
                                       : Container(
-                                          height: deviceType(mediaWidth) == 1
+                                          height: deviceType(media.width) == 1
                                               ? 100
                                               : 150,
-                                          width: deviceType(mediaWidth) == 1
+                                          width: deviceType(media.width) == 1
                                               ? 100
                                               : 150,
                                           decoration: ShapeDecoration(
@@ -407,10 +403,10 @@ class _SettingsState extends State<Settings> {
                                       },
                                       borderRadius: BorderRadius.circular(100),
                                       child: Container(
-                                        height: deviceType(mediaWidth) == 1
+                                        height: deviceType(media.width) == 1
                                             ? 35
                                             : 50,
-                                        width: deviceType(mediaWidth) == 1
+                                        width: deviceType(media.width) == 1
                                             ? 35
                                             : 50,
                                         decoration: ShapeDecoration(
@@ -423,6 +419,7 @@ class _SettingsState extends State<Settings> {
                                         child: Center(
                                           child: FaIcon(
                                             FontAwesomeIcons.pencil,
+                                            size: 16,
                                             color: kPrimaryColor,
                                           ),
                                         ),
@@ -485,7 +482,7 @@ class _SettingsState extends State<Settings> {
                                       tooltip: "Copy ID",
                                       mouseCursor: SystemMouseCursors.click,
                                       icon: FaIcon(
-                                        FontAwesomeIcons.copy,
+                                        FontAwesomeIcons.solidCopy,
                                         size: 14,
                                         color: kAccentColor,
                                       ),
@@ -504,7 +501,7 @@ class _SettingsState extends State<Settings> {
                 onTap: _toEditProfile,
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
-                  width: mediaWidth,
+                  width: media.width,
                   decoration: ShapeDecoration(
                     color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
@@ -546,7 +543,7 @@ class _SettingsState extends State<Settings> {
                 onTap: _toChangePassword,
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
-                  width: mediaWidth,
+                  width: media.width,
                   decoration: ShapeDecoration(
                     color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
@@ -587,7 +584,7 @@ class _SettingsState extends State<Settings> {
               InkWell(
                 onTap: _toAboutApp,
                 child: Container(
-                  width: mediaWidth,
+                  width: media.width,
                   decoration: ShapeDecoration(
                     color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
@@ -629,7 +626,7 @@ class _SettingsState extends State<Settings> {
                 onTap: _logOut,
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
-                  width: mediaWidth,
+                  width: media.width,
                   decoration: ShapeDecoration(
                     color: kPrimaryColor,
                     shape: RoundedRectangleBorder(

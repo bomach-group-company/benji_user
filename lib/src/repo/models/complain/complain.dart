@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:benji/src/repo/models/user/user_model.dart';
-import 'package:benji/src/repo/utils/constant.dart';
+import 'package:benji/src/repo/utils/constants.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:http/http.dart' as http;
 

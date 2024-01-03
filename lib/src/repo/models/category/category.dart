@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../../utils/constant.dart';
+import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
 
 class Category {
