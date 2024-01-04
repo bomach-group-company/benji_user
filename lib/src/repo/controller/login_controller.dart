@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../app/no_network/no_network_retry.dart';
+
 class LoginController extends GetxController {
   static LoginController get instance {
     return Get.find<LoginController>();
@@ -71,8 +73,20 @@ class LoginController extends GetxController {
         popGesture: true,
         transition: Transition.cupertinoDialog,
       );
-    } catch (e) {
+    }  on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
+      await  Get.to(
+            () => const NoNetworkRetry(),
+        routeName: 'NoNetworkRetry',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+    }catch (e) {
+      ApiProcessorController.errorSnack("An error occurred.\n ERROR: $e");
       isLoad.value = false;
       update();
     }

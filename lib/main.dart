@@ -90,7 +90,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       //This is the home route
-      home: const NoNetworkRetry(),
+      home: const StartupSplashscreen(),
     );
   }
 }

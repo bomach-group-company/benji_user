@@ -34,7 +34,6 @@ class _NoNetworkRetryState extends State<NoNetworkRetry> {
                 "assets/animations/no_internet/frame_1.json",
               ),
             ),
-
           ],
         ),
       ),

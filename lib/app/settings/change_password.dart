@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, use_build_context_synchronously
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:benji/src/repo/utils/constants.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
@@ -13,12 +14,15 @@ import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
 
 import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/section/reusable_authentication_first_half.dart';
 import '../../src/components/snackbar/my_fixed_snackbar.dart';
 import '../../src/components/textformfield/password_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
+import '../../src/repo/controller/error_controller.dart';
 import '../../theme/colors.dart';
+import '../no_network/no_network_retry.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -57,7 +61,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       _isLoading = true;
     });
     final url = Uri.parse('$baseURL/auth/changeNewPassword/');
-
+    try {
     Map body = {
       'new_password': _userPasswordEC.text,
       'confirm_password': confirmPasswordEC.text,
@@ -74,7 +78,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     if (kDebugMode) {
       print(response.body);
     }
-    try {
+
       Map data = jsonDecode(response.body);
       if (data['message'] == "Password Changed is successful." &&
           response.statusCode == 200) {
@@ -83,36 +87,29 @@ class _ChangePasswordState extends State<ChangePassword> {
         });
 
         //Display snackBar
-        myFixedSnackBar(
-          context,
-          "Password changed successfully",
-          kSuccessColor,
-          const Duration(
-            seconds: 2,
-          ),
-        );
+        ApiProcessorController.successSnack(
+            "Password changed successfully.");
 
-        // Navigate to the new page
-        Get.back();
+        Get.close(1);
       } else {
-        myFixedSnackBar(
-          context,
-          "Your old password does not match",
-          kAccentColor,
-          const Duration(
-            seconds: 2,
-          ),
-        );
+        ApiProcessorController.errorSnack(
+            "Your old password does not match");
       }
-    } catch (e) {
-      myFixedSnackBar(
-        context,
-        "Error occured contact admin",
-        kAccentColor,
-        const Duration(
-          seconds: 2,
-        ),
+    }  on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet.");
+      await  Get.to(
+            () => const NoNetworkRetry(),
+        routeName: 'NoNetworkRetry',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
       );
+    } catch (e) {
+      ApiProcessorController.errorSnack(
+          "An unexpected error occurred. \nERROR: $e \nPlease contact support or try again later.");
     }
 
     setState(() {
@@ -383,34 +380,37 @@ class _ChangePasswordState extends State<ChangePassword> {
                       ),
                     ),
                     kSizedBox,
-                    _isLoading
-                        ? Center(
-                            child: CircularProgressIndicator(
-                              color: kAccentColor,
-                            ),
-                          )
-                        : ElevatedButton(
+                    // _isLoading
+                    //     ? Center(
+                    //         child: CircularProgressIndicator(
+                    //           color: kAccentColor,
+                    //         ),
+                    //       )
+                    //     :
+    MyElevatedButton(
                             onPressed: (() async {
                               if (_formKey.currentState!.validate()) {
                                 loadData();
                               }
                             }),
-                            style: ElevatedButton.styleFrom(
-                              elevation: 10,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              backgroundColor: kAccentColor,
-                              fixedSize: Size(media.size.width, 50),
-                            ),
-                            child: Text(
-                              'Save'.toUpperCase(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: kPrimaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
+                            title: "Save",
+                            isLoading: _isLoading,
+                            // style: ElevatedButton.styleFrom(
+                            //   elevation: 10,
+                            //   shape: RoundedRectangleBorder(
+                            //       borderRadius: BorderRadius.circular(10)),
+                            //   backgroundColor: kAccentColor,
+                            //   fixedSize: Size(media.size.width, 50),
+                            // ),
+                            // child: Text(
+                            //   'Save'.toUpperCase(),
+                            //   textAlign: TextAlign.center,
+                            //   style: TextStyle(
+                            //     color: kPrimaryColor,
+                            //     fontSize: 16,
+                            //     fontWeight: FontWeight.w700,
+                            //   ),
+                            // ),
                           ),
                     kSizedBox,
                   ],

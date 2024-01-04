@@ -69,7 +69,7 @@ class ProfileController extends GetxController {
       ApiProcessorController.errorSnack("Please connect to the internet.");
       await  Get.to(
             () => const NoNetworkRetry(),
-        routeName: 'NoNetworkScreen',
+        routeName: 'NoNetworkRetry',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -137,7 +137,7 @@ class ProfileController extends GetxController {
       ApiProcessorController.errorSnack("Please connect to the internet.");
       await  Get.to(
             () => const NoNetworkRetry(),
-        routeName: 'NoNetworkScreen',
+        routeName: 'NoNetworkRetry',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

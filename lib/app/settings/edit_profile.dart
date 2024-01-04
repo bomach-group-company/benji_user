@@ -1,5 +1,7 @@
 // ignore_for_file: unused_local_variable, non_constant_identifier_names, avoid_print, use_build_context_synchronously
 
+import 'dart:io';
+
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/user/user_model.dart';
@@ -15,7 +17,9 @@ import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/textformfield/my_intl_phonefield.dart';
 import '../../src/components/textformfield/name_textformfield.dart';
 import '../../src/providers/constants.dart';
+import '../../src/repo/controller/error_controller.dart';
 import '../../theme/colors.dart';
+import '../no_network/no_network_retry.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -69,30 +73,43 @@ class _EditProfileState extends State<EditProfile> {
     // User data update
     final url = Uri.parse('$baseURL/clients/changeClient/${user!.id}');
     final url_get_user = Uri.parse('$baseURL/clients/getClient/${user.id}');
-
-    final body = {
-      'first_name': _userFirstNameEC.text,
-      'last_name': _userLastNameEC.text,
-      'phone': "+$countryDialCode${phoneNumberEC.text}",
-    };
-    final response = await http.post(
-      url,
-      body: body,
-      headers: await authHeader(),
-    );
-    final get_response = await http.get(
-      url_get_user,
-      headers: await authHeader(),
-    );
-
     try {
+      final body = {
+        'first_name': _userFirstNameEC.text,
+        'last_name': _userLastNameEC.text,
+        'phone': "+$countryDialCode${phoneNumberEC.text}",
+      };
+      final response = await http.post(
+        url,
+        body: body,
+        headers: await authHeader(),
+      );
+      final get_response = await http.get(
+        url_get_user,
+        headers: await authHeader(),
+      );
+
       if (response.statusCode == 200 && get_response.statusCode == 200) {
         await UserController.instance.saveUser(get_response.body, user.token);
         print(get_response.body);
         print(get_response.statusCode);
         return true;
       }
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet.");
+      await Get.to(
+        () => const NoNetworkRetry(),
+        routeName: 'NoNetworkRetry',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
     } catch (e) {
+      ApiProcessorController.errorSnack(
+          "An unexpected error occurred. \nERROR: $e \nPlease contact support.");
       return false;
     }
     return false;
@@ -106,25 +123,10 @@ class _EditProfileState extends State<EditProfile> {
     bool res = await updateProfile();
 
     if (res) {
-      //Display snackBar
-      mySnackBar(
-        context,
-        kSuccessColor,
-        "Success!",
-        "Your changes have been saved successfully".toUpperCase(),
-        const Duration(seconds: 2),
-      );
-
+      ApiProcessorController.successSnack(
+          "Your changes have been saved successfully");
       Get.back();
-    } else {
-      mySnackBar(
-        context,
-        kAccentColor,
-        "Failed!",
-        "Something unexpected happened, please try again later".toUpperCase(),
-        const Duration(seconds: 2),
-      );
-    }
+    } else {}
 
     setState(() {
       _isLoading = false;
@@ -145,23 +147,26 @@ class _EditProfileState extends State<EditProfile> {
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
-        bottomNavigationBar: _isLoading
-            ? Center(
-                child: CircularProgressIndicator(
-                  color: kAccentColor,
-                ),
-              )
-            : Padding(
-                padding: const EdgeInsets.all(kDefaultPadding),
-                child: MyElevatedButton(
-                  onPressed: (() async {
-                    if (_formKey.currentState!.validate()) {
-                      updateData();
-                    }
-                  }),
-                  title: "Save",
-                ),
-              ),
+        bottomNavigationBar:
+            // _isLoading
+            // ? Center(
+            //     child: CircularProgressIndicator(
+            //       color: kAccentColor,
+            //     ),
+            //   )
+            // :
+            Padding(
+          padding: const EdgeInsets.all(kDefaultPadding),
+          child: MyElevatedButton(
+            onPressed: (() async {
+              if (_formKey.currentState!.validate()) {
+                updateData();
+              }
+            }),
+            isLoading: _isLoading,
+            title: "Save",
+          ),
+        ),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
