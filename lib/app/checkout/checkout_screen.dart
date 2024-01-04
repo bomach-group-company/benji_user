@@ -134,7 +134,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     String currency = 'NGN';
     String amount = (_subTotal + deliveryFee).toString();
     Map meta = {
-      "the_order_id": widget.orderID,
+      "the_item_id": widget.orderID,
+      'the_item_type': 'order',
       'client_id': UserController.instance.user.value.id
     };
     try {
@@ -151,7 +152,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             currency: currency,
             amount: amount,
             metaData: meta,
-            onClose: (){Get.close(2);},
+            onClose: () {
+              Get.close(2);
+            },
             onTransaction: (response) async {
               consoleLog('the response from my alatpay $response');
               if (response != null) {
@@ -162,7 +165,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   customSound: "asset://assets/audio/success.wav",
                 );
                 Get.to(
-                      () => const PaymentSuccessful(),
+                  () => const PaymentSuccessful(),
                   routeName: 'PaymentSuccessful',
                   duration: const Duration(milliseconds: 300),
                   fullscreenDialog: true,
@@ -176,12 +179,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           );
         }),
       );
-  } on SocketException {
-  ApiProcessorController.errorSnack("Please connect to the internet");
-} catch (e) {
-consoleLog(e.toString());
-}
-
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+    } catch (e) {
+      consoleLog(e.toString());
+    }
   }
 
   String generateRandomString(int len) {

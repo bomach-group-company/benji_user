@@ -137,7 +137,7 @@ class ProductController extends GetxController {
     isLoadVendor.value = true;
     update();
     var url =
-        "${Api.baseUrl}/clients/filterVendorsProductsBySubCategory/$vendorId/$subCategoryId/";
+        "${Api.baseUrl}/clients/filterVendorsProductsBySubCategory/$vendorId/$subCategoryId";
     String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
     var responseData = await ApiProcessorController.errorState(response);
