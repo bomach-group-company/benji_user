@@ -85,10 +85,10 @@ class _PayForDeliveryState extends State<PayForDelivery> {
   String countryDialCode = '+234';
   final double subTotal = 0;
   double totalPrice = 0;
-  int deliveryFee =
-      PaymentController.instance.responseObject.containsKey('delivery_fee')
-          ? PaymentController.instance.responseObject['delivery_fee']
-          : 0;
+  double deliveryFee = PaymentController.instance.responseObject['details']
+          .containsKey('delivery_fee')
+      ? PaymentController.instance.responseObject['details']['delivery_fee']
+      : 0.0;
 
   final String paymentDescription = "Benji app delivery";
   final String currency = "NGN";
@@ -150,8 +150,9 @@ class _PayForDeliveryState extends State<PayForDelivery> {
     String currency = 'NGN';
     String amount = (deliveryFee).toString();
     Map meta = {
-      "client_id": UserController.instance.user.value.id,
-      "the_package_id": widget.packageId
+      "the_item_id": widget.packageId,
+      'the_item_type': 'package',
+      "client_id": UserController.instance.user.value.id
     };
     try {
       Navigator.push(
@@ -346,7 +347,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
                                 ),
                               ),
                               Text(
-                                '₦${intFormattedText(deliveryFee)}',
+                                '₦${doubleFormattedText(deliveryFee)}',
                                 style: TextStyle(
                                   color: kTextGreyColor,
                                   fontSize: 16,
