@@ -122,8 +122,9 @@ class OrderController extends GetxController {
       consoleLog("${response.statusCode}");
     }
     if (response.statusCode.toString().startsWith('2')) {
-      double res =
-          (double.parse(jsonDecode(response.body)['delivery_fee'].toString()));
+      double res = (double.parse(
+          (jsonDecode(response.body)['details']['delivery_fee'] ?? 0)
+              .toString()));
       deliveryFee.value = res;
       update();
       print(res);
