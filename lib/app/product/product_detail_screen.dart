@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:benji/app/vendor/vendor_details.dart';
 import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/components/product/product_card.dart';
 import 'package:benji/src/components/textformfield/message_textformfield.dart';
@@ -29,11 +30,14 @@ import '../../src/components/rating_view/customer_review_card.dart';
 import '../../src/components/section/rate_product_dialog.dart';
 import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/responsive_constant.dart';
+import '../../src/repo/controller/vendor_controller.dart';
+import '../../src/repo/models/vendor/vendor.dart';
 import '../../theme/colors.dart';
 import 'report_product.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
+
   const ProductDetailScreen({super.key, required this.product});
 
   @override
@@ -95,6 +99,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String active = 'all';
 
   List<Ratings>? _ratings = [];
+
   _getData() async {
     setState(() {
       _ratings = null;
@@ -135,6 +140,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final carouselController = CarouselController();
 
   //==================================================== FUNCTIONS ======================================================\\
+  void _toVendorPage (){
+    Get.to(
+          () => VendorDetails(vendor: widget.product.vendorId),
+      routeName: 'VendorDetails',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: false,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
+
   void _toProductDetailScreenPage(product) {
     Get.off(
       () => ProductDetailScreen(product: product),
@@ -335,7 +353,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       child: GestureDetector(
         onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
         child: Scaffold(
-
           backgroundColor: kPrimaryColor,
           appBar: MyAppBar(
             title: "Product Detail",
@@ -376,7 +393,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   tooltip: "Scroll to top",
                   hoverColor: kAccentColor,
                   hoverElevation: 50.0,
-                  child: FaIcon(FontAwesomeIcons.chevronUp, size: 18, color: kPrimaryColor),
+                  child: FaIcon(FontAwesomeIcons.chevronUp,
+                      size: 18, color: kPrimaryColor),
                 )
               : const SizedBox(),
           body: SafeArea(
@@ -628,6 +646,47 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                             ],
                           ),
+                        ),
+                        kSizedBox,
+                        GetBuilder<ProductController>(
+                          builder: (controller) {
+                            return Container(
+                              width: media.width,
+                              // padding: const EdgeInsets.all(kDefaultPadding),
+                              decoration: ShapeDecoration(
+                                color: const Color(0xFFFEF8F8),
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                    width: 0.50,
+                                    color: Color(0xFFFDEDED),
+                                  ),
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                shadows: const [
+                                  BoxShadow(
+                                    color: Color(0x0F000000),
+                                    blurRadius: 24,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: 0,
+                                  ),
+                                ],
+                              ),
+                              child: ListTile(
+                                onTap: _toVendorPage,
+                                leading: FaIcon(FontAwesomeIcons.shop, color: kAccentColor, size: 20),
+                                title: Text(
+                                  "About vendor",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    color: kTextGreyColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                trailing: FaIcon(FontAwesomeIcons.chevronRight, color: kAccentColor, size: 20),
+                              ),
+                            );
+                          }
                         ),
                         kSizedBox,
                         cartCountAll == null
@@ -967,9 +1026,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                   },
                                                   child: Row(
                                                     children: [
-                                                      const Icon(
-                                                        Icons.star,
-                                                        size: 20,
+                                                      const FaIcon(
+                                                        FontAwesomeIcons
+                                                            .solidStar,
+                                                        size: 18,
                                                       ),
                                                       const SizedBox(
                                                         width: kDefaultPadding *
@@ -1006,7 +1066,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 ),
                               )
                             : _ratings!.isEmpty
-                                ? const EmptyCard(showButton: false)
+                                ? const EmptyCard(
+                                    showButton: false,
+                                    emptyCardMessage:
+                                        "There are no reviews for this product.",
+                                  )
                                 : ListView.separated(
                                     physics: const BouncingScrollPhysics(),
                                     separatorBuilder: (context, index) =>

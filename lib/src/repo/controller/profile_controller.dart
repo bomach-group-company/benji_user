@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../app/no_network/no_network_retry.dart';
+
 class ProfileController extends GetxController {
   static ProfileController get instance {
     return Get.find<ProfileController>();
@@ -65,9 +67,19 @@ class ProfileController extends GetxController {
       }
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet.");
+      await  Get.to(
+            () => const NoNetworkRetry(),
+        routeName: 'NoNetworkScreen',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
     } catch (e) {
       ApiProcessorController.errorSnack(
-          "An unexpected error occurred. \nERROR: $e \nPlease contact admin.");
+          "An unexpected error occurred. \nERROR: $e \nPlease contact support.");
     }
 
     return false;
@@ -123,6 +135,16 @@ class ProfileController extends GetxController {
       }
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet.");
+      await  Get.to(
+            () => const NoNetworkRetry(),
+        routeName: 'NoNetworkScreen',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
       return;
     } catch (e) {
       consoleLog(e.toString());

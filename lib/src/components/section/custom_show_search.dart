@@ -87,7 +87,7 @@ class CustomSearchDelegate extends SearchDelegate {
                           ),
                           kSizedBox,
                           Text(
-                            "No product found",
+                            "There are no results that match the search query",
                             style: TextStyle(
                               color: kTextGreyColor,
                               fontSize: 18,
@@ -155,7 +155,7 @@ class CustomSearchDelegate extends SearchDelegate {
                 ),
                 kSizedBox,
                 Text(
-                  "Search for a product",
+                  "Enter your search query",
                   style: TextStyle(
                     color: kTextGreyColor,
                     fontSize: 18,

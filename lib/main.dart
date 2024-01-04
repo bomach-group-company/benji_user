@@ -1,3 +1,4 @@
+import 'package:benji/app/no_network/no_network_retry.dart';
 import 'package:benji/app/splash_screens/startup_splash_screen.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/auth_controller.dart';
@@ -89,7 +90,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       //This is the home route
-      home: const StartupSplashscreen(),
+      home: const NoNetworkRetry(),
     );
   }
 }
