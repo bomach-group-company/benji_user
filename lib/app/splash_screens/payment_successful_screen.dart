@@ -48,9 +48,9 @@ class PaymentSuccessful extends StatelessWidget {
         padding: const EdgeInsets.all(kDefaultPadding),
         child: GetBuilder<CartController>(builder: (controller) {
           return MyElevatedButton(
-              title: "Done",
-              onPressed:
-                  controller.cartProducts.isEmpty ? _toHomeder : _toMyCart);
+            title: "Done",
+            onPressed: controller.cartProducts.isEmpty ? _toHomeder : _toMyCart,
+          );
         }),
       ),
       body: SafeArea(
@@ -73,9 +73,9 @@ class PaymentSuccessful extends StatelessWidget {
                     "assets/animations/payment/frame_1.json",
                     alignment: Alignment.center,
                     fit: BoxFit.contain,
-                    height: mediaHeight / 2,
-                    width: mediaWidth / 2,
+                    width: mediaWidth - 100,
                   ),
+                  kSizedBox,
                   Text(
                     "Payment Successful",
                     style: TextStyle(
@@ -83,7 +83,17 @@ class PaymentSuccessful extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                     ),
-                  )
+                  ),
+                  kSizedBox,
+                  Text(
+                    "The vendor has received your order\nand a rider will be dispatched to deliver it soon.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: kTextGreyColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ],
               ),
             ],
