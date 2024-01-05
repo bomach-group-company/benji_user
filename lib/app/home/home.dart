@@ -46,6 +46,7 @@ import '../orders/order_history.dart';
 import '../product/home_page_products.dart';
 import '../product/product_detail_screen.dart';
 import '../settings/settings.dart';
+import '../shopping_location/set_shopping_location.dart';
 import '../vendor/popular_vendors.dart';
 import '../vendor/vendor_details.dart';
 import '../vendor/vendors_near_you.dart';
@@ -129,7 +130,6 @@ class _HomeState extends State<Home> {
     "assets/images/products/pasta.png"
   ];
 
-
   //===================== COPY TO CLIPBOARD =======================\\
   void _copyToClipboard(BuildContext context, String userID) {
     Clipboard.setData(
@@ -181,6 +181,7 @@ class _HomeState extends State<Home> {
       currentAddress = getCurrentAddress();
     });
   }
+
   //========================================================================\\
 
   //==================================================== Navigation ===========================================================\\
@@ -239,6 +240,7 @@ class _HomeState extends State<Home> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
+
   void _toOrdersScreen() => Get.to(
         () => const OrdersHistory(),
         routeName: 'OrdersHistory',
@@ -260,6 +262,7 @@ class _HomeState extends State<Home> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
+
   void _toSeeAllVendorsNearYou() => Get.to(
         () => const VendorsNearYou(),
         routeName: 'VendorsNearYou',
@@ -291,16 +294,6 @@ class _HomeState extends State<Home> {
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.rightToLeft,
-      );
-  void _toAddressesPage() => Get.to(
-        () => const Addresses(),
-        routeName: 'Addresses',
-        duration: const Duration(milliseconds: 1000),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.cupertinoDialog,
       );
 
   void _toProductDetailScreenPage(product) async {
@@ -345,6 +338,75 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
+  //=================================== Show Popup Menu =====================================\\
+
+//Show popup menu
+  void showPopupMenu(BuildContext context) {
+    // final RenderBox overlay =
+    //     Overlay.of(context).context.findRenderObject() as RenderBox;
+    const position = RelativeRect.fromLTRB(40, 80, 40, 0);
+
+    showMenu<String>(
+      context: context,
+      position: position,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      items: [
+        PopupMenuItem<String>(
+          value: 'address',
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              FaIcon(FontAwesomeIcons.mapLocationDot, color: kStarColor),
+              kWidthSizedBox,
+              const Text("Addresses"),
+            ],
+          ),
+        ),
+        PopupMenuItem<String>(
+          value: 'shoppingLocation',
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              FaIcon(FontAwesomeIcons.bagShopping, color: kAccentColor),
+              kWidthSizedBox,
+              const Text("Shopping location"),
+            ],
+          ),
+        ),
+      ],
+    ).then((value) {
+      // Handle the selected value from the popup menu
+      if (value != null) {
+        switch (value) {
+          case 'address':
+            Get.to(
+                  () => const Addresses(),
+              routeName: 'Addresses',
+              duration: const Duration(milliseconds: 1000),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.cupertinoDialog,
+            );
+            break;
+          case 'shoppingLocation':
+            Get.to(
+                  () => const SetShoppingLocation(),
+              routeName: 'SetShoppingLocation',
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
+            );
+            break;
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -383,7 +445,8 @@ class _HomeState extends State<Home> {
                 tooltip: "Scroll to top",
                 hoverColor: kAccentColor,
                 hoverElevation: 50.0,
-                child: FaIcon(FontAwesomeIcons.chevronUp, size: 18, color: kPrimaryColor),
+                child: FaIcon(FontAwesomeIcons.chevronUp,
+                    size: 18, color: kPrimaryColor),
               )
             : const SizedBox(),
         appBar: AppBar(
@@ -414,14 +477,16 @@ class _HomeState extends State<Home> {
                   builder: (controller) {
                     if (controller.isLoad.value &&
                         controller.current.value.id == '0') {
-                      return AppBarDeliveryLocation(
-                        deliveryLocation: 'Loading...',
-                        toDeliverToPage: () {},
+                      return AppBarLocation(
+                        defaultAddress: 'Loading...',
+                        onPressed: () {},
                       );
                     }
-                    return AppBarDeliveryLocation(
-                      deliveryLocation: controller.current.value.title,
-                      toDeliverToPage: _toAddressesPage,
+                    return AppBarLocation(
+                      defaultAddress: controller.current.value.title,
+                      onPressed: () {
+                        showPopupMenu(context);
+                      },
                     );
                   }),
             ],
@@ -452,9 +517,8 @@ class _HomeState extends State<Home> {
             color: kAccentColor,
             semanticsLabel: "Pull to refresh",
             child: Scrollbar(
-              controller: scrollController,
               child: ListView(
-                // controller: scrollController,
+                controller: scrollController,
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 padding: deviceType(media.width) > 2
@@ -462,7 +526,7 @@ class _HomeState extends State<Home> {
                     : const EdgeInsets.all(kDefaultPadding / 2),
                 children: [
                   FutureBuilder(
-                      //this shold be hot deals and not _popularVendors
+                      //this should be hot deals and not _popularVendors
                       future: null,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==

@@ -5,13 +5,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../theme/colors.dart';
 import '../../providers/responsive_constant.dart';
 
-class AppBarDeliveryLocation extends StatelessWidget {
-  final String deliveryLocation;
-  final Function() toDeliverToPage;
-  const AppBarDeliveryLocation({
+class AppBarLocation extends StatelessWidget {
+  final String defaultAddress;
+  final Function() onPressed;
+  const AppBarLocation({
     super.key,
-    required this.deliveryLocation,
-    required this.toDeliverToPage,
+    required this.defaultAddress,
+    required this.onPressed,
   });
 
   @override
@@ -23,7 +23,7 @@ class AppBarDeliveryLocation extends StatelessWidget {
       child: Row(
         children: [
           InkWell(
-            onTap: toDeliverToPage,
+            onTap: onPressed,
             child: Container(
               constraints: BoxConstraints(maxWidth: media.width - 200),
               child: Column(
@@ -31,7 +31,7 @@ class AppBarDeliveryLocation extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Default Address',
+                    'Location',
                     style: TextStyle(
                       color: kAccentColor,
                       fontSize: deviceType(media.width) > 2 ? 16 : 12,
@@ -39,7 +39,7 @@ class AppBarDeliveryLocation extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    deliveryLocation.contains("Not") ? "Add an address" : deliveryLocation,
+                    defaultAddress.contains("Not") ? "Add an address" : defaultAddress,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
@@ -54,8 +54,8 @@ class AppBarDeliveryLocation extends StatelessWidget {
           ),
           kHalfWidthSizedBox,
           FaIcon(
-            FontAwesomeIcons.chevronRight,
-            size: deviceType(media.width) > 2 ? 26 : 14,
+            FontAwesomeIcons.caretDown,
+            size: deviceType(media.width) > 2 ? 26 : 16,
             color: kAccentColor,
           ),
         ],

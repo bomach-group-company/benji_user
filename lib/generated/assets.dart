@@ -15,6 +15,8 @@ class Assets {
   static const String assetsSaleBanner2 = 'assets/frontend/assets/sale/banner-2.png';
   static const String assetsSaleBanner3 = 'assets/frontend/assets/sale/banner-3.png';
   static const String assetsStoreAppstore = 'assets/frontend/assets/store/appstore.svg';
+  static const String audioError = 'assets/audio/error.wav';
+  static const String audioSuccess = 'assets/audio/success.wav';
   static const String bannerBanner1 = 'assets/frontend/assets/banner/banner-1.png';
   static const String bannerBanner2 = 'assets/frontend/assets/banner/banner-2.png';
   static const String bannerBenjiBanner1 = 'assets/frontend/assets/banner/Benji-banner1.jpg';
@@ -87,7 +89,9 @@ class Assets {
   static const String iconsSearchFilterIcon = 'assets/icons/search-filter-icon.png';
   static const String iconsShoppingBag = 'assets/icons/shopping-bag.png';
   static const String iconsStore = 'assets/icons/store.png';
+  static const String iconsSuccess = 'assets/icons/success.png';
   static const String iconsSupport = 'assets/icons/support.png';
+  static const String internetFrame1 = 'assets/animations/internet/frame_1.json';
   static const String loginAuthBgImage = 'assets/frontend/assets/login/auth_bg_image.jpg';
   static const String loginFacebook = 'assets/frontend/assets/login/facebook.png';
   static const String loginFrame1 = 'assets/animations/login/frame_1.json';
@@ -127,6 +131,9 @@ class Assets {
   static const String saleBanner2 = 'assets/frontend/assets/sale/banner2.jpg';
   static const String saleBanner3 = 'assets/frontend/assets/sale/banner3.jpg';
   static const String saleBanner4 = 'assets/frontend/assets/sale/banner4.jpg';
+  static const String searchFrame1 = 'assets/animations/search/frame_1.json';
+  static const String searchFrame2 = 'assets/animations/search/frame_2.json';
+  static const String shoppingFrame1 = 'assets/animations/shopping/frame_1.json';
   static const String signupFrame1 = 'assets/animations/signup/frame_1.json';
   static const String splashScreenFrame1 = 'assets/images/splash_screen/frame_1.png';
   static const String storeAppstore = 'assets/frontend/assets/store/appstore.png';

@@ -125,6 +125,7 @@ flutter:
     - assets/animations/help_and_support/
     - assets/animations/search/
     - assets/animations/internet/
+    - assets/animations/shopping/
     - assets/frontend/assets/brand/
     - assets/frontend/assets/hero/
     - assets/frontend/assets/blog/

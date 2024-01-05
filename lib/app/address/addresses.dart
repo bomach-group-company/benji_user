@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:benji/app/shopping_location/set_shopping_location.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -151,10 +152,11 @@ class _AddressesState extends State<Addresses> {
     AddressController.instance.getCurrentAddress();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-    // double mediaHeight = MediaQuery.of(context).size.height;
-    double mediaWidth = MediaQuery.of(context).size.width;
+    var media = MediaQuery.of(context).size;
     return RefreshIndicator(
       onRefresh: _handleRefresh,
       color: kAccentColor,
@@ -196,7 +198,9 @@ class _AddressesState extends State<Addresses> {
               radius: const Radius.circular(10),
               scrollbarOrientation: ScrollbarOrientation.right,
               child: controller.addresses.isEmpty
-                  ? const EmptyCard(showButton: false, emptyCardMessage: "You haven't added an address")
+                  ? const EmptyCard(
+                      showButton: false,
+                      emptyCardMessage: "You haven't added an address")
                   : ListView.builder(
                       controller: _scrollController,
                       itemCount: controller.addresses.length,
@@ -211,8 +215,8 @@ class _AddressesState extends State<Addresses> {
                             onTap: () =>
                                 _pickOption(controller.addresses[index]),
                             enableFeedback: true,
-                            trailing: Icon(
-                              Icons.arrow_forward_ios_rounded,
+                            trailing: FaIcon(
+                              FontAwesomeIcons.chevronRight,
                               size: 16,
                               color: kAccentColor,
                             ),
@@ -221,7 +225,7 @@ class _AddressesState extends State<Addresses> {
                               children: [
                                 SizedBox(
                                   width: min(
-                                      mediaWidth - 150,
+                                      media.width - 150,
                                       15.0 *
                                           controller
                                               .addresses[index].title.length),
