@@ -27,11 +27,10 @@ import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/others/cart_card.dart';
 import '../../src/components/others/empty.dart';
 import '../../src/components/rating_view/customer_review_card.dart';
+import '../../src/components/section/custom_show_search.dart';
 import '../../src/components/section/rate_product_dialog.dart';
 import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/providers/responsive_constant.dart';
-import '../../src/repo/controller/vendor_controller.dart';
-import '../../src/repo/models/vendor/vendor.dart';
 import '../../theme/colors.dart';
 import 'report_product.dart';
 
@@ -45,15 +44,19 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  //==================================================== INITIAL STATE ======================================================\\
+  //==================================================== INITIAL STATE AND DISPOSE ======================================================\\
   @override
   void initState() {
-    print('happen before all in product detail');
+    if (kDebugMode) {
+      print('happen before all in product detail');
+    }
     super.initState();
 
     cartCountAll = countCartItemByProduct(widget.product).toString();
     _isAddedToCart = countCartItemByProduct(widget.product) > 0;
-    print('cartCountAll $cartCountAll _isAddedToCart $_isAddedToCart');
+    if (kDebugMode) {
+      print('cartCountAll $cartCountAll _isAddedToCart $_isAddedToCart');
+    }
     getFavoritePSingle(widget.product.id.toString()).then(
       (value) {
         setState(() {
@@ -280,6 +283,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       items: [
         PopupMenuItem<String>(
+          value: 'search',
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              FaIcon(FontAwesomeIcons.magnifyingGlass, color: kAccentColor),
+              kWidthSizedBox,
+              const Text("Search for a product"),
+            ],
+          ),
+        ), PopupMenuItem<String>(
           value: 'rate',
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -306,6 +319,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       // Handle the selected value from the popup menu
       if (value != null) {
         switch (value) {
+          case 'search':
+            showSearch(context: context, delegate: CustomSearchDelegate());
+            break;
           case 'rate':
             openRatingDialog(context);
             break;
@@ -355,11 +371,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         child: Scaffold(
           backgroundColor: kPrimaryColor,
           appBar: MyAppBar(
-            title: "Product Detail",
+            title: isScrollToTopBtnVisible? widget.product.name: "Product Detail",
             elevation: 0.0,
             actions: [
               Row(
                 children: [
+
                   IconButton(
                     onPressed: _addToFavorites,
                     icon: FaIcon(

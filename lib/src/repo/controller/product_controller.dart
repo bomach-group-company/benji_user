@@ -151,7 +151,7 @@ class ProductController extends GetxController {
       data = (jsonDecode(response!.body) as List)
           .map((e) => Product.fromJson(e))
           .toList();
-      vendorProducts.value += data;
+      vendorProducts.value = data;
     } catch (e) {
       debugPrint(e.toString());
     }

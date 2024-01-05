@@ -35,9 +35,11 @@ class VendorDetails extends StatefulWidget {
 class _VendorDetailsState extends State<VendorDetails>
     with SingleTickerProviderStateMixin {
   //================================================= INITIAL STATE AND DISPOSE =====================================================\\
+
+
   @override
   void initState() {
-    super.initState();
+    super.initState(); scrollController.addListener(scrollListener);
     _tabBarController = TabController(length: 2, vsync: this);
     getFavoriteVSingle(widget.vendor.id.toString()).then(
       (value) {
@@ -51,6 +53,8 @@ class _VendorDetailsState extends State<VendorDetails>
   @override
   void dispose() {
     _tabBarController.dispose();
+    scrollController.dispose();
+    scrollController.removeListener(() {});
     super.dispose();
   }
 
@@ -108,7 +112,7 @@ class _VendorDetailsState extends State<VendorDetails>
 
   //=================================== CONTROLLERS ====================================\\
   late TabController _tabBarController;
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
 //===================== KEYS =======================\\
   // final _formKey = GlobalKey<FormState>();
@@ -117,9 +121,38 @@ class _VendorDetailsState extends State<VendorDetails>
   FocusNode rateVendorFN = FocusNode();
 
 //===================== BOOL VALUES =======================\\
+  bool isScrollToTopBtnVisible = false;
   bool _isAddedToFavorites = false;
 
 //================================================= FUNCTIONS ===================================================\\
+
+  Future<void> scrollToTop() async {
+    await scrollController.animateTo(
+      0.0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+    setState(() {
+      isScrollToTopBtnVisible = false;
+    });
+  }
+
+  Future<void> scrollListener() async {
+    if (scrollController.position.pixels >= 200 &&
+        isScrollToTopBtnVisible != true) {
+      setState(() {
+        isScrollToTopBtnVisible = true;
+      });
+    }
+    if (scrollController.position.pixels < 200 &&
+        isScrollToTopBtnVisible == true) {
+      setState(() {
+        isScrollToTopBtnVisible = false;
+      });
+    }
+  }
+
+
   void _addToFavorites() async {
     bool val = await favoriteItV(widget.vendor.id.toString());
     setState(() {
@@ -230,21 +263,12 @@ class _VendorDetailsState extends State<VendorDetails>
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
-        extendBody: true,
         appBar: MyAppBar(
-          title: "Vendor Details",
+          title:isScrollToTopBtnVisible? widget.vendor.shopName:  "Vendor Details",
           elevation: 0.0,
           backgroundColor: kPrimaryColor,
           actions: [
-            // IconButton(
-            //   onPressed: () {
-            //     showSearch(context: context, delegate: CustomSearchDelegate());
-            //   },
-            //   icon: FaIcon(
-            //     FontAwesomeIcons.magnifyingGlass,
-            //     color: kAccentColor,
-            //   ),
-            // ),
+
             IconButton(
               onPressed: _addToFavorites,
               icon: FaIcon(
@@ -263,11 +287,25 @@ class _VendorDetailsState extends State<VendorDetails>
             ),
           ],
         ),
+        floatingActionButton: isScrollToTopBtnVisible
+            ? FloatingActionButton(
+          onPressed: scrollToTop,
+          mini: true,
+          backgroundColor: kAccentColor,
+          enableFeedback: true,
+          mouseCursor: SystemMouseCursors.click,
+          tooltip: "Scroll to top",
+          hoverColor: kAccentColor,
+          hoverElevation: 50.0,
+          child: FaIcon(FontAwesomeIcons.chevronUp,
+              size: 18, color: kPrimaryColor),
+        )
+            : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
             child: ListView(
-              controller: _scrollController,
+              controller: scrollController,
               physics: const ScrollPhysics(),
               children: [
                 SizedBox(
