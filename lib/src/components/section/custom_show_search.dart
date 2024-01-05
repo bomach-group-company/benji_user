@@ -149,18 +149,31 @@ class CustomSearchDelegate extends SearchDelegate {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Lottie.asset(
-                  "assets/animations/empty/frame_3.json",
+                  "assets/animations/search/frame_1.json",
                   height: 300,
                   fit: BoxFit.contain,
                 ),
                 kSizedBox,
                 Text(
-                  "Enter your search query",
+                  "Searching...",
                   style: TextStyle(
                     color: kTextGreyColor,
                     fontSize: 18,
                   ),
                 ),
+                // Lottie.asset(
+                //   "assets/animations/empty/frame_3.json",
+                //   height: 300,
+                //   fit: BoxFit.contain,
+                // ),
+                // kSizedBox,
+                // Text(
+                //   "Enter your search query",
+                //   style: TextStyle(
+                //     color: kTextGreyColor,
+                //     fontSize: 18,
+                //   ),
+                // ),
               ],
             ),
           ),

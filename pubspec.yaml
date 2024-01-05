@@ -123,6 +123,7 @@ flutter:
     - assets/animations/delivery/
     - assets/animations/google_maps/
     - assets/animations/help_and_support/
+    - assets/animations/search/
     - assets/frontend/assets/brand/
     - assets/frontend/assets/hero/
     - assets/frontend/assets/blog/
