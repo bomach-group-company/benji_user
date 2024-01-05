@@ -124,6 +124,7 @@ flutter:
     - assets/animations/google_maps/
     - assets/animations/help_and_support/
     - assets/animations/search/
+    - assets/animations/internet/
     - assets/frontend/assets/brand/
     - assets/frontend/assets/hero/
     - assets/frontend/assets/blog/
