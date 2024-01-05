@@ -80,11 +80,10 @@ class _CartScreenState extends State<CartScreen> {
         return Scaffold(
           appBar: MyAppBar(
             title: "Cart",
-            elevation: 0.0,
+            elevation: 0,
             actions: const [],
             backgroundColor: kPrimaryColor,
           ),
-          extendBody: true,
           bottomNavigationBar: Padding(
             padding: const EdgeInsets.all(kDefaultPadding),
             child: controller.cartProducts.isEmpty

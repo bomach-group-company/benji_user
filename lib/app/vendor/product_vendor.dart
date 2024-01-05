@@ -25,6 +25,7 @@ import '../../src/providers/responsive_constant.dart';
 
 class ProductVendor extends StatefulWidget {
   final VendorModel vendor;
+
   const ProductVendor({
     super.key,
     required this.vendor,
@@ -89,6 +90,7 @@ class _ProductVendorState extends State<ProductVendor> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
+
 //=================================== END =====================================\\
 
   @override
@@ -97,6 +99,7 @@ class _ProductVendorState extends State<ProductVendor> {
     return SizedBox(
       width: media.width,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             height: 60,
@@ -146,26 +149,27 @@ class _ProductVendorState extends State<ProductVendor> {
                 ),
               );
             }
-            if ( controller.vendorProducts.isEmpty) {
-              return
-                Column(
-                  children: [
-                    Lottie.asset(
-                      "assets/animations/empty/frame_1.json",
-                    ),
-                    kSizedBox,
-                    const Text("There are no products available right now", textAlign: TextAlign.center, style: TextStyle(
+            if (controller.vendorProducts.isEmpty) {
+              return Column(
+                children: [
+                  Lottie.asset(
+                    "assets/animations/empty/frame_1.json",
+                  ),
+                  kSizedBox,
+                  const Text(
+                    "There are no products available right now",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
                       fontSize: 20,
-
-                    ), ),
-                    kSizedBox,
-                    const Divider(
-                      thickness: 1,
-
                     ),
-                    kSizedBox,
-                  ],
-                );
+                  ),
+                  kSizedBox,
+                  const Divider(
+                    thickness: 1,
+                  ),
+                  kSizedBox,
+                ],
+              );
             }
             return LayoutGrid(
               rowGap: kDefaultPadding / 2,
@@ -186,6 +190,17 @@ class _ProductVendorState extends State<ProductVendor> {
                   .toList(),
             );
           }),
+          kSizedBox,
+          kSizedBox,
+           const Text(
+            "Similar vendors",
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const Divider(height: kDefaultPadding, color: kGreyColor1),
           kSizedBox,
           GetBuilder<VendorController>(
               initState: (state) => VendorController.instance.getVendors(),

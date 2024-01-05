@@ -77,7 +77,7 @@ class CustomSearchDelegate extends SearchDelegate {
                       ),
                       kSizedBox,
                       Text(
-                        "Enter your search query...",
+                        "Enter your search query",
                         style: TextStyle(
                           color: kTextGreyColor,
                           fontSize: 18,

@@ -129,13 +129,6 @@ class _HomeState extends State<Home> {
     "assets/images/products/pasta.png"
   ];
 
-  final List<String> popularVendorImage = [
-    "assets/images/vendors/ntachi-osa.png",
-    "assets/images/vendors/ntachi-osa.png",
-    "assets/images/vendors/ntachi-osa.png",
-    "assets/images/vendors/ntachi-osa.png",
-    "assets/images/vendors/ntachi-osa.png",
-  ];
 
   //===================== COPY TO CLIPBOARD =======================\\
   void _copyToClipboard(BuildContext context, String userID) {

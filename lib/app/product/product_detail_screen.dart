@@ -869,6 +869,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               )
                             : kSizedBox,
                         // similar products will go here
+                        kSizedBox,
+                        const Text(
+                          "Similar products",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const Divider(height: kDefaultPadding, color: kGreyColor1),
+                        kSizedBox,
                         GetBuilder<ProductController>(
                             initState: (state) =>
                                 ProductController.instance.getProduct(),

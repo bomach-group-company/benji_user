@@ -2,6 +2,7 @@ import 'package:benji/app/cart/cart_screen.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
@@ -82,7 +83,12 @@ class _MyCartsState extends State<MyCarts> {
                   radius: const Radius.circular(10),
                   scrollbarOrientation: ScrollbarOrientation.right,
                   child: controller.cartProducts.isEmpty
-                      ? const EmptyCard(showButton: false)
+                      ? const EmptyCard(
+                          showButton: true,
+                          buttonTitle: "Shop now",
+                          emptyCardMessage: "Your cart is empty",
+                          animation: "assets/animations/empty/frame_2.json",
+                        )
                       : ListView.builder(
                           controller: _scrollController,
                           itemCount: controller.cartProducts.length,
@@ -96,8 +102,8 @@ class _MyCartsState extends State<MyCarts> {
                               child: ListTile(
                                 onTap: () => _pickOption(index),
                                 enableFeedback: true,
-                                trailing: Icon(
-                                  Icons.arrow_forward_ios_rounded,
+                                trailing: FaIcon(
+                                  FontAwesomeIcons.chevronRight,
                                   size: 16,
                                   color: kAccentColor,
                                 ),

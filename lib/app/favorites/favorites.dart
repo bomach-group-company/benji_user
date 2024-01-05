@@ -25,6 +25,7 @@ class Favorites extends StatefulWidget {
   final double vendorRating;
   final String vendorActiveStatus;
   final Color vendorActiveStatusColor;
+
   const Favorites({
     super.key,
     required this.vendorCoverImage,
@@ -65,11 +66,13 @@ class _FavoritesState extends State<Favorites>
 
 //===================== Tabs ==========================\\
   int _selectedtabbar = 0;
+
   void _clickOnTabBarOption(value) async {
     setState(() {
       _selectedtabbar = value;
     });
   }
+
   //===================== Navigation ==========================\\
 
   void _toProductDetailsScreen(product) async {
@@ -97,6 +100,7 @@ class _FavoritesState extends State<Favorites>
       transition: Transition.rightToLeft,
     );
   }
+
 //====================================================================================\\
 
   @override
@@ -110,7 +114,6 @@ class _FavoritesState extends State<Favorites>
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
-
         appBar: MyAppBar(
           title: "Favorites",
           elevation: 0.0,
@@ -192,7 +195,12 @@ class _FavoritesState extends State<Favorites>
                             radius: const Radius.circular(10),
                             child: FavoriteProductsTab(
                               list: controller.favouriteProducts.isEmpty
-                                  ? const EmptyCard()
+                                  ? const EmptyCard(
+                                      showButton: true,
+                                      buttonTitle: "Add a product",
+                                      emptyCardMessage:
+                                          "You have no favorite products",
+                                    )
                                   : LayoutGrid(
                                       rowGap: kDefaultPadding / 2,
                                       columnGap: kDefaultPadding / 2,
@@ -240,7 +248,12 @@ class _FavoritesState extends State<Favorites>
                               controller: _scrollController,
                               radius: const Radius.circular(10),
                               child: controller.favouriteVendors.isEmpty
-                                  ? const EmptyCard()
+                                  ? const EmptyCard(
+                                      showButton: true,
+                                      buttonTitle: "Add a vendor",
+                                      emptyCardMessage:
+                                          "You have no favorite vendors",
+                                    )
                                   : LayoutGrid(
                                       rowGap: kDefaultPadding / 2,
                                       columnGap: kDefaultPadding / 2,
