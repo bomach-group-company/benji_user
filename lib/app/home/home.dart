@@ -501,20 +501,21 @@ class _HomeState extends State<Home> {
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 5.5),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 alignment: Alignment.centerRight,
                 decoration: BoxDecoration(
                     color: Colors.black12,
                     borderRadius: BorderRadius.circular(20)),
                 height: double.infinity,
-                width: media.width - 270,
-                child: const Row(
+                width: media.width - 290,
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
+                    const Row(
                       children: [
-                        kWidthSizedBox,
                         Text(
                           'Search',
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: 16),
                         ),
                       ],
@@ -523,10 +524,9 @@ class _HomeState extends State<Home> {
                       children: [
                         FaIcon(
                           FontAwesomeIcons.magnifyingGlass,
-                          color: Colors.black45,
+                          color: kAccentColor,
                           size: 24,
                         ),
-                        kWidthSizedBox,
                       ],
                     ),
                   ],
