@@ -28,7 +28,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../src/components/appbar/appbar_delivery_location.dart';
+import '../../src/components/appbar/appbar_location.dart';
 import '../../src/components/others/cart_card.dart';
 import '../../src/components/product/product_card.dart';
 import '../../src/components/section/category_items.dart';
