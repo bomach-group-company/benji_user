@@ -506,7 +506,6 @@ class _HomeState extends State<Home> {
                 decoration: BoxDecoration(
                     color: Colors.black12,
                     borderRadius: BorderRadius.circular(20)),
-                height: double.infinity,
                 width: media.width - 290,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

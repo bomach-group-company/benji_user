@@ -36,10 +36,10 @@ class _VendorDetailsState extends State<VendorDetails>
     with SingleTickerProviderStateMixin {
   //================================================= INITIAL STATE AND DISPOSE =====================================================\\
 
-
   @override
   void initState() {
-    super.initState(); scrollController.addListener(scrollListener);
+    super.initState();
+    scrollController.addListener(scrollListener);
     _tabBarController = TabController(length: 2, vsync: this);
     getFavoriteVSingle(widget.vendor.id.toString()).then(
       (value) {
@@ -152,7 +152,6 @@ class _VendorDetailsState extends State<VendorDetails>
     }
   }
 
-
   void _addToFavorites() async {
     bool val = await favoriteItV(widget.vendor.id.toString());
     setState(() {
@@ -264,11 +263,12 @@ class _VendorDetailsState extends State<VendorDetails>
       handleRefresh: _handleRefresh,
       child: Scaffold(
         appBar: MyAppBar(
-          title:isScrollToTopBtnVisible? widget.vendor.shopName:  "Vendor Details",
+          title: isScrollToTopBtnVisible
+              ? widget.vendor.shopName
+              : "Vendor Details",
           elevation: 0.0,
           backgroundColor: kPrimaryColor,
           actions: [
-
             IconButton(
               onPressed: _addToFavorites,
               icon: FaIcon(
@@ -289,17 +289,17 @@ class _VendorDetailsState extends State<VendorDetails>
         ),
         floatingActionButton: isScrollToTopBtnVisible
             ? FloatingActionButton(
-          onPressed: scrollToTop,
-          mini: true,
-          backgroundColor: kAccentColor,
-          enableFeedback: true,
-          mouseCursor: SystemMouseCursors.click,
-          tooltip: "Scroll to top",
-          hoverColor: kAccentColor,
-          hoverElevation: 50.0,
-          child: FaIcon(FontAwesomeIcons.chevronUp,
-              size: 18, color: kPrimaryColor),
-        )
+                onPressed: scrollToTop,
+                mini: true,
+                backgroundColor: kAccentColor,
+                enableFeedback: true,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Scroll to top",
+                hoverColor: kAccentColor,
+                hoverElevation: 50.0,
+                child: FaIcon(FontAwesomeIcons.chevronUp,
+                    size: 18, color: kPrimaryColor),
+              )
             : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
@@ -350,7 +350,6 @@ class _VendorDetailsState extends State<VendorDetails>
                         left: kDefaultPadding,
                         right: kDefaultPadding,
                         child: Container(
-                          width: 200,
                           padding: const EdgeInsets.all(kDefaultPadding / 2),
                           decoration: ShapeDecoration(
                             shadows: [
@@ -373,29 +372,28 @@ class _VendorDetailsState extends State<VendorDetails>
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 top: kDefaultPadding * 2.6),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: media.width - 200,
-                                  child: Text(
-                                    widget.vendor.shopName,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w700,
+                            child: SizedBox(
+                              width: media.width - 200,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: media.width - 200,
+                                    child: Text(
+                                      widget.vendor.shopName,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        color: kTextBlackColor,
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                kHalfSizedBox,
-                                Container(
-                                  width: media.width - 90,
-                                  alignment: Alignment.center,
-                                  child: Row(
+                                  kHalfSizedBox,
+                                  Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
@@ -406,121 +404,127 @@ class _VendorDetailsState extends State<VendorDetails>
                                         size: 15,
                                       ),
                                       kHalfWidthSizedBox,
-                                      Text(
-                                        widget.vendor.address,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                      SizedBox(
+                                        width: deviceType(media.width) >= 2
+                                            ? media.width - 100
+                                            : media.width - 180,
+                                        child: Text(
+                                          widget.vendor.address,
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                          ),
                                         ),
                                       ),
                                     ],
                                   ),
-                                ),
-                                kHalfSizedBox,
-                                InkWell(
-                                  onTap: widget.vendor.address.isEmpty
-                                      ? null
-                                      : _toVendorLocation,
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(
-                                        kDefaultPadding / 4),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                        color: kAccentColor,
-                                        width: 1,
+                                  kHalfSizedBox,
+                                  InkWell(
+                                    onTap: widget.vendor.address.isEmpty
+                                        ? null
+                                        : _toVendorLocation,
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(
+                                          kDefaultPadding / 4),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: kAccentColor,
+                                          width: 1,
+                                        ),
                                       ),
-                                    ),
-                                    child: Text(
-                                      widget.vendor.address.isEmpty
-                                          ? "Not Available"
-                                          : "Show on map",
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
+                                      child: Text(
+                                        widget.vendor.address.isEmpty
+                                            ? "Not Available"
+                                            : "Show on map",
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                kHalfSizedBox,
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Container(
-                                      width: media.width * 0.23,
-                                      height: 57,
-                                      decoration: ShapeDecoration(
-                                        color: kPrimaryColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(19),
+                                  kHalfSizedBox,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        width: media.width * 0.23,
+                                        height: 57,
+                                        decoration: ShapeDecoration(
+                                          color: kPrimaryColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(19),
+                                          ),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            FaIcon(
+                                              FontAwesomeIcons.solidStar,
+                                              color: kStarColor,
+                                              size: 17,
+                                            ),
+                                            const SizedBox(width: 5),
+                                            Text(
+                                              '${(widget.vendor.averageRating).toPrecision(1)}',
+                                              style: const TextStyle(
+                                                color: kBlackColor,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                letterSpacing: -0.28,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          FaIcon(
-                                            FontAwesomeIcons.solidStar,
-                                            color: kStarColor,
-                                            size: 17,
+                                      Container(
+                                        width: media.width * 0.25,
+                                        height: 57,
+                                        decoration: ShapeDecoration(
+                                          color: kPrimaryColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(19),
                                           ),
-                                          const SizedBox(width: 5),
-                                          Text(
-                                            '${(widget.vendor.averageRating).toPrecision(1)}',
-                                            style: const TextStyle(
-                                              color: kBlackColor,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              letterSpacing: -0.28,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              widget.vendor.isOnline
+                                                  ? "Online"
+                                                  : 'Offline',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: widget.vendor.isOnline
+                                                    ? kSuccessColor
+                                                    : kAccentColor,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                letterSpacing: -0.36,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      width: media.width * 0.25,
-                                      height: 57,
-                                      decoration: ShapeDecoration(
-                                        color: kPrimaryColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(19),
+                                            const SizedBox(width: 5),
+                                            FaIcon(
+                                              Icons.info,
+                                              color: kAccentColor,
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            widget.vendor.isOnline
-                                                ? "Online"
-                                                : 'Offline',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: widget.vendor.isOnline
-                                                  ? kSuccessColor
-                                                  : kAccentColor,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              letterSpacing: -0.36,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 5),
-                                          FaIcon(
-                                            Icons.info,
-                                            color: kAccentColor,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
