@@ -61,10 +61,13 @@ class AppBarLocation extends StatelessWidget {
             ),
           ),
           kHalfWidthSizedBox,
-          FaIcon(
-            FontAwesomeIcons.caretDown,
-            size: deviceType(media.width) > 2 ? 26 : 16,
-            color: kAccentColor,
+          InkWell(
+            onTap: onPressed,
+            child: FaIcon(
+              FontAwesomeIcons.caretDown,
+              size: deviceType(media.width) > 2 ? 26 : 16,
+              color: kAccentColor,
+            ),
           ),
         ],
       ),
