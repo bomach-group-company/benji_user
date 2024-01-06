@@ -30,22 +30,30 @@ class AppBarLocation extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Location',
-                    style: TextStyle(
-                      color: kAccentColor,
-                      fontSize: deviceType(media.width) > 2 ? 16 : 12,
-                      fontWeight: FontWeight.w700,
+                  SizedBox(
+                    width: 100,
+                    child: Text(
+                      'Shopping Area',
+                      style: TextStyle(
+                        color: kAccentColor,
+                        fontSize: deviceType(media.width) > 2 ? 16 : 12,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                  Text(
-                    defaultAddress.contains("Not") ? "Add an address" : defaultAddress,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: TextStyle(
-                      color: kTextGreyColor,
-                      fontSize: deviceType(media.width) > 2 ? 16 : 12,
-                      fontWeight: FontWeight.w400,
+                  SizedBox(
+                    width: 100,
+                    child: Text(
+                      defaultAddress.contains("Not")
+                          ? "Add an address"
+                          : defaultAddress,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                        color: kTextGreyColor,
+                        fontSize: deviceType(media.width) > 2 ? 16 : 12,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
                 ],

@@ -380,7 +380,7 @@ class _HomeState extends State<Home> {
         switch (value) {
           case 'address':
             Get.to(
-                  () => const Addresses(),
+              () => const Addresses(),
               routeName: 'Addresses',
               duration: const Duration(milliseconds: 1000),
               fullscreenDialog: true,
@@ -392,7 +392,7 @@ class _HomeState extends State<Home> {
             break;
           case 'shoppingLocation':
             Get.to(
-                  () => const SetShoppingLocation(),
+              () => const SetShoppingLocation(),
               routeName: 'SetShoppingLocation',
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,
@@ -483,7 +483,7 @@ class _HomeState extends State<Home> {
                       );
                     }
                     return AppBarLocation(
-                      defaultAddress: controller.current.value.title,
+                      defaultAddress: 'Enugu State',
                       onPressed: () {
                         showPopupMenu(context);
                       },
@@ -492,19 +492,48 @@ class _HomeState extends State<Home> {
             ],
           ),
           actions: [
-            IconButton(
-              onPressed: () {
+            InkWell(
+              onTap: () {
                 showSearch(
                   context: context,
                   delegate: CustomSearchDelegate(),
                 );
               },
-              icon: FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
-                color: kAccentColor,
-                size: 24,
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 5.5),
+                alignment: Alignment.centerRight,
+                decoration: BoxDecoration(
+                    color: Colors.black12,
+                    borderRadius: BorderRadius.circular(20)),
+                height: double.infinity,
+                width: media.width - 270,
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        kWidthSizedBox,
+                        Text(
+                          'Search',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.magnifyingGlass,
+                          color: Colors.black45,
+                          size: 24,
+                        ),
+                        kWidthSizedBox,
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
+            kWidthSizedBox,
             // ignore: prefer_const_constructors
             CartCard(),
             kHalfWidthSizedBox
