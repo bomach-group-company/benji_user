@@ -573,7 +573,6 @@ class _HomeState extends State<Home> {
                             viewportFraction: 1.0,
                             initialPage: 0,
                             enableInfiniteScroll: true,
-                            autoPlay: true,
                             autoPlayInterval: const Duration(seconds: 2),
                             autoPlayAnimationDuration:
                                 const Duration(milliseconds: 800),
@@ -773,6 +772,12 @@ class _HomeState extends State<Home> {
                             ),
                           );
                         }
+                        if (controller.vendorList.isEmpty) {
+                          return const EmptyCard(
+                            showButton: false,
+                            emptyCardMessage: "There are no vendors near you.",
+                          );
+                        }
                         return SizedBox(
                           height: 250,
                           width: media.width,
@@ -823,7 +828,13 @@ class _HomeState extends State<Home> {
                             ),
                           );
                         }
-
+                        if (controller.vendorPopularList.isEmpty) {
+                          return const EmptyCard(
+                            showButton: false,
+                            emptyCardMessage:
+                                "There are no popular vendors available.",
+                          );
+                        }
                         return LayoutGrid(
                           rowGap: kDefaultPadding / 2,
                           columnGap: kDefaultPadding / 2,
@@ -1014,6 +1025,7 @@ class _HomeState extends State<Home> {
                       if (controller.products.isEmpty) {
                         return const EmptyCard(
                           showButton: false,
+                          emptyCardMessage: "There are no products available",
                         );
                       }
                       return Column(
