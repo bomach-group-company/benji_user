@@ -157,14 +157,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             },
             onTransaction: (response) async {
               consoleLog('the response from my alatpay $response');
-              if (response != null) {
+              if (response != null && response['status'] == true) {
+                await CartController.instance.clearCartProduct(widget.index);
                 await NotificationController.showNotification(
                   title: "Payment Success",
                   body: "Your payment of NGN$amount was successful",
                   largeIcon: "asset://assets/icons/success.png",
                   customSound: "asset://assets/audio/success.wav",
                 );
-                Get.to(
+                Get.off(
                   () => const PaymentSuccessful(),
                   routeName: 'PaymentSuccessful',
                   duration: const Duration(milliseconds: 300),

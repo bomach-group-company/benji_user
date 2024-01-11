@@ -123,7 +123,7 @@ class OrderController extends GetxController {
     }
     if (response.statusCode.toString().startsWith('2')) {
       double res = (double.parse(
-          (jsonDecode(response.body)['details']['delivery_fee'] ?? 0)
+          (jsonDecode(response.body)['details']?['delivery_fee'] ?? 0)
               .toString()));
       deliveryFee.value = res;
       update();
