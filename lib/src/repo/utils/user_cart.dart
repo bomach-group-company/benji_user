@@ -133,10 +133,8 @@ Future removeFromCart(Product product) async {
 }
 
 int countCartItemByProduct(Product product) {
-  print('above in countCartItemByProduct');
   int total = 0;
   List<VendorInfo> allCart = getAllCartItem();
-  print('allCart');
   for (var cart in allCart) {
     if (cart.vendorId == product.vendorId.id) {
       for (var cartItems in cart.vendorData) {

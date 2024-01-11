@@ -20,13 +20,10 @@ class PaymentController extends GetxController {
     update();
 
     try {
-      print('${Api.baseUrl}/payments/getdeliveryfee/$packageId/package');
       final response = await http.get(
         Uri.parse('${Api.baseUrl}/payments/getdeliveryfee/$packageId/package'),
         headers: authHeader(),
       );
-      print('response.body in payment controller ${response.body}');
-      print(response.statusCode);
       if (response.statusCode == 200) {
         final dynamic decodedBody = jsonDecode(response.body);
         responseObject.value = (decodedBody as Map);

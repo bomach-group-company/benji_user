@@ -65,7 +65,6 @@ class SubCategoryController extends GetxController {
   }
 
   Future getSubCategoryAllByVendor(String vendorId) async {
-    print('getSubCategoryAll');
     allSubcategoryByVendor.value = [];
     isLoadForAll.value = true;
     late String token;
@@ -74,8 +73,7 @@ class SubCategoryController extends GetxController {
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = ApiProcessorController.errorState(response);
-      print('response!.body getSubCategoryAllByVendor ${response!.body}');
-      allSubcategoryByVendor.value = (jsonDecode(response.body) as List)
+      allSubcategoryByVendor.value = (jsonDecode(response!.body) as List)
           .map((e) => SubCategory.fromJson(e))
           .toList();
       isLoadForAll.value = false;

@@ -52,9 +52,6 @@ class FormController extends GetxController {
       headers: await authHeader(),
       body: data,
     );
-    print('in form controller');
-    print(response.body);
-    print(response.statusCode);
     status.value = response.statusCode;
     if (response.statusCode != 200) {
       ApiProcessorController.errorSnack(errorMsg);

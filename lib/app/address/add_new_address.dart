@@ -93,7 +93,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
     });
 
     List location = await parseLatLng(newLocation);
-    print('location $location');
     latitude = location[0];
     longitude = location[1];
   }
@@ -108,7 +107,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
       }
       List<Location> location =
           await locationFromAddress(selectedLocation.value!);
-      print('location $location hhhxs');
       latitude = location[0].latitude.toString();
       longitude = location[0].longitude.toString();
     }
@@ -258,7 +256,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
           backgroundColor: kPrimaryColor,
           actions: const [],
         ),
-
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(

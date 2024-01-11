@@ -45,8 +45,6 @@ class ProductController extends GetxController {
 
   setSubCategory(SubCategory value) async {
     selectedSubCategory.value = value;
-    print(value);
-    print('in the setSubCategory and has val');
     loadNumProductSubCategory.value = 10;
     loadedAllProductSubCategory.value = false;
     update();

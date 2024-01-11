@@ -77,7 +77,6 @@ Future<List<DeliveryItem>> getDeliveryItemsByClientAndStatus(
       Uri.parse(
           '$baseURL/sendPackage/gettemPackageByClientId/${user!.id}/$status'),
       headers: await authHeader());
-  print('packages ${response.statusCode} ${jsonDecode(response.body)}');
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => DeliveryItem.fromJson(item))

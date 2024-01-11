@@ -197,7 +197,6 @@ class _VendorLocationState extends State<VendorLocation> {
     if (kIsWeb) {
       String routeStr =
           'https://maps.googleapis.com/maps/api/directions/json?origin=${userLocation.latitude},${userLocation.longitude}&destination=${_vendorLocation.latitude},${_vendorLocation.longitude}&mode=driving&avoidHighways=false&avoidFerries=true&avoidTolls=false&alternatives=false&key=$googleMapsApiKey';
-      print(routeStr);
       String? response = await NetworkUtility.fetchUrl(Uri.parse(routeStr));
       // var resp = await http.get(Uri.parse(routeStr));
       if (response == null) {
@@ -210,7 +209,6 @@ class _VendorLocationState extends State<VendorLocation> {
 
       var overviewPolyline = NetworkUtil().decodeEncodedPolyline(
           data['routes'][0]['overview_polyline']['points']);
-      print(overviewPolyline);
       if (overviewPolyline.isNotEmpty) {
         for (var point in overviewPolyline) {
           _polylineCoordinates.add(LatLng(point.latitude, point.longitude));

@@ -28,7 +28,6 @@ class MyPackageController extends GetxController {
   var deliveredPackages = <DeliveryItem>[].obs;
 
   Future getDeliveryItemsByPending() async {
-    print('got to the getDeliveryItemsByPending');
     isLoadPending.value = true;
     User? user = UserController.instance.user.value;
     final response = await http.get(
@@ -40,7 +39,6 @@ class MyPackageController extends GetxController {
           .map((item) => DeliveryItem.fromJson(item))
           .toList();
     }
-    print('pendingPackages.value ${pendingPackages.value}');
 
     isLoadPending.value = false;
     update();
@@ -64,7 +62,6 @@ class MyPackageController extends GetxController {
     update();
   }
 
-
   Future getDeliveryItemsByDelivered() async {
     consoleLog('got to the getDeliveryItemsByDelivered');
 
@@ -80,7 +77,6 @@ class MyPackageController extends GetxController {
           .map((item) => DeliveryItem.fromJson(item))
           .toList();
     }
-    print('deliveredPackages.value ${deliveredPackages.value}');
     isLoadDelivered.value = false;
     update();
   }

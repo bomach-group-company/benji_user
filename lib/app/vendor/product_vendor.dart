@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:benji/app/product/product_detail_screen.dart';
-import 'package:benji/app/vendor/all_vendor_products.dart';
 import 'package:benji/app/vendor/vendor_details.dart';
 import 'package:benji/src/components/button/category_button.dart';
 import 'package:benji/src/components/product/product_card.dart';
@@ -70,17 +69,6 @@ class _ProductVendorState extends State<ProductVendor> {
   void _toProductDetailScreen(product) => Get.to(
         () => ProductDetailScreen(product: product),
         routeName: 'ProductDetailScreen',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
-
-  void _viewProducts() => Get.to(
-        () => AllVendorProducts(vendor: widget.vendor),
-        routeName: 'AllVendorProducts',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -190,7 +178,7 @@ class _ProductVendorState extends State<ProductVendor> {
           }),
           kSizedBox,
           kSizedBox,
-           const Text(
+          const Text(
             "Similar vendors",
             textAlign: TextAlign.left,
             style: TextStyle(

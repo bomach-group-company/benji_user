@@ -105,7 +105,6 @@ class OrderController extends GetxController {
     if (response.statusCode.toString().startsWith('2')) {
       String res =
           jsonDecode(response.body)['message'].toString().split(' ').last;
-      print(res);
       await getDeliveryFee(res);
       return res;
     }
@@ -127,10 +126,8 @@ class OrderController extends GetxController {
               .toString()));
       deliveryFee.value = res;
       update();
-      print(res);
       return;
     } else {
-      print('got to except for delivery fee');
       throw Exception('Failed to get delivery fee');
     }
   }

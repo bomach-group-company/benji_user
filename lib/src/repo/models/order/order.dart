@@ -37,7 +37,6 @@ class Order {
   });
 
   factory Order.fromJson(Map<String, dynamic>? json) {
-    print('json order $json');
     json ??= {};
     return Order(
       id: json["id"] ?? notAvailable,

@@ -95,7 +95,6 @@ Future<bool> deleteAddress(
     Uri.parse('$baseURL/address/deleteAddress/$addressId/'),
     headers: await authHeader(),
   );
-  print(response.body);
 
   return response.statusCode == 200;
 }

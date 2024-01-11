@@ -41,8 +41,6 @@ class OrderStatusChangeController extends GetxController {
     String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
     var responseData = await ApiProcessorController.errorState(response);
-    print(response?.body);
-    print(response?.statusCode);
     OrderController.instance.getOrders();
 
     if (responseData == null) {
@@ -53,9 +51,7 @@ class OrderStatusChangeController extends GetxController {
 
     try {
       order.value = Order.fromJson(jsonDecode(responseData));
-    } catch (e) {
-      print('error in order change status controller to refresh order $e');
-    }
+    } catch (e) {}
     isLoad.value = false;
     update();
   }
@@ -67,7 +63,6 @@ class OrderStatusChangeController extends GetxController {
     var url =
         "${Api.baseUrl}/orders/userToRiderChangeStatus?order_id=${order.value.id}";
     await FormController.instance.getAuth(url, 'orderReceived');
-    print(FormController.instance.status);
 
     if (FormController.instance.status.toString().startsWith('2')) {}
     await refreshOrder();
@@ -80,7 +75,6 @@ class OrderStatusChangeController extends GetxController {
     var url =
         "${Api.baseUrl}/orders/userToRiderChangeStatus?order_id=${order.value.id}";
     await FormController.instance.getAuth(url, 'deliveredOrder');
-    print(FormController.instance.status);
     if (FormController.instance.status.toString().startsWith('2')) {}
     await refreshOrder();
   }

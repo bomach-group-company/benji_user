@@ -35,12 +35,9 @@ class MyHomePageState extends State<MyHomePage> {
               ),
               TextButton(
                 onPressed: () {
-                  print(FlutterGooglePlacesWeb.value[
-                      'name']); // '1600 Amphitheatre Parkway, Mountain View, CA, USA'
-                  print(FlutterGooglePlacesWeb
-                      .value['streetAddress']); // '1600 Amphitheatre Parkway'
-                  print(FlutterGooglePlacesWeb.value['city']); // 'CA'
-                  print(FlutterGooglePlacesWeb.value['country']);
+                  // '1600 Amphitheatre Parkway, Mountain View, CA, USA'
+                  // '1600 Amphitheatre Parkway'
+                  // 'CA'
                   setState(() {
                     test = FlutterGooglePlacesWeb.value['name'] ?? '';
                   });
