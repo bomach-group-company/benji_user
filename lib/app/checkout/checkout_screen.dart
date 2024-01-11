@@ -68,7 +68,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   double _totalPrice = 0;
   double deliveryFee = OrderController.instance.deliveryFee.value;
   // final String _paymentDescription = "Benji app product purchase";
-  final String _currency = "NGN";
+  final String currency = "NGN";
 
   //===================== GlobalKeys =======================\\
 

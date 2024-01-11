@@ -1,4 +1,4 @@
-
+import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/models/user/user_model.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
@@ -10,7 +10,6 @@ import 'package:http/http.dart' as http;
 import '../../../src/providers/constants.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
-import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/components/textformfield/message_textformfield.dart';
 import '../../src/repo/utils/constants.dart';
 import '../../theme/colors.dart';
@@ -71,12 +70,8 @@ class _ReportOrderProductState extends State<ReportOrderProduct> {
 
     if (res) {
       //Display snackBar
-      mySnackBar(
-        context,
-        kSuccessColor,
-        "Success",
+      ApiProcessorController.successSnack(
         "Your report has been submitted successfully",
-        const Duration(seconds: 1),
       );
 
       setState(() {
@@ -88,12 +83,8 @@ class _ReportOrderProductState extends State<ReportOrderProduct> {
       setState(() {
         _submittingRequest = false;
       });
-      mySnackBar(
-        context,
-        kAccentColor,
-        "Failed",
+      ApiProcessorController.errorSnack(
         "Something went wrong",
-        const Duration(seconds: 1),
       );
     }
   }
@@ -104,7 +95,6 @@ class _ReportOrderProductState extends State<ReportOrderProduct> {
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-
         appBar: MyAppBar(
           title: "Help and support",
           elevation: 0.0,

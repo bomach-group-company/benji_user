@@ -249,7 +249,6 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 //========================================================== Get PlaceMark Address and LatLng =============================================================\\
 
   Future _getPlaceMark(LatLng position) async {
-    print('the position:- ${position.latitude},${position.longitude}');
     if (kIsWeb) {
       Uri uri = Uri.https("maps.googleapis.com", '/maps/api/geocode/json', {
         "latlng": '${position.latitude},${position.longitude}',
@@ -264,7 +263,6 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 
         // Extract the formatted address
         String formattedAddress = firstResult['formatted_address'];
-        print('formattedAddress $formattedAddress');
         setState(() {
           pinnedLocation = formattedAddress;
         });
@@ -305,7 +303,6 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
     }
     String latitude = draggedLatLng.latitude.toString();
     String longitude = draggedLatLng.longitude.toString();
-    print([latitude, longitude, pinnedLocation]);
     LatLngDetailController.instance
         .setLatLngdetail([latitude, longitude, pinnedLocation]);
 

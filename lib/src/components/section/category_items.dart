@@ -33,8 +33,7 @@ class CategoryItemSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('oo category $category');
-    final mediaWidth = MediaQuery.of(context).size.width;
+    var media = MediaQuery.of(context).size;
     return ListView(
       shrinkWrap: true,
       children: [
@@ -44,7 +43,7 @@ class CategoryItemSheet extends StatelessWidget {
             columnGap: 10,
             rowGap: 10,
             columnSizes: breakPointDynamic(
-              mediaWidth,
+              media.width,
               List.filled(4, 1.fr),
               List.filled(4, 1.fr),
               List.filled(8, 1.fr),

@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:benji/app/shopping_location/set_shopping_location.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

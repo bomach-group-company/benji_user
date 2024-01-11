@@ -4,7 +4,6 @@ import 'package:benji/app/product/product_detail_screen.dart';
 import 'package:benji/app/vendor/all_vendor_products.dart';
 import 'package:benji/app/vendor/vendor_details.dart';
 import 'package:benji/src/components/button/category_button.dart';
-import 'package:benji/src/components/others/empty.dart';
 import 'package:benji/src/components/product/product_card.dart';
 import 'package:benji/src/components/vendor/vendors_card.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
@@ -16,7 +15,6 @@ import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 

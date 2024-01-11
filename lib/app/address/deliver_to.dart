@@ -48,7 +48,7 @@ class _DeliverToState extends State<DeliverTo> {
   //========================================================================\\
 
   //=================================== ALL VARIABLES =====================================\\
-  Map? _addressData;
+  Map? addressData;
 
   //=========================== BOOL VALUES ====================================\\
   bool _isLoading = false;
@@ -85,7 +85,7 @@ class _DeliverToState extends State<DeliverTo> {
   //   };
 
   //   setState(() {
-  //     _addressData = data;
+  //     addressData = data;
   //   });
   // }
 
@@ -93,7 +93,7 @@ class _DeliverToState extends State<DeliverTo> {
 
   Future<void> _handleRefresh() async {
     setState(() {
-      _addressData = null;
+      addressData = null;
     });
 
     // await _getData();
@@ -139,8 +139,6 @@ class _DeliverToState extends State<DeliverTo> {
     try {
       setCurrentAddress(address!.id);
 
-      print(
-          '${address.id} ${address.latitude} ${address.longitude} ${address.title}');
       // here i need to create that order by sending it to the backend
 
       formatOfOrder['delivery_address_id'] = address.id;
@@ -172,7 +170,6 @@ class _DeliverToState extends State<DeliverTo> {
         );
       }
     } catch (e) {
-      print(e);
       mySnackBar(
         context,
         kAccentColor,

@@ -44,7 +44,7 @@ class _SignUpState extends State<SignUp> {
     if (widget.logout) {
       deleteUser();
     }
-    _isObscured = true;
+    isObscured = true;
   }
 
   //=========================== ALL VARIABBLES ====================================\\
@@ -61,12 +61,12 @@ class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
 
   //=========================== BOOL VALUES ====================================\\
-  bool _isLoading = false;
-  bool _validAuthCredentials = false;
-  bool _invalidAuthCredentials = false;
+  bool isLoading = false;
+  bool validAuthCredentials = false;
+  bool invalidAuthCredentials = false;
   bool isChecked = false;
   bool isPWSuccess = false;
-  var _isObscured;
+  var isObscured;
 
   //=========================== FOCUS NODES ====================================\\
   FocusNode userFirstNameFN = FocusNode();
@@ -125,13 +125,13 @@ class _SignUpState extends State<SignUp> {
 
   Future<void> loadData() async {
     setState(() {
-      _isLoading = true;
+      isLoading = true;
     });
 
     await sendPostRequest(_userEmailEC.text, _userPasswordEC.text);
 
     setState(() {
-      _isLoading = false;
+      isLoading = false;
     });
   }
 
@@ -169,7 +169,7 @@ class _SignUpState extends State<SignUp> {
         isUserSaved &&
         isUserCreated) {
       setState(() {
-        _validAuthCredentials = true;
+        validAuthCredentials = true;
       });
 
       //Display snackBar
@@ -193,7 +193,7 @@ class _SignUpState extends State<SignUp> {
       );
     } else {
       setState(() {
-        _invalidAuthCredentials = true;
+        invalidAuthCredentials = true;
       });
 
       myFixedSnackBar(
@@ -237,7 +237,7 @@ class _SignUpState extends State<SignUp> {
                 children: [
                   Expanded(
                     child: () {
-                      if (_validAuthCredentials) {
+                      if (validAuthCredentials) {
                         return ReusableAuthenticationFirstHalf(
                           title: "Sign up",
                           subtitle: "Please sign up to get started",
@@ -259,7 +259,7 @@ class _SignUpState extends State<SignUp> {
                               deviceType(media.width) > 2 ? 200 : 120,
                         );
                       } else {
-                        if (_invalidAuthCredentials) {
+                        if (invalidAuthCredentials) {
                           return ReusableAuthenticationFirstHalf(
                             title: "Sign up",
                             subtitle: "Please sign up to get started",
@@ -491,7 +491,7 @@ class _SignUpState extends State<SignUp> {
                             controller: _userPasswordEC,
                             passwordFocusNode: _userPasswordFN,
                             keyboardType: TextInputType.visiblePassword,
-                            obscureText: _isObscured,
+                            obscureText: isObscured,
                             textInputAction: TextInputAction.go,
                             validator: (value) {
                               RegExp passwordPattern = RegExp(
@@ -511,10 +511,10 @@ class _SignUpState extends State<SignUp> {
                             suffixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
-                                  _isObscured = !_isObscured;
+                                  isObscured = !isObscured;
                                 });
                               },
-                              icon: _isObscured
+                              icon: isObscured
                                   ? const Icon(
                                       Icons.visibility,
                                     )
@@ -594,16 +594,18 @@ class _SignUpState extends State<SignUp> {
                     GetBuilder<SignupController>(builder: (controller) {
                       return MyElevatedButton(
                         title: "SIGN UP",
-                        onPressed: !isChecked ? null:  () async {
-                          if (_formKey.currentState!.validate()) {
-                            await controller.signup(
-                                _userEmailEC.text,
-                                _userPasswordEC.text,
-                                _userPhoneNumberEC.text,
-                                _userFirstNameEC.text,
-                                _userLastNameEC.text);
-                          }
-                        },
+                        onPressed: !isChecked
+                            ? null
+                            : () async {
+                                if (_formKey.currentState!.validate()) {
+                                  await controller.signup(
+                                      _userEmailEC.text,
+                                      _userPasswordEC.text,
+                                      _userPhoneNumberEC.text,
+                                      _userFirstNameEC.text,
+                                      _userLastNameEC.text);
+                                }
+                              },
                         isLoading: controller.isLoad.value,
                       );
                     }),

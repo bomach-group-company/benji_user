@@ -155,7 +155,6 @@ class _SendPackageState extends State<SendPackage> {
     });
 
     List location = await parseLatLng(newLocation);
-    print('location $location');
     latitudePick = location[0];
     longitudePick = location[1];
   }
@@ -169,7 +168,6 @@ class _SendPackageState extends State<SendPackage> {
     });
 
     List location = await parseLatLng(newLocation);
-    print('location $location');
     latitudeDrop = location[0];
     longitudeDrop = location[1];
   }
@@ -215,8 +213,6 @@ class _SendPackageState extends State<SendPackage> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    print(
-        'pick LatLngDetailController.instance.latLngDetail.value ${LatLngDetailController.instance.latLngDetail.value}');
     String pinnedLocation =
         LatLngDetailController.instance.latLngDetail.value[2];
     String latitude = LatLngDetailController.instance.latLngDetail.value[0];
@@ -248,8 +244,6 @@ class _SendPackageState extends State<SendPackage> {
       transition: Transition.rightToLeft,
     );
 
-    print(
-        'drop LatLngDetailController.instance.latLngDetail.value ${LatLngDetailController.instance.latLngDetail.value}');
     String pinnedLocation =
         LatLngDetailController.instance.latLngDetail.value[2];
     String latitude = LatLngDetailController.instance.latLngDetail.value[0];
@@ -1373,7 +1367,8 @@ class _SendPackageState extends State<SendPackage> {
                 tooltip: "Scroll to top",
                 hoverColor: kAccentColor,
                 hoverElevation: 50.0,
-                child: FaIcon(FontAwesomeIcons.chevronUp, size: 18, color: kPrimaryColor),
+                child: FaIcon(FontAwesomeIcons.chevronUp,
+                    size: 18, color: kPrimaryColor),
               )
             : const SizedBox(),
         body: SafeArea(

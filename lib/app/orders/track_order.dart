@@ -10,8 +10,6 @@ import '../../src/components/appbar/my_appbar.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
-import '../call/call_screen.dart';
-import '../delivery/delivery_map.dart';
 import '../home/home.dart';
 
 class TrackOrder extends StatefulWidget {
@@ -49,30 +47,6 @@ class _TrackOrderState extends State<TrackOrder> {
         curve: Curves.easeIn,
         popGesture: false,
         predicate: (routes) => false,
-        transition: Transition.rightToLeft,
-      );
-  void _callCustomer() => Get.to(
-        () => const CallPage(
-          userImage: "rider/martins-okafor.png",
-          userName: "Martins Okafor",
-          userPhoneNumber: "08125374562",
-        ),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "CallPage",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
-  void _toDeliveryMap() => Get.to(
-        () => const DeliveryMap(),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "DeliveryMap",
-        preventDuplicates: true,
-        popGesture: true,
         transition: Transition.rightToLeft,
       );
 

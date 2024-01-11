@@ -40,8 +40,7 @@ class PaymentSuccessful extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double mediaHeight = MediaQuery.of(context).size.height;
-    double mediaWidth = MediaQuery.of(context).size.width;
+    var media = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kPrimaryColor,
       bottomNavigationBar: Padding(
@@ -73,7 +72,7 @@ class PaymentSuccessful extends StatelessWidget {
                     "assets/animations/payment/frame_1.json",
                     alignment: Alignment.center,
                     fit: BoxFit.contain,
-                    width: mediaWidth - 100,
+                    width: media.width - 100,
                   ),
                   kSizedBox,
                   Text(

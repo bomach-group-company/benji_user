@@ -31,12 +31,12 @@ class _SelectOrderState extends State<SelectOrder> {
     _getData();
   }
 
-  List<Order> _orders = [];
+  List<Order> orders = [];
 
   _getData() async {
     int? userId = getUserSync()!.id;
 
-    _orders = await getOrders(userId);
+    orders = await getOrders(userId);
     setState(() {});
   }
 
