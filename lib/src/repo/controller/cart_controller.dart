@@ -1,4 +1,4 @@
-// ignore_for_file: empty_catches
+// ignore_for_file: empty_catches, invalid_use_of_protected_member
 
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/models/cart_model/cart_model.dart';

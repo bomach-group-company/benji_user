@@ -121,7 +121,7 @@ class FormController extends GetxController {
     try {
       response = await request.send();
       status.value = response.statusCode;
-      final normalResp = await http.Response.fromStream(response);
+      // final normalResp = await http.Response.fromStream(response);
       if (response.statusCode == 200) {
         ApiProcessorController.successSnack(successMsg);
         isLoad.value = false;

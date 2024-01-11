@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:benji/src/repo/utils/constants.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';

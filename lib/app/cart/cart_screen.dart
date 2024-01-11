@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:benji/app/address/deliver_to.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';

@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'dart:math';
 
@@ -143,9 +143,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final carouselController = CarouselController();
 
   //==================================================== FUNCTIONS ======================================================\\
-  void _toVendorPage (){
+  void _toVendorPage() {
     Get.to(
-          () => VendorDetails(vendor: widget.product.vendorId),
+      () => VendorDetails(vendor: widget.product.vendorId),
       routeName: 'VendorDetails',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
@@ -292,7 +292,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               const Text("Search for a product"),
             ],
           ),
-        ), PopupMenuItem<String>(
+        ),
+        PopupMenuItem<String>(
           value: 'rate',
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -371,12 +372,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         child: Scaffold(
           backgroundColor: kPrimaryColor,
           appBar: MyAppBar(
-            title: isScrollToTopBtnVisible? widget.product.name: "Product Detail",
+            title: isScrollToTopBtnVisible
+                ? widget.product.name
+                : "Product Detail",
             elevation: 0.0,
             actions: [
               Row(
                 children: [
-
                   IconButton(
                     onPressed: _addToFavorites,
                     icon: FaIcon(
@@ -665,46 +667,46 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ),
                         ),
                         kSizedBox,
-                        GetBuilder<ProductController>(
-                          builder: (controller) {
-                            return Container(
-                              width: media.width,
-                              // padding: const EdgeInsets.all(kDefaultPadding),
-                              decoration: ShapeDecoration(
-                                color: const Color(0xFFFEF8F8),
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                    width: 0.50,
-                                    color: Color(0xFFFDEDED),
-                                  ),
-                                  borderRadius: BorderRadius.circular(25),
+                        GetBuilder<ProductController>(builder: (controller) {
+                          return Container(
+                            width: media.width,
+                            // padding: const EdgeInsets.all(kDefaultPadding),
+                            decoration: ShapeDecoration(
+                              color: const Color(0xFFFEF8F8),
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  width: 0.50,
+                                  color: Color(0xFFFDEDED),
                                 ),
-                                shadows: const [
-                                  BoxShadow(
-                                    color: Color(0x0F000000),
-                                    blurRadius: 24,
-                                    offset: Offset(0, 4),
-                                    spreadRadius: 0,
-                                  ),
-                                ],
+                                borderRadius: BorderRadius.circular(25),
                               ),
-                              child: ListTile(
-                                onTap: _toVendorPage,
-                                leading: FaIcon(FontAwesomeIcons.shop, color: kAccentColor, size: 20),
-                                title: Text(
-                                  "About vendor",
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    color: kTextGreyColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x0F000000),
+                                  blurRadius: 24,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: 0,
                                 ),
-                                trailing: FaIcon(FontAwesomeIcons.chevronRight, color: kAccentColor, size: 20),
+                              ],
+                            ),
+                            child: ListTile(
+                              onTap: _toVendorPage,
+                              leading: FaIcon(FontAwesomeIcons.shop,
+                                  color: kAccentColor, size: 20),
+                              title: Text(
+                                "About vendor",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  color: kTextGreyColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
-                            );
-                          }
-                        ),
+                              trailing: FaIcon(FontAwesomeIcons.chevronRight,
+                                  color: kAccentColor, size: 20),
+                            ),
+                          );
+                        }),
                         kSizedBox,
                         cartCountAll == null
                             ? Center(
@@ -895,7 +897,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const Divider(height: kDefaultPadding, color: kGreyColor1),
+                        const Divider(
+                            height: kDefaultPadding, color: kGreyColor1),
                         kSizedBox,
                         GetBuilder<ProductController>(
                             initState: (state) =>
