@@ -4,8 +4,8 @@ import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../src/components/rating_view/customer_review_card.dart';
 import '../../src/components/others/empty.dart';
+import '../../src/components/rating_view/customer_review_card.dart';
 import '../../src/providers/constants.dart';
 import 'all_vendor_reviews.dart';
 
@@ -38,10 +38,10 @@ class _AboutVendorState extends State<AboutVendor> {
 
     List<Ratings> ratings;
     if (active == 'all') {
-      ratings = await getRatingsByVendorId(widget.vendor.id);
+      ratings = await getRatingsByVendorId(widget.vendor.dummyInt);
     } else {
       ratings = await getRatingsByVendorIdAndRating(
-          widget.vendor.id, int.parse(active));
+          widget.vendor.dummyInt, int.parse(active));
     }
 
     setState(() {
@@ -296,7 +296,7 @@ class _AboutVendorState extends State<AboutVendor> {
                             });
 
                             List<Ratings> ratings =
-                                await getRatingsByVendorId(widget.vendor.id);
+                                await getRatingsByVendorId(widget.vendor.dummyInt);
 
                             setState(() {
                               _ratings = ratings;
@@ -336,7 +336,7 @@ class _AboutVendorState extends State<AboutVendor> {
 
                                         List<Ratings> ratings =
                                             await getRatingsByVendorIdAndRating(
-                                                widget.vendor.id,
+                                                widget.vendor.dummyInt,
                                                 int.parse(active));
 
                                         setState(() {

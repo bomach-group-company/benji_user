@@ -44,7 +44,7 @@ class _VendorLocationState extends State<VendorLocation> {
     _markerTitle = <String>["Me", widget.vendor.shopName];
     _markerSnippet = <String>[
       "My Location",
-      "${(widget.vendor.averageRating).toPrecision(1)} Rating"
+      "${(widget.vendor.dummyFloat).toPrecision(1)} Rating"
     ];
     _loadMapData();
   }
@@ -439,7 +439,7 @@ class _VendorLocationState extends State<VendorLocation> {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              '${(widget.vendor.averageRating).toPrecision(1)}',
+                              '${(widget.vendor.dummyFloat).toPrecision(1)}',
                               style: const TextStyle(
                                 color: kBlackColor,
                                 fontSize: 14,
@@ -463,10 +463,10 @@ class _VendorLocationState extends State<VendorLocation> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              widget.vendor.isOnline ? "Online" : 'Offline',
+                              widget.vendor.vendorOwner.isOnline ? "Online" : 'Offline',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: widget.vendor.isOnline
+                                color: widget.vendor.vendorOwner.isOnline
                                     ? kSuccessColor
                                     : kAccentColor,
                                 fontSize: 14,

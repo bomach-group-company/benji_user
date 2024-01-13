@@ -474,7 +474,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                             ),
                                             const SizedBox(width: 5),
                                             Text(
-                                              '${(widget.vendor.averageRating).toPrecision(1)}',
+                                              '${(widget.vendor.dummyFloat).toPrecision(1)}',
                                               style: const TextStyle(
                                                 color: kBlackColor,
                                                 fontSize: 14,
@@ -500,12 +500,12 @@ class _VendorDetailsState extends State<VendorDetails>
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              widget.vendor.isOnline
+                                              widget.vendor.vendorOwner.isOnline
                                                   ? "Online"
                                                   : 'Offline',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                color: widget.vendor.isOnline
+                                                color: widget.vendor.vendorOwner.isOnline
                                                     ? kSuccessColor
                                                     : kAccentColor,
                                                 fontSize: 14,
@@ -552,7 +552,7 @@ class _VendorDetailsState extends State<VendorDetails>
                             // ),
                             shape: const OvalBorder(),
                           ),
-                          child: MyImage(url: widget.vendor.profileLogo),
+                          child: MyImage(url: widget.vendor.vendorOwner.profileLogo),
                         ),
                       ),
                     ],

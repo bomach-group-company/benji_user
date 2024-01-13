@@ -114,7 +114,7 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
 
   _getData() async {
     List<Ratings> ratings =
-        await getRatingsByVendorId(widget.vendor.id, start: start, end: end);
+        await getRatingsByVendorId(widget.vendor.dummyInt, start: start, end: end);
 
     _data ??= {'ratings': []};
     setState(() {
