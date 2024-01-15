@@ -158,9 +158,9 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
                     },
                     itemEC: countryEC,
                     mediaWidth: media.width - 20,
-                    hintText: "Choose order",
+                    hintText: "Choose country",
                     dropdownMenuEntries2:
-                        controller.isLoad.value && controller.country.isEmpty
+                        controller.isLoadCountry.value && controller.country.isEmpty
                             ? [
                                 const DropdownMenuEntry(
                                     value: 'Loading...',
@@ -203,27 +203,34 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
                     },
                     itemEC: stateEC,
                     mediaWidth: media.width - 20,
-                    hintText: "Choose order",
+                    hintText: "Choose state",
                     dropdownMenuEntries2:
-                        controller.isLoad.value && controller.country.isEmpty
+                    countryEC.text.isEmpty
+                                ? [
+                                    const DropdownMenuEntry(
+                                        value: 'Select Country',
+                                        label: 'Select Country',
+                                        enabled: false),
+                                  ] : 
+                        controller.isLoadState.value && controller.state.isEmpty
                             ? [
                                 const DropdownMenuEntry(
                                     value: 'Loading...',
                                     label: 'Loading...',
                                     enabled: false),
                               ]
-                            : controller.country.isEmpty
+                            : controller.state.isEmpty
                                 ? [
                                     const DropdownMenuEntry(
                                         value: 'EMPTY',
                                         label: 'EMPTY',
                                         enabled: false),
                                   ]
-                                : controller.country
+                                : controller.state
                                     .map(
                                       (item) => DropdownMenuEntry(
-                                        value: item.country,
-                                        label: item.country,
+                                        value: item.state,
+                                        label: item.state,
                                       ),
                                     )
                                     .toList(),
@@ -249,27 +256,34 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
                     },
                     itemEC: cityEC,
                     mediaWidth: media.width - 20,
-                    hintText: "Choose order",
+                    hintText: "Choose city",
                     dropdownMenuEntries2:
-                        controller.isLoad.value && controller.country.isEmpty
+stateEC.text.isEmpty
+                                ? [
+                                    const DropdownMenuEntry(
+                                        value: 'Select state',
+                                        label: 'Select state',
+                                        enabled: false),
+                                  ] : 
+                        controller.isLoadCity.value && controller.city.isEmpty
                             ? [
                                 const DropdownMenuEntry(
                                     value: 'Loading...',
                                     label: 'Loading...',
                                     enabled: false),
                               ]
-                            : controller.country.isEmpty
+                            : controller.city.isEmpty
                                 ? [
                                     const DropdownMenuEntry(
                                         value: 'EMPTY',
                                         label: 'EMPTY',
                                         enabled: false),
                                   ]
-                                : controller.country
+                                : controller.city
                                     .map(
                                       (item) => DropdownMenuEntry(
-                                        value: item.country,
-                                        label: item.country,
+                                        value: item.city,
+                                        label: item.city,
                                       ),
                                     )
                                     .toList(),

@@ -15,21 +15,23 @@ class ShoppingLocationController extends GetxController {
     return Get.find<ShoppingLocationController>();
   }
 
-  var isLoad = false.obs;
+  var isLoadCountry = false.obs;
+  var isLoadState = false.obs;
+  var isLoadCity = false.obs;
   var country = <ShoppingLocationCountry>[].obs;
   var state = <ShoppingLocationState>[].obs;
   var city = <ShoppingLocationCity>[].obs;
 
 
   Future getShoppingLocationCountries() async {
-    isLoad.value = true;
+    isLoadCountry.value = true;
     var url = "${Api.baseUrl}/country/listAllCountries";
     try {
       http.Response? response = await http.get(Uri.parse(url), headers: authHeader());
       country.value = (jsonDecode(response.body) as List)
           .map((e) => ShoppingLocationCountry.fromJson(e))
           .toList();
-      isLoad.value = false;
+      isLoadCountry.value = false;
 
       update();
     } on SocketException {
@@ -37,19 +39,19 @@ class ShoppingLocationController extends GetxController {
     } catch (e) {
       // ApiProcessorController.errorSnack("An error occurred ERROR: $e");
     }
-    isLoad.value = false;
+    isLoadCountry.value = false;
     update();
   }
 
     Future getShoppingLocationState(String country) async {
-    isLoad.value = true;
+    isLoadState.value = true;
     var url = "${Api.baseUrl}/country/getCountryStates/$country";
     try {
       http.Response? response = await http.get(Uri.parse(url), headers: authHeader());
       state.value = (jsonDecode(response.body) as List)
           .map((e) => ShoppingLocationState.fromJson(e))
           .toList();
-      isLoad.value = false;
+      isLoadState.value = false;
 
       update();
     } on SocketException {
@@ -57,19 +59,19 @@ class ShoppingLocationController extends GetxController {
     } catch (e) {
       // ApiProcessorController.errorSnack("An error occurred ERROR: $e");
     }
-    isLoad.value = false;
+    isLoadState.value = false;
     update();
   }
 
     Future getShoppingLocationCity(String state) async {
-    isLoad.value = true;
+    isLoadCity.value = true;
     var url = "${Api.baseUrl}/country/getCountryStatesCites/$state";
     try {
       http.Response? response = await http.get(Uri.parse(url), headers: authHeader());
       city.value = (jsonDecode(response.body) as List)
           .map((e) => ShoppingLocationCity.fromJson(e))
           .toList();
-      isLoad.value = false;
+      isLoadCity.value = false;
 
       update();
     } on SocketException {
@@ -77,7 +79,7 @@ class ShoppingLocationController extends GetxController {
     } catch (e) {
       // ApiProcessorController.errorSnack("An error occurred ERROR: $e");
     }
-    isLoad.value = false;
+    isLoadCity.value = false;
     update();
   }
 }
