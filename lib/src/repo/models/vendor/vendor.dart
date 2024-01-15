@@ -144,7 +144,7 @@ class VendorOwner {
       longitude: json['longitude'] ?? '',
       latitude: json['latitude'] ?? '',
       isOnline: json['is_online'] ?? true,
-      averageRating: json['average_rating'].toDouble() ?? 0.0,
+      averageRating: (json['average_rating'] ?? 0).toDouble() ?? 0.0,
       numberOfClientsReactions: json['number_of_clients_reactions'] ?? 0,
       profileLogo: json['profileLogo'] ?? 'https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg',
     );

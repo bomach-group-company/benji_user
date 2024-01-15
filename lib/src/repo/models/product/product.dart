@@ -40,13 +40,13 @@ class Product {
       id: json['id'] ?? notAvailable,
       name: json['name'] ?? notAvailable,
       description: json['description'] ?? notAvailable,
-      price: json['price'].toDouble() ?? 0.0,
+      price: (json['price'] ?? 0).toDouble() ?? 0.0,
       quantityAvailable: json['quantity_available'] ?? 0,
       productImage: json['product_image'],
       isAvailable: json['is_available'] ?? false,
       isTrending: json['is_trending'] ?? false,
       isRecommended: json['is_recommended'] ?? false,
-      vendorId: VendorModel.fromJson(json['vendor']),
+      vendorId: VendorModel.fromJson(json['business']),
       subCategoryId: SubCategory.fromJson(json['sub_category']),
     );
   }
