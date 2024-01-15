@@ -1,3 +1,4 @@
+import 'package:benji/app/home/home.dart';
 import 'package:benji/app/packages/item_category_dropdown_menu.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_outlined_elevatedbutton.dart';
@@ -79,6 +80,16 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
       );
     }
     await setShoppingLocation(countryEC.text, stateEC.text, cityEC.text);
+    Get.off(
+      () => const Home(),
+      routeName: 'Home',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
   }
 
   void useCurrentLocation() async {
