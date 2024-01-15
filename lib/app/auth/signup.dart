@@ -482,6 +482,29 @@ class _SignUpState extends State<SignUp> {
                             focusNode: _userPhoneNumberFN,
                           ),
                           kSizedBox,
+                          const Text(
+                              'Referral code (Optional)',
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            kHalfSizedBox,
+                          NameTextFormField(
+                            controller: _referralCodeEC,
+                            validator: (value) {
+                              
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _referralCodeEC.text = value;
+                            },
+                            textInputAction: TextInputAction.next,
+                            nameFocusNode: _referralCodeFN,
+                            hintText: "Referral code",
+                          ),
+                          kSizedBox,
                           const SizedBox(
                             child: Text(
                               'Password',

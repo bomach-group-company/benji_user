@@ -271,6 +271,7 @@ class _SettingsState extends State<Settings> {
       );
 
   void _logOut() async {
+    UserController.instance.logoutUser();
     await UserController.instance.deleteUser();
     Get.offAll(
       () => const Login(),
