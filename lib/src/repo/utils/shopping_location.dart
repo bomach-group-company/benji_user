@@ -37,5 +37,5 @@ String getShoppingLocationString() {
   }
   dynamic result = jsonDecode(data);
   
-  return "${result['state']}, ${result['city']}";
+  return "${result['city']}, ${result['state']}, ${result['country']}";
 }
