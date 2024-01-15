@@ -1,0 +1,83 @@
+
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:benji/src/repo/controller/error_controller.dart';
+import 'package:benji/src/repo/models/shopping_location.dart';
+import 'package:benji/src/repo/services/api_url.dart';
+import 'package:benji/src/repo/services/helper.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
+
+class ShoppingLocationController extends GetxController {
+  static ShoppingLocationController get instance {
+    return Get.find<ShoppingLocationController>();
+  }
+
+  var isLoad = false.obs;
+  var country = <ShoppingLocationCountry>[].obs;
+  var state = <ShoppingLocationState>[].obs;
+  var city = <ShoppingLocationCity>[].obs;
+
+
+  Future getShoppingLocationCountries() async {
+    isLoad.value = true;
+    var url = "${Api.baseUrl}/country/listAllCountries";
+    try {
+      http.Response? response = await http.get(Uri.parse(url), headers: authHeader());
+      country.value = (jsonDecode(response.body) as List)
+          .map((e) => ShoppingLocationCountry.fromJson(e))
+          .toList();
+      isLoad.value = false;
+
+      update();
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+    } catch (e) {
+      // ApiProcessorController.errorSnack("An error occurred ERROR: $e");
+    }
+    isLoad.value = false;
+    update();
+  }
+
+    Future getShoppingLocationState(String country) async {
+    isLoad.value = true;
+    var url = "${Api.baseUrl}/country/getCountryStates/$country";
+    try {
+      http.Response? response = await http.get(Uri.parse(url), headers: authHeader());
+      state.value = (jsonDecode(response.body) as List)
+          .map((e) => ShoppingLocationState.fromJson(e))
+          .toList();
+      isLoad.value = false;
+
+      update();
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+    } catch (e) {
+      // ApiProcessorController.errorSnack("An error occurred ERROR: $e");
+    }
+    isLoad.value = false;
+    update();
+  }
+
+    Future getShoppingLocationCity(String state) async {
+    isLoad.value = true;
+    var url = "${Api.baseUrl}/country/getCountryStatesCites/$state";
+    try {
+      http.Response? response = await http.get(Uri.parse(url), headers: authHeader());
+      city.value = (jsonDecode(response.body) as List)
+          .map((e) => ShoppingLocationCity.fromJson(e))
+          .toList();
+      isLoad.value = false;
+
+      update();
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+    } catch (e) {
+      // ApiProcessorController.errorSnack("An error occurred ERROR: $e");
+    }
+    isLoad.value = false;
+    update();
+  }
+}
