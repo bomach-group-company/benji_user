@@ -8,6 +8,8 @@ String instanceNameShoppingLocation = 'shoppingLocation';
 
 Future<bool> setShoppingLocation(String country, String state, String city) async {
   Map<String, String> area = {'country': country, 'state': state, 'city': city};
+
+  print('area $area');
     return await prefs.setString(instanceNameShoppingLocation, jsonEncode(area));
 }
 

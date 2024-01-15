@@ -1,14 +1,20 @@
 class ShoppingLocationCountry {
-  final String country;
+  final String countryName;
+  final String countryShortName;
+  final int countryPhoneCode;
 
   ShoppingLocationCountry({
-    required this.country,
+    required this.countryName,
+    required this.countryShortName,
+    required this.countryPhoneCode,
   });
 
   factory ShoppingLocationCountry.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return ShoppingLocationCountry(
-      country: json['country'] ?? '',
+      countryName: json['country_name'] ?? '',
+      countryShortName: json['country_short_name'] ?? '',
+      countryPhoneCode: json['country_phone_code'] ?? '',
     );
   }
 }
@@ -23,7 +29,7 @@ class ShoppingLocationState {
   factory ShoppingLocationState.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return ShoppingLocationState(
-      state: json['state'] ?? '',
+      state: json['state_name'] ?? '',
     );
   }
 }
@@ -39,7 +45,7 @@ class ShoppingLocationCity {
   factory ShoppingLocationCity.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return ShoppingLocationCity(
-      city: json['city'] ?? '',
+      city: json['city_name'] ?? '',
     );
   }
 }

@@ -27,11 +27,12 @@ class ShoppingLocationController extends GetxController {
     isLoadCountry.value = true;
     var url = "${Api.baseUrl}/country/listAllCountries";
     try {
-      http.Response? response = await http.get(Uri.parse(url), headers: authHeader());
+      http.Response response = await http.get(Uri.parse(url), headers: authHeader());
       country.value = (jsonDecode(response.body) as List)
           .map((e) => ShoppingLocationCountry.fromJson(e))
           .toList();
       isLoadCountry.value = false;
+
 
       update();
     } on SocketException {
@@ -48,7 +49,8 @@ class ShoppingLocationController extends GetxController {
     var url = "${Api.baseUrl}/country/getCountryStates/$country";
     try {
       http.Response? response = await http.get(Uri.parse(url), headers: authHeader());
-      state.value = (jsonDecode(response.body) as List)
+      print(response.body);
+      state.value = (jsonDecode(response.body)?['message']?['data'] as List)
           .map((e) => ShoppingLocationState.fromJson(e))
           .toList();
       isLoadState.value = false;
@@ -68,7 +70,7 @@ class ShoppingLocationController extends GetxController {
     var url = "${Api.baseUrl}/country/getCountryStatesCites/$state";
     try {
       http.Response? response = await http.get(Uri.parse(url), headers: authHeader());
-      city.value = (jsonDecode(response.body) as List)
+      city.value = (jsonDecode(response.body)?['message']?['data'] as List)
           .map((e) => ShoppingLocationCity.fromJson(e))
           .toList();
       isLoadCity.value = false;

@@ -79,7 +79,6 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
       );
     }
     await setShoppingLocation(countryEC.text, stateEC.text, cityEC.text);
-
   }
 
   void useCurrentLocation() async {
@@ -152,9 +151,9 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
                   initState: (state) => ShoppingLocationController.instance.getShoppingLocationCountries(),
                   builder: (controller) => ItemDropDownMenu(
                     onSelected: (value) {
-                      countryEC.text = value!.toString();
                       controller.getShoppingLocationState(value);
-                     
+                      countryEC.text = value!.toString();
+                      setState(() {});
                     },
                     itemEC: countryEC,
                     mediaWidth: media.width - 20,
@@ -177,8 +176,8 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
                                 : controller.country
                                     .map(
                                       (item) => DropdownMenuEntry(
-                                        value: item.country,
-                                        label: item.country,
+                                        value: item.countryName,
+                                        label: item.countryName,
                                       ),
                                     )
                                     .toList(),
@@ -194,12 +193,11 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
                 ),
                 kHalfSizedBox,
                 GetBuilder<ShoppingLocationController>(
-                  initState: (state) => ShoppingLocationController.instance.getShoppingLocationCountries(),
                   builder: (controller) => ItemDropDownMenu(
                     onSelected: (value) {
                       stateEC.text = value!.toString();
-                      controller.getShoppingLocationState(value);
-                     
+                      controller.getShoppingLocationCity(value);
+                      setState(() {});
                     },
                     itemEC: stateEC,
                     mediaWidth: media.width - 20,
@@ -247,22 +245,20 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
                 ),
                 kHalfSizedBox,
                 GetBuilder<ShoppingLocationController>(
-                  initState: (state) => ShoppingLocationController.instance.getShoppingLocationCountries(),
                   builder: (controller) => ItemDropDownMenu(
                     onSelected: (value) {
-                      cityEC.text = value!.toString();
-                      controller.getShoppingLocationState(value);
-                     
+                      cityEC.text = value!.toString();  
+                      setState(() {});
                     },
                     itemEC: cityEC,
                     mediaWidth: media.width - 20,
                     hintText: "Choose city",
                     dropdownMenuEntries2:
-stateEC.text.isEmpty
+                              stateEC.text.isEmpty
                                 ? [
                                     const DropdownMenuEntry(
-                                        value: 'Select state',
-                                        label: 'Select state',
+                                        value: 'Select State',
+                                        label: 'Select State',
                                         enabled: false),
                                   ] : 
                         controller.isLoadCity.value && controller.city.isEmpty
