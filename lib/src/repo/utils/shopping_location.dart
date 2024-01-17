@@ -26,7 +26,7 @@ String? getShoppingLocationPath() {
   }
   dynamic result = jsonDecode(data);
   
-  return "/${result['city']}/${result['state']}/${result['country']}";
+  return "${result['city']}/${result['state']}/${result['country']}";
 }
 
 

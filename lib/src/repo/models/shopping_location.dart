@@ -39,16 +39,19 @@ class ShoppingLocationState {
 
 
 class ShoppingLocationCity {
-  final String city;
+  final String cityName;
+  final String cityCode;
 
   ShoppingLocationCity({
-    required this.city,
+    required this.cityName,
+    required this.cityCode,
   });
 
   factory ShoppingLocationCity.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return ShoppingLocationCity(
-      city: json['city_name'] ?? '',
+      cityName: json['cityName'] ?? '',
+      cityCode: json['cityCode'] ?? '',
     );
   }
 }

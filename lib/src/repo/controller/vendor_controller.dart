@@ -6,6 +6,7 @@ import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:benji/src/repo/services/api_url.dart';
+import 'package:benji/src/repo/utils/shopping_location.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -82,22 +83,20 @@ class VendorController extends GetxController {
     late String token;
     String id = UserController.instance.user.value.id.toString();
     var url =
-        "${Api.baseUrl}${Api.vendorList}?start=${loadNumVendor.value - 10}&end=${loadNumVendor.value}";
-    loadNumVendor.value += 10;
-
+        "${Api.baseUrl}/clients/getbusinessesByLocation/${getShoppingLocationPath()}";
+    print(url);
     token = UserController.instance.user.value.token;
     List<VendorModel> data = [];
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
-      data = (jsonDecode(response!.body)['items'] as List)
+      print(response!.body);
+      data = (jsonDecode(response.body) as List)
           .map((e) => VendorModel.fromJson(e))
           .toList();
-      vendorList.value += data;
+      vendorList.value = data;
     } catch (e) {}
     isLoad.value = false;
-    isLoadMoreVendor.value = false;
-    loadedAllVendor.value = data.isEmpty;
 
     update();
   }

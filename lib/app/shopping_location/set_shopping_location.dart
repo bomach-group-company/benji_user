@@ -289,8 +289,8 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
                                 : controller.city
                                     .map(
                                       (item) => DropdownMenuEntry(
-                                        value: item.city,
-                                        label: item.city,
+                                        value: item.cityCode,
+                                        label: item.cityName,
                                       ),
                                     )
                                     .toList(),
