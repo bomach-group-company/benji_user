@@ -1,35 +1,38 @@
 class ShoppingLocationCountry {
+  final int id;
   final String countryName;
-  final String countryShortName;
-  final int countryPhoneCode;
+  final String countryCode;
 
   ShoppingLocationCountry({
+    required this.id,
     required this.countryName,
-    required this.countryShortName,
-    required this.countryPhoneCode,
+    required this.countryCode,
   });
 
   factory ShoppingLocationCountry.fromJson(Map<String, dynamic>? json) {
-    json ??= {};
+    json ??= {'countryCode':{}};
     return ShoppingLocationCountry(
-      countryName: json['country_name'] ?? '',
-      countryShortName: json['country_short_name'] ?? '',
-      countryPhoneCode: json['country_phone_code'] ?? '',
+      id: json['id'] ?? 0,
+      countryName: json['countryCode']['name'] ?? '',
+      countryCode: json['countryCode']['code'] ?? '',
     );
   }
 }
 
 class ShoppingLocationState {
-  final String state;
+  final String stateName;
+  final String stateCode;
 
   ShoppingLocationState({
-    required this.state,
+    required this.stateName,
+    required this.stateCode,
   });
 
   factory ShoppingLocationState.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return ShoppingLocationState(
-      state: json['state_name'] ?? '',
+      stateName: json['stateName'] ?? '',
+      stateCode: json['stateCode'] ?? '',
     );
   }
 }
