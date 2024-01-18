@@ -3,29 +3,21 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:webviewx/webviewx.dart';
 
-import '../../repo/services/api_url.dart';
-
-class AlatPayWidget extends StatefulWidget {
+class SquadPaymentWidget extends StatefulWidget {
   final String apiKey;
-  final String businessId;
   final Map? metaData;
   final String email;
-  final String phone;
-  final String firstName;
-  final String lastName;
+  final String customerName;
   final String currency;
   final String amount;
-  final Function(dynamic response) onTransaction;
+  final Function() onTransaction;
   final Function()? onClose;
-  const AlatPayWidget({
+  const SquadPaymentWidget({
     super.key,
     required this.apiKey,
-    required this.businessId,
     this.metaData,
     required this.email,
-    this.phone = '',
-    this.firstName = '',
-    this.lastName = '',
+    this.customerName = '',
     this.currency = 'NGN',
     required this.amount,
     required this.onTransaction,
@@ -33,10 +25,10 @@ class AlatPayWidget extends StatefulWidget {
   });
 
   @override
-  AlatPayWidgetState createState() => AlatPayWidgetState();
+  SquadPaymentWidgetState createState() => SquadPaymentWidgetState();
 }
 
-class AlatPayWidgetState extends State<AlatPayWidget> {
+class SquadPaymentWidgetState extends State<SquadPaymentWidget> {
   late WebViewXController webviewController;
   String html = "";
   @override
@@ -46,11 +38,8 @@ class AlatPayWidgetState extends State<AlatPayWidget> {
     String metaData =
         widget.metaData == null ? 'null' : jsonEncode(widget.metaData);
     String apiKey = '"${widget.apiKey}"';
-    String businessId = '"${widget.businessId}"';
     String email = '"${widget.email}"';
-    String phone = '"${widget.phone}"';
-    String firstName = '"${widget.firstName}"';
-    String lastName = '"${widget.lastName}"';
+    String customerName = '"${widget.customerName}"';
     String currency = '"${widget.currency}"';
     String amount = widget.amount;
 
@@ -64,34 +53,31 @@ class AlatPayWidgetState extends State<AlatPayWidget> {
     </head>
 
     <body>
-      <!-- <button onclick="showPayment()"> Pay with Alatpay </button> -->
+      <!-- <button onclick="SquadPay()"> Pay with Alatpay </button> -->
 
-    <script src="https://web.alatpay.ng/js/alatpay.js"></script>
+    <script src="https://checkout.squadco.com/widget/squad.min.js"></script> 
     <script>
-        let popup = Alatpay.setup({
-            apiKey: $apiKey,
-            businessId: $businessId,
-            email: $email,
-            phone: $phone,
-            firstName: $firstName,
-            lastName: $lastName,
-            metadata: $metaData,
-            currency: $currency,
-            amount: $amount,
+    function SquadPay() {
+    
+      const squadInstance = new squad({
+        onClose: () => paymentcancel("payment closed"),
+        onLoad: () => console.log("Widget loaded successfully"),
+        onSuccess: () => paymentsuccess("payment success"),
+        key: $apiKey,
+        //Change key (test_pk_sample-public-key-1) to the key on your Squad Dashboard
+        email: $email,
+        amount: $amount * 100,
+        //Enter amount in Naira or Dollar (Base value Kobo/cent already multiplied by 100)
+        currency_code: $currency,
+        customer_name: $customerName,
+        metadata: $metaData
+      });
+      squadInstance.setup();
+      squadInstance.open();
 
-            onTransaction: function (response) {
-              paymentsuccess(JSON.stringify(response))
-            },
+    }
+    SquadPay()
 
-            onClose: function () {
-              paymentcancel("payment cancel")
-            }
-        });
-
-        function showPayment() {
-            popup.show();
-        }
-        showPayment()
     </script>
     </body>
 
@@ -110,10 +96,7 @@ class AlatPayWidgetState extends State<AlatPayWidget> {
             DartCallback(
               name: 'paymentsuccess',
               callBack: (message) {
-                consoleLog('message success gotten $message');
-                dynamic resp = jsonDecode(message);
-                consoleLog('the resp $resp');
-                widget.onTransaction(resp);
+                widget.onTransaction();
               },
             ),
             DartCallback(

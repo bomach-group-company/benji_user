@@ -5,7 +5,7 @@ import 'dart:math';
 
 import 'package:benji/app/home/home.dart';
 import 'package:benji/app/splash_screens/payment_successful_screen.dart';
-import 'package:benji/src/components/payment/alatpay.dart';
+import 'package:benji/src/components/payment/squad.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
@@ -27,7 +27,6 @@ import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/keys.dart';
 import '../../src/repo/controller/error_controller.dart';
-import '../../src/repo/controller/notifications_controller.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../theme/colors.dart';
 import '../address/deliver_to.dart';
@@ -125,10 +124,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   //PLACE ORDER
   void _placeOrder() {
-    String apiKey = alatPayPrimaryKey;
-    String businessId = alatPayBuinessId;
+    String apiKey = sqaudAPIKey;
     String email = UserController.instance.user.value.email;
-    String phone = UserController.instance.user.value.phone;
     String firstName = UserController.instance.user.value.firstName;
     String lastName = UserController.instance.user.value.lastName;
     String currency = 'NGN';
@@ -142,40 +139,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
-          return AlatPayWidget(
+          return SquadPaymentWidget(
             apiKey: apiKey,
-            businessId: businessId,
             email: email,
-            phone: phone,
-            firstName: firstName,
-            lastName: lastName,
+            customerName: '$firstName $lastName',
             currency: currency,
             amount: amount,
             metaData: meta,
             onClose: () {
               Get.close(2);
             },
-            onTransaction: (response) async {
-              consoleLog('the response from my alatpay $response');
-              if (response != null && response['status'] == true) {
-                await CartController.instance.clearCartProduct(widget.index);
-                await NotificationController.showNotification(
-                  title: "Payment Success",
-                  body: "Your payment of NGN$amount was successful",
-                  largeIcon: "asset://assets/icons/success.png",
-                  customSound: "asset://assets/audio/success.wav",
-                );
-                Get.off(
-                  () => const PaymentSuccessful(),
-                  routeName: 'PaymentSuccessful',
-                  duration: const Duration(milliseconds: 300),
-                  fullscreenDialog: true,
-                  curve: Curves.easeIn,
-                  preventDuplicates: true,
-                  popGesture: true,
-                  transition: Transition.rightToLeft,
-                );
-              }
+            onTransaction: () async {
+              Get.off(
+                () => const PaymentSuccessful(),
+                routeName: 'PaymentSuccessful',
+                duration: const Duration(milliseconds: 300),
+                fullscreenDialog: true,
+                curve: Curves.easeIn,
+                preventDuplicates: true,
+                popGesture: true,
+                transition: Transition.rightToLeft,
+              );
             },
           );
         }),

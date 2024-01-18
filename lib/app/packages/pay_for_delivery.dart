@@ -6,7 +6,7 @@ import 'dart:math';
 import 'package:benji/app/packages/packages.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
-import 'package:benji/src/components/payment/alatpay.dart';
+import 'package:benji/src/components/payment/squad.dart';
 import 'package:benji/src/repo/controller/payment_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/utils/constants.dart';
@@ -141,10 +141,8 @@ class _PayForDeliveryState extends State<PayForDelivery> {
 
 //======== Place Order =======\\
   void placeOrder() {
-    String apiKey = alatPayPrimaryKey;
-    String businessId = alatPayBuinessId;
+    String apiKey = sqaudAPIKey;
     String email = UserController.instance.user.value.email;
-    String phone = UserController.instance.user.value.phone;
     String firstName = UserController.instance.user.value.firstName;
     String lastName = UserController.instance.user.value.lastName;
     String currency = 'NGN';
@@ -158,21 +156,15 @@ class _PayForDeliveryState extends State<PayForDelivery> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
-          return AlatPayWidget(
+          return SquadPaymentWidget(
             apiKey: apiKey,
-            businessId: businessId,
             email: email,
-            phone: phone,
-            firstName: firstName,
-            lastName: lastName,
+            customerName: '$firstName $lastName',
             currency: currency,
             amount: amount,
             metaData: meta,
-            onTransaction: (response) {
-              consoleLog('the response from my alatpay $response');
-              if (response != null) {
-                toPackages();
-              }
+            onTransaction: () {
+              toPackages();
             },
           );
         }),
