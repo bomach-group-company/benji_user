@@ -6,6 +6,7 @@ import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/models/category/sub_category.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/services/api_url.dart';
+import 'package:benji/src/repo/utils/shopping_location.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -65,20 +66,18 @@ class ProductController extends GetxController {
   }
 
   Future getProduct() async {
-    if (loadedAllProduct.value) {
-      return;
-    }
-
     isLoad.value = true;
 
     var url =
-        "${Api.baseUrl}/products/listProduct?start=${loadNumProduct.value - 10}&end=${loadNumProduct.value}";
+        "${Api.baseUrl}/clients/productsByUserLocation/${getShoppingLocationPath()}?start=${loadNumProduct.value - 10}&end=${loadNumProduct.value}";
     loadNumProduct.value += 10;
     String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
     var responseData = await ApiProcessorController.errorState(response);
     if (responseData == null) {
+      isLoadMoreProduct.value = false;
       isLoad.value = false;
+      isLoadMoreProduct.value = false;
       update();
       return;
     }
@@ -91,7 +90,7 @@ class ProductController extends GetxController {
     } catch (e) {
       debugPrint(e.toString());
     }
-    loadedAllProduct.value = data.isEmpty;
+    isLoadMoreProduct.value = data.isEmpty;
     isLoad.value = false;
     isLoadMoreProduct.value = false;
     update();

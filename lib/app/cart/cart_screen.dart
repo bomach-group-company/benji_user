@@ -216,7 +216,8 @@ class _CartScreenState extends State<CartScreen> {
                                 rowSizes: controller.cartProducts.isEmpty
                                     ? [auto]
                                     : List.generate(
-                                        controller.cartProducts.length,
+                                        controller
+                                            .cartProducts[widget.index].length,
                                         (index) => auto),
                                 children:
                                     (controller.cartProducts[widget.index])

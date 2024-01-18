@@ -16,7 +16,8 @@ import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
 
 class SetShoppingLocation extends StatefulWidget {
-  const SetShoppingLocation({super.key});
+  const SetShoppingLocation({super.key, this.navTo});
+  final Function()? navTo;
 
   @override
   State<SetShoppingLocation> createState() => _SetShoppingLocationState();
@@ -67,7 +68,7 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
     }
   }
 
-  Future setShoppingLocationForm() async{
+  Future setShoppingLocationForm() async {
     if (countryEC.text.isEmpty) {
       ApiProcessorController.errorSnack("Please select a country");
     }
@@ -80,16 +81,20 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
       );
     }
     await setShoppingLocation(countryEC.text, stateEC.text, cityEC.text);
-    Get.off(
-      () => const Home(),
-      routeName: 'Home',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
+    if (widget.navTo == null) {
+      Get.off(
+        () => const Home(),
+        routeName: 'Home',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+    } else {
+      widget.navTo!();
+    }
   }
 
   void useCurrentLocation() async {
@@ -151,154 +156,152 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
             ),
             kSizedBox,
             const Text(
-                  "Select Country",
-                  style: TextStyle(
-                    fontSize: 17.6,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                kHalfSizedBox,
-                GetBuilder<ShoppingLocationController>(
-                  initState: (state) => ShoppingLocationController.instance.getShoppingLocationCountries(),
-                  builder: (controller) => ItemDropDownMenu(
-                    onSelected: (value) {
-                      controller.getShoppingLocationState(value);
-                      countryEC.text = value!.toString();
-                      setState(() {});
-                    },
-                    itemEC: countryEC,
-                    mediaWidth: media.width - 20,
-                    hintText: "Choose country",
-                    dropdownMenuEntries2:
-                        controller.isLoadCountry.value && controller.country.isEmpty
+              "Select Country",
+              style: TextStyle(
+                fontSize: 17.6,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            kHalfSizedBox,
+            GetBuilder<ShoppingLocationController>(
+              initState: (state) => ShoppingLocationController.instance
+                  .getShoppingLocationCountries(),
+              builder: (controller) => ItemDropDownMenu(
+                onSelected: (value) {
+                  controller.getShoppingLocationState(value);
+                  countryEC.text = value!.toString();
+                  setState(() {});
+                },
+                itemEC: countryEC,
+                mediaWidth: media.width - 20,
+                hintText: "Choose country",
+                dropdownMenuEntries2:
+                    controller.isLoadCountry.value && controller.country.isEmpty
+                        ? [
+                            const DropdownMenuEntry(
+                                value: 'Loading...',
+                                label: 'Loading...',
+                                enabled: false),
+                          ]
+                        : controller.country.isEmpty
                             ? [
                                 const DropdownMenuEntry(
-                                    value: 'Loading...',
-                                    label: 'Loading...',
+                                    value: 'EMPTY',
+                                    label: 'EMPTY',
                                     enabled: false),
                               ]
-                            : controller.country.isEmpty
-                                ? [
-                                    const DropdownMenuEntry(
-                                        value: 'EMPTY',
-                                        label: 'EMPTY',
-                                        enabled: false),
-                                  ]
-                                : controller.country
-                                    .map(
-                                      (item) => DropdownMenuEntry(
-                                        value: item.countryCode,
-                                        label: item.countryName,
-                                      ),
-                                    )
-                                    .toList(),
-                  ),
-                ),
-                kSizedBox,
-                const Text(
-                  "Select state",
-                  style: TextStyle(
-                    fontSize: 17.6,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                kHalfSizedBox,
-                GetBuilder<ShoppingLocationController>(
-                  builder: (controller) => ItemDropDownMenu(
-                    onSelected: (value) {
-                      stateEC.text = value!.toString();
-                      controller.getShoppingLocationCity(value);
-                      setState(() {});
-                    },
-                    itemEC: stateEC,
-                    mediaWidth: media.width - 20,
-                    hintText: "Choose state",
-                    dropdownMenuEntries2:
-                    countryEC.text.isEmpty
-                                ? [
-                                    const DropdownMenuEntry(
-                                        value: 'Select Country',
-                                        label: 'Select Country',
-                                        enabled: false),
-                                  ] : 
-                        controller.isLoadState.value && controller.state.isEmpty
+                            : controller.country
+                                .map(
+                                  (item) => DropdownMenuEntry(
+                                    value: item.countryCode,
+                                    label: item.countryName,
+                                  ),
+                                )
+                                .toList(),
+              ),
+            ),
+            kSizedBox,
+            const Text(
+              "Select state",
+              style: TextStyle(
+                fontSize: 17.6,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            kHalfSizedBox,
+            GetBuilder<ShoppingLocationController>(
+              builder: (controller) => ItemDropDownMenu(
+                onSelected: (value) {
+                  stateEC.text = value!.toString();
+                  controller.getShoppingLocationCity(value);
+                  setState(() {});
+                },
+                itemEC: stateEC,
+                mediaWidth: media.width - 20,
+                hintText: "Choose state",
+                dropdownMenuEntries2: countryEC.text.isEmpty
+                    ? [
+                        const DropdownMenuEntry(
+                            value: 'Select Country',
+                            label: 'Select Country',
+                            enabled: false),
+                      ]
+                    : controller.isLoadState.value && controller.state.isEmpty
+                        ? [
+                            const DropdownMenuEntry(
+                                value: 'Loading...',
+                                label: 'Loading...',
+                                enabled: false),
+                          ]
+                        : controller.state.isEmpty
                             ? [
                                 const DropdownMenuEntry(
-                                    value: 'Loading...',
-                                    label: 'Loading...',
+                                    value: 'EMPTY',
+                                    label: 'EMPTY',
                                     enabled: false),
                               ]
-                            : controller.state.isEmpty
-                                ? [
-                                    const DropdownMenuEntry(
-                                        value: 'EMPTY',
-                                        label: 'EMPTY',
-                                        enabled: false),
-                                  ]
-                                : controller.state
-                                    .map(
-                                      (item) => DropdownMenuEntry(
-                                        value: item.stateCode,
-                                        label: item.stateName,
-                                      ),
-                                    )
-                                    .toList(),
-                  ),
-                ),
-                kSizedBox,
+                            : controller.state
+                                .map(
+                                  (item) => DropdownMenuEntry(
+                                    value: item.stateCode,
+                                    label: item.stateName,
+                                  ),
+                                )
+                                .toList(),
+              ),
+            ),
+            kSizedBox,
 
-                const Text(
-                  "Select city",
-                  style: TextStyle(
-                    fontSize: 17.6,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                kHalfSizedBox,
-                GetBuilder<ShoppingLocationController>(
-                  builder: (controller) => ItemDropDownMenu(
-                    onSelected: (value) {
-                      cityEC.text = value!.toString();  
-                      setState(() {});
-                    },
-                    itemEC: cityEC,
-                    mediaWidth: media.width - 20,
-                    hintText: "Choose city",
-                    dropdownMenuEntries2:
-                              stateEC.text.isEmpty
-                                ? [
-                                    const DropdownMenuEntry(
-                                        value: 'Select State',
-                                        label: 'Select State',
-                                        enabled: false),
-                                  ] : 
-                        controller.isLoadCity.value && controller.city.isEmpty
+            const Text(
+              "Select city",
+              style: TextStyle(
+                fontSize: 17.6,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            kHalfSizedBox,
+            GetBuilder<ShoppingLocationController>(
+              builder: (controller) => ItemDropDownMenu(
+                onSelected: (value) {
+                  cityEC.text = value!.toString();
+                  setState(() {});
+                },
+                itemEC: cityEC,
+                mediaWidth: media.width - 20,
+                hintText: "Choose city",
+                dropdownMenuEntries2: stateEC.text.isEmpty
+                    ? [
+                        const DropdownMenuEntry(
+                            value: 'Select State',
+                            label: 'Select State',
+                            enabled: false),
+                      ]
+                    : controller.isLoadCity.value && controller.city.isEmpty
+                        ? [
+                            const DropdownMenuEntry(
+                                value: 'Loading...',
+                                label: 'Loading...',
+                                enabled: false),
+                          ]
+                        : controller.city.isEmpty
                             ? [
                                 const DropdownMenuEntry(
-                                    value: 'Loading...',
-                                    label: 'Loading...',
+                                    value: 'EMPTY',
+                                    label: 'EMPTY',
                                     enabled: false),
                               ]
-                            : controller.city.isEmpty
-                                ? [
-                                    const DropdownMenuEntry(
-                                        value: 'EMPTY',
-                                        label: 'EMPTY',
-                                        enabled: false),
-                                  ]
-                                : controller.city
-                                    .map(
-                                      (item) => DropdownMenuEntry(
-                                        value: item.cityCode,
-                                        label: item.cityName,
-                                      ),
-                                    )
-                                    .toList(),
-                  ),
-                ),
+                            : controller.city
+                                .map(
+                                  (item) => DropdownMenuEntry(
+                                    value: item.cityCode,
+                                    label: item.cityName,
+                                  ),
+                                )
+                                .toList(),
+              ),
+            ),
 
-
-                          // CSCPicker(
+            // CSCPicker(
             //   layout: Layout.vertical,
             //   countryFilter: const [CscCountry.Nigeria],
             //   countryDropdownLabel: "Select a Country",
