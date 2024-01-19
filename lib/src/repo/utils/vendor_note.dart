@@ -8,7 +8,7 @@ Future addNoteToProduct(Product product, String vendorNote) async {
   List<VendorInfo> allCart = getAllCartItem();
 
   for (var cart in allCart) {
-    if (cart.vendorId == product.vendorId.id) {
+    if (cart.vendorId == product.vendorId.vendorOwner.id) {
       for (var cartItems in cart.vendorData) {
         if (cartItems.productId == product.id) {
           cartItems.message = vendorNote;
@@ -25,7 +25,7 @@ Future removeNoteFromProduct(Product product) async {
   List<VendorInfo> allCart = getAllCartItem();
 
   for (var cart in allCart) {
-    if (cart.vendorId == product.vendorId.id) {
+    if (cart.vendorId == product.vendorId.vendorOwner.id) {
       for (var cartItems in cart.vendorData) {
         if (cartItems.productId == product.id) {
           cartItems.message = '';
@@ -42,7 +42,7 @@ String getSingleProductNote(Product product) {
   List<VendorInfo> allCart = getAllCartItem();
 
   for (var cart in allCart) {
-    if (cart.vendorId == product.vendorId.id) {
+    if (cart.vendorId == product.vendorId.vendorOwner.id) {
       for (var cartItems in cart.vendorData) {
         if (cartItems.productId == product.id) {
           return cartItems.message;

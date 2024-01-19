@@ -393,22 +393,20 @@ class _VendorDetailsState extends State<VendorDetails>
                                     ),
                                   ),
                                   kHalfSizedBox,
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      FaIcon(
-                                        FontAwesomeIcons.locationDot,
-                                        color: kAccentColor,
-                                        size: 15,
-                                      ),
-                                      kHalfWidthSizedBox,
-                                      SizedBox(
-                                        width: deviceType(media.width) >= 2
-                                            ? media.width - 100
-                                            : media.width - 180,
-                                        child: Text(
+                                  Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        FaIcon(
+                                          FontAwesomeIcons.locationDot,
+                                          color: kAccentColor,
+                                          size: 15,
+                                        ),
+                                        kHalfWidthSizedBox,
+                                        Text(
                                           widget.vendor.address,
                                           textAlign: TextAlign.center,
                                           overflow: TextOverflow.ellipsis,
@@ -417,8 +415,8 @@ class _VendorDetailsState extends State<VendorDetails>
                                             fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                   kHalfSizedBox,
                                   InkWell(
@@ -474,7 +472,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                             ),
                                             const SizedBox(width: 5),
                                             Text(
-                                              '${(widget.vendor.averageRating).toPrecision(1)}',
+                                              '${(widget.vendor.vendorOwner.averageRating).toPrecision(1)}',
                                               style: const TextStyle(
                                                 color: kBlackColor,
                                                 fontSize: 14,
@@ -500,12 +498,13 @@ class _VendorDetailsState extends State<VendorDetails>
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              widget.vendor.isOnline
+                                              widget.vendor.vendorOwner.isOnline
                                                   ? "Online"
                                                   : 'Offline',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                color: widget.vendor.isOnline
+                                                color: widget.vendor.vendorOwner
+                                                        .isOnline
                                                     ? kSuccessColor
                                                     : kAccentColor,
                                                 fontSize: 14,
@@ -552,7 +551,7 @@ class _VendorDetailsState extends State<VendorDetails>
                             // ),
                             shape: const OvalBorder(),
                           ),
-                          child: MyImage(url: widget.vendor.profileLogo),
+                          child: MyImage(url: widget.vendor.coverImage),
                         ),
                       ),
                     ],

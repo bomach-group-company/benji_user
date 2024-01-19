@@ -56,6 +56,7 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _userEmailEC = TextEditingController();
   final TextEditingController _userPhoneNumberEC = TextEditingController();
   final TextEditingController _userPasswordEC = TextEditingController();
+  final TextEditingController _referralCodeEC = TextEditingController();
 
   //=========================== KEYS ====================================\\
   final _formKey = GlobalKey<FormState>();
@@ -74,6 +75,7 @@ class _SignUpState extends State<SignUp> {
   final FocusNode _userPhoneNumberFN = FocusNode();
   final FocusNode _userEmailFN = FocusNode();
   final FocusNode _userPasswordFN = FocusNode();
+  final FocusNode _referralCodeFN = FocusNode();
 
   //=========================== FUNCTIONS ====================================\\
   void _checkBoxFunction(newVal) {
@@ -116,6 +118,10 @@ class _SignUpState extends State<SignUp> {
       'first_name': _userFirstNameEC.text,
       'last_name': _userLastNameEC.text
     };
+
+    if (_referralCodeEC.text.isNotEmpty) {
+      body['agentReferralCode'] = _referralCodeEC.text;
+    }
 
     final response = await http.post(url, body: body);
     return response.body == '"Client Created."' && response.statusCode == 200;
@@ -474,6 +480,29 @@ class _SignUpState extends State<SignUp> {
                             },
                             textInputAction: TextInputAction.next,
                             focusNode: _userPhoneNumberFN,
+                          ),
+                          kSizedBox,
+                          const Text(
+                              'Referral code (Optional)',
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            kHalfSizedBox,
+                          NameTextFormField(
+                            controller: _referralCodeEC,
+                            validator: (value) {
+                              
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _referralCodeEC.text = value;
+                            },
+                            textInputAction: TextInputAction.next,
+                            nameFocusNode: _referralCodeFN,
+                            hintText: "Referral code",
                           ),
                           kSizedBox,
                           const SizedBox(

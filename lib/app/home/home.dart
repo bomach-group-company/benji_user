@@ -17,6 +17,7 @@ import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/category/category.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
+import 'package:benji/src/repo/utils/shopping_location.dart';
 import 'package:benji/src/skeletons/app/card.dart';
 import 'package:benji/src/skeletons/page_skeleton.dart';
 import 'package:flutter/foundation.dart' as fnd;
@@ -483,7 +484,7 @@ class _HomeState extends State<Home> {
                       );
                     }
                     return AppBarLocation(
-                      defaultAddress: 'Enugu State',
+                      defaultAddress: getShoppingLocationString(),
                       onPressed: () {
                         showPopupMenu(context);
                       },

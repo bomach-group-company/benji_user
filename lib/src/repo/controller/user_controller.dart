@@ -80,4 +80,9 @@ class UserController extends GetxController {
     saveUser(responseUserData.body, user.value.token);
     update();
   }
+
+  
+  Future logoutUser() async{
+    await http.post(Uri.parse('$baseURL/auth/logout'), headers: authHeader());
+  }
 }

@@ -113,8 +113,10 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
   bool thatsAllData = false;
 
   _getData() async {
-    List<Ratings> ratings =
-        await getRatingsByVendorId(widget.vendor.id, start: start, end: end);
+    List<Ratings> ratings = await getRatingsByVendorId(
+        widget.vendor.vendorOwner.id,
+        start: start,
+        end: end);
 
     _data ??= {'ratings': []};
     setState(() {
@@ -161,7 +163,6 @@ class _AllVendorReviewsState extends State<AllVendorReviews> {
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
-
         appBar: MyAppBar(
           title: "All Reviews",
           elevation: 0.0,

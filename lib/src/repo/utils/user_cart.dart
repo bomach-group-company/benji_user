@@ -56,14 +56,14 @@ Future addToCart(Product product) async {
     'vendor_data': [
       {'product_id': product.id}
     ],
-    'vendor_id': product.vendorId.id
+    'vendor_id': product.vendorId.vendorOwner.id
   });
 
   VendorDataModel vendorData =
       VendorDataModel.fromJson({'product_id': product.id});
 
   for (var i = 0; i < allCart.length; i++) {
-    if (allCart[i].vendorId == product.vendorId.id) {
+    if (allCart[i].vendorId == product.vendorId.vendorOwner.id) {
       for (var j = 0; j < allCart[i].vendorData.length; j++) {
         if (allCart[i].vendorData[j].productId == product.id) {
           allCart[i].vendorData[j].quantity += 1;
@@ -91,7 +91,7 @@ Future minusFromCart(Product product) async {
   List<VendorInfo> allCart = getAllCartItem();
 
   for (var i = 0; i < allCart.length; i++) {
-    if (allCart[i].vendorId == product.vendorId.id) {
+    if (allCart[i].vendorId == product.vendorId.vendorOwner.id) {
       for (var j = 0; j < allCart[i].vendorData.length; j++) {
         if (allCart[i].vendorData[j].productId == product.id) {
           allCart[i].vendorData[j].quantity -= 1;
@@ -116,7 +116,7 @@ Future removeFromCart(Product product) async {
   List<VendorInfo> allCart = getAllCartItem();
 
   for (var i = 0; i < allCart.length; i++) {
-    if (allCart[i].vendorId == product.vendorId.id) {
+    if (allCart[i].vendorId == product.vendorId.vendorOwner.id) {
       for (var j = 0; j < allCart[i].vendorData.length; j++) {
         if (allCart[i].vendorData[j].productId == product.id) {
           allCart[i].vendorData.removeAt(j);
@@ -136,7 +136,7 @@ int countCartItemByProduct(Product product) {
   int total = 0;
   List<VendorInfo> allCart = getAllCartItem();
   for (var cart in allCart) {
-    if (cart.vendorId == product.vendorId.id) {
+    if (cart.vendorId == product.vendorId.vendorOwner.id) {
       for (var cartItems in cart.vendorData) {
         if (cartItems.productId == product.id) {
           return cartItems.quantity;

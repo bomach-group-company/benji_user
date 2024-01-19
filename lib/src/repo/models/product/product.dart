@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:benji/src/repo/models/category/sub_category.dart';
+import 'package:benji/src/repo/utils/shopping_location.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/constants.dart';
@@ -35,18 +36,20 @@ class Product {
   });
 
   factory Product.fromJson(Map<String, dynamic>? json) {
+    // print('search product $json');
+
     json ??= {};
     return Product(
       id: json['id'] ?? notAvailable,
       name: json['name'] ?? notAvailable,
       description: json['description'] ?? notAvailable,
-      price: json['price'].toDouble() ?? 0.0,
+      price: (json['price'] ?? 0).toDouble() ?? 0.0,
       quantityAvailable: json['quantity_available'] ?? 0,
       productImage: json['product_image'],
       isAvailable: json['is_available'] ?? false,
       isTrending: json['is_trending'] ?? false,
       isRecommended: json['is_recommended'] ?? false,
-      vendorId: VendorModel.fromJson(json['vendor']),
+      vendorId: VendorModel.fromJson(json['business']),
       subCategoryId: SubCategory.fromJson(json['sub_category']),
     );
   }
@@ -171,16 +174,14 @@ Future<List<Product>> getProductsByVendor(vendorId,
 
 Future<List<Product>> getProductsBySearching(query) async {
   final response = await http.get(
-    Uri.parse('$baseURL/clients/searchProducts?query=$query'),
+    Uri.parse(
+        '$baseURL/clients/searchProductsByLocation?query=$query&${getShoppingLocationQuery()}'),
     headers: await authHeader(),
   );
-
-  if (response.statusCode == 200 && response.body != '"No matching query"') {
+  if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => Product.fromJson(item))
         .toList();
-  } else if (response.body == '"No matching query"') {
-    return [];
   } else {
     return [];
   }

@@ -10,6 +10,7 @@ import 'package:benji/src/repo/controller/favourite_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/controller/package_controller.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
+import 'package:benji/src/repo/controller/shopping_location_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:benji/src/repo/services/helper.dart';
@@ -44,6 +45,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
           FavouriteController.instance.getVendor();
           MyPackageController.instance.getDeliveryItemsByPending();
           MyPackageController.instance.getDeliveryItemsByDelivered();
+          ShoppingLocationController.instance.getShoppingLocationCountries();
         }
       });
     }
