@@ -106,6 +106,7 @@ class CustomSearchDelegate extends SearchDelegate {
   //===================== Get Data ==========================\\
   Future<List<Product>> getData() async {
     List<Product> product = await getProductsBySearching(query);
+    print('product model in search $product, length: ${product.length}');
     if (query.length >= 2) {
       return product;
     }
@@ -139,73 +140,9 @@ class CustomSearchDelegate extends SearchDelegate {
               ],
             ),
           );
-        } else if (snapshot.hasData) {
-          return snapshot.data.isEmpty
-              ? Scrollbar(
-                  child: ListView(
-                    controller: scrollController,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Lottie.asset(
-                              "assets/animations/empty/frame_3.json",
-                              height: 300,
-                              fit: BoxFit.contain,
-                            ),
-                            kSizedBox,
-                            Text(
-                              "There are no results that match the search query",
-                              style: TextStyle(
-                                color: kTextGreyColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Scrollbar(
-                    controller: scrollController,
-                    child: ListView(
-                      controller: scrollController,
-                      shrinkWrap: true,
-                      children: [
-                        LayoutGrid(
-                          rowGap: kDefaultPadding / 2,
-                          columnGap: kDefaultPadding / 2,
-                          columnSizes: breakPointDynamic(
-                              media.width,
-                              [1.fr],
-                              [1.fr, 1.fr],
-                              [1.fr, 1.fr, 1.fr],
-                              [1.fr, 1.fr, 1.fr, 1.fr]),
-                          rowSizes: snapshot.data.isEmpty
-                              ? [auto]
-                              : List.generate(
-                                  snapshot.data.length, (index) => auto),
-                          children: (snapshot.data as List<Product>)
-                              .map(
-                                (item) => ProductCard(
-                                  product: item,
-                                  onTap: () => _toProductDetailScreenPage(item),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-        } else if (snapshot.hasError) {
+        } 
+        
+        if (snapshot.hasError) {
           return Center(
             child: Column(
               children: [
@@ -227,25 +164,72 @@ class CustomSearchDelegate extends SearchDelegate {
             ),
           );
         }
-        return Center(
-          child: Column(
-            children: [
-              Lottie.asset(
-                "assets/animations/search/frame_2.json",
-                height: 300,
-                fit: BoxFit.contain,
-              ),
-              Text(
-                "Searching...",
-                style: TextStyle(
-                  color: kTextGreyColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+        return snapshot.data.isEmpty
+            ? Scrollbar(
+                child: ListView(
+                  shrinkWrap: true,
+                  controller: scrollController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Lottie.asset(
+                            "assets/animations/empty/frame_3.json",
+                            height: 300,
+                            fit: BoxFit.contain,
+                          ),
+                          kSizedBox,
+                          Text(
+                            "There are no results that match the search query",
+                            style: TextStyle(
+                              color: kTextGreyColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               )
-            ],
-          ),
-        );
+            : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Scrollbar(
+                  controller: scrollController,
+                  child: ListView(
+                    controller: scrollController,
+                    shrinkWrap: true,
+                    children: [
+                      LayoutGrid(
+                        rowGap: kDefaultPadding / 2,
+                        columnGap: kDefaultPadding / 2,
+                        columnSizes: breakPointDynamic(
+                            media.width,
+                            [1.fr],
+                            [1.fr, 1.fr],
+                            [1.fr, 1.fr, 1.fr],
+                            [1.fr, 1.fr, 1.fr, 1.fr]),
+                        rowSizes: snapshot.data.isEmpty
+                            ? [auto]
+                            : List.generate(
+                                snapshot.data.length, (index) => auto),
+                        children: (snapshot.data as List<Product>)
+                            .map(
+                              (item) => ProductCard(
+                                product: item,
+                                onTap: () => _toProductDetailScreenPage(item),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ],
+                  ),
+                ),
+              );
       },
     );
   }

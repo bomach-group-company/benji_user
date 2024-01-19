@@ -105,7 +105,7 @@ class VendorsCard extends StatelessWidget {
                         const SizedBox(width: 4.0),
                         SizedBox(
                           child: Text(
-                            '${(vendor.dummyFloat).toStringAsPrecision(2)} (${vendor.dummyInt})',
+                            '${(vendor.vendorOwner.averageRating).toStringAsPrecision(2)} (${vendor.vendorOwner.numberOfClientsReactions})',
                             style: const TextStyle(
                               color: kTextBlackColor,
                               fontSize: 15,

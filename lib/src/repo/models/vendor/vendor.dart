@@ -21,6 +21,7 @@ class VendorModel {
   final String shopName;
   final ShopTypeModel shopType;
   final String shopImage;
+  final String coverImage;
   final String longitude;
   final String latitude;
   final String businessId;
@@ -29,9 +30,12 @@ class VendorModel {
   final String accountNumber;
   final String accountType;
   final String accountBank;
-  final String dummyString; // to be removed just to make it easy to countinous integrate
-  final double dummyFloat; // to be removed just to make it easy to countinous integrate
-  final int dummyInt; // to be removed just to make it easy to countinous integrate
+  // final String
+  //     dummyString; // to be removed just to make it easy to countinous integrate
+  // final double
+  //     dummyFloat; // to be removed just to make it easy to countinous integrate
+  // final int
+  //     dummyInt; // to be removed just to make it easy to countinous integrate
 
   VendorModel({
     required this.id,
@@ -48,6 +52,7 @@ class VendorModel {
     required this.shopName,
     required this.shopType,
     required this.shopImage,
+    required this.coverImage,
     required this.longitude,
     required this.latitude,
     required this.businessId,
@@ -56,9 +61,9 @@ class VendorModel {
     required this.accountNumber,
     required this.accountType,
     required this.accountBank,
-    required this.dummyString,
-    required this.dummyFloat,
-    required this.dummyInt,
+    // required this.dummyString,
+    // required this.dummyFloat,
+    // required this.dummyInt,
   });
 
   factory VendorModel.fromJson(Map<String, dynamic>? json) {
@@ -76,8 +81,10 @@ class VendorModel {
       sunWeekClosingHours: json['sunWeekClosingHours'] ?? '',
       address: json['address'] ?? '',
       shopName: json['shop_name'] ?? '',
+      coverImage: json['coverImage'] ?? '',
       shopType: ShopTypeModel.fromJson(json['shop_type']),
-      shopImage: json['shop_image'] ?? 'https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg',
+      shopImage: json['shop_image'] ??
+          'https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg',
       longitude: json['longitude'] ?? '',
       latitude: json['latitude'] ?? '',
       businessId: json['businessId'] ?? '',
@@ -86,9 +93,9 @@ class VendorModel {
       accountNumber: json['accountNumber'] ?? '',
       accountType: json['accountType'] ?? '',
       accountBank: json['accountBank'] ?? '',
-      dummyString: 'dummyString',
-      dummyFloat: 0.0,
-      dummyInt: 0,
+      // dummyString: 'dummyString',
+      // dummyFloat: 0.0,
+      // dummyInt: 0,
     );
   }
 }
@@ -146,12 +153,11 @@ class VendorOwner {
       isOnline: json['is_online'] ?? true,
       averageRating: (json['average_rating'] ?? 0).toDouble() ?? 0.0,
       numberOfClientsReactions: json['number_of_clients_reactions'] ?? 0,
-      profileLogo: json['profileLogo'] ?? 'https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg',
+      profileLogo: json['profileLogo'] ??
+          'https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg',
     );
   }
 }
-
-
 
 Future<VendorModel> getVendorById(id) async {
   final response = await http.get(

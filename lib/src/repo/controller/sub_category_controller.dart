@@ -68,7 +68,7 @@ class SubCategoryController extends GetxController {
     allSubcategoryByVendor.value = [];
     isLoadForAll.value = true;
     late String token;
-    var url = "${Api.baseUrl}/vendors/$vendorId/listVendorProductSubcategory";
+    var url = "${Api.baseUrl}/clients/getBusinessSubCategories/$vendorId";
     token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
