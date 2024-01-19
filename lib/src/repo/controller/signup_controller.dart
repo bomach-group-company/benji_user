@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:benji/app/shopping_location/set_shopping_location.dart';
 import 'package:benji/app/splash_screens/login_splash_screen.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
@@ -76,18 +77,30 @@ class SignupController extends GetxController {
       isLoad.value = false;
       update();
       Get.offAll(
-        () => const LoginSplashScreen(),
+        () => SetShoppingLocation(
+          navTo: () {
+            Get.offAll(
+              () => const LoginSplashScreen(),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              routeName: "LoginSplashScreen",
+              predicate: (route) => false,
+              popGesture: true,
+              transition: Transition.cupertinoDialog,
+            );
+          },
+        ),
+        routeName: 'SetShoppingLocation',
+        duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "LoginSplashScreen",
-        predicate: (route) => false,
         popGesture: true,
-        transition: Transition.cupertinoDialog,
+        transition: Transition.rightToLeft,
       );
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
-      await  Get.to(
-            () => const NoNetworkRetry(),
+      await Get.to(
+        () => const NoNetworkRetry(),
         routeName: 'NoNetworkRetry',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -96,7 +109,7 @@ class SignupController extends GetxController {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
-    }catch (e) {
+    } catch (e) {
       ApiProcessorController.errorSnack("An error occurred.\n ERROR: $e");
       isLoad.value = false;
       update();
