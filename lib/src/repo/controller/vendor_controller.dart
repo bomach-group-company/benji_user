@@ -21,12 +21,13 @@ class VendorController extends GetxController {
   var isLoad = false.obs;
   var isLoadCreate = false.obs;
   var vendorProductList = <Product>[].obs;
-
+  var loadSimilarVendor = false.obs;
   // vendor pagination
   var loadNumVendor = 10.obs;
   var loadedAllVendor = false.obs;
   var isLoadMoreVendor = false.obs;
   var vendorList = <VendorModel>[].obs;
+  var similarVendors = <VendorModel>[].obs;
 
   // vendor pagination
   var loadNumPopularVendor = 10.obs;
@@ -171,6 +172,34 @@ class VendorController extends GetxController {
     isLoad.value = false;
     isLoadMoreProduct.value = false;
 
+    update();
+  }
+
+  Future getSimilarVendors(String vendorId) async {
+    loadSimilarVendor.value = true;
+    var url =
+        "${Api.baseUrl}/clients/similarbusiness/${getShoppingLocationPath(reverse: true)}";
+    print(url);
+    String token = UserController.instance.user.value.token;
+    http.Response? response = await HandleData.getApi(url, token);
+    print('similar vendor ${response!.body}');
+
+    var responseData = await ApiProcessorController.errorState(response);
+    if (responseData == null) {
+      loadSimilarVendor.value = false;
+      update();
+      return;
+    }
+    List<VendorModel> data = [];
+    try {
+      data = (jsonDecode(response.body) as List)
+          .map((e) => VendorModel.fromJson(e))
+          .toList();
+      similarVendors.value = data.length < 5 ? data : data.sublist(0, 5);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    loadSimilarVendor.value = false;
     update();
   }
 }

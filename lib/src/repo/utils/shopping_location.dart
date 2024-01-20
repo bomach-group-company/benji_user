@@ -17,13 +17,15 @@ Map<String, dynamic>? getShoppingLocation() {
   return data == null ? null : (jsonDecode(data) as Map<String, dynamic>);
 }
 
-String? getShoppingLocationPath() {
+String? getShoppingLocationPath({bool reverse = false}) {
   String? data = prefs.getString(instanceNameShoppingLocation);
   if (data == null) {
     return null;
   }
   dynamic result = jsonDecode(data);
-
+  if (reverse) {
+    return "${result['country']}/${result['state']}/${result['city']}";
+  }
   return "${result['city']}/${result['state']}/${result['country']}";
 }
 

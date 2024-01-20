@@ -75,152 +75,155 @@ class _CartScreenState extends State<CartScreen> {
     return MyLiquidRefresh(
       handleRefresh: CartController.instance.getCartProduct,
       child: GetBuilder<CartController>(
-          // initState: (state) => CartController.instance.getCartProduct(),
+          initState: (state) => CartController.instance.getCartProduct(),
           builder: (controller) {
-        return Scaffold(
-          appBar: MyAppBar(
-            title: "Cart",
-            elevation: 0,
-            actions: const [],
-            backgroundColor: kPrimaryColor,
-          ),
-          bottomNavigationBar: Padding(
-            padding: const EdgeInsets.all(kDefaultPadding),
-            child: controller.cartProducts.isEmpty
-                ? const SizedBox()
-                : Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: MyElevatedButton(
-                      isLoading: controller.isLoad.value,
-                      onPressed: () => _toCheckoutScreen(
-                          controller.formatOfOrder[widget.index]),
-                      title:
-                          "Checkout (₦ ${formattedText(controller.subTotal.value[widget.index])})",
-                    ),
-                  ),
-          ),
-          body: SafeArea(
-            maintainBottomViewPadding: true,
-            child: controller.isLoad.value && controller.cartProducts.isEmpty
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kAccentColor,
-                    ),
-                  )
-                : Scrollbar(
-                    controller: _scrollController,
-                    radius: const Radius.circular(10),
-                    scrollbarOrientation: ScrollbarOrientation.right,
-                    child: controller.cartProducts.isEmpty
-                        ? const EmptyCard()
-                        : ListView(
-                            controller: _scrollController,
-                            padding: const EdgeInsets.all(kDefaultPadding / 2),
-                            physics: const BouncingScrollPhysics(),
-                            children: [
-                              Text(
-                                "Cart Summary".toUpperCase(),
-                                style: TextStyle(
-                                  color: kTextGreyColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              kSizedBox,
-                              Container(
-                                width: media.width,
-                                height: 50,
-                                padding: const EdgeInsets.all(10),
-                                decoration: ShapeDecoration(
-                                  color: kPrimaryColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
+            return Scaffold(
+              appBar: MyAppBar(
+                title: "Cart",
+                elevation: 0,
+                actions: const [],
+                backgroundColor: kPrimaryColor,
+              ),
+              bottomNavigationBar: Padding(
+                padding: const EdgeInsets.all(kDefaultPadding),
+                child: controller.cartProducts.isEmpty
+                    ? const SizedBox()
+                    : Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: MyElevatedButton(
+                          isLoading: controller.isLoad.value,
+                          onPressed: () => _toCheckoutScreen(
+                              controller.formatOfOrder[widget.index]),
+                          title:
+                              "Checkout (₦ ${formattedText(controller.subTotal.value[widget.index])})",
+                        ),
+                      ),
+              ),
+              body: SafeArea(
+                maintainBottomViewPadding: true,
+                child: controller.isLoad.value &&
+                        controller.cartProducts.isEmpty
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          color: kAccentColor,
+                        ),
+                      )
+                    : Scrollbar(
+                        controller: _scrollController,
+                        radius: const Radius.circular(10),
+                        scrollbarOrientation: ScrollbarOrientation.right,
+                        child: controller.cartProducts.isEmpty
+                            ? const EmptyCard()
+                            : ListView(
+                                controller: _scrollController,
+                                padding:
+                                    const EdgeInsets.all(kDefaultPadding / 2),
+                                physics: const BouncingScrollPhysics(),
+                                children: [
+                                  Text(
+                                    "Cart Summary".toUpperCase(),
+                                    style: TextStyle(
+                                      color: kTextGreyColor,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
-                                  shadows: const [
-                                    BoxShadow(
-                                      color: Color(0x0F000000),
-                                      blurRadius: 24,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 0,
-                                    )
-                                  ],
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      "Subtotal",
-                                      style: TextStyle(
-                                        color: kTextBlackColor,
-                                        fontWeight: FontWeight.w700,
+                                  kSizedBox,
+                                  Container(
+                                    width: media.width,
+                                    height: 50,
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: ShapeDecoration(
+                                      color: kPrimaryColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
+                                      shadows: const [
+                                        BoxShadow(
+                                          color: Color(0x0F000000),
+                                          blurRadius: 24,
+                                          offset: Offset(0, 4),
+                                          spreadRadius: 0,
+                                        )
+                                      ],
                                     ),
-                                    Text(
-                                      "₦ ${formattedText(controller.subTotal.value[widget.index])}",
-                                      style: const TextStyle(
-                                        color: kTextBlackColor,
-                                        fontFamily: 'sen',
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "Subtotal",
+                                          style: TextStyle(
+                                            color: kTextBlackColor,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                        Text(
+                                          "₦ ${formattedText(controller.subTotal.value[widget.index])}",
+                                          style: const TextStyle(
+                                            color: kTextBlackColor,
+                                            fontFamily: 'sen',
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                              kSizedBox,
-                              Text.rich(
-                                TextSpan(
-                                  children: [
+                                  ),
+                                  kSizedBox,
+                                  Text.rich(
                                     TextSpan(
-                                      text: "Cart".toUpperCase(),
-                                      style: TextStyle(
-                                        color: kTextGreyColor,
-                                        fontWeight: FontWeight.w400,
-                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: "Cart".toUpperCase(),
+                                          style: TextStyle(
+                                            color: kTextGreyColor,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: "(",
+                                          style: TextStyle(
+                                            color: kTextGreyColor,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: controller
+                                              .cartProducts[widget.index].length
+                                              .toString(),
+                                          style: const TextStyle(
+                                            color: kTextBlackColor,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: ")",
+                                          style: TextStyle(
+                                            color: kTextGreyColor,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    TextSpan(
-                                      text: "(",
-                                      style: TextStyle(
-                                        color: kTextGreyColor,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: controller
-                                          .cartProducts[widget.index].length
-                                          .toString(),
-                                      style: const TextStyle(
-                                        color: kTextBlackColor,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: ")",
-                                      style: TextStyle(
-                                        color: kTextGreyColor,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              kSizedBox,
-                              LayoutGrid(
-                                rowGap: kDefaultPadding / 2,
-                                columnGap: kDefaultPadding / 2,
-                                columnSizes: breakPointDynamic(
-                                    media.width,
-                                    [1.fr],
-                                    [1.fr, 1.fr],
-                                    [1.fr, 1.fr, 1.fr],
-                                    [1.fr, 1.fr, 1.fr, 1.fr]),
-                                rowSizes: controller.cartProducts.isEmpty
-                                    ? [auto]
-                                    : List.generate(
-                                        controller
-                                            .cartProducts[widget.index].length,
-                                        (index) => auto),
-                                children:
-                                    (controller.cartProducts[widget.index])
+                                  ),
+                                  kSizedBox,
+                                  LayoutGrid(
+                                    rowGap: kDefaultPadding / 2,
+                                    columnGap: kDefaultPadding / 2,
+                                    columnSizes: breakPointDynamic(
+                                        media.width,
+                                        [1.fr],
+                                        [1.fr, 1.fr],
+                                        [1.fr, 1.fr, 1.fr],
+                                        [1.fr, 1.fr, 1.fr, 1.fr]),
+                                    rowSizes: controller.cartProducts.isEmpty
+                                        ? [auto]
+                                        : List.generate(
+                                            controller
+                                                .cartProducts[widget.index]
+                                                .length,
+                                            (index) => auto),
+                                    children: (controller
+                                            .cartProducts[widget.index])
                                         .map(
                                           (item) => ProductCartContainer(
                                             decrementQuantity: () => controller
@@ -235,14 +238,14 @@ class _CartScreenState extends State<CartScreen> {
                                           ),
                                         )
                                         .toList(),
+                                  ),
+                                  const SizedBox(height: kDefaultPadding * 5),
+                                ],
                               ),
-                              const SizedBox(height: kDefaultPadding * 5),
-                            ],
-                          ),
-                  ),
-          ),
-        );
-      }),
+                      ),
+              ),
+            );
+          }),
     );
   }
 }

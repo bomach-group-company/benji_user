@@ -161,7 +161,7 @@ class VendorOwner {
 
 Future<VendorModel> getVendorById(id) async {
   final response = await http.get(
-    Uri.parse('$baseURL/vendors/getVendor/$id'),
+    Uri.parse('$baseURL/vendors/$id/getMybusinessInfo'),
     headers: await authHeader(),
   );
 

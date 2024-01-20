@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
-import 'dart:math';
-
 import 'package:benji/app/vendor/vendor_details.dart';
 import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/components/product/product_card.dart';
@@ -234,7 +232,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   void decrementQuantity() async {
-    await minusFromCart(widget.product);
+    await minusFromCart(widget.product, canClose: false);
     setState(() {
       cartCountAll = countCartItemByProduct(widget.product).toString();
       _isAddedToCart = countCartItemByProduct(widget.product) > 0;
@@ -901,11 +899,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             height: kDefaultPadding, color: kGreyColor1),
                         kSizedBox,
                         GetBuilder<ProductController>(
-                            initState: (state) =>
-                                ProductController.instance.getProduct(),
+                            initState: (state) => ProductController.instance
+                                .getSimilarProducts(widget.product.id),
                             builder: (controller) {
-                              if (controller.isLoad.value &&
-                                  controller.products.isEmpty) {
+                              if (controller.loadSimilarProduct.value &&
+                                  controller.similarProducts.isEmpty) {
                                 return Center(
                                   child: CircularProgressIndicator(
                                     color: kAccentColor,
@@ -913,13 +911,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 );
                               }
                               List<Product> products =
-                                  controller.products.value;
-                              products.shuffle();
+                                  controller.similarProducts.value;
                               return SizedBox(
                                 height: 350,
                                 width: media.width,
                                 child: ListView.separated(
-                                  itemCount: min(controller.products.length, 3),
+                                  itemCount: controller.similarProducts.length,
                                   scrollDirection: Axis.horizontal,
                                   physics: const BouncingScrollPhysics(),
                                   separatorBuilder: (context, index) =>
