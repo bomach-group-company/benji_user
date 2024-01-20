@@ -507,7 +507,7 @@ class _HomeState extends State<Home> {
                 decoration: BoxDecoration(
                     color: Colors.black12,
                     borderRadius: BorderRadius.circular(20)),
-                width: media.width - 290,
+                width: media.width - 270,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -635,7 +635,7 @@ class _HomeState extends State<Home> {
                     ),
                     child: Center(
                       child: Text(
-                        "Vendors".toUpperCase(),
+                        "Todays Deals",
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           color: kTextBlackColor,

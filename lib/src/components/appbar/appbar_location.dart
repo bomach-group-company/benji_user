@@ -31,9 +31,9 @@ class AppBarLocation extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: 100,
+                    width: 115,
                     child: Text(
-                      'Shopping Area',
+                      'Shopping Location',
                       style: TextStyle(
                         color: kAccentColor,
                         fontSize: deviceType(media.width) > 2 ? 16 : 12,
@@ -42,7 +42,7 @@ class AppBarLocation extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: 100,
+                    width: 115,
                     child: Text(
                       defaultAddress.contains("Not")
                           ? "Add an address"
