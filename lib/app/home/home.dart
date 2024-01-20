@@ -6,9 +6,9 @@ import 'package:benji/app/cart/my_cart.dart';
 import 'package:benji/app/favorites/favorites.dart';
 import 'package:benji/app/packages/send_package.dart';
 import 'package:benji/app/support/help_and_support.dart';
+import 'package:benji/src/components/business/business_card.dart';
 import 'package:benji/src/components/others/empty.dart';
 import 'package:benji/src/components/others/my_future_builder.dart';
-import 'package:benji/src/components/vendor/vendors_card.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/category_controller.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
@@ -793,7 +793,7 @@ class _HomeState extends State<Home> {
                             itemBuilder: (context, index) => InkWell(
                               child: SizedBox(
                                 width: 200,
-                                child: VendorsCard(
+                                child: BusinessCard(
                                   vendor: controller.vendorList[index],
                                   removeDistance: false,
                                   onTap: () {
@@ -865,7 +865,7 @@ class _HomeState extends State<Home> {
                           children: (controller.vendorPopularList.getRange(0,
                                   min(controller.vendorPopularList.length, 3)))
                               .map(
-                                (item) => VendorsCard(
+                                (item) => BusinessCard(
                                   vendor: item,
                                   removeDistance: true,
                                   onTap: () {

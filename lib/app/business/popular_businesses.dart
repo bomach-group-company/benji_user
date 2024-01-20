@@ -8,7 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/vendor/vendors_card.dart';
+import '../../src/components/business/business_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
@@ -135,7 +135,7 @@ class _PopularBusinessesState extends State<PopularBusinesses> {
                         : List.generate(controller.vendorPopularList.length,
                             (index) => auto),
                     children: (controller.vendorPopularList).map((item) {
-                      return VendorsCard(
+                      return BusinessCard(
                         vendor: item,
                         onTap: () {
                           Get.to(

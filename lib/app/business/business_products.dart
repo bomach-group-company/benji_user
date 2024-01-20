@@ -2,9 +2,9 @@
 
 import 'package:benji/app/business/business_detail_screen.dart';
 import 'package:benji/app/product/product_detail_screen.dart';
+import 'package:benji/src/components/business/business_card.dart';
 import 'package:benji/src/components/button/category_button.dart';
 import 'package:benji/src/components/product/product_card.dart';
-import 'package:benji/src/components/vendor/vendors_card.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
 import 'package:benji/src/repo/controller/sub_category_controller.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
@@ -217,7 +217,7 @@ class _BusinessVendorState extends State<BusinessVendor> {
                     itemBuilder: (context, index) => InkWell(
                       child: SizedBox(
                         width: 200,
-                        child: VendorsCard(
+                        child: BusinessCard(
                           vendor: vendorList[index],
                           removeDistance: false,
                           onTap: () {

@@ -7,7 +7,7 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/vendor/vendors_card.dart';
+import '../../src/components/business/business_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
@@ -133,7 +133,7 @@ class _BusinessesNearYouState extends State<BusinessesNearYou> {
                           : List.generate(
                               controller.vendorList.length, (index) => auto),
                       children: (controller.vendorList).map((item) {
-                        return VendorsCard(
+                        return BusinessCard(
                           vendor: item,
                           onTap: () {
                             Get.to(

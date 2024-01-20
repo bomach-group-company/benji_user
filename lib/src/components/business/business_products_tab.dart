@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 
 class BusinessProductsTab extends StatefulWidget {
   final BusinessModel vendor;
-  const BusinessProductsTab({
-    super.key,
-    required this.vendor,
-  });
+  const BusinessProductsTab({super.key, required this.vendor});
 
   @override
   State<BusinessProductsTab> createState() => _BusinessProductsTabState();
