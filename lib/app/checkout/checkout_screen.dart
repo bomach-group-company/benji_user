@@ -133,7 +133,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     String firstName = UserController.instance.user.value.firstName;
     String lastName = UserController.instance.user.value.lastName;
     String currency = 'NGN';
-    String amount = (_subTotal + deliveryFee).toString();
+    String amount = (_subTotal + deliveryFee).ceil().toString();
     Map meta = {
       "the_item_id": widget.orderID,
       'the_item_type': 'order',
