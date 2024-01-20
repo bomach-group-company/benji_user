@@ -221,8 +221,8 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
             break;
           case 'report':
             Get.to(
-              () => ReportVendor(vendor: widget.vendor),
-              routeName: 'ReportVendor',
+              () => ReportBusiness(vendor: widget.vendor),
+              routeName: 'ReportBusiness',
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,
               curve: Curves.easeIn,
