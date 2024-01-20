@@ -17,7 +17,7 @@ import '../snackbar/my_floating_snackbar.dart';
 import '../textformfield/message_textformfield.dart';
 
 class RateVendorDialog extends StatefulWidget {
-  final VendorModel vendor;
+  final BusinessModel vendor;
 
   const RateVendorDialog({super.key, required this.vendor});
 

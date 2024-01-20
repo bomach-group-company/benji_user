@@ -1,7 +1,7 @@
 // ignore_for_file: unused_field, use_build_context_synchronously
 
-import 'package:benji/app/vendor/about_vendor.dart';
-import 'package:benji/app/vendor/product_vendor.dart';
+import 'package:benji/app/business/about_business.dart';
+import 'package:benji/app/business/business_products.dart';
 import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
@@ -18,21 +18,21 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
-import 'report_vendor.dart';
-import 'vendor_location.dart';
+import 'business_location.dart';
+import 'report_business.dart';
 
-class VendorDetails extends StatefulWidget {
-  final VendorModel vendor;
-  const VendorDetails({
+class BusinessDetailScreen extends StatefulWidget {
+  final BusinessModel vendor;
+  const BusinessDetailScreen({
     super.key,
     required this.vendor,
   });
 
   @override
-  State<VendorDetails> createState() => _VendorDetailsState();
+  State<BusinessDetailScreen> createState() => _BusinessDetailScreenState();
 }
 
-class _VendorDetailsState extends State<VendorDetails>
+class _BusinessDetailScreenState extends State<BusinessDetailScreen>
     with SingleTickerProviderStateMixin {
   //================================================= INITIAL STATE AND DISPOSE =====================================================\\
 
@@ -71,7 +71,7 @@ class _VendorDetailsState extends State<VendorDetails>
     });
   }
 
-  _toVendorLocation() {
+  _toBusinessLocation() {
     double latitude;
     double longitude;
     if (kIsWeb) {
@@ -94,8 +94,8 @@ class _VendorDetailsState extends State<VendorDetails>
       return;
     }
     Get.to(
-      () => VendorLocation(vendor: widget.vendor),
-      routeName: 'VendorLocation',
+      () => BusinessLocation(vendor: widget.vendor),
+      routeName: 'BusinessLocation',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,
@@ -422,7 +422,7 @@ class _VendorDetailsState extends State<VendorDetails>
                                   InkWell(
                                     onTap: widget.vendor.address.isEmpty
                                         ? null
-                                        : _toVendorLocation,
+                                        : _toBusinessLocation,
                                     borderRadius: BorderRadius.circular(10),
                                     child: Container(
                                       padding: const EdgeInsets.all(
@@ -614,10 +614,10 @@ class _VendorDetailsState extends State<VendorDetails>
                             ? const EdgeInsets.symmetric(horizontal: 20)
                             : const EdgeInsets.symmetric(horizontal: 10),
                         child: _selectedtabbar == 0
-                            ? ProductVendor(
+                            ? BusinessVendor(
                                 vendor: widget.vendor,
                               )
-                            : AboutVendor(
+                            : AboutBusiness(
                                 vendor: widget.vendor,
                               ),
                       ),

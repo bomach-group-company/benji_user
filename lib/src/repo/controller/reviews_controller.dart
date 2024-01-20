@@ -19,7 +19,7 @@ class ReviewsController extends GetxController {
 
   var ratingValueVendor = 0.obs;
   var reviewsVendor = <Ratings>[].obs;
-  var vendor = VendorModel.fromJson(null).obs;
+  var vendor = BusinessModel.fromJson(null).obs;
 
   var reviewsProduct = <Ratings>[].obs;
   var ratingValueProduct = 0.obs;

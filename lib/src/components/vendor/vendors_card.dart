@@ -9,7 +9,7 @@ import '../../providers/responsive_constant.dart';
 
 class VendorsCard extends StatelessWidget {
   final Function() onTap;
-  final VendorModel vendor;
+  final BusinessModel vendor;
   final bool removeDistance;
   const VendorsCard({
     super.key,

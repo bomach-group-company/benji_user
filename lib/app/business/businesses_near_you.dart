@@ -1,4 +1,4 @@
-import 'package:benji/app/vendor/vendor_details.dart';
+import 'package:benji/app/business/business_detail_screen.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:flutter/gestures.dart';
@@ -12,14 +12,14 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
 
-class VendorsNearYou extends StatefulWidget {
-  const VendorsNearYou({super.key});
+class BusinessesNearYou extends StatefulWidget {
+  const BusinessesNearYou({super.key});
 
   @override
-  State<VendorsNearYou> createState() => _VendorsNearYouState();
+  State<BusinessesNearYou> createState() => _BusinessesNearYouState();
 }
 
-class _VendorsNearYouState extends State<VendorsNearYou> {
+class _BusinessesNearYouState extends State<BusinessesNearYou> {
   //================================================= INITIAL STATE AND DISPOSE =====================================================\\
   @override
   void initState() {
@@ -137,8 +137,8 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                           vendor: item,
                           onTap: () {
                             Get.to(
-                              () => VendorDetails(vendor: item),
-                              routeName: 'VendorDetails',
+                              () => BusinessDetailScreen(vendor: item),
+                              routeName: 'BusinessDetailScreen',
                               duration: const Duration(milliseconds: 300),
                               fullscreenDialog: true,
                               curve: Curves.easeIn,

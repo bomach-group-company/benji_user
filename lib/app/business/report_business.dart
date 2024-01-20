@@ -17,7 +17,7 @@ import '../../src/components/textformfield/message_textformfield.dart';
 import '../../theme/colors.dart';
 
 class ReportVendor extends StatefulWidget {
-  final VendorModel vendor;
+  final BusinessModel vendor;
   const ReportVendor({
     super.key,
     required this.vendor,

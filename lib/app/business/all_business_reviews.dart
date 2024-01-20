@@ -13,16 +13,16 @@ import '../../src/repo/models/rating/ratings.dart';
 import '../../src/repo/models/vendor/vendor.dart';
 import '../../theme/colors.dart';
 
-class AllVendorReviews extends StatefulWidget {
-  final VendorModel vendor;
+class AllBusinessReviews extends StatefulWidget {
+  final BusinessModel vendor;
 
-  const AllVendorReviews({super.key, required this.vendor});
+  const AllBusinessReviews({super.key, required this.vendor});
 
   @override
-  State<AllVendorReviews> createState() => _AllVendorReviewsState();
+  State<AllBusinessReviews> createState() => _AllBusinessReviewsState();
 }
 
-class _AllVendorReviewsState extends State<AllVendorReviews> {
+class _AllBusinessReviewsState extends State<AllBusinessReviews> {
 //============================================= INITIAL STATE AND DISPOSE  ===================================================\\
   @override
   void initState() {

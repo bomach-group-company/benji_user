@@ -7,20 +7,20 @@ import 'package:get/get.dart';
 import '../../src/components/others/empty.dart';
 import '../../src/components/rating_view/customer_review_card.dart';
 import '../../src/providers/constants.dart';
-import 'all_vendor_reviews.dart';
+import 'all_business_reviews.dart';
 
-class AboutVendor extends StatefulWidget {
-  final VendorModel vendor;
-  const AboutVendor({
+class AboutBusiness extends StatefulWidget {
+  final BusinessModel vendor;
+  const AboutBusiness({
     super.key,
     required this.vendor,
   });
 
   @override
-  State<AboutVendor> createState() => _AboutVendorState();
+  State<AboutBusiness> createState() => _AboutBusinessState();
 }
 
-class _AboutVendorState extends State<AboutVendor> {
+class _AboutBusinessState extends State<AboutBusiness> {
   @override
   void initState() {
     super.initState();
@@ -50,8 +50,8 @@ class _AboutVendorState extends State<AboutVendor> {
   }
 
   void _viewAllReviews() => Get.to(
-        () => AllVendorReviews(vendor: widget.vendor),
-        routeName: 'AllVendorReviews',
+        () => AllBusinessReviews(vendor: widget.vendor),
+        routeName: 'AllBusinessReviews',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

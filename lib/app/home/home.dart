@@ -43,14 +43,14 @@ import '../../src/repo/controller/notifications_controller.dart';
 import '../../src/repo/models/vendor/vendor.dart';
 import '../../theme/colors.dart';
 import '../address/addresses.dart';
+import '../business/business_detail_screen.dart';
+import '../business/businesses_near_you.dart';
+import '../business/popular_businesses.dart';
 import '../orders/order_history.dart';
 import '../product/home_page_products.dart';
 import '../product/product_detail_screen.dart';
 import '../settings/settings.dart';
 import '../shopping_location/set_shopping_location.dart';
-import '../vendor/popular_vendors.dart';
-import '../vendor/vendor_details.dart';
-import '../vendor/vendors_near_you.dart';
 import 'home_drawer.dart';
 
 class Home extends StatefulWidget {
@@ -264,9 +264,9 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toSeeAllVendorsNearYou() => Get.to(
-        () => const VendorsNearYou(),
-        routeName: 'VendorsNearYou',
+  void _toSeeAllBusinessesNearYou() => Get.to(
+        () => const BusinessesNearYou(),
+        routeName: 'BusinessesNearYou',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -275,9 +275,9 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toVendorPage(VendorModel vendor) => Get.to(
-        () => VendorDetails(vendor: vendor),
-        routeName: 'VendorDetails',
+  void _toVendorPage(BusinessModel vendor) => Get.to(
+        () => BusinessDetailScreen(vendor: vendor),
+        routeName: 'BusinessDetailScreen',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -286,9 +286,9 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toSeeAllPopularVendors() => Get.to(
-        () => const PopularVendors(),
-        routeName: 'PopularVendors',
+  void _toSeeAllPopularBusinesses() => Get.to(
+        () => const PopularBusinesses(),
+        routeName: 'PopularBusinesses',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -555,7 +555,7 @@ class _HomeState extends State<Home> {
                     : const EdgeInsets.all(kDefaultPadding / 2),
                 children: [
                   FutureBuilder(
-                      //this should be hot deals and not _popularVendors
+                      //this should be hot deals and not _PopularBusinesses
                       future: null,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
@@ -633,11 +633,11 @@ class _HomeState extends State<Home> {
                       color: kLightGreyColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "Todays Deals",
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: kTextBlackColor,
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
@@ -751,7 +751,7 @@ class _HomeState extends State<Home> {
                       }),
                   SeeAllContainer(
                     title: "Vendors Near you",
-                    onPressed: _toSeeAllVendorsNearYou,
+                    onPressed: _toSeeAllBusinessesNearYou,
                   ),
                   kSizedBox,
                   GetBuilder<VendorController>(
@@ -808,12 +808,12 @@ class _HomeState extends State<Home> {
                   kSizedBox,
                   SeeAllContainer(
                     title: "Popular Vendors",
-                    onPressed: _toSeeAllPopularVendors,
+                    onPressed: _toSeeAllPopularBusinesses,
                   ),
                   kSizedBox,
                   GetBuilder<VendorController>(
                       initState: (state) => VendorController.instance
-                          .getPopularVendors(start: 0, end: 4),
+                          .getPopularBusinesses(start: 0, end: 4),
                       builder: (controller) {
                         if (controller.isLoad.value &&
                             controller.vendorPopularList.isEmpty) {

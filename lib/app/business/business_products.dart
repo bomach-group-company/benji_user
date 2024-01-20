@@ -1,7 +1,7 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'package:benji/app/business/business_detail_screen.dart';
 import 'package:benji/app/product/product_detail_screen.dart';
-import 'package:benji/app/vendor/vendor_details.dart';
 import 'package:benji/src/components/button/category_button.dart';
 import 'package:benji/src/components/product/product_card.dart';
 import 'package:benji/src/components/vendor/vendors_card.dart';
@@ -20,19 +20,19 @@ import 'package:lottie/lottie.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 
-class ProductVendor extends StatefulWidget {
-  final VendorModel vendor;
+class BusinessVendor extends StatefulWidget {
+  final BusinessModel vendor;
 
-  const ProductVendor({
+  const BusinessVendor({
     super.key,
     required this.vendor,
   });
 
   @override
-  State<ProductVendor> createState() => _ProductVendorState();
+  State<BusinessVendor> createState() => _BusinessVendorState();
 }
 
-class _ProductVendorState extends State<ProductVendor> {
+class _BusinessVendorState extends State<BusinessVendor> {
   @override
   void initState() {
     super.initState();
@@ -55,9 +55,9 @@ class _ProductVendorState extends State<ProductVendor> {
   // }
 
 //=================================== Navigation =====================================\\
-  void _toVendorDetailPage(VendorModel vendor) => Get.off(
-        () => VendorDetails(vendor: vendor),
-        routeName: 'VendorDetails',
+  void _toBusinessDetailScreenPage(BusinessModel vendor) => Get.off(
+        () => BusinessDetailScreen(vendor: vendor),
+        routeName: 'BusinessDetailScreen',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -200,7 +200,8 @@ class _ProductVendorState extends State<ProductVendor> {
                     ),
                   );
                 }
-                List<VendorModel> vendorList = controller.similarVendors.value;
+                List<BusinessModel> vendorList =
+                    controller.similarVendors.value;
 
                 return SizedBox(
                   height: 250,
@@ -220,7 +221,7 @@ class _ProductVendorState extends State<ProductVendor> {
                           vendor: vendorList[index],
                           removeDistance: false,
                           onTap: () {
-                            _toVendorDetailPage(vendorList[index]);
+                            _toBusinessDetailScreenPage(vendorList[index]);
                           },
                         ),
                       ),

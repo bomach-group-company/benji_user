@@ -13,7 +13,7 @@ class FavouriteController extends GetxController {
 
   var isLoad = false.obs;
   var favouriteProducts = <Product>[].obs;
-  var favouriteVendors = <VendorModel>[].obs;
+  var favouriteVendors = <BusinessModel>[].obs;
 
   Future getProduct() async {
     isLoad.value = true;
@@ -32,7 +32,7 @@ class FavouriteController extends GetxController {
   Future getVendor() async {
     isLoad.value = true;
     update();
-    List<VendorModel> vendor = await getFavoriteVendor(
+    List<BusinessModel> vendor = await getFavoriteVendor(
       (data) =>
           ApiProcessorController.errorSnack("Item with id $data not found"),
     );
