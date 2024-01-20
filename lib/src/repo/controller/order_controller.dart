@@ -55,10 +55,14 @@ class OrderController extends GetxController {
     }
     late String token;
     String id = UserController.instance.user.value.id.toString();
-    var url = "${Api.baseUrl}${Api.myOrders}$id";
-    loadNum.value += 10;
+    var url =
+        "${Api.baseUrl}${Api.myOrders}$id?start=${loadNum.value - 10}&end=${loadNum.value}";
+    print('in list history $url');
     token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
+    print('order history ${response!.body}');
+
+    loadNum.value += 10;
     var responseData = await ApiProcessorController.errorState(response);
     if (responseData == null) {
       if (!first) {
@@ -69,16 +73,11 @@ class OrderController extends GetxController {
     }
     List<Order> data = [];
     try {
-      if (jsonDecode(responseData) is List) {
-        data = (jsonDecode(responseData) as List)
-            .map((e) => Order.fromJson(e))
-            .toList();
-        orderList.value = data;
-        loadedAll.value = data.isEmpty;
-      } else {
-        orderList.value = [];
-        loadedAll.value = true;
-      }
+      data = (jsonDecode(responseData)['items'] as List)
+          .map((e) => Order.fromJson(e))
+          .toList();
+      orderList.value += data;
+      loadedAll.value = data.isEmpty;
     } catch (e) {
       data = [];
       orderList.value = data;

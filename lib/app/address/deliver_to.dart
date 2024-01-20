@@ -23,12 +23,8 @@ import 'add_new_address.dart';
 class DeliverTo extends StatefulWidget {
   final int index;
   final Map<String, dynamic> formatOfOrder;
-  final bool inCheckout;
   const DeliverTo(
-      {super.key,
-      required this.formatOfOrder,
-      this.inCheckout = false,
-      required this.index});
+      {super.key, required this.formatOfOrder, required this.index});
 
   @override
   State<DeliverTo> createState() => _DeliverToState();
@@ -152,23 +148,21 @@ class _DeliverToState extends State<DeliverTo> {
       String orderID =
           await OrderController.instance.createOrder([formatOfOrder]);
       // need to check if the order was created and get the delivery fee
-      if (widget.inCheckout) {
-        Get.back();
-      } else {
-        Get.off(
-          () => CheckoutScreen(
-            formatOfOrder: formatOfOrder,
-            orderID: orderID,
-            index: widget.index,
-          ),
-          routeName: 'CheckoutScreen',
-          duration: const Duration(milliseconds: 300),
-          fullscreenDialog: true,
-          curve: Curves.easeIn,
-          popGesture: true,
-          transition: Transition.rightToLeft,
-        );
-      }
+
+      Get.to(
+        () => CheckoutScreen(
+          formatOfOrder: formatOfOrder,
+          orderID: orderID,
+          index: widget.index,
+          deliverTo: address,
+        ),
+        routeName: 'CheckoutScreen',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
     } catch (e) {
       mySnackBar(
         context,

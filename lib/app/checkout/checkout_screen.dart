@@ -6,7 +6,6 @@ import 'dart:math';
 import 'package:benji/app/home/home.dart';
 import 'package:benji/app/splash_screens/payment_successful_screen.dart';
 import 'package:benji/src/components/payment/alatpay.dart';
-import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
@@ -30,18 +29,20 @@ import '../../src/repo/controller/error_controller.dart';
 import '../../src/repo/controller/notifications_controller.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../theme/colors.dart';
-import '../address/deliver_to.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final int index;
   final Map<String, dynamic> formatOfOrder;
   final String orderID;
+  final Address deliverTo;
 
-  const CheckoutScreen(
-      {super.key,
-      required this.formatOfOrder,
-      required this.orderID,
-      required this.index});
+  const CheckoutScreen({
+    super.key,
+    required this.formatOfOrder,
+    required this.orderID,
+    required this.index,
+    required this.deliverTo,
+  });
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -100,7 +101,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
     Address? deliverTo;
     try {
-      deliverTo = await getCurrentAddress();
+      deliverTo = widget.deliverTo;
     } catch (e) {
       deliverTo = null;
     }
@@ -211,18 +212,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       );
 
   void _toDeliverTo() async {
-    await Get.to(
-      () => DeliverTo(
-          inCheckout: true,
-          formatOfOrder: widget.formatOfOrder,
-          index: widget.index),
-      routeName: 'DeliverTo',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
+    Get.back();
     Address? deliverTo;
     try {
       deliverTo = await getCurrentAddress();
@@ -316,77 +306,70 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                         ),
                         kSizedBox,
-                        GetBuilder<AddressController>(
-                          builder: (contoller) {
-                            return InkWell(
-                              onTap: _toDeliverTo,
-                              borderRadius: BorderRadius.circular(10),
-                              child: Container(
-                                width: media.width,
-                                padding: const EdgeInsets.all(10),
-                                decoration: ShapeDecoration(
-                                  color: kPrimaryColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  shadows: const [
-                                    BoxShadow(
-                                      color: Color(0x0F000000),
-                                      blurRadius: 24,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 7,
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          contoller.current.value.title
-                                              .toUpperCase(),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: const TextStyle(
-                                            overflow: TextOverflow.ellipsis,
-                                            color: kTextBlackColor,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                        kSizedBox,
-                                        SizedBox(
-                                          width: media.width - 100,
-                                          child: Text(
-                                            contoller.current.value.details,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                              color: kTextGreyColor,
-                                              overflow: TextOverflow.ellipsis,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    FaIcon(
-                                      FontAwesomeIcons.chevronRight,
-                                      color: kAccentColor,
-                                      size: 18,
-                                    )
-                                  ],
-                                ),
+                        InkWell(
+                          onTap: _toDeliverTo,
+                          borderRadius: BorderRadius.circular(10),
+                          child: Container(
+                            width: media.width,
+                            padding: const EdgeInsets.all(10),
+                            decoration: ShapeDecoration(
+                              color: kPrimaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                            );
-                          },
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x0F000000),
+                                  blurRadius: 24,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: 7,
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.deliverTo.title.toUpperCase(),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        color: kTextBlackColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    SizedBox(
+                                      width: media.width - 100,
+                                      child: Text(
+                                        widget.deliverTo.details,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          color: kTextGreyColor,
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                FaIcon(
+                                  FontAwesomeIcons.chevronRight,
+                                  color: kAccentColor,
+                                  size: 18,
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           height: kDefaultPadding * 2,

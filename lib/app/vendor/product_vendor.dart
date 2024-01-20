@@ -1,7 +1,5 @@
 // ignore_for_file: invalid_use_of_protected_member
 
-import 'dart:math';
-
 import 'package:benji/app/product/product_detail_screen.dart';
 import 'package:benji/app/vendor/vendor_details.dart';
 import 'package:benji/src/components/button/category_button.dart';
@@ -191,22 +189,24 @@ class _ProductVendorState extends State<ProductVendor> {
           const Divider(height: kDefaultPadding, color: kGreyColor1),
           kSizedBox,
           GetBuilder<VendorController>(
-              initState: (state) => VendorController.instance.getVendors(),
+              initState: (state) =>
+                  VendorController.instance.getSimilarVendors(widget.vendor.id),
               builder: (controller) {
-                if (controller.isLoad.value && controller.vendorList.isEmpty) {
+                if (controller.loadSimilarVendor.value &&
+                    controller.similarVendors.isEmpty) {
                   return Center(
                     child: CircularProgressIndicator(
                       color: kAccentColor,
                     ),
                   );
                 }
-                List<VendorModel> vendorList = controller.vendorList.value;
-                vendorList.shuffle();
+                List<VendorModel> vendorList = controller.similarVendors.value;
+
                 return SizedBox(
                   height: 250,
                   width: media.width,
                   child: ListView.separated(
-                    itemCount: min(controller.vendorList.length, 3),
+                    itemCount: controller.similarVendors.length,
                     scrollDirection: Axis.horizontal,
                     physics: const BouncingScrollPhysics(),
                     separatorBuilder: (context, index) =>

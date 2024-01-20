@@ -73,7 +73,7 @@ class _CartScreenState extends State<CartScreen> {
     var media = MediaQuery.of(context).size;
 
     return MyLiquidRefresh(
-      handleRefresh: _handleRefresh,
+      handleRefresh: CartController.instance.getCartProduct,
       child: GetBuilder<CartController>(
           // initState: (state) => CartController.instance.getCartProduct(),
           builder: (controller) {
