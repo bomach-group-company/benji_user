@@ -187,7 +187,7 @@ Future<List<Product>> getProductsBySearching(query) async {
   }
 }
 
-Future<List<Product>> getSimitarProducts(query) async {
+Future<List<Product>> getSimilarProducts(query) async {
   final response = await http.get(
     Uri.parse('$baseURL/clients/searchProducts?query=$query'),
     headers: await authHeader(),

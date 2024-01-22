@@ -1,14 +1,13 @@
 import 'dart:convert';
 
 import 'package:benji/main.dart';
-import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
-import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../app/auth/login.dart';
+import '../controller/error_controller.dart';
 import '../models/user/user_model.dart';
 import 'constants.dart';
 
@@ -56,22 +55,25 @@ checkAuth(context) async {
   User? haveUser = await getUser();
   bool? isAuth = await isAuthorizedOrNull();
   if (isAuth == null) {
-    mySnackBar(
-      context,
-      kAccentColor,
-      "No Internet!",
-      "Please Connect to the internet",
-      const Duration(seconds: 3),
-    );
+    ApiProcessorController.errorSnack("Please connect to the internet");
+    // mySnackBar(
+    //   context,
+    //   kAccentColor,
+    //   "No Internet!",
+    //   "Please Connect to the internet",
+    //   const Duration(seconds: 3),
+    // );
   }
   if (haveUser == null || isAuth == false) {
-    mySnackBar(
-      context,
-      kAccentColor,
-      "Login to continue!",
-      "Please login to continue",
-      const Duration(seconds: 2),
-    );
+    ApiProcessorController.errorSnack("Please login to continue");
+
+    // mySnackBar(
+    //   context,
+    //   kAccentColor,
+    //   "Login to continue!",
+    //   "Please login to continue",
+    //   const Duration(seconds: 2),
+    // );
     await UserController.instance.deleteUser();
 
     return Get.offAll(
