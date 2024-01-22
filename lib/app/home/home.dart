@@ -624,9 +624,13 @@ class _HomeState extends State<Home> {
                                 //   ),
                                 // ),
                               ),
-                              child: MyImage(
-                                  url: controller
-                                      .topProducts[itemIndex].productImage),
+                              child: InkWell(
+                                onTap: () => _toProductDetailScreenPage(
+                                    controller.topProducts[itemIndex]),
+                                child: MyImage(
+                                    url: controller
+                                        .topProducts[itemIndex].productImage),
+                              ),
                             ),
                           ),
                         );
