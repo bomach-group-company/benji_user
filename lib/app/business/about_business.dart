@@ -2,6 +2,7 @@ import 'package:benji/src/repo/models/rating/ratings.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/others/empty.dart';
@@ -345,9 +346,10 @@ class _AboutBusinessState extends State<AboutBusiness> {
                                       },
                                       child: Row(
                                         children: [
-                                          const Icon(
-                                            Icons.star,
+                                          FaIcon(
+                                            FontAwesomeIcons.solidStar,
                                             size: 20,
+                                            color: kStarColor,
                                           ),
                                           const SizedBox(
                                             width: kDefaultPadding * 0.2,
