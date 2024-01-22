@@ -34,6 +34,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
       isAuthorized().then((value) {
         if (value) {
           ProductController.instance.getProduct();
+          ProductController.instance.getTopProducts();
           VendorController.instance.getVendors();
           VendorController.instance.getPopularVendors(start: 0, end: 4);
           CategoryController.instance.getCategory();

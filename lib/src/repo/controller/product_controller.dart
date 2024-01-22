@@ -23,10 +23,12 @@ class ProductController extends GetxController {
   var isLoadCreate = false.obs;
   var vendorProducts = <Product>[].obs;
   var products = <Product>[].obs;
+  var topProducts = <Product>[].obs;
   var similarProducts = <Product>[].obs;
   var productsBySubCategory = <Product>[].obs;
   var selectedSubCategory = SubCategory.fromJson(null).obs;
   var loadSimilarProduct = false.obs;
+  var loadTopProduct = false.obs;
 
   // product pagination
   var loadedAllProduct = false.obs;
@@ -183,6 +185,33 @@ class ProductController extends GetxController {
       debugPrint(e.toString());
     }
     loadSimilarProduct.value = false;
+    update();
+  }
+
+  Future getTopProducts() async {
+    loadTopProduct.value = true;
+
+    var url = "${Api.baseUrl}/products/getTodaysTopProducts/";
+    print(url);
+    String token = UserController.instance.user.value.token;
+    http.Response? response = await HandleData.getApi(url, token);
+    print('top product ${response!.body}');
+    var responseData = await ApiProcessorController.errorState(response);
+    if (responseData == null) {
+      loadTopProduct.value = false;
+      update();
+      return;
+    }
+    List<Product> data = [];
+    try {
+      data = (jsonDecode(response.body) as List)
+          .map((e) => Product.fromJson(e))
+          .toList();
+      topProducts.value = data;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    loadTopProduct.value = false;
     update();
   }
 }

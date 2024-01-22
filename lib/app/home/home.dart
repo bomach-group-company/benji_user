@@ -6,6 +6,7 @@ import 'package:benji/app/cart/my_cart.dart';
 import 'package:benji/app/favorites/favorites.dart';
 import 'package:benji/app/packages/send_package.dart';
 import 'package:benji/app/support/help_and_support.dart';
+import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/components/others/empty.dart';
 import 'package:benji/src/components/others/my_future_builder.dart';
 import 'package:benji/src/components/vendor/vendors_card.dart';
@@ -554,12 +555,12 @@ class _HomeState extends State<Home> {
                     ? const EdgeInsets.all(kDefaultPadding)
                     : const EdgeInsets.all(kDefaultPadding / 2),
                 children: [
-                  FutureBuilder(
-                      //this should be hot deals and not _popularVendors
-                      future: null,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                  GetBuilder<ProductController>(
+                      initState: (state) =>
+                          ProductController.instance.getTopProducts(),
+                      builder: (controller) {
+                        if (controller.isLoad.value &&
+                            controller.topProducts.isEmpty) {
                           return Shimmer.fromColors(
                             highlightColor: kBlackColor.withOpacity(0.9),
                             baseColor: kBlackColor.withOpacity(0.6),
@@ -568,6 +569,10 @@ class _HomeState extends State<Home> {
                                 height: 150, width: media.width - 20),
                           );
                         }
+                        if (controller.topProducts.isEmpty) {
+                          return const SizedBox();
+                        }
+
                         return FlutterCarousel.builder(
                           options: CarouselOptions(
                             height: media.height * 0.25,
@@ -602,24 +607,26 @@ class _HomeState extends State<Home> {
                               padding: const EdgeInsets.all(0),
                             ),
                           ),
-                          itemCount: _carouselImages.length,
+                          itemCount: controller.topProducts.length,
                           itemBuilder: (BuildContext context, int itemIndex,
                                   int pageViewIndex) =>
                               Padding(
                             padding: const EdgeInsets.all(0),
                             child: Container(
                               width: media.width,
-                              decoration: ShapeDecoration(
-                                shape: const RoundedRectangleBorder(
+                              decoration: const ShapeDecoration(
+                                shape: RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20))),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage(
-                                    _carouselImages[itemIndex],
-                                  ),
-                                ),
+                                // image: DecorationImage(
+                                //   fit: BoxFit.cover,
+                                //   image: AssetImage(
+                                //   ),
+                                // ),
                               ),
+                              child: MyImage(
+                                  url: controller
+                                      .topProducts[itemIndex].productImage),
                             ),
                           ),
                         );
@@ -633,11 +640,11 @@ class _HomeState extends State<Home> {
                       color: kLightGreyColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
-                        "Todays Deals",
+                        "Today's Deals",
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: kTextBlackColor,
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
