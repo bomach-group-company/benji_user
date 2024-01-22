@@ -614,7 +614,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                             ? const EdgeInsets.symmetric(horizontal: 20)
                             : const EdgeInsets.symmetric(horizontal: 10),
                         child: _selectedtabbar == 0
-                            ? BusinessVendor(
+                            ? BusinessProducts(
                                 vendor: widget.vendor,
                               )
                             : AboutBusiness(

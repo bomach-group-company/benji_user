@@ -23,7 +23,7 @@ class _BusinessProductsTabState extends State<BusinessProductsTab> {
 
     return SizedBox(
       width: mediaWidth,
-      child: BusinessVendor(
+      child: BusinessProducts(
         vendor: widget.vendor,
       ),
     );

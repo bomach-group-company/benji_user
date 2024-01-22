@@ -20,19 +20,19 @@ import 'package:lottie/lottie.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 
-class BusinessVendor extends StatefulWidget {
+class BusinessProducts extends StatefulWidget {
   final BusinessModel vendor;
 
-  const BusinessVendor({
+  const BusinessProducts({
     super.key,
     required this.vendor,
   });
 
   @override
-  State<BusinessVendor> createState() => _BusinessVendorState();
+  State<BusinessProducts> createState() => _BusinessProductsState();
 }
 
-class _BusinessVendorState extends State<BusinessVendor> {
+class _BusinessProductsState extends State<BusinessProducts> {
   @override
   void initState() {
     super.initState();
