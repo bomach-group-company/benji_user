@@ -6,10 +6,12 @@ class AppTheme {
   static CupertinoThemeData? iOSLightTheme = const CupertinoThemeData(
     brightness: Brightness.light,
     applyThemeToAll: true,
+    textTheme: CupertinoTextThemeData(),
   );
   static CupertinoThemeData? iOSDarkTheme = const CupertinoThemeData(
     brightness: Brightness.dark,
     applyThemeToAll: true,
+    textTheme: CupertinoTextThemeData(),
   );
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
@@ -19,5 +21,6 @@ class AppTheme {
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     useMaterial3: true,
+    textTheme: GoogleFonts.senTextTheme(),
   );
 }
