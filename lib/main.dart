@@ -92,7 +92,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.iOSLightTheme,
         //This is the home route
-        // home: const StartupSplashscreen(),
+        home: const StartupSplashscreen(),
       );
     } else if (Platform.isAndroid) {
       return GetMaterialApp(
