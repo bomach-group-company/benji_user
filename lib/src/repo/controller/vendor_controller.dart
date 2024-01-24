@@ -97,7 +97,7 @@ class VendorController extends GetxController {
     late String token;
     String id = UserController.instance.user.value.id.toString();
     var url =
-        "${Api.baseUrl}/clients/getBusinessesNearMe/${(await _getLocation())}";
+        "${Api.baseUrl}/clients/getbusinessesByLocation/${getShoppingLocationPath()}";
     print(url);
     token = UserController.instance.user.value.token;
     List<BusinessModel> data = [];
