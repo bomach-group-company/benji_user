@@ -81,7 +81,7 @@ class _BusinessesNearYouState extends State<BusinessesNearYou> {
       child: Scaffold(
         appBar: MyAppBar(
           elevation: 0.0,
-          title: "Vendors Near You",
+          title: "Recommended Vendors",
           backgroundColor: kPrimaryColor,
           actions: const [],
         ),
