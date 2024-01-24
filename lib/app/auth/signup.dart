@@ -483,18 +483,17 @@ class _SignUpState extends State<SignUp> {
                           ),
                           kSizedBox,
                           const Text(
-                              'Referral code (Optional)',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
+                            'Referral code (Optional)',
+                            style: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
                             ),
-                            kHalfSizedBox,
+                          ),
+                          kHalfSizedBox,
                           NameTextFormField(
                             controller: _referralCodeEC,
                             validator: (value) {
-                              
                               return null;
                             },
                             onSaved: (value) {
@@ -620,24 +619,26 @@ class _SignUpState extends State<SignUp> {
                       ],
                     ),
                     kSizedBox,
-                    GetBuilder<SignupController>(builder: (controller) {
-                      return MyElevatedButton(
-                        title: "SIGN UP",
-                        onPressed: !isChecked
-                            ? null
-                            : () async {
-                                if (_formKey.currentState!.validate()) {
-                                  await controller.signup(
-                                      _userEmailEC.text,
-                                      _userPasswordEC.text,
-                                      _userPhoneNumberEC.text,
-                                      _userFirstNameEC.text,
-                                      _userLastNameEC.text);
-                                }
-                              },
-                        isLoading: controller.isLoad.value,
-                      );
-                    }),
+                    GetBuilder<SignupController>(
+                      builder: (controller) {
+                        return MyElevatedButton(
+                          title: "SIGN UP",
+                          onPressed: !isChecked
+                              ? null
+                              : () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    await controller.signup(
+                                        _userEmailEC.text,
+                                        _userPasswordEC.text,
+                                        _userPhoneNumberEC.text,
+                                        _userFirstNameEC.text,
+                                        _userLastNameEC.text);
+                                  }
+                                },
+                          isLoading: controller.isLoad.value,
+                        );
+                      },
+                    ),
                     kHalfSizedBox,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
