@@ -192,10 +192,10 @@ class ProductController extends GetxController {
     loadTopProduct.value = true;
 
     var url = "${Api.baseUrl}/products/getTodaysTopProducts/";
-    print(url);
+    log(url);
     String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
-    print('top product ${response!.body}');
+    log('top product ${response!.body}');
     var responseData = await ApiProcessorController.errorState(response);
     if (responseData == null) {
       loadTopProduct.value = false;
@@ -209,7 +209,7 @@ class ProductController extends GetxController {
           .toList();
       topProducts.value = data;
     } catch (e) {
-      debugPrint(e.toString());
+      log(e.toString());
     }
     loadTopProduct.value = false;
     update();
