@@ -55,6 +55,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     super.initState();
     _getData();
     checkAuth(context);
+    checkIfShoppingLocation(context);
     getUser().then((value) {
       setState(() {
         user = value;

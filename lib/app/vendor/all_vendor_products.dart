@@ -34,6 +34,7 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
   void initState() {
     super.initState();
     checkAuth(context);
+    checkIfShoppingLocation(context);
     productAndSubCategoryName =
         getVendorProductsAndSubCategoryName(widget.vendor.id)
           ..then((value) {
@@ -111,7 +112,6 @@ class _AllVendorProductsState extends State<AllVendorProducts> {
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
-
         appBar: MyAppBar(
           title: "All Products",
           elevation: 0.0,

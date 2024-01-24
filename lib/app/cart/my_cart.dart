@@ -22,6 +22,7 @@ class _MyCartsState extends State<MyCarts> {
   void initState() {
     super.initState();
     checkAuth(context);
+    checkIfShoppingLocation(context);
   }
 
   //==================================================== CONTROLLERS ======================================================\\

@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
 
-import '../../src/components/vendor/vendors_card.dart';
 import '../../src/components/others/cart_card.dart';
 import '../../src/components/others/empty.dart';
+import '../../src/components/vendor/vendors_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../src/providers/responsive_constant.dart';
@@ -47,6 +47,7 @@ class _FavoritesState extends State<Favorites>
   void initState() {
     super.initState();
     checkAuth(context);
+    checkIfShoppingLocation(context);
     _tabBarController = TabController(length: 2, vsync: this);
   }
 

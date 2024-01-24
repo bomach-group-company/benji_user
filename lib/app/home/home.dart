@@ -67,6 +67,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     checkAuth(context);
+    checkIfShoppingLocation(context);
     if (!fnd.kIsWeb) {
       NotificationController.initializeNotification();
     }
