@@ -1,13 +1,13 @@
 // ignore_for_file: unused_element, unused_local_variable, empty_catches
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/models/category/sub_category.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/services/api_url.dart';
 import 'package:benji/src/repo/utils/shopping_location.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -90,7 +90,7 @@ class ProductController extends GetxController {
           .toList();
       products.value += data;
     } catch (e) {
-      debugPrint(e.toString());
+      log(e.toString());
     }
     isLoadMoreProduct.value = data.isEmpty;
     isLoad.value = false;
@@ -123,7 +123,7 @@ class ProductController extends GetxController {
           .toList();
       productsBySubCategory.value += data;
     } catch (e) {
-      debugPrint(e.toString());
+      log(e.toString());
     }
     loadedAllProductSubCategory.value = data.isEmpty;
     isLoad.value = false;
@@ -152,7 +152,7 @@ class ProductController extends GetxController {
           .toList();
       vendorProducts.value = data;
     } catch (e) {
-      debugPrint(e.toString());
+      log(e.toString());
     }
     isLoadVendor.value = false;
     update();
@@ -163,10 +163,10 @@ class ProductController extends GetxController {
 
     var url =
         "${Api.baseUrl}/products/similarproductCategory/?product_id=$productId&start=0&end=5";
-    print(url);
+    log(url);
     String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
-    print('similar product ${response!.body}');
+    log('similar product ${response!.body}');
     var responseData = await ApiProcessorController.errorState(response);
     if (responseData == null) {
       loadSimilarProduct.value = false;
@@ -180,7 +180,7 @@ class ProductController extends GetxController {
           .toList();
       similarProducts.value = data;
     } catch (e) {
-      debugPrint(e.toString());
+      log(e.toString());
     }
     loadSimilarProduct.value = false;
     update();

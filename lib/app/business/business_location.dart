@@ -39,7 +39,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
   void initState() {
     super.initState();
     // _getPolyPoints();
-    _BusinessLocation = LatLng(double.parse(widget.vendor.latitude),
+    _businessLocation = LatLng(double.parse(widget.vendor.latitude),
         double.parse(widget.vendor.longitude));
     _markerTitle = <String>["Me", widget.vendor.shopName];
     _markerSnippet = <String>[
@@ -54,7 +54,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
   //====================================== Setting Google Map Consts =========================================\\
 
   Position? _userPosition;
-  late LatLng _BusinessLocation;
+  late LatLng _businessLocation;
   final List<LatLng> _polylineCoordinates = [];
   // List<LatLng> _latLng = <LatLng>[_userLocation, _BusinessLocation];
   Uint8List? _markerImage;
@@ -166,7 +166,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
     );
     List<LatLng> latLng = <LatLng>[
       LatLng(userLocation.latitude, userLocation.longitude),
-      _BusinessLocation
+      _businessLocation
     ];
     for (int i = 0; i < _customMarkers.length; i++) {
       final Uint8List markerIcon =
@@ -196,7 +196,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
     );
     if (kIsWeb) {
       String routeStr =
-          'https://maps.googleapis.com/maps/api/directions/json?origin=${userLocation.latitude},${userLocation.longitude}&destination=${_BusinessLocation.latitude},${_BusinessLocation.longitude}&mode=driving&avoidHighways=false&avoidFerries=true&avoidTolls=false&alternatives=false&key=$googleMapsApiKey';
+          'https://maps.googleapis.com/maps/api/directions/json?origin=${userLocation.latitude},${userLocation.longitude}&destination=${_businessLocation.latitude},${_businessLocation.longitude}&mode=driving&avoidHighways=false&avoidFerries=true&avoidTolls=false&alternatives=false&key=$googleMapsApiKey';
       String? response = await NetworkUtility.fetchUrl(Uri.parse(routeStr));
       // var resp = await http.get(Uri.parse(routeStr));
       if (response == null) {
@@ -221,7 +221,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
     PolylineResult result = await polyLinePoints.getRouteBetweenCoordinates(
       googleMapsApiKey,
       PointLatLng(userLocation.latitude, userLocation.longitude),
-      PointLatLng(_BusinessLocation.latitude, _BusinessLocation.longitude),
+      PointLatLng(_businessLocation.latitude, _businessLocation.longitude),
     );
 
     if (result.points.isNotEmpty) {

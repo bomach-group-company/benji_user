@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:benji/app/product/product_detail_screen.dart';
 import 'package:benji/src/components/product/product_card.dart';
 import 'package:benji/src/providers/constants.dart';
@@ -106,7 +108,7 @@ class CustomSearchDelegate extends SearchDelegate {
   //===================== Get Data ==========================\\
   Future<List<Product>> getData() async {
     List<Product> product = await getProductsBySearching(query);
-    print('product model in search $product, length: ${product.length}');
+    log('product model in search $product, length: ${product.length}');
     if (query.length >= 2) {
       return product;
     }
@@ -140,8 +142,8 @@ class CustomSearchDelegate extends SearchDelegate {
               ],
             ),
           );
-        } 
-        
+        }
+
         if (snapshot.hasError) {
           return Center(
             child: Column(

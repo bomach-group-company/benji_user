@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:benji/main.dart';
 
@@ -8,7 +9,7 @@ Future<bool> setShoppingLocation(
     String country, String state, String city) async {
   Map<String, String> area = {'country': country, 'state': state, 'city': city};
 
-  print('area $area');
+  log('area $area');
   return await prefs.setString(instanceNameShoppingLocation, jsonEncode(area));
 }
 

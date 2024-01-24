@@ -1,6 +1,7 @@
 // ignore_for_file: empty_catches
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
@@ -57,10 +58,10 @@ class OrderController extends GetxController {
     String id = UserController.instance.user.value.id.toString();
     var url =
         "${Api.baseUrl}${Api.myOrders}$id?start=${loadNum.value - 10}&end=${loadNum.value}";
-    print('in list history $url');
+    log('in list history $url');
     token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
-    print('order history ${response!.body}');
+    log('order history ${response!.body}');
 
     loadNum.value += 10;
     var responseData = await ApiProcessorController.errorState(response);

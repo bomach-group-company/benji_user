@@ -88,7 +88,7 @@ class _FavoritesState extends State<Favorites>
     );
   }
 
-  void _BusinessDetailScreenPage(vendor) async {
+  void toBusinessDetailScreenPage(vendor) async {
     await Get.to(
       () => BusinessDetailScreen(vendor: vendor),
       routeName: 'BusinessDetailScreen',
@@ -276,7 +276,8 @@ class _FavoritesState extends State<Favorites>
                                               vendor: item,
                                               removeDistance: true,
                                               onTap: () {
-                                                _BusinessDetailScreenPage(item);
+                                                toBusinessDetailScreenPage(
+                                                    item);
                                               },
                                             ),
                                           )

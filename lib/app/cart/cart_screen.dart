@@ -36,7 +36,7 @@ class _CartScreenState extends State<CartScreen> {
   // will be passed into the select delivery address page
   List<Map<String, dynamic>>? formatOfOrder;
 
-  Future<void> _handleRefresh() async {}
+  Future<void> handleRefresh() async {}
 
   //============================================================ ALL VARIABLES ===================================================================\\
   //==================================================== CONTROLLERS ======================================================\\
