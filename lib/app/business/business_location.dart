@@ -20,26 +20,26 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/keys.dart';
 import '../../src/repo/models/vendor/vendor.dart';
 import '../../theme/colors.dart';
-import 'all_vendor_products.dart';
+import 'all_business_products.dart';
 
-class VendorLocation extends StatefulWidget {
-  final VendorModel vendor;
-  const VendorLocation({
+class BusinessLocation extends StatefulWidget {
+  final BusinessModel vendor;
+  const BusinessLocation({
     Key? key,
     required this.vendor,
   }) : super(key: key);
 
   @override
-  State<VendorLocation> createState() => _VendorLocationState();
+  State<BusinessLocation> createState() => _BusinessLocationState();
 }
 
-class _VendorLocationState extends State<VendorLocation> {
+class _BusinessLocationState extends State<BusinessLocation> {
   //============================================================== INITIAL STATE ====================================================================\\
   @override
   void initState() {
     super.initState();
     // _getPolyPoints();
-    _vendorLocation = LatLng(double.parse(widget.vendor.latitude),
+    _BusinessLocation = LatLng(double.parse(widget.vendor.latitude),
         double.parse(widget.vendor.longitude));
     _markerTitle = <String>["Me", widget.vendor.shopName];
     _markerSnippet = <String>[
@@ -54,9 +54,9 @@ class _VendorLocationState extends State<VendorLocation> {
   //====================================== Setting Google Map Consts =========================================\\
 
   Position? _userPosition;
-  late LatLng _vendorLocation;
+  late LatLng _BusinessLocation;
   final List<LatLng> _polylineCoordinates = [];
-  // List<LatLng> _latLng = <LatLng>[_userLocation, _vendorLocation];
+  // List<LatLng> _latLng = <LatLng>[_userLocation, _BusinessLocation];
   Uint8List? _markerImage;
   final List<Marker> _markers = <Marker>[];
   final List<MarkerId> _markerId = <MarkerId>[
@@ -166,7 +166,7 @@ class _VendorLocationState extends State<VendorLocation> {
     );
     List<LatLng> latLng = <LatLng>[
       LatLng(userLocation.latitude, userLocation.longitude),
-      _vendorLocation
+      _BusinessLocation
     ];
     for (int i = 0; i < _customMarkers.length; i++) {
       final Uint8List markerIcon =
@@ -196,7 +196,7 @@ class _VendorLocationState extends State<VendorLocation> {
     );
     if (kIsWeb) {
       String routeStr =
-          'https://maps.googleapis.com/maps/api/directions/json?origin=${userLocation.latitude},${userLocation.longitude}&destination=${_vendorLocation.latitude},${_vendorLocation.longitude}&mode=driving&avoidHighways=false&avoidFerries=true&avoidTolls=false&alternatives=false&key=$googleMapsApiKey';
+          'https://maps.googleapis.com/maps/api/directions/json?origin=${userLocation.latitude},${userLocation.longitude}&destination=${_BusinessLocation.latitude},${_BusinessLocation.longitude}&mode=driving&avoidHighways=false&avoidFerries=true&avoidTolls=false&alternatives=false&key=$googleMapsApiKey';
       String? response = await NetworkUtility.fetchUrl(Uri.parse(routeStr));
       // var resp = await http.get(Uri.parse(routeStr));
       if (response == null) {
@@ -221,7 +221,7 @@ class _VendorLocationState extends State<VendorLocation> {
     PolylineResult result = await polyLinePoints.getRouteBetweenCoordinates(
       googleMapsApiKey,
       PointLatLng(userLocation.latitude, userLocation.longitude),
-      PointLatLng(_vendorLocation.latitude, _vendorLocation.longitude),
+      PointLatLng(_BusinessLocation.latitude, _BusinessLocation.longitude),
     );
 
     if (result.points.isNotEmpty) {
@@ -241,8 +241,8 @@ class _VendorLocationState extends State<VendorLocation> {
 
 //========================================================== Navigation =============================================================\\
   void _viewProducts() => Get.off(
-        () => AllVendorProducts(vendor: widget.vendor),
-        routeName: 'AllVendorProducts',
+        () => AllBusinessProducts(vendor: widget.vendor),
+        routeName: 'AllBusinessProducts',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

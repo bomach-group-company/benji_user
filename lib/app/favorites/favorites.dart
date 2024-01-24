@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
-import 'package:benji/app/vendor/vendor_details.dart';
+import 'package:benji/app/business/business_detail_screen.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
+import 'package:benji/src/components/business/business_card.dart';
 import 'package:benji/src/components/product/product_card.dart';
 import 'package:benji/src/repo/controller/favourite_controller.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
@@ -10,7 +11,6 @@ import 'package:get/get.dart';
 
 import '../../src/components/others/cart_card.dart';
 import '../../src/components/others/empty.dart';
-import '../../src/components/vendor/vendors_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/my_liquid_refresh.dart';
 import '../../src/providers/responsive_constant.dart';
@@ -89,10 +89,10 @@ class _FavoritesState extends State<Favorites>
     );
   }
 
-  void _vendorDetailPage(vendor) async {
+  void _BusinessDetailScreenPage(vendor) async {
     await Get.to(
-      () => VendorDetails(vendor: vendor),
-      routeName: 'VendorDetails',
+      () => BusinessDetailScreen(vendor: vendor),
+      routeName: 'BusinessDetailScreen',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,
@@ -273,11 +273,11 @@ class _FavoritesState extends State<Favorites>
                                                   (index) => auto),
                                       children: (controller.favouriteVendors)
                                           .map(
-                                            (item) => VendorsCard(
+                                            (item) => BusinessCard(
                                               vendor: item,
                                               removeDistance: true,
                                               onTap: () {
-                                                _vendorDetailPage(item);
+                                                _BusinessDetailScreenPage(item);
                                               },
                                             ),
                                           )

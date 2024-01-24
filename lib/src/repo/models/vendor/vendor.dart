@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
 
-class VendorModel {
+class BusinessModel {
   final String id;
   final VendorOwner vendorOwner;
   final String state;
@@ -37,7 +37,7 @@ class VendorModel {
   // final int
   //     dummyInt; // to be removed just to make it easy to countinous integrate
 
-  VendorModel({
+  BusinessModel({
     required this.id,
     required this.vendorOwner,
     required this.state,
@@ -66,9 +66,9 @@ class VendorModel {
     // required this.dummyInt,
   });
 
-  factory VendorModel.fromJson(Map<String, dynamic>? json) {
+  factory BusinessModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
-    return VendorModel(
+    return BusinessModel(
       id: json['id'] ?? '',
       vendorOwner: VendorOwner.fromJson(json['vendor_owner']),
       state: json['state'] ?? '',
@@ -159,35 +159,35 @@ class VendorOwner {
   }
 }
 
-Future<VendorModel> getVendorById(id) async {
+Future<BusinessModel> getVendorById(id) async {
   final response = await http.get(
     Uri.parse('$baseURL/vendors/$id/getMybusinessInfo'),
     headers: await authHeader(),
   );
 
   if (response.statusCode == 200) {
-    return VendorModel.fromJson(jsonDecode(response.body));
+    return BusinessModel.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Failed to load vendor');
   }
 }
 
-Future<List<VendorModel>> getPopularVendors({start = 0, end = 4}) async {
+Future<List<BusinessModel>> getPopularBusinesses({start = 0, end = 4}) async {
   final response = await http.get(
-    Uri.parse('$baseURL/clients/getPopularVendors?start=$start&end=$end'),
+    Uri.parse('$baseURL/clients/getPopularBusinesses?start=$start&end=$end'),
     headers: await authHeader(),
   );
 
   if (response.statusCode == 200) {
     return (jsonDecode(response.body)['items'] as List)
-        .map((item) => VendorModel.fromJson(item))
+        .map((item) => BusinessModel.fromJson(item))
         .toList();
   } else {
     return [];
   }
 }
 
-Future<List<VendorModel>> getVendors({start = 0, end = 5}) async {
+Future<List<BusinessModel>> getVendors({start = 0, end = 5}) async {
   final response = await http.get(
     Uri.parse('$baseURL/vendors/getAllVendor?start=$start&end=$end'),
     headers: await authHeader(),
@@ -195,7 +195,7 @@ Future<List<VendorModel>> getVendors({start = 0, end = 5}) async {
 
   if (response.statusCode == 200) {
     return (jsonDecode(response.body)['items'] as List)
-        .map((item) => VendorModel.fromJson(item))
+        .map((item) => BusinessModel.fromJson(item))
         .toList();
   } else {
     return [];

@@ -27,14 +27,14 @@ class VendorController extends GetxController {
   var loadNumVendor = 10.obs;
   var loadedAllVendor = false.obs;
   var isLoadMoreVendor = false.obs;
-  var vendorList = <VendorModel>[].obs;
-  var similarVendors = <VendorModel>[].obs;
+  var vendorList = <BusinessModel>[].obs;
+  var similarVendors = <BusinessModel>[].obs;
 
   // vendor pagination
   var loadNumPopularVendor = 10.obs;
   var loadedAllPopularVendor = false.obs;
   var isLoadMorePopularVendor = false.obs;
-  var vendorPopularList = <VendorModel>[].obs;
+  var vendorPopularList = <BusinessModel>[].obs;
 
   // product pagination
   var loadedAllProduct = false.obs;
@@ -63,7 +63,7 @@ class VendorController extends GetxController {
         !scrollController.position.outOfRange) {
       VendorController.instance.isLoadMoreVendor.value = true;
       update();
-      await VendorController.instance.getPopularVendors();
+      await VendorController.instance.getPopularBusinesses();
     }
   }
 
@@ -100,13 +100,13 @@ class VendorController extends GetxController {
         "${Api.baseUrl}/clients/getBusinessesNearMe/${(await _getLocation())}";
     print(url);
     token = UserController.instance.user.value.token;
-    List<VendorModel> data = [];
+    List<BusinessModel> data = [];
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
       print(response!.body);
       data = (jsonDecode(response.body) as List)
-          .map((e) => VendorModel.fromJson(e))
+          .map((e) => BusinessModel.fromJson(e))
           .toList();
       vendorList.value = data;
     } catch (e) {}
@@ -115,7 +115,7 @@ class VendorController extends GetxController {
     update();
   }
 
-  Future getPopularVendors({int? start, int? end}) async {
+  Future getPopularBusinesses({int? start, int? end}) async {
     isLoad.value = true;
     late String token;
     String id = UserController.instance.user.value.id.toString();
@@ -126,12 +126,12 @@ class VendorController extends GetxController {
     }
 
     token = UserController.instance.user.value.token;
-    List<VendorModel> data = [];
+    List<BusinessModel> data = [];
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
       data = (jsonDecode(response!.body)['items'] as List)
-          .map((e) => VendorModel.fromJson(e))
+          .map((e) => BusinessModel.fromJson(e))
           .toList();
       vendorPopularList.value += data;
     } catch (e) {}
@@ -203,10 +203,10 @@ class VendorController extends GetxController {
       update();
       return;
     }
-    List<VendorModel> data = [];
+    List<BusinessModel> data = [];
     try {
       data = (jsonDecode(response.body) as List)
-          .map((e) => VendorModel.fromJson(e))
+          .map((e) => BusinessModel.fromJson(e))
           .toList();
       similarVendors.value = data.length < 5 ? data : data.sublist(0, 5);
     } catch (e) {

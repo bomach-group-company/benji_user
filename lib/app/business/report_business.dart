@@ -16,18 +16,18 @@ import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/components/textformfield/message_textformfield.dart';
 import '../../theme/colors.dart';
 
-class ReportVendor extends StatefulWidget {
-  final VendorModel vendor;
-  const ReportVendor({
+class ReportBusiness extends StatefulWidget {
+  final BusinessModel vendor;
+  const ReportBusiness({
     super.key,
     required this.vendor,
   });
 
   @override
-  State<ReportVendor> createState() => _ReportVendorState();
+  State<ReportBusiness> createState() => _ReportBusinessState();
 }
 
-class _ReportVendorState extends State<ReportVendor> {
+class _ReportBusinessState extends State<ReportBusiness> {
   //============================================ ALL VARIABLES ===========================================\\
 
   //============================================ BOOL VALUES ===========================================\\
@@ -47,7 +47,7 @@ class _ReportVendorState extends State<ReportVendor> {
     try {
       User? user = await getUser();
       final url = Uri.parse(
-          '$baseURL/clients/clientReportVendor/${user!.id}/${widget.vendor.id}?message=${_messageEC.text}');
+          '$baseURL/clients/clientReportBusiness/${user!.id}/${widget.vendor.id}?message=${_messageEC.text}');
 
       Map body = {};
 

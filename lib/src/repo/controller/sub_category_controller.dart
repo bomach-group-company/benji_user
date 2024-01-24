@@ -34,7 +34,7 @@ class SubCategoryController extends GetxController {
     ProductController.instance.resetproductsBySubCategory();
   }
 
-  setSubCategory(SubCategory value, VendorModel vendor) {
+  setSubCategory(SubCategory value, BusinessModel vendor) {
     activeSubCategory.value = value;
     update();
     ProductController.instance

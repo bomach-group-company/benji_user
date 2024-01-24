@@ -7,11 +7,11 @@ import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 import '../../providers/responsive_constant.dart';
 
-class VendorsCard extends StatelessWidget {
+class BusinessCard extends StatelessWidget {
   final Function() onTap;
-  final VendorModel vendor;
+  final BusinessModel vendor;
   final bool removeDistance;
-  const VendorsCard({
+  const BusinessCard({
     super.key,
     required this.onTap,
     required this.vendor,

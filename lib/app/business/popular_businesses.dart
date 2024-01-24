@@ -1,4 +1,4 @@
-import 'package:benji/app/vendor/vendor_details.dart';
+import 'package:benji/app/business/business_detail_screen.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:flutter/gestures.dart';
@@ -8,19 +8,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/vendor/vendors_card.dart';
+import '../../src/components/business/business_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
 
-class PopularVendors extends StatefulWidget {
-  const PopularVendors({super.key});
+class PopularBusinesses extends StatefulWidget {
+  const PopularBusinesses({super.key});
 
   @override
-  State<PopularVendors> createState() => _PopularVendorsState();
+  State<PopularBusinesses> createState() => _PopularBusinessesState();
 }
 
-class _PopularVendorsState extends State<PopularVendors> {
+class _PopularBusinessesState extends State<PopularBusinesses> {
   //================================================= INITIAL STATE AND DISPOSE =====================================================\\
   @override
   void initState() {
@@ -88,16 +88,17 @@ class _PopularVendorsState extends State<PopularVendors> {
         ),
         floatingActionButton: _isScrollToTopBtnVisible
             ? FloatingActionButton(
-          onPressed: _scrollToTop,
-          mini: deviceType(media.width) > 2 ? false : true,
-          backgroundColor: kAccentColor,
-          enableFeedback: true,
-          mouseCursor: SystemMouseCursors.click,
-          tooltip: "Scroll to top",
-          hoverColor: kAccentColor,
-          hoverElevation: 50.0,
-          child: FaIcon(FontAwesomeIcons.chevronUp, size: 18, color: kPrimaryColor),
-        )
+                onPressed: _scrollToTop,
+                mini: deviceType(media.width) > 2 ? false : true,
+                backgroundColor: kAccentColor,
+                enableFeedback: true,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Scroll to top",
+                hoverColor: kAccentColor,
+                hoverElevation: 50.0,
+                child: FaIcon(FontAwesomeIcons.chevronUp,
+                    size: 18, color: kPrimaryColor),
+              )
             : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
@@ -134,12 +135,12 @@ class _PopularVendorsState extends State<PopularVendors> {
                         : List.generate(controller.vendorPopularList.length,
                             (index) => auto),
                     children: (controller.vendorPopularList).map((item) {
-                      return VendorsCard(
+                      return BusinessCard(
                         vendor: item,
                         onTap: () {
                           Get.to(
-                            () => VendorDetails(vendor: item),
-                            routeName: 'VendorDetails',
+                            () => BusinessDetailScreen(vendor: item),
+                            routeName: 'BusinessDetailScreen',
                             duration: const Duration(milliseconds: 300),
                             fullscreenDialog: true,
                             curve: Curves.easeIn,

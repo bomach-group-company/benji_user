@@ -31,7 +31,7 @@ class _SignUpSplashScreenState extends State<SignUpSplashScreen> {
     if (UserController.instance.isUSer()) {
       ProductController.instance.getProduct();
       VendorController.instance.getVendors();
-      VendorController.instance.getPopularVendors(start: 0, end: 4);
+      VendorController.instance.getPopularBusinesses(start: 0, end: 4);
       CategoryController.instance.getCategory();
       AddressController.instance.getAdresses();
 

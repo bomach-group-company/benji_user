@@ -36,7 +36,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
           ProductController.instance.getProduct();
           ProductController.instance.getTopProducts();
           VendorController.instance.getVendors();
-          VendorController.instance.getPopularVendors(start: 0, end: 4);
+          VendorController.instance.getPopularBusinesses(start: 0, end: 4);
           CategoryController.instance.getCategory();
           AddressController.instance.getAdresses();
           AddressController.instance.getCurrentAddress();

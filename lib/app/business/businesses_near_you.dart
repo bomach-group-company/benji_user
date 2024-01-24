@@ -1,4 +1,4 @@
-import 'package:benji/app/vendor/vendor_details.dart';
+import 'package:benji/app/business/business_detail_screen.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:flutter/gestures.dart';
@@ -7,19 +7,19 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/vendor/vendors_card.dart';
+import '../../src/components/business/business_card.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
 
-class VendorsNearYou extends StatefulWidget {
-  const VendorsNearYou({super.key});
+class BusinessesNearYou extends StatefulWidget {
+  const BusinessesNearYou({super.key});
 
   @override
-  State<VendorsNearYou> createState() => _VendorsNearYouState();
+  State<BusinessesNearYou> createState() => _BusinessesNearYouState();
 }
 
-class _VendorsNearYouState extends State<VendorsNearYou> {
+class _BusinessesNearYouState extends State<BusinessesNearYou> {
   //================================================= INITIAL STATE AND DISPOSE =====================================================\\
   @override
   void initState() {
@@ -133,12 +133,12 @@ class _VendorsNearYouState extends State<VendorsNearYou> {
                           : List.generate(
                               controller.vendorList.length, (index) => auto),
                       children: (controller.vendorList).map((item) {
-                        return VendorsCard(
+                        return BusinessCard(
                           vendor: item,
                           onTap: () {
                             Get.to(
-                              () => VendorDetails(vendor: item),
-                              routeName: 'VendorDetails',
+                              () => BusinessDetailScreen(vendor: item),
+                              routeName: 'BusinessDetailScreen',
                               duration: const Duration(milliseconds: 300),
                               fullscreenDialog: true,
                               curve: Curves.easeIn,

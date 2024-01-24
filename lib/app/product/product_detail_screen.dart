@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
-import 'package:benji/app/vendor/vendor_details.dart';
+import 'package:benji/app/business/business_detail_screen.dart';
 import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/components/product/product_card.dart';
 import 'package:benji/src/components/textformfield/message_textformfield.dart';
@@ -143,8 +143,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //==================================================== FUNCTIONS ======================================================\\
   void _toVendorPage() {
     Get.to(
-      () => VendorDetails(vendor: widget.product.vendorId),
-      routeName: 'VendorDetails',
+      () => BusinessDetailScreen(vendor: widget.product.vendorId),
+      routeName: 'BusinessDetailScreen',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,

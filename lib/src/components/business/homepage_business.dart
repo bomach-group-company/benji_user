@@ -4,9 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 
-class HomePageVendorsNearYou extends StatelessWidget {
+class HomePageBusinessesNearYou extends StatelessWidget {
   final Function() onTap;
-  const HomePageVendorsNearYou({
+  const HomePageBusinessesNearYou({
     super.key,
     required this.onTap,
   });

@@ -1,21 +1,18 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji/app/vendor/product_vendor.dart';
+import 'package:benji/app/business/business_products.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:flutter/material.dart';
 
-class VendorsProductsTab extends StatefulWidget {
-  final VendorModel vendor;
-  const VendorsProductsTab({
-    super.key,
-    required this.vendor,
-  });
+class BusinessProductsTab extends StatefulWidget {
+  final BusinessModel vendor;
+  const BusinessProductsTab({super.key, required this.vendor});
 
   @override
-  State<VendorsProductsTab> createState() => _VendorsProductsTabState();
+  State<BusinessProductsTab> createState() => _BusinessProductsTabState();
 }
 
-class _VendorsProductsTabState extends State<VendorsProductsTab> {
+class _BusinessProductsTabState extends State<BusinessProductsTab> {
   //===================== VARIABLES =======================\\
 
 //============================================ FUNCTIONS ==============================================\\
@@ -26,7 +23,7 @@ class _VendorsProductsTabState extends State<VendorsProductsTab> {
 
     return SizedBox(
       width: mediaWidth,
-      child: ProductVendor(
+      child: BusinessProducts(
         vendor: widget.vendor,
       ),
     );

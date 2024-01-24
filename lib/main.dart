@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:benji/app/splash_screens/startup_splash_screen.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/auth_controller.dart';
@@ -82,6 +84,30 @@ class MyApp extends StatelessWidget {
   // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
+    if (Platform.isIOS) {
+      return GetCupertinoApp(
+        title: "Shop Point",
+        color: kPrimaryColor,
+        navigatorKey: Get.key,
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.iOSLightTheme,
+        //This is the home route
+        home: const StartupSplashscreen(),
+      );
+    } else if (Platform.isAndroid) {
+      return GetMaterialApp(
+        title: "Benji",
+        color: kPrimaryColor,
+        navigatorKey: Get.key,
+        debugShowCheckedModeBanner: false,
+        themeMode: ThemeMode.light,
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        //This is the home route
+        home: const StartupSplashscreen(),
+      );
+    }
+
     return GetMaterialApp(
       title: "Benji",
       color: kPrimaryColor,

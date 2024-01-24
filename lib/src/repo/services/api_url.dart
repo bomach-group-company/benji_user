@@ -22,7 +22,7 @@ class Api {
   static const createItemPackage = "/sendPackage/createItemPackage/";
 
   static const vendorList = "/vendors/getAllVendor";
-  static const popularVendor = "/clients/getPopularVendors";
+  static const popularVendor = "/clients/getPopularBusinesses";
   static const getVendorProducts = "/vendors/";
 
   static const myOrders = "/clients/listClientOrders/";
@@ -91,7 +91,6 @@ class HandleData {
     }
     return response;
   }
-
 
   static Future put() async {}
   static Future delete() async {}

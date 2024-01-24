@@ -6,10 +6,10 @@ import 'package:benji/app/cart/my_cart.dart';
 import 'package:benji/app/favorites/favorites.dart';
 import 'package:benji/app/packages/send_package.dart';
 import 'package:benji/app/support/help_and_support.dart';
+import 'package:benji/src/components/business/business_card.dart';
 import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/components/others/empty.dart';
 import 'package:benji/src/components/others/my_future_builder.dart';
-import 'package:benji/src/components/vendor/vendors_card.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/category_controller.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
@@ -44,14 +44,14 @@ import '../../src/repo/controller/notifications_controller.dart';
 import '../../src/repo/models/vendor/vendor.dart';
 import '../../theme/colors.dart';
 import '../address/addresses.dart';
+import '../business/business_detail_screen.dart';
+import '../business/businesses_near_you.dart';
+import '../business/popular_businesses.dart';
 import '../orders/order_history.dart';
 import '../product/home_page_products.dart';
 import '../product/product_detail_screen.dart';
 import '../settings/settings.dart';
 import '../shopping_location/set_shopping_location.dart';
-import '../vendor/popular_vendors.dart';
-import '../vendor/vendor_details.dart';
-import '../vendor/vendors_near_you.dart';
 import 'home_drawer.dart';
 
 class Home extends StatefulWidget {
@@ -266,9 +266,9 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toSeeAllVendorsNearYou() => Get.to(
-        () => const VendorsNearYou(),
-        routeName: 'VendorsNearYou',
+  void _toSeeAllBusinessesNearYou() => Get.to(
+        () => const BusinessesNearYou(),
+        routeName: 'BusinessesNearYou',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -277,9 +277,9 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toVendorPage(VendorModel vendor) => Get.to(
-        () => VendorDetails(vendor: vendor),
-        routeName: 'VendorDetails',
+  void _toVendorPage(BusinessModel vendor) => Get.to(
+        () => BusinessDetailScreen(vendor: vendor),
+        routeName: 'BusinessDetailScreen',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -288,9 +288,9 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toSeeAllPopularVendors() => Get.to(
-        () => const PopularVendors(),
-        routeName: 'PopularVendors',
+  void _toSeeAllPopularBusinesses() => Get.to(
+        () => const PopularBusinesses(),
+        routeName: 'PopularBusinesses',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -763,7 +763,7 @@ class _HomeState extends State<Home> {
                       }),
                   SeeAllContainer(
                     title: "Vendors Near you",
-                    onPressed: _toSeeAllVendorsNearYou,
+                    onPressed: _toSeeAllBusinessesNearYou,
                   ),
                   kSizedBox,
                   GetBuilder<VendorController>(
@@ -805,7 +805,7 @@ class _HomeState extends State<Home> {
                             itemBuilder: (context, index) => InkWell(
                               child: SizedBox(
                                 width: 200,
-                                child: VendorsCard(
+                                child: BusinessCard(
                                   vendor: controller.vendorList[index],
                                   removeDistance: false,
                                   onTap: () {
@@ -820,12 +820,12 @@ class _HomeState extends State<Home> {
                   kSizedBox,
                   SeeAllContainer(
                     title: "Popular Vendors",
-                    onPressed: _toSeeAllPopularVendors,
+                    onPressed: _toSeeAllPopularBusinesses,
                   ),
                   kSizedBox,
                   GetBuilder<VendorController>(
                       initState: (state) => VendorController.instance
-                          .getPopularVendors(start: 0, end: 4),
+                          .getPopularBusinesses(start: 0, end: 4),
                       builder: (controller) {
                         if (controller.isLoad.value &&
                             controller.vendorPopularList.isEmpty) {
@@ -877,7 +877,7 @@ class _HomeState extends State<Home> {
                           children: (controller.vendorPopularList.getRange(0,
                                   min(controller.vendorPopularList.length, 3)))
                               .map(
-                                (item) => VendorsCard(
+                                (item) => BusinessCard(
                                   vendor: item,
                                   removeDistance: true,
                                   onTap: () {

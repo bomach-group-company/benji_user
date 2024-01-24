@@ -18,7 +18,7 @@ class Product {
   final bool isAvailable;
   final bool isTrending;
   final bool isRecommended;
-  final VendorModel vendorId;
+  final BusinessModel vendorId;
   final SubCategory subCategoryId;
 
   Product({
@@ -49,7 +49,7 @@ class Product {
       isAvailable: json['is_available'] ?? false,
       isTrending: json['is_trending'] ?? false,
       isRecommended: json['is_recommended'] ?? false,
-      vendorId: VendorModel.fromJson(json['business']),
+      vendorId: BusinessModel.fromJson(json['business']),
       subCategoryId: SubCategory.fromJson(json['sub_category']),
     );
   }
@@ -187,7 +187,7 @@ Future<List<Product>> getProductsBySearching(query) async {
   }
 }
 
-Future<List<Product>> getSimitarProducts(query) async {
+Future<List<Product>> getSimilarProducts(query) async {
   final response = await http.get(
     Uri.parse('$baseURL/clients/searchProducts?query=$query'),
     headers: await authHeader(),

@@ -16,19 +16,19 @@ import '../../src/repo/utils/helpers.dart';
 import '../../theme/colors.dart';
 import '../product/product_detail_screen.dart';
 
-class AllVendorProducts extends StatefulWidget {
-  final VendorModel vendor;
+class AllBusinessProducts extends StatefulWidget {
+  final BusinessModel vendor;
 
-  const AllVendorProducts({
+  const AllBusinessProducts({
     super.key,
     required this.vendor,
   });
 
   @override
-  State<AllVendorProducts> createState() => _AllVendorProductsState();
+  State<AllBusinessProducts> createState() => _AllBusinessProductsState();
 }
 
-class _AllVendorProductsState extends State<AllVendorProducts> {
+class _AllBusinessProductsState extends State<AllBusinessProducts> {
   //================================================= INITIAL STATE AND DISPOSE =====================================================\\
   @override
   void initState() {

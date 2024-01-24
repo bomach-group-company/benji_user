@@ -95,9 +95,9 @@ Future<bool> getFavoriteVSingle(String id) async {
   return vendors[id] ?? false;
 }
 
-Future<List<VendorModel>> getFavoriteVendor(
+Future<List<BusinessModel>> getFavoriteVendor(
     [Function(String)? whenError]) async {
-  List<VendorModel> res = [];
+  List<BusinessModel> res = [];
   Map favorities = await getFavoriteV();
   for (String item in favorities.keys) {
     try {

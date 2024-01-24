@@ -40,7 +40,7 @@ class _ReportPackageState extends State<ReportPackage> {
   //   try {
   //     User? user = await getUser();
   //     final url = Uri.parse(
-  //         '$baseFrontendUrl/clients/clientReportVendor/${user!.id}/${widget.vendor.id}?message=${_messageEC.text}');
+  //         '$baseFrontendUrl/clients/clientReportBusiness/${user!.id}/${widget.vendor.id}?message=${_messageEC.text}');
 
   //     Map body = {};
 
@@ -112,7 +112,6 @@ class _ReportPackageState extends State<ReportPackage> {
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-
         appBar: MyAppBar(
           title: "Help and support",
           elevation: 0.0,
