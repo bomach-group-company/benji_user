@@ -31,6 +31,7 @@ class _CartScreenState extends State<CartScreen> {
   void initState() {
     super.initState();
     checkAuth(context);
+    checkIfShoppingLocation(context);
   }
 
   // will be passed into the select delivery address page

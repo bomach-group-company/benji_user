@@ -34,6 +34,7 @@ class _AllBusinessProductsState extends State<AllBusinessProducts> {
   void initState() {
     super.initState();
     checkAuth(context);
+    checkIfShoppingLocation(context);
     productAndSubCategoryName =
         getVendorProductsAndSubCategoryName(widget.vendor.id)
           ..then((value) {

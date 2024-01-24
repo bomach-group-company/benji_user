@@ -25,6 +25,7 @@ class _PackagesState extends State<Packages>
   void initState() {
     super.initState();
     checkAuth(context);
+    checkIfShoppingLocation(context);
     _tabBarController = TabController(length: 3, vsync: this);
   }
 
@@ -45,12 +46,9 @@ class _PackagesState extends State<Packages>
     setState(() {
       refreshing = true;
     });
-        (state) => MyPackageController.instance
-        .getDeliveryItemsByPending();
-            (state) => MyPackageController.instance
-            .getDeliveryItemsByDispatched();
-            (state) => MyPackageController.instance
-            .getDeliveryItemsByDelivered();
+    (state) => MyPackageController.instance.getDeliveryItemsByPending();
+    (state) => MyPackageController.instance.getDeliveryItemsByDispatched();
+    (state) => MyPackageController.instance.getDeliveryItemsByDelivered();
     await Future.delayed(const Duration(milliseconds: 300), () {
       setState(() {
         refreshing = false;
@@ -114,7 +112,6 @@ class _PackagesState extends State<Packages>
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
-
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
@@ -164,267 +161,298 @@ class _PackagesState extends State<Packages>
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: refreshing
                       ? Center(
-                    child: CircularProgressIndicator(color: kAccentColor),
-                  )
-                      : _selectedtabbar == 0
-                      ? GetBuilder<MyPackageController>(
-                          initState: (state) => MyPackageController.instance
-                              .getDeliveryItemsByPending(),
-                          builder: (controller) {
-                            if (controller.isLoadPending.value &&
-                                controller.pendingPackages.isEmpty) {
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  color: kAccentColor,
-                                ),
-                              );
-                            }
-                            return SizedBox(
-                              width: media.width,
-                              child: Column(
-                                children: [
-                                  controller.pendingPackages.isEmpty
-                                      ? EmptyCard(
-                                    emptyCardMessage:
-                                    "You don't have any packages yet",
-                                    showButton: true,
-                                    buttonTitle: "Send a package",
-                                    onPressed: (){Get.back();},
-                                  )
-                                      : ListView.separated(
-                                          separatorBuilder: (context, index) =>
-                                              Divider(color: kGreyColor),
-                                          itemCount:
-                                              controller.pendingPackages.length,
-                                          shrinkWrap: true,
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          itemBuilder: (context, index) =>
-                                              ListTile(
-                                            onTap: () => _viewPendingPackage(
-                                                controller
-                                                    .pendingPackages[index]),
-                                            contentPadding:
-                                                const EdgeInsets.all(0),
-                                            enableFeedback: true,
-                                            dense: true,
-                                            leading: FaIcon(
-                                              FontAwesomeIcons.boxesStacked,
-                                              color: kAccentColor,
-                                            ),
-                                            title: Text(
-                                              controller.pendingPackages[index]
-                                                  .itemName,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                color: kTextBlackColor,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                            ),
-                                            subtitle: Text.rich(
-                                              TextSpan(
-                                                children: [
-                                                  const TextSpan(
-                                                      text: "Price:"),
-                                                  const TextSpan(text: " "),
-                                                  TextSpan(
-                                                    text:
-                                                        "₦${formattedText(controller.pendingPackages[index].prices)}",
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontFamily: 'sen',
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            trailing: FaIcon(
-                                              FontAwesomeIcons.hourglassHalf,
-                                              color: kSecondaryColor,
-                                              size: 18,
-                                            ),
-                                          ),
-                                        ),
-                                ],
-                              ),
-                            );
-                          },
+                          child: CircularProgressIndicator(color: kAccentColor),
                         )
-                      :
-                  _selectedtabbar == 1
-                      ?
-                  GetBuilder<MyPackageController>(
-                          initState: (state) => MyPackageController.instance
-                              .getDeliveryItemsByDispatched(),
-                          builder: (controller) {
-                            if (controller.isLoadDispatched.value &&
-                                controller.dispatchedPackages.isEmpty) {
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  color: kAccentColor,
-                                ),
-                              );
-                            }
-                            return SizedBox(
-                              width: media.width,
-                              child: Column(
-                                children: [
-                                  controller.dispatchedPackages.isEmpty
-                                      ? const EmptyCard(
-                                    emptyCardMessage:
-                                    "You don't have any dispatched packages yet",
-                                  )
-                                      : ListView.separated(
-                                          separatorBuilder: (context, index) =>
-                                              Divider(color: kGreyColor),
-                                          itemCount: controller
-                                              .dispatchedPackages.length,
-                                          shrinkWrap: true,
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          itemBuilder: (context, index) =>
-                                              ListTile(
-                                            onTap: () => _viewDispatchedPackage(
-                                                (controller
-                                                    .dispatchedPackages[index])),
-                                            contentPadding:
-                                                const EdgeInsets.all(0),
-                                            enableFeedback: true,
-                                            dense: true,
-                                            leading: FaIcon(
-                                              FontAwesomeIcons
-                                                  .boxesStacked,
-                                              color: kAccentColor,
-                                            ),
-                                            title: Text(
-                                              controller
-                                                  .dispatchedPackages[index]
-                                                  .itemName,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                color: kTextBlackColor,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                            ),
-                                            subtitle: Text.rich(
-                                              TextSpan(
-                                                children: [
-                                                  const TextSpan(
-                                                      text: "Price:"),
-                                                  const TextSpan(text: " "),
-                                                  TextSpan(
-                                                    text:
-                                                        "₦${formattedText(controller.dispatchedPackages[index].prices)}",
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontFamily: 'sen',
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            trailing: FaIcon(
-                                              FontAwesomeIcons
-                                                  .bicycle,
-                                              color: kSecondaryColor,
-                                              size: 18,
-                                            ),
-                                          ),
-                                        ),
-                                ],
-                              ),
-                            );
-                          },
-                        ): GetBuilder<MyPackageController>(
-                    initState: (state) => MyPackageController.instance
-                        .getDeliveryItemsByDelivered(),
-                    builder: (controller) {
-                      if (controller.isLoadDelivered.value &&
-                          controller.deliveredPackages.isEmpty) {
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: kAccentColor,
-                          ),
-                        );
-                      }
-                      return SizedBox(
-                        width: media.width,
-                        child: Column(
-                          children: [
-                            controller.deliveredPackages.isEmpty
-                                ?  const EmptyCard(
-                              emptyCardMessage:
-                              "You don't have any delivered packages yet",
-                            )
-                                : ListView.separated(
-                              separatorBuilder: (context, index) =>
-                                  Divider(color: kGreyColor),
-                              itemCount: controller
-                                  .deliveredPackages.length,
-                              shrinkWrap: true,
-                              physics:
-                              const BouncingScrollPhysics(),
-                              itemBuilder: (context, index) =>
-                                  ListTile(
-                                    onTap: () => _viewDeliveredPackage(
-                                        (controller
-                                            .deliveredPackages[index])),
-                                    contentPadding:
-                                    const EdgeInsets.all(0),
-                                    enableFeedback: true,
-                                    dense: true,
-                                    leading: FaIcon(
-                                      FontAwesomeIcons.boxesStacked,
+                      : _selectedtabbar == 0
+                          ? GetBuilder<MyPackageController>(
+                              initState: (state) => MyPackageController.instance
+                                  .getDeliveryItemsByPending(),
+                              builder: (controller) {
+                                if (controller.isLoadPending.value &&
+                                    controller.pendingPackages.isEmpty) {
+                                  return Center(
+                                    child: CircularProgressIndicator(
                                       color: kAccentColor,
                                     ),
-                                    title: Text(
-                                      controller
-                                          .deliveredPackages[index]
-                                          .itemName,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: const TextStyle(
-                                        color: kTextBlackColor,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    subtitle: Text.rich(
-                                      TextSpan(
-                                        children: [
-                                          const TextSpan(
-                                              text: "Price:"),
-                                          const TextSpan(text: " "),
-                                          TextSpan(
-                                            text:
-                                            "₦${formattedText(controller.deliveredPackages[index].prices)}",
-                                            style: const TextStyle(
-                                              fontWeight:
-                                              FontWeight.w700,
-                                              fontFamily: 'sen',
+                                  );
+                                }
+                                return SizedBox(
+                                  width: media.width,
+                                  child: Column(
+                                    children: [
+                                      controller.pendingPackages.isEmpty
+                                          ? EmptyCard(
+                                              emptyCardMessage:
+                                                  "You don't have any packages yet",
+                                              showButton: true,
+                                              buttonTitle: "Send a package",
+                                              onPressed: () {
+                                                Get.back();
+                                              },
+                                            )
+                                          : ListView.separated(
+                                              separatorBuilder: (context,
+                                                      index) =>
+                                                  Divider(color: kGreyColor),
+                                              itemCount: controller
+                                                  .pendingPackages.length,
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const BouncingScrollPhysics(),
+                                              itemBuilder: (context, index) =>
+                                                  ListTile(
+                                                onTap: () => _viewPendingPackage(
+                                                    controller.pendingPackages[
+                                                        index]),
+                                                contentPadding:
+                                                    const EdgeInsets.all(0),
+                                                enableFeedback: true,
+                                                dense: true,
+                                                leading: FaIcon(
+                                                  FontAwesomeIcons.boxesStacked,
+                                                  color: kAccentColor,
+                                                ),
+                                                title: Text(
+                                                  controller
+                                                      .pendingPackages[index]
+                                                      .itemName,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                  style: const TextStyle(
+                                                    color: kTextBlackColor,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                                subtitle: Text.rich(
+                                                  TextSpan(
+                                                    children: [
+                                                      const TextSpan(
+                                                          text: "Price:"),
+                                                      const TextSpan(text: " "),
+                                                      TextSpan(
+                                                        text:
+                                                            "₦${formattedText(controller.pendingPackages[index].prices)}",
+                                                        style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontFamily: 'sen',
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                trailing: FaIcon(
+                                                  FontAwesomeIcons
+                                                      .hourglassHalf,
+                                                  color: kSecondaryColor,
+                                                  size: 18,
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            )
+                          : _selectedtabbar == 1
+                              ? GetBuilder<MyPackageController>(
+                                  initState: (state) => MyPackageController
+                                      .instance
+                                      .getDeliveryItemsByDispatched(),
+                                  builder: (controller) {
+                                    if (controller.isLoadDispatched.value &&
+                                        controller.dispatchedPackages.isEmpty) {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: kAccentColor,
+                                        ),
+                                      );
+                                    }
+                                    return SizedBox(
+                                      width: media.width,
+                                      child: Column(
+                                        children: [
+                                          controller.dispatchedPackages.isEmpty
+                                              ? const EmptyCard(
+                                                  emptyCardMessage:
+                                                      "You don't have any dispatched packages yet",
+                                                )
+                                              : ListView.separated(
+                                                  separatorBuilder: (context,
+                                                          index) =>
+                                                      Divider(
+                                                          color: kGreyColor),
+                                                  itemCount: controller
+                                                      .dispatchedPackages
+                                                      .length,
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      const BouncingScrollPhysics(),
+                                                  itemBuilder:
+                                                      (context, index) =>
+                                                          ListTile(
+                                                    onTap: () =>
+                                                        _viewDispatchedPackage(
+                                                            (controller
+                                                                    .dispatchedPackages[
+                                                                index])),
+                                                    contentPadding:
+                                                        const EdgeInsets.all(0),
+                                                    enableFeedback: true,
+                                                    dense: true,
+                                                    leading: FaIcon(
+                                                      FontAwesomeIcons
+                                                          .boxesStacked,
+                                                      color: kAccentColor,
+                                                    ),
+                                                    title: Text(
+                                                      controller
+                                                          .dispatchedPackages[
+                                                              index]
+                                                          .itemName,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 1,
+                                                      style: const TextStyle(
+                                                        color: kTextBlackColor,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                      ),
+                                                    ),
+                                                    subtitle: Text.rich(
+                                                      TextSpan(
+                                                        children: [
+                                                          const TextSpan(
+                                                              text: "Price:"),
+                                                          const TextSpan(
+                                                              text: " "),
+                                                          TextSpan(
+                                                            text:
+                                                                "₦${formattedText(controller.dispatchedPackages[index].prices)}",
+                                                            style:
+                                                                const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontFamily: 'sen',
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    trailing: FaIcon(
+                                                      FontAwesomeIcons.bicycle,
+                                                      color: kSecondaryColor,
+                                                      size: 18,
+                                                    ),
+                                                  ),
+                                                ),
                                         ],
                                       ),
-                                    ),
-                                    trailing: const FaIcon(
-                                      FontAwesomeIcons.solidCircleCheck,
-                                      color: kSuccessColor,
-                                      size: 18,
-                                    ),
-                                  ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                                    );
+                                  },
+                                )
+                              : GetBuilder<MyPackageController>(
+                                  initState: (state) => MyPackageController
+                                      .instance
+                                      .getDeliveryItemsByDelivered(),
+                                  builder: (controller) {
+                                    if (controller.isLoadDelivered.value &&
+                                        controller.deliveredPackages.isEmpty) {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: kAccentColor,
+                                        ),
+                                      );
+                                    }
+                                    return SizedBox(
+                                      width: media.width,
+                                      child: Column(
+                                        children: [
+                                          controller.deliveredPackages.isEmpty
+                                              ? const EmptyCard(
+                                                  emptyCardMessage:
+                                                      "You don't have any delivered packages yet",
+                                                )
+                                              : ListView.separated(
+                                                  separatorBuilder: (context,
+                                                          index) =>
+                                                      Divider(
+                                                          color: kGreyColor),
+                                                  itemCount: controller
+                                                      .deliveredPackages.length,
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      const BouncingScrollPhysics(),
+                                                  itemBuilder:
+                                                      (context, index) =>
+                                                          ListTile(
+                                                    onTap: () =>
+                                                        _viewDeliveredPackage(
+                                                            (controller
+                                                                    .deliveredPackages[
+                                                                index])),
+                                                    contentPadding:
+                                                        const EdgeInsets.all(0),
+                                                    enableFeedback: true,
+                                                    dense: true,
+                                                    leading: FaIcon(
+                                                      FontAwesomeIcons
+                                                          .boxesStacked,
+                                                      color: kAccentColor,
+                                                    ),
+                                                    title: Text(
+                                                      controller
+                                                          .deliveredPackages[
+                                                              index]
+                                                          .itemName,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 1,
+                                                      style: const TextStyle(
+                                                        color: kTextBlackColor,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                      ),
+                                                    ),
+                                                    subtitle: Text.rich(
+                                                      TextSpan(
+                                                        children: [
+                                                          const TextSpan(
+                                                              text: "Price:"),
+                                                          const TextSpan(
+                                                              text: " "),
+                                                          TextSpan(
+                                                            text:
+                                                                "₦${formattedText(controller.deliveredPackages[index].prices)}",
+                                                            style:
+                                                                const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontFamily: 'sen',
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    trailing: const FaIcon(
+                                                      FontAwesomeIcons
+                                                          .solidCircleCheck,
+                                                      color: kSuccessColor,
+                                                      size: 18,
+                                                    ),
+                                                  ),
+                                                ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
                 ),
               ],
             ),

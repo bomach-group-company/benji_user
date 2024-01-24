@@ -59,6 +59,7 @@ class _EditProfileState extends State<EditProfile> {
   //=========================== FUNCTIONS ====================================\\
   getData() async {
     checkAuth(context);
+    checkIfShoppingLocation(context);
     User? user = await getUser();
 
     _userFirstNameEC.text = user!.firstName;

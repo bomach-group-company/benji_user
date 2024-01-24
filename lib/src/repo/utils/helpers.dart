@@ -1,7 +1,11 @@
 import 'dart:convert';
 
+import 'package:benji/app/shopping_location/set_shopping_location.dart';
 import 'package:benji/main.dart';
+import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
+import 'package:benji/src/repo/utils/shopping_location.dart';
+import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
@@ -42,6 +46,29 @@ checkUserAuth() async {
       () => const Login(),
       routeName: 'Login',
       predicate: (route) => false,
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      popGesture: false,
+      transition: Transition.rightToLeft,
+    );
+  }
+}
+
+checkIfShoppingLocation(context) async {
+  await Future.delayed(const Duration(microseconds: 1));
+  if (!checkShoppingLocation()) {
+    mySnackBar(
+      context,
+      kAccentColor,
+      "Set shopping location!",
+      "Please set shopping location",
+      const Duration(seconds: 2),
+    );
+
+    return Get.to(
+      () => const SetShoppingLocation(),
+      routeName: 'SetShoppingLocation',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,

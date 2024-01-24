@@ -31,6 +31,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
     super.initState();
     consoleLog('activeCategory activeCategory ${widget.activeCategory}');
     checkAuth(context);
+    checkIfShoppingLocation(context);
     _scrollController.addListener(_scrollListener);
 
     SubCategoryController.instance.getSubCategory().then((value) {
@@ -46,7 +47,6 @@ class _HomePageProductsState extends State<HomePageProducts> {
     super.dispose();
     _scrollController.dispose();
     _scrollController.removeListener(() {});
-
   }
 
   //==================================================== ALL VARIABLES ===========================================================\\
@@ -104,21 +104,21 @@ class _HomePageProductsState extends State<HomePageProducts> {
         ),
         floatingActionButton: _isScrollToTopBtnVisible
             ? FloatingActionButton(
-          onPressed: _scrollToTop,
-          mini: deviceType(media.width) > 2 ? false : true,
-          backgroundColor: kAccentColor,
-          enableFeedback: true,
-          mouseCursor: SystemMouseCursors.click,
-          tooltip: "Scroll to top",
-          hoverColor: kAccentColor,
-          hoverElevation: 50.0,
-          child: FaIcon(FontAwesomeIcons.chevronUp, size: 18, color: kPrimaryColor),
-        )
+                onPressed: _scrollToTop,
+                mini: deviceType(media.width) > 2 ? false : true,
+                backgroundColor: kAccentColor,
+                enableFeedback: true,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Scroll to top",
+                hoverColor: kAccentColor,
+                hoverElevation: 50.0,
+                child: FaIcon(FontAwesomeIcons.chevronUp,
+                    size: 18, color: kPrimaryColor),
+              )
             : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
-
             radius: const Radius.circular(10),
             scrollbarOrientation: ScrollbarOrientation.right,
             child: ListView(

@@ -28,6 +28,7 @@ class _OrdersHistoryState extends State<OrdersHistory> {
   void initState() {
     super.initState();
     checkAuth(context);
+    checkIfShoppingLocation(context);
     _scrollController.addListener(_scrollListener);
   }
 
@@ -112,7 +113,8 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                   tooltip: "Scroll to top",
                   hoverColor: kAccentColor,
                   hoverElevation: 50.0,
-                  child: FaIcon(FontAwesomeIcons.chevronUp, size: 18, color: kPrimaryColor),
+                  child: FaIcon(FontAwesomeIcons.chevronUp,
+                      size: 18, color: kPrimaryColor),
                 )
               : const SizedBox(),
           body: SafeArea(

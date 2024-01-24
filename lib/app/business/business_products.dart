@@ -37,6 +37,7 @@ class _BusinessProductsState extends State<BusinessProducts> {
   void initState() {
     super.initState();
     checkAuth(context);
+    checkIfShoppingLocation(context);
   }
 
   late Future<Map<String, List<Product>>> productAndSubCategoryName;

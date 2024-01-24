@@ -28,6 +28,7 @@ class _AddressesState extends State<Addresses> {
   void initState() {
     super.initState();
     checkAuth(context);
+    checkIfShoppingLocation(context);
   }
 
   //============================================================ ALL VARIABLES ===================================================================\\
@@ -150,8 +151,6 @@ class _AddressesState extends State<Addresses> {
     AddressController.instance.getAdresses();
     AddressController.instance.getCurrentAddress();
   }
-
-
 
   @override
   Widget build(BuildContext context) {

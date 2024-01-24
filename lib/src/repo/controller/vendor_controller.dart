@@ -8,6 +8,7 @@ import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:benji/src/repo/services/api_url.dart';
 import 'package:benji/src/repo/utils/shopping_location.dart';
 import 'package:flutter/foundation.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -79,12 +80,24 @@ class VendorController extends GetxController {
     }
   }
 
+  Future<String> _getLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      return '${position.latitude}/${position.longitude}';
+    } catch (e) {
+      return '0/0';
+    }
+  }
+
   Future getVendors() async {
     isLoad.value = true;
     late String token;
     String id = UserController.instance.user.value.id.toString();
     var url =
-        "${Api.baseUrl}/clients/getbusinessesByLocation/${getShoppingLocationPath()}";
+        "${Api.baseUrl}/clients/getBusinessesNearMe/${(await _getLocation())}";
     print(url);
     token = UserController.instance.user.value.token;
     List<BusinessModel> data = [];
@@ -107,7 +120,7 @@ class VendorController extends GetxController {
     late String token;
     String id = UserController.instance.user.value.id.toString();
     var url =
-        "${Api.baseUrl}${Api.popularVendor}?start=${start ?? loadNumPopularVendor.value - 10}&end=${end ?? loadNumPopularVendor.value}";
+        "${Api.baseUrl}/clients/getPopularBusiness?start=${start ?? loadNumPopularVendor.value - 10}&end=${end ?? loadNumPopularVendor.value}";
     if (end == null) {
       loadNumPopularVendor.value += 10;
     }
