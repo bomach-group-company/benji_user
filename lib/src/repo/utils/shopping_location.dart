@@ -13,6 +13,11 @@ Future<bool> setShoppingLocation(
   return await prefs.setString(instanceNameShoppingLocation, jsonEncode(area));
 }
 
+bool checkShoppingLocation() {
+  String? data = prefs.getString(instanceNameShoppingLocation);
+  return data != null;
+}
+
 Map<String, dynamic>? getShoppingLocation() {
   String? data = prefs.getString(instanceNameShoppingLocation);
   return data == null ? null : (jsonDecode(data) as Map<String, dynamic>);

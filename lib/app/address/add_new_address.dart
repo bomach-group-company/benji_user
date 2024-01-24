@@ -43,6 +43,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
   void initState() {
     super.initState();
     checkAuth(context);
+    checkIfShoppingLocation(context);
 
     getUser().then((user) => _phoneNumberEC.text =
         (user?.phone ?? '').replaceFirst('+$countryDialCode', ''));

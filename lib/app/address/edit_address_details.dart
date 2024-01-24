@@ -163,6 +163,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   void initState() {
     super.initState();
     checkAuth(context);
+    checkIfShoppingLocation(context);
     _addressTitleEC.text = widget.address.title;
     _mapsLocationEC.text = widget.address.details;
     _phoneNumberEC.text =
@@ -272,7 +273,6 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
           backgroundColor: kPrimaryColor,
           actions: const [],
         ),
-
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(

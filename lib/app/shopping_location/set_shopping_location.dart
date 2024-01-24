@@ -120,11 +120,11 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
               title: "Save",
               onPressed: setShoppingLocationForm,
             ),
-            kSizedBox,
-            MyOutlinedElevatedButton(
-              title: "Use my location",
-              onPressed: useCurrentLocation,
-            ),
+            // kSizedBox,
+            // MyOutlinedElevatedButton(
+            //   title: "Use my location",
+            //   onPressed: useCurrentLocation,
+            // ),
           ],
         ),
       ),

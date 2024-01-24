@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 import 'package:benji/app/business/business_detail_screen.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
+import 'package:benji/src/components/business/business_card.dart';
 import 'package:benji/src/components/product/product_card.dart';
 import 'package:benji/src/repo/controller/favourite_controller.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
@@ -8,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
 
-import '../../src/components/business/business_card.dart';
 import '../../src/components/others/cart_card.dart';
 import '../../src/components/others/empty.dart';
 import '../../src/providers/constants.dart';
@@ -47,6 +47,7 @@ class _FavoritesState extends State<Favorites>
   void initState() {
     super.initState();
     checkAuth(context);
+    checkIfShoppingLocation(context);
     _tabBarController = TabController(length: 2, vsync: this);
   }
 
