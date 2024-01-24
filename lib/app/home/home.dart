@@ -762,7 +762,7 @@ class _HomeState extends State<Home> {
                         );
                       }),
                   SeeAllContainer(
-                    title: "Vendors Near you",
+                    title: "Recommended Vendors",
                     onPressed: _toSeeAllBusinessesNearYou,
                   ),
                   kSizedBox,
@@ -788,7 +788,8 @@ class _HomeState extends State<Home> {
                         if (controller.vendorList.isEmpty) {
                           return const EmptyCard(
                             showButton: false,
-                            emptyCardMessage: "There are no vendors near you.",
+                            emptyCardMessage:
+                                "There are no Recommended Vendors.",
                           );
                         }
                         return SizedBox(
