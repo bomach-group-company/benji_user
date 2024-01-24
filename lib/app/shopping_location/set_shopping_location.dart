@@ -1,7 +1,6 @@
 import 'package:benji/app/home/home.dart';
 import 'package:benji/app/packages/item_category_dropdown_menu.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
-import 'package:benji/src/components/button/my_outlined_elevatedbutton.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/shopping_location_controller.dart';
 import 'package:benji/src/repo/utils/shopping_location.dart';

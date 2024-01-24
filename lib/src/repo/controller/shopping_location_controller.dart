@@ -1,5 +1,5 @@
-
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:benji/src/repo/controller/error_controller.dart';
@@ -8,7 +8,6 @@ import 'package:benji/src/repo/services/api_url.dart';
 import 'package:benji/src/repo/services/helper.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
 
 class ShoppingLocationController extends GetxController {
   static ShoppingLocationController get instance {
@@ -22,17 +21,16 @@ class ShoppingLocationController extends GetxController {
   var state = <ShoppingLocationState>[].obs;
   var city = <ShoppingLocationCity>[].obs;
 
-
   Future getShoppingLocationCountries() async {
     isLoadCountry.value = true;
     var url = "${Api.baseUrl}/country/listAllCountries";
     try {
-      http.Response response = await http.get(Uri.parse(url), headers: authHeader());
+      http.Response response =
+          await http.get(Uri.parse(url), headers: authHeader());
       country.value = (jsonDecode(response.body) as List)
           .map((e) => ShoppingLocationCountry.fromJson(e))
           .toList();
       isLoadCountry.value = false;
-
 
       update();
     } on SocketException {
@@ -44,12 +42,13 @@ class ShoppingLocationController extends GetxController {
     update();
   }
 
-    Future getShoppingLocationState(String country) async {
+  Future getShoppingLocationState(String country) async {
     isLoadState.value = true;
     var url = "${Api.baseUrl}/country/getCountryStates/$country";
     try {
-      http.Response? response = await http.get(Uri.parse(url), headers: authHeader());
-      print(response.body);
+      http.Response? response =
+          await http.get(Uri.parse(url), headers: authHeader());
+      log(response.body);
       state.value = (jsonDecode(response.body) as List)
           .map((e) => ShoppingLocationState.fromJson(e))
           .toList();
@@ -65,11 +64,12 @@ class ShoppingLocationController extends GetxController {
     update();
   }
 
-    Future getShoppingLocationCity(String state) async {
+  Future getShoppingLocationCity(String state) async {
     isLoadCity.value = true;
     var url = "${Api.baseUrl}/country/getCountryStatesCites/$state";
     try {
-      http.Response? response = await http.get(Uri.parse(url), headers: authHeader());
+      http.Response? response =
+          await http.get(Uri.parse(url), headers: authHeader());
       city.value = (jsonDecode(response.body) as List)
           .map((e) => ShoppingLocationCity.fromJson(e))
           .toList();

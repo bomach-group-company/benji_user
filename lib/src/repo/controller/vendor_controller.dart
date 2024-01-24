@@ -1,6 +1,7 @@
 // ignore_for_file: unused_element, unused_local_variable, empty_catches
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/models/product/product.dart';
@@ -104,7 +105,7 @@ class VendorController extends GetxController {
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
-      print(response!.body);
+      log(response!.body);
       data = (jsonDecode(response.body) as List)
           .map((e) => BusinessModel.fromJson(e))
           .toList();
@@ -192,10 +193,10 @@ class VendorController extends GetxController {
     loadSimilarVendor.value = true;
     var url =
         "${Api.baseUrl}/clients/similarbusiness/${getShoppingLocationPath(reverse: true)}";
-    print(url);
+    log(url);
     String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
-    print('similar vendor ${response!.body}');
+    log('similar vendor ${response!.body}');
 
     var responseData = await ApiProcessorController.errorState(response);
     if (responseData == null) {
