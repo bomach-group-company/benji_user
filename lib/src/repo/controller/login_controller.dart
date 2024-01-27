@@ -59,6 +59,12 @@ class LoginController extends GetxController {
         throw const SocketException('Please connect to the internet');
       }
 
+      if (responseUserData.statusCode != 200) {
+        ApiProcessorController.errorSnack(
+            "Invalid email or password. Try again");
+        return;
+      }
+
       UserController.instance
           .saveUser(responseUserData.body, jsonData["token"]);
 

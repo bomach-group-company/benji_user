@@ -53,6 +53,7 @@ class _SettingsState extends State<Settings> {
 
   final ImagePicker _picker = ImagePicker();
   File? selectedImage;
+  XFile? selectedImageWeb;
 
 //============================================== BOOL VALUES =================================================\\
 
@@ -98,42 +99,48 @@ class _SettingsState extends State<Settings> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Column(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      uploadProfilePic(ImageSource.camera);
-                    },
-                    borderRadius: BorderRadius.circular(100),
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
+              kIsWeb
+                  ? const SizedBox()
+                  : Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            uploadProfilePic(ImageSource.camera);
+                          },
                           borderRadius: BorderRadius.circular(100),
-                          side: const BorderSide(
-                            width: 0.5,
-                            color: kGreyColor1,
+                          child: Container(
+                            height: 60,
+                            width: 60,
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100),
+                                side: const BorderSide(
+                                  width: 0.5,
+                                  color: kGreyColor1,
+                                ),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.camera_alt_rounded,
+                              color: kAccentColor,
+                            ),
                           ),
                         ),
-                      ),
-                      child: Icon(
-                        Icons.camera_alt_rounded,
-                        color: kAccentColor,
-                      ),
+                        kHalfSizedBox,
+                        const Text(
+                          "Camera",
+                        ),
+                      ],
                     ),
-                  ),
-                  kHalfSizedBox,
-                  const Text(
-                    "Camera",
-                  ),
-                ],
-              ),
               kWidthSizedBox,
               Column(
                 children: [
                   InkWell(
                     onTap: () {
+                      if (kIsWeb) {
+                        uploadProfilePicWeb(ImageSource.gallery);
+                        return;
+                      }
                       uploadProfilePic(ImageSource.gallery);
                     },
                     borderRadius: BorderRadius.circular(100),
@@ -171,13 +178,22 @@ class _SettingsState extends State<Settings> {
   //==================================================== FUNCTIONS ===========================================================\\
 
   //===================== Profile Picture ==========================\\
+  uploadProfilePicWeb(ImageSource source) async {
+    final XFile? image = await _picker.pickImage(
+      source: source,
+    );
+    sendIt(image);
+  }
 
   uploadProfilePic(ImageSource source) async {
     final XFile? image = await _picker.pickImage(
       source: source,
     );
+    sendIt(image);
+  }
+
+  sendIt(XFile? image) async {
     if (image != null) {
-      selectedImage = File(image.path);
       setState(() {});
       User? user = await getUser();
       final url =
@@ -192,8 +208,8 @@ class _SettingsState extends State<Settings> {
       // Add the image file to the request
       request.files.add(http.MultipartFile(
         'image',
-        selectedImage!.readAsBytes().asStream(),
-        selectedImage!.lengthSync(),
+        image.readAsBytes().asStream(),
+        await image.length(),
         filename: 'image.jpg',
         contentType:
             MediaType('image', 'jpeg'), // Adjust content type as needed
@@ -205,6 +221,7 @@ class _SettingsState extends State<Settings> {
       // Check if the request was successful (status code 200)
       if (response.statusCode == 200) {
         await UserController.instance.getUser();
+        setState(() {});
         // Image successfully uploaded
         if (kDebugMode) {
           consoleLog(await response.stream.bytesToString());
@@ -212,7 +229,7 @@ class _SettingsState extends State<Settings> {
         }
       } else {
         // Handle the error (e.g., server error)
-          consoleLog('Error uploading image: ${response.reasonPhrase}');
+        consoleLog('Error uploading image: ${response.reasonPhrase}');
       }
     }
   }
@@ -308,7 +325,6 @@ class _SettingsState extends State<Settings> {
               MyFutureBuilder(
                   future: getUser(),
                   child: (snapshot) {
-
                     return Container(
                       width: media.width,
                       padding: const EdgeInsets.all(10),
@@ -334,48 +350,31 @@ class _SettingsState extends State<Settings> {
                             children: [
                               Stack(
                                 children: [
-                                  selectedImage == null
-                                      ? Container(
-                                          height: deviceType(media.width) == 1
-                                              ? 100
-                                              : 150,
-                                          width: deviceType(media.width) == 1
-                                              ? 100
-                                              : 150,
-                                          decoration: ShapeDecoration(
-                                            color: kPageSkeletonColor,
-                                            // image: const DecorationImage(
-                                            //   image: AssetImage(
-                                            //     "assets/images/profile/avatar-image.jpg",
-                                            //   ),
-                                            //   fit: BoxFit.contain,
-                                            // ),
-                                            shape: const OvalBorder(),
-                                          ),
-                                          child: Center(
-                                            child: MyImage(
-                                              url: (snapshot.image as String?),
-                                              radiusBottom: 50,
-                                              radiusTop: 50,
-                                            ),
-                                          ),
-                                        )
-                                      : Container(
-                                          height: deviceType(media.width) == 1
-                                              ? 100
-                                              : 150,
-                                          width: deviceType(media.width) == 1
-                                              ? 100
-                                              : 150,
-                                          decoration: ShapeDecoration(
-                                            color: kPageSkeletonColor,
-                                            image: DecorationImage(
-                                              image: FileImage(selectedImage!),
-                                              fit: BoxFit.cover,
-                                            ),
-                                            shape: const OvalBorder(),
-                                          ),
-                                        ),
+                                  Container(
+                                    height: deviceType(media.width) == 1
+                                        ? 100
+                                        : 150,
+                                    width: deviceType(media.width) == 1
+                                        ? 100
+                                        : 150,
+                                    decoration: ShapeDecoration(
+                                      color: kPageSkeletonColor,
+                                      // image: const DecorationImage(
+                                      //   image: AssetImage(
+                                      //     "assets/images/profile/avatar-image.jpg",
+                                      //   ),
+                                      //   fit: BoxFit.contain,
+                                      // ),
+                                      shape: const OvalBorder(),
+                                    ),
+                                    child: Center(
+                                      child: MyImage(
+                                        url: (snapshot.image as String?),
+                                        radiusBottom: 50,
+                                        radiusTop: 50,
+                                      ),
+                                    ),
+                                  ),
                                   Positioned(
                                     bottom: 0,
                                     right: 5,
