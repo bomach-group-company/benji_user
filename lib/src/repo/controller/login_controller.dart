@@ -48,7 +48,13 @@ class LoginController extends GetxController {
       }
       http.Response? responseUser =
           await HandleData.getApi(Api.baseUrl + Api.user, jsonData["token"]);
-
+      if (jsonDecode(responseUser?.body ?? '')['id'] == null) {
+        ApiProcessorController.errorSnack(
+            "Invalid email or password. Try again");
+        isLoad.value = false;
+        update();
+        return;
+      }
       http.Response? responseUserData = await HandleData.getApi(
           Api.baseUrl +
               Api.getClient +
@@ -62,6 +68,8 @@ class LoginController extends GetxController {
       if (responseUserData.statusCode != 200) {
         ApiProcessorController.errorSnack(
             "Invalid email or password. Try again");
+        isLoad.value = false;
+        update();
         return;
       }
 
