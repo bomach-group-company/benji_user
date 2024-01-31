@@ -99,7 +99,7 @@ class VendorController extends GetxController {
     String id = UserController.instance.user.value.id.toString();
     var url =
         "${Api.baseUrl}/clients/getbusinessesByLocation/${getShoppingLocationPath()}";
-    print(url);
+    log(url);
     token = UserController.instance.user.value.token;
     List<BusinessModel> data = [];
     try {

@@ -22,10 +22,10 @@ import 'business_location.dart';
 import 'report_business.dart';
 
 class BusinessDetailScreen extends StatefulWidget {
-  final BusinessModel vendor;
+  final BusinessModel business;
   const BusinessDetailScreen({
     super.key,
-    required this.vendor,
+    required this.business,
   });
 
   @override
@@ -41,7 +41,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
     super.initState();
     scrollController.addListener(scrollListener);
     _tabBarController = TabController(length: 2, vsync: this);
-    getFavoriteVSingle(widget.vendor.id.toString()).then(
+    getFavoriteVSingle(widget.business.id.toString()).then(
       (value) {
         setState(() {
           _isAddedToFavorites = value;
@@ -79,8 +79,8 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
       return;
     }
     try {
-      latitude = double.parse(widget.vendor.latitude);
-      longitude = double.parse(widget.vendor.longitude);
+      latitude = double.parse(widget.business.latitude);
+      longitude = double.parse(widget.business.longitude);
       if (latitude >= -90 &&
           latitude <= 90 &&
           longitude >= -180 &&
@@ -94,7 +94,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
       return;
     }
     Get.to(
-      () => BusinessLocation(vendor: widget.vendor),
+      () => BusinessLocation(vendor: widget.business),
       routeName: 'BusinessLocation',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
@@ -153,7 +153,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
   }
 
   void _addToFavorites() async {
-    bool val = await favoriteItV(widget.vendor.id.toString());
+    bool val = await favoriteItV(widget.business.id.toString());
     setState(() {
       _isAddedToFavorites = val;
     });
@@ -221,7 +221,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
             break;
           case 'report':
             Get.to(
-              () => ReportBusiness(vendor: widget.vendor),
+              () => ReportBusiness(vendor: widget.business),
               routeName: 'ReportBusiness',
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,
@@ -246,7 +246,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(kDefaultPadding)),
           elevation: 50,
-          child: RateVendorDialog(vendor: widget.vendor),
+          child: RateVendorDialog(business: widget.business),
         );
       },
     );
@@ -264,7 +264,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
       child: Scaffold(
         appBar: MyAppBar(
           title: isScrollToTopBtnVisible
-              ? widget.vendor.shopName
+              ? widget.business.shopName
               : "Vendor Details",
           elevation: 0.0,
           backgroundColor: kPrimaryColor,
@@ -338,7 +338,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                             // ),
                           ),
                           child: MyImage(
-                            url: widget.vendor.shopImage,
+                            url: widget.business.shopImage,
                             radiusBottom: 0,
                           ),
                         ),
@@ -381,7 +381,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                   SizedBox(
                                     width: media.width - 200,
                                     child: Text(
-                                      widget.vendor.shopName,
+                                      widget.business.shopName,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                       textAlign: TextAlign.center,
@@ -407,7 +407,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                         ),
                                         kHalfWidthSizedBox,
                                         Text(
-                                          widget.vendor.address,
+                                          widget.business.address,
                                           textAlign: TextAlign.center,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
@@ -420,7 +420,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                   ),
                                   kHalfSizedBox,
                                   InkWell(
-                                    onTap: widget.vendor.address.isEmpty
+                                    onTap: widget.business.address.isEmpty
                                         ? null
                                         : _toBusinessLocation,
                                     borderRadius: BorderRadius.circular(10),
@@ -435,7 +435,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                         ),
                                       ),
                                       child: Text(
-                                        widget.vendor.address.isEmpty
+                                        widget.business.address.isEmpty
                                             ? "Not Available"
                                             : "Show on map",
                                         textAlign: TextAlign.center,
@@ -472,7 +472,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                             ),
                                             const SizedBox(width: 5),
                                             Text(
-                                              '${(widget.vendor.vendorOwner.averageRating).toPrecision(1)}',
+                                              '${(widget.business.vendorOwner.averageRating).toPrecision(1)}',
                                               style: const TextStyle(
                                                 color: kBlackColor,
                                                 fontSize: 14,
@@ -498,13 +498,14 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              widget.vendor.vendorOwner.isOnline
+                                              widget.business.vendorOwner
+                                                      .isOnline
                                                   ? "Online"
                                                   : 'Offline',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                color: widget.vendor.vendorOwner
-                                                        .isOnline
+                                                color: widget.business
+                                                        .vendorOwner.isOnline
                                                     ? kSuccessColor
                                                     : kAccentColor,
                                                 fontSize: 14,
@@ -538,20 +539,18 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                         left: deviceType(media.width) > 2
                             ? (media.width / 2) - (126 / 2)
                             : (media.width / 2) - (100 / 2),
-                        child: Container(
+                        child: SizedBox(
                           width: deviceType(media.width) > 2 ? 126 : 100,
                           height: deviceType(media.width) > 2 ? 126 : 100,
-                          decoration: ShapeDecoration(
-                            color: kPageSkeletonColor,
-                            // image: const DecorationImage(
-                            //   image: AssetImage(
-                            //     "assets/images/vendors/ntachi-osa-logo.png",
-                            //   ),
-                            //   fit: BoxFit.cover,
-                            // ),
-                            shape: const OvalBorder(),
+                          child: CircleAvatar(
+                            backgroundColor: kLightGreyColor,
+                            radius: 30,
+                            child: Center(
+                              child: MyImage(
+                                url: widget.business.shopImage,
+                              ),
+                            ),
                           ),
-                          child: MyImage(url: widget.vendor.coverImage),
                         ),
                       ),
                     ],
@@ -615,10 +614,10 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                             : const EdgeInsets.symmetric(horizontal: 10),
                         child: _selectedtabbar == 0
                             ? BusinessProducts(
-                                vendor: widget.vendor,
+                                business: widget.business,
                               )
                             : AboutBusiness(
-                                vendor: widget.vendor,
+                                business: widget.business,
                               ),
                       ),
               ],

@@ -9,12 +9,12 @@ import '../../providers/responsive_constant.dart';
 
 class BusinessCard extends StatelessWidget {
   final Function() onTap;
-  final BusinessModel vendor;
+  final BusinessModel business;
   final bool removeDistance;
   const BusinessCard({
     super.key,
     required this.onTap,
-    required this.vendor,
+    required this.business,
     this.removeDistance = false,
   });
 
@@ -56,7 +56,7 @@ class BusinessCard extends StatelessWidget {
                   topRight: Radius.circular(7.20),
                 ),
               ),
-              child: Center(child: MyImage(url: vendor.shopImage)),
+              child: Center(child: MyImage(url: business.shopImage)),
             ),
             kHalfSizedBox,
             Padding(
@@ -67,7 +67,7 @@ class BusinessCard extends StatelessWidget {
                 children: [
                   SizedBox(
                     child: Text(
-                      vendor.shopName,
+                      business.shopName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -81,7 +81,7 @@ class BusinessCard extends StatelessWidget {
                   kHalfSizedBox,
                   SizedBox(
                     child: Text(
-                      vendor.shopType.name,
+                      business.shopType.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -105,7 +105,7 @@ class BusinessCard extends StatelessWidget {
                         const SizedBox(width: 4.0),
                         SizedBox(
                           child: Text(
-                            '${(vendor.vendorOwner.averageRating).toStringAsPrecision(2)} (${vendor.vendorOwner.numberOfClientsReactions})',
+                            '${(business.vendorOwner.averageRating).toStringAsPrecision(2)} (${business.vendorOwner.numberOfClientsReactions})',
                             style: const TextStyle(
                               color: kTextBlackColor,
                               fontSize: 15,

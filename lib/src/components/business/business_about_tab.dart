@@ -5,11 +5,11 @@ import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:flutter/material.dart';
 
 class BusinessAboutTab extends StatefulWidget {
-  final BusinessModel vendor;
+  final BusinessModel business;
 
   const BusinessAboutTab({
     super.key,
-    required this.vendor,
+    required this.business,
   });
 
   @override
@@ -21,7 +21,7 @@ class _BusinessAboutTabState extends State<BusinessAboutTab> {
   Widget build(BuildContext context) {
     return SizedBox(
       child: AboutBusiness(
-        vendor: widget.vendor,
+        business: widget.business,
       ),
     );
   }

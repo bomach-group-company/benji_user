@@ -14,9 +14,9 @@ import '../../src/repo/models/vendor/vendor.dart';
 import '../../theme/colors.dart';
 
 class AllBusinessReviews extends StatefulWidget {
-  final BusinessModel vendor;
+  final BusinessModel business;
 
-  const AllBusinessReviews({super.key, required this.vendor});
+  const AllBusinessReviews({super.key, required this.business});
 
   @override
   State<AllBusinessReviews> createState() => _AllBusinessReviewsState();
@@ -114,7 +114,7 @@ class _AllBusinessReviewsState extends State<AllBusinessReviews> {
 
   _getData() async {
     List<Ratings> ratings = await getRatingsByVendorId(
-        widget.vendor.vendorOwner.id,
+        widget.business.vendorOwner.id,
         start: start,
         end: end);
 
@@ -146,7 +146,7 @@ class _AllBusinessReviewsState extends State<AllBusinessReviews> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(kDefaultPadding)),
           elevation: 50,
-          child: RateVendorDialog(vendor: widget.vendor),
+          child: RateVendorDialog(business: widget.business),
         );
       },
     );

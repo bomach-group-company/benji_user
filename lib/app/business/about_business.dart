@@ -11,10 +11,10 @@ import '../../src/providers/constants.dart';
 import 'all_business_reviews.dart';
 
 class AboutBusiness extends StatefulWidget {
-  final BusinessModel vendor;
+  final BusinessModel business;
   const AboutBusiness({
     super.key,
-    required this.vendor,
+    required this.business,
   });
 
   @override
@@ -39,10 +39,10 @@ class _AboutBusinessState extends State<AboutBusiness> {
 
     List<Ratings> ratings;
     if (active == 'all') {
-      ratings = await getRatingsByVendorId(widget.vendor.vendorOwner.id);
+      ratings = await getRatingsByVendorId(widget.business.vendorOwner.id);
     } else {
       ratings = await getRatingsByVendorIdAndRating(
-          widget.vendor.vendorOwner.id, int.parse(active));
+          widget.business.vendorOwner.id, int.parse(active));
     }
 
     setState(() {
@@ -51,7 +51,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
   }
 
   void _viewAllReviews() => Get.to(
-        () => AllBusinessReviews(vendor: widget.vendor),
+        () => AllBusinessReviews(business: widget.business),
         routeName: 'AllBusinessReviews',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -102,9 +102,9 @@ class _AboutBusinessState extends State<AboutBusiness> {
               ],
             ),
             child: Text(
-              widget.vendor.shopType.isBlank == true
+              widget.business.shopType.isBlank == true
                   ? 'Not Available'
-                  : widget.vendor.shopType.description,
+                  : widget.business.shopType.description,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -166,7 +166,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
                           ),
                         ),
                         Text(
-                          "${widget.vendor.weekOpeningHours} - ${widget.vendor.weekClosingHours}",
+                          "${widget.business.weekOpeningHours} - ${widget.business.weekClosingHours}",
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -193,7 +193,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
                           ),
                         ),
                         Text(
-                          "${widget.vendor.satOpeningHours} - ${widget.vendor.satClosingHours}",
+                          "${widget.business.satOpeningHours} - ${widget.business.satClosingHours}",
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -220,7 +220,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
                           ),
                         ),
                         Text(
-                          "${widget.vendor.sunWeekOpeningHours} - ${widget.vendor.sunWeekClosingHours}",
+                          "${widget.business.sunWeekOpeningHours} - ${widget.business.sunWeekClosingHours}",
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -297,7 +297,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
                             });
 
                             List<Ratings> ratings = await getRatingsByVendorId(
-                                widget.vendor.vendorOwner.id);
+                                widget.business.vendorOwner.id);
 
                             setState(() {
                               _ratings = ratings;
@@ -337,7 +337,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
 
                                         List<Ratings> ratings =
                                             await getRatingsByVendorIdAndRating(
-                                                widget.vendor.vendorOwner.id,
+                                                widget.business.vendorOwner.id,
                                                 int.parse(active));
 
                                         setState(() {

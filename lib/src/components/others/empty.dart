@@ -7,7 +7,6 @@ import 'package:lottie/lottie.dart';
 import '../../../app/home/home.dart';
 import '../button/my_elevatedbutton.dart';
 
-
 class EmptyCard extends StatelessWidget {
   final String emptyCardMessage;
   final String buttonTitle;
@@ -26,44 +25,38 @@ class EmptyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      padding: const EdgeInsets.all(kDefaultPadding),
+    return Column(
       children: [
-        Column(
-          children: [
-            Lottie.asset(animation),
-            kSizedBox,
-            Text(
-              emptyCardMessage,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kTextGreyColor,
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            kSizedBox,
-            showButton == false
-                ? const SizedBox()
-                : MyElevatedButton(
-                    title: buttonTitle,
-                    onPressed: onPressed ??
-                        () {
-                          Get.offAll(
-                            () => const Home(),
-                            routeName: 'Home',
-                            duration: const Duration(milliseconds: 300),
-                            fullscreenDialog: true,
-                            curve: Curves.easeIn,
-                            popGesture: false,
-                            predicate: (routes) => false,
-                            transition: Transition.rightToLeft,
-                          );
-                        },
-                  ),
-          ],
+        Lottie.asset(animation),
+        kSizedBox,
+        Text(
+          emptyCardMessage,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: kTextGreyColor,
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
         ),
+        kSizedBox,
+        showButton == false
+            ? const SizedBox()
+            : MyElevatedButton(
+                title: buttonTitle,
+                onPressed: onPressed ??
+                    () {
+                      Get.offAll(
+                        () => const Home(),
+                        routeName: 'Home',
+                        duration: const Duration(milliseconds: 300),
+                        fullscreenDialog: true,
+                        curve: Curves.easeIn,
+                        popGesture: false,
+                        predicate: (routes) => false,
+                        transition: Transition.rightToLeft,
+                      );
+                    },
+              ),
       ],
     );
   }

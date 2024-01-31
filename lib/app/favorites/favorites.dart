@@ -89,9 +89,9 @@ class _FavoritesState extends State<Favorites>
     );
   }
 
-  void toBusinessDetailScreenPage(vendor) async {
+  void toBusinessDetailScreenPage(business) async {
     await Get.to(
-      () => BusinessDetailScreen(vendor: vendor),
+      () => BusinessDetailScreen(business: business),
       routeName: 'BusinessDetailScreen',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
@@ -274,7 +274,7 @@ class _FavoritesState extends State<Favorites>
                                       children: (controller.favouriteVendors)
                                           .map(
                                             (item) => BusinessCard(
-                                              vendor: item,
+                                              business: item,
                                               removeDistance: true,
                                               onTap: () {
                                                 toBusinessDetailScreenPage(

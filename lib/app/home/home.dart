@@ -278,7 +278,7 @@ class _HomeState extends State<Home> {
       );
 
   void _toVendorPage(BusinessModel vendor) => Get.to(
-        () => BusinessDetailScreen(vendor: vendor),
+        () => BusinessDetailScreen(business: vendor),
         routeName: 'BusinessDetailScreen',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -557,85 +557,87 @@ class _HomeState extends State<Home> {
                     : const EdgeInsets.all(kDefaultPadding / 2),
                 children: [
                   GetBuilder<ProductController>(
-                      initState: (state) =>
-                          ProductController.instance.getTopProducts(),
-                      builder: (controller) {
-                        if (controller.isLoad.value &&
-                            controller.topProducts.isEmpty) {
-                          return Shimmer.fromColors(
-                            highlightColor: kBlackColor.withOpacity(0.9),
-                            baseColor: kBlackColor.withOpacity(0.6),
-                            direction: ShimmerDirection.ltr,
-                            child: PageSkeleton(
-                                height: 150, width: media.width - 20),
-                          );
-                        }
-                        if (controller.topProducts.isEmpty) {
-                          return const SizedBox();
-                        }
-
-                        return FlutterCarousel.builder(
-                          options: CarouselOptions(
-                            height: media.height * 0.25,
-                            viewportFraction: 1.0,
-                            initialPage: 0,
-                            enableInfiniteScroll: true,
-                            autoPlayInterval: const Duration(seconds: 2),
-                            autoPlayAnimationDuration:
-                                const Duration(milliseconds: 800),
-                            autoPlayCurve: Curves.easeInOut,
-                            enlargeCenterPage: true,
-                            controller: carouselController,
-                            onPageChanged: (index, value) {
-                              setState(() {});
-                            },
-                            pageSnapping: true,
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
-                            scrollBehavior: const ScrollBehavior(),
-                            pauseAutoPlayOnTouch: true,
-                            pauseAutoPlayOnManualNavigate: true,
-                            pauseAutoPlayInFiniteScroll: false,
-                            enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                            disableCenter: false,
-                            showIndicator: true,
-                            floatingIndicator: true,
-                            slideIndicator: CircularSlideIndicator(
-                              alignment: Alignment.bottomCenter,
-                              currentIndicatorColor: kAccentColor,
-                              indicatorBackgroundColor: kPrimaryColor,
-                              indicatorRadius: 5,
-                              padding: const EdgeInsets.all(0),
-                            ),
-                          ),
-                          itemCount: controller.topProducts.length,
-                          itemBuilder: (BuildContext context, int itemIndex,
-                                  int pageViewIndex) =>
-                              Padding(
-                            padding: const EdgeInsets.all(0),
-                            child: Container(
-                              width: media.width,
-                              decoration: const ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                // image: DecorationImage(
-                                //   fit: BoxFit.cover,
-                                //   image: AssetImage(
-                                //   ),
-                                // ),
-                              ),
-                              child: InkWell(
-                                onTap: () => _toProductDetailScreenPage(
-                                    controller.topProducts[itemIndex]),
-                                child: MyImage(
-                                    url: controller
-                                        .topProducts[itemIndex].productImage),
-                              ),
-                            ),
-                          ),
+                    initState: (state) =>
+                        ProductController.instance.getTopProducts(),
+                    builder: (controller) {
+                      if (controller.isLoad.value &&
+                          controller.topProducts.isEmpty) {
+                        return Shimmer.fromColors(
+                          highlightColor: kBlackColor.withOpacity(0.9),
+                          baseColor: kBlackColor.withOpacity(0.6),
+                          direction: ShimmerDirection.ltr,
+                          child: PageSkeleton(
+                              height: 150, width: media.width - 20),
                         );
-                      }),
+                      }
+                      if (controller.topProducts.isEmpty) {
+                        return const SizedBox();
+                      }
+
+                      return FlutterCarousel.builder(
+                        options: CarouselOptions(
+                          height: media.height * 0.25,
+                          viewportFraction: 1.0,
+                          initialPage: 0,
+                          enableInfiniteScroll: true,
+                          autoPlayInterval: const Duration(seconds: 2),
+                          autoPlayAnimationDuration:
+                              const Duration(milliseconds: 800),
+                          autoPlayCurve: Curves.easeInOut,
+                          enlargeCenterPage: true,
+                          controller: carouselController,
+                          onPageChanged: (index, value) {
+                            setState(() {});
+                          },
+                          pageSnapping: true,
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
+                          scrollBehavior: const ScrollBehavior(),
+                          pauseAutoPlayOnTouch: true,
+                          pauseAutoPlayOnManualNavigate: true,
+                          pauseAutoPlayInFiniteScroll: false,
+                          enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                          disableCenter: false,
+                          showIndicator: true,
+                          floatingIndicator: true,
+                          slideIndicator: CircularSlideIndicator(
+                            alignment: Alignment.bottomCenter,
+                            currentIndicatorColor: kAccentColor,
+                            indicatorBackgroundColor: kPrimaryColor,
+                            indicatorRadius: 5,
+                            padding: const EdgeInsets.all(0),
+                          ),
+                        ),
+                        itemCount: controller.topProducts.length,
+                        itemBuilder: (BuildContext context, int itemIndex,
+                                int pageViewIndex) =>
+                            Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Container(
+                            width: media.width,
+                            decoration: const ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20))),
+                              // image: DecorationImage(
+                              //   fit: BoxFit.cover,
+                              //   image: AssetImage(
+                              //   ),
+                              // ),
+                            ),
+                            child: InkWell(
+                              onTap: () => _toProductDetailScreenPage(
+                                  controller.topProducts[itemIndex]),
+                              child: MyImage(
+                                url: controller
+                                    .topProducts[itemIndex].productImage,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                   kSizedBox,
                   // categories
                   Container(
@@ -711,7 +713,6 @@ class _HomeState extends State<Home> {
                             ],
                           );
                         }
-
                         return LayoutGrid(
                           columnGap: 10,
                           rowGap: 10,
@@ -789,7 +790,7 @@ class _HomeState extends State<Home> {
                           return const EmptyCard(
                             showButton: false,
                             emptyCardMessage:
-                                "There are no Recommended Vendors.",
+                                "There are no recommended vendors in your location.",
                           );
                         }
                         return SizedBox(
@@ -807,7 +808,7 @@ class _HomeState extends State<Home> {
                               child: SizedBox(
                                 width: 200,
                                 child: BusinessCard(
-                                  vendor: controller.vendorList[index],
+                                  business: controller.vendorList[index],
                                   removeDistance: false,
                                   onTap: () {
                                     _toVendorPage(controller.vendorList[index]);
@@ -879,7 +880,7 @@ class _HomeState extends State<Home> {
                                   min(controller.vendorPopularList.length, 3)))
                               .map(
                                 (item) => BusinessCard(
-                                  vendor: item,
+                                  business: item,
                                   removeDistance: true,
                                   onTap: () {
                                     _toVendorPage(item);

@@ -17,9 +17,9 @@ import '../snackbar/my_floating_snackbar.dart';
 import '../textformfield/message_textformfield.dart';
 
 class RateVendorDialog extends StatefulWidget {
-  final BusinessModel vendor;
+  final BusinessModel business;
 
-  const RateVendorDialog({super.key, required this.vendor});
+  const RateVendorDialog({super.key, required this.business});
 
   @override
   State<RateVendorDialog> createState() => _RateVendorDialogState();
@@ -53,7 +53,7 @@ class _RateVendorDialogState extends State<RateVendorDialog> {
 
     Map body = {
       'client_id': user!.id.toString(),
-      'vendor_id': widget.vendor.id.toString(),
+      'vendor_id': widget.business.id.toString(),
       'rating_value': _rating.toInt().toString(),
       'comment': _myMessageEC.text
     };
@@ -272,7 +272,7 @@ _buildThanksNote() {
       ),
       kHalfSizedBox,
       const Text(
-        "Rate this vendor",
+        "Rate this business",
       ),
     ],
   );

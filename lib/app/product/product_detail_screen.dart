@@ -143,7 +143,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //==================================================== FUNCTIONS ======================================================\\
   void _toVendorPage() {
     Get.to(
-      () => BusinessDetailScreen(vendor: widget.product.vendorId),
+      () => BusinessDetailScreen(business: widget.product.vendorId),
       routeName: 'BusinessDetailScreen',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,

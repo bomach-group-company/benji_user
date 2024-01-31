@@ -134,10 +134,10 @@ class _BusinessesNearYouState extends State<BusinessesNearYou> {
                               controller.vendorList.length, (index) => auto),
                       children: (controller.vendorList).map((item) {
                         return BusinessCard(
-                          vendor: item,
+                          business: item,
                           onTap: () {
                             Get.to(
-                              () => BusinessDetailScreen(vendor: item),
+                              () => BusinessDetailScreen(business: item),
                               routeName: 'BusinessDetailScreen',
                               duration: const Duration(milliseconds: 300),
                               fullscreenDialog: true,

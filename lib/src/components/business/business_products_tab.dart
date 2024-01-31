@@ -5,8 +5,8 @@ import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:flutter/material.dart';
 
 class BusinessProductsTab extends StatefulWidget {
-  final BusinessModel vendor;
-  const BusinessProductsTab({super.key, required this.vendor});
+  final BusinessModel business;
+  const BusinessProductsTab({super.key, required this.business});
 
   @override
   State<BusinessProductsTab> createState() => _BusinessProductsTabState();
@@ -24,7 +24,7 @@ class _BusinessProductsTabState extends State<BusinessProductsTab> {
     return SizedBox(
       width: mediaWidth,
       child: BusinessProducts(
-        vendor: widget.vendor,
+        business: widget.business,
       ),
     );
   }

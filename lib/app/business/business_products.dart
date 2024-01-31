@@ -21,11 +21,11 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 
 class BusinessProducts extends StatefulWidget {
-  final BusinessModel vendor;
+  final BusinessModel business;
 
   const BusinessProducts({
     super.key,
-    required this.vendor,
+    required this.business,
   });
 
   @override
@@ -44,7 +44,7 @@ class _BusinessProductsState extends State<BusinessProducts> {
 
   // _getData() async {
   //   Map<String, List<Product>> productAndSubCategoryName =
-  //       await getVendorProductsAndSubCategoryName(widget.vendor.id);
+  //       await getVendorProductsAndSubCategoryName(widget.business.id);
   //   try {
   //     activeCategory = productAndSubCategoryName.keys.toList()[0];
   //     // ignore: empty_catches
@@ -56,8 +56,8 @@ class _BusinessProductsState extends State<BusinessProducts> {
   // }
 
 //=================================== Navigation =====================================\\
-  void _toBusinessDetailScreenPage(BusinessModel vendor) => Get.off(
-        () => BusinessDetailScreen(vendor: vendor),
+  void _toBusinessDetailScreenPage(BusinessModel business) => Get.off(
+        () => BusinessDetailScreen(business: business),
         routeName: 'BusinessDetailScreen',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -92,7 +92,7 @@ class _BusinessProductsState extends State<BusinessProducts> {
             height: 60,
             child: GetBuilder<SubCategoryController>(
                 initState: (state) => SubCategoryController.instance
-                    .getSubCategoryAllByVendor(widget.vendor.id.toString()),
+                    .getSubCategoryAllByVendor(widget.business.id.toString()),
                 builder: (controller) {
                   if (controller.isLoadForAll.value &&
                       controller.allSubcategoryByVendor.isEmpty) {
@@ -112,7 +112,7 @@ class _BusinessProductsState extends State<BusinessProducts> {
                       child: CategoryButton(
                         onPressed: () => controller.setSubCategory(
                             controller.allSubcategoryByVendor[index],
-                            widget.vendor),
+                            widget.business),
                         title: controller.allSubcategoryByVendor[index].name,
                         bgColor: controller.activeSubCategory.value.id ==
                                 controller.allSubcategoryByVendor[index].id
@@ -190,8 +190,8 @@ class _BusinessProductsState extends State<BusinessProducts> {
           const Divider(height: kDefaultPadding, color: kGreyColor1),
           kSizedBox,
           GetBuilder<VendorController>(
-              initState: (state) =>
-                  VendorController.instance.getSimilarVendors(widget.vendor.id),
+              initState: (state) => VendorController.instance
+                  .getSimilarVendors(widget.business.id),
               builder: (controller) {
                 if (controller.loadSimilarVendor.value &&
                     controller.similarVendors.isEmpty) {
@@ -219,7 +219,7 @@ class _BusinessProductsState extends State<BusinessProducts> {
                       child: SizedBox(
                         width: 200,
                         child: BusinessCard(
-                          vendor: vendorList[index],
+                          business: vendorList[index],
                           removeDistance: false,
                           onTap: () {
                             _toBusinessDetailScreenPage(vendorList[index]);
