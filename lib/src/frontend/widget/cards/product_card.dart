@@ -1,4 +1,5 @@
 import 'package:benji/src/components/image/my_image.dart';
+import 'package:benji/src/frontend/utils/navigate.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
@@ -198,7 +199,7 @@ class _MyCardState extends State<MyCard> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 12, vertical: 15),
                                     ),
-                                    onPressed: _cartRemoveFunction,
+                                    onPressed: toLoginPage,
                                     child: const Text('REMOVE'),
                                   )
                                 : OutlinedButton(
@@ -207,7 +208,7 @@ class _MyCardState extends State<MyCard> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 12, vertical: 15),
                                     ),
-                                    onPressed: _cartAddFunction,
+                                    onPressed: toLoginPage,
                                     child: const Text('ADD'),
                                   );
                           },

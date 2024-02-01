@@ -2,6 +2,7 @@ import 'package:benji/frontend/store/categories.dart';
 import 'package:benji/frontend/store/category.dart';
 import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/frontend/model/product.dart';
+import 'package:benji/src/frontend/utils/navigate.dart';
 import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
 import 'package:benji/src/repo/models/product/product.dart';
@@ -237,7 +238,7 @@ class _ProductPageState extends State<ProductPage> {
                                         AsyncSnapshot snapshot) {
                                       return snapshot.data
                                           ? ElevatedButton(
-                                              onPressed: _cartRemoveFunction,
+                                              onPressed: toLoginPage,
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor: kAccentColor,
                                                 minimumSize: Size(
@@ -252,7 +253,7 @@ class _ProductPageState extends State<ProductPage> {
                                               child: const Text('REMOVE'),
                                             )
                                           : ElevatedButton(
-                                              onPressed: _cartAddFunction,
+                                              onPressed: toLoginPage,
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor: kAccentColor,
                                                 minimumSize: Size(
