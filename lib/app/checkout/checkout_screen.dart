@@ -5,7 +5,7 @@ import 'dart:math';
 
 import 'package:benji/app/home/home.dart';
 import 'package:benji/app/splash_screens/payment_successful_screen.dart';
-import 'package:benji/src/components/payment/alatpay.dart';
+import 'package:benji/src/components/payment/monnify.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
@@ -127,8 +127,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   //PLACE ORDER
   void _placeOrder() {
-    String apiKey = alatPayPrimaryKey;
-    String businessId = alatPayBuinessId;
+    String apiKey = monnifyAPIkey;
+    String contractCode = contractCodeKey;
     String email = UserController.instance.user.value.email;
     String phone = UserController.instance.user.value.phone;
     String firstName = UserController.instance.user.value.firstName;
@@ -144,9 +144,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
-          return AlatPayWidget(
+          return MonnifyWidget(
             apiKey: apiKey,
-            businessId: businessId,
+            contractCode: contractCode,
             email: email,
             phone: phone,
             firstName: firstName,

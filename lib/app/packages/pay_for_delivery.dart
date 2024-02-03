@@ -6,7 +6,7 @@ import 'dart:math';
 import 'package:benji/app/packages/packages.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
-import 'package:benji/src/components/payment/alatpay.dart';
+import 'package:benji/src/components/payment/monnify.dart';
 import 'package:benji/src/repo/controller/payment_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/utils/constants.dart';
@@ -141,8 +141,8 @@ class _PayForDeliveryState extends State<PayForDelivery> {
 
 //======== Place Order =======\\
   void placeOrder() {
-    String apiKey = alatPayPrimaryKey;
-    String businessId = alatPayBuinessId;
+    String apiKey = monnifyAPIkey;
+    String contractCode = contractCodeKey;
     String email = UserController.instance.user.value.email;
     String phone = UserController.instance.user.value.phone;
     String firstName = UserController.instance.user.value.firstName;
@@ -158,9 +158,9 @@ class _PayForDeliveryState extends State<PayForDelivery> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
-          return AlatPayWidget(
+          return MonnifyWidget(
             apiKey: apiKey,
-            businessId: businessId,
+            contractCode: contractCode,
             email: email,
             phone: phone,
             firstName: firstName,
