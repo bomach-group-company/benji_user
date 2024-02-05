@@ -30,6 +30,8 @@ class BusinessModel {
   final String accountNumber;
   final String accountType;
   final String accountBank;
+  final double averageRating;
+  final int numberOfClientsReactions;
   // final String
   //     dummyString; // to be removed just to make it easy to countinous integrate
   // final double
@@ -61,6 +63,8 @@ class BusinessModel {
     required this.accountNumber,
     required this.accountType,
     required this.accountBank,
+    required this.averageRating,
+    required this.numberOfClientsReactions,
     // required this.dummyString,
     // required this.dummyFloat,
     // required this.dummyInt,
@@ -93,6 +97,8 @@ class BusinessModel {
       accountNumber: json['accountNumber'] ?? '',
       accountType: json['accountType'] ?? '',
       accountBank: json['accountBank'] ?? '',
+      averageRating: (json['average_rating'] ?? 0).toDouble() ?? 0.0,
+      numberOfClientsReactions: json['number_of_clients_reactions'] ?? 0,
       // dummyString: 'dummyString',
       // dummyFloat: 0.0,
       // dummyInt: 0,
@@ -113,8 +119,7 @@ class VendorOwner {
   final String longitude;
   final String latitude;
   final bool isOnline;
-  final double averageRating;
-  final int numberOfClientsReactions;
+
   final String profileLogo;
 
   VendorOwner({
@@ -130,8 +135,6 @@ class VendorOwner {
     required this.longitude,
     required this.latitude,
     required this.isOnline,
-    required this.averageRating,
-    required this.numberOfClientsReactions,
     required this.profileLogo,
   });
 
@@ -151,8 +154,6 @@ class VendorOwner {
       longitude: json['longitude'] ?? '',
       latitude: json['latitude'] ?? '',
       isOnline: json['is_online'] ?? true,
-      averageRating: (json['average_rating'] ?? 0).toDouble() ?? 0.0,
-      numberOfClientsReactions: json['number_of_clients_reactions'] ?? 0,
       profileLogo: json['profileLogo'] ??
           'https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg',
     );

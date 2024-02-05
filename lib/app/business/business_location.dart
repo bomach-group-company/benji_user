@@ -44,7 +44,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
     _markerTitle = <String>["Me", widget.vendor.shopName];
     _markerSnippet = <String>[
       "My Location",
-      "${(widget.vendor.vendorOwner.averageRating).toPrecision(1)} Rating"
+      "${(widget.vendor.averageRating).toPrecision(1)} Rating"
     ];
     _loadMapData();
   }
@@ -439,7 +439,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              '${(widget.vendor.vendorOwner.averageRating).toPrecision(1)}',
+                              '${(widget.vendor.averageRating).toPrecision(1)}',
                               style: const TextStyle(
                                 color: kBlackColor,
                                 fontSize: 14,

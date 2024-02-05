@@ -49,14 +49,32 @@ class LoginController extends GetxController {
       http.Response? responseUser =
           await HandleData.getApi(Api.baseUrl + Api.user, jsonData["token"]);
 
+      if (responseUser == null) {
+        throw const SocketException('Please connect to the internet');
+      }
+      if (jsonDecode(responseUser.body ?? '')['id'] == null) {
+        ApiProcessorController.errorSnack(
+            "Invalid email or password. Try again");
+        isLoad.value = false;
+        update();
+        return;
+      }
       http.Response? responseUserData = await HandleData.getApi(
           Api.baseUrl +
               Api.getClient +
-              jsonDecode(responseUser?.body ?? '')['id'].toString(),
+              jsonDecode(responseUser.body ?? '')['id'].toString(),
           jsonData["token"]);
 
       if (responseUserData == null) {
         throw const SocketException('Please connect to the internet');
+      }
+
+      if (responseUserData.statusCode != 200) {
+        ApiProcessorController.errorSnack(
+            "Invalid email or password. Try again");
+        isLoad.value = false;
+        update();
+        return;
       }
 
       UserController.instance

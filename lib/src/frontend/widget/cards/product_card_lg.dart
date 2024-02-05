@@ -1,4 +1,5 @@
 import 'package:benji/src/components/image/my_image.dart';
+import 'package:benji/src/frontend/utils/navigate.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
 import 'package:flutter/material.dart';
@@ -35,11 +36,6 @@ class _MyCardLgState extends State<MyCardLg> {
   @override
   void initState() {
     super.initState();
-  }
-
-  Future<void> _cartAddFunction() async {
-    await addToCart(widget.product);
-    widget.refresh == null ? setState(() {}) : widget.refresh!();
   }
 
   Future<void> _cartRemoveFunction() async {
@@ -219,7 +215,7 @@ class _MyCardLgState extends State<MyCardLg> {
                                                         horizontal: 12,
                                                         vertical: 15),
                                               ),
-                                              onPressed: _cartRemoveFunction,
+                                              onPressed: toLoginPage,
                                               child: const Text('REMOVE'),
                                             )
                                           : OutlinedButton(
@@ -230,7 +226,7 @@ class _MyCardLgState extends State<MyCardLg> {
                                                         horizontal: 12,
                                                         vertical: 15),
                                               ),
-                                              onPressed: _cartAddFunction,
+                                              onPressed: toLoginPage,
                                               child: const Text('ADD'),
                                             );
                                     },

@@ -472,7 +472,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                             ),
                                             const SizedBox(width: 5),
                                             Text(
-                                              '${(widget.business.vendorOwner.averageRating).toPrecision(1)}',
+                                              '${(widget.business.averageRating).toPrecision(1)}',
                                               style: const TextStyle(
                                                 color: kBlackColor,
                                                 fontSize: 14,

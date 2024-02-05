@@ -24,11 +24,7 @@ class MyImage extends StatelessWidget {
           bottomLeft: Radius.circular(radiusBottom),
           bottomRight: Radius.circular(radiusBottom)),
       child: CachedNetworkImage(
-        imageUrl: url == null
-            ? ''
-            : url!.startsWith("https")
-                ? url!
-                : baseImage + url!,
+        imageUrl: url == null ? '' : baseImage + url!,
         width: double.infinity,
         height: double.infinity,
         filterQuality: FilterQuality.high,
