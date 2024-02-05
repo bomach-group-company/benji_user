@@ -169,7 +169,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
             amount: amount,
             metaData: meta,
             onTransaction: (response) {
-              consoleLog('the response from my alatpay $response');
+              consoleLog('the response from my monnify $response');
               if (response != null) {
                 toPackages();
               }
