@@ -40,6 +40,15 @@ class ProductController extends GetxController {
   var isLoadMoreProductSubCategory = false.obs;
   var loadNumProductSubCategory = 10.obs;
 
+  refreshProduct() {
+    loadNumProduct.value = 10;
+    loadedAllProduct.value = false;
+    topProducts.value = [];
+    products.value = [];
+    getTopProducts();
+    getProduct();
+  }
+
   resetproductsBySubCategory() {
     loadNumProductSubCategory.value = 10;
     loadedAllProductSubCategory.value = false;
@@ -53,7 +62,7 @@ class ProductController extends GetxController {
     loadNumProductSubCategory.value = 10;
     loadedAllProductSubCategory.value = false;
     update();
-    await getProductsBySubCategory();
+    await getProductsBySubCategory(first: true);
   }
 
   Future<void> scrollListenerProduct(scrollController) async {
@@ -100,15 +109,19 @@ class ProductController extends GetxController {
     update();
   }
 
-  Future getProductsBySubCategory() async {
+  Future getProductsBySubCategory({bool first = false}) async {
+    if (first) {
+      loadedAllProductSubCategory.value = false;
+      productsBySubCategory.value = [];
+    }
     if (loadedAllProductSubCategory.value) {
       return;
     }
     isLoad.value = true;
-    update();
     var url =
-        "${Api.baseUrl}/clients/filterProductsBySubCategory/${selectedSubCategory.value.id}?start=${loadNumProductSubCategory.value - 10}&end=${loadNumProductSubCategory.value}";
+        "${Api.baseUrl}/clients/filterProductsBySubCategory/${selectedSubCategory.value.id}/${getShoppingLocationPath(reverse: true)}?start=${loadNumProductSubCategory.value - 10}&end=${loadNumProductSubCategory.value}";
     loadNumProductSubCategory.value += 10;
+    print(url);
     String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
     var responseData = await ApiProcessorController.errorState(response);
@@ -120,7 +133,7 @@ class ProductController extends GetxController {
     }
     List<Product> data = [];
     try {
-      data = (jsonDecode(response!.body)['items'] as List)
+      data = (jsonDecode(response!.body) as List)
           .map((e) => Product.fromJson(e))
           .toList();
       productsBySubCategory.value += data;

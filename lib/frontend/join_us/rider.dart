@@ -148,7 +148,7 @@ class _RiderTabState extends State<RiderTab> {
             focusNode: _nameFN,
             validator: (value) {
               RegExp pattern = RegExp(r'^.{3,}$');
-              if (value == null || value!.isEmpty) {
+              if (value == null || value == "") {
                 _nameFN.requestFocus();
                 return "Enter a full name";
               } else if (!pattern.hasMatch(value)) {
@@ -182,7 +182,7 @@ class _RiderTabState extends State<RiderTab> {
               RegExp emailPattern = RegExp(
                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
               );
-              if (value == null || value!.isEmpty) {
+              if (value == null || value == "") {
                 _userEmailFN.requestFocus();
                 return "Enter your email address";
               } else if (!emailPattern.hasMatch(value)) {
@@ -215,7 +215,7 @@ class _RiderTabState extends State<RiderTab> {
             validator: (value) {
               RegExp pattern = RegExp(
                   r'^(?:\+?\d{1,3}[\s.-]?)?\(?\d{1,4}\)?[\s.-]?\d{1,4}[\s.-]?\d{1,9}$');
-              if (value == null || value!.isEmpty) {
+              if (value == null || value == "") {
                 _phonenumberFN.requestFocus();
                 return "Enter a phone number";
               } else if (!pattern.hasMatch(value)) {
@@ -243,7 +243,7 @@ class _RiderTabState extends State<RiderTab> {
             controller: _locationEC,
             validator: (value) {
               RegExp pickupAddress = RegExp(r'^.{3,}$');
-              if (value!.isEmpty || value == null) {
+              if (value == null || value == "") {
                 _locationFN.requestFocus();
                 return "Enter address";
               } else if (!pickupAddress.hasMatch(value)) {

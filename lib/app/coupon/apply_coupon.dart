@@ -101,7 +101,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                       textInputAction: TextInputAction.done,
                       focusNode: textFocusNode,
                       validator: (value) {
-                        if (value == null || value!.isEmpty) {
+                        if (value == null || value == "") {
                           textFocusNode.requestFocus();
                           return "Enter a coupon code";
                         }

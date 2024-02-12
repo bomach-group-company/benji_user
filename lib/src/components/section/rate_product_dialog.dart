@@ -138,7 +138,7 @@ class _RateProductDialogState extends State<RateProductDialog> {
                       : _causeOfRating(
                           _myMessageEC,
                           (value) {
-                            if (value == null || value.isEmpty) {
+                            if (value == null || value == "") {
                               return "Field cannot be left empty";
                             }
                             return null;

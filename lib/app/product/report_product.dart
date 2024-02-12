@@ -105,7 +105,6 @@ class _ReportProductState extends State<ReportProduct> {
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-
         appBar: MyAppBar(
           title: "Help and support",
           elevation: 0.0,
@@ -194,7 +193,7 @@ class _ReportProductState extends State<ReportProduct> {
                           keyboardType: TextInputType.text,
                           maxLength: 1000,
                           validator: (value) {
-                            if (value == null || value!.isEmpty) {
+                            if (value == null || value == "") {
                               _messageFN.requestFocus();
                               return "Field cannot be left empty";
                             }

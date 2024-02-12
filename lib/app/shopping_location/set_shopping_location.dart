@@ -2,7 +2,9 @@ import 'package:benji/app/home/home.dart';
 import 'package:benji/app/packages/item_category_dropdown_menu.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
+import 'package:benji/src/repo/controller/product_controller.dart';
 import 'package:benji/src/repo/controller/shopping_location_controller.dart';
+import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:benji/src/repo/utils/shopping_location.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,6 +42,10 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
       );
     }
     await setShoppingLocation(countryEC.text, stateEC.text, cityEC.text);
+    ProductController.instance.getTopProducts();
+    VendorController.instance.refreshVendor();
+    ProductController.instance.refreshProduct();
+
     if (widget.navTo == null) {
       Get.off(
         () => const Home(),

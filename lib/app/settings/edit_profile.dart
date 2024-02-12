@@ -18,7 +18,6 @@ import '../../src/components/textformfield/name_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/controller/error_controller.dart';
 import '../../theme/colors.dart';
-import '../no_network/no_network_retry.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -97,16 +96,7 @@ class _EditProfileState extends State<EditProfile> {
       }
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet.");
-      await Get.to(
-        () => const NoNetworkRetry(),
-        routeName: 'NoNetworkRetry',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+      return false;
     } catch (e) {
       ApiProcessorController.errorSnack(
           "An unexpected error occurred. \nERROR: $e \nPlease contact support.");
@@ -121,11 +111,11 @@ class _EditProfileState extends State<EditProfile> {
     });
 
     bool res = await updateProfile();
-
+    print('resres $res');
     if (res) {
       ApiProcessorController.successSnack(
           "Your changes have been saved successfully");
-      Get.back();
+      Get.close(1);
     } else {}
 
     setState(() {
@@ -196,7 +186,7 @@ class _EditProfileState extends State<EditProfile> {
                           RegExp userNamePattern = RegExp(
                             r'^.{3,}$', //Min. of 3 characters
                           );
-                          if (value == null || value!.isEmpty) {
+                          if (value == null || value == "") {
                             userFirstNameFN.requestFocus();
                             return "Enter your first name";
                           } else if (!userNamePattern.hasMatch(value)) {
@@ -228,7 +218,7 @@ class _EditProfileState extends State<EditProfile> {
                           RegExp userNamePattern = RegExp(
                             r'^.{3,}$', //Min. of 3 characters
                           );
-                          if (value == null || value!.isEmpty) {
+                          if (value == null || value == "") {
                             userLastNameFN.requestFocus();
                             return "Enter your last name";
                           } else if (!userNamePattern.hasMatch(value)) {
@@ -266,7 +256,7 @@ class _EditProfileState extends State<EditProfile> {
                         textInputAction: TextInputAction.next,
                         focusNode: phoneNumberFN,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null || value == "") {
                             phoneNumberFN.requestFocus();
                             return "Enter your phone number";
                           }
