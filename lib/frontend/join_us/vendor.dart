@@ -160,7 +160,7 @@ class _VendorTabState extends State<VendorTab> {
             focusNode: _nameFN,
             validator: (value) {
               RegExp pattern = RegExp(r'^.{3,}$');
-              if (value == null || value!.isEmpty) {
+              if (value == null || value == "") {
                 return "Enter a full name";
               } else if (!pattern.hasMatch(value)) {
                 return "Please enter a valid name";
@@ -192,7 +192,7 @@ class _VendorTabState extends State<VendorTab> {
               RegExp emailPattern = RegExp(
                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
               );
-              if (value == null || value!.isEmpty) {
+              if (value == null || value == "") {
                 return "Enter your email address";
               } else if (!emailPattern.hasMatch(value)) {
                 return "Please enter a valid email address";
@@ -223,7 +223,7 @@ class _VendorTabState extends State<VendorTab> {
             validator: (value) {
               RegExp pattern = RegExp(
                   r'^(?:\+?\d{1,3}[\s.-]?)?\(?\d{1,4}\)?[\s.-]?\d{1,4}[\s.-]?\d{1,9}$');
-              if (value == null || value!.isEmpty) {
+              if (value == null || value == "") {
                 return "Enter a phone number";
               } else if (!pattern.hasMatch(value)) {
                 return "Please enter a valid phone number";
@@ -253,7 +253,7 @@ class _VendorTabState extends State<VendorTab> {
             focusNode: _businessNameFN,
             validator: (value) {
               RegExp pattern = RegExp(r'^.{1,}$');
-              if (value == null || value!.isEmpty) {
+              if (value == null || value == "") {
                 return "Enter a business name";
               } else if (!pattern.hasMatch(value)) {
                 return "Please enter a valid business name";
@@ -283,7 +283,7 @@ class _VendorTabState extends State<VendorTab> {
             focusNode: _countryFN,
             validator: (value) {
               RegExp pattern = RegExp(r'^.{1,}$');
-              if (value == null || value!.isEmpty) {
+              if (value == null || value == "") {
                 return "Enter a Country";
               } else if (!pattern.hasMatch(value)) {
                 return "Please enter a valid Country";
@@ -313,7 +313,7 @@ class _VendorTabState extends State<VendorTab> {
             focusNode: _stateFN,
             validator: (value) {
               RegExp pattern = RegExp(r'^.{1,}$');
-              if (value == null || value!.isEmpty) {
+              if (value == null || value == "") {
                 return "Enter state";
               } else if (!pattern.hasMatch(value)) {
                 return "Please enter a valid state";
@@ -343,7 +343,7 @@ class _VendorTabState extends State<VendorTab> {
             focusNode: _lgaFN,
             validator: (value) {
               RegExp pattern = RegExp(r'^.{1,}$');
-              if (value == null || value!.isEmpty) {
+              if (value == null || value == "") {
                 return "Enter a Local Government Area";
               } else if (!pattern.hasMatch(value)) {
                 return "Please enter a valid Local Government Area";
@@ -369,7 +369,7 @@ class _VendorTabState extends State<VendorTab> {
             controller: _locationEC,
             validator: (value) {
               // RegExp pattern = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
-              if (value!.isEmpty || value == null) {
+              if (value == null || value == "") {
                 return "Enter business address";
               }
               return null;

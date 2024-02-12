@@ -184,7 +184,7 @@ class _LoginState extends State<Login> {
                               RegExp emailPattern = RegExp(
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
                               );
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == "") {
                                 emailFocusNode.requestFocus();
                                 return "Enter your email address";
                               } else if (!emailPattern.hasMatch(value)) {
@@ -218,7 +218,7 @@ class _LoginState extends State<Login> {
                               RegExp passwordPattern = RegExp(
                                 r'^.{8,}$',
                               );
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == "") {
                                 passwordFocusNode.requestFocus();
                                 return "Enter your password";
                               } else if (!passwordPattern.hasMatch(value)) {

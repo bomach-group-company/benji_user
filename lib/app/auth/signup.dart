@@ -358,7 +358,7 @@ class _SignUpState extends State<SignUp> {
                               RegExp userNamePattern = RegExp(
                                 r'^.{3,}$', //Min. of 3 characters
                               );
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == "") {
                                 userFirstNameFN.requestFocus();
                                 return "Enter your first name";
                               } else if (!userNamePattern.hasMatch(value)) {
@@ -393,7 +393,7 @@ class _SignUpState extends State<SignUp> {
                               RegExp userNamePattern = RegExp(
                                 r'^.{3,}$', //Min. of 3 characters
                               );
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == "") {
                                 userLastNameFN.requestFocus();
                                 return "Enter your last name";
                               } else if (!userNamePattern.hasMatch(value)) {
@@ -430,7 +430,7 @@ class _SignUpState extends State<SignUp> {
                               RegExp emailPattern = RegExp(
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
                               );
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == "") {
                                 _userEmailFN.requestFocus();
                                 return "Enter your email address";
                               } else if (!emailPattern.hasMatch(value)) {
@@ -471,7 +471,7 @@ class _SignUpState extends State<SignUp> {
                               color: kAccentColor,
                             ),
                             validator: (value) {
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == "") {
                                 return "Enter your phone number";
                               }
                             },
@@ -524,7 +524,7 @@ class _SignUpState extends State<SignUp> {
                             validator: (value) {
                               RegExp passwordPattern = RegExp(
                                   r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == "") {
                                 _userPasswordFN.requestFocus();
                                 return "Enter your password";
                               } else if (!passwordPattern.hasMatch(value)) {

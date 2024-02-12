@@ -22,7 +22,6 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/controller/error_controller.dart';
 import '../../theme/colors.dart';
-import '../no_network/no_network_retry.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -62,51 +61,39 @@ class _ChangePasswordState extends State<ChangePassword> {
     });
     final url = Uri.parse('$baseURL/auth/changeNewPassword/');
     try {
-    Map body = {
-      'new_password': _userPasswordEC.text,
-      'confirm_password': confirmPasswordEC.text,
-      'old_password': _userOldPasswordEC.text,
-    };
-    if (kDebugMode) {
-      print(body);
-    }
-    final response = await http.post(
-      url,
-      body: body,
-      headers: await authHeader(),
-    );
-    if (kDebugMode) {
-      print(response.body);
-    }
+      Map body = {
+        'new_password': _userPasswordEC.text,
+        'confirm_password': confirmPasswordEC.text,
+        'old_password': _userOldPasswordEC.text,
+      };
+      if (kDebugMode) {
+        print(body);
+      }
+      final response = await http.post(
+        url,
+        body: body,
+        headers: await authHeader(),
+      );
+      if (kDebugMode) {
+        print(response.body);
+      }
 
-      Map data = jsonDecode(response.body);
-      if (data['message'] == "Password Changed is successful." &&
-          response.statusCode == 200) {
+      if (response.statusCode == 200) {
         setState(() {
           _validAuthCredentials = true;
         });
 
         //Display snackBar
-        ApiProcessorController.successSnack(
-            "Password changed successfully.");
+        ApiProcessorController.successSnack("Password changed successfully.");
 
         Get.close(1);
       } else {
         ApiProcessorController.errorSnack(
-            "Your old password does not match");
+            jsonDecode(response.body)['message'] ??
+                "Your old password does not match");
       }
-    }  on SocketException {
+    } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet.");
-      await  Get.to(
-            () => const NoNetworkRetry(),
-        routeName: 'NoNetworkRetry',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
     } catch (e) {
       ApiProcessorController.errorSnack(
           "An unexpected error occurred. \nERROR: $e \nPlease contact support or try again later.");
@@ -139,7 +126,6 @@ class _ChangePasswordState extends State<ChangePassword> {
           actions: [],
           backgroundColor: kTransparentColor,
         ),
-
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: LayoutGrid(
@@ -250,7 +236,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             obscureText: _isObscured,
                             textInputAction: TextInputAction.next,
                             validator: (value) {
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == "") {
                                 _userOldPasswordFN.requestFocus();
                                 return "Enter your current password";
                               }
@@ -288,7 +274,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               RegExp passwordPattern = RegExp(
                                 r'^.{8,}$',
                               );
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == "") {
                                 _userPasswordFN.requestFocus();
                                 return "Enter your password";
                               } else if (!passwordPattern.hasMatch(value)) {
@@ -357,7 +343,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               RegExp passwordPattern = RegExp(
                                 r'^.{8,}$',
                               );
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == "") {
                                 confirmPasswordFN.requestFocus();
                                 return "Confirm your password";
                               }
@@ -387,31 +373,31 @@ class _ChangePasswordState extends State<ChangePassword> {
                     //         ),
                     //       )
                     //     :
-    MyElevatedButton(
-                            onPressed: (() async {
-                              if (_formKey.currentState!.validate()) {
-                                loadData();
-                              }
-                            }),
-                            title: "Save",
-                            isLoading: _isLoading,
-                            // style: ElevatedButton.styleFrom(
-                            //   elevation: 10,
-                            //   shape: RoundedRectangleBorder(
-                            //       borderRadius: BorderRadius.circular(10)),
-                            //   backgroundColor: kAccentColor,
-                            //   fixedSize: Size(media.size.width, 50),
-                            // ),
-                            // child: Text(
-                            //   'Save'.toUpperCase(),
-                            //   textAlign: TextAlign.center,
-                            //   style: TextStyle(
-                            //     color: kPrimaryColor,
-                            //     fontSize: 16,
-                            //     fontWeight: FontWeight.w700,
-                            //   ),
-                            // ),
-                          ),
+                    MyElevatedButton(
+                      onPressed: (() async {
+                        if (_formKey.currentState!.validate()) {
+                          loadData();
+                        }
+                      }),
+                      title: "Save",
+                      isLoading: _isLoading,
+                      // style: ElevatedButton.styleFrom(
+                      //   elevation: 10,
+                      //   shape: RoundedRectangleBorder(
+                      //       borderRadius: BorderRadius.circular(10)),
+                      //   backgroundColor: kAccentColor,
+                      //   fixedSize: Size(media.size.width, 50),
+                      // ),
+                      // child: Text(
+                      //   'Save'.toUpperCase(),
+                      //   textAlign: TextAlign.center,
+                      //   style: TextStyle(
+                      //     color: kPrimaryColor,
+                      //     fontSize: 16,
+                      //     fontWeight: FontWeight.w700,
+                      //   ),
+                      // ),
+                    ),
                     kSizedBox,
                   ],
                 ),

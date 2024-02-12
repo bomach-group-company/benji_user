@@ -552,7 +552,7 @@ class _SendPackageState extends State<SendPackage> {
                 controller: pickupEC,
                 validator: (value) {
                   RegExp pickupAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
-                  if (value!.isEmpty || value == null) {
+                  if (value == null || value == "") {
                     pickupFN.requestFocus();
                     return "Enter pickup location";
                   } else if (!pickupAddress.hasMatch(value)) {
@@ -663,7 +663,7 @@ class _SendPackageState extends State<SendPackage> {
                   RegExp userNamePattern = RegExp(
                     r'^.{3,}$', //Min. of 3 characters
                   );
-                  if (value == null || value!.isEmpty) {
+                  if (value == null || value == "") {
                     senderNameFN.requestFocus();
                     return "Enter your name";
                   } else if (!userNamePattern.hasMatch(value)) {
@@ -704,7 +704,7 @@ class _SendPackageState extends State<SendPackage> {
                 textInputAction: TextInputAction.done,
                 focusNode: senderPhoneFN,
                 validator: (value) {
-                  if (value == null || value!.isEmpty) {
+                  if (value == null || value == "") {
                     senderPhoneFN.requestFocus();
                     return "Enter your phone number";
                   }
@@ -746,7 +746,7 @@ class _SendPackageState extends State<SendPackage> {
                 controller: dropOffEC,
                 validator: (value) {
                   RegExp dropoffAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
-                  if (value!.isEmpty || value == null) {
+                  if (value == null || value == "") {
                     dropOffFN.requestFocus();
                     return "Enter drop-off location";
                   } else if (!dropoffAddress.hasMatch(value)) {
@@ -857,7 +857,7 @@ class _SendPackageState extends State<SendPackage> {
                   RegExp userNamePattern = RegExp(
                     r'^.{3,}$', //Min. of 3 characters
                   );
-                  if (value == null || value!.isEmpty) {
+                  if (value == null || value == "") {
                     receiverNameFN.requestFocus();
                     return "Enter receiver's name";
                   } else if (!userNamePattern.hasMatch(value)) {
@@ -899,7 +899,7 @@ class _SendPackageState extends State<SendPackage> {
                 focusNode: receiverPhoneFN,
                 validator: (value) {
                   if (value == null ||
-                      value.isEmpty ||
+                      value == "" ||
                       receiverPhoneEC.text.isEmpty) {
                     receiverPhoneFN.requestFocus();
                     return "Enter receiver's phone number";
@@ -942,7 +942,7 @@ class _SendPackageState extends State<SendPackage> {
                   RegExp userNamePattern = RegExp(
                     r'^.{3,}$', //Min. of 3 characters
                   );
-                  if (value == null || value!.isEmpty) {
+                  if (value == null || value == "") {
                     itemNameFN.requestFocus();
                     return "Enter the item's name";
                   } else if (!userNamePattern.hasMatch(value)) {
@@ -1082,7 +1082,7 @@ class _SendPackageState extends State<SendPackage> {
               NumberTextFormField(
                 controller: itemQuantityEC,
                 validator: (value) {
-                  if (value == null || value!.isEmpty) {
+                  if (value == null || value == "") {
                     itemQuantityFN.requestFocus();
                     return "Enter the item's quantity";
                   }
@@ -1108,7 +1108,7 @@ class _SendPackageState extends State<SendPackage> {
               MyTextFormField(
                 controller: itemValueEC,
                 validator: (value) {
-                  if (value == null || value!.isEmpty) {
+                  if (value == null || value == "") {
                     itemValueFN.requestFocus();
                     return "Enter the item's value (in Naira)";
                   }
