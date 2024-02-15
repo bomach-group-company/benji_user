@@ -1,4 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.benji.benjiexpress">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.benji.benjiexpress">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -52,6 +54,7 @@
         android:label="Benji"
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
+        tools:targetApi="tiramisu"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name="com.benji.benjiexpress.MainActivity"

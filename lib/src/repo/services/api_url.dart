@@ -28,6 +28,9 @@ class Api {
   static const myOrders = "/clients/listClientOrders/";
   static const category = "/categories/list";
   static const subCategory = "/sub_categories/category/";
+
+  //Push Notification
+  static const createPushNotification = "/notifier/create_push_notification";
 }
 
 String header = "application/json";
