@@ -376,7 +376,7 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
                                 }
                               },
                               validator: (value) {
-                                if (value == null || value.isEmpty) {
+                                if (value == null || value == "") {
                                   pin1FN.requestFocus();
                                   return "";
                                 }
@@ -396,7 +396,7 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
                                 }
                               },
                               validator: (value) {
-                                if (value == null || value.isEmpty) {
+                                if (value == null || value == "") {
                                   pin2FN.requestFocus();
                                   return "";
                                 }
@@ -416,7 +416,7 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
                                 }
                               },
                               validator: (value) {
-                                if (value == null || value.isEmpty) {
+                                if (value == null || value == "") {
                                   pin3FN.requestFocus();
                                   return "";
                                 }
@@ -436,7 +436,7 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
                                 }
                               },
                               validator: (value) {
-                                if (value == null || value.isEmpty) {
+                                if (value == null || value == "") {
                                   pin4FN.requestFocus();
                                   return "";
                                 }

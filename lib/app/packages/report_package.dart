@@ -204,7 +204,7 @@ class _ReportPackageState extends State<ReportPackage> {
                           keyboardType: TextInputType.text,
                           maxLength: 1000,
                           validator: (value) {
-                            if (value == null || value!.isEmpty) {
+                            if (value == null || value == "") {
                               _messageFN.requestFocus();
                               return "Field cannot be left empty";
                             }

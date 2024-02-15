@@ -26,6 +26,7 @@ class PaymentController extends GetxController {
       );
       if (response.statusCode == 200) {
         final dynamic decodedBody = jsonDecode(response.body);
+        print('decodedBody deleivery fee for packag $decodedBody');
         responseObject.value = (decodedBody as Map);
         update();
         return;

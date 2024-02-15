@@ -150,7 +150,7 @@ class _CRMTabState extends State<CRMTab> {
             focusNode: _nameFN,
             validator: (value) {
               RegExp pattern = RegExp(r'^.{3,}$');
-              if (value == null || value!.isEmpty) {
+              if (value == null || value == "") {
                 return "Enter a full name";
               } else if (!pattern.hasMatch(value)) {
                 return "Please enter a valid name";
@@ -182,7 +182,7 @@ class _CRMTabState extends State<CRMTab> {
               RegExp emailPattern = RegExp(
                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
               );
-              if (value == null || value!.isEmpty) {
+              if (value == null || value == "") {
                 return "Enter your email address";
               } else if (!emailPattern.hasMatch(value)) {
                 return "Please enter a valid email address";
@@ -213,7 +213,7 @@ class _CRMTabState extends State<CRMTab> {
             validator: (value) {
               RegExp pattern = RegExp(
                   r'^(?:\+?\d{1,3}[\s.-]?)?\(?\d{1,4}\)?[\s.-]?\d{1,4}[\s.-]?\d{1,9}$');
-              if (value == null || value!.isEmpty) {
+              if (value == null || value == "") {
                 return "Enter a phone number";
               } else if (!pattern.hasMatch(value)) {
                 return "Please enter a valid phone number";
@@ -240,7 +240,7 @@ class _CRMTabState extends State<CRMTab> {
             validator: (value) {
               RegExp pickupAddress = RegExp(r'^.{3,}$');
 
-              if (value!.isEmpty || value == null) {
+              if (value == null || value == "") {
                 return "Enter address";
               } else if (!pickupAddress.hasMatch(value)) {
                 return "Enter a valid address";

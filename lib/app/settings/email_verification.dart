@@ -92,7 +92,6 @@ class _EmailVerificationState extends State<EmailVerification> {
           actions: [],
           backgroundColor: kTransparentColor,
         ),
-
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: LayoutGrid(
@@ -199,7 +198,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                               RegExp emailPattern = RegExp(
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
                               );
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == "") {
                                 emailFocusNode.requestFocus();
                                 return "Enter your email address";
                               } else if (!emailPattern.hasMatch(value)) {

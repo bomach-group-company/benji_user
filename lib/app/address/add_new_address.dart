@@ -297,7 +297,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   validator: (value) {
                                     RegExp locationNamePattern =
                                         RegExp(r'^.{3,}$');
-                                    if (value == null || value!.isEmpty) {
+                                    if (value == null || value == "") {
                                       _addressTitleFN.requestFocus();
                                       return "Enter a title";
                                     } else if (!locationNamePattern
@@ -352,7 +352,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   textInputAction: TextInputAction.next,
                                   focusNode: _phoneNumberFN,
                                   validator: (value) {
-                                    if (value == null || value.isEmpty) {
+                                    if (value == null || value == "") {
                                       _phoneNumberFN.requestFocus();
                                       return "Enter your phone number";
                                     }

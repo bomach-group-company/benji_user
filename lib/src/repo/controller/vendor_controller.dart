@@ -42,6 +42,16 @@ class VendorController extends GetxController {
   var isLoadMoreProduct = false.obs;
   var loadNumProduct = 10.obs;
 
+  refreshVendor() {
+    loadNumPopularVendor.value = 10;
+    loadedAllVendor.value = false;
+    loadedAllPopularVendor.value = false;
+    vendorList.value = [];
+    vendorPopularList.value = [];
+    getVendors();
+    getPopularBusinesses(start: 0, end: 4);
+  }
+
   Future<void> scrollListenerVendor(scrollController) async {
     if (VendorController.instance.loadedAllVendor.value) {
       return;
@@ -134,7 +144,7 @@ class VendorController extends GetxController {
       data = (jsonDecode(response!.body)['items'] as List)
           .map((e) => BusinessModel.fromJson(e))
           .toList();
-      vendorPopularList.value += data;
+      vendorPopularList.value = data;
     } catch (e) {}
     isLoad.value = false;
     isLoadMorePopularVendor.value = false;

@@ -323,7 +323,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                                   validator: (value) {
                                     RegExp locationNamePattern =
                                         RegExp(r'^.{3,}$');
-                                    if (value == null || value!.isEmpty) {
+                                    if (value == null || value == "") {
                                       _addressTitleFN.requestFocus();
                                       return "Enter a title";
                                     } else if (!locationNamePattern
@@ -369,7 +369,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                                   textInputAction: TextInputAction.next,
                                   focusNode: _phoneNumberFN,
                                   validator: (value) {
-                                    if (value == null || value.isEmpty) {
+                                    if (value == null || value == "") {
                                       _phoneNumberFN.requestFocus();
                                       return "Enter your phone number";
                                     }
