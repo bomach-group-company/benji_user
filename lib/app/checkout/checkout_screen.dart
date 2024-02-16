@@ -4,8 +4,6 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:benji/app/home/home.dart';
-import 'package:benji/app/splash_screens/payment_successful_screen.dart';
-import 'package:benji/src/components/payment/monnify.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
@@ -26,7 +24,6 @@ import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/keys.dart';
 import '../../src/repo/controller/error_controller.dart';
-import '../../src/repo/controller/notifications_controller.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../theme/colors.dart';
 
@@ -141,47 +138,47 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       'client_id': UserController.instance.user.value.id
     };
     try {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return MonnifyWidget(
-            apiKey: apiKey,
-            contractCode: contractCode,
-            email: email,
-            phone: phone,
-            firstName: firstName,
-            lastName: lastName,
-            currency: currency,
-            amount: amount,
-            metaData: meta,
-            onClose: () {
-              Get.close(2);
-            },
-            onTransaction: (response) async {
-              consoleLog('the response from my alatpay $response');
-              if (response != null && response['status'] == true) {
-                await CartController.instance.clearCartProduct(widget.index);
-                await NotificationController.showNotification(
-                  title: "Payment Success",
-                  body: "Your payment of NGN$amount was successful",
-                  largeIcon: "asset://assets/icons/success.png",
-                  customSound: "asset://assets/audio/success.wav",
-                );
-                Get.off(
-                  () => const PaymentSuccessful(),
-                  routeName: 'PaymentSuccessful',
-                  duration: const Duration(milliseconds: 300),
-                  fullscreenDialog: true,
-                  curve: Curves.easeIn,
-                  preventDuplicates: true,
-                  popGesture: true,
-                  transition: Transition.rightToLeft,
-                );
-              }
-            },
-          );
-        }),
-      );
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) {
+      //     return MonnifyWidget(
+      //       apiKey: apiKey,
+      //       contractCode: contractCode,
+      //       email: email,
+      //       phone: phone,
+      //       firstName: firstName,
+      //       lastName: lastName,
+      //       currency: currency,
+      //       amount: amount,
+      //       metaData: meta,
+      //       onClose: () {
+      //         Get.close(2);
+      //       },
+      //       onTransaction: (response) async {
+      //         consoleLog('the response from my alatpay $response');
+      //         if (response != null && response['status'] == true) {
+      //           await CartController.instance.clearCartProduct(widget.index);
+      //           await NotificationController.showNotification(
+      //             title: "Payment Success",
+      //             body: "Your payment of NGN$amount was successful",
+      //             largeIcon: "asset://assets/icons/success.png",
+      //             customSound: "asset://assets/audio/success.wav",
+      //           );
+      //           Get.off(
+      //             () => const PaymentSuccessful(),
+      //             routeName: 'PaymentSuccessful',
+      //             duration: const Duration(milliseconds: 300),
+      //             fullscreenDialog: true,
+      //             curve: Curves.easeIn,
+      //             preventDuplicates: true,
+      //             popGesture: true,
+      //             transition: Transition.rightToLeft,
+      //           );
+      //         }
+      //       },
+      //     );
+      //   }),
+      // );
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {

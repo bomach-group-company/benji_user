@@ -6,7 +6,6 @@ import 'dart:math';
 import 'package:benji/app/packages/packages.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
-import 'package:benji/src/components/payment/monnify.dart';
 import 'package:benji/src/repo/controller/payment_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/utils/constants.dart';
@@ -156,28 +155,28 @@ class _PayForDeliveryState extends State<PayForDelivery> {
       "client_id": UserController.instance.user.value.id
     };
     try {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return MonnifyWidget(
-            apiKey: apiKey,
-            contractCode: contractCode,
-            email: email,
-            phone: phone,
-            firstName: firstName,
-            lastName: lastName,
-            currency: currency,
-            amount: amount,
-            metaData: meta,
-            onTransaction: (response) {
-              consoleLog('the response from my monnify $response');
-              if (response != null) {
-                toPackages();
-              }
-            },
-          );
-        }),
-      );
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) {
+      //     return MonnifyWidget(
+      //       apiKey: apiKey,
+      //       contractCode: contractCode,
+      //       email: email,
+      //       phone: phone,
+      //       firstName: firstName,
+      //       lastName: lastName,
+      //       currency: currency,
+      //       amount: amount,
+      //       metaData: meta,
+      //       onTransaction: (response) {
+      //         consoleLog('the response from my monnify $response');
+      //         if (response != null) {
+      //           toPackages();
+      //         }
+      //       },
+      //     );
+      //   }),
+      // );
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
