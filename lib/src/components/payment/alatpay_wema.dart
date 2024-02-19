@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:webviewx/webviewx.dart';
+import 'package:webviewx2/webviewx.dart';
 
 import '../../repo/services/api_url.dart';
 
