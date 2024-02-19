@@ -63,6 +63,7 @@ class MonnifyWidgetState extends State<MonnifyWidget> {
     html = """
 <html>
 <head>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" src="https://sdk.monnify.com/plugin/monnify.js"></script>
     <script>
         function payWithMonnify() {
@@ -95,13 +96,13 @@ class MonnifyWidgetState extends State<MonnifyWidget> {
                 }
             });
         }
-        payWithMonnify();
+        // payWithMonnify();
     </script>
 </head>
 <body>
-     <!-- <div>
+    <div>
         <button type="button" onclick="payWithMonnify()">Pay With Monnify</button>
-    </div> -->
+    </div>
 </body>
 </html>
 """;
@@ -142,8 +143,7 @@ class MonnifyWidgetState extends State<MonnifyWidget> {
           }
         },
       )
-      ..loadHtmlString(html,
-          baseUrl: 'https://sdk.monnify.com/plugin/monnify.js');
+      ..loadHtmlString(html);
 
     // #docregion platform_features
     if (controller.platform is AndroidWebViewController) {
@@ -160,10 +160,23 @@ class MonnifyWidgetState extends State<MonnifyWidget> {
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.orange,
+          title: const Text('Benji'),
+          titleTextStyle: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w800,
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.arrow_back),
+          ),
+        ),
         body: Center(
-      // Look here!
-      child: WebViewWidget(controller: _controller),
-    ));
+          // Look here!
+          child: WebViewWidget(controller: _controller),
+        ));
   }
 }
 
