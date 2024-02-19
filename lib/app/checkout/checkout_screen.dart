@@ -7,6 +7,7 @@ import 'package:benji/app/home/home.dart';
 import 'package:benji/app/splash_screens/payment_successful_screen.dart';
 import 'package:benji/src/components/payment/monnify.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
+import 'package:benji/src/repo/controller/notifications_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
@@ -26,7 +27,6 @@ import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/keys.dart';
 import '../../src/repo/controller/error_controller.dart';
-import '../../src/repo/controller/notifications_controller.dart';
 import '../../src/repo/models/user/user_model.dart';
 import '../../theme/colors.dart';
 
@@ -155,11 +155,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             amount: amount,
             metaData: meta,
             onClose: () {
-              Get.close(2);
+              Get.back();
             },
             onTransaction: (response) async {
               consoleLog('the response from my alatpay $response');
-              if (response != null && response['status'] == true) {
+              if (response != null && response['status'] == "SUCCESS") {
                 await CartController.instance.clearCartProduct(widget.index);
                 await NotificationController.showNotification(
                   title: "Payment Success",
