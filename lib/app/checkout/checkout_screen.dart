@@ -155,7 +155,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             amount: amount,
             metaData: meta,
             onClose: () {
-              Get.close(2);
+              Get.back();
             },
             onTransaction: (response) async {
               consoleLog('the response from my alatpay $response');
