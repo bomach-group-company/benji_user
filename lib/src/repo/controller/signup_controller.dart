@@ -9,6 +9,7 @@ import 'package:benji/app/splash_screens/login_splash_screen.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/services/api_url.dart';
+import 'package:benji/src/repo/services/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -23,7 +24,7 @@ class SignupController extends GetxController {
   var isLoad = false.obs;
 
   Future<void> signup(String email, String password, String phone,
-      String firstName, String lastName) async {
+      String firstName, String lastName, String agentReferralCode) async {
     UserController.instance;
     isLoad.value = true;
     update();
@@ -35,10 +36,15 @@ class SignupController extends GetxController {
         'phone': phone,
         'username': email.split('@')[0],
         'first_name': firstName,
-        'last_name': lastName
+        'last_name': lastName,
+        'agentReferralCode': agentReferralCode
       };
 
-      await http.post(Uri.parse('$baseURL/clients/createClient'), body: body);
+      final res = await http.post(Uri.parse('$baseURL/clients/createClient'),
+          body: body);
+      print(res.body);
+
+      print(res.statusCode);
 
       Map finalData = {
         "username": email,
@@ -47,33 +53,59 @@ class SignupController extends GetxController {
 
       http.Response? response =
           await HandleData.postApi(Api.baseUrl + Api.login, null, finalData);
-
       var jsonData = jsonDecode(response?.body ?? '');
-
-      if (jsonData["token"] == false) {
+      print(jsonData);
+      if ((response?.statusCode ?? 400) != 200) {
         ApiProcessorController.errorSnack(
             "Invalid email or password. Try again");
         isLoad.value = false;
         update();
         return;
       }
-      http.Response? responseUser =
-          await HandleData.getApi(Api.baseUrl + Api.user, jsonData["token"]);
+      print('got to this point atleast');
+      print(Api.baseUrl + Api.user);
+      print(jsonData["token"]);
+      http.Response responseUser = await http.get(
+          Uri.parse("${Api.baseUrl}/auth/"),
+          headers: authHeader(jsonData["token"]));
+      print(responseUser.body);
 
+      if (responseUser.statusCode != 200) {
+        throw const SocketException('Please connect to the internet');
+      }
+      print(jsonDecode(responseUser.body));
+
+      if (jsonDecode(responseUser.body)['id'] == null) {
+        ApiProcessorController.errorSnack(
+            "Invalid email or password. Try again");
+        isLoad.value = false;
+        update();
+        return;
+      }
       http.Response? responseUserData = await HandleData.getApi(
           Api.baseUrl +
               Api.getClient +
-              jsonDecode(responseUser?.body ?? '')['id'].toString(),
+              jsonDecode(responseUser.body ?? '')['id'].toString(),
           jsonData["token"]);
+
+      print(jsonDecode(responseUserData?.body ?? ''));
 
       if (responseUserData == null) {
         throw const SocketException('Please connect to the internet');
       }
 
+      if (responseUserData.statusCode != 200) {
+        ApiProcessorController.errorSnack(
+            "Invalid email or password. Try again");
+        isLoad.value = false;
+        update();
+        return;
+      }
+
       UserController.instance
           .saveUser(responseUserData.body, jsonData["token"]);
 
-      ApiProcessorController.successSnack("Signup Successful");
+      ApiProcessorController.successSnack("Login Successful");
       isLoad.value = false;
       update();
       Get.offAll(

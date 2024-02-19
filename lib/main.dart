@@ -21,18 +21,14 @@ import 'package:benji/src/repo/controller/sub_category_controller.dart';
 import 'package:benji/src/repo/controller/url_launch_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'firebase_options.dart';
-import 'src/repo/controller/fcm_messaging_controller.dart';
 import 'src/repo/controller/lat_lng_controllers.dart';
-import 'src/repo/controller/push_notifications_controller.dart';
+import 'src/repo/controller/notifications_controller.dart';
 import 'theme/app_theme.dart';
 import 'theme/colors.dart';
 
@@ -45,8 +41,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   prefs = await SharedPreferences.getInstance();
-
-  Get.put(FcmMessagingController());
 
   Get.put(UserController());
   Get.put(AuthController());
@@ -72,13 +66,15 @@ void main() async {
   // Get.put(ReviewsController());
 
   if (!kIsWeb) {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    await FirebaseMessaging.instance.setAutoInitEnabled(true);
-    await PushNotificationController.initializeNotification();
-    await FcmMessagingController.instance.handleFCM();
+    // await Firebase.initializeApp();
+    // await FirebaseMessaging.instance.setAutoInitEnabled(true);
+    await NotificationController.initializeNotification();
+
+    // await FcmMessagingController.instance.handleFCM();
   }
+
+  // await dotenv.load();
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
 }
 
@@ -103,7 +99,7 @@ class MyApp extends StatelessWidget {
     }
     if (Platform.isIOS) {
       return GetCupertinoApp(
-        title: "Benji",
+        title: "Shop Point",
         color: kPrimaryColor,
         navigatorKey: Get.key,
         debugShowCheckedModeBanner: false,
