@@ -1,12 +1,12 @@
 name: benji
-description: "Benji user app."
+description: Benji user app.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.0.6 <4.0.0"
 
 dependencies:
   flutter:
@@ -15,6 +15,7 @@ dependencies:
   http:
   cupertino_icons: ^1.0.2
   flutter_spinkit: ^5.2.0
+  csc_picker: ^0.2.7
   google_fonts:
   google_maps_flutter: ^2.5.0
   google_maps_flutter_web: ^0.5.4+2
@@ -32,24 +33,31 @@ dependencies:
   get: ^4.6.5
   intl:
   flutter_layout_grid: ^2.0.4
+  dotted_border:
   shimmer: ^3.0.0
   readmore: ^2.2.0
   flutter_svg: ^2.0.7
   flutter_dotenv: ^5.1.0
   flutter_carousel_widget:
   flutter_polyline_points:
+  autoscale_tabbarview: ^1.0.2
   share_plus: ^7.1.0
   screenshot: ^2.1.0
   path_provider: ^2.1.1
   pdf: ^3.10.4
   http_parser: ^4.0.2
+  carousel_slider: ^4.2.1
   animated_switch:
-  carousel_slider:
   awesome_notifications:
   awesome_notifications_core:
   awesome_notifications_fcm:
   firebase_core:
   firebase_messaging:
+  rename:
+  file_picker: ^5.5.0
+  fluttertoast:
+  scroll_to_index:
+  photo_view:
   cached_network_image:
   flutter_native_image:
   js: ^0.6.7
