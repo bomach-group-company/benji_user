@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:benji/app/splash_screens/startup_splash_screen.dart';
+import 'package:benji/src/components/payment/test.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/auth_controller.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
@@ -79,6 +80,7 @@ void main() async {
     await PushNotificationController.initializeNotification();
     await FcmMessagingController.instance.handleFCM();
   }
+
   runApp(const MyApp());
 }
 
@@ -121,7 +123,7 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         //This is the home route
-        home: const StartupSplashscreen(),
+        home: const HomeScreenTest(),
       );
     }
 
