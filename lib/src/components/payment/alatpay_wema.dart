@@ -1,139 +1,138 @@
-import 'dart:convert';
+// import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:webviewx2/webviewx.dart';
 
-import '../../repo/services/api_url.dart';
 
-class AlatPayWidget extends StatefulWidget {
-  final String apiKey;
-  final String businessId;
-  final Map? metaData;
-  final String email;
-  final String phone;
-  final String firstName;
-  final String lastName;
-  final String currency;
-  final String amount;
-  final Function(dynamic response) onTransaction;
-  final Function()? onClose;
-  const AlatPayWidget({
-    super.key,
-    required this.apiKey,
-    required this.businessId,
-    this.metaData,
-    required this.email,
-    this.phone = '',
-    this.firstName = '',
-    this.lastName = '',
-    this.currency = 'NGN',
-    required this.amount,
-    required this.onTransaction,
-    this.onClose,
-  });
+// import '../../repo/services/api_url.dart';
 
-  @override
-  AlatPayWidgetState createState() => AlatPayWidgetState();
-}
+// class AlatPayWidget extends StatefulWidget {
+//   final String apiKey;
+//   final String businessId;
+//   final Map? metaData;
+//   final String email;
+//   final String phone;
+//   final String firstName;
+//   final String lastName;
+//   final String currency;
+//   final String amount;
+//   final Function(dynamic response) onTransaction;
+//   final Function()? onClose;
+//   const AlatPayWidget({
+//     super.key,
+//     required this.apiKey,
+//     required this.businessId,
+//     this.metaData,
+//     required this.email,
+//     this.phone = '',
+//     this.firstName = '',
+//     this.lastName = '',
+//     this.currency = 'NGN',
+//     required this.amount,
+//     required this.onTransaction,
+//     this.onClose,
+//   });
 
-class AlatPayWidgetState extends State<AlatPayWidget> {
-  late WebViewXController webviewController;
-  String html = "";
-  @override
-  void initState() {
-    super.initState();
+//   @override
+//   AlatPayWidgetState createState() => AlatPayWidgetState();
+// }
 
-    String metaData =
-        widget.metaData == null ? 'null' : jsonEncode(widget.metaData);
-    String apiKey = '"${widget.apiKey}"';
-    String businessId = '"${widget.businessId}"';
-    String email = '"${widget.email}"';
-    String phone = '"${widget.phone}"';
-    String firstName = '"${widget.firstName}"';
-    String lastName = '"${widget.lastName}"';
-    String currency = '"${widget.currency}"';
-    String amount = widget.amount;
+// class AlatPayWidgetState extends State<AlatPayWidget> {
+//   late WebViewXController webviewController;
+//   String html = "";
+//   @override
+//   void initState() {
+//     super.initState();
 
-    html = """
-    <!DOCTYPE html>
-    <html lang="en">
+//     String metaData =
+//         widget.metaData == null ? 'null' : jsonEncode(widget.metaData);
+//     String apiKey = '"${widget.apiKey}"';
+//     String businessId = '"${widget.businessId}"';
+//     String email = '"${widget.email}"';
+//     String phone = '"${widget.phone}"';
+//     String firstName = '"${widget.firstName}"';
+//     String lastName = '"${widget.lastName}"';
+//     String currency = '"${widget.currency}"';
+//     String amount = widget.amount;
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
-    </head>
+//     html = """
+//     <!DOCTYPE html>
+//     <html lang="en">
 
-    <body>
-      <!-- <button onclick="showPayment()"> Pay with Alatpay </button> -->
+//     <head>
+//         <meta charset="UTF-8">
+//         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
+//     </head>
 
-    <script src="https://web.alatpay.ng/js/alatpay.js"></script>
-    <script>
-        let popup = Alatpay.setup({
-            apiKey: $apiKey,
-            businessId: $businessId,
-            email: $email,
-            phone: $phone,
-            firstName: $firstName,
-            lastName: $lastName,
-            metadata: $metaData,
-            currency: $currency,
-            amount: $amount,
+//     <body>
+//       <!-- <button onclick="showPayment()"> Pay with Alatpay </button> -->
 
-            onTransaction: function (response) {
-              paymentsuccess(JSON.stringify(response))
-            },
+//     <script src="https://web.alatpay.ng/js/alatpay.js"></script>
+//     <script>
+//         let popup = Alatpay.setup({
+//             apiKey: $apiKey,
+//             businessId: $businessId,
+//             email: $email,
+//             phone: $phone,
+//             firstName: $firstName,
+//             lastName: $lastName,
+//             metadata: $metaData,
+//             currency: $currency,
+//             amount: $amount,
 
-            onClose: function () {
-              paymentcancel("payment cancel")
-            }
-        });
+//             onTransaction: function (response) {
+//               paymentsuccess(JSON.stringify(response))
+//             },
 
-        function showPayment() {
-            popup.show();
-        }
-        showPayment()
-    </script>
-    </body>
+//             onClose: function () {
+//               paymentcancel("payment cancel")
+//             }
+//         });
 
-    </html>
-    """;
-  }
+//         function showPayment() {
+//             popup.show();
+//         }
+//         showPayment()
+//     </script>
+//     </body>
 
-  @override
-  Widget build(BuildContext context) {
-    final media = MediaQuery.of(context).size;
-    return Scaffold(
-        body: Center(
-      // Look here!
-      child: WebViewX(
-          dartCallBacks: <DartCallback>{
-            DartCallback(
-              name: 'paymentsuccess',
-              callBack: (message) {
-                consoleLog('message success gotten $message');
-                dynamic resp = jsonDecode(message);
-                consoleLog('the resp $resp');
-                widget.onTransaction(resp);
-              },
-            ),
-            DartCallback(
-              name: 'paymentcancel',
-              callBack: (message) {
-                if (widget.onClose == null) {
-                  Navigator.pop(context);
-                } else {
-                  widget.onClose!();
-                }
-              },
-            ),
-          },
-          width: media.width,
-          height: media.height,
-          initialContent: html,
-          initialSourceType: SourceType.html,
-          onWebViewCreated: (controller) {
-            webviewController = controller;
-          }),
-    ));
-  }
-}
+//     </html>
+//     """;
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final media = MediaQuery.of(context).size;
+//     return Scaffold(
+//         body: Center(
+//       // Look here!
+//       child: WebViewX(
+//           dartCallBacks: <DartCallback>{
+//             DartCallback(
+//               name: 'paymentsuccess',
+//               callBack: (message) {
+//                 consoleLog('message success gotten $message');
+//                 dynamic resp = jsonDecode(message);
+//                 consoleLog('the resp $resp');
+//                 widget.onTransaction(resp);
+//               },
+//             ),
+//             DartCallback(
+//               name: 'paymentcancel',
+//               callBack: (message) {
+//                 if (widget.onClose == null) {
+//                   Navigator.pop(context);
+//                 } else {
+//                   widget.onClose!();
+//                 }
+//               },
+//             ),
+//           },
+//           width: media.width,
+//           height: media.height,
+//           initialContent: html,
+//           initialSourceType: SourceType.html,
+//           onWebViewCreated: (controller) {
+//             webviewController = controller;
+//           }),
+//     ));
+//   }
+// }
