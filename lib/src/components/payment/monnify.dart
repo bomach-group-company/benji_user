@@ -169,7 +169,6 @@ MonnifySDK.initialize({
 
   @override
   Widget build(BuildContext context) {
-    final media = MediaQuery.of(context).size;
     return Scaffold(
         appBar: MyAppBar(
           elevation: 0.0,
