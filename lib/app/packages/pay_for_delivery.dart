@@ -171,7 +171,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
             metaData: meta,
             onTransaction: (response) {
               consoleLog('the response from my monnify $response');
-              if (response != null) {
+              if (response != null && response['status'] == "SUCCESS") {
                 toPackages();
               }
             },
