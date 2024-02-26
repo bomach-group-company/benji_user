@@ -250,10 +250,10 @@ class _SignUpState extends State<SignUp> {
                                 r'^.{3,}$', //Min. of 3 characters
                               );
                               if (value == null || value == "") {
-                                userFirstNameFN.requestFocus();
+                                // userFirstNameFN.requestFocus();
                                 return "Enter your first name";
                               } else if (!userNamePattern.hasMatch(value)) {
-                                userFirstNameFN.requestFocus();
+                                // userFirstNameFN.requestFocus();
                                 return "Name must be at least 3 characters";
                               }
                               return null;
@@ -285,10 +285,10 @@ class _SignUpState extends State<SignUp> {
                                 r'^.{3,}$', //Min. of 3 characters
                               );
                               if (value == null || value == "") {
-                                userLastNameFN.requestFocus();
+                                // userLastNameFN.requestFocus();
                                 return "Enter your last name";
                               } else if (!userNamePattern.hasMatch(value)) {
-                                userLastNameFN.requestFocus();
+                                // userLastNameFN.requestFocus();
                                 return "Name must be at least 3 characters";
                               }
                               return null;
@@ -322,10 +322,10 @@ class _SignUpState extends State<SignUp> {
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
                               );
                               if (value == null || value == "") {
-                                _userEmailFN.requestFocus();
+                                // _userEmailFN.requestFocus();
                                 return "Enter your email address";
                               } else if (!emailPattern.hasMatch(value)) {
-                                _userEmailFN.requestFocus();
+                                // _userEmailFN.requestFocus();
                                 return "Please enter a valid email address";
                               }
                               return null;
@@ -416,10 +416,10 @@ class _SignUpState extends State<SignUp> {
                               RegExp passwordPattern = RegExp(
                                   r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
                               if (value == null || value == "") {
-                                _userPasswordFN.requestFocus();
+                                // _userPasswordFN.requestFocus();
                                 return "Enter your password";
                               } else if (!passwordPattern.hasMatch(value)) {
-                                _userPasswordFN.requestFocus();
+                                // _userPasswordFN.requestFocus();
                                 return "Password needs to match format below.";
                               }
                               return null;

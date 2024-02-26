@@ -185,7 +185,7 @@ class _LoginState extends State<Login> {
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
                               );
                               if (value == null || value == "") {
-                                emailFocusNode.requestFocus();
+                                // emailFocusNode.requestFocus();
                                 return "Enter your email address";
                               } else if (!emailPattern.hasMatch(value)) {
                                 return "Please enter a valid email address";
@@ -215,11 +215,9 @@ class _LoginState extends State<Login> {
                             obscureText: _isObscured,
                             textInputAction: TextInputAction.done,
                             validator: (value) {
-                              RegExp passwordPattern = RegExp(
-                                r'^.{8,}$',
-                              );
+                              RegExp passwordPattern = RegExp(r'^.{8,}$');
                               if (value == null || value == "") {
-                                passwordFocusNode.requestFocus();
+                                // passwordFocusNode.requestFocus();
                                 return "Enter your password";
                               } else if (!passwordPattern.hasMatch(value)) {
                                 return "Password must be at least 8 characters";
