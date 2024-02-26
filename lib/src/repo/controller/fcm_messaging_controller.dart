@@ -24,19 +24,24 @@ class FcmMessagingController extends GetxController {
       final user = UserController.instance.user.value;
       var url = Api.baseUrl + Api.createPushNotification;
 
-      Map data = {"user_id": user.id, "token": fcmToken};
-
-      log("Data: $data");
-      log("Url: $url");
-      log("User Id: ${user.id} and User token: ${user.token}");
-
-      http.Response? response = await HandleData.postApi(url, user.token, data);
-
-      log("Response status code: ${response!.statusCode}");
-      if (response.statusCode == 200) {
-        log("Response body: ${response.body}");
+      if (user.token.isEmpty || user.token == "N/A") {
+        return;
       } else {
-        log("Response body: ${response.body}");
+        Map data = {"user_id": user.id, "token": fcmToken};
+
+        log("Data: $data");
+        log("Url: $url");
+        log("User Id: ${user.id} and User token: ${user.token}");
+
+        http.Response? response =
+            await HandleData.postApi(url, user.token, data);
+
+        log("Response status code: ${response!.statusCode}");
+        if (response.statusCode == 200) {
+          log("Response body: ${response.body}");
+        } else {
+          log("Response body: ${response.body}");
+        }
       }
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");

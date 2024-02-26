@@ -33,6 +33,7 @@ import 'firebase_options.dart';
 import 'src/repo/controller/fcm_messaging_controller.dart';
 import 'src/repo/controller/lat_lng_controllers.dart';
 import 'src/repo/controller/push_notifications_controller.dart';
+import 'src/repo/controller/reviews_controller.dart';
 import 'theme/app_theme.dart';
 import 'theme/colors.dart';
 
@@ -69,7 +70,7 @@ void main() async {
   Get.put(OrderStatusChangeController());
   Get.put(SignupController());
   Get.put(ShoppingLocationController());
-  // Get.put(ReviewsController());
+  Get.put(ReviewsController());
 
   if (!kIsWeb) {
     await Firebase.initializeApp(
