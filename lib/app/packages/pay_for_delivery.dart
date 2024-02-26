@@ -85,11 +85,11 @@ class _PayForDeliveryState extends State<PayForDelivery> {
   String countryDialCode = '+234';
   final double subTotal = 0;
   double totalPrice = 0;
-  double deliveryFee = (PaymentController.instance.responseObject['details']
-              .containsKey('delivery_fee') ??
-          0.0)
-      ? PaymentController.instance.responseObject['details']['delivery_fee']
-      : 0.0;
+  double deliveryFee =
+      (PaymentController.instance.responseObject['details'] ?? {})
+              .containsKey('delivery_fee')
+          ? PaymentController.instance.responseObject['details']['delivery_fee']
+          : 0.0;
 
   final String paymentDescription = "Benji app delivery";
   final String currency = "NGN";
@@ -171,7 +171,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
             metaData: meta,
             onTransaction: (response) {
               consoleLog('the response from my monnify $response');
-              if (response != null) {
+              if (response != null && response['status'] == "SUCCESS") {
                 toPackages();
               }
             },

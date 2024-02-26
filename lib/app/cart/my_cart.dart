@@ -84,11 +84,14 @@ class _MyCartsState extends State<MyCarts> {
                   radius: const Radius.circular(10),
                   scrollbarOrientation: ScrollbarOrientation.right,
                   child: controller.cartProducts.isEmpty
-                      ? const EmptyCard(
-                          showButton: true,
-                          buttonTitle: "Shop now",
-                          emptyCardMessage: "Your cart is empty",
-                          animation: "assets/animations/empty/frame_2.json",
+                      ? const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: EmptyCard(
+                            showButton: true,
+                            buttonTitle: "Shop now",
+                            emptyCardMessage: "Your cart is empty",
+                            animation: "assets/animations/empty/frame_2.json",
+                          ),
                         )
                       : ListView.builder(
                           controller: _scrollController,
