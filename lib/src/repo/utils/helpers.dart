@@ -4,6 +4,7 @@ import 'package:benji/app/shopping_location/set_shopping_location.dart';
 import 'package:benji/main.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
+import 'package:benji/src/repo/services/api_url.dart';
 import 'package:benji/src/repo/utils/shopping_location.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ import 'package:http/http.dart' as http;
 import '../../../app/auth/login.dart';
 import '../controller/error_controller.dart';
 import '../models/user/user_model.dart';
-import 'constants.dart';
 
 Future<void> saveUser(String user, String token) async {
   Map data = jsonDecode(user);

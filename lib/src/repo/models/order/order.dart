@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/models/user/user_model.dart';
+import 'package:benji/src/repo/services/api_url.dart';
 import 'package:benji/src/repo/utils/constants.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:http/http.dart' as http;
@@ -88,7 +89,6 @@ Future<List<Order>> getOrders(id) async {
     Uri.parse('$baseURL/clients/listClientOrders/$id'),
     headers: await authHeader(),
   );
-  consoleLog(response.body);
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => Order.fromJson(item))

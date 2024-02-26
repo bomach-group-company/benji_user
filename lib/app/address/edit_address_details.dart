@@ -6,9 +6,9 @@ import 'package:benji/app/address/get_location_on_map.dart';
 import 'package:benji/src/components/others/location_list_tile.dart';
 import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
+import 'package:benji/src/repo/services/api_url.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/repo/utils/web_map.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
@@ -27,7 +27,6 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/keys.dart';
 import '../../src/repo/models/googleMaps/autocomplete_prediction.dart';
 import '../../src/repo/models/googleMaps/places_autocomplete_response.dart';
-import '../../src/repo/utils/constants.dart';
 import '../../src/repo/utils/network_utils.dart';
 import '../../theme/colors.dart';
 
@@ -81,7 +80,6 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
     });
 
     List location = await parseLatLng(newLocation);
-    consoleLog('location $location');
     latitude = location[0];
     longitude = location[1];
   }
@@ -96,7 +94,6 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
       }
       List<Location> location =
           await locationFromAddress(selectedLocation.value!);
-      consoleLog('location $location hhhxs');
       latitude = location[0].latitude.toString();
       longitude = location[0].longitude.toString();
     }
@@ -108,13 +105,9 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
       'latitude': latitude,
       'longitude': longitude,
     };
-    consoleLog("$body");
     final response = await http.put(url,
         body: jsonEncode(body), headers: await authHeader());
-    consoleLog(response.body);
-    consoleLog("${response.statusCode}");
     try {
-      consoleLog('got passed hear');
       if (is_current) {
         setCurrentAddress(widget.address.id);
       }
@@ -215,9 +208,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
           "input": query, //query params
           "key": googlePlacesApiKey, //google places api key
         });
-    if (kDebugMode) {
-      consoleLog("$uri");
-    }
+
     String? response = await NetworkUtility.fetchUrl(uri);
     if (response != null) {
       PlaceAutocompleteResponse result =
@@ -226,10 +217,6 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
         setState(() {
           placePredictions = result.predictions!;
         });
-      }
-
-      if (kDebugMode) {
-        consoleLog(response);
       }
     }
   }
@@ -247,17 +234,11 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    if (kDebugMode) {
-      consoleLog("${latLngDetailController.latLngDetail.value}");
-    }
+
     latitude = latLngDetailController.latLngDetail.value[0];
     longitude = latLngDetailController.latLngDetail.value[1];
     _mapsLocationEC.text = latLngDetailController.latLngDetail.value[2];
     latLngDetailController.setEmpty();
-    if (kDebugMode) {
-      consoleLog("LATLNG: $latitude,$longitude");
-      consoleLog(_mapsLocationEC.text);
-    }
   }
 
   @override
@@ -410,10 +391,6 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                                       selectedLocation.value = value;
                                       _typing = true;
                                     });
-                                    if (kDebugMode) {
-                                      consoleLog(
-                                          "ONCHANGED VALUE: ${selectedLocation.value}");
-                                    }
                                   },
                                   textInputAction: TextInputAction.done,
                                   focusNode: _mapsLocationFN,

@@ -74,7 +74,7 @@ class OrderController extends GetxController {
     }
     List<Order> data = [];
     try {
-      data = (jsonDecode(responseData)['items'] as List)
+      data = (jsonDecode(responseData) as List)
           .map((e) => Order.fromJson(e))
           .toList();
       orderList.value += data;
