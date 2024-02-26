@@ -149,7 +149,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
     String firstName = UserController.instance.user.value.firstName;
     String lastName = UserController.instance.user.value.lastName;
     String currency = 'NGN';
-    String amount = (deliveryFee).toString();
+    String amount = (deliveryFee).ceil().toString();
     Map meta = {
       "the_item_id": widget.packageId,
       'the_item_type': 'package',

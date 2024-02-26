@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:benji/src/repo/models/user/user_model.dart';
+import 'package:benji/src/repo/services/api_url.dart';
 import 'package:benji/src/repo/utils/constants.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:http/http.dart' as http;
@@ -45,10 +46,8 @@ Future<bool> makeComplain(String itemId, String message, String topic) async {
     'message': message,
     'user_id': userId.toString(),
   };
-  consoleLog("This is the body: $body");
   final response =
       await http.post(url, body: body, headers: await authHeader());
-  consoleLog("This is the body response: ${response.body}");
 
   return response.statusCode == 200;
 }

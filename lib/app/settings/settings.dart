@@ -4,8 +4,10 @@ import 'package:benji/app/settings/change_password.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/providers/responsive_constant.dart';
+import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/services/api_url.dart';
+import 'package:benji/src/repo/utils/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -194,6 +196,10 @@ class _SettingsState extends State<Settings> {
 
   sendIt(XFile? image) async {
     if (image != null) {
+      if (await checkXFileSize(image)) {
+        ApiProcessorController.errorSnack('File to large');
+        return;
+      }
       setState(() {});
       User? user = await getUser();
       final url =
@@ -223,13 +229,9 @@ class _SettingsState extends State<Settings> {
         await UserController.instance.getUser();
         setState(() {});
         // Image successfully uploaded
-        if (kDebugMode) {
-          consoleLog(await response.stream.bytesToString());
-          consoleLog('Image uploaded successfully');
-        }
+        if (kDebugMode) {}
       } else {
         // Handle the error (e.g., server error)
-        consoleLog('Error uploading image: ${response.reasonPhrase}');
       }
     }
   }

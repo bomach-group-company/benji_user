@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/user/user_model.dart';
+import 'package:benji/src/repo/services/api_url.dart';
 import 'package:benji/src/repo/utils/constants.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
