@@ -1,11 +1,9 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:benji/src/repo/services/api_url.dart';
-import 'package:benji/src/repo/utils/constants.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class MyImage extends StatelessWidget {
   final String? url;
@@ -33,7 +31,7 @@ class MyImage extends StatelessWidget {
         progressIndicatorBuilder: (context, url, downloadProgress) =>
             Center(child: CupertinoActivityIndicator(color: kAccentColor)),
         errorWidget: (context, url, error) =>
-            Icon(Icons.error, color: kAccentColor),
+            Image.asset("assets/images/placeholder_image.png"),
       ),
     );
   }
