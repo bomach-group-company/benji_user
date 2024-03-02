@@ -9,9 +9,16 @@ class MyImage extends StatelessWidget {
   final String? url;
   final double radiusTop;
   final double radiusBottom;
+  final double? width;
+  final double? height;
 
   const MyImage(
-      {super.key, this.url, this.radiusTop = 15, this.radiusBottom = 15});
+      {super.key,
+      this.url,
+      this.radiusTop = 15,
+      this.radiusBottom = 15,
+      this.width = double.infinity,
+      this.height = double.infinity});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +35,8 @@ class MyImage extends StatelessWidget {
             : url!.startsWith("https")
                 ? url!
                 : baseImage + url!,
-        width: double.infinity,
-        height: double.infinity,
+        width: width,
+        height: height,
         filterQuality: FilterQuality.high,
         fit: BoxFit.cover, // Use BoxFit.fill to fill the parent container
         progressIndicatorBuilder: (context, url, downloadProgress) =>
