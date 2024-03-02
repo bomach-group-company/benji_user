@@ -129,8 +129,11 @@ class _MyCardLgState extends State<MyCardLg> {
                               ),
                             ),
                             child: Center(
-                                child:
-                                    MyImage(url: widget.product.productImage)),
+                                child: MyImage(
+                              url: widget.product.productImage,
+                              width: null,
+                              height: null,
+                            )),
                           ),
                         ),
                         Padding(
