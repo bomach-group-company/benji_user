@@ -9,7 +9,6 @@ import 'package:benji/src/repo/models/category/category.dart';
 import 'package:benji/src/repo/models/category/sub_category.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
 import '../../src/frontend/model/product.dart';
 import '../../src/frontend/utils/constant.dart';
@@ -40,6 +39,36 @@ class _CategoryPageState extends State<CategoryPage> {
   bool showCard = false;
 
   String productPopId = '';
+
+  int _crossAxisCount(BuildContext context) {
+    if (MediaQuery.of(context).size.width < 600) {
+      return 1; // Small screens, e.g., mobile phones
+    } else if (MediaQuery.of(context).size.width < 900) {
+      return 2; // Medium screens, e.g., tablets
+    } else if (MediaQuery.of(context).size.width < 1200) {
+      return 3; // Large screens, e.g., laptops
+    } else {
+      return 4; // Extra-large screens, e.g., desktops
+    }
+  }
+
+  double calculateAspectRatio(double height, int by, int remove) {
+    return ((MediaQuery.of(context).size.width / by) - remove) / height;
+  }
+
+  double _aspectRatio(BuildContext context) {
+    if (MediaQuery.of(context).size.width < 600) {
+      return calculateAspectRatio(
+          500, 1, 10); // Small screens, e.g., mobile phones
+    } else if (MediaQuery.of(context).size.width < 900) {
+      return calculateAspectRatio(600, 2, 30); // Medium screens, e.g., tablets
+    } else if (MediaQuery.of(context).size.width < 1200) {
+      return calculateAspectRatio(500, 3, 20); // Large screens, e.g., laptops
+    } else {
+      return calculateAspectRatio(
+          500, 4, 20); // Extra-large screens, e.g., desktops
+    }
+  }
 
   @override
   void initState() {
@@ -259,54 +288,42 @@ class _CategoryPageState extends State<CategoryPage> {
                                             )
                                           : Column(
                                               children: [
-                                                LayoutGrid(
-                                                  columnSizes:
-                                                      breakPointDynamic(
-                                                          media.width, [
-                                                    1.fr
-                                                  ], [
-                                                    1.fr,
-                                                    1.fr
-                                                  ], [
-                                                    1.fr,
-                                                    1.fr,
-                                                    1.fr,
-                                                    1.fr
-                                                  ]),
-                                                  rowSizes: (snapshot.data
-                                                              as List<Product>)
-                                                          .isEmpty
-                                                      ? [auto]
-                                                      : List.filled(
-                                                          snapshot.data.length,
-                                                          auto),
+                                                GridView.count(
+                                                  shrinkWrap: true,
+                                                  // Specify the number of columns in the grid
+                                                  crossAxisCount:
+                                                      _crossAxisCount(context),
+                                                  crossAxisSpacing: 5.0,
+                                                  mainAxisSpacing: 5.0,
+                                                  childAspectRatio:
+                                                      _aspectRatio(context),
                                                   children: (snapshot.data
                                                           as List<Product>)
-                                                      .map((item) => MyCard(
-                                                            refresh: () {
-                                                              setState(() {});
-                                                            },
-                                                            navigateCategory:
-                                                                CategoryPage(
-                                                              activeSubCategory:
-                                                                  item.subCategoryId,
-                                                              activeCategory: item
-                                                                  .subCategoryId
-                                                                  .category,
-                                                            ),
-                                                            navigate:
-                                                                ProductPage(
-                                                                    product:
-                                                                        item),
-                                                            action: () {
-                                                              setState(() {
-                                                                showCard = true;
-                                                                productPopId =
-                                                                    item.id;
-                                                              });
-                                                            },
-                                                            product: item,
-                                                          ))
+                                                      .map(
+                                                        (item) => MyCard(
+                                                          refresh: () {
+                                                            setState(() {});
+                                                          },
+                                                          product: item,
+                                                          navigateCategory:
+                                                              CategoryPage(
+                                                            activeSubCategory:
+                                                                item.subCategoryId,
+                                                            activeCategory: item
+                                                                .subCategoryId
+                                                                .category,
+                                                          ),
+                                                          navigate: ProductPage(
+                                                              product: item),
+                                                          action: () {
+                                                            setState(() {
+                                                              showCard = true;
+                                                              productPopId =
+                                                                  item.id;
+                                                            });
+                                                          },
+                                                        ),
+                                                      )
                                                       .toList(),
                                                 ),
                                               ],
