@@ -265,7 +265,11 @@ class _ProductPageState extends State<ProductPage> {
                                                     ),
                                                     50),
                                               ),
-                                              child: const Text('ADD TO CART'),
+                                              child: const Text(
+                                                'ADD TO CART',
+                                                style: TextStyle(
+                                                    color: kTextWhiteColor),
+                                              ),
                                             );
                                     },
                                   ),
