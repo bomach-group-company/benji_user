@@ -26,16 +26,6 @@ class PaymentSuccessful extends StatelessWidget {
 
   void _toMyCart() {
     Get.close(4);
-    //  Get.off(
-    //     () => const MyCarts(),
-    //     duration: const Duration(milliseconds: 300),
-    //     fullscreenDialog: true,
-    //     curve: Curves.easeIn,
-    //     routeName: "MyCarts",
-    //     preventDuplicates: true,
-    //     popGesture: false,
-    //     transition: Transition.rightToLeft,
-    //   );
   }
 
   @override

@@ -36,24 +36,6 @@ class _ReportPackageState extends State<ReportPackage> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   //============================================ FUNCTIONS ===========================================\\
-  // Future<bool> report() async {
-  //   try {
-  //     User? user = await getUser();
-  //     final url = Uri.parse(
-  //         '$baseFrontendUrl/clients/clientReportBusiness/${user!.id}/${widget.vendor.id}?message=${_messageEC.text}');
-
-  //     Map body = {};
-
-  //     final response =
-  //         await http.post(url, body: body, headers: await authHeader());
-
-  //     bool res = response.statusCode == 200 &&
-  //         response.body == '"Report made successfully"';
-  //     return res;
-  //   } catch (e) {
-  //     return false;
-  //   }
-  // }
 
   Future<void> _submitReport() async {
     setState(() {
@@ -73,37 +55,6 @@ class _ReportPackageState extends State<ReportPackage> {
     );
 
     Get.back();
-
-    // bool res = await report();
-
-    // if (res) {
-    //   //Display snackBar
-    //   mySnackBar(
-    //     context,
-    //     kSuccessColor,
-    //     "Success",
-    //     "Your report has been submitted successfully",
-    //     const Duration(seconds: 1),
-    //   );
-
-    //   setState(() {
-    //     _submittingReport = false;
-    //   });
-
-    //   //Go back;
-    //   Get.back();
-    // } else {
-    //   setState(() {
-    //     _submittingReport = false;
-    //   });
-    //   mySnackBar(
-    //     context,
-    //     kAccentColor,
-    //     "Failed",
-    //     "Something went wrong",
-    //     const Duration(seconds: 1),
-    //   );
-    // }
   }
 
   @override

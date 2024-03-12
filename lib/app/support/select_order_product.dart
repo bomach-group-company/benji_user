@@ -88,17 +88,6 @@ class _SelectOrderProductState extends State<SelectOrderProduct> {
 
 //============================================== NAVIGATION =================================================\\
 
-  // void _toFAQsPage() => Get.to(
-  //       () => const FAQs(),
-  //       routeName: 'FAQs',
-  //       duration: const Duration(milliseconds: 300),
-  //       fullscreenDialog: true,
-  //       curve: Curves.easeIn,
-  //       preventDuplicates: true,
-  //       popGesture: true,
-  //       transition: Transition.rightToLeft,
-  //     );
-
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;

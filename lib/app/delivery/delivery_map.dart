@@ -29,32 +29,6 @@ class _DeliveryMapState extends State<DeliveryMap> {
 
   //===================== GOOGLE MAP =======================\\
 
-  // Future<bool> getLocationPermission() async {
-  //   bool serviceEnabled;
-  //   LocationPermission permission;
-
-  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  //   if (!serviceEnabled) {
-  //     await Geolocator.openLocationSettings();
-  //     return false;
-  //   }
-  //   permission = await Geolocator.checkPermission();
-
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-
-  //     if (permission == LocationPermission.denied) {
-  //       return false;
-  //     }
-  //   }
-
-  //   if (permission == LocationPermission.denied) {
-  //     return false;
-  //   }
-
-  //   return false;
-  // }
-
   final LatLng _latLng = const LatLng(
     6.456076934514027,
     7.507987759047121,
