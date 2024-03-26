@@ -138,15 +138,7 @@ class _EditProfileState extends State<EditProfile> {
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
-        bottomNavigationBar:
-            // _isLoading
-            // ? Center(
-            //     child: CircularProgressIndicator(
-            //       color: kAccentColor,
-            //     ),
-            //   )
-            // :
-            Padding(
+        bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(kDefaultPadding),
           child: MyElevatedButton(
             onPressed: (() async {

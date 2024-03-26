@@ -159,23 +159,3 @@ Map<String, VendorDataModel> getCartProductId(int index) {
   }
   return res;
 }
-
-// Future<Map<String, dynamic>> getCartProduct(int index,
-//     [Function(String)? whenError]) async {
-//   List<VendorInfo> allCart = getAllCartItem();
-//   List<Product> products = [];
-//   for (var cartItem in allCart[index].vendorData) {
-//     try {
-//       Product product = await getProductById(cartItem.productId);
-//       products.add(product);
-//     } catch (e) {
-//       allCart[index]
-//           .vendorData
-//           .removeWhere((element) => element.productId == cartItem.productId);
-//       if (whenError != null) {
-//         whenError(cartItem.productId);
-//       }
-//     }
-//   }
-//   return {'products': products, 'formatOfOrder': allCart[index].toJson()};
-// }

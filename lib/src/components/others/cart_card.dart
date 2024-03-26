@@ -19,15 +19,6 @@ class _CartCardState extends State<CartCard> {
     super.initState();
   }
 
-  // Future<String> countCartFunc() async {
-  //   String data = countCartItemTo10();
-  //   if (widget.cartCount == null) {
-  //     return data;
-  //   } else {
-  //     return widget.cartCount!;
-  //   }
-  // }
-
   void _toCartScreen() async {
     await Get.to(
       () => const MyCarts(),
@@ -54,53 +45,6 @@ class _CartCardState extends State<CartCard> {
           size: 24,
         ),
       ),
-      // child: Stack(
-      // children: [
-      // Container(
-      //   alignment: Alignment.center,
-      //   child: IconButton(
-      //     onPressed: _toCartScreen,
-      //     splashRadius: 20,
-      //     icon: Icon(
-      //       Icons.shopping_cart,
-      //       size: 30,
-      //       color: kAccentColor,
-      //     ),
-      //   ),
-      // ),
-      // Positioned(
-      //   top: 5,
-      //   right: 5,
-      //   child: Container(
-      //     height: 20,
-      //     width: 20,
-      //     decoration: ShapeDecoration(
-      //       color: kAccentColor,
-      //       shape: RoundedRectangleBorder(
-      //         borderRadius: BorderRadius.circular(100),
-      //       ),
-      //     ),
-      //     child: Center(
-      //       child: FutureBuilder(
-      //           future: countCartFunc(),
-      //           builder: (context, snapshot) {
-      //             if (!snapshot.hasData) {
-      //               return const Text('');
-      //             }
-      //             return Text(
-      //               snapshot.data!,
-      //               textAlign: TextAlign.center,
-      //               style: const TextStyle(
-      //                 fontSize: 9,
-      //                 fontWeight: FontWeight.w400,
-      //               ),
-      //             );
-      //           }),
-      //     ),
-      //   ),
-      // ),
-      // ],
-      // ),
     );
   }
 }

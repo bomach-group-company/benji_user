@@ -103,16 +103,6 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
 
       Get.back();
 
-      // Get.to(
-      //   () => const ForgotPassword(),
-      //   routeName: 'ForgotPassword',
-      //   duration: const Duration(milliseconds: 300),
-      //   fullscreenDialog: true,
-      //   curve: Curves.easeIn,
-      //   preventDuplicates: true,
-      //   popGesture: true,
-      //   transition: Transition.rightToLeft,
-      // );
     }
 
     final url = Uri.parse('$baseURL/auth/requestForgotPassword/$userEmail');

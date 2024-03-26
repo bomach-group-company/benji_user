@@ -78,14 +78,6 @@ class _ProductPageState extends State<ProductPage> {
     return count > 0;
   }
 
-  // Future<Map<String, dynamic>> _getData() async {
-  //   return {
-  //     'product': widget.product,
-  //     'related': await fetchAllProductFilterByCategory(
-  //         widget.product.subCategory.category.id, 1, 6)
-  //   };
-  // }
-
   @override
   void dispose() {
     _scrollController.dispose();
@@ -96,15 +88,6 @@ class _ProductPageState extends State<ProductPage> {
     _scrollController.animateTo(0,
         duration: const Duration(seconds: 1), curve: Curves.linear);
   }
-
-  // void _handleRadioValueChanged(int? value) {
-  //   if (value != null) {
-  //     setState(() {
-  //       price = price == 40.00 ? 20.00 : 40.00;
-  //       _selectedRadioValue = value;
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

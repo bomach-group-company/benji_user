@@ -57,34 +57,6 @@ class _DeliverToState extends State<DeliverTo> {
 
   //===================================================================== FUNCTIONS =======================================================================\\
 
-  // _getData() async {
-  //   Address? current;
-  //   try {
-  //     current = await getCurrentAddress();
-  //   } catch (e) {
-  //     current = null;
-  //   }
-  //   _currentOption = current;
-  //   List<Address> addresses = await getAddressesByUser();
-
-  //   if (current != null) {
-  //     Address? itemToMove = addresses.firstWhere(
-  //       (elem) => elem.id == current!.id,
-  //     );
-
-  //     addresses.remove(itemToMove);
-  //     addresses.insert(0, itemToMove);
-  //   }
-  //   Map data = {
-  //     'current': current,
-  //     'addresses': addresses,
-  //   };
-
-  //   setState(() {
-  //     addressData = data;
-  //   });
-  // }
-
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
@@ -174,24 +146,6 @@ class _DeliverToState extends State<DeliverTo> {
         ),
       );
     }
-
-    // if (widget.toCheckout) {
-    //   if (widget.inCheckout && address != null) {
-    //     Get.close(1);
-    //   } else {
-    //     Get.off(
-    //       () => CheckoutScreen(deliverTo: address!),
-    //       routeName: 'CheckoutScreen',
-    //       duration: const Duration(milliseconds: 300),
-    //       fullscreenDialog: true,
-    //       curve: Curves.easeIn,
-    //       popGesture: true,
-    //       transition: Transition.rightToLeft,
-    //     );
-    //   }
-    // } else {
-    //   Get.back();
-    // }
 
     setState(() {
       _isLoading = false;

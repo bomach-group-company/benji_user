@@ -179,20 +179,6 @@ class _AboutAppState extends State<AboutApp> {
                         ),
                       ],
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(kDefaultPadding),
-                    //   child: MyElevatedButton(
-                    //     title: "Licenses",
-                    //     onPressed: () async {
-                    //       // await NotificationController.showNotification(
-                    //       //   title: "Payment Success",
-                    //       //   body: "Your payment of NGN${doubleFormattedText(2000)} was successful",
-                    //       //   largeIcon: "asset://assets/icons/success.png",
-                    //       //   customSound: "asset://assets/audio/success.wav",
-                    //       // );
-                    //     },
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
