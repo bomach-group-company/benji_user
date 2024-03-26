@@ -96,38 +96,6 @@ class _SelectOrderState extends State<SelectOrder> {
 
 //============================================== NAVIGATION =================================================\\
 
-  // void _toFAQsPage() => Get.to(
-  //       () => const FAQs(),
-  //       routeName: 'FAQs',
-  //       duration: const Duration(milliseconds: 300),
-  //       fullscreenDialog: true,
-  //       curve: Curves.easeIn,
-  //       preventDuplicates: true,
-  //       popGesture: true,
-  //       transition: Transition.rightToLeft,
-  //     );
-
-  // void _toFileAComplaint() => Get.to(
-  //       () => const FileAComplaint(),
-  //       routeName: 'FileAComplaint',
-  //       duration: const Duration(milliseconds: 300),
-  //       fullscreenDialog: true,
-  //       curve: Curves.easeIn,
-  //       preventDuplicates: true,
-  //       popGesture: true,
-  //       transition: Transition.rightToLeft,
-  //     );
-  // void _toLiveChatPage() => Get.to(
-  //       () => const LiveChat(),
-  //       routeName: 'LiveChat',
-  //       duration: const Duration(milliseconds: 300),
-  //       fullscreenDialog: true,
-  //       curve: Curves.easeIn,
-  //       preventDuplicates: true,
-  //       popGesture: true,
-  //       transition: Transition.rightToLeft,
-  //     );
-
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;

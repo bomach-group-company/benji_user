@@ -69,23 +69,5 @@ class AppRoutes {
     myGetPageBuilder(const TermsAndConditionPage()),
     myGetPageBuilder(const CategoriesPage()),
     myGetPageBuilder(const SearchPage()),
-    // myGetPageBuilder(const AddNewAddress()),
-    // GetPage(
-    //     name: detailsRoute,
-    //     page: () => const HomePage(),
-    //     middlewares: [RouteMiddleWare()]),
   ];
 }
-
-
-// here i will check for login first
-// class RouteMiddleWare extends GetMiddleware {
-//   @override
-//   RouteSettings? redirect(String? route) {
-//     return !AuthService.authenticated
-//         ? const RouteSettings(name: AppRoutes.loginRoute)
-//         : null;
-//   }
-// }
-
-

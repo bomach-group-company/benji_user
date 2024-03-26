@@ -42,19 +42,6 @@ class _BusinessProductsState extends State<BusinessProducts> {
 
   late Future<Map<String, List<Product>>> productAndSubCategoryName;
 
-  // _getData() async {
-  //   Map<String, List<Product>> productAndSubCategoryName =
-  //       await getVendorProductsAndSubCategoryName(widget.business.id);
-  //   try {
-  //     activeCategory = productAndSubCategoryName.keys.toList()[0];
-  //     // ignore: empty_catches
-  //   } catch (e) {}
-
-  //   setState(() {
-  //     snapshot.data = productAndSubCategoryName;
-  //   });
-  // }
-
 //=================================== Navigation =====================================\\
   void _toBusinessDetailScreenPage(BusinessModel business) => Get.off(
         () => BusinessDetailScreen(business: business),

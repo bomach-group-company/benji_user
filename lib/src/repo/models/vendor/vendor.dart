@@ -33,12 +33,6 @@ class BusinessModel {
   final String accountBank;
   final double averageRating;
   final int numberOfClientsReactions;
-  // final String
-  //     dummyString; // to be removed just to make it easy to countinous integrate
-  // final double
-  //     dummyFloat; // to be removed just to make it easy to countinous integrate
-  // final int
-  //     dummyInt; // to be removed just to make it easy to countinous integrate
 
   BusinessModel({
     required this.id,
@@ -66,9 +60,6 @@ class BusinessModel {
     required this.accountBank,
     required this.averageRating,
     required this.numberOfClientsReactions,
-    // required this.dummyString,
-    // required this.dummyFloat,
-    // required this.dummyInt,
   });
 
   factory BusinessModel.fromJson(Map<String, dynamic>? json) {
@@ -100,9 +91,6 @@ class BusinessModel {
       accountBank: json['accountBank'] ?? '',
       averageRating: (json['average_rating'] ?? 0).toDouble() ?? 0.0,
       numberOfClientsReactions: json['number_of_clients_reactions'] ?? 0,
-      // dummyString: 'dummyString',
-      // dummyFloat: 0.0,
-      // dummyInt: 0,
     );
   }
 }

@@ -43,37 +43,6 @@ class _CartWidgetState extends State<CartWidget> {
       onTap: _toCartScreen,
       child: Icon(Icons.shopping_cart,
           color: deviceType(mediaWidth) > 2 ? Colors.black : kAccentColor),
-      // child: Stack(
-      //   clipBehavior: Clip.none,
-      //   children: [
-      //     Icon(Icons.shopping_cart,
-      //         color: deviceType(mediaWidth) > 2 ? Colors.black : kAccentColor),
-      //     Positioned(
-      //       right: -8,
-      //       top: -8,
-      //       child: Container(
-      //         alignment: const Alignment(0, 0),
-      //         height: 20,
-      //         width: 20,
-      //         decoration: BoxDecoration(
-      //           color: kAccentColor,
-      //           borderRadius: BorderRadius.circular(10),
-      //         ),
-      //         child: FutureBuilder(
-      //             future: countCartFunc(),
-      //             builder: (context, snapshot) {
-      //               if (!snapshot.hasData) {
-      //                 return const Text('');
-      //               }
-      //               return Text(
-      //                 snapshot.data!,
-      //                 style: const TextStyle(color: Colors.white),
-      //               );
-      //             }),
-      //       ),
-      //     )
-      //   ],
-      // ),
     );
   }
 }

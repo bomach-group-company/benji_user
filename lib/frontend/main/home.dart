@@ -604,68 +604,6 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                         ),
-                        // kSizedBox,
-                        // Container(
-                        //   margin: EdgeInsets.symmetric(
-                        //       horizontal:
-                        //           breakPoint(media.width, 25, 100, 100),
-                        //       vertical: 50),
-                        //   child: Column(
-                        //     children: [
-                        //       const Padding(
-                        //         padding: EdgeInsets.all(15.0),
-                        //         child: EndToEndRow(
-                        //           widget1:
-                        //               MyFancyText(text: 'Latest Blogs'),
-                        //           widget2: MyOutlinedButton(
-                        //               navigate: BlogsPage()),
-                        //         ),
-                        //       ),
-                        //       kSizedBox,
-                        //       kSizedBox,
-                        //       LayoutGrid(
-                        //         columnSizes: breakPointDynamic(
-                        //             media.width,
-                        //             [1.fr],
-                        //             [1.fr, 1.fr],
-                        //             [1.fr, 1.fr, 1.fr]),
-                        //         rowSizes: const [auto, auto, auto],
-                        //         children: const [
-                        //           MyBlogCard(
-                        //             date: '1 July 2022',
-                        //             from: 'Admin',
-                        //             title:
-                        //                 'The Ultimate Hangover Burger: Egg in a Hole Burger Grilled Cheese',
-                        //             image:
-                        //                 'assets/frontend/assets/blog/blog-1.jpeg',
-                        //             description:
-                        //                 'Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy',
-                        //           ),
-                        //           MyBlogCard(
-                        //             date: '1 July 2022',
-                        //             from: 'Admin',
-                        //             title:
-                        //                 'The Ultimate Hangover Burger: Egg in a Hole Burger Grilled Cheese',
-                        //             image:
-                        //                 'assets/frontend/assets/blog/blog-2.jpeg',
-                        //             description:
-                        //                 'Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy',
-                        //           ),
-                        //           MyBlogCard(
-                        //             date: '1 July 2022',
-                        //             from: 'Admin',
-                        //             title:
-                        //                 'The Ultimate Hangover Burger: Egg in a Hole Burger Grilled Cheese',
-                        //             image:
-                        //                 'assets/frontend/assets/blog/blog-1.jpeg',
-                        //             description:
-                        //                 'Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy ipsum text. Lorem is dummy',
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                         Container(
                           margin: EdgeInsets.symmetric(
                             horizontal: breakPoint(media.width, 25, 120, 120),

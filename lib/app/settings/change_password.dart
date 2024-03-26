@@ -381,22 +381,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                       }),
                       title: "Save",
                       isLoading: _isLoading,
-                      // style: ElevatedButton.styleFrom(
-                      //   elevation: 10,
-                      //   shape: RoundedRectangleBorder(
-                      //       borderRadius: BorderRadius.circular(10)),
-                      //   backgroundColor: kAccentColor,
-                      //   fixedSize: Size(media.size.width, 50),
-                      // ),
-                      // child: Text(
-                      //   'Save'.toUpperCase(),
-                      //   textAlign: TextAlign.center,
-                      //   style: TextStyle(
-                      //     color: kPrimaryColor,
-                      //     fontSize: 16,
-                      //     fontWeight: FontWeight.w700,
-                      //   ),
-                      // ),
                     ),
                     kSizedBox,
                   ],

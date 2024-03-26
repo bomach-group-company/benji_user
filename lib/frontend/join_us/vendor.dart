@@ -415,64 +415,6 @@ class _VendorTabState extends State<VendorTab> {
             ),
           ),
           kSizedBox,
-          // InkWell(
-          //   borderRadius: BorderRadius.circular(16),
-          //   splashColor: Colors.blue.shade50,
-          //   focusColor: Colors.blue.shade50,
-          //   highlightColor: Colors.blue.shade50,
-          //   onTap: () async {
-          //     FilePickerResult? result = await FilePicker.platform.pickFiles(
-          //       allowMultiple: true,
-          //       allowedExtensions: ['pdf', 'doc', 'docx'],
-          //     );
-
-          //     if (result != null) {
-          //       // ignore: unused_local_variable
-          //       List<File> files =
-          //           result.files.map((file) => File(file.path!)).toList();
-          //     } else {
-          //       // User canceled the picker
-          //     }
-          //     // Handle the selected file, e.g., save or upload it.
-          //   },
-          //   child: Container(
-          //     width: MediaQuery.of(context).size.width,
-          //     height: 144,
-          //     decoration: ShapeDecoration(
-          //       shape: RoundedRectangleBorder(
-          //         side: const BorderSide(
-          //           width: 1,
-          //           style: BorderStyle.solid,
-          //           strokeAlign: BorderSide.strokeAlignOutside,
-          //           color: Color(0xFFE6E6E6),
-          //         ),
-          //         borderRadius: BorderRadius.circular(16),
-          //       ),
-          //     ),
-          //     child: Align(
-          //       alignment: Alignment.center,
-          //       child: Column(
-          //         mainAxisAlignment: MainAxisAlignment.center,
-          //         children: [
-          //           const FaIcon(FontAwesomeIcons.cloudArrowUp),
-          //           // Image.asset(
-          //           //   "assets/icons/image-upload.png",
-          //           // ),
-          //           kHalfSizedBox,
-          //           Text(
-          //             'Upload a document (Optional)',
-          //             style: TextStyle(
-          //               color: kTextGreyColor,
-          //               fontSize: 12,
-          //               fontWeight: FontWeight.w400,
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          // kSizedBox,
           kHalfSizedBox,
           MyElevatedButton(
             isLoading: isLoading,
