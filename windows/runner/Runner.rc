@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com" "\0"
-            VALUE "FileDescription", "benji" "\0"
+            VALUE "CompanyName", "com.benjiexpress" "\0"
+            VALUE "FileDescription", "benji_user" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "benji" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 com. All rights reserved." "\0"
-            VALUE "OriginalFilename", "benji.exe" "\0"
-            VALUE "ProductName", "benji" "\0"
+            VALUE "InternalName", "benji_user" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 com.benjiexpress. All rights reserved." "\0"
+            VALUE "OriginalFilename", "benji_user.exe" "\0"
+            VALUE "ProductName", "benji_user" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

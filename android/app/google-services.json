@@ -7,66 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:912983858748:android:c00aac826095b8160bad39",
+        "mobilesdk_app_id": "1:912983858748:android:6002b7da2c829a240bad39",
         "android_client_info": {
-          "package_name": "com.benji.benjiexpress"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDFliG30yK5Kni1TDp8R0aCSxN-7tDyqg8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:912983858748:android:a42f8ba284a81bb20bad39",
-        "android_client_info": {
-          "package_name": "com.benji.crm"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDFliG30yK5Kni1TDp8R0aCSxN-7tDyqg8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:912983858748:android:96d1eeefbedfcc440bad39",
-        "android_client_info": {
-          "package_name": "com.benji.rider"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDFliG30yK5Kni1TDp8R0aCSxN-7tDyqg8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:912983858748:android:ba497fbe4464b2a60bad39",
-        "android_client_info": {
-          "package_name": "com.benji.vendor"
+          "package_name": "com.benjiexpress.benji"
         }
       },
       "oauth_client": [],
