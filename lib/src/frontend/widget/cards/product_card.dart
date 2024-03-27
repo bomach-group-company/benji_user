@@ -34,12 +34,12 @@ class _MyCardState extends State<MyCard> {
     super.initState();
   }
 
-  Future<void> _cartAddFunction() async {
+  Future<void> cartAddFunction() async {
     await addToCart(widget.product);
     widget.refresh == null ? setState(() {}) : widget.refresh!();
   }
 
-  Future<void> _cartRemoveFunction() async {
+  Future<void> cartRemoveFunction() async {
     await removeFromCart(widget.product);
     widget.refresh == null ? setState(() {}) : widget.refresh!();
   }

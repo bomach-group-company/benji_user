@@ -114,7 +114,7 @@ class ProductFrontendController extends GetxController {
     var url =
         "${Api.baseUrl}/clients/filterProductsBySubCategory/${selectedSubCategory.value.id}/${getShoppingLocationPath(reverse: true)}?start=${loadNumProductSubCategory.value - 10}&end=${loadNumProductSubCategory.value}";
     loadNumProductSubCategory.value += 10;
-    print(url);
+
     String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
     var responseData = await ApiProcessorController.errorState(response);
