@@ -38,12 +38,12 @@ class _MyCardLgState extends State<MyCardLg> {
     super.initState();
   }
 
-  Future<void> _cartRemoveFunction() async {
+  Future<void> cartRemoveFunction() async {
     await removeFromCart(widget.product);
     widget.refresh == null ? setState(() {}) : widget.refresh!();
   }
 
-  Future<bool> _cartCount() async {
+  Future<bool> cartCount() async {
     int count = countCartItemByProduct(widget.product);
     return count > 0;
   }
@@ -205,7 +205,7 @@ class _MyCardLgState extends State<MyCardLg> {
                                     ),
                                   ),
                                   FutureBuilder(
-                                    future: _cartCount(),
+                                    future: cartCount(),
                                     initialData: false,
                                     builder: (BuildContext context,
                                         AsyncSnapshot snapshot) {

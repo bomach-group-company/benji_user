@@ -138,7 +138,6 @@ MonnifySDK.initialize({
       ..addJavaScriptChannel(
         'paymentsuccess',
         onMessageReceived: (JavaScriptMessage message) {
-          print('Payment success: ${message.message}');
           dynamic resp = jsonDecode(message.message);
           widget.onTransaction(resp);
         },
@@ -146,7 +145,6 @@ MonnifySDK.initialize({
       ..addJavaScriptChannel(
         'paymentcancel',
         onMessageReceived: (JavaScriptMessage message) {
-          print('Payment canceled: ${message.message}');
           if (widget.onClose == null) {
             Navigator.pop(context);
           } else {

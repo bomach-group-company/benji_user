@@ -63,12 +63,12 @@ class _ProductPageState extends State<ProductPage> {
 
   late Future<List<Product>> related;
 
-  Future<void> _cartAddFunction() async {
+  Future<void> cartAddFunction() async {
     await addToCart(widget.product);
     setState(() {});
   }
 
-  Future<void> _cartRemoveFunction() async {
+  Future<void> cartRemoveFunction() async {
     await removeFromCart(widget.product);
     setState(() {});
   }
