@@ -36,25 +36,21 @@ class LoginController extends GetxController {
     http.Response? response =
         await HandleData.postApi(Api.baseUrl + Api.login, null, finalData);
     var jsonData = jsonDecode(response?.body ?? '');
-    print(jsonData);
+
     if ((response?.statusCode ?? 400) != 200) {
       ApiProcessorController.errorSnack("Invalid email or password. Try again");
       isLoad.value = false;
       update();
       return;
     }
-    print('got to this point atleast');
-    print(Api.baseUrl + Api.user);
-    print(jsonData["token"]);
+
     http.Response responseUser = await http.get(
         Uri.parse("${Api.baseUrl}/auth/"),
         headers: authHeader(jsonData["token"]));
-    print(responseUser.body);
 
     if (responseUser.statusCode != 200) {
       throw const SocketException('Please connect to the internet');
     }
-    print(jsonDecode(responseUser.body));
 
     if (jsonDecode(responseUser.body)['id'] == null) {
       ApiProcessorController.errorSnack("Invalid email or password. Try again");
@@ -65,10 +61,8 @@ class LoginController extends GetxController {
     http.Response? responseUserData = await HandleData.getApi(
         Api.baseUrl +
             Api.getClient +
-            jsonDecode(responseUser.body ?? '')['id'].toString(),
+            jsonDecode(responseUser.body)['id'].toString(),
         jsonData["token"]);
-
-    print(jsonDecode(responseUserData?.body ?? ''));
 
     if (responseUserData == null) {
       throw const SocketException('Please connect to the internet');
