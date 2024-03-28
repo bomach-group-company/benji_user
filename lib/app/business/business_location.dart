@@ -25,9 +25,9 @@ import 'all_business_products.dart';
 class BusinessLocation extends StatefulWidget {
   final BusinessModel vendor;
   const BusinessLocation({
-    Key? key,
+    super.key,
     required this.vendor,
-  }) : super(key: key);
+  });
 
   @override
   State<BusinessLocation> createState() => _BusinessLocationState();
