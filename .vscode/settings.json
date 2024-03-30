@@ -1,5 +1,3 @@
 {
-  "java.configuration.updateBuildConfiguration": "automatic",
-  "githubPullRequests.ignoredPullRequestBranches": ["main"],
-  "cmake.sourceDirectory": "/Users/developer/Documents/Work/App Development/GitHub/benji_user/windows"
+  "java.configuration.updateBuildConfiguration": "interactive"
 }

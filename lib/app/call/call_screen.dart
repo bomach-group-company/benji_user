@@ -13,11 +13,10 @@ class CallPage extends StatefulWidget {
   final String userImage;
   final String userPhoneNumber;
   const CallPage(
-      {Key? key,
+      {super.key,
       required this.userName,
       required this.userImage,
-      required this.userPhoneNumber})
-      : super(key: key);
+      required this.userPhoneNumber});
 
   @override
   State<CallPage> createState() => _CallPageState();
