@@ -24,7 +24,10 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for android - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
@@ -49,20 +52,12 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDFliG30yK5Kni1TDp8R0aCSxN-7tDyqg8',
-    appId: '1:912983858748:android:6002b7da2c829a240bad39',
-    messagingSenderId: '912983858748',
-    projectId: 'keen-tokenizer-400311',
-    storageBucket: 'keen-tokenizer-400311.appspot.com',
-  );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCeBNy7o_fnEeG33lvV9vzfCi6TDKQDwZI',
-    appId: '1:912983858748:ios:e346b8e259a10f3a0bad39',
+    appId: '1:912983858748:ios:1378ff13faf867950bad39',
     messagingSenderId: '912983858748',
     projectId: 'keen-tokenizer-400311',
     storageBucket: 'keen-tokenizer-400311.appspot.com',
-    iosBundleId: 'com.benjiexpress.benji',
+    iosBundleId: 'com.benjiexpress.benji.ios',
   );
 }

@@ -35,7 +35,6 @@ dependencies:
   shimmer: ^3.0.0
   readmore: ^2.2.0
   flutter_svg: ^2.0.7
-  flutter_dotenv: ^5.1.0
   flutter_carousel_widget:
   flutter_polyline_points: 1.0.0
   share_plus: ^7.1.0
@@ -43,7 +42,6 @@ dependencies:
   path_provider: ^2.1.1
   pdf: ^3.10.4
   http_parser: ^4.0.2
-  animated_switch:
   carousel_slider:
   awesome_notifications:
   awesome_notifications_core:
