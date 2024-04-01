@@ -2,6 +2,8 @@ import UIKit
 import Flutter
 import awesome_notifications
 import shared_preferences_foundation
+import GoogleMaps
+
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
