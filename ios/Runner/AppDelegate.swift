@@ -11,6 +11,9 @@ import shared_preferences_ios
   ) -> Bool {
       GeneratedPluginRegistrant.register(with: self)
 
+      //Google Maps API Key
+      GMSServices.provideAPIKey("AIzaSyABRQIbm3Dl4x8TKq_6Ht3PaNllH_8yuwo")
+
       // This function registers the desired plugins to be used within a notification background action
       SwiftAwesomeNotificationsPlugin.setPluginRegistrantCallback { registry in          
           SwiftAwesomeNotificationsPlugin.register(
