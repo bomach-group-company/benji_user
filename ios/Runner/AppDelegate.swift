@@ -20,8 +20,8 @@ import GoogleMaps
       SwiftAwesomeNotificationsPlugin.setPluginRegistrantCallback { registry in          
           SwiftAwesomeNotificationsPlugin.register(
             with: registry.registrar(forPlugin: "io.flutter.plugins.awesomenotifications.AwesomeNotificationsPlugin")!)          
-          FLTSharedPreferencesFoundationPlugin.register(
-            with: registry.registrar(forPlugin: "io.flutter.plugins.sharedpreferencesfoundation.SharedPreferencesFoundationPlugin")!)
+          FLTSharedPreferencesPlugin.register(
+            with: registry.registrar(forPlugin: "io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin")!)
       }
 
       return super.application(application, didFinishLaunchingWithOptions: launchOptions)
