@@ -49,11 +49,11 @@ class _RateVendorDialogState extends State<RateVendorDialog> {
 //===================================== FUNCTIONS ======================================\\
   Future<bool> rate() async {
     User? user = await getUser();
-    final url = Uri.parse('$baseURL/clients/clientRateVendor');
+    final url = Uri.parse('$baseURL/clients/clientRate');
 
     Map body = {
       'client_id': user!.id.toString(),
-      'vendor_id': widget.business.id.toString(),
+      'vendor_id': widget.business.vendorOwner.id.toString(),
       'rating_value': _rating.toInt().toString(),
       'comment': _myMessageEC.text
     };
