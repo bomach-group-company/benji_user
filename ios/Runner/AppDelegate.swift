@@ -13,7 +13,7 @@ import GoogleMaps
       GeneratedPluginRegistrant.register(with: self)
 
       // Google Maps API Key
-      GMSServices.provideAPIKey("YOUR_API_KEY_HERE")
+      GMSServices.provideAPIKey("AIzaSyABRQIbm3Dl4x8TKq_6Ht3PaNllH_8yuwo")
 
       // This function registers the desired plugins to be used within a notification background action
       SwiftAwesomeNotificationsPlugin.setPluginRegistrantCallback { registry in
