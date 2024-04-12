@@ -26,10 +26,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -55,6 +52,14 @@ class DefaultFirebaseOptions {
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDFliG30yK5Kni1TDp8R0aCSxN-7tDyqg8',
     appId: '1:912983858748:android:6002b7da2c829a240bad39',
+    messagingSenderId: '912983858748',
+    projectId: 'keen-tokenizer-400311',
+    storageBucket: 'keen-tokenizer-400311.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyCeBNy7o_fnEeG33lvV9vzfCi6TDKQDwZI',
+    appId: '1:912983858748:ios:1378ff13faf867950bad39',
     messagingSenderId: '912983858748',
     projectId: 'keen-tokenizer-400311',
     storageBucket: 'keen-tokenizer-400311.appspot.com',
