@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:benji/app/splash_screens/startup_splash_screen.dart';
+import 'package:benji/firebase_options.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/auth_controller.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
@@ -29,7 +30,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'firebase_options.dart';
 import 'src/repo/controller/fcm_messaging_controller.dart';
 import 'src/repo/controller/lat_lng_controllers.dart';
 import 'src/repo/controller/push_notifications_controller.dart';
@@ -78,7 +78,6 @@ void main() async {
     );
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
     await PushNotificationController.initializeNotification();
-    await FcmMessagingController.instance.handleFCM();
   }
 
   runApp(const MyApp());
