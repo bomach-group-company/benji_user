@@ -16,11 +16,11 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     useMaterial3: true,
-    textTheme: GoogleFonts.senTextTheme(),
+    textTheme: GoogleFonts.montserratTextTheme(),
   );
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     useMaterial3: true,
-    textTheme: GoogleFonts.senTextTheme(),
+    textTheme: GoogleFonts.montserratTextTheme(),
   );
 }

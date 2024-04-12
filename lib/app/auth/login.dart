@@ -250,31 +250,38 @@ class _LoginState extends State<Login> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        TextButton(
-                          onPressed: toForgotPasswordPage,
-                          child: Text(
-                            "Forgot Password",
-                            style: myAccentFontStyle,
-                          ),
-                        ),
+                        GetBuilder<LoginController>(builder: (controller) {
+                          return TextButton(
+                            onPressed: controller.isLoad.value
+                                ? null
+                                : toForgotPasswordPage,
+                            child: Text(
+                              "Forgot Password",
+                              style: myAccentFontStyle,
+                            ),
+                          );
+                        }),
                       ],
                     ),
                     kSizedBox,
-                    GetBuilder<LoginController>(builder: (controller) {
-                      return MyElevatedButton(
-                        title: "LOG IN",
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            SendLogin data = SendLogin(
+                    GetBuilder<LoginController>(
+                      builder: (controller) {
+                        return MyElevatedButton(
+                          title: "LOG IN",
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              SendLogin data = SendLogin(
                                 password: passwordController.text,
-                                username: emailController.text);
+                                username: emailController.text,
+                              );
 
-                            await controller.login(data);
-                          }
-                        },
-                        isLoading: controller.isLoad.value,
-                      );
-                    }),
+                              await controller.login(data);
+                            }
+                          },
+                          isLoading: controller.isLoad.value,
+                        );
+                      },
+                    ),
                     kHalfSizedBox,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -285,13 +292,16 @@ class _LoginState extends State<Login> {
                             color: Color(0xFF646982),
                           ),
                         ),
-                        TextButton(
-                          onPressed: _toSignUpPage,
-                          child: Text(
-                            "Sign up",
-                            style: TextStyle(color: kAccentColor),
-                          ),
-                        ),
+                        GetBuilder<LoginController>(builder: (controller) {
+                          return TextButton(
+                            onPressed:
+                                controller.isLoad.value ? null : _toSignUpPage,
+                            child: Text(
+                              "Sign up",
+                              style: TextStyle(color: kAccentColor),
+                            ),
+                          );
+                        }),
                       ],
                     ),
                     kSizedBox,
