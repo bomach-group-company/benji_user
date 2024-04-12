@@ -44,8 +44,6 @@ dependencies:
   http_parser: ^4.0.2
   carousel_slider:
   awesome_notifications:
-  awesome_notifications_core:
-  awesome_notifications_fcm:
   firebase_core:
   firebase_messaging:
   cached_network_image:
