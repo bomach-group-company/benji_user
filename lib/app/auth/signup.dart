@@ -2,7 +2,6 @@
 
 import 'package:benji/app/terms/terms_and_conditions.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
-import 'package:benji/src/components/textformfield/my_intl_phonefield.dart';
 import 'package:benji/src/repo/controller/signup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -10,12 +9,8 @@ import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:get/route_manager.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/components/section/reusable_authentication_first_half.dart';
-import '../../src/components/textformfield/email_textformfield.dart';
-import '../../src/components/textformfield/name_textformfield.dart';
-import '../../src/components/textformfield/password_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../src/repo/utils/helpers.dart';
@@ -45,12 +40,12 @@ class _SignUpState extends State<SignUp> {
   String countryDialCode = '234';
   //=========================== CONTROLLER ====================================\\
 
-  final TextEditingController _userFirstNameEC = TextEditingController();
-  final TextEditingController _userLastNameEC = TextEditingController();
-  final TextEditingController _userEmailEC = TextEditingController();
-  final TextEditingController _userPhoneNumberEC = TextEditingController();
-  final TextEditingController _userPasswordEC = TextEditingController();
-  final TextEditingController _referralCodeEC = TextEditingController();
+  final _userFirstNameEC = TextEditingController();
+  final _userLastNameEC = TextEditingController();
+  final _userEmailEC = TextEditingController();
+  final _userPhoneNumberEC = TextEditingController();
+  final _userPasswordEC = TextEditingController();
+  final _referralCodeEC = TextEditingController();
 
   //=========================== KEYS ====================================\\
   final _formKey = GlobalKey<FormState>();
@@ -64,12 +59,12 @@ class _SignUpState extends State<SignUp> {
   var isObscured;
 
   //=========================== FOCUS NODES ====================================\\
-  FocusNode userFirstNameFN = FocusNode();
-  FocusNode userLastNameFN = FocusNode();
-  final FocusNode _userPhoneNumberFN = FocusNode();
-  final FocusNode _userEmailFN = FocusNode();
-  final FocusNode _userPasswordFN = FocusNode();
-  final FocusNode _referralCodeFN = FocusNode();
+  final userFirstNameFN = FocusNode();
+  final userLastNameFN = FocusNode();
+  final _userPhoneNumberFN = FocusNode();
+  final _userEmailFN = FocusNode();
+  final _userPasswordFN = FocusNode();
+  final _referralCodeFN = FocusNode();
 
   //=========================== FUNCTIONS ====================================\\
   void _checkBoxFunction(newVal) {
@@ -110,7 +105,6 @@ class _SignUpState extends State<SignUp> {
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         backgroundColor: kSecondaryColor,
-        resizeToAvoidBottomInset: true,
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: LayoutGrid(
@@ -226,227 +220,227 @@ class _SignUpState extends State<SignUp> {
                   physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   children: [
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            child: Text(
-                              'First Name',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          kHalfSizedBox,
-                          NameTextFormField(
-                            controller: _userFirstNameEC,
-                            validator: (value) {
-                              RegExp userNamePattern = RegExp(
-                                r'^.{3,}$', //Min. of 3 characters
-                              );
-                              if (value == null || value == "") {
-                                // userFirstNameFN.requestFocus();
-                                return "Enter your first name";
-                              } else if (!userNamePattern.hasMatch(value)) {
-                                // userFirstNameFN.requestFocus();
-                                return "Name must be at least 3 characters";
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _userFirstNameEC.text = value;
-                            },
-                            textInputAction: TextInputAction.next,
-                            nameFocusNode: userFirstNameFN,
-                            hintText: "Enter first name",
-                          ),
-                          kSizedBox,
-                          const SizedBox(
-                            child: Text(
-                              'Last Name',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          kHalfSizedBox,
-                          NameTextFormField(
-                            controller: _userLastNameEC,
-                            validator: (value) {
-                              RegExp userNamePattern = RegExp(
-                                r'^.{3,}$', //Min. of 3 characters
-                              );
-                              if (value == null || value == "") {
-                                // userLastNameFN.requestFocus();
-                                return "Enter your last name";
-                              } else if (!userNamePattern.hasMatch(value)) {
-                                // userLastNameFN.requestFocus();
-                                return "Name must be at least 3 characters";
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _userLastNameEC.text = value;
-                            },
-                            textInputAction: TextInputAction.next,
-                            nameFocusNode: userLastNameFN,
-                            hintText: "Enter last name",
-                          ),
-                          kSizedBox,
-                          const SizedBox(
-                            child: Text(
-                              'Email',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          kHalfSizedBox,
-                          EmailTextFormField(
-                            controller: _userEmailEC,
-                            emailFocusNode: _userEmailFN,
-                            textInputAction: TextInputAction.next,
-                            validator: (value) {
-                              RegExp emailPattern = RegExp(
-                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
-                              );
-                              if (value == null || value == "") {
-                                // _userEmailFN.requestFocus();
-                                return "Enter your email address";
-                              } else if (!emailPattern.hasMatch(value)) {
-                                // _userEmailFN.requestFocus();
-                                return "Please enter a valid email address";
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _userEmailEC.text = value;
-                            },
-                          ),
-                          kSizedBox,
-                          const SizedBox(
-                            child: Text(
-                              'Phone Number',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          kHalfSizedBox,
-                          MyIntlPhoneField(
-                            controller: _userPhoneNumberEC,
-                            initialCountryCode: "NG",
-                            invalidNumberMessage: "Invalid Phone Number",
-                            dropdownIconPosition: IconPosition.trailing,
-                            showCountryFlag: true,
-                            showDropdownIcon: true,
-                            onCountryChanged: (country) {
-                              countryDialCode = country.dialCode;
-                            },
-                            dropdownIcon: Icon(
-                              Icons.arrow_drop_down_rounded,
-                              color: kAccentColor,
-                            ),
-                            validator: (value) {
-                              if (value == null || value == "") {
-                                return "Enter your phone number";
-                              }
-                            },
-                            onSaved: (value) {
-                              _userPhoneNumberEC.text = value!;
-                            },
-                            textInputAction: TextInputAction.next,
-                            focusNode: _userPhoneNumberFN,
-                          ),
-                          kSizedBox,
-                          const Text(
-                            'Referral code (Optional)',
-                            style: TextStyle(
-                              color: kTextBlackColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          kHalfSizedBox,
-                          NameTextFormField(
-                            controller: _referralCodeEC,
-                            validator: (value) {
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _referralCodeEC.text = value;
-                            },
-                            textInputAction: TextInputAction.next,
-                            nameFocusNode: _referralCodeFN,
-                            hintText: "Referral code",
-                          ),
-                          kSizedBox,
-                          const SizedBox(
-                            child: Text(
-                              'Password',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          kHalfSizedBox,
-                          PasswordTextFormField(
-                            controller: _userPasswordEC,
-                            passwordFocusNode: _userPasswordFN,
-                            keyboardType: TextInputType.visiblePassword,
-                            obscureText: isObscured,
-                            textInputAction: TextInputAction.go,
-                            validator: (value) {
-                              RegExp passwordPattern = RegExp(
-                                  r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
-                              if (value == null || value == "") {
-                                // _userPasswordFN.requestFocus();
-                                return "Enter your password";
-                              } else if (!passwordPattern.hasMatch(value)) {
-                                // _userPasswordFN.requestFocus();
-                                return "Password needs to match format below.";
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _userPasswordEC.text = value;
-                            },
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  isObscured = !isObscured;
-                                });
-                              },
-                              icon: isObscured
-                                  ? const Icon(
-                                      Icons.visibility,
-                                    )
-                                  : Icon(
-                                      Icons.visibility_off_rounded,
-                                      color: kSecondaryColor,
-                                    ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    kHalfSizedBox,
+                    // Form(
+                    //   key: _formKey,
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       const SizedBox(
+                    //         child: Text(
+                    //           'First Name',
+                    //           textAlign: TextAlign.center,
+                    //           style: TextStyle(
+                    //             color: kTextBlackColor,
+                    //             fontSize: 14,
+                    //             fontWeight: FontWeight.w400,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       kHalfSizedBox,
+                    //       NameTextFormField(
+                    //         controller: _userFirstNameEC,
+                    //         validator: (value) {
+                    //           RegExp userNamePattern = RegExp(
+                    //             r'^.{3,}$', //Min. of 3 characters
+                    //           );
+                    //           if (value == null || value == "") {
+                    //             // userFirstNameFN.requestFocus();
+                    //             return "Enter your first name";
+                    //           } else if (!userNamePattern.hasMatch(value)) {
+                    //             // userFirstNameFN.requestFocus();
+                    //             return "Name must be at least 3 characters";
+                    //           }
+                    //           return null;
+                    //         },
+                    //         onSaved: (value) {
+                    //           _userFirstNameEC.text = value;
+                    //         },
+                    //         textInputAction: TextInputAction.next,
+                    //         nameFocusNode: userFirstNameFN,
+                    //         hintText: "Enter first name",
+                    //       ),
+                    //       kSizedBox,
+                    //       const SizedBox(
+                    //         child: Text(
+                    //           'Last Name',
+                    //           textAlign: TextAlign.center,
+                    //           style: TextStyle(
+                    //             color: kTextBlackColor,
+                    //             fontSize: 14,
+                    //             fontWeight: FontWeight.w400,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       kHalfSizedBox,
+                    //       NameTextFormField(
+                    //         controller: _userLastNameEC,
+                    //         validator: (value) {
+                    //           RegExp userNamePattern = RegExp(
+                    //             r'^.{3,}$', //Min. of 3 characters
+                    //           );
+                    //           if (value == null || value == "") {
+                    //             // userLastNameFN.requestFocus();
+                    //             return "Enter your last name";
+                    //           } else if (!userNamePattern.hasMatch(value)) {
+                    //             // userLastNameFN.requestFocus();
+                    //             return "Name must be at least 3 characters";
+                    //           }
+                    //           return null;
+                    //         },
+                    //         onSaved: (value) {
+                    //           _userLastNameEC.text = value;
+                    //         },
+                    //         textInputAction: TextInputAction.next,
+                    //         nameFocusNode: userLastNameFN,
+                    //         hintText: "Enter last name",
+                    //       ),
+                    //       kSizedBox,
+                    //       const SizedBox(
+                    //         child: Text(
+                    //           'Email',
+                    //           textAlign: TextAlign.center,
+                    //           style: TextStyle(
+                    //             color: kTextBlackColor,
+                    //             fontSize: 14,
+                    //             fontWeight: FontWeight.w400,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       kHalfSizedBox,
+                    //       EmailTextFormField(
+                    //         controller: _userEmailEC,
+                    //         emailFocusNode: _userEmailFN,
+                    //         textInputAction: TextInputAction.next,
+                    //         validator: (value) {
+                    //           RegExp emailPattern = RegExp(
+                    //             r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+                    //           );
+                    //           if (value == null || value == "") {
+                    //             // _userEmailFN.requestFocus();
+                    //             return "Enter your email address";
+                    //           } else if (!emailPattern.hasMatch(value)) {
+                    //             // _userEmailFN.requestFocus();
+                    //             return "Please enter a valid email address";
+                    //           }
+                    //           return null;
+                    //         },
+                    //         onSaved: (value) {
+                    //           _userEmailEC.text = value;
+                    //         },
+                    //       ),
+                    //       kSizedBox,
+                    //       const SizedBox(
+                    //         child: Text(
+                    //           'Phone Number',
+                    //           textAlign: TextAlign.center,
+                    //           style: TextStyle(
+                    //             color: kTextBlackColor,
+                    //             fontSize: 14,
+                    //             fontWeight: FontWeight.w400,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       kHalfSizedBox,
+                    //       MyIntlPhoneField(
+                    //         controller: _userPhoneNumberEC,
+                    //         initialCountryCode: "NG",
+                    //         invalidNumberMessage: "Invalid Phone Number",
+                    //         dropdownIconPosition: IconPosition.trailing,
+                    //         showCountryFlag: true,
+                    //         showDropdownIcon: true,
+                    //         onCountryChanged: (country) {
+                    //           countryDialCode = country.dialCode;
+                    //         },
+                    //         dropdownIcon: Icon(
+                    //           Icons.arrow_drop_down_rounded,
+                    //           color: kAccentColor,
+                    //         ),
+                    //         validator: (value) {
+                    //           if (value == null || value == "") {
+                    //             return "Enter your phone number";
+                    //           }
+                    //         },
+                    //         onSaved: (value) {
+                    //           _userPhoneNumberEC.text = value!;
+                    //         },
+                    //         textInputAction: TextInputAction.next,
+                    //         focusNode: _userPhoneNumberFN,
+                    //       ),
+                    //       kSizedBox,
+                    //       const Text(
+                    //         'Referral code (Optional)',
+                    //         style: TextStyle(
+                    //           color: kTextBlackColor,
+                    //           fontSize: 14,
+                    //           fontWeight: FontWeight.w400,
+                    //         ),
+                    //       ),
+                    //       kHalfSizedBox,
+                    //       NameTextFormField(
+                    //         controller: _referralCodeEC,
+                    //         validator: (value) {
+                    //           return null;
+                    //         },
+                    //         onSaved: (value) {
+                    //           _referralCodeEC.text = value;
+                    //         },
+                    //         textInputAction: TextInputAction.next,
+                    //         nameFocusNode: _referralCodeFN,
+                    //         hintText: "Referral code",
+                    //       ),
+                    //       kSizedBox,
+                    //       const SizedBox(
+                    //         child: Text(
+                    //           'Password',
+                    //           style: TextStyle(
+                    //             color: kTextBlackColor,
+                    //             fontSize: 14,
+                    //             fontWeight: FontWeight.w400,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       kHalfSizedBox,
+                    //       PasswordTextFormField(
+                    //         controller: _userPasswordEC,
+                    //         passwordFocusNode: _userPasswordFN,
+                    //         keyboardType: TextInputType.visiblePassword,
+                    //         obscureText: isObscured,
+                    //         textInputAction: TextInputAction.go,
+                    //         validator: (value) {
+                    //           RegExp passwordPattern = RegExp(
+                    //               r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+                    //           if (value == null || value == "") {
+                    //             // _userPasswordFN.requestFocus();
+                    //             return "Enter your password";
+                    //           } else if (!passwordPattern.hasMatch(value)) {
+                    //             // _userPasswordFN.requestFocus();
+                    //             return "Password needs to match format below.";
+                    //           }
+                    //           return null;
+                    //         },
+                    //         onSaved: (value) {
+                    //           _userPasswordEC.text = value;
+                    //         },
+                    //         suffixIcon: IconButton(
+                    //           onPressed: () {
+                    //             setState(() {
+                    //               isObscured = !isObscured;
+                    //             });
+                    //           },
+                    //           icon: isObscured
+                    //               ? const Icon(
+                    //                   Icons.visibility,
+                    //                 )
+                    //               : Icon(
+                    //                   Icons.visibility_off_rounded,
+                    //                   color: kSecondaryColor,
+                    //                 ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // kHalfSizedBox,
                     FlutterPwValidator(
                       uppercaseCharCount: 1,
                       lowercaseCharCount: 1,

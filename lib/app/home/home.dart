@@ -66,16 +66,16 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    checkAuth(context);
-    checkIfShoppingLocation(context);
+    // checkAuth(context);
+    // checkIfShoppingLocation(context);
     if (!fnd.kIsWeb) {
       NotificationController.initializeNotification();
     }
 
-    currentAddress = getCurrentAddress();
-    scrollController.addListener(_scrollListener);
-    scrollController.addListener(() =>
-        ProductController.instance.scrollListenerProduct(scrollController));
+    // currentAddress = getCurrentAddress();
+    // scrollController.addListener(_scrollListener);
+    // scrollController.addListener(() =>
+    //     ProductController.instance.scrollListenerProduct(scrollController));
   }
 
   late Future<Address> currentAddress;
