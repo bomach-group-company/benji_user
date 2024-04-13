@@ -66,16 +66,16 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    checkAuth(context);
-    checkIfShoppingLocation(context);
+    // checkAuth(context);
+    // checkIfShoppingLocation(context);
     if (!fnd.kIsWeb) {
       NotificationController.initializeNotification();
     }
 
-    currentAddress = getCurrentAddress();
-    scrollController.addListener(_scrollListener);
-    scrollController.addListener(() =>
-        ProductController.instance.scrollListenerProduct(scrollController));
+    // currentAddress = getCurrentAddress();
+    // scrollController.addListener(_scrollListener);
+    // scrollController.addListener(() =>
+    //     ProductController.instance.scrollListenerProduct(scrollController));
   }
 
   late Future<Address> currentAddress;
@@ -453,10 +453,9 @@ class _HomeState extends State<Home> {
               )
             : const SizedBox(),
         appBar: AppBar(
-          backgroundColor: kPrimaryColor,
           automaticallyImplyLeading: false,
           titleSpacing: 0,
-          elevation: 0.0,
+          elevation: 0,
           toolbarHeight: kToolbarHeight,
           title: Row(
             children: [
@@ -542,14 +541,12 @@ class _HomeState extends State<Home> {
           ],
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: RefreshIndicator(
             onRefresh: _handleRefresh,
             color: kAccentColor,
             semanticsLabel: "Pull to refresh",
             child: Scrollbar(
               child: ListView(
-                controller: scrollController,
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 padding: deviceType(media.width) > 2

@@ -1,11 +1,11 @@
 // ignore_for_file: camel_case_types
 
+import 'package:benji/app/auth/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../auth/signup.dart';
 import 'onboarding_screens.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -44,14 +44,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             : [
                 TextButton(
                   onPressed: () async {
-                    Get.off(
+                    Get.offAll(
                       () => const SignUp(),
                       routeName: 'SignUp',
                       duration: const Duration(milliseconds: 300),
                       fullscreenDialog: true,
                       curve: Curves.easeIn,
                       popGesture: true,
-                      preventDuplicates: true,
+                      predicate: (route) => false,
                       transition: Transition.rightToLeft,
                     );
                   },
@@ -157,14 +157,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ElevatedButton(
                   onPressed: () async {
                     if (index == screens.length - 1) {
-                      Get.off(
+                      Get.offAll(
                         () => const SignUp(),
                         routeName: 'SignUp',
                         duration: const Duration(milliseconds: 300),
                         fullscreenDialog: true,
                         curve: Curves.easeIn,
                         popGesture: true,
-                        preventDuplicates: true,
+                        predicate: (route) => false,
                         transition: Transition.rightToLeft,
                       );
                     }

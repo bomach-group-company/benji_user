@@ -2,7 +2,6 @@
 
 import 'package:benji/app/terms/terms_and_conditions.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
-import 'package:benji/src/components/textformfield/my_intl_phonefield.dart';
 import 'package:benji/src/repo/controller/signup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -14,6 +13,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/components/section/reusable_authentication_first_half.dart';
 import '../../src/components/textformfield/email_textformfield.dart';
+import '../../src/components/textformfield/my_intl_phonefield.dart';
 import '../../src/components/textformfield/name_textformfield.dart';
 import '../../src/components/textformfield/password_textformfield.dart';
 import '../../src/providers/constants.dart';
@@ -45,12 +45,12 @@ class _SignUpState extends State<SignUp> {
   String countryDialCode = '234';
   //=========================== CONTROLLER ====================================\\
 
-  final TextEditingController _userFirstNameEC = TextEditingController();
-  final TextEditingController _userLastNameEC = TextEditingController();
-  final TextEditingController _userEmailEC = TextEditingController();
-  final TextEditingController _userPhoneNumberEC = TextEditingController();
-  final TextEditingController _userPasswordEC = TextEditingController();
-  final TextEditingController _referralCodeEC = TextEditingController();
+  final _userFirstNameEC = TextEditingController();
+  final _userLastNameEC = TextEditingController();
+  final _userEmailEC = TextEditingController();
+  final _userPhoneNumberEC = TextEditingController();
+  final _userPasswordEC = TextEditingController();
+  final _referralCodeEC = TextEditingController();
 
   //=========================== KEYS ====================================\\
   final _formKey = GlobalKey<FormState>();
@@ -64,12 +64,12 @@ class _SignUpState extends State<SignUp> {
   var isObscured;
 
   //=========================== FOCUS NODES ====================================\\
-  FocusNode userFirstNameFN = FocusNode();
-  FocusNode userLastNameFN = FocusNode();
-  final FocusNode _userPhoneNumberFN = FocusNode();
-  final FocusNode _userEmailFN = FocusNode();
-  final FocusNode _userPasswordFN = FocusNode();
-  final FocusNode _referralCodeFN = FocusNode();
+  final userFirstNameFN = FocusNode();
+  final userLastNameFN = FocusNode();
+  final _userPhoneNumberFN = FocusNode();
+  final _userEmailFN = FocusNode();
+  final _userPasswordFN = FocusNode();
+  final _referralCodeFN = FocusNode();
 
   //=========================== FUNCTIONS ====================================\\
   void _checkBoxFunction(newVal) {
@@ -110,7 +110,6 @@ class _SignUpState extends State<SignUp> {
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         backgroundColor: kSecondaryColor,
-        resizeToAvoidBottomInset: true,
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: LayoutGrid(
