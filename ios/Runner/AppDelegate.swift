@@ -3,6 +3,7 @@ import Flutter
 import awesome_notifications
 import shared_preferences_foundation
 import GoogleMaps
+import FirebaseCore
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -10,6 +11,7 @@ import GoogleMaps
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+      FirebaseApp.configure()
       GeneratedPluginRegistrant.register(with: self)
 
       // Google Maps API Key

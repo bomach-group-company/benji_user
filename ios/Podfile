@@ -120,8 +120,3 @@ post_install do |installer|
   update_awesome_main_target_settings('Runner', File.dirname(File.realpath(__FILE__)), flutter_root)
   ################  Awesome Notifications pod modification 2 ###################
 end
-
-target 'ImageNotification' do
-  use_frameworks!
-  pod 'Firebase/Messaging'
-end
