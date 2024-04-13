@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../theme/colors.dart';
+
 class NotificationButton extends StatelessWidget {
   const NotificationButton({
     required this.onPressed,
@@ -27,7 +29,14 @@ class NotificationButton extends StatelessWidget {
             backgroundColor: Theme.of(context).primaryColor,
           ),
           onPressed: onPressed,
-          child: Text(text),
+          child: Text(
+            text,
+            style: TextStyle(
+              color: kPrimaryColor,
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
         ),
       ),
     );

@@ -61,7 +61,6 @@ class OrderController extends GetxController {
     log('in list history $url');
     token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
-    log('order history ${response!.body}');
 
     loadNum.value += 10;
     var responseData = await ApiProcessorController.errorState(response);
@@ -98,10 +97,7 @@ class OrderController extends GetxController {
       headers: await authHeader(),
       body: jsonEncode(formatOfOrder),
     );
-    if (kDebugMode) {
-      consoleLog(response.body);
-      consoleLog("${response.statusCode}");
-    }
+
     if (response.statusCode.toString().startsWith('2')) {
       String res =
           jsonDecode(response.body)['message'].toString().split(' ').last;

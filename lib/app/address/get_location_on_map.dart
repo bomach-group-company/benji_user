@@ -323,7 +323,8 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.miniStartFloat,
         floatingActionButton: FloatingActionButton(
           onPressed: _selectLocation,
           backgroundColor: kAccentColor,

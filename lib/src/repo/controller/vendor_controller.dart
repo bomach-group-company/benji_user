@@ -115,8 +115,8 @@ class VendorController extends GetxController {
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
-      log(response!.body);
-      data = (jsonDecode(response.body) as List)
+
+      data = (jsonDecode(response!.body) as List)
           .map((e) => BusinessModel.fromJson(e))
           .toList();
       vendorList.value = data;
@@ -206,7 +206,6 @@ class VendorController extends GetxController {
     log(url);
     String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
-    log('similar vendor ${response!.body}');
 
     var responseData = await ApiProcessorController.errorState(response);
     if (responseData == null) {
@@ -216,7 +215,7 @@ class VendorController extends GetxController {
     }
     List<BusinessModel> data = [];
     try {
-      data = (jsonDecode(response.body) as List)
+      data = (jsonDecode(response!.body) as List)
           .map((e) => BusinessModel.fromJson(e))
           .toList();
       similarVendors.value = data.length < 5 ? data : data.sublist(0, 5);

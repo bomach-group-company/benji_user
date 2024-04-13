@@ -208,7 +208,7 @@ class ProductController extends GetxController {
     log(url);
     String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
-    log('top product ${response!.body}');
+
     var responseData = await ApiProcessorController.errorState(response);
     if (responseData == null) {
       loadTopProduct.value = false;
@@ -217,7 +217,7 @@ class ProductController extends GetxController {
     }
     List<Product> data = [];
     try {
-      data = (jsonDecode(response.body) as List)
+      data = (jsonDecode(response!.body) as List)
           .map((e) => Product.fromJson(e))
           .toList();
       topProducts.value = data;

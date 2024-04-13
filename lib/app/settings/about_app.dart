@@ -1,3 +1,5 @@
+import 'package:benji/app/settings/notification_page.dart';
+import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -181,6 +183,12 @@ class _AboutAppState extends State<AboutApp> {
                     ),
                   ],
                 ),
+              ),
+              MyElevatedButton(
+                title: "Notifications",
+                onPressed: () {
+                  Get.to(() => const NotificationPage());
+                },
               ),
             ],
           ),
