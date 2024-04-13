@@ -104,11 +104,14 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
         // Android's shouldShowRequestPermissionRationale
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
+        Get.back();
         return Future.error('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
+      Get.back();
+
       // Permissions are denied forever, handle appropriately.
       return Future.error(
         'Location permissions are permanently denied, we cannot request permissions.',
@@ -324,6 +327,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
         floatingActionButton: FloatingActionButton(
           onPressed: _selectLocation,
           backgroundColor: kAccentColor,
+          foregroundColor: kPrimaryColor,
           tooltip: "Pin Location",
           mouseCursor: SystemMouseCursors.click,
           child: const FaIcon(

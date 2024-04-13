@@ -163,8 +163,8 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
       kSuccessColor,
       "Success",
       _isAddedToFavorites
-          ? "Vendor has been added to favorites"
-          : "Vendor been removed from favorites",
+          ? "Business has been added to favorites"
+          : "Business been removed from favorites",
       const Duration(milliseconds: 500),
     );
   }
@@ -196,7 +196,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
             children: [
               FaIcon(FontAwesomeIcons.solidStar, color: kStarColor),
               kWidthSizedBox,
-              const Text("Rate this vendor"),
+              const Text("Rate this business"),
             ],
           ),
         ),
@@ -207,7 +207,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
             children: [
               FaIcon(FontAwesomeIcons.solidFlag, color: kAccentColor),
               kWidthSizedBox,
-              const Text("Report this vendor"),
+              const Text("Report this business"),
             ],
           ),
         ),
@@ -265,7 +265,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
         appBar: MyAppBar(
           title: isScrollToTopBtnVisible
               ? widget.business.shopName
-              : "Vendor Details",
+              : "Business Details",
           elevation: 0.0,
           backgroundColor: kPrimaryColor,
           actions: [

@@ -170,7 +170,7 @@ class _ReportBusinessState extends State<ReportBusiness> {
                   SizedBox(
                     width: 332,
                     child: Text(
-                      "Why do you want to report this vendor?",
+                      "Why do you want to report this business?",
                       style: TextStyle(
                         color: kTextGreyColor,
                         fontSize: 14,

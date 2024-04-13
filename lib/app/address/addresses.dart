@@ -232,7 +232,7 @@ class _AddressesState extends State<Addresses> {
                                         .toUpperCase(),
                                     style: const TextStyle(
                                       color: kTextBlackColor,
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),

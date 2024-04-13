@@ -105,6 +105,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
         // Android's shouldShowRequestPermissionRationale
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
+        Get.back();
         return Future.error('Location permissions are denied');
       }
     }
@@ -133,7 +134,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
         LatLng(userLocation.latitude, userLocation.longitude);
 
     CameraPosition cameraPosition =
-        CameraPosition(target: latLngPosition, zoom: 14);
+        CameraPosition(target: latLngPosition, zoom: 16);
 
     _newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(cameraPosition),
@@ -258,7 +259,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
-        title: "Vendor's location",
+        title: "Business location",
         backgroundColor: kPrimaryColor,
         elevation: 0.0,
         actions: const [],
@@ -277,7 +278,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
                   initialCameraPosition: CameraPosition(
                     target: LatLng(
                         _userPosition!.latitude, _userPosition!.longitude),
-                    zoom: 14,
+                    zoom: 18,
                   ),
                   markers: Set.of(_markers),
                   polylines: {
@@ -392,31 +393,31 @@ class _BusinessLocationState extends State<BusinessLocation> {
                       ],
                     ),
                   ),
-                  kHalfSizedBox,
-                  InkWell(
-                    onTap: _viewProducts,
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      width: mediaWidth / 4,
-                      padding: const EdgeInsets.all(kDefaultPadding / 4),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: kAccentColor,
-                          width: 1,
-                        ),
-                      ),
-                      child: const Text(
-                        "Show products",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ),
-                  kHalfSizedBox,
+                  // kHalfSizedBox,
+                  // InkWell(
+                  //   onTap: _viewProducts,
+                  //   borderRadius: BorderRadius.circular(10),
+                  //   child: Container(
+                  //     width: mediaWidth / 4,
+                  //     padding: const EdgeInsets.all(kDefaultPadding / 4),
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(10),
+                  //       border: Border.all(
+                  //         color: kAccentColor,
+                  //         width: 1,
+                  //       ),
+                  //     ),
+                  //     child: const Text(
+                  //       "Show products",
+                  //       textAlign: TextAlign.center,
+                  //       style: TextStyle(
+                  //         fontSize: 13,
+                  //         fontWeight: FontWeight.w400,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // kHalfSizedBox,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -490,26 +491,26 @@ class _BusinessLocationState extends State<BusinessLocation> {
               ),
             ),
           ),
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeIn,
-            bottom: _isExpanded ? 180 : 40,
-            left: mediaWidth / 2.7,
-            child: Container(
-              width: 100,
-              height: 100,
-              decoration: ShapeDecoration(
-                color: kPageSkeletonColor,
-                image: const DecorationImage(
-                  image: AssetImage(
-                    "assets/images/vendors/ntachi-osa-logo.png",
-                  ),
-                  fit: BoxFit.cover,
-                ),
-                shape: const OvalBorder(),
-              ),
-            ),
-          ),
+          // AnimatedPositioned(
+          //   duration: const Duration(milliseconds: 300),
+          //   curve: Curves.easeIn,
+          //   bottom: _isExpanded ? 180 : 40,
+          //   left: mediaWidth / 2.7,
+          //   child: Container(
+          //     width: 100,
+          //     height: 100,
+          //     decoration: ShapeDecoration(
+          //       color: kPageSkeletonColor,
+          //       image: DecorationImage(
+          //         image: NetworkImage(
+          //           widget.vendor.vendorOwner.profileLogo,
+          //         ),
+          //         fit: BoxFit.cover,
+          //       ),
+          //       shape: const OvalBorder(),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
