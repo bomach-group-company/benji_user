@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:912983858748:android:6002b7da2c829a240bad39",
+        "mobilesdk_app_id": "1:912983858748:android:47bf1c80685a7c2e0bad39",
         "android_client_info": {
-          "package_name": "com.benjiexpress.benji"
+          "package_name": "com.benji.benjiexpress"
         }
       },
       "oauth_client": [],

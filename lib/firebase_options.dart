@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDFliG30yK5Kni1TDp8R0aCSxN-7tDyqg8',
-    appId: '1:912983858748:android:6002b7da2c829a240bad39',
+    appId: '1:912983858748:android:47bf1c80685a7c2e0bad39',
     messagingSenderId: '912983858748',
     projectId: 'keen-tokenizer-400311',
     storageBucket: 'keen-tokenizer-400311.appspot.com',
