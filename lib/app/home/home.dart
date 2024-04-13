@@ -453,10 +453,9 @@ class _HomeState extends State<Home> {
               )
             : const SizedBox(),
         appBar: AppBar(
-          backgroundColor: kPrimaryColor,
           automaticallyImplyLeading: false,
           titleSpacing: 0,
-          elevation: 0.0,
+          elevation: 0,
           toolbarHeight: kToolbarHeight,
           title: Row(
             children: [
@@ -542,14 +541,12 @@ class _HomeState extends State<Home> {
           ],
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: RefreshIndicator(
             onRefresh: _handleRefresh,
             color: kAccentColor,
             semanticsLabel: "Pull to refresh",
             child: Scrollbar(
               child: ListView(
-                controller: scrollController,
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 padding: deviceType(media.width) > 2
