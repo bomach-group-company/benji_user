@@ -162,20 +162,20 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Future<void> _scrollListener() async {
-    if (scrollController.position.pixels >= 200 &&
-        _isScrollToTopBtnVisible != true) {
-      setState(() {
-        _isScrollToTopBtnVisible = true;
-      });
-    }
-    if (scrollController.position.pixels < 200 &&
-        _isScrollToTopBtnVisible == true) {
-      setState(() {
-        _isScrollToTopBtnVisible = false;
-      });
-    }
-  }
+  // Future<void> _scrollListener() async {
+  //   if (scrollController.position.pixels >= 200 &&
+  //       _isScrollToTopBtnVisible != true) {
+  //     setState(() {
+  //       _isScrollToTopBtnVisible = true;
+  //     });
+  //   }
+  //   if (scrollController.position.pixels < 200 &&
+  //       _isScrollToTopBtnVisible == true) {
+  //     setState(() {
+  //       _isScrollToTopBtnVisible = false;
+  //     });
+  //   }
+  // }
 
   //===================== Handle refresh ==========================\\
 

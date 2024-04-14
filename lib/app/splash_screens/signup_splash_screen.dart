@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../src/repo/controller/fcm_messaging_controller.dart';
 import '../../theme/colors.dart';
 import '../home/home.dart';
 
@@ -29,6 +30,8 @@ class _SignUpSplashScreenState extends State<SignUpSplashScreen> {
   @override
   void initState() {
     if (UserController.instance.isUSer()) {
+      FcmMessagingController.instance.handleFCM();
+
       ProductController.instance.getProduct();
       VendorController.instance.getVendors();
       VendorController.instance.getPopularBusinesses(start: 0, end: 4);

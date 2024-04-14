@@ -20,7 +20,6 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/keys.dart';
 import '../../src/repo/models/vendor/vendor.dart';
 import '../../theme/colors.dart';
-import 'all_business_products.dart';
 
 class BusinessLocation extends StatefulWidget {
   final BusinessModel vendor;
@@ -241,16 +240,16 @@ class _BusinessLocationState extends State<BusinessLocation> {
   }
 
 //========================================================== Navigation =============================================================\\
-  void _viewProducts() => Get.off(
-        () => AllBusinessProducts(vendor: widget.vendor),
-        routeName: 'AllBusinessProducts',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  // void _viewProducts() => Get.off(
+  //       () => AllBusinessProducts(vendor: widget.vendor),
+  //       routeName: 'AllBusinessProducts',
+  //       duration: const Duration(milliseconds: 300),
+  //       fullscreenDialog: true,
+  //       curve: Curves.easeIn,
+  //       preventDuplicates: true,
+  //       popGesture: true,
+  //       transition: Transition.rightToLeft,
+  //     );
 
   @override
   Widget build(BuildContext context) {
