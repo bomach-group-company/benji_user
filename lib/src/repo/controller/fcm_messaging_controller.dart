@@ -69,7 +69,7 @@ class FcmMessagingController extends GetxController {
   }
 
   Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-    consoleLog("Handling a background message: ${message.messageId}");
+    log("Handling a background message: ${message.messageId}");
 
     //Call awesomenotification to how the push notification.
     AwesomeNotifications().createNotificationFromJsonData(message.data);

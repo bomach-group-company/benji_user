@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:benji/src/providers/constants.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -48,6 +51,26 @@ class NotificationController extends GetxController {
       (isAllowed) async {
         if (!isAllowed) {
           await AwesomeNotifications().requestPermissionToSendNotifications();
+          FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+          NotificationSettings settings = await messaging.requestPermission(
+            alert: true,
+            announcement: false,
+            badge: true,
+            carPlay: false,
+            criticalAlert: false,
+            provisional: true,
+            sound: true,
+          );
+
+          if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+            log('User granted permission');
+          } else if (settings.authorizationStatus ==
+              AuthorizationStatus.provisional) {
+            log('User granted provisional permission');
+          } else {
+            log('User declined or has not accepted permission');
+          }
         }
       },
     );
