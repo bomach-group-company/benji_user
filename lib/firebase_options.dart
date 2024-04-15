@@ -63,5 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '912983858748',
     projectId: 'keen-tokenizer-400311',
     storageBucket: 'keen-tokenizer-400311.appspot.com',
+    iosBundleId: 'com.benjiexpress.benji.ios',
   );
+
 }

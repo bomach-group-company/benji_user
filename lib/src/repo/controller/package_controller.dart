@@ -1,6 +1,7 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:benji/src/repo/controller/error_controller.dart';
@@ -59,13 +60,13 @@ class MyPackageController extends GetxController {
           .map((item) => DeliveryItem.fromJson(item))
           .toList();
     }
-    consoleLog('deliveredPackages.value ${dispatchedPackages.value}');
+    log('deliveredPackages.value ${dispatchedPackages.value}');
     isLoadDelivered.value = false;
     update();
   }
 
   Future getDeliveryItemsByDelivered() async {
-    consoleLog('got to the getDeliveryItemsByDelivered');
+    log('got to the getDeliveryItemsByDelivered');
 
     isLoadDelivered.value = true;
     update();
@@ -100,7 +101,7 @@ class MyPackageController extends GetxController {
 
         if (decodedBody is Map<String, dynamic> &&
             decodedBody.containsKey('items')) {
-          consoleLog(decodedBody.toString());
+          log(decodedBody.toString());
 
           final List<dynamic> items = decodedBody['items'];
 
@@ -118,7 +119,7 @@ class MyPackageController extends GetxController {
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet.");
     } catch (error) {
-      consoleLog('Error in getPackageCategory: $error');
+      log('Error in getPackageCategory: $error');
       ApiProcessorController.errorSnack(
         'Error in getting package category.\n ERROR: $error',
       );
@@ -143,7 +144,7 @@ class MyPackageController extends GetxController {
 
         if (decodedBody is Map<String, dynamic> &&
             decodedBody.containsKey('items')) {
-          consoleLog(decodedBody.toString());
+          log(decodedBody.toString());
 
           final List<dynamic> items = decodedBody['items'];
 
@@ -161,7 +162,7 @@ class MyPackageController extends GetxController {
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet.");
     } catch (error) {
-      consoleLog('Error in getPackageWeight: $error');
+      log('Error in getPackageWeight: $error');
       ApiProcessorController.errorSnack(
           'Error in getting package weight.\n ERROR: $error');
     } finally {

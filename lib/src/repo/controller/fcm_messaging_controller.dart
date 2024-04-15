@@ -18,6 +18,11 @@ class FcmMessagingController extends GetxController {
   Future<void> handleFCM() async {
     final fcmToken = await FirebaseMessaging.instance.getToken();
 
+    if (Platform.isIOS) {
+      final apnToken = await FirebaseMessaging.instance.getAPNSToken();
+      log("This is the APNS token: $apnToken");
+    }
+
     log("This is the FCM token: $fcmToken");
 
     try {

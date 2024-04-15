@@ -75,6 +75,7 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
+
     await PushNotificationController.initializeNotification();
   }
 
