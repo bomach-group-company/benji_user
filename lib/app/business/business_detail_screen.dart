@@ -338,7 +338,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                             // ),
                           ),
                           child: MyImage(
-                            url: widget.business.shopImage,
+                            url: widget.business.coverImage,
                             radiusBottom: 0,
                           ),
                         ),
@@ -406,13 +406,16 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                           size: 15,
                                         ),
                                         kHalfWidthSizedBox,
-                                        Text(
-                                          widget.business.address,
-                                          textAlign: TextAlign.center,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
+                                        SizedBox(
+                                          width: media.width - 150,
+                                          child: Text(
+                                            widget.business.address,
+                                            textAlign: TextAlign.center,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                            ),
                                           ),
                                         ),
                                       ],

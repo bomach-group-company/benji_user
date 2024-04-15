@@ -45,9 +45,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //==================================================== INITIAL STATE AND DISPOSE ======================================================\\
   @override
   void initState() {
-    if (kDebugMode) {
-      print('happen before all in product detail');
-    }
     super.initState();
 
     cartCountAll = countCartItemByProduct(widget.product).toString();
@@ -120,15 +117,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   //============================================================ ALL VARIABLES ===================================================================\\
   String? cartCountAll;
-  final List<String> carouselImages = <String>[
-    "assets/images/products/best-choice-restaurant.png",
-    "assets/images/products/burgers.png",
-    "assets/images/products/chizzy's-food.png",
-    "assets/images/products/golden-toast.png",
-    "assets/images/products/new-food.png",
-    "assets/images/products/okra-soup.png",
-    "assets/images/products/pasta.png"
-  ];
 
 //====================================================== BOOL VALUES ========================================================\\
   bool isScrollToTopBtnVisible = false;
@@ -141,7 +129,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final carouselController = CarouselController();
 
   //==================================================== FUNCTIONS ======================================================\\
-  void _toVendorPage() {
+  void toBusinessDetailScreen() {
     Get.to(
       () => BusinessDetailScreen(business: widget.product.vendorId),
       routeName: 'BusinessDetailScreen',
@@ -629,7 +617,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ],
                             ),
                             child: ListTile(
-                              onTap: _toVendorPage,
+                              onTap: toBusinessDetailScreen,
                               leading: FaIcon(FontAwesomeIcons.shop,
                                   color: kAccentColor, size: 20),
                               title: Text(

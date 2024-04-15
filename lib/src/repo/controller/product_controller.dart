@@ -178,10 +178,10 @@ class ProductController extends GetxController {
 
     var url =
         "${Api.baseUrl}/products/similarproductCategory/?product_id=$productId&start=0&end=5";
-    log(url);
+
     String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
-    log('similar product ${response!.body}');
+
     var responseData = await ApiProcessorController.errorState(response);
     if (responseData == null) {
       loadSimilarProduct.value = false;
@@ -190,7 +190,7 @@ class ProductController extends GetxController {
     }
     List<Product> data = [];
     try {
-      data = (jsonDecode(response.body)['items'] as List)
+      data = (jsonDecode(response!.body)['items'] as List)
           .map((e) => Product.fromJson(e))
           .toList();
       similarProducts.value = data;
@@ -205,7 +205,7 @@ class ProductController extends GetxController {
     loadTopProduct.value = true;
 
     var url = "${Api.baseUrl}/products/getTodaysTopProducts/";
-    log(url);
+
     String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
 
