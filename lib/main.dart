@@ -87,43 +87,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
-    // if (kIsWeb) {
-    //   return GetMaterialApp(
-    //     title: "Benji",
-    //     color: kPrimaryColor,
-    //     navigatorKey: Get.key,
-    //     debugShowCheckedModeBanner: false,
-    //     themeMode: ThemeMode.light,
-    //     theme: AppTheme.lightTheme,
-    //     darkTheme: AppTheme.darkTheme,
-    //     //This is the home route
-    //     home: const StartupSplashscreen(),
-    //   );
-    // }
-    // if (Platform.isIOS) {
-    //   return GetCupertinoApp(
-    //     title: "Benji",
-    //     color: kPrimaryColor,
-    //     navigatorKey: Get.key,
-    //     debugShowCheckedModeBanner: false,
-    //     theme: AppTheme.iOSLightTheme,
-    //     //This is the home route
-    //     home: const StartupSplashscreen(),
-    //   );
-    // } else if (Platform.isAndroid) {
-    //   return GetMaterialApp(
-    //     title: "Benji",
-    //     color: kPrimaryColor,
-    //     navigatorKey: Get.key,
-    //     debugShowCheckedModeBanner: false,
-    //     themeMode: ThemeMode.light,
-    //     theme: AppTheme.lightTheme,
-    //     darkTheme: AppTheme.darkTheme,
-    //     //This is the home route
-    //     home: const StartupSplashscreen(),
-    //   );
-    // }
-
     return GetMaterialApp(
       title: "Benji",
       color: kPrimaryColor,
