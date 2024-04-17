@@ -175,6 +175,9 @@ class _PayForDeliveryState extends State<PayForDelivery> {
                 toPackages();
               }
             },
+             onClose: () {
+              Get.back();
+            },
           );
         }),
       );

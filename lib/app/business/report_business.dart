@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:benji/src/repo/models/user/user_model.dart';
 import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:benji/src/repo/services/api_url.dart';
@@ -45,19 +47,25 @@ class _ReportBusinessState extends State<ReportBusiness> {
   //============================================ FUNCTIONS ===========================================\\
   Future<bool> report() async {
     try {
+      print('report user vendor');
       User? user = await getUser();
       final url = Uri.parse(
-          '$baseURL/clients/clientReportBusiness/${user!.id}/${widget.vendor.id}?message=${_messageEC.text}');
+          '$baseURL/report/CreateReport');
 
-      Map body = {};
+      Map body = {
+        'user_id': user!.id.toString(),
+        'message': _messageEC.text,
+      };
+      print(body);
 
       final response =
           await http.post(url, body: body, headers: await authHeader());
-
-      bool res = response.statusCode == 200 &&
-          response.body == '"Report made successfully"';
+    print(response.statusCode);
+    print(response.body);
+      bool res = response.statusCode == 200;
       return res;
     } catch (e) {
+      print(e);
       return false;
     }
   }
