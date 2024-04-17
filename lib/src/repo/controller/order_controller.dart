@@ -97,6 +97,7 @@ class OrderController extends GetxController {
       headers: await authHeader(),
       body: jsonEncode(formatOfOrder),
     );
+    print(response.body);
 
     if (response.statusCode.toString().startsWith('2')) {
       String res =
