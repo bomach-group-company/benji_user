@@ -49,25 +49,7 @@ dependencies:
   firebase_messaging:
   cached_network_image:
   flutter_google_places_web:
-  # webview_flutter: ^4.7.0
-  # webview_flutter_platform_interface:
-  # webview_flutter_android:
-  # webview_flutter_wkwebview:
-
-  # webview_flutter_web: ^0.2.2+4
-  # # webview_flutter_android:
-  # # webview_flutter_wkwebview:
-
-  # webview_flutter: ^2.0.13
-  # webviewx:
-
-  # monnifypaymentweb:
-  #   path: monnifypaymentweb
-  # monnifypayment:
-  #   path: monnifypayment
-
-  webviewx:
-    path: webviewx
+  webviewx2: ^2.0.0
 
 dev_dependencies:
   flutter_test:

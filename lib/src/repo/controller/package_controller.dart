@@ -33,6 +33,7 @@ class MyPackageController extends GetxController {
   Future getDeliveryItemsByPending() async {
     isLoadPending.value = true;
     User? user = UserController.instance.user.value;
+    print(user?.id);
     final response = await http.get(
         Uri.parse(
             '$baseURL/sendPackage/gettemPackageByClientId/${user.id}/pending'),
