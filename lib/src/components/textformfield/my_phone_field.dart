@@ -1,13 +1,13 @@
 // ignore_for_file:   avoid_print, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
+import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../../theme/colors.dart';
-import '../../providers/constants.dart';
 
-class MyIntlPhoneField extends StatelessWidget {
+class MyPhoneField extends StatelessWidget {
   final TextEditingController controller;
   final String initialCountryCode;
   final String invalidNumberMessage;
@@ -17,10 +17,10 @@ class MyIntlPhoneField extends StatelessWidget {
   final Icon dropdownIcon;
   final TextInputAction textInputAction;
   final FocusNode focusNode;
-  final dynamic onSaved;
-  final dynamic validator;
+  final void Function(String?)? onSaved;
+  final String? Function(String?)? validator;
   final void Function(Country country)? onCountryChanged;
-  const MyIntlPhoneField({
+  const MyPhoneField({
     super.key,
     required this.controller,
     required this.initialCountryCode,
@@ -38,62 +38,26 @@ class MyIntlPhoneField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IntlPhoneField(
-      countries: const [
-        Country(
-          name: "Nigeria",
-          nameTranslations: {
-            "sk": "Nigéria",
-            "se": "Nigeria",
-            "pl": "Nigeria",
-            "no": "Nigeria",
-            "ja": "ナイジェリア",
-            "it": "Nigeria",
-            "zh": "尼日利亚",
-            "nl": "Nigeria",
-            "de": "Nigeria",
-            "fr": "Nigéria",
-            "es": "Nigeria",
-            "en": "Nigeria",
-            "pt_BR": "Nigéria",
-            "sr-Cyrl": "Нигерија",
-            "sr-Latn": "Nigerija",
-            "zh_TW": "奈及利亞",
-            "tr": "Nijerya",
-            "ro": "Nigeria",
-            "ar": "نيجيريا",
-            "fa": "نیجریه",
-            "yue": "尼日利亞"
-          },
-          flag: "🇳🇬",
-          code: "NG",
-          dialCode: "234",
-          minLength: 10,
-          maxLength: 11,
-        ),
-      ],
+    return FormBuilderPhoneField(
+      name: 'phone_number',
+      defaultSelectedCountryIsoCode: "NG",
+      priorityListByIsoCode: const ['NG'],
+      countryFilterByIsoCode: const ['NG'],
       controller: controller,
-      initialCountryCode: initialCountryCode,
-      invalidNumberMessage: invalidNumberMessage,
-      dropdownIconPosition: dropdownIconPosition,
-      showCountryFlag: showCountryFlag,
       keyboardType: TextInputType.number,
-      showDropdownIcon: showDropdownIcon,
-      dropdownIcon: dropdownIcon,
       textInputAction: textInputAction,
       focusNode: focusNode,
       validator: validator,
       onSaved: onSaved,
-      flagsButtonPadding: const EdgeInsets.all(kDefaultPadding / 2),
       cursorColor: kSecondaryColor,
       onChanged: (phone) {},
-      onCountryChanged: onCountryChanged,
       style: TextStyle(
         color: kSecondaryColor,
         fontSize: 20,
         fontWeight: FontWeight.w400,
       ),
       decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
         hintText: "Enter phone Number",
         errorStyle: const TextStyle(
           color: kErrorColor,

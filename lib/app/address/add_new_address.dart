@@ -22,7 +22,7 @@ import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/button/my_outlined_elevatedbutton.dart';
 import '../../src/components/snackbar/my_floating_snackbar.dart';
 import '../../src/components/textformfield/my textformfield.dart';
-import '../../src/components/textformfield/my_intl_phonefield.dart';
+import '../../src/components/textformfield/my_phone_field.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/models/googleMaps/places_autocomplete_response.dart';
 import '../../src/repo/models/user/user_model.dart';
@@ -335,7 +335,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   ),
                                 ),
                                 kHalfSizedBox,
-                                MyIntlPhoneField(
+                                MyPhoneField(
                                   onCountryChanged: (country) {
                                     countryDialCode = country.dialCode;
                                   },
@@ -359,7 +359,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                     return null;
                                   },
                                   onSaved: (value) {
-                                    _phoneNumberEC.text = value;
+                                    _phoneNumberEC.text = value!;
                                   },
                                 ),
                               ],

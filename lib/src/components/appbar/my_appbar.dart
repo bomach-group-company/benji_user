@@ -12,6 +12,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double elevation;
   final Color backgroundColor;
   final List<Widget> actions;
+  final bool hideButton;
 
   @override
   Size get preferredSize => const Size.fromHeight(55);
@@ -21,6 +22,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.elevation,
     required this.actions,
     required this.backgroundColor,
+    this.hideButton = false,
   });
 //========================================= FUNCTIONS ============================================\\
 
@@ -36,31 +38,33 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: actions,
       title: Row(
         children: [
-          InkWell(
-            borderRadius: BorderRadius.circular(24),
-            onTap: _popContext,
-            mouseCursor: SystemMouseCursors.click,
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: ShapeDecoration(
-                color: const Color(0xFFFEF8F8),
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(
-                    width: 0.50,
-                    color: Color(0xFFFDEDED),
-                  ),
+          hideButton
+              ? const SizedBox()
+              : InkWell(
                   borderRadius: BorderRadius.circular(24),
+                  onTap: _popContext,
+                  mouseCursor: SystemMouseCursors.click,
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFFFEF8F8),
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                          width: 0.50,
+                          color: Color(0xFFFDEDED),
+                        ),
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                    ),
+                    child: Center(
+                      child: FaIcon(
+                        FontAwesomeIcons.circleArrowLeft,
+                        color: kAccentColor,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              child: Center(
-                child: FaIcon(
-                  FontAwesomeIcons.circleArrowLeft,
-                  color: kAccentColor,
-                ),
-              ),
-            ),
-          ),
           kWidthSizedBox,
           Expanded(
             child: Text(

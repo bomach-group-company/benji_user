@@ -13,7 +13,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/components/section/reusable_authentication_first_half.dart';
 import '../../src/components/textformfield/email_textformfield.dart';
-import '../../src/components/textformfield/my_intl_phonefield.dart';
+import '../../src/components/textformfield/my_phone_field.dart';
 import '../../src/components/textformfield/name_textformfield.dart';
 import '../../src/components/textformfield/password_textformfield.dart';
 import '../../src/providers/constants.dart';
@@ -346,7 +346,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                           kHalfSizedBox,
-                          MyIntlPhoneField(
+                          MyPhoneField(
                             controller: _userPhoneNumberEC,
                             initialCountryCode: "NG",
                             invalidNumberMessage: "Invalid Phone Number",
@@ -364,6 +364,7 @@ class _SignUpState extends State<SignUp> {
                               if (value == null || value == "") {
                                 return "Enter your phone number";
                               }
+                              return null;
                             },
                             onSaved: (value) {
                               _userPhoneNumberEC.text = value!;

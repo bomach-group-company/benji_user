@@ -220,13 +220,15 @@ class _DeliverToState extends State<DeliverTo> {
                                     children: [
                                       SizedBox(
                                         width: min(
-                                            mediaWidth - 200,
-                                            15.0 *
+                                            mediaWidth - 150,
+                                            20.0 *
                                                 controller.addresses[index]
                                                     .title.length),
                                         child: Text(
                                           controller.addresses[index].title
                                               .toUpperCase(),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
                                           style: const TextStyle(
                                             color: kTextBlackColor,
                                             fontSize: 18,

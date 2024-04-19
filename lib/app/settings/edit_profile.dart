@@ -13,7 +13,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
-import '../../src/components/textformfield/my_intl_phonefield.dart';
+import '../../src/components/textformfield/my_phone_field.dart';
 import '../../src/components/textformfield/name_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../src/repo/controller/error_controller.dart';
@@ -234,7 +234,7 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                       ),
                       kHalfSizedBox,
-                      MyIntlPhoneField(
+                      MyPhoneField(
                         initialCountryCode: "NG",
                         invalidNumberMessage: "Invalid phone number",
                         dropdownIconPosition: IconPosition.trailing,
@@ -255,7 +255,7 @@ class _EditProfileState extends State<EditProfile> {
                           return null;
                         },
                         onSaved: (value) {
-                          phoneNumberEC.text = value;
+                          phoneNumberEC.text = value!;
                         },
                       ),
                       kSizedBox,

@@ -8,8 +8,8 @@ import 'package:benji/app/packages/packages.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/others/location_list_tile.dart';
 import 'package:benji/src/components/textformfield/my%20textformfield.dart';
-import 'package:benji/src/components/textformfield/my_intl_phonefield.dart';
 import 'package:benji/src/components/textformfield/my_maps_textformfield.dart';
+import 'package:benji/src/components/textformfield/my_phone_field.dart';
 import 'package:benji/src/components/textformfield/number_textformfield.dart';
 import 'package:benji/src/frontend/utils/constant.dart';
 import 'package:benji/src/providers/keys.dart';
@@ -682,7 +682,7 @@ class _SendPackageState extends State<SendPackage> {
                 ),
               ),
               kHalfSizedBox,
-              MyIntlPhoneField(
+              MyPhoneField(
                 initialCountryCode: "NG",
                 invalidNumberMessage: "Invalid phone number",
                 dropdownIconPosition: IconPosition.trailing,
@@ -703,7 +703,7 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  senderPhoneEC.text = value;
+                  senderPhoneEC.text = value!;
                 },
               ),
               kSizedBox,
@@ -876,7 +876,7 @@ class _SendPackageState extends State<SendPackage> {
                 ),
               ),
               kHalfSizedBox,
-              MyIntlPhoneField(
+              MyPhoneField(
                 initialCountryCode: "NG",
                 invalidNumberMessage: "Invalid phone number",
                 dropdownIconPosition: IconPosition.trailing,
@@ -899,7 +899,7 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  receiverPhoneEC.text = value;
+                  receiverPhoneEC.text = value!;
                 },
               ),
               kSizedBox,

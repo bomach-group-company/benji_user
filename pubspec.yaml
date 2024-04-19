@@ -50,6 +50,8 @@ dependencies:
   cached_network_image:
   flutter_google_places_web:
   webviewx2: ^2.0.0
+  form_builder_phone_field: ^2.0.1
+  flutter_webview:
 
 dev_dependencies:
   flutter_test:

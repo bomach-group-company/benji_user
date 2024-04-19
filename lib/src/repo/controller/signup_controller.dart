@@ -103,6 +103,7 @@ class SignupController extends GetxController {
       update();
       Get.offAll(
         () => SetShoppingLocation(
+          hideButton: true,
           navTo: () {
             Get.offAll(
               () => const LoginSplashScreen(),
