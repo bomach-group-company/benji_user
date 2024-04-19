@@ -3,6 +3,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
 import 'package:benji/src/repo/utils/network_utils.dart';
@@ -46,6 +47,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
       "My Location",
       "${(widget.vendor.averageRating).toPrecision(1)} Rating"
     ];
+    log(widget.vendor.address);
     _loadMapData();
   }
 
@@ -254,8 +256,8 @@ class _BusinessLocationState extends State<BusinessLocation> {
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
+    var media = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
@@ -290,7 +292,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
                     ),
                   },
                   padding: EdgeInsets.only(
-                    bottom: _isExpanded ? mediaHeight * 0.32 : 90,
+                    bottom: _isExpanded ? media.height * 0.32 : 90,
                   ),
                   compassEnabled: true,
                   mapToolbarEnabled: true,
@@ -355,7 +357,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
                     ),
                   ),
                   SizedBox(
-                    width: mediaWidth - 200,
+                    width: media.width - 200,
                     child: Text(
                       widget.vendor.shopName,
                       overflow: TextOverflow.ellipsis,
@@ -370,7 +372,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
                   ),
                   kHalfSizedBox,
                   Container(
-                    width: mediaWidth - 90,
+                    width: media.width - 90,
                     alignment: Alignment.center,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -382,12 +384,15 @@ class _BusinessLocationState extends State<BusinessLocation> {
                           size: 15,
                         ),
                         kHalfWidthSizedBox,
-                        Text(
-                          widget.vendor.address,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
+                        SizedBox(
+                          width: media.width - 120,
+                          child: Text(
+                            widget.vendor.address,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                       ],
@@ -398,7 +403,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
                   //   onTap: _viewProducts,
                   //   borderRadius: BorderRadius.circular(10),
                   //   child: Container(
-                  //     width: mediaWidth / 4,
+                  //     width: media.width / 4,
                   //     padding: const EdgeInsets.all(kDefaultPadding / 4),
                   //     decoration: BoxDecoration(
                   //       borderRadius: BorderRadius.circular(10),
@@ -422,7 +427,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        width: mediaWidth * 0.23,
+                        width: media.width * 0.23,
                         height: 57,
                         decoration: ShapeDecoration(
                           color: kPrimaryColor,
@@ -452,7 +457,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
                         ),
                       ),
                       Container(
-                        width: mediaWidth * 0.25,
+                        width: media.width * 0.25,
                         height: 57,
                         decoration: ShapeDecoration(
                           color: kPrimaryColor,
@@ -495,7 +500,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
           //   duration: const Duration(milliseconds: 300),
           //   curve: Curves.easeIn,
           //   bottom: _isExpanded ? 180 : 40,
-          //   left: mediaWidth / 2.7,
+          //   left: media.width / 2.7,
           //   child: Container(
           //     width: 100,
           //     height: 100,

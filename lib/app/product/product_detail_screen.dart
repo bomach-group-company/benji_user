@@ -621,7 +621,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               leading: FaIcon(FontAwesomeIcons.shop,
                                   color: kAccentColor, size: 20),
                               title: Text(
-                                "About vendor",
+                                "About Business",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   color: kTextGreyColor,

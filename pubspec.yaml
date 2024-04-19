@@ -51,7 +51,7 @@ dependencies:
   flutter_google_places_web:
   webviewx2: ^2.0.0
   form_builder_phone_field: ^2.0.1
-  flutter_webview:
+  webview_flutter:
 
 dev_dependencies:
   flutter_test:
