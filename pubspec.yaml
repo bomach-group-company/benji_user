@@ -36,7 +36,7 @@ dependencies:
   readmore: ^2.2.0
   flutter_svg: ^2.0.7
   flutter_carousel_widget:
-  flutter_polyline_points: 1.0.0
+  flutter_polyline_points:
   share_plus: ^7.1.0
   screenshot: ^2.1.0
   path_provider: ^2.1.1
@@ -49,14 +49,26 @@ dependencies:
   firebase_messaging:
   cached_network_image:
   flutter_google_places_web:
-  webview_flutter: ^4.7.0
-  webview_flutter_web: ^0.2.2+4
-  webview_flutter_platform_interface: ^2.10.0
+  # webview_flutter: ^4.7.0
+  # webview_flutter_platform_interface:
   # webview_flutter_android:
   # webview_flutter_wkwebview:
 
-  webview_flutter_android: any
-  webview_flutter_wkwebview: any
+  # webview_flutter_web: ^0.2.2+4
+  # # webview_flutter_android:
+  # # webview_flutter_wkwebview:
+
+  # webview_flutter: ^2.0.13
+  # webviewx:
+
+  # monnifypaymentweb:
+  #   path: monnifypaymentweb
+  # monnifypayment:
+  #   path: monnifypayment
+
+  webviewx:
+    path: webviewx
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

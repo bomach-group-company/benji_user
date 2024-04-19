@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
 import 'package:benji/src/repo/utils/network_utils.dart';
+import 'package:benji/src/repo/utils/points.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -207,7 +208,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
         return;
       }
 
-      var overviewPolyline = NetworkUtil().decodeEncodedPolyline(
+      var overviewPolyline = MyNetworkUtil().decodeEncodedPolyline(
           data['routes'][0]['overview_polyline']['points']);
       if (overviewPolyline.isNotEmpty) {
         for (var point in overviewPolyline) {

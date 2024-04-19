@@ -1,17 +1,9 @@
-// ignore_for_file: unnecessary_import
-
 import 'dart:convert';
 
-import 'package:benji/src/components/appbar/my_appbar.dart';
-import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-// #docregion platform_imports
-// Import for Android features.
-import 'package:webview_flutter_android/webview_flutter_android.dart';
-import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
-// Import for iOS features.
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:webviewx/webviewx.dart';
+
+import '../../repo/services/api_url.dart';
 
 class MonnifyWidget extends StatefulWidget {
   final String apiKey;
@@ -45,27 +37,29 @@ class MonnifyWidget extends StatefulWidget {
 }
 
 class MonnifyWidgetState extends State<MonnifyWidget> {
-  late final WebViewController _controller;
-
+  late WebViewXController webviewController;
   String html = "";
-
-  late String metaData;
-  late String apiKey;
-  late String contractCode;
-  late String email;
-  late String phone;
-  late String fullname;
-  late String currency;
-  late String amount;
-
   @override
   void initState() {
     super.initState();
 
-    Future.delayed(
-      const Duration(seconds: 1),
-      () => _controller.runJavaScript('''
-MonnifySDK.initialize({
+    String metaData =
+        widget.metaData == null ? 'null' : jsonEncode(widget.metaData);
+    String apiKey = '"${widget.apiKey}"';
+    String contractCode = '"${widget.contractCode}"';
+    String email = '"${widget.email}"';
+    String phone = '"${widget.phone}"';
+    String fullname = '"${widget.firstName} ${widget.lastName}"';
+    String currency = '"${widget.currency}"';
+    String amount = widget.amount;
+
+    html = """
+<html>
+<head>
+    <script type="text/javascript" src="https://sdk.monnify.com/plugin/monnify.js"></script>
+    <script>
+        function payWithMonnify() {
+            MonnifySDK.initialize({
                 amount: $amount,
                 currency: $currency,
                 reference: new String((new Date()).getTime()),
@@ -85,98 +79,62 @@ MonnifySDK.initialize({
                 onComplete: function(response) {
                     //Implement what happens when the transaction is completed.
                     console.log(response);
-                    paymentsuccess.postMessage(JSON.stringify(response));
+                    paymentsuccess(JSON.stringify(response));
                 },
                 onClose: function(data) {
                     //Implement what should happen when the modal is closed here
                     console.log(data);
-                    paymentcancel.postMessage("payment cancel");
+                    paymentcancel("payment cancel");
                 }
             });
-'''),
-    );
-
-    metaData = widget.metaData == null ? 'null' : jsonEncode(widget.metaData);
-    apiKey = '"${widget.apiKey}"';
-    contractCode = '"${widget.contractCode}"';
-    email = '"${widget.email}"';
-    phone = '"${widget.phone}"';
-    fullname = '"${widget.firstName} ${widget.lastName}"';
-    currency = '"${widget.currency}"';
-    amount = widget.amount;
-
-    html = """
-<html>
-<head>
-   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" src="https://sdk.monnify.com/plugin/monnify.js"></script>
-
+        }
+        payWithMonnify();
+    </script>
 </head>
 <body>
-   
+     <!-- <div>
+        <button type="button" onclick="payWithMonnify()">Pay With Monnify</button>
+    </div> -->
 </body>
 </html>
 """;
-
-    // #docregion platform_features
-    late final PlatformWebViewControllerCreationParams params;
-    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
-      params = WebKitWebViewControllerCreationParams(
-        allowsInlineMediaPlayback: true,
-        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
-      );
-    } else {
-      params = const PlatformWebViewControllerCreationParams();
-    }
-
-    final WebViewController controller =
-        WebViewController.fromPlatformCreationParams(params);
-    // #enddocregion platform_features
-
-    controller
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..addJavaScriptChannel(
-        'paymentsuccess',
-        onMessageReceived: (JavaScriptMessage message) {
-          dynamic resp = jsonDecode(message.message);
-          widget.onTransaction(resp);
-        },
-      )
-      ..addJavaScriptChannel(
-        'paymentcancel',
-        onMessageReceived: (JavaScriptMessage message) {
-          if (widget.onClose == null) {
-            Navigator.pop(context);
-          } else {
-            widget.onClose!();
-          }
-        },
-      )
-      ..loadHtmlString(html);
-
-    // #docregion platform_features
-    if (controller.platform is AndroidWebViewController) {
-      AndroidWebViewController.enableDebugging(true);
-      (controller.platform as AndroidWebViewController)
-          .setMediaPlaybackRequiresUserGesture(false);
-    }
-    // #enddocregion platform_features
-
-    _controller = controller;
   }
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: MyAppBar(
-          elevation: 0.0,
-          backgroundColor: kPrimaryColor,
-          title: "Pay with Monnify",
-          actions: const [],
-        ),
         body: Center(
-          // Look here!
-          child: WebViewWidget(controller: _controller),
-        ));
+      // Look here!
+      child: WebViewX(
+          dartCallBacks: <DartCallback>{
+            DartCallback(
+              name: 'paymentsuccess',
+              callBack: (message) {
+                consoleLog('message success gotten $message');
+                dynamic resp = jsonDecode(message);
+                consoleLog('the resp $resp');
+                widget.onTransaction(resp);
+              },
+            ),
+            DartCallback(
+              name: 'paymentcancel',
+              callBack: (message) {
+                if (widget.onClose == null) {
+                  Navigator.pop(context);
+                } else {
+                  widget.onClose!();
+                }
+              },
+            ),
+          },
+          width: media.width,
+          height: media.height,
+          initialContent: html,
+          initialSourceType: SourceType.html,
+          onWebViewCreated: (controller) {
+            webviewController = controller;
+          }),
+    ));
   }
 }
