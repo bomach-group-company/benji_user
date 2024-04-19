@@ -7,6 +7,7 @@ import 'package:benji/app/packages/packages.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/payment/monnify.dart';
+import 'package:benji/src/repo/controller/notifications_controller.dart';
 import 'package:benji/src/repo/controller/payment_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/utils/constants.dart';
@@ -169,10 +170,30 @@ class _PayForDeliveryState extends State<PayForDelivery> {
             currency: currency,
             amount: amount,
             metaData: meta,
-            onTransaction: (response) {
+            onTransaction: (response) async{
               consoleLog('the response from my monnify $response');
               if (response != null && response['status'] == "SUCCESS") {
-                toPackages();
+                await NotificationController.showNotification(
+                  title: "Payment Success",
+                  body: "Your payment of NGN$amount was successful",
+                  largeIcon: "asset://assets/icons/success.png",
+                  customSound: "asset://assets/audio/success.wav",
+                );
+                print('in the  package pay oo if');
+                Get.off(
+                () => const Packages(),
+                routeName: 'Packages',
+                duration: const Duration(milliseconds: 300),
+                fullscreenDialog: true,
+                curve: Curves.easeIn,
+                preventDuplicates: true,
+                popGesture: true,
+                transition: Transition.rightToLeft,
+              );
+                print('in the  package pay oo if222');
+
+              }else{
+                print('in the  package pay oo else');
               }
             },
              onClose: () {

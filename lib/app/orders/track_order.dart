@@ -31,7 +31,7 @@ class _TrackOrderState extends State<TrackOrder> {
   }
 
   bool delivered(Order order) {
-    return order.userDeliveryStatus == 'confirmed';
+    return order.deliveryStatus == 'COMP';
   }
   //===================== Handle refresh ==========================\\
 

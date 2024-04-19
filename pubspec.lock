@@ -1389,13 +1389,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.13.0"
-  webviewx:
+  webviewx2:
     dependency: "direct main"
     description:
-      path: webviewx
-      relative: true
-    source: path
-    version: "0.4.0"
+      name: webviewx2
+      sha256: "1a815049dab37981d9f9acd0dde7981d870752962899b40b5507e26619722120"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   win32:
     dependency: transitive
     description:
