@@ -53,41 +53,41 @@ class VendorController extends GetxController {
   }
 
   Future<void> scrollListenerVendor(scrollController) async {
-    if (VendorController.instance.loadedAllVendor.value) {
-      return;
-    }
+    // if (loadedAllVendor.value || isLoadMoreVendor.value) {
+    //   return;
+    // }
 
-    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
-        !scrollController.position.outOfRange) {
-      VendorController.instance.isLoadMoreVendor.value = true;
-      update();
-      await VendorController.instance.getVendors();
-    }
+    // if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+    //     !scrollController.position.outOfRange) {
+    //   isLoadMoreVendor.value = true;
+    //   update();
+    //   await getVendors();
+    // }
   }
 
   Future<void> scrollListenerPopularVendor(scrollController) async {
-    if (VendorController.instance.loadedAllVendor.value) {
+    if (loadedAllVendor.value || isLoadMoreVendor.value) {
       return;
     }
 
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
         !scrollController.position.outOfRange) {
-      VendorController.instance.isLoadMoreVendor.value = true;
+      isLoadMoreVendor.value = true;
       update();
-      await VendorController.instance.getPopularBusinesses();
+      await getPopularBusinesses();
     }
   }
 
   Future<void> scrollListenerProduct(scrollController, vendorId) async {
-    if (VendorController.instance.loadedAllProduct.value) {
+    if (loadedAllProduct.value || isLoadMoreVendor.value) {
       return;
     }
 
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
         !scrollController.position.outOfRange) {
-      VendorController.instance.isLoadMoreProduct.value = true;
+      isLoadMoreProduct.value = true;
       update();
-      await VendorController.instance.getVendorProduct(vendorId);
+      await getVendorProduct(vendorId);
     }
   }
 
@@ -108,7 +108,9 @@ class VendorController extends GetxController {
     late String token;
     String id = UserController.instance.user.value.id.toString();
     var url =
-        "${Api.baseUrl}/clients/getbusinessesByLocation/${getShoppingLocationPath()}";
+        "${Api.baseUrl}/clients/getbusinessesByLocation/${getShoppingLocationPath()}?start=${loadNumPopularVendor.value - 10}&end=${loadNumPopularVendor.value}";
+    loadNumPopularVendor.value += 10;
+
     log(url);
     token = UserController.instance.user.value.token;
     List<BusinessModel> data = [];
@@ -122,6 +124,9 @@ class VendorController extends GetxController {
       vendorList.value = data;
     } catch (e) {}
     isLoad.value = false;
+    isLoad.value = false;
+    isLoadMoreVendor.value = false;
+    loadedAllVendor.value = data.isEmpty;
 
     update();
   }

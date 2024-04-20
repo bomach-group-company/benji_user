@@ -102,82 +102,80 @@ class _PopularBusinessesState extends State<PopularBusinesses> {
             : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: GetBuilder<VendorController>(builder: (controller) {
-            if (controller.isLoad.value &&
-                controller.vendorPopularList.isEmpty) {
-              return Center(
-                  child: CircularProgressIndicator(color: kAccentColor));
-            }
-            return Scrollbar(
-              controller: _scrollController,
-              scrollbarOrientation: ScrollbarOrientation.right,
-              radius: const Radius.circular(10),
-              child: ListView(
-                dragStartBehavior: DragStartBehavior.down,
-                controller: _scrollController,
-                padding: deviceType(media.width) > 2
-                    ? const EdgeInsets.all(kDefaultPadding)
-                    : const EdgeInsets.all(kDefaultPadding / 2),
-                physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                children: [
-                  LayoutGrid(
-                    rowGap: kDefaultPadding / 2,
-                    columnGap: kDefaultPadding / 2,
-                    columnSizes: breakPointDynamic(
-                        media.width,
-                        [1.fr],
-                        [1.fr, 1.fr],
-                        [1.fr, 1.fr, 1.fr],
-                        [1.fr, 1.fr, 1.fr, 1.fr]),
-                    rowSizes: controller.vendorPopularList.isEmpty
-                        ? [auto]
-                        : List.generate(controller.vendorPopularList.length,
-                            (index) => auto),
-                    children: (controller.vendorPopularList).map((item) {
-                      return BusinessCard(
-                        business: item,
-                        onTap: () {
-                          Get.to(
-                            () => BusinessDetailScreen(business: item),
-                            routeName: 'BusinessDetailScreen',
-                            duration: const Duration(milliseconds: 300),
-                            fullscreenDialog: true,
-                            curve: Curves.easeIn,
-                            preventDuplicates: true,
-                            popGesture: true,
-                            transition: Transition.rightToLeft,
-                          );
-                        },
-                        removeDistance: true,
-                      );
-                    }).toList(),
-                  ),
-                  controller.loadedAllPopularVendor.value
-                      ? Container(
-                          margin: const EdgeInsets.only(top: 20, bottom: 20),
-                          height: 10,
-                          width: 10,
-                          decoration: ShapeDecoration(
-                              shape: const CircleBorder(),
-                              color: kPageSkeletonColor),
-                        )
-                      : const SizedBox(),
-                  controller.isLoadMorePopularVendor.value
-                      ? Column(
-                          children: [
-                            kSizedBox,
-                            Center(
-                              child: CircularProgressIndicator(
-                                  color: kAccentColor),
-                            ),
-                          ],
-                        )
-                      : const SizedBox()
-                ],
-              ),
-            );
-          }),
+          child: GetBuilder<VendorController>(
+              initState: (state) =>
+                  VendorController.instance.getPopularBusinesses(),
+              builder: (controller) {
+                if (controller.isLoad.value &&
+                    controller.vendorPopularList.isEmpty) {
+                  return Center(
+                      child: CircularProgressIndicator(color: kAccentColor));
+                }
+                return ListView(
+                  // dragStartBehavior: DragStartBehavior.down,
+                  controller: _scrollController,
+                  padding: deviceType(media.width) > 2
+                      ? const EdgeInsets.all(kDefaultPadding)
+                      : const EdgeInsets.all(kDefaultPadding / 2),
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  children: [
+                    LayoutGrid(
+                      rowGap: kDefaultPadding / 2,
+                      columnGap: kDefaultPadding / 2,
+                      columnSizes: breakPointDynamic(
+                          media.width,
+                          [1.fr],
+                          [1.fr, 1.fr],
+                          [1.fr, 1.fr, 1.fr],
+                          [1.fr, 1.fr, 1.fr, 1.fr]),
+                      rowSizes: controller.vendorPopularList.isEmpty
+                          ? [auto]
+                          : List.generate(controller.vendorPopularList.length,
+                              (index) => auto),
+                      children: (controller.vendorPopularList).map((item) {
+                        return BusinessCard(
+                          business: item,
+                          onTap: () {
+                            Get.to(
+                              () => BusinessDetailScreen(business: item),
+                              routeName: 'BusinessDetailScreen',
+                              duration: const Duration(milliseconds: 300),
+                              fullscreenDialog: true,
+                              curve: Curves.easeIn,
+                              preventDuplicates: true,
+                              popGesture: true,
+                              transition: Transition.rightToLeft,
+                            );
+                          },
+                          removeDistance: true,
+                        );
+                      }).toList(),
+                    ),
+                    controller.loadedAllPopularVendor.value
+                        ? Container(
+                            margin: const EdgeInsets.only(top: 20, bottom: 20),
+                            height: 10,
+                            width: 10,
+                            decoration: ShapeDecoration(
+                                shape: const CircleBorder(),
+                                color: kPageSkeletonColor),
+                          )
+                        : const SizedBox(),
+                    controller.isLoadMorePopularVendor.value
+                        ? Column(
+                            children: [
+                              kSizedBox,
+                              Center(
+                                child: CircularProgressIndicator(
+                                    color: kAccentColor),
+                              ),
+                            ],
+                          )
+                        : const SizedBox()
+                  ],
+                );
+              }),
         ),
       ),
     );

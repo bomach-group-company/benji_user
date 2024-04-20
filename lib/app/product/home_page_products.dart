@@ -1,5 +1,6 @@
 import 'package:benji/app/product/product_detail_screen.dart';
 import 'package:benji/src/components/button/category_button.dart';
+import 'package:benji/src/components/others/empty.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
 import 'package:benji/src/repo/controller/sub_category_controller.dart';
@@ -183,40 +184,44 @@ class _HomePageProductsState extends State<HomePageProducts> {
                           ),
                         );
                       }
-                      return LayoutGrid(
-                        rowGap: kDefaultPadding / 2,
-                        columnGap: kDefaultPadding / 2,
-                        columnSizes: breakPointDynamic(
-                            media.width,
-                            [1.fr],
-                            [1.fr, 1.fr],
-                            [1.fr, 1.fr, 1.fr],
-                            [1.fr, 1.fr, 1.fr, 1.fr]),
-                        rowSizes: controller.productsBySubCategory.isEmpty
-                            ? [auto]
-                            : List.generate(
-                                controller.productsBySubCategory.length,
-                                (index) => auto),
-                        children: (controller.productsBySubCategory)
-                            .map(
-                              (item) => ProductCard(
-                                onTap: () {
-                                  Get.to(
-                                    () => ProductDetailScreen(product: item),
-                                    routeName: 'ProductDetailScreen',
-                                    duration: const Duration(milliseconds: 300),
-                                    fullscreenDialog: true,
-                                    curve: Curves.easeIn,
-                                    preventDuplicates: true,
-                                    popGesture: true,
-                                    transition: Transition.rightToLeft,
-                                  );
-                                },
-                                product: item,
-                              ),
-                            )
-                            .toList(),
-                      );
+                      return controller.productsBySubCategory.isEmpty
+                          ? const EmptyCard()
+                          : LayoutGrid(
+                              rowGap: kDefaultPadding / 2,
+                              columnGap: kDefaultPadding / 2,
+                              columnSizes: breakPointDynamic(
+                                  media.width,
+                                  [1.fr],
+                                  [1.fr, 1.fr],
+                                  [1.fr, 1.fr, 1.fr],
+                                  [1.fr, 1.fr, 1.fr, 1.fr]),
+                              rowSizes: controller.productsBySubCategory.isEmpty
+                                  ? [auto]
+                                  : List.generate(
+                                      controller.productsBySubCategory.length,
+                                      (index) => auto),
+                              children: (controller.productsBySubCategory)
+                                  .map(
+                                    (item) => ProductCard(
+                                      onTap: () {
+                                        Get.to(
+                                          () => ProductDetailScreen(
+                                              product: item),
+                                          routeName: 'ProductDetailScreen',
+                                          duration:
+                                              const Duration(milliseconds: 300),
+                                          fullscreenDialog: true,
+                                          curve: Curves.easeIn,
+                                          preventDuplicates: true,
+                                          popGesture: true,
+                                          transition: Transition.rightToLeft,
+                                        );
+                                      },
+                                      product: item,
+                                    ),
+                                  )
+                                  .toList(),
+                            );
                     }),
               ],
             ),
