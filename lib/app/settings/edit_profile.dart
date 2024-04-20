@@ -248,7 +248,10 @@ class _EditProfileState extends State<EditProfile> {
                         textInputAction: TextInputAction.next,
                         focusNode: phoneNumberFN,
                         validator: (value) {
-                          if (value == null || value == "") {
+                          if (phoneNumberEC.text != "") {
+                            return null;
+                          }
+                          if ( value == null || value == "") {
                             phoneNumberFN.requestFocus();
                             return "Enter your phone number";
                           }
