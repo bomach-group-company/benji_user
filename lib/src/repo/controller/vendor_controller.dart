@@ -53,19 +53,6 @@ class VendorController extends GetxController {
   }
 
   Future<void> scrollListenerVendor(scrollController) async {
-    // if (loadedAllVendor.value || isLoadMoreVendor.value) {
-    //   return;
-    // }
-
-    // if (scrollController.offset >= scrollController.position.maxScrollExtent &&
-    //     !scrollController.position.outOfRange) {
-    //   isLoadMoreVendor.value = true;
-    //   update();
-    //   await getVendors();
-    // }
-  }
-
-  Future<void> scrollListenerPopularVendor(scrollController) async {
     if (loadedAllVendor.value || isLoadMoreVendor.value) {
       return;
     }
@@ -73,6 +60,19 @@ class VendorController extends GetxController {
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
         !scrollController.position.outOfRange) {
       isLoadMoreVendor.value = true;
+      update();
+      await getVendors();
+    }
+  }
+
+  Future<void> scrollListenerPopularVendor(scrollController) async {
+    if (loadedAllPopularVendor.value || isLoadMorePopularVendor.value) {
+      return;
+    }
+
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange) {
+      isLoadMorePopularVendor.value = true;
       update();
       await getPopularBusinesses();
     }
@@ -121,9 +121,8 @@ class VendorController extends GetxController {
       data = (jsonDecode(response!.body) as List)
           .map((e) => BusinessModel.fromJson(e))
           .toList();
-      vendorList.value = data;
+      vendorList.value += data;
     } catch (e) {}
-    isLoad.value = false;
     isLoad.value = false;
     isLoadMoreVendor.value = false;
     loadedAllVendor.value = data.isEmpty;
@@ -149,7 +148,7 @@ class VendorController extends GetxController {
       data = (jsonDecode(response!.body)['items'] as List)
           .map((e) => BusinessModel.fromJson(e))
           .toList();
-      vendorPopularList.value = data;
+      vendorPopularList.value += data;
     } catch (e) {}
     isLoad.value = false;
     isLoadMorePopularVendor.value = false;
