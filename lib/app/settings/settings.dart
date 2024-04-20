@@ -54,6 +54,8 @@ class _SettingsState extends State<Settings> {
   //=========================== IMAGE PICKER ====================================\\
 
   final ImagePicker _picker = ImagePicker();
+  bool updatingImage = false;
+
   File? selectedImage;
   XFile? selectedImageWeb;
 
@@ -200,7 +202,9 @@ class _SettingsState extends State<Settings> {
         ApiProcessorController.errorSnack('File to large');
         return;
       }
-      setState(() {});
+      setState(() {
+        updatingImage = true;
+      });
       User? user = await getUser();
       final url =
           Uri.parse('$baseURL/clients/changeClientProfileImage/${user!.id}');
@@ -227,7 +231,9 @@ class _SettingsState extends State<Settings> {
       // Check if the request was successful (status code 200)
       if (response.statusCode == 200) {
         await UserController.instance.getUser();
-        setState(() {});
+        setState(() {
+          updatingImage = false;
+        });
         // Image successfully uploaded
         if (kDebugMode) {}
       } else {
@@ -370,7 +376,9 @@ class _SettingsState extends State<Settings> {
                                       shape: const OvalBorder(),
                                     ),
                                     child: Center(
-                                      child: MyImage(
+                                      child: updatingImage ?
+                                        CircularProgressIndicator(color: kAccentColor, strokeWidth: 2,)
+                                       : MyImage(
                                         url: (snapshot.image as String?),
                                         radiusBottom: 50,
                                         radiusTop: 50,

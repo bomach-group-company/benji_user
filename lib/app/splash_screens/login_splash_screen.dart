@@ -39,7 +39,6 @@ class _LoginSplashScreenState extends State<LoginSplashScreen> {
       AddressController.instance.getAdresses();
       AddressController.instance.getCurrentAddress();
 
-      OrderController.instance.getOrders();
       CartController.instance.getCartProduct();
       FavouriteController.instance.getProduct();
       FavouriteController.instance.getVendor();

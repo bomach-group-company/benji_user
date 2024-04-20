@@ -350,6 +350,9 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                                   textInputAction: TextInputAction.next,
                                   focusNode: _phoneNumberFN,
                                   validator: (value) {
+                                     if (_phoneNumberEC.text != "") {
+                                      return null;
+                                    }
                                     if (value == null || value == "") {
                                       _phoneNumberFN.requestFocus();
                                       return "Enter your phone number";

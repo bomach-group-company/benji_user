@@ -4,10 +4,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
+import 'package:benji/src/components/button/my_elevatedbutton.dart';
+import 'package:benji/src/components/textformfield/my%20textformfield.dart';
 import 'package:benji/src/providers/constants.dart';
-import 'package:benji/src/providers/keys.dart';
 import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
 import 'package:benji/src/repo/models/googleMaps/location_service.dart';
+import 'package:benji/src/repo/services/keys.dart';
 import 'package:benji/src/repo/utils/web_map.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +22,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/button/my_elevatedbutton.dart';
-import '../../src/components/textformfield/my textformfield.dart';
 import '../../theme/colors.dart';
 
 class GetLocationOnMap extends StatefulWidget {
@@ -104,14 +104,11 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
         // Android's shouldShowRequestPermissionRationale
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
-        Get.back();
         return Future.error('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      Get.back();
-
       // Permissions are denied forever, handle appropriately.
       return Future.error(
         'Location permissions are permanently denied, we cannot request permissions.',
@@ -323,12 +320,10 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
-        floatingActionButtonLocation:
-            FloatingActionButtonLocation.miniStartFloat,
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
         floatingActionButton: FloatingActionButton(
           onPressed: _selectLocation,
           backgroundColor: kAccentColor,
-          foregroundColor: kPrimaryColor,
           tooltip: "Pin Location",
           mouseCursor: SystemMouseCursors.click,
           child: const FaIcon(

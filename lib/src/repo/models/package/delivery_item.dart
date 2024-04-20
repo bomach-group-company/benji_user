@@ -21,9 +21,10 @@ class DeliveryItem {
   final ItemCategory itemCategory;
   final ItemWeight itemWeight;
   final int itemQuantity;
-  final double itemValue;
+  final int itemValue;
   final String? itemImage;
   final double prices;
+  final double deliveryFee;
   final String status;
 
   DeliveryItem({
@@ -42,11 +43,11 @@ class DeliveryItem {
     required this.itemValue,
     required this.itemImage,
     required this.prices,
+    required this.deliveryFee,
     required this.status,
   });
 
   factory DeliveryItem.fromJson(Map<String, dynamic>? json) {
-    // print('DeliveryItem  $json');
     json ??= {};
     return DeliveryItem(
       id: json['id'] ?? notAvailable,
@@ -61,11 +62,10 @@ class DeliveryItem {
       itemCategory: ItemCategory.fromJson(json['itemCategory']),
       itemWeight: ItemWeight.fromJson(json['itemWeight']),
       itemQuantity: json['itemQuantity'] ?? 0,
-      itemValue: json['itemValue'] != null
-          ? double.parse(json['itemValue'].toString())
-          : 0.0,
+      itemValue: json['itemValue'] ?? 0,
       itemImage: json['itemImage'],
-      prices: json['prices'] ?? 0.0,
+      prices: double.parse((json['prices'] ?? 0).toString()),
+      deliveryFee: double.parse((json['delivery_fee'] ?? 0).toString()),
       status: json['status'] ?? notAvailable,
     );
   }

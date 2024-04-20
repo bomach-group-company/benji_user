@@ -1,7 +1,6 @@
 import 'dart:convert' as convert;
 
-import 'package:benji/src/providers/keys.dart';
-import 'package:flutter/foundation.dart';
+import 'package:benji/src/repo/services/keys.dart';
 import 'package:http/http.dart' as http;
 
 class LocationService {
@@ -14,11 +13,6 @@ class LocationService {
     var json = convert.jsonDecode(response.body);
 
     var placeId = json['candidates'][0]['place_id'] as String;
-
-    if (kDebugMode) {
-      print(placeId);
-    }
-
     return placeId;
   }
 
@@ -33,10 +27,6 @@ class LocationService {
     var json = convert.jsonDecode(response.body);
 
     var results = json['result'] as Map<String, dynamic>;
-
-    if (kDebugMode) {
-      print(results);
-    }
 
     return results;
   }

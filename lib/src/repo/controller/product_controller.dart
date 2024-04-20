@@ -66,15 +66,15 @@ class ProductController extends GetxController {
   }
 
   Future<void> scrollListenerProduct(scrollController) async {
-    if (ProductController.instance.loadedAllProduct.value) {
+    if (loadedAllProduct.value || isLoadMoreProduct.value) {
       return;
     }
 
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
         !scrollController.position.outOfRange) {
-      ProductController.instance.isLoadMoreProduct.value = true;
+      isLoadMoreProduct.value = true;
       update();
-      await ProductController.instance.getProduct();
+      await getProduct();
     }
   }
 
@@ -90,7 +90,6 @@ class ProductController extends GetxController {
     if (responseData == null) {
       isLoadMoreProduct.value = false;
       isLoad.value = false;
-      isLoadMoreProduct.value = false;
       update();
       return;
     }
@@ -103,7 +102,7 @@ class ProductController extends GetxController {
     } catch (e) {
       log(e.toString());
     }
-    isLoadMoreProduct.value = data.isEmpty;
+    loadedAllProduct.value = data.isEmpty;
     isLoad.value = false;
     isLoadMoreProduct.value = false;
     update();

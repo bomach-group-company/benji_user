@@ -106,73 +106,68 @@ class _BusinessesNearYouState extends State<BusinessesNearYou> {
                 return Center(
                     child: CircularProgressIndicator(color: kAccentColor));
               }
-              return Scrollbar(
+              return ListView(
+                // dragStartBehavior: DragStartBehavior.down,
                 controller: _scrollController,
-                scrollbarOrientation: ScrollbarOrientation.right,
-                radius: const Radius.circular(10),
-                child: ListView(
-                  dragStartBehavior: DragStartBehavior.down,
-                  controller: _scrollController,
-                  padding: deviceType(media.width) > 2
-                      ? const EdgeInsets.all(kDefaultPadding)
-                      : const EdgeInsets.all(kDefaultPadding / 2),
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  children: [
-                    LayoutGrid(
-                      rowGap: kDefaultPadding / 2,
-                      columnGap: kDefaultPadding / 2,
-                      columnSizes: breakPointDynamic(
-                          media.width,
-                          [1.fr],
-                          [1.fr, 1.fr],
-                          [1.fr, 1.fr, 1.fr],
-                          [1.fr, 1.fr, 1.fr, 1.fr]),
-                      rowSizes: controller.vendorList.isEmpty
-                          ? [auto]
-                          : List.generate(
-                              controller.vendorList.length, (index) => auto),
-                      children: (controller.vendorList).map((item) {
-                        return BusinessCard(
-                          business: item,
-                          onTap: () {
-                            Get.to(
-                              () => BusinessDetailScreen(business: item),
-                              routeName: 'BusinessDetailScreen',
-                              duration: const Duration(milliseconds: 300),
-                              fullscreenDialog: true,
-                              curve: Curves.easeIn,
-                              preventDuplicates: true,
-                              popGesture: true,
-                              transition: Transition.rightToLeft,
-                            );
-                          },
-                        );
-                      }).toList(),
-                    ),
-                    controller.loadedAllVendor.value
-                        ? Container(
-                            margin: const EdgeInsets.only(top: 20, bottom: 20),
-                            height: 10,
-                            width: 10,
-                            decoration: ShapeDecoration(
-                                shape: const CircleBorder(),
-                                color: kPageSkeletonColor),
-                          )
-                        : const SizedBox(),
-                    controller.isLoadMoreVendor.value
-                        ? Column(
-                            children: [
-                              kSizedBox,
-                              Center(
-                                child: CircularProgressIndicator(
-                                    color: kAccentColor),
-                              ),
-                            ],
-                          )
-                        : const SizedBox()
-                  ],
-                ),
+                padding: deviceType(media.width) > 2
+                    ? const EdgeInsets.all(kDefaultPadding)
+                    : const EdgeInsets.all(kDefaultPadding / 2),
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                children: [
+                  LayoutGrid(
+                    rowGap: kDefaultPadding / 2,
+                    columnGap: kDefaultPadding / 2,
+                    columnSizes: breakPointDynamic(
+                        media.width,
+                        [1.fr],
+                        [1.fr, 1.fr],
+                        [1.fr, 1.fr, 1.fr],
+                        [1.fr, 1.fr, 1.fr, 1.fr]),
+                    rowSizes: controller.vendorList.isEmpty
+                        ? [auto]
+                        : List.generate(
+                            controller.vendorList.length, (index) => auto),
+                    children: (controller.vendorList).map((item) {
+                      return BusinessCard(
+                        business: item,
+                        onTap: () {
+                          Get.to(
+                            () => BusinessDetailScreen(business: item),
+                            routeName: 'BusinessDetailScreen',
+                            duration: const Duration(milliseconds: 300),
+                            fullscreenDialog: true,
+                            curve: Curves.easeIn,
+                            preventDuplicates: true,
+                            popGesture: true,
+                            transition: Transition.rightToLeft,
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ),
+                  controller.loadedAllVendor.value
+                      ? Container(
+                          margin: const EdgeInsets.only(top: 20, bottom: 20),
+                          height: 10,
+                          width: 10,
+                          decoration: ShapeDecoration(
+                              shape: const CircleBorder(),
+                              color: kPageSkeletonColor),
+                        )
+                      : const SizedBox(),
+                  controller.isLoadMoreVendor.value
+                      ? Column(
+                          children: [
+                            kSizedBox,
+                            Center(
+                              child: CircularProgressIndicator(
+                                  color: kAccentColor),
+                            ),
+                          ],
+                        )
+                      : const SizedBox()
+                ],
               );
             },
           ),

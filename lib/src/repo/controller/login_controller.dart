@@ -23,7 +23,7 @@ class LoginController extends GetxController {
   var isLoad = false.obs;
 
   Future<void> login(SendLogin data) async {
-    // try {
+    try {
     UserController.instance;
     isLoad.value = true;
     update();
@@ -49,7 +49,7 @@ class LoginController extends GetxController {
         headers: authHeader(jsonData["token"]));
 
     if (responseUser.statusCode != 200) {
-      throw const SocketException('Please connect to the internet');
+      throw  TimeoutException('Please connect to the internet');
     }
 
     if (jsonDecode(responseUser.body)['id'] == null) {
@@ -65,7 +65,7 @@ class LoginController extends GetxController {
         jsonData["token"]);
 
     if (responseUserData == null) {
-      throw const SocketException('Please connect to the internet');
+      throw TimeoutException('Please connect to the internet');
     }
 
     if (responseUserData.statusCode != 200) {
@@ -102,22 +102,24 @@ class LoginController extends GetxController {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    // } on SocketException {
-    //   ApiProcessorController.errorSnack("Please connect to the internet");
-    //   await Get.to(
-    //     () => const NoNetworkRetry(),
-    //     routeName: 'NoNetworkRetry',
-    //     duration: const Duration(milliseconds: 300),
-    //     fullscreenDialog: true,
-    //     curve: Curves.easeIn,
-    //     preventDuplicates: true,
-    //     popGesture: true,
-    //     transition: Transition.rightToLeft,
-    //   );
-    // } catch (e) {
-    //   ApiProcessorController.errorSnack("An error occurred.\n ERROR: $e");
-    //   isLoad.value = false;
-    //   update();
-    // }
+    } on TimeoutException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+       isLoad.value = true;
+       update();
+      // await Get.to(
+      //   () => const NoNetworkRetry(),
+      //   routeName: 'NoNetworkRetry',
+      //   duration: const Duration(milliseconds: 300),
+      //   fullscreenDialog: true,
+      //   curve: Curves.easeIn,
+      //   preventDuplicates: true,
+      //   popGesture: true,
+      //   transition: Transition.rightToLeft,
+      // );
+    } catch (e) {
+      ApiProcessorController.errorSnack("An error occurred.\n ERROR: $e");
+      isLoad.value = false;
+      update();
+    }
   }
 }

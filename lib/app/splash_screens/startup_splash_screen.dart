@@ -43,7 +43,6 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
           await CategoryController.instance.getCategory();
           await AddressController.instance.getAdresses();
           await AddressController.instance.getCurrentAddress();
-          await OrderController.instance.getOrders();
           await CartController.instance.getCartProduct();
           await FavouriteController.instance.getProduct();
           await FavouriteController.instance.getVendor();
