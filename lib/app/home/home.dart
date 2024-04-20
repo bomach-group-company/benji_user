@@ -74,8 +74,8 @@ class _HomeState extends State<Home> {
 
     // currentAddress = getCurrentAddress();
     // scrollController.addListener(_scrollListener);
-    // scrollController.addListener(() =>
-    //     ProductController.instance.scrollListenerProduct(scrollController));
+    scrollController.addListener(() =>
+        ProductController.instance.scrollListenerProduct(scrollController));
   }
 
   late Future<Address> currentAddress;
@@ -547,6 +547,7 @@ class _HomeState extends State<Home> {
             semanticsLabel: "Pull to refresh",
             child: Scrollbar(
               child: ListView(
+                controller: scrollController,
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 padding: deviceType(media.width) > 2
@@ -1066,7 +1067,7 @@ class _HomeState extends State<Home> {
                                 .toList(),
                           ),
                           kHalfSizedBox,
-                          ProductController.instance.loadedAllProduct.value
+                          controller.loadedAllProduct.value
                               ? Container(
                                   margin: const EdgeInsets.only(top: 20),
                                   height: 10,
@@ -1076,7 +1077,7 @@ class _HomeState extends State<Home> {
                                       color: kPageSkeletonColor),
                                 )
                               : const SizedBox(),
-                          ProductController.instance.isLoadMoreProduct.value
+                          controller.isLoadMoreProduct.value
                               ? Center(
                                   child: CircularProgressIndicator(
                                     color: kAccentColor,
