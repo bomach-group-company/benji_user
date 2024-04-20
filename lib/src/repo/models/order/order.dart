@@ -15,7 +15,6 @@ class Order {
   String code;
   double totalPrice;
   double deliveryFee;
-  String assignedStatus;
   String deliveryStatus;
   User client;
   List<OrderItem> orderitems;
@@ -26,7 +25,6 @@ class Order {
     required this.code,
     required this.totalPrice,
     required this.deliveryFee,
-    required this.assignedStatus,
     required this.deliveryStatus,
     required this.client,
     required this.orderitems,
@@ -40,7 +38,6 @@ class Order {
       code: json["code"] ?? notAvailable,
       totalPrice: json["total_price"] ?? 0.0,
       deliveryFee: json["delivery_fee"] ?? 0.0,
-      assignedStatus: json["assigned_status"] ?? "PEND",
       deliveryStatus: json["delivery_status"] ?? "PEND",
       client: User.fromJson(json["client"]),
       orderitems: json["orderitems"] == null

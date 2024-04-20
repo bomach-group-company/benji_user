@@ -45,8 +45,10 @@ class TrackOrderDetailsContainer extends StatelessWidget {
   final Map statusColor = {
     'pend': kLoadingColor,
     'comp': kSuccessColor,
-    'canc': kAccentColor,
+    'canc': kAccentColor.withOpacity(0.8),
     'dispatched': kBlueLinkTextColor,
+    'received': kBlueLinkTextColor,
+    'delivered': kAccentColor,
   };
 
   final Map status = {
@@ -54,6 +56,8 @@ class TrackOrderDetailsContainer extends StatelessWidget {
     'comp': 'COMPLETED',
     'canc': 'CANCELLED',
     'dispatched': 'DISPATCHED',
+    'received': 'INCOMING',
+    'delivered': 'PLEASE CONFIRM',
   };
 
   @override
@@ -95,9 +99,9 @@ class TrackOrderDetailsContainer extends StatelessWidget {
                       status[order.deliveryStatus.toLowerCase()] ??
                           "Not Available",
                       style: TextStyle(
-                        color: statusColor[
-                                order.deliveryStatus.toLowerCase()] ??
-                            kSecondaryColor,
+                        color:
+                            statusColor[order.deliveryStatus.toLowerCase()] ??
+                                kSecondaryColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),
