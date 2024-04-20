@@ -7,10 +7,12 @@ import 'package:benji/app/packages/packages.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/payment/monnify.dart';
+import 'package:benji/src/components/payment/monnify_mobile.dart';
 import 'package:benji/src/repo/controller/notifications_controller.dart';
 import 'package:benji/src/repo/controller/payment_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/utils/constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
@@ -160,7 +162,8 @@ class _PayForDeliveryState extends State<PayForDelivery> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
-          return MonnifyWidget(
+          if (kIsWeb) {
+                 return MonnifyWidget(
             apiKey: apiKey,
             contractCode: contractCode,
             email: email,
@@ -200,6 +203,50 @@ class _PayForDeliveryState extends State<PayForDelivery> {
               Get.back();
             },
           );
+          } else {
+            
+          return MonnifyWidgetMobile(
+            apiKey: apiKey,
+            contractCode: contractCode,
+            email: email,
+            phone: phone,
+            firstName: firstName,
+            lastName: lastName,
+            currency: currency,
+            amount: amount,
+            metaData: meta,
+            onTransaction: (response) async{
+              consoleLog('the response from my monnify $response');
+              if (response != null && response['status'] == "SUCCESS") {
+                await NotificationController.showNotification(
+                  title: "Payment Success",
+                  body: "Your payment of NGN$amount was successful",
+                  largeIcon: "asset://assets/icons/success.png",
+                  customSound: "asset://assets/audio/success.wav",
+                );
+                print('in the  package pay oo if');
+                Get.off(
+                () => const Packages(),
+                routeName: 'Packages',
+                duration: const Duration(milliseconds: 300),
+                fullscreenDialog: true,
+                curve: Curves.easeIn,
+                preventDuplicates: true,
+                popGesture: true,
+                transition: Transition.rightToLeft,
+              );
+                print('in the  package pay oo if222');
+
+              }else{
+                print('in the  package pay oo else');
+              }
+            },
+             onClose: () {
+              Get.back();
+            },
+          );
+          }
+
         }),
       );
     } on SocketException {
