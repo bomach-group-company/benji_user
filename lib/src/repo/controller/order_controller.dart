@@ -26,48 +26,38 @@ class OrderController extends GetxController {
   var deliveryFee = 0.0.obs;
 
   Future<void> scrollListener(scrollController) async {
-    if (OrderController.instance.loadedAll.value) {
+    if (loadedAll.value || isLoadMore.value) {
       return;
     }
 
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
         !scrollController.position.outOfRange) {
-      OrderController.instance.isLoadMore.value = true;
+      isLoadMore.value = true;
       update();
-      await OrderController.instance.getOrders();
+      await getOrders();
     }
   }
 
-  Future getOrders({
-    bool first = false,
-  }) async {
-    if (first) {
-      loadNum.value = 10;
-    }
+  Future getOrders() async {
     if (loadedAll.value) {
       return;
     }
-    if (!first) {
-      isLoadMore.value = true;
-    }
+
     isLoad.value = true;
-    if (loadedAll.value) {
-      return;
-    }
-    late String token;
+
     String id = UserController.instance.user.value.id.toString();
     var url =
         "${Api.baseUrl}${Api.myOrders}$id?start=${loadNum.value - 10}&end=${loadNum.value}";
+    loadNum.value += 10;
+
     log('in list history $url');
-    token = UserController.instance.user.value.token;
+
+    String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
 
-    loadNum.value += 10;
     var responseData = await ApiProcessorController.errorState(response);
     if (responseData == null) {
-      if (!first) {
-        isLoadMore.value = false;
-      }
+      isLoadMore.value = false;
       isLoad.value = false;
       return;
     }
@@ -78,11 +68,7 @@ class OrderController extends GetxController {
           .toList();
       orderList.value += data;
       loadedAll.value = data.isEmpty;
-    } catch (e) {
-      data = [];
-      orderList.value = data;
-      loadedAll.value = true;
-    }
+    } catch (e) {}
     isLoad.value = false;
     isLoadMore.value = false;
     update();

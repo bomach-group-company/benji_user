@@ -30,6 +30,9 @@ class _OrdersHistoryState extends State<OrdersHistory> {
     checkAuth(context);
     checkIfShoppingLocation(context);
     _scrollController.addListener(_scrollListener);
+    _scrollController.addListener(() {
+      OrderController.instance.scrollListener(_scrollController);
+    });
   }
 
   //=================================== ALL VARIABLES ====================================\\
@@ -119,7 +122,10 @@ class _OrdersHistoryState extends State<OrdersHistory> {
               : const SizedBox(),
           body: SafeArea(
             maintainBottomViewPadding: true,
-            child: Column(
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              controller: _scrollController,
+              shrinkWrap: true,
               children: [
                 GetBuilder<OrderController>(
                     initState: (state) => OrderController.instance.getOrders(),
@@ -135,34 +141,51 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                           ),
                         );
                       }
-                      return Flexible(
-                        flex: 1,
-                        fit: FlexFit.loose,
-                        child: controller.orderList.isEmpty
-                            ? const EmptyCard()
-                            : Scrollbar(
-                                controller: _scrollController,
-                                child: ListView.separated(
-                                  controller: _scrollController,
-                                  itemCount: controller.orderList.length,
-                                  padding: const EdgeInsets.all(10),
-                                  shrinkWrap: true,
-                                  separatorBuilder: (context, index) =>
-                                      kHalfSizedBox,
-                                  physics: const BouncingScrollPhysics(),
-                                  scrollDirection: Axis.vertical,
-                                  itemBuilder: (context, index) => InkWell(
-                                    onTap: () async =>
-                                        await _toOrderDetailsScreen(
-                                            controller.orderList[index]),
-                                    child: TrackOrderDetailsContainer(
-                                      order: controller.orderList[index],
-                                    ),
-                                  ),
+                      return controller.orderList.isEmpty
+                          ? const EmptyCard()
+                          : ListView.separated(
+                              itemCount: controller.orderList.length,
+                              padding: const EdgeInsets.all(10),
+                              shrinkWrap: true,
+                              separatorBuilder: (context, index) =>
+                                  kHalfSizedBox,
+                              physics: const NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (context, index) => InkWell(
+                                onTap: () async => await _toOrderDetailsScreen(
+                                    controller.orderList[index]),
+                                child: TrackOrderDetailsContainer(
+                                  order: controller.orderList[index],
                                 ),
                               ),
-                      );
+                            );
                     }),
+                GetBuilder<OrderController>(
+                  builder: (controller) {
+                    return Column(
+                      children: [
+                        controller.loadedAll.value
+                            ? Container(
+                                margin: const EdgeInsets.only(top: 20),
+                                height: 10,
+                                width: 10,
+                                decoration: ShapeDecoration(
+                                    shape: const CircleBorder(),
+                                    color: kPageSkeletonColor),
+                              )
+                            : const SizedBox(),
+                        controller.isLoadMore.value
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                  color: kAccentColor,
+                                ),
+                              )
+                            : const SizedBox()
+                      ],
+                    );
+                  },
+                ),
+                kSizedBox
               ],
             ),
           ),
