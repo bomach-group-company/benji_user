@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:benji/src/repo/utils/constants.dart';
 
+const profileImage =
+    'https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg';
+
 class User {
   final int id;
   final String email;
@@ -37,7 +40,9 @@ class User {
       firstName: json['first_name'] ?? notAvailable,
       lastName: json['last_name'] ?? notAvailable,
       gender: json['gender'] ?? notAvailable,
-      image: json['image'] == null || json['image'] == "" ?  'https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg': json['image'],
+      image: json['image'] == null || json['image'] == ""
+          ? profileImage
+          : json['image'],
       token: json['token'] ?? notAvailable,
       code: json['code'] ?? notAvailable,
     );

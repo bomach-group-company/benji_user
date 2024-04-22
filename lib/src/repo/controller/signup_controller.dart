@@ -4,8 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:benji/app/shopping_location/set_shopping_location.dart';
-import 'package:benji/app/splash_screens/login_splash_screen.dart';
+import 'package:benji/app/auth/profile_photo.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/services/api_url.dart';
@@ -102,21 +101,8 @@ class SignupController extends GetxController {
       isLoad.value = false;
       update();
       Get.offAll(
-        () => SetShoppingLocation(
-          hideButton: true,
-          navTo: () {
-            Get.offAll(
-              () => const LoginSplashScreen(),
-              fullscreenDialog: true,
-              curve: Curves.easeIn,
-              routeName: "LoginSplashScreen",
-              predicate: (route) => false,
-              popGesture: true,
-              transition: Transition.cupertinoDialog,
-            );
-          },
-        ),
-        routeName: 'SetShoppingLocation',
+        () => const ProfilePhoto(),
+        routeName: 'ProfilePhoto',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

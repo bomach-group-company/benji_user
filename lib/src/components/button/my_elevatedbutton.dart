@@ -9,6 +9,7 @@ class MyElevatedButton extends StatelessWidget {
   final Function()? onPressed;
   final bool isLoading;
   final bool disable;
+  final bool upper;
 
   const MyElevatedButton({
     super.key,
@@ -16,6 +17,7 @@ class MyElevatedButton extends StatelessWidget {
     required this.onPressed,
     this.isLoading = false,
     this.disable = false,
+    this.upper = true,
   });
 
   @override
@@ -40,7 +42,7 @@ class MyElevatedButton extends StatelessWidget {
       child: isLoading
           ? CircularProgressIndicator(color: kPrimaryColor)
           : Text(
-              title.toUpperCase(),
+              upper ? title.toUpperCase() : title,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: kPrimaryColor,
