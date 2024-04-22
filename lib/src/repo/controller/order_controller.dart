@@ -25,6 +25,15 @@ class OrderController extends GetxController {
   var loadNum = 10.obs;
   var deliveryFee = 0.0.obs;
 
+  refreshOrder() {
+    loadedAll = false.obs;
+    isLoadMore = false.obs;
+    loadNum = 10.obs;
+    orderList.value = [];
+    update();
+    getOrders();
+  }
+
   Future<void> scrollListener(scrollController) async {
     if (loadedAll.value || isLoadMore.value) {
       return;

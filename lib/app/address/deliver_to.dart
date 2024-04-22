@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:math';
-
 import 'package:benji/app/checkout/checkout_screen.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
@@ -219,11 +217,11 @@ class _DeliverToState extends State<DeliverTo> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       SizedBox(
-                                        width: min(
-                                            mediaWidth - 150,
-                                            20.0 *
-                                                controller.addresses[index]
-                                                    .title.length),
+                                        // width: min(
+                                        //     mediaWidth - 150,
+                                        //     20.0 *
+                                        //         controller.addresses[index]
+                                        //             .title.length),
                                         child: Text(
                                           controller.addresses[index].title
                                               .toUpperCase(),

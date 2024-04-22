@@ -49,10 +49,11 @@ class _ReportProductState extends State<ReportProduct> {
 
     Map body = {
       'client_id': user!.id.toString(),
-      'vendor_id': widget.product.vendorId.id.toString(),
+      'vendor_id': widget.product.vendorId.vendorOwner.id.toString(),
       'product_id': widget.product.id.toString(),
       'comment': _messageEC.text.toString(),
     };
+    print(body);
 
     final response =
         await http.post(url, body: body, headers: await authHeader());

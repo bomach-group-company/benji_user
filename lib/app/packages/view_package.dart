@@ -83,8 +83,10 @@ class _ViewPackageState extends State<ViewPackage> {
   final screenshotController = ScreenshotController();
 
   //=================================================  Navigation =====================================================\\
-  void toReportPackage() => Get.to(
-        () => const ReportPackage(),
+  void toReportPackage(DeliveryItem deliveryItem) => Get.to(
+        () => ReportPackage(
+          package: deliveryItem,
+        ),
         routeName: 'ReportPackage',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -458,7 +460,7 @@ class _ViewPackageState extends State<ViewPackage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         OutlinedButton(
-                          onPressed: toReportPackage,
+                          onPressed: () => toReportPackage(widget.deliveryItem),
                           style: OutlinedButton.styleFrom(
                             elevation: 10,
                             enableFeedback: true,

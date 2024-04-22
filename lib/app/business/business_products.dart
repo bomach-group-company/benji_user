@@ -4,6 +4,7 @@ import 'package:benji/app/business/business_detail_screen.dart';
 import 'package:benji/app/product/product_detail_screen.dart';
 import 'package:benji/src/components/business/business_card.dart';
 import 'package:benji/src/components/button/category_button.dart';
+import 'package:benji/src/components/others/empty.dart';
 import 'package:benji/src/components/product/product_card.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
 import 'package:benji/src/repo/controller/sub_category_controller.dart';
@@ -15,7 +16,6 @@ import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
@@ -81,8 +81,7 @@ class _BusinessProductsState extends State<BusinessProducts> {
                 initState: (state) => SubCategoryController.instance
                     .getSubCategoryAllByVendor(widget.business.id.toString()),
                 builder: (controller) {
-                  if (controller.isLoadForAll.value &&
-                      controller.allSubcategoryByVendor.isEmpty) {
+                  if (controller.isLoadForAll.value) {
                     return Center(
                       child: CircularProgressIndicator(
                         color: kAccentColor,
@@ -115,6 +114,7 @@ class _BusinessProductsState extends State<BusinessProducts> {
                   );
                 }),
           ),
+          kSizedBox,
           GetBuilder<ProductController>(builder: (controller) {
             if (controller.isLoadVendor.value) {
               return Center(
@@ -123,26 +123,10 @@ class _BusinessProductsState extends State<BusinessProducts> {
                 ),
               );
             }
-            if (controller.vendorProducts.isEmpty) {
-              return Column(
-                children: [
-                  Lottie.asset(
-                    "assets/animations/empty/frame_1.json",
-                  ),
-                  kSizedBox,
-                  const Text(
-                    "There are no products available right now",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                  kSizedBox,
-                  const Divider(
-                    thickness: 1,
-                  ),
-                  kSizedBox,
-                ],
+            if (controller.vendorProducts.isEmpty &&
+                controller.hasHitLoadToVendor.value) {
+              return const EmptyCard(
+                emptyCardMessage: 'There are no products available right now',
               );
             }
             return LayoutGrid(
@@ -165,7 +149,6 @@ class _BusinessProductsState extends State<BusinessProducts> {
             );
           }),
           kSizedBox,
-          kSizedBox,
           const Text(
             "Similar vendors",
             textAlign: TextAlign.left,
@@ -180,8 +163,7 @@ class _BusinessProductsState extends State<BusinessProducts> {
               initState: (state) => VendorController.instance
                   .getSimilarVendors(widget.business.id),
               builder: (controller) {
-                if (controller.loadSimilarVendor.value &&
-                    controller.similarVendors.isEmpty) {
+                if (controller.loadSimilarVendor.value) {
                   return Center(
                     child: CircularProgressIndicator(
                       color: kAccentColor,

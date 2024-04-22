@@ -1,9 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
+import 'package:benji/src/repo/models/package/delivery_item.dart';
+import 'package:benji/src/repo/services/api_url.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../src/providers/constants.dart';
 import '../../src/components/appbar/my_appbar.dart';
@@ -12,9 +16,8 @@ import '../../src/components/textformfield/message_textformfield.dart';
 import '../../theme/colors.dart';
 
 class ReportPackage extends StatefulWidget {
-  const ReportPackage({
-    super.key,
-  });
+  final DeliveryItem package;
+  const ReportPackage({super.key, required this.package});
 
   @override
   State<ReportPackage> createState() => _ReportPackageState();
@@ -42,19 +45,34 @@ class _ReportPackageState extends State<ReportPackage> {
       _submittingReport = true;
     });
 
+    Map body = {};
+    final url = Uri.parse(
+        '$baseURL/clients/clientReportPackage/${widget.package.id}?message=${_messageEC.text}');
+    print(url);
+    final response =
+        await http.post(url, body: body, headers: await authHeader());
     setState(() {
       _submittingReport = false;
     });
+    if (response.statusCode == 200) {
+      mySnackBar(
+        context,
+        kSuccessColor,
+        "Success",
+        "Report submitted successfully",
+        const Duration(seconds: 1),
+      );
 
-    mySnackBar(
-      context,
-      kSuccessColor,
-      "Success",
-      "Report submitted successfully",
-      const Duration(seconds: 1),
-    );
-
-    Get.back();
+      Get.back();
+    } else {
+      mySnackBar(
+        context,
+        kAccentColor,
+        "Failed",
+        "Report was not submitted",
+        const Duration(seconds: 1),
+      );
+    }
   }
 
   @override
@@ -69,30 +87,26 @@ class _ReportPackageState extends State<ReportPackage> {
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
-        bottomSheet: _submittingReport
-            ? SizedBox(
-                height: 100,
-                child: CircularProgressIndicator(color: kAccentColor),
-              )
-            : AnimatedContainer(
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut,
-                color: kPrimaryColor,
-                padding: const EdgeInsets.only(
-                  top: kDefaultPadding,
-                  left: kDefaultPadding,
-                  right: kDefaultPadding,
-                  bottom: kDefaultPadding,
-                ),
-                child: MyElevatedButton(
-                  onPressed: (() async {
-                    if (_formKey.currentState!.validate()) {
-                      _submitReport();
-                    }
-                  }),
-                  title: "Submit",
-                ),
-              ),
+        bottomSheet: AnimatedContainer(
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+          color: kPrimaryColor,
+          padding: const EdgeInsets.only(
+            top: kDefaultPadding,
+            left: kDefaultPadding,
+            right: kDefaultPadding,
+            bottom: kDefaultPadding,
+          ),
+          child: MyElevatedButton(
+            isLoading: _submittingReport,
+            onPressed: (() async {
+              if (_formKey.currentState!.validate()) {
+                _submitReport();
+              }
+            }),
+            title: "Submit",
+          ),
+        ),
         body: SafeArea(
           child: FutureBuilder(
             future: null,

@@ -54,6 +54,7 @@ class _SendPackageState extends State<SendPackage> {
   void dispose() {
     super.dispose();
     scrollController.dispose();
+    Get.delete<FormController>();
   }
 
   //===================== BOOL VALUES =======================\\
