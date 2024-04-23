@@ -29,22 +29,22 @@ class SignUpSplashScreen extends StatefulWidget {
 class _SignUpSplashScreenState extends State<SignUpSplashScreen> {
   @override
   void initState() {
-    if (UserController.instance.isUSer()) {
-      FcmMessagingController.instance.handleFCM();
+    // if (UserController.instance.isUSer()) {
+    //   FcmMessagingController.instance.handleFCM();
 
-      ProductController.instance.getProduct();
-      VendorController.instance.getVendors();
-      VendorController.instance.getPopularBusinesses(start: 0, end: 4);
-      CategoryController.instance.getCategory();
-      AddressController.instance.getAdresses();
+    //   ProductController.instance.getProduct();
+    //   VendorController.instance.getVendors();
+    //   VendorController.instance.getPopularBusinesses(start: 0, end: 4);
+    //   CategoryController.instance.getCategory();
+    //   AddressController.instance.getAdresses();
 
-      AddressController.instance.getCurrentAddress();
-      CartController.instance.getCartProduct();
-      FavouriteController.instance.getProduct();
-      FavouriteController.instance.getVendor();
-      MyPackageController.instance.getDeliveryItemsByPending();
-      MyPackageController.instance.getDeliveryItemsByDelivered();
-    }
+    //   AddressController.instance.getCurrentAddress();
+    //   CartController.instance.getCartProduct();
+    //   FavouriteController.instance.getProduct();
+    //   FavouriteController.instance.getVendor();
+    //   MyPackageController.instance.getDeliveryItemsByPending();
+    //   MyPackageController.instance.getDeliveryItemsByDelivered();
+    // }
     super.initState();
     Timer(
       const Duration(seconds: 2),
