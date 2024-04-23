@@ -41,34 +41,22 @@ class AuthController extends GetxController {
         transition: Transition.cupertinoDialog,
       );
     } else {
-      if (kIsWeb) {
-        Get.offAll(
-          () => const HomePage(),
+      if (firstTimer()) {
+        return Get.offAll(
+          () => const OnboardingScreen(),
           fullscreenDialog: true,
           curve: Curves.easeIn,
-          routeName: "HomePage",
+          routeName: "OnboardingScreen",
           predicate: (route) => false,
           popGesture: false,
           transition: Transition.cupertinoDialog,
         );
       } else {
-        if (await getUser() != null ){
-          return  Get.offAll(
-                () => const Login(),
-            fullscreenDialog: true,
-            curve: Curves.easeIn,
-            routeName: "Login",
-            predicate: (route) => false,
-            popGesture: false,
-            transition: Transition.cupertinoDialog,
-          );
-        }
-        return
         Get.offAll(
-          () => const OnboardingScreen(),
+          () => const HomePage(),
           fullscreenDialog: true,
           curve: Curves.easeIn,
-          routeName: "OnboardingScreen",
+          routeName: "HomePage",
           predicate: (route) => false,
           popGesture: false,
           transition: Transition.cupertinoDialog,
@@ -98,8 +86,18 @@ class AuthController extends GetxController {
         const Duration(seconds: 2),
       );
       await UserController.instance.deleteUser();
-      if (kIsWeb) {
+      if (firstTimer()) {
         return Get.offAll(
+          () => const OnboardingScreen(),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          routeName: "OnboardingScreen",
+          predicate: (route) => false,
+          popGesture: false,
+          transition: Transition.cupertinoDialog,
+        );
+      } else {
+        Get.offAll(
           () => const HomePage(),
           fullscreenDialog: true,
           curve: Curves.easeIn,
@@ -109,16 +107,6 @@ class AuthController extends GetxController {
           transition: Transition.cupertinoDialog,
         );
       }
-      return Get.offAll(
-        () => const Login(),
-        routeName: 'Login',
-        predicate: (route) => false,
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        popGesture: false,
-        transition: Transition.rightToLeft,
-      );
     }
   }
 }

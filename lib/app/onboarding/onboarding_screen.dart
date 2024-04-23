@@ -1,6 +1,8 @@
 // ignore_for_file: camel_case_types
 
 import 'package:benji/app/auth/signup.dart';
+import 'package:benji/frontend/main/home.dart';
+import 'package:benji/src/repo/services/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
@@ -44,9 +46,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             : [
                 TextButton(
                   onPressed: () async {
+                    await setFirstTimer();
                     Get.offAll(
-                      () => const SignUp(),
-                      routeName: 'SignUp',
+                      () => const HomePage(),
+                      routeName: 'HomePage',
                       duration: const Duration(milliseconds: 300),
                       fullscreenDialog: true,
                       curve: Curves.easeIn,
@@ -157,9 +160,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ElevatedButton(
                   onPressed: () async {
                     if (index == screens.length - 1) {
+                      await setFirstTimer();
                       Get.offAll(
-                        () => const SignUp(),
-                        routeName: 'SignUp',
+                        () => const HomePage(),
+                        routeName: 'HomePage',
                         duration: const Duration(milliseconds: 300),
                         fullscreenDialog: true,
                         curve: Curves.easeIn,

@@ -31,28 +31,28 @@ class StartupSplashscreen extends StatefulWidget {
 class _StartupSplashscreenState extends State<StartupSplashscreen> {
   @override
   void initState() {
-    if (UserController.instance.isUSer()) {
-      isAuthorized().then((value) async {
-        if (value) {
-          await FcmMessagingController.instance.handleFCM();
-          await ProductController.instance.getProduct();
-          await ProductController.instance.getTopProducts();
-          await VendorController.instance.getVendors();
-          await VendorController.instance
-              .getPopularBusinesses(start: 0, end: 4);
-          await CategoryController.instance.getCategory();
-          await AddressController.instance.getAdresses();
-          await AddressController.instance.getCurrentAddress();
-          await CartController.instance.getCartProduct();
-          await FavouriteController.instance.getProduct();
-          await FavouriteController.instance.getVendor();
-          await MyPackageController.instance.getDeliveryItemsByPending();
-          await MyPackageController.instance.getDeliveryItemsByDelivered();
-          await ShoppingLocationController.instance
-              .getShoppingLocationCountries();
-        }
-      });
-    }
+    // if (UserController.instance.isUSer()) {
+    //   isAuthorized().then((value) async {
+    //     if (value) {
+    //       await FcmMessagingController.instance.handleFCM();
+    //       await ProductController.instance.getProduct();
+    //       await ProductController.instance.getTopProducts();
+    //       await VendorController.instance.getVendors();
+    //       await VendorController.instance
+    //           .getPopularBusinesses(start: 0, end: 4);
+    //       await CategoryController.instance.getCategory();
+    //       await AddressController.instance.getAdresses();
+    //       await AddressController.instance.getCurrentAddress();
+    //       await CartController.instance.getCartProduct();
+    //       await FavouriteController.instance.getProduct();
+    //       await FavouriteController.instance.getVendor();
+    //       await MyPackageController.instance.getDeliveryItemsByPending();
+    //       await MyPackageController.instance.getDeliveryItemsByDelivered();
+    //       await ShoppingLocationController.instance
+    //           .getShoppingLocationCountries();
+    //     }
+    //   });
+    // }
     Timer(
       const Duration(seconds: 2),
       () {
