@@ -545,484 +545,285 @@ class _HomeState extends State<Home> {
             onRefresh: _handleRefresh,
             color: kAccentColor,
             semanticsLabel: "Pull to refresh",
-            child: Scrollbar(
-              child: ListView(
-                controller: scrollController,
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                padding: deviceType(media.width) > 2
-                    ? const EdgeInsets.all(kDefaultPadding)
-                    : const EdgeInsets.all(kDefaultPadding / 2),
-                children: [
-                  GetBuilder<ProductController>(
-                    initState: (state) =>
-                        ProductController.instance.getTopProducts(),
-                    builder: (controller) {
-                      if (controller.isLoad.value &&
-                          controller.topProducts.isEmpty) {
-                        return Shimmer.fromColors(
-                          highlightColor: kBlackColor.withOpacity(0.9),
-                          baseColor: kBlackColor.withOpacity(0.6),
-                          direction: ShimmerDirection.ltr,
-                          child: PageSkeleton(
-                              height: 150, width: media.width - 20),
-                        );
-                      }
-                      if (controller.topProducts.isEmpty) {
-                        return const SizedBox();
-                      }
+            child: ListView(
+              controller: scrollController,
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              padding: deviceType(media.width) > 2
+                  ? const EdgeInsets.all(kDefaultPadding)
+                  : const EdgeInsets.all(kDefaultPadding / 2),
+              children: [
+                GetBuilder<ProductController>(
+                  initState: (state) =>
+                      ProductController.instance.getTopProducts(),
+                  builder: (controller) {
+                    if (controller.isLoad.value &&
+                        controller.topProducts.isEmpty) {
+                      return Shimmer.fromColors(
+                        highlightColor: kBlackColor.withOpacity(0.9),
+                        baseColor: kBlackColor.withOpacity(0.6),
+                        direction: ShimmerDirection.ltr,
+                        child:
+                            PageSkeleton(height: 150, width: media.width - 20),
+                      );
+                    }
+                    if (controller.topProducts.isEmpty) {
+                      return const SizedBox();
+                    }
 
-                      return FlutterCarousel.builder(
-                        options: CarouselOptions(
-                          height: media.height * 0.25,
-                          viewportFraction: 1.0,
-                          initialPage: 0,
-                          enableInfiniteScroll: true,
-                          autoPlayInterval: const Duration(seconds: 2),
-                          autoPlayAnimationDuration:
-                              const Duration(milliseconds: 800),
-                          autoPlayCurve: Curves.easeInOut,
-                          enlargeCenterPage: true,
-                          controller: carouselController,
-                          onPageChanged: (index, value) {
-                            setState(() {});
-                          },
-                          pageSnapping: true,
-                          scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
-                          scrollBehavior: const ScrollBehavior(),
-                          pauseAutoPlayOnTouch: true,
-                          pauseAutoPlayOnManualNavigate: true,
-                          pauseAutoPlayInFiniteScroll: false,
-                          enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                          disableCenter: false,
-                          showIndicator: true,
-                          floatingIndicator: true,
-                          slideIndicator: CircularSlideIndicator(
-                            alignment: Alignment.bottomCenter,
-                            currentIndicatorColor: kAccentColor,
-                            indicatorBackgroundColor: kPrimaryColor,
-                            indicatorRadius: 5,
-                            padding: const EdgeInsets.all(0),
+                    return FlutterCarousel.builder(
+                      options: CarouselOptions(
+                        height: media.height * 0.25,
+                        viewportFraction: 1.0,
+                        initialPage: 0,
+                        enableInfiniteScroll: true,
+                        autoPlayInterval: const Duration(seconds: 2),
+                        autoPlayAnimationDuration:
+                            const Duration(milliseconds: 800),
+                        autoPlayCurve: Curves.easeInOut,
+                        enlargeCenterPage: true,
+                        controller: carouselController,
+                        onPageChanged: (index, value) {
+                          setState(() {});
+                        },
+                        pageSnapping: true,
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        scrollBehavior: const ScrollBehavior(),
+                        pauseAutoPlayOnTouch: true,
+                        pauseAutoPlayOnManualNavigate: true,
+                        pauseAutoPlayInFiniteScroll: false,
+                        enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                        disableCenter: false,
+                        showIndicator: true,
+                        floatingIndicator: true,
+                        slideIndicator: CircularSlideIndicator(
+                          alignment: Alignment.bottomCenter,
+                          currentIndicatorColor: kAccentColor,
+                          indicatorBackgroundColor: kPrimaryColor,
+                          indicatorRadius: 5,
+                          padding: const EdgeInsets.all(0),
+                        ),
+                      ),
+                      itemCount: controller.topProducts.length,
+                      itemBuilder: (BuildContext context, int itemIndex,
+                              int pageViewIndex) =>
+                          Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: Container(
+                          width: media.width,
+                          decoration: const ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            // image: DecorationImage(
+                            //   fit: BoxFit.cover,
+                            //   image: AssetImage(
+                            //   ),
+                            // ),
+                          ),
+                          child: InkWell(
+                            onTap: () => _toProductDetailScreenPage(
+                                controller.topProducts[itemIndex]),
+                            child: MyImage(
+                              url: controller
+                                  .topProducts[itemIndex].productImage,
+                            ),
                           ),
                         ),
-                        itemCount: controller.topProducts.length,
-                        itemBuilder: (BuildContext context, int itemIndex,
-                                int pageViewIndex) =>
-                            Padding(
-                          padding: const EdgeInsets.all(0),
-                          child: Container(
-                            width: media.width,
-                            decoration: const ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
-                              // image: DecorationImage(
-                              //   fit: BoxFit.cover,
-                              //   image: AssetImage(
-                              //   ),
-                              // ),
+                      ),
+                    );
+                  },
+                ),
+                kSizedBox,
+                // categories
+                Container(
+                  width: media.width,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: kLightGreyColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Today's Deals",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: kTextBlackColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -0.40,
+                      ),
+                    ),
+                  ),
+                ),
+                kSizedBox,
+                GetBuilder<CategoryController>(
+                    initState: (state) =>
+                        CategoryController.instance.getCategory(),
+                    builder: (controller) {
+                      if (controller.isLoad.value &&
+                          controller.category.isEmpty) {
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Shimmer.fromColors(
+                                  highlightColor: kBlackColor.withOpacity(0.9),
+                                  baseColor: kBlackColor.withOpacity(0.6),
+                                  direction: ShimmerDirection.ltr,
+                                  child: PageSkeleton(
+                                      height: 35, width: media.width / 7),
+                                ),
+                                kWidthSizedBox,
+                                Shimmer.fromColors(
+                                  highlightColor: kBlackColor.withOpacity(0.9),
+                                  baseColor: kBlackColor.withOpacity(0.6),
+                                  direction: ShimmerDirection.ltr,
+                                  child: PageSkeleton(
+                                      height: 35, width: media.width / 7),
+                                ),
+                                kWidthSizedBox,
+                                Shimmer.fromColors(
+                                  highlightColor: kBlackColor.withOpacity(0.9),
+                                  baseColor: kBlackColor.withOpacity(0.6),
+                                  direction: ShimmerDirection.ltr,
+                                  child: PageSkeleton(
+                                      height: 35, width: media.width / 7),
+                                ),
+                                kWidthSizedBox,
+                                Shimmer.fromColors(
+                                    highlightColor:
+                                        kBlackColor.withOpacity(0.9),
+                                    baseColor: kBlackColor.withOpacity(0.6),
+                                    direction: ShimmerDirection.ltr,
+                                    child: PageSkeleton(
+                                        height: 35, width: media.width / 9)),
+                              ],
                             ),
-                            child: InkWell(
-                              onTap: () => _toProductDetailScreenPage(
-                                  controller.topProducts[itemIndex]),
-                              child: MyImage(
-                                url: controller
-                                    .topProducts[itemIndex].productImage,
+                            kSizedBox,
+                          ],
+                        );
+                      }
+                      return LayoutGrid(
+                        columnGap: 10,
+                        rowGap: 10,
+                        columnSizes: breakPointDynamic(
+                          media.width,
+                          List.filled(4, 1.fr),
+                          List.filled(4, 1.fr),
+                          List.filled(8, 1.fr),
+                          List.filled(8, 1.fr),
+                        ),
+                        rowSizes: const [auto, auto],
+                        children: List.generate(
+                            min(8, controller.category.length + 1),
+                            (index) => index).map(
+                          (item) {
+                            int value = min(7, controller.category.length);
+                            if (item == value) {
+                              return CategoryItem(
+                                nav: () => showModalBottomSheet(
+                                  context: context,
+                                  elevation: 20,
+                                  barrierColor: kBlackColor.withOpacity(0.6),
+                                  showDragHandle: true,
+                                  useSafeArea: true,
+                                  isDismissible: true,
+                                  isScrollControlled: true,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(
+                                        kDefaultPadding,
+                                      ),
+                                    ),
+                                  ),
+                                  enableDrag: true,
+                                  builder: (builder) => CategoryItemSheet(
+                                      category: controller.category.value),
+                                ),
+                              );
+                            }
+                            return CategoryItem(
+                              category: controller.category[item],
+                              nav: () => _toSeeProducts(
+                                  controller.category[item],
+                                  id: controller.category[item].id),
+                            );
+                          },
+                        ).toList(),
+                      );
+                    }),
+                SeeAllContainer(
+                  title: "Recommended Vendors",
+                  onPressed: _toSeeAllBusinessesNearYou,
+                ),
+                kSizedBox,
+                GetBuilder<VendorController>(
+                    initState: (state) =>
+                        VendorController.instance.getVendors(),
+                    builder: (controller) {
+                      if (controller.isLoad.value &&
+                          controller.vendorList.isEmpty) {
+                        return const SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              CardSkeleton(height: 200, width: 200),
+                              kHalfWidthSizedBox,
+                              CardSkeleton(height: 200, width: 200),
+                              kHalfWidthSizedBox,
+                              CardSkeleton(height: 200, width: 200),
+                            ],
+                          ),
+                        );
+                      }
+                      if (controller.vendorList.isEmpty) {
+                        return const EmptyCard(
+                          showButton: false,
+                          emptyCardMessage:
+                              "There are no recommended vendors in your location.",
+                        );
+                      }
+                      return SizedBox(
+                        height: 250,
+                        width: media.width,
+                        child: ListView.separated(
+                          itemCount: controller.vendorList.length,
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
+                          separatorBuilder: (context, index) =>
+                              deviceType(media.width) > 2
+                                  ? kWidthSizedBox
+                                  : kHalfWidthSizedBox,
+                          itemBuilder: (context, index) => InkWell(
+                            child: SizedBox(
+                              width: 200,
+                              child: BusinessCard(
+                                business: controller.vendorList[index],
+                                removeDistance: false,
+                                onTap: () {
+                                  _toVendorPage(controller.vendorList[index]);
+                                },
                               ),
                             ),
                           ),
                         ),
                       );
-                    },
-                  ),
-                  kSizedBox,
-                  // categories
-                  Container(
-                    width: media.width,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: kLightGreyColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "Today's Deals",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: kTextBlackColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: -0.40,
-                        ),
-                      ),
-                    ),
-                  ),
-                  kSizedBox,
-                  GetBuilder<CategoryController>(
-                      initState: (state) =>
-                          CategoryController.instance.getCategory(),
-                      builder: (controller) {
-                        if (controller.isLoad.value &&
-                            controller.category.isEmpty) {
-                          return Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Shimmer.fromColors(
-                                    highlightColor:
-                                        kBlackColor.withOpacity(0.9),
-                                    baseColor: kBlackColor.withOpacity(0.6),
-                                    direction: ShimmerDirection.ltr,
-                                    child: PageSkeleton(
-                                        height: 35, width: media.width / 7),
-                                  ),
-                                  kWidthSizedBox,
-                                  Shimmer.fromColors(
-                                    highlightColor:
-                                        kBlackColor.withOpacity(0.9),
-                                    baseColor: kBlackColor.withOpacity(0.6),
-                                    direction: ShimmerDirection.ltr,
-                                    child: PageSkeleton(
-                                        height: 35, width: media.width / 7),
-                                  ),
-                                  kWidthSizedBox,
-                                  Shimmer.fromColors(
-                                    highlightColor:
-                                        kBlackColor.withOpacity(0.9),
-                                    baseColor: kBlackColor.withOpacity(0.6),
-                                    direction: ShimmerDirection.ltr,
-                                    child: PageSkeleton(
-                                        height: 35, width: media.width / 7),
-                                  ),
-                                  kWidthSizedBox,
-                                  Shimmer.fromColors(
-                                      highlightColor:
-                                          kBlackColor.withOpacity(0.9),
-                                      baseColor: kBlackColor.withOpacity(0.6),
-                                      direction: ShimmerDirection.ltr,
-                                      child: PageSkeleton(
-                                          height: 35, width: media.width / 9)),
-                                ],
-                              ),
-                              kSizedBox,
-                            ],
-                          );
-                        }
-                        return LayoutGrid(
-                          columnGap: 10,
-                          rowGap: 10,
-                          columnSizes: breakPointDynamic(
-                            media.width,
-                            List.filled(4, 1.fr),
-                            List.filled(4, 1.fr),
-                            List.filled(8, 1.fr),
-                            List.filled(8, 1.fr),
-                          ),
-                          rowSizes: const [auto, auto],
-                          children: List.generate(
-                              min(8, controller.category.length + 1),
-                              (index) => index).map(
-                            (item) {
-                              int value = min(7, controller.category.length);
-                              if (item == value) {
-                                return CategoryItem(
-                                  nav: () => showModalBottomSheet(
-                                    context: context,
-                                    elevation: 20,
-                                    barrierColor: kBlackColor.withOpacity(0.6),
-                                    showDragHandle: true,
-                                    useSafeArea: true,
-                                    isDismissible: true,
-                                    isScrollControlled: true,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(
-                                          kDefaultPadding,
-                                        ),
-                                      ),
-                                    ),
-                                    enableDrag: true,
-                                    builder: (builder) => CategoryItemSheet(
-                                        category: controller.category.value),
-                                  ),
-                                );
-                              }
-                              return CategoryItem(
-                                category: controller.category[item],
-                                nav: () => _toSeeProducts(
-                                    controller.category[item],
-                                    id: controller.category[item].id),
-                              );
-                            },
-                          ).toList(),
-                        );
-                      }),
-                  SeeAllContainer(
-                    title: "Recommended Vendors",
-                    onPressed: _toSeeAllBusinessesNearYou,
-                  ),
-                  kSizedBox,
-                  GetBuilder<VendorController>(
-                      initState: (state) =>
-                          VendorController.instance.getVendors(),
-                      builder: (controller) {
-                        if (controller.isLoad.value &&
-                            controller.vendorList.isEmpty) {
-                          return const SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                CardSkeleton(height: 200, width: 200),
-                                kHalfWidthSizedBox,
-                                CardSkeleton(height: 200, width: 200),
-                                kHalfWidthSizedBox,
-                                CardSkeleton(height: 200, width: 200),
-                              ],
-                            ),
-                          );
-                        }
-                        if (controller.vendorList.isEmpty) {
-                          return const EmptyCard(
-                            showButton: false,
-                            emptyCardMessage:
-                                "There are no recommended vendors in your location.",
-                          );
-                        }
-                        return SizedBox(
-                          height: 250,
-                          width: media.width,
-                          child: ListView.separated(
-                            itemCount: controller.vendorList.length,
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
-                            separatorBuilder: (context, index) =>
-                                deviceType(media.width) > 2
-                                    ? kWidthSizedBox
-                                    : kHalfWidthSizedBox,
-                            itemBuilder: (context, index) => InkWell(
-                              child: SizedBox(
-                                width: 200,
-                                child: BusinessCard(
-                                  business: controller.vendorList[index],
-                                  removeDistance: false,
-                                  onTap: () {
-                                    _toVendorPage(controller.vendorList[index]);
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
-                  kSizedBox,
-                  SeeAllContainer(
-                    title: "Popular Vendors",
-                    onPressed: _toSeeAllPopularBusinesses,
-                  ),
-                  kSizedBox,
-                  GetBuilder<VendorController>(
-                      initState: (state) => VendorController.instance
-                          .getPopularBusinesses(start: 0, end: 4),
-                      builder: (controller) {
-                        if (controller.isLoad.value &&
-                            controller.vendorPopularList.isEmpty) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: List.filled(
-                              breakPoint(media.width, 1, 2, 3, 4).toInt(),
-                              CardSkeleton(
-                                  height: 200,
-                                  width: (media.width /
-                                          breakPoint(media.width, 1, 2, 3, 4)) -
-                                      20),
-                            ),
-                          );
-                        }
-                        if (controller.vendorPopularList.isEmpty) {
-                          return const EmptyCard(
-                            showButton: false,
-                            emptyCardMessage:
-                                "There are no popular vendors available.",
-                          );
-                        }
-                        return LayoutGrid(
-                          rowGap: kDefaultPadding / 2,
-                          columnGap: kDefaultPadding / 2,
-                          columnSizes: breakPointDynamic(
-                              media.width,
-                              [1.fr],
-                              [1.fr, 1.fr],
-                              [1.fr, 1.fr, 1.fr],
-                              [1.fr, 1.fr, 1.fr, 1.fr]),
-                          rowSizes: controller.vendorPopularList
-                                  .getRange(
-                                      0,
-                                      min(controller.vendorPopularList.length,
-                                          3))
-                                  .isEmpty
-                              ? [auto]
-                              : List.generate(
-                                  controller.vendorPopularList
-                                      .getRange(
-                                          0,
-                                          min(
-                                              controller
-                                                  .vendorPopularList.length,
-                                              3))
-                                      .length,
-                                  (index) => auto),
-                          children: (controller.vendorPopularList.getRange(0,
-                                  min(controller.vendorPopularList.length, 3)))
-                              .map(
-                                (item) => BusinessCard(
-                                  business: item,
-                                  removeDistance: true,
-                                  onTap: () {
-                                    _toVendorPage(item);
-                                  },
-                                ),
-                              )
-                              .toList(),
-                        );
-                      }),
-                  kSizedBox,
-                  Container(
-                    width: media.width,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: kLightGreyColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Products Category".toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: kTextBlackColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: -0.40,
-                        ),
-                      ),
-                    ),
-                  ),
-                  kSizedBox,
-                  GetBuilder<CategoryController>(
-                      initState: (state) =>
-                          CategoryController.instance.getCategory(),
-                      builder: (controller) {
-                        if (controller.isLoad.value &&
-                            controller.category.isEmpty) {
-                          return Column(
-                            children: [
-                              kSizedBox,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Shimmer.fromColors(
-                                    highlightColor:
-                                        kBlackColor.withOpacity(0.9),
-                                    baseColor: kBlackColor.withOpacity(0.6),
-                                    direction: ShimmerDirection.ltr,
-                                    child: PageSkeleton(
-                                        height: 35, width: media.width / 7),
-                                  ),
-                                  kWidthSizedBox,
-                                  Shimmer.fromColors(
-                                    highlightColor:
-                                        kBlackColor.withOpacity(0.9),
-                                    baseColor: kBlackColor.withOpacity(0.6),
-                                    direction: ShimmerDirection.ltr,
-                                    child: PageSkeleton(
-                                        height: 35, width: media.width / 7),
-                                  ),
-                                  kWidthSizedBox,
-                                  Shimmer.fromColors(
-                                    highlightColor:
-                                        kBlackColor.withOpacity(0.9),
-                                    baseColor: kBlackColor.withOpacity(0.6),
-                                    direction: ShimmerDirection.ltr,
-                                    child: PageSkeleton(
-                                        height: 35, width: media.width / 7),
-                                  ),
-                                  kWidthSizedBox,
-                                  Shimmer.fromColors(
-                                      highlightColor:
-                                          kBlackColor.withOpacity(0.9),
-                                      baseColor: kBlackColor.withOpacity(0.6),
-                                      direction: ShimmerDirection.ltr,
-                                      child: PageSkeleton(
-                                          height: 35, width: media.width / 9)),
-                                ],
-                              ),
-                              kSizedBox,
-                            ],
-                          );
-                        }
-
-                        return LayoutGrid(
-                          columnGap: 10,
-                          rowGap: 10,
-                          columnSizes: breakPointDynamic(
-                            media.width,
-                            List.filled(4, 1.fr),
-                            List.filled(4, 1.fr),
-                            List.filled(8, 1.fr),
-                            List.filled(8, 1.fr),
-                          ),
-                          rowSizes: const [auto, auto],
-                          children: List.generate(
-                              min(8, controller.category.length + 1),
-                              (index) => index).map(
-                            (item) {
-                              int value = min(7, controller.category.length);
-                              if (item == value) {
-                                return CategoryItem(
-                                  nav: () => showModalBottomSheet(
-                                    context: context,
-                                    elevation: 20,
-                                    barrierColor: kBlackColor.withOpacity(0.6),
-                                    showDragHandle: true,
-                                    useSafeArea: true,
-                                    isDismissible: true,
-                                    isScrollControlled: true,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(
-                                          kDefaultPadding,
-                                        ),
-                                      ),
-                                    ),
-                                    enableDrag: true,
-                                    builder: (builder) => CategoryItemSheet(
-                                        isShop: false,
-                                        category: controller.category),
-                                  ),
-                                );
-                              }
-                              return CategoryItem(
-                                isShop: false,
-                                category: controller.category[item],
-                                nav: () => _toSeeProducts(
-                                    controller.category[item],
-                                    id: controller.category[item].id),
-                              );
-                            },
-                          ).toList(),
-                        );
-                      }),
-                  kSizedBox,
-
-                  GetBuilder<ProductController>(
-                    initState: (state) =>
-                        ProductController.instance.getProduct(),
+                    }),
+                kSizedBox,
+                SeeAllContainer(
+                  title: "Popular Vendors",
+                  onPressed: _toSeeAllPopularBusinesses,
+                ),
+                kSizedBox,
+                GetBuilder<VendorController>(
+                    initState: (state) => VendorController.instance
+                        .getPopularBusinesses(start: 0, end: 4),
                     builder: (controller) {
                       if (controller.isLoad.value &&
-                          controller.products.isEmpty) {
+                          controller.vendorPopularList.isEmpty) {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.filled(
@@ -1035,63 +836,246 @@ class _HomeState extends State<Home> {
                           ),
                         );
                       }
-                      if (controller.products.isEmpty) {
+                      if (controller.vendorPopularList.isEmpty) {
                         return const EmptyCard(
                           showButton: false,
-                          emptyCardMessage: "There are no products available",
+                          emptyCardMessage:
+                              "There are no popular vendors available.",
                         );
                       }
-                      return Column(
-                        children: [
-                          LayoutGrid(
-                            rowGap: kDefaultPadding / 2,
-                            columnGap: kDefaultPadding / 2,
-                            columnSizes: breakPointDynamic(
-                                media.width,
-                                [1.fr],
-                                [1.fr, 1.fr],
-                                [1.fr, 1.fr, 1.fr],
-                                [1.fr, 1.fr, 1.fr, 1.fr]),
-                            rowSizes: controller.products.isEmpty
-                                ? [auto]
-                                : List.generate(controller.products.length,
-                                    (index) => auto),
-                            children: (controller.products)
-                                .map(
-                                  (item) => ProductCard(
-                                    product: item,
-                                    onTap: () =>
-                                        _toProductDetailScreenPage(item),
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                          kHalfSizedBox,
-                          controller.loadedAllProduct.value
-                              ? Container(
-                                  margin: const EdgeInsets.only(top: 20),
-                                  height: 10,
-                                  width: 10,
-                                  decoration: ShapeDecoration(
-                                      shape: const CircleBorder(),
-                                      color: kPageSkeletonColor),
-                                )
-                              : const SizedBox(),
-                          controller.isLoadMoreProduct.value
-                              ? Center(
-                                  child: CircularProgressIndicator(
-                                    color: kAccentColor,
-                                  ),
-                                )
-                              : const SizedBox()
-                        ],
+                      return LayoutGrid(
+                        rowGap: kDefaultPadding / 2,
+                        columnGap: kDefaultPadding / 2,
+                        columnSizes: breakPointDynamic(
+                            media.width,
+                            [1.fr],
+                            [1.fr, 1.fr],
+                            [1.fr, 1.fr, 1.fr],
+                            [1.fr, 1.fr, 1.fr, 1.fr]),
+                        rowSizes: controller.vendorPopularList
+                                .getRange(0,
+                                    min(controller.vendorPopularList.length, 3))
+                                .isEmpty
+                            ? [auto]
+                            : List.generate(
+                                controller.vendorPopularList
+                                    .getRange(
+                                        0,
+                                        min(controller.vendorPopularList.length,
+                                            3))
+                                    .length,
+                                (index) => auto),
+                        children: (controller.vendorPopularList.getRange(
+                                0, min(controller.vendorPopularList.length, 3)))
+                            .map(
+                              (item) => BusinessCard(
+                                business: item,
+                                removeDistance: true,
+                                onTap: () {
+                                  _toVendorPage(item);
+                                },
+                              ),
+                            )
+                            .toList(),
                       );
-                    },
+                    }),
+                kSizedBox,
+                Container(
+                  width: media.width,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: kLightGreyColor,
+                    borderRadius: BorderRadius.circular(10),
                   ),
+                  child: Center(
+                    child: Text(
+                      "Products Category".toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: kTextBlackColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -0.40,
+                      ),
+                    ),
+                  ),
+                ),
+                kSizedBox,
+                GetBuilder<CategoryController>(
+                    initState: (state) =>
+                        CategoryController.instance.getCategory(),
+                    builder: (controller) {
+                      if (controller.isLoad.value &&
+                          controller.category.isEmpty) {
+                        return Column(
+                          children: [
+                            kSizedBox,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Shimmer.fromColors(
+                                  highlightColor: kBlackColor.withOpacity(0.9),
+                                  baseColor: kBlackColor.withOpacity(0.6),
+                                  direction: ShimmerDirection.ltr,
+                                  child: PageSkeleton(
+                                      height: 35, width: media.width / 7),
+                                ),
+                                kWidthSizedBox,
+                                Shimmer.fromColors(
+                                  highlightColor: kBlackColor.withOpacity(0.9),
+                                  baseColor: kBlackColor.withOpacity(0.6),
+                                  direction: ShimmerDirection.ltr,
+                                  child: PageSkeleton(
+                                      height: 35, width: media.width / 7),
+                                ),
+                                kWidthSizedBox,
+                                Shimmer.fromColors(
+                                  highlightColor: kBlackColor.withOpacity(0.9),
+                                  baseColor: kBlackColor.withOpacity(0.6),
+                                  direction: ShimmerDirection.ltr,
+                                  child: PageSkeleton(
+                                      height: 35, width: media.width / 7),
+                                ),
+                                kWidthSizedBox,
+                                Shimmer.fromColors(
+                                    highlightColor:
+                                        kBlackColor.withOpacity(0.9),
+                                    baseColor: kBlackColor.withOpacity(0.6),
+                                    direction: ShimmerDirection.ltr,
+                                    child: PageSkeleton(
+                                        height: 35, width: media.width / 9)),
+                              ],
+                            ),
+                            kSizedBox,
+                          ],
+                        );
+                      }
 
-                  kSizedBox,
-                ],
-              ),
+                      return LayoutGrid(
+                        columnGap: 10,
+                        rowGap: 10,
+                        columnSizes: breakPointDynamic(
+                          media.width,
+                          List.filled(4, 1.fr),
+                          List.filled(4, 1.fr),
+                          List.filled(8, 1.fr),
+                          List.filled(8, 1.fr),
+                        ),
+                        rowSizes: const [auto, auto],
+                        children: List.generate(
+                            min(8, controller.category.length + 1),
+                            (index) => index).map(
+                          (item) {
+                            int value = min(7, controller.category.length);
+                            if (item == value) {
+                              return CategoryItem(
+                                nav: () => showModalBottomSheet(
+                                  context: context,
+                                  elevation: 20,
+                                  barrierColor: kBlackColor.withOpacity(0.6),
+                                  showDragHandle: true,
+                                  useSafeArea: true,
+                                  isDismissible: true,
+                                  isScrollControlled: true,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(
+                                        kDefaultPadding,
+                                      ),
+                                    ),
+                                  ),
+                                  enableDrag: true,
+                                  builder: (builder) => CategoryItemSheet(
+                                      isShop: false,
+                                      category: controller.category),
+                                ),
+                              );
+                            }
+                            return CategoryItem(
+                              isShop: false,
+                              category: controller.category[item],
+                              nav: () => _toSeeProducts(
+                                  controller.category[item],
+                                  id: controller.category[item].id),
+                            );
+                          },
+                        ).toList(),
+                      );
+                    }),
+                kSizedBox,
+
+                GetBuilder<ProductController>(
+                  initState: (state) => ProductController.instance.getProduct(),
+                  builder: (controller) {
+                    if (controller.isLoad.value &&
+                        controller.products.isEmpty) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: List.filled(
+                          breakPoint(media.width, 1, 2, 3, 4).toInt(),
+                          CardSkeleton(
+                              height: 200,
+                              width: (media.width /
+                                      breakPoint(media.width, 1, 2, 3, 4)) -
+                                  20),
+                        ),
+                      );
+                    }
+                    if (controller.products.isEmpty) {
+                      return const EmptyCard(
+                        showButton: false,
+                        emptyCardMessage: "There are no products available",
+                      );
+                    }
+                    return Column(
+                      children: [
+                        LayoutGrid(
+                          rowGap: kDefaultPadding / 2,
+                          columnGap: kDefaultPadding / 2,
+                          columnSizes: breakPointDynamic(
+                              media.width,
+                              [1.fr],
+                              [1.fr, 1.fr],
+                              [1.fr, 1.fr, 1.fr],
+                              [1.fr, 1.fr, 1.fr, 1.fr]),
+                          rowSizes: controller.products.isEmpty
+                              ? [auto]
+                              : List.generate(
+                                  controller.products.length, (index) => auto),
+                          children: (controller.products)
+                              .map(
+                                (item) => ProductCard(
+                                  product: item,
+                                  onTap: () => _toProductDetailScreenPage(item),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                        kHalfSizedBox,
+                        controller.loadedAllProduct.value
+                            ? Container(
+                                margin: const EdgeInsets.only(top: 20),
+                                height: 10,
+                                width: 10,
+                                decoration: ShapeDecoration(
+                                    shape: const CircleBorder(),
+                                    color: kPageSkeletonColor),
+                              )
+                            : const SizedBox(),
+                        controller.isLoadMoreProduct.value
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                  color: kAccentColor,
+                                ),
+                              )
+                            : const SizedBox()
+                      ],
+                    );
+                  },
+                ),
+
+                kSizedBox,
+              ],
             ),
           ),
         ),

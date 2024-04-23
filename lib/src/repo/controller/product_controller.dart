@@ -31,11 +31,13 @@ class ProductController extends GetxController {
   var loadTopProduct = false.obs;
 
   // product pagination
+  var hasHitLoadToVendor = false.obs;
   var loadedAllProduct = false.obs;
   var isLoadMoreProduct = false.obs;
   var loadNumProduct = 10.obs;
 
   // product pagination
+  var isLoadProductSubCategory = false.obs;
   var loadedAllProductSubCategory = false.obs;
   var isLoadMoreProductSubCategory = false.obs;
   var loadNumProductSubCategory = 10.obs;
@@ -120,7 +122,7 @@ class ProductController extends GetxController {
     var url =
         "${Api.baseUrl}/clients/filterProductsBySubCategory/${selectedSubCategory.value.id}/${getShoppingLocationPath(reverse: true)}?start=${loadNumProductSubCategory.value - 10}&end=${loadNumProductSubCategory.value}";
     loadNumProductSubCategory.value += 10;
-
+    print(url);
     String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
     var responseData = await ApiProcessorController.errorState(response);
@@ -148,6 +150,7 @@ class ProductController extends GetxController {
   Future getProductsByVendorAndSubCategory(
       String vendorId, String subCategoryId) async {
     isLoadVendor.value = true;
+    hasHitLoadToVendor.value = true;
     update();
     var url =
         "${Api.baseUrl}/clients/filterVendorsProductsBySubCategory/$vendorId/$subCategoryId";
@@ -169,6 +172,7 @@ class ProductController extends GetxController {
       log(e.toString());
     }
     isLoadVendor.value = false;
+    hasHitLoadToVendor.value = false;
     update();
   }
 

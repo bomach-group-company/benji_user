@@ -352,6 +352,9 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   textInputAction: TextInputAction.next,
                                   focusNode: _phoneNumberFN,
                                   validator: (value) {
+                                    if (_phoneNumberEC.text.isNotEmpty) {
+                                      return null;
+                                    }
                                     if (value == null || value == "") {
                                       _phoneNumberFN.requestFocus();
                                       return "Enter your phone number";

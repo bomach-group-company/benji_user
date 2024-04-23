@@ -11,14 +11,17 @@ class MyImage extends StatelessWidget {
   final double radiusBottom;
   final double? width;
   final double? height;
+  final bool local;
 
-  const MyImage(
-      {super.key,
-      this.url,
-      this.radiusTop = 15,
-      this.radiusBottom = 15,
-      this.width = double.infinity,
-      this.height = double.infinity});
+  const MyImage({
+    super.key,
+    this.url,
+    this.radiusTop = 15,
+    this.radiusBottom = 15,
+    this.width = double.infinity,
+    this.height = double.infinity,
+    this.local = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +33,13 @@ class MyImage extends StatelessWidget {
           bottomLeft: Radius.circular(radiusBottom),
           bottomRight: Radius.circular(radiusBottom)),
       child: CachedNetworkImage(
-        imageUrl: url == null
-            ? ''
-            : url!.startsWith("https")
-                ? url!
-                : baseImage + url!,
+        imageUrl: local
+            ? url!
+            : url == null
+                ? ''
+                : url!.startsWith("https")
+                    ? url!
+                    : baseImage + url!,
         width: width,
         height: height,
         filterQuality: FilterQuality.high,

@@ -831,8 +831,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             initState: (state) => ProductController.instance
                                 .getSimilarProducts(widget.product.id),
                             builder: (controller) {
-                              if (controller.loadSimilarProduct.value &&
-                                  controller.similarProducts.isEmpty) {
+                              if (controller.loadSimilarProduct.value) {
                                 return Center(
                                   child: CircularProgressIndicator(
                                     color: kAccentColor,

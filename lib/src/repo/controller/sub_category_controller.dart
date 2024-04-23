@@ -67,6 +67,8 @@ class SubCategoryController extends GetxController {
   Future getSubCategoryAllByVendor(String vendorId) async {
     allSubcategoryByVendor.value = [];
     isLoadForAll.value = true;
+    ProductController.instance.vendorProducts.value = [];
+
     late String token;
     var url = "${Api.baseUrl}/clients/getBusinessSubCategories/$vendorId";
     token = UserController.instance.user.value.token;

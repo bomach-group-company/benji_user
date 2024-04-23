@@ -73,7 +73,9 @@ class _OrdersHistoryState extends State<OrdersHistory> {
 
   //===================== Function ==========================\\
 
-  Future<void> _handleRefresh() async {}
+  Future<void> _handleRefresh() async {
+    OrderController.instance.refreshOrder();
+  }
 
   Future _toOrderDetailsScreen(Order order) async {
     await OrderStatusChangeController.instance.setOrder(order);
