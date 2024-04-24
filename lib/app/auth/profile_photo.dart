@@ -53,9 +53,7 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
 
   sendIt(XFile? image) async {
     if (image != null) {
-      if (!kIsWeb) {
-        Get.back();
-      }
+      Get.back();
 
       if (await checkXFileSize(image)) {
         ApiProcessorController.errorSnack('File to large');
@@ -215,36 +213,41 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
                         ),
                       );
                     }),
-                MyElevatedButton(
-                  upper: false,
-                  title: uploadedImage ? "Continue" : "Add a profile photo",
-                  onPressed: () {
-                    uploadedImage
-                        ? Get.offAll(
-                            () => SetShoppingLocation(
-                              hideButton: true,
-                              navTo: () {
-                                Get.offAll(
-                                  () => const LoginSplashScreen(),
-                                  fullscreenDialog: true,
-                                  curve: Curves.easeIn,
-                                  routeName: "LoginSplashScreen",
-                                  predicate: (route) => false,
-                                  popGesture: true,
-                                  transition: Transition.cupertinoDialog,
-                                );
-                              },
-                            ),
-                            fullscreenDialog: true,
-                            curve: Curves.easeIn,
-                            routeName: "SetShoppingLocation",
-                            predicate: (route) => false,
-                            popGesture: true,
-                            transition: Transition.cupertinoDialog,
-                          )
-                        : showModal(context);
-                  },
-                )
+                Column(
+                  children: [
+                    MyElevatedButton(
+                      upper: false,
+                      title: uploadedImage ? "Continue" : "Add a profile photo",
+                      onPressed: () {
+                        uploadedImage
+                            ? Get.offAll(
+                                () => SetShoppingLocation(
+                                  hideButton: true,
+                                  navTo: () {
+                                    Get.offAll(
+                                      () => const LoginSplashScreen(),
+                                      fullscreenDialog: true,
+                                      curve: Curves.easeIn,
+                                      routeName: "LoginSplashScreen",
+                                      predicate: (route) => false,
+                                      popGesture: true,
+                                      transition: Transition.cupertinoDialog,
+                                    );
+                                  },
+                                ),
+                                fullscreenDialog: true,
+                                curve: Curves.easeIn,
+                                routeName: "SetShoppingLocation",
+                                predicate: (route) => false,
+                                popGesture: true,
+                                transition: Transition.cupertinoDialog,
+                              )
+                            : showModal(context);
+                      },
+                    ),
+                    kHalfSizedBox,
+                  ],
+                ),
               ],
             ),
           ),

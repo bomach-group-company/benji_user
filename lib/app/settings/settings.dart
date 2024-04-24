@@ -198,6 +198,7 @@ class _SettingsState extends State<Settings> {
 
   sendIt(XFile? image) async {
     if (image != null) {
+      Get.back();
       if (await checkXFileSize(image)) {
         ApiProcessorController.errorSnack('File to large');
         return;
@@ -376,13 +377,16 @@ class _SettingsState extends State<Settings> {
                                       shape: const OvalBorder(),
                                     ),
                                     child: Center(
-                                      child: updatingImage ?
-                                        CircularProgressIndicator(color: kAccentColor, strokeWidth: 2,)
-                                       : MyImage(
-                                        url: (snapshot.image as String?),
-                                        radiusBottom: 50,
-                                        radiusTop: 50,
-                                      ),
+                                      child: updatingImage
+                                          ? CircularProgressIndicator(
+                                              color: kAccentColor,
+                                              strokeWidth: 2,
+                                            )
+                                          : MyImage(
+                                              url: (snapshot.image as String?),
+                                              radiusBottom: 50,
+                                              radiusTop: 50,
+                                            ),
                                     ),
                                   ),
                                   Positioned(

@@ -66,14 +66,12 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    // checkAuth(context);
-    // checkIfShoppingLocation(context);
+    checkAuth(context);
+    checkIfShoppingLocation(context);
     if (!fnd.kIsWeb) {
       NotificationController.initializeNotification();
     }
 
-    // currentAddress = getCurrentAddress();
-    // scrollController.addListener(_scrollListener);
     scrollController.addListener(() =>
         ProductController.instance.scrollListenerProduct(scrollController));
   }
@@ -779,37 +777,37 @@ class _HomeState extends State<Home> {
                           ),
                         );
                       }
-                      if (controller.vendorList.isEmpty) {
-                        return const EmptyCard(
-                          showButton: false,
-                          emptyCardMessage:
-                              "There are no recommended vendors in your location.",
-                        );
-                      }
-                      return SizedBox(
-                        height: 250,
-                        width: media.width,
-                        child: ListView.separated(
-                          itemCount: controller.vendorList.length,
-                          scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
-                          separatorBuilder: (context, index) =>
-                              deviceType(media.width) > 2
-                                  ? kWidthSizedBox
-                                  : kHalfWidthSizedBox,
-                          itemBuilder: (context, index) => InkWell(
-                            child: SizedBox(
-                              width: 200,
-                              child: BusinessCard(
-                                business: controller.vendorList[index],
-                                removeDistance: false,
-                                onTap: () {
-                                  _toVendorPage(controller.vendorList[index]);
-                                },
+                      if (controller.vendorList.isNotEmpty) {
+                        return SizedBox(
+                          height: 250,
+                          width: media.width,
+                          child: ListView.separated(
+                            itemCount: controller.vendorList.length,
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            separatorBuilder: (context, index) =>
+                                deviceType(media.width) > 2
+                                    ? kWidthSizedBox
+                                    : kHalfWidthSizedBox,
+                            itemBuilder: (context, index) => InkWell(
+                              child: SizedBox(
+                                width: 200,
+                                child: BusinessCard(
+                                  business: controller.vendorList[index],
+                                  removeDistance: false,
+                                  onTap: () {
+                                    _toVendorPage(controller.vendorList[index]);
+                                  },
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                        );
+                      }
+                      return const EmptyCard(
+                        showButton: false,
+                        emptyCardMessage:
+                            "There are no recommended vendors in your location.",
                       );
                     }),
                 kSizedBox,
@@ -836,47 +834,51 @@ class _HomeState extends State<Home> {
                           ),
                         );
                       }
-                      if (controller.vendorPopularList.isEmpty) {
-                        return const EmptyCard(
-                          showButton: false,
-                          emptyCardMessage:
-                              "There are no popular vendors available.",
+                      if (controller.vendorPopularList.isNotEmpty) {
+                        return LayoutGrid(
+                          rowGap: kDefaultPadding / 2,
+                          columnGap: kDefaultPadding / 2,
+                          columnSizes: breakPointDynamic(
+                              media.width,
+                              [1.fr],
+                              [1.fr, 1.fr],
+                              [1.fr, 1.fr, 1.fr],
+                              [1.fr, 1.fr, 1.fr, 1.fr]),
+                          rowSizes: controller.vendorPopularList
+                                  .getRange(
+                                      0,
+                                      min(controller.vendorPopularList.length,
+                                          3))
+                                  .isEmpty
+                              ? [auto]
+                              : List.generate(
+                                  controller.vendorPopularList
+                                      .getRange(
+                                          0,
+                                          min(
+                                              controller
+                                                  .vendorPopularList.length,
+                                              3))
+                                      .length,
+                                  (index) => auto),
+                          children: (controller.vendorPopularList.getRange(0,
+                                  min(controller.vendorPopularList.length, 3)))
+                              .map(
+                                (item) => BusinessCard(
+                                  business: item,
+                                  removeDistance: true,
+                                  onTap: () {
+                                    _toVendorPage(item);
+                                  },
+                                ),
+                              )
+                              .toList(),
                         );
                       }
-                      return LayoutGrid(
-                        rowGap: kDefaultPadding / 2,
-                        columnGap: kDefaultPadding / 2,
-                        columnSizes: breakPointDynamic(
-                            media.width,
-                            [1.fr],
-                            [1.fr, 1.fr],
-                            [1.fr, 1.fr, 1.fr],
-                            [1.fr, 1.fr, 1.fr, 1.fr]),
-                        rowSizes: controller.vendorPopularList
-                                .getRange(0,
-                                    min(controller.vendorPopularList.length, 3))
-                                .isEmpty
-                            ? [auto]
-                            : List.generate(
-                                controller.vendorPopularList
-                                    .getRange(
-                                        0,
-                                        min(controller.vendorPopularList.length,
-                                            3))
-                                    .length,
-                                (index) => auto),
-                        children: (controller.vendorPopularList.getRange(
-                                0, min(controller.vendorPopularList.length, 3)))
-                            .map(
-                              (item) => BusinessCard(
-                                business: item,
-                                removeDistance: true,
-                                onTap: () {
-                                  _toVendorPage(item);
-                                },
-                              ),
-                            )
-                            .toList(),
+                      return const EmptyCard(
+                        showButton: false,
+                        emptyCardMessage:
+                            "There are no popular vendors available.",
                       );
                     }),
                 kSizedBox,
@@ -1021,55 +1023,56 @@ class _HomeState extends State<Home> {
                         ),
                       );
                     }
-                    if (controller.products.isEmpty) {
-                      return const EmptyCard(
-                        showButton: false,
-                        emptyCardMessage: "There are no products available",
+                    if (controller.products.isNotEmpty) {
+                      return Column(
+                        children: [
+                          LayoutGrid(
+                            rowGap: kDefaultPadding / 2,
+                            columnGap: kDefaultPadding / 2,
+                            columnSizes: breakPointDynamic(
+                                media.width,
+                                [1.fr],
+                                [1.fr, 1.fr],
+                                [1.fr, 1.fr, 1.fr],
+                                [1.fr, 1.fr, 1.fr, 1.fr]),
+                            rowSizes: controller.products.isEmpty
+                                ? [auto]
+                                : List.generate(controller.products.length,
+                                    (index) => auto),
+                            children: (controller.products)
+                                .map(
+                                  (item) => ProductCard(
+                                    product: item,
+                                    onTap: () =>
+                                        _toProductDetailScreenPage(item),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                          kHalfSizedBox,
+                          controller.loadedAllProduct.value
+                              ? Container(
+                                  margin: const EdgeInsets.only(top: 20),
+                                  height: 10,
+                                  width: 10,
+                                  decoration: ShapeDecoration(
+                                      shape: const CircleBorder(),
+                                      color: kPageSkeletonColor),
+                                )
+                              : const SizedBox(),
+                          controller.isLoadMoreProduct.value
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    color: kAccentColor,
+                                  ),
+                                )
+                              : const SizedBox()
+                        ],
                       );
                     }
-                    return Column(
-                      children: [
-                        LayoutGrid(
-                          rowGap: kDefaultPadding / 2,
-                          columnGap: kDefaultPadding / 2,
-                          columnSizes: breakPointDynamic(
-                              media.width,
-                              [1.fr],
-                              [1.fr, 1.fr],
-                              [1.fr, 1.fr, 1.fr],
-                              [1.fr, 1.fr, 1.fr, 1.fr]),
-                          rowSizes: controller.products.isEmpty
-                              ? [auto]
-                              : List.generate(
-                                  controller.products.length, (index) => auto),
-                          children: (controller.products)
-                              .map(
-                                (item) => ProductCard(
-                                  product: item,
-                                  onTap: () => _toProductDetailScreenPage(item),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                        kHalfSizedBox,
-                        controller.loadedAllProduct.value
-                            ? Container(
-                                margin: const EdgeInsets.only(top: 20),
-                                height: 10,
-                                width: 10,
-                                decoration: ShapeDecoration(
-                                    shape: const CircleBorder(),
-                                    color: kPageSkeletonColor),
-                              )
-                            : const SizedBox(),
-                        controller.isLoadMoreProduct.value
-                            ? Center(
-                                child: CircularProgressIndicator(
-                                  color: kAccentColor,
-                                ),
-                              )
-                            : const SizedBox()
-                      ],
+                    return const EmptyCard(
+                      showButton: false,
+                      emptyCardMessage: "There are no products available",
                     );
                   },
                 ),

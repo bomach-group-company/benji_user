@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 const String userBalance = "userBalance";
+const String firstTimeUser = "firstTimeUser";
 
 bool rememberBalance() {
   bool remember = prefs.getBool(userBalance) ?? true;
@@ -14,6 +15,15 @@ bool rememberBalance() {
 
 void setRememberBalance(bool show) {
   prefs.setBool(userBalance, show);
+}
+
+bool firstTimer() {
+  bool remember = prefs.getBool(firstTimeUser) ?? true;
+  return remember;
+}
+
+Future setFirstTimer() async {
+  prefs.setBool(firstTimeUser, false);
 }
 
 Future<bool> isAuthorized() async {

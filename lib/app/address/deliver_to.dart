@@ -169,11 +169,13 @@ class _DeliverToState extends State<DeliverTo> {
             AddressController.instance.getCurrentAddress();
           },
           builder: (controller) {
-            if (controller.addresses.isEmpty && controller.isLoad.value) {
-              return const EmptyCard(
-                showButton: false,
-              );
+            if (controller.isLoad.value) {
+              return Center(
+                  child: CircularProgressIndicator(
+                color: kAccentColor,
+              ));
             }
+
             return SafeArea(
               maintainBottomViewPadding: true,
               child: Scrollbar(
@@ -186,111 +188,125 @@ class _DeliverToState extends State<DeliverTo> {
                   children: [
                     Column(
                       children: [
-                        ListView.builder(
-                            shrinkWrap: true,
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: controller.addresses.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                padding: const EdgeInsetsDirectional.symmetric(
-                                  vertical: kDefaultPadding / 2,
-                                ),
-                                child: RadioListTile(
-                                  value: controller.addresses[index].id,
-                                  groupValue: _currentOption?.id ?? '',
-                                  activeColor: kAccentColor,
-                                  enableFeedback: true,
-                                  controlAffinity:
-                                      ListTileControlAffinity.trailing,
-                                  fillColor: MaterialStatePropertyAll(
-                                    kAccentColor,
-                                  ),
-                                  onChanged: ((value) {
-                                    setState(
-                                      () {
-                                        _currentOption =
-                                            controller.addresses[index];
-                                      },
-                                    );
-                                  }),
-                                  title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        // width: min(
-                                        //     mediaWidth - 150,
-                                        //     20.0 *
-                                        //         controller.addresses[index]
-                                        //             .title.length),
+                        controller.addresses.isEmpty
+                            ? const EmptyCard(
+                                showButton: false,
+                              )
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: const BouncingScrollPhysics(),
+                                itemCount: controller.addresses.length,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    padding:
+                                        const EdgeInsetsDirectional.symmetric(
+                                      vertical: kDefaultPadding / 2,
+                                    ),
+                                    child: RadioListTile(
+                                      value: controller.addresses[index].id,
+                                      groupValue: _currentOption?.id ?? '',
+                                      activeColor: kAccentColor,
+                                      enableFeedback: true,
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
+                                      fillColor: MaterialStatePropertyAll(
+                                        kAccentColor,
+                                      ),
+                                      onChanged: ((value) {
+                                        setState(
+                                          () {
+                                            _currentOption =
+                                                controller.addresses[index];
+                                          },
+                                        );
+                                      }),
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            // width: min(
+                                            //     mediaWidth - 150,
+                                            //     20.0 *
+                                            //         controller.addresses[index]
+                                            //             .title.length),
+                                            child: Text(
+                                              controller.addresses[index].title
+                                                  .toUpperCase(),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: const TextStyle(
+                                                color: kTextBlackColor,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ),
+                                          kWidthSizedBox,
+                                          _currentOption?.id !=
+                                                  (controller.addresses[index])
+                                                      .id
+                                              ? const SizedBox()
+                                              : Container(
+                                                  width: 65,
+                                                  height: 24,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 8,
+                                                    vertical: 4,
+                                                  ),
+                                                  decoration: ShapeDecoration(
+                                                    color:
+                                                        const Color(0xFFFFCFCF),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                    ),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        'Default',
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        style: TextStyle(
+                                                          color: kAccentColor,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                        ],
+                                      ),
+                                      subtitle: Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: kDefaultPadding / 2,
+                                        ),
                                         child: Text(
-                                          controller.addresses[index].title
-                                              .toUpperCase(),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: const TextStyle(
-                                            color: kTextBlackColor,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w700,
+                                          controller.addresses[index].details,
+                                          style: TextStyle(
+                                            color: kTextGreyColor,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
                                       ),
-                                      kWidthSizedBox,
-                                      _currentOption?.id !=
-                                              (controller.addresses[index]).id
-                                          ? const SizedBox()
-                                          : Container(
-                                              width: 65,
-                                              height: 24,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 8,
-                                                vertical: 4,
-                                              ),
-                                              decoration: ShapeDecoration(
-                                                color: const Color(0xFFFFCFCF),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                ),
-                                              ),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    'Default',
-                                                    textAlign: TextAlign.right,
-                                                    style: TextStyle(
-                                                      color: kAccentColor,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                    ],
-                                  ),
-                                  subtitle: Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: kDefaultPadding / 2,
                                     ),
-                                    child: Text(
-                                      controller.addresses[index].details,
-                                      style: TextStyle(
-                                        color: kTextGreyColor,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }),
+                                  );
+                                }),
                         const SizedBox(
                           height: kDefaultPadding * 2,
                         ),
