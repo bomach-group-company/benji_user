@@ -68,6 +68,8 @@ class OrderController extends GetxController {
     if (responseData == null) {
       isLoadMore.value = false;
       isLoad.value = false;
+      update();
+
       return;
     }
     List<Order> data = [];
