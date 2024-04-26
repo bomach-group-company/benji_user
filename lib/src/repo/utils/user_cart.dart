@@ -27,7 +27,7 @@ Future<void> setAllCartItem(List<VendorInfo> allCart) async {
     carts.add(cart.toJson());
   }
   prefs.setString(cartname, jsonEncode(carts));
-  CartController.instance.getCartProduct();
+  // CartController.instance.getCartProduct(); for now
 }
 
 bool productInCart(Product product) {
