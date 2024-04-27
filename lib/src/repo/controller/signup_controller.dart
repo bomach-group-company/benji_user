@@ -51,16 +51,15 @@ class SignupController extends GetxController {
 
       http.Response? response =
           await HandleData.postApi(Api.baseUrl + Api.login, null, finalData);
-      var jsonData = jsonDecode(response?.body ?? '');
 
-      if ((response?.statusCode ?? 400) != 200) {
-        ApiProcessorController.errorSnack(
-            "Invalid email or password. Try again");
+      if (response == null) {
+        ApiProcessorController.errorSnack("Please check your internet");
         isLoad.value = false;
         update();
         return;
       }
 
+      var jsonData = jsonDecode(response?.body ?? '');
       http.Response responseUser = await http.get(
           Uri.parse("${Api.baseUrl}/auth/"),
           headers: authHeader(jsonData["token"]));
