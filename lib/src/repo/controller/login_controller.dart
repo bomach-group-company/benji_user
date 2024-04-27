@@ -24,88 +24,98 @@ class LoginController extends GetxController {
 
   Future<void> login(SendLogin data) async {
     try {
-    UserController.instance;
-    isLoad.value = true;
-    update();
+      UserController.instance;
+      isLoad.value = true;
+      update();
 
-    Map finalData = {
-      "username": data.username,
-      "password": data.password,
-    };
+      Map finalData = {
+        "username": data.username,
+        "password": data.password,
+      };
 
-    http.Response? response =
-        await HandleData.postApi(Api.baseUrl + Api.login, null, finalData);
-    var jsonData = jsonDecode(response?.body ?? '');
+      http.Response? response =
+          await HandleData.postApi(Api.baseUrl + Api.login, null, finalData);
 
-    if ((response?.statusCode ?? 400) != 200) {
-      ApiProcessorController.errorSnack("Invalid email or password. Try again");
+      if (response == null) {
+        ApiProcessorController.errorSnack("Please check your internet");
+        isLoad.value = false;
+        update();
+        return;
+      }
+
+      var jsonData = jsonDecode(response?.body ?? '');
+      if ((response?.statusCode ?? 400) != 200) {
+        ApiProcessorController.errorSnack(
+            "Invalid email or password. Try again");
+        isLoad.value = false;
+        update();
+        return;
+      }
+      http.Response responseUser = await http.get(
+          Uri.parse("${Api.baseUrl}/auth/"),
+          headers: authHeader(jsonData["token"]));
+
+      if (responseUser.statusCode != 200) {
+        throw TimeoutException('Please connect to the internet');
+      }
+
+      if (jsonDecode(responseUser.body)['id'] == null) {
+        ApiProcessorController.errorSnack(
+            "Invalid email or password. Try again");
+        isLoad.value = false;
+        update();
+        return;
+      }
+      http.Response? responseUserData = await HandleData.getApi(
+          Api.baseUrl +
+              Api.getClient +
+              jsonDecode(responseUser.body)['id'].toString(),
+          jsonData["token"]);
+
+      if (responseUserData == null) {
+        throw TimeoutException('Please connect to the internet');
+      }
+
+      if (responseUserData.statusCode != 200) {
+        ApiProcessorController.errorSnack(
+            "Invalid email or password. Try again");
+        isLoad.value = false;
+        update();
+        return;
+      }
+
+      UserController.instance
+          .saveUser(responseUserData.body, jsonData["token"]);
+
+      ApiProcessorController.successSnack("Login Successful");
       isLoad.value = false;
       update();
-      return;
-    }
-
-    http.Response responseUser = await http.get(
-        Uri.parse("${Api.baseUrl}/auth/"),
-        headers: authHeader(jsonData["token"]));
-
-    if (responseUser.statusCode != 200) {
-      throw  TimeoutException('Please connect to the internet');
-    }
-
-    if (jsonDecode(responseUser.body)['id'] == null) {
-      ApiProcessorController.errorSnack("Invalid email or password. Try again");
-      isLoad.value = false;
-      update();
-      return;
-    }
-    http.Response? responseUserData = await HandleData.getApi(
-        Api.baseUrl +
-            Api.getClient +
-            jsonDecode(responseUser.body)['id'].toString(),
-        jsonData["token"]);
-
-    if (responseUserData == null) {
-      throw TimeoutException('Please connect to the internet');
-    }
-
-    if (responseUserData.statusCode != 200) {
-      ApiProcessorController.errorSnack("Invalid email or password. Try again");
-      isLoad.value = false;
-      update();
-      return;
-    }
-
-    UserController.instance.saveUser(responseUserData.body, jsonData["token"]);
-
-    ApiProcessorController.successSnack("Login Successful");
-    isLoad.value = false;
-    update();
-    Get.offAll(
-      () => SetShoppingLocation(
-        hideButton: true,
-        navTo: () {
-          Get.offAll(
-            () => const LoginSplashScreen(),
-            fullscreenDialog: true,
-            curve: Curves.easeIn,
-            routeName: "LoginSplashScreen",
-            predicate: (route) => false,
-            popGesture: true,
-            transition: Transition.cupertinoDialog,
-          );
-        },
-      ),
-      routeName: 'SetShoppingLocation',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
+      Get.offAll(
+        () => SetShoppingLocation(
+          hideButton: true,
+          navTo: () {
+            Get.offAll(
+              () => const LoginSplashScreen(),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              routeName: "LoginSplashScreen",
+              predicate: (route) => false,
+              popGesture: true,
+              transition: Transition.cupertinoDialog,
+            );
+          },
+        ),
+        routeName: 'SetShoppingLocation',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
     } on TimeoutException {
       ApiProcessorController.errorSnack("Please connect to the internet");
-       isLoad.value = true;
-       update();
+      isLoad.value = true;
+      update();
       // await Get.to(
       //   () => const NoNetworkRetry(),
       //   routeName: 'NoNetworkRetry',
