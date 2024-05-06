@@ -76,16 +76,20 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _scrollController = ScrollController();
-    // ..addListener(() {
-    //   setState(() {
-    //     if (_scrollController.offset >= 400) {
-    //       _showBackToTopButton = true;
-    //     } else {
-    //       _showBackToTopButton = false;
-    //     }
-    //   });
-    // });
+    _scrollController = ScrollController()
+      ..addListener(() {
+        if (_scrollController.offset >= 400 && _showBackToTopButton == false) {
+          setState(() {
+            _showBackToTopButton = true;
+          });
+        } else if (!(_scrollController.offset >= 400) &&
+            _showBackToTopButton == true) {
+          setState(() {
+            _showBackToTopButton = false;
+          });
+        }
+      });
+
     categoriesData = fetchCategories();
     trendingProduct = fetchProducts()
       ..then((value) {
