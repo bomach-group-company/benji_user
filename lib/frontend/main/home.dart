@@ -182,45 +182,6 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        kSizedBox,
-                        kSizedBox,
-                        kSizedBox,
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                            horizontal: breakPoint(
-                              media.width,
-                              25 - 13,
-                              100 - 15,
-                              100 - 15,
-                            ),
-                          ),
-                          child: CarouselSlider(
-                            options: CarouselOptions(
-                              scrollPhysics: const BouncingScrollPhysics(),
-                              // autoPlay: true,
-                              height: MediaQuery.of(context).size.width *
-                                  breakPoint(media.width, 0.3, 0.22, 0.16),
-                              viewportFraction:
-                                  breakPoint(media.width, 0.5, 0.5, 0.3333),
-                              padEnds: false,
-                            ),
-                            items: const [
-                              MyImageCard(
-                                image:
-                                    'assets/frontend/assets/sale/banner4.jpg',
-                              ),
-                              MyImageCard(
-                                  image:
-                                      'assets/frontend/assets/sale/banner2.jpg'),
-                              MyImageCard(
-                                  image:
-                                      'assets/frontend/assets/sale/banner3.jpg'),
-                              MyImageCard(
-                                  image:
-                                      'assets/frontend/assets/sale/banner1.jpg'),
-                            ],
-                          ),
-                        ),
                         Container(
                           margin: EdgeInsets.symmetric(
                               horizontal: breakPoint(media.width, 25, 100, 100),

@@ -39,10 +39,17 @@ class SignupController extends GetxController {
         'agentReferralCode': agentReferralCode
       };
 
-      await http.post(
+      final signupResponse = await http.post(
         Uri.parse('$baseURL/clients/createClient'),
         body: body,
       );
+
+      if (signupResponse.statusCode != 201) {
+        ApiProcessorController.errorSnack("Please check your internet");
+        isLoad.value = false;
+        update();
+        return;
+      }
 
       Map finalData = {
         "username": email,
@@ -63,10 +70,6 @@ class SignupController extends GetxController {
       http.Response responseUser = await http.get(
           Uri.parse("${Api.baseUrl}/auth/"),
           headers: authHeader(jsonData["token"]));
-
-      if (responseUser.statusCode != 200) {
-        throw const SocketException('Please connect to the internet');
-      }
 
       if (jsonDecode(responseUser.body)['id'] == null) {
         ApiProcessorController.errorSnack(
@@ -120,6 +123,22 @@ class SignupController extends GetxController {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
+      isLoad.value = false;
+      update();
+    } on http.ClientException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+      await Get.to(
+        () => const NoNetworkRetry(),
+        routeName: 'NoNetworkRetry',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+      isLoad.value = false;
+      update();
     } catch (e) {
       ApiProcessorController.errorSnack("An error occurred.\n ERROR: $e");
       isLoad.value = false;
