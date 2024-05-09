@@ -39,18 +39,10 @@ class SignupController extends GetxController {
         'agentReferralCode': agentReferralCode
       };
 
-      final signupResponse = await http.post(
+      await http.post(
         Uri.parse('$baseURL/clients/createClient'),
         body: body,
       );
-
-      if (signupResponse.statusCode != 201) {
-        ApiProcessorController.errorSnack(
-            "Please check your internet connection");
-        isLoad.value = false;
-        update();
-        return;
-      }
 
       Map finalData = {
         "username": email,
