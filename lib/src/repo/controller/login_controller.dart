@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:benji/app/shopping_location/set_shopping_location.dart';
 import 'package:benji/app/splash_screens/login_splash_screen.dart';
@@ -43,8 +42,8 @@ class LoginController extends GetxController {
         return;
       }
 
-      var jsonData = jsonDecode(response?.body ?? '');
-      if ((response?.statusCode ?? 400) != 200) {
+      var jsonData = jsonDecode(response.body ?? '');
+      if ((response.statusCode ?? 400) != 200) {
         ApiProcessorController.errorSnack(
             "Invalid email or password. Try again");
         isLoad.value = false;

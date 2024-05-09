@@ -518,12 +518,13 @@ class _SignUpState extends State<SignUp> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               await controller.signup(
-                                  _userEmailEC.text,
-                                  _userPasswordEC.text,
-                                  _userPhoneNumberEC.text,
-                                  _userFirstNameEC.text,
-                                  _userLastNameEC.text,
-                                  _referralCodeEC.text);
+                                _userEmailEC.text,
+                                _userPasswordEC.text,
+                                _userPhoneNumberEC.text,
+                                _userFirstNameEC.text,
+                                _userLastNameEC.text,
+                                _referralCodeEC.text,
+                              );
                             }
                           },
                           isLoading: controller.isLoad.value,

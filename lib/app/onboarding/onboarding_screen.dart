@@ -1,6 +1,5 @@
 // ignore_for_file: camel_case_types
 
-import 'package:benji/app/auth/signup.dart';
 import 'package:benji/frontend/main/home.dart';
 import 'package:benji/src/repo/services/helper.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,5 @@
 // ignore_for_file: empty_catches
 
-import 'package:benji/app/auth/login.dart';
 import 'package:benji/app/home/home.dart';
 import 'package:benji/frontend/main/home.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
@@ -10,7 +9,6 @@ import 'package:benji/src/repo/models/user/user_model.dart';
 import 'package:benji/src/repo/services/helper.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/theme/colors.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

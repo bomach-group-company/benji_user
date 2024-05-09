@@ -45,7 +45,8 @@ class SignupController extends GetxController {
       );
 
       if (signupResponse.statusCode != 201) {
-        ApiProcessorController.errorSnack("Please check your internet");
+        ApiProcessorController.errorSnack(
+            "Please check your internet connection");
         isLoad.value = false;
         update();
         return;
@@ -66,14 +67,15 @@ class SignupController extends GetxController {
         return;
       }
 
-      var jsonData = jsonDecode(response?.body ?? '');
+      var jsonData = jsonDecode(response.body);
       http.Response responseUser = await http.get(
           Uri.parse("${Api.baseUrl}/auth/"),
           headers: authHeader(jsonData["token"]));
 
       if (jsonDecode(responseUser.body)['id'] == null) {
         ApiProcessorController.errorSnack(
-            "Invalid email or password. Try again");
+          "Invalid email or password. Try again",
+        );
         isLoad.value = false;
         update();
         return;
@@ -90,7 +92,8 @@ class SignupController extends GetxController {
 
       if (responseUserData.statusCode != 200) {
         ApiProcessorController.errorSnack(
-            "Invalid email or password. Try again");
+          "Invalid email or password. Try again",
+        );
         isLoad.value = false;
         update();
         return;

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:benji/main.dart';
-import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/models/cart_model/cart_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:get/get.dart';
