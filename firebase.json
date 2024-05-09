@@ -1,1 +1,29 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"keen-tokenizer-400311","appId":"1:912983858748:android:47bf1c80685a7c2e0bad39","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"keen-tokenizer-400311","configurations":{"ios":"1:912983858748:ios:1378ff13faf867950bad39"}}},"ios":{"default":{"projectId":"keen-tokenizer-400311","appId":"1:912983858748:ios:1378ff13faf867950bad39","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}}}}}
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "keen-tokenizer-400311",
+                    "appId": "1:912983858748:android:47bf1c80685a7c2e0bad39",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "keen-tokenizer-400311",
+                    "configurations": {
+                        "ios": "1:912983858748:ios:1378ff13faf867950bad39"
+                    }
+                }
+            },
+            "ios": {
+                "default": {
+                    "projectId": "keen-tokenizer-400311",
+                    "appId": "1:912983858748:ios:1378ff13faf867950bad39",
+                    "uploadDebugSymbols": false,
+                    "fileOutput": "ios/Runner/GoogleService-Info.plist"
+                }
+            }
+        }
+    }
+}
