@@ -118,22 +118,20 @@ class _MyCardLgState extends State<MyCardLg> {
                           child: Container(
                             decoration: BoxDecoration(
                               color: kPageSkeletonColor,
-
-                              // image: DecorationImage(
-                              //   image: AssetImage(
-                              //       "assets/images/products/okra-soup.png"),
-                              // ),
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(10),
                                 topRight: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
                               ),
                             ),
                             child: Center(
-                                child: MyImage(
-                              url: widget.product.productImage,
-                              width: null,
-                              height: null,
-                            )),
+                              child: MyImage(
+                                url: widget.product.productImage,
+                                width: null,
+                                height: null,
+                              ),
+                            ),
                           ),
                         ),
                         Padding(

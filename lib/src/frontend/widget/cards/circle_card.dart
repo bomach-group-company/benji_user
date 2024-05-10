@@ -25,10 +25,11 @@ class MyCicleCard extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              maxLines: 4,
+              maxLines: 2,
               softWrap: true,
               textAlign: TextAlign.center,
               style: const TextStyle(
+                overflow: TextOverflow.ellipsis,
                 fontSize: 18,
               ),
             ),

@@ -37,7 +37,6 @@ class _ProductPageState extends State<ProductPage> {
   bool _showBackToTopButton = false;
   late ScrollController _scrollController;
   // int? _selectedRadioValue;
-  double price = 40.00;
   String productPopId = '';
   bool showCard = false;
 
@@ -200,7 +199,7 @@ class _ProductPageState extends State<ProductPage> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      '₦$price',
+                                      '₦${widget.product.price}',
                                       style: const TextStyle(
                                         fontSize: 22,
                                         fontWeight: FontWeight.w700,

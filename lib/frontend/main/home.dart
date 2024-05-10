@@ -11,6 +11,7 @@ import 'package:benji/src/repo/utils/url_lunch.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
+import 'package:get/get.dart';
 
 import '../../src/frontend/model/category.dart';
 import '../../src/frontend/model/product.dart';
@@ -228,7 +229,7 @@ class _HomePageState extends State<HomePage> {
                                       aspectRatio: breakPoint(
                                           media.width, 16 / 9, 3.5, 5.4),
                                       viewportFraction: breakPoint(
-                                          media.width, 1 / 2, 1 / 4, 1 / 6),
+                                          media.width, 1 / 2, 1 / 5, 1 / 7),
                                       padEnds: false,
                                     ),
                                     items: (snapshot.data as List<Category>)
@@ -630,10 +631,12 @@ class _HomePageState extends State<HomePage> {
                       ? const SizedBox()
                       : Builder(
                           builder: (context) {
-                            Product data = productsData.firstWhere(
+                            Product? data = productsData.firstWhereOrNull(
                               (element) => element.id == productPopId,
-                              orElse: () => productsData.first,
                             );
+                            if (data == null) {
+                              return const SizedBox();
+                            }
                             return MyCardLg(
                               refresh: () {
                                 setState(() {});

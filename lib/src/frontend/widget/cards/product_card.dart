@@ -134,7 +134,7 @@ class _MyCardState extends State<MyCard> {
                           height: 18,
                           width: 18,
                           child: Image.asset(
-                            'assets/frontend/assets/product_asset/veg.png',
+                            'assets/frontend/assets/product_asset/image2.png',
                           ),
                         ),
                         kHalfWidthSizedBox,
