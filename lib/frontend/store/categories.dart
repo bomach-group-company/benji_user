@@ -107,7 +107,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                       activeCategory: item,
                                     ),
                                     child: SizedBox(
-                                      height: 220,
+                                      height: 240,
                                       width: 200,
                                       child: MyCicleCard(
                                         image:
