@@ -238,12 +238,11 @@ class _CRMTabState extends State<CRMTab> {
             readOnly: true,
             controller: _locationEC,
             validator: (value) {
-              RegExp pickupAddress = RegExp(r'^.{3,}$');
-
               if (value == null || value == "") {
-                return "Enter address";
-              } else if (!pickupAddress.hasMatch(value)) {
-                return "Enter a valid address";
+                return "Enter a location";
+              }
+              if (latitude == null || longitude == null) {
+                return "Please select a location so we can get the coordinates";
               }
               return null;
             },

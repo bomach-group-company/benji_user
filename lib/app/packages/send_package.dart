@@ -543,14 +543,15 @@ class _SendPackageState extends State<SendPackage> {
               MyMapsTextFormField(
                 // readOnly: true,
                 controller: pickupEC,
+
                 validator: (value) {
-                  RegExp pickupAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
                   if (value == null || value == "") {
                     pickupFN.requestFocus();
-                    return "Enter pickup location";
-                  } else if (!pickupAddress.hasMatch(value)) {
+                    return "Enter a location";
+                  }
+                  if (latitudePick == null || longitudePick == null) {
                     pickupFN.requestFocus();
-                    return "Enter a valid address (must have a street number)";
+                    return "Please select a location so we can get the coordinates";
                   }
                   return null;
                 },
@@ -738,13 +739,13 @@ class _SendPackageState extends State<SendPackage> {
                 // readOnly: true,
                 controller: dropOffEC,
                 validator: (value) {
-                  RegExp dropoffAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
                   if (value == null || value == "") {
                     dropOffFN.requestFocus();
-                    return "Enter drop-off location";
-                  } else if (!dropoffAddress.hasMatch(value)) {
+                    return "Enter a location";
+                  }
+                  if (latitudeDrop == null || longitudeDrop == null) {
                     dropOffFN.requestFocus();
-                    return "Enter a valid address (must have a street number)";
+                    return "Please select a location so we can get the coordinates";
                   }
                   return null;
                 },

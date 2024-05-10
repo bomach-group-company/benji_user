@@ -350,7 +350,7 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                                   textInputAction: TextInputAction.next,
                                   focusNode: _phoneNumberFN,
                                   validator: (value) {
-                                     if (_phoneNumberEC.text != "") {
+                                    if (_phoneNumberEC.text != "") {
                                       return null;
                                     }
                                     if (value == null || value == "") {
@@ -382,9 +382,13 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                                   // readOnly: true,
                                   controller: _mapsLocationEC,
                                   validator: (value) {
-                                    if (value == null) {
+                                    if (value == null || value == "") {
                                       _mapsLocationFN.requestFocus();
-                                      "Enter a location";
+                                      return "Enter a location";
+                                    }
+                                    if (latitude == null || longitude == null) {
+                                      _mapsLocationFN.requestFocus();
+                                      return "Please select a location so we can get the coordinates";
                                     }
                                     return null;
                                   },

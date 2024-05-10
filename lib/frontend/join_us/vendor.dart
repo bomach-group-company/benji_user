@@ -368,9 +368,11 @@ class _VendorTabState extends State<VendorTab> {
             readOnly: true,
             controller: _locationEC,
             validator: (value) {
-              // RegExp pattern = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
               if (value == null || value == "") {
-                return "Enter business address";
+                return "Enter a location";
+              }
+              if (latitude == null || longitude == null) {
+                return "Please select a location so we can get the coordinates";
               }
               return null;
             },
