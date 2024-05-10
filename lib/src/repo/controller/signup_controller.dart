@@ -39,10 +39,14 @@ class SignupController extends GetxController {
         'agentReferralCode': agentReferralCode
       };
 
-      await http.post(
+      final responseSignup = await http.post(
         Uri.parse('$baseURL/clients/createClient'),
         body: body,
       );
+      if (responseSignup.statusCode != 201) {
+        ApiProcessorController.errorSnack('Email already exists');
+        return;
+      }
 
       Map finalData = {
         "username": email,
