@@ -107,14 +107,13 @@ class _MyCardState extends State<MyCard> {
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(10),
                         ),
-                        // image: DecorationImage(
-                        //     image: AssetImage(
-                        //       "assets/images/products/okra-soup.png",
-                        //     ),
-                        //     fit: BoxFit.cover),
                       ),
                       child: Center(
-                          child: MyImage(url: widget.product.productImage)),
+                          child: MyImage(
+                        url: widget.product.productImage,
+                        radiusTop: 10,
+                        radiusBottom: 0,
+                      )),
                     ),
                   ),
                 ),
