@@ -16,8 +16,8 @@ class MyImage extends StatelessWidget {
   const MyImage({
     super.key,
     this.url,
-    this.radiusTop = 15,
-    this.radiusBottom = 15,
+    this.radiusTop = 10,
+    this.radiusBottom = 10,
     this.width = double.infinity,
     this.height = double.infinity,
     this.local = false,

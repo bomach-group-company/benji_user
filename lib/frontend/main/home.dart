@@ -221,11 +221,8 @@ class _HomePageState extends State<HomePage> {
                                   return CarouselSlider(
                                     options: CarouselOptions(
                                       pageSnapping: false,
-                                      // enableInfiniteScroll: false,
                                       scrollPhysics:
                                           const BouncingScrollPhysics(),
-                                      // autoPlay: true,
-                                      // height: ,
                                       aspectRatio: breakPoint(
                                           media.width, 16 / 9, 3.5, 5.4),
                                       viewportFraction: breakPoint(
@@ -239,8 +236,7 @@ class _HomePageState extends State<HomePage> {
                                               activeCategory: item,
                                             ),
                                             child: MyCicleCard(
-                                              image:
-                                                  'assets/frontend/assets/circle_card/category-1.jpg',
+                                              image: item.image,
                                               text: item.name,
                                             ),
                                           ),

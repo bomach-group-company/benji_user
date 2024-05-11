@@ -45,6 +45,8 @@ class SignupController extends GetxController {
       );
       if (responseSignup.statusCode != 201) {
         ApiProcessorController.errorSnack('Email already exists');
+        isLoad.value = false;
+        update();
         return;
       }
 

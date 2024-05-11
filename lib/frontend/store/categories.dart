@@ -110,8 +110,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                       height: 240,
                                       width: 200,
                                       child: MyCicleCard(
-                                        image:
-                                            'assets/frontend/assets/circle_card/category-1.jpg',
+                                        image: item.image,
                                         text: item.name.toString(),
                                       ),
                                     ),
