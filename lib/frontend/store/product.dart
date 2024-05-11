@@ -45,13 +45,16 @@ class _ProductPageState extends State<ProductPage> {
     // _selectedRadioValue = 1;
     _scrollController = ScrollController()
       ..addListener(() {
-        setState(() {
-          if (_scrollController.offset >= 400) {
+        if (_scrollController.offset >= 400 && _showBackToTopButton == false) {
+          setState(() {
             _showBackToTopButton = true;
-          } else {
+          });
+        } else if (!(_scrollController.offset >= 400) &&
+            _showBackToTopButton == true) {
+          setState(() {
             _showBackToTopButton = false;
-          }
-        });
+          });
+        }
       });
 
     related = fetchProductFilterByCategory(

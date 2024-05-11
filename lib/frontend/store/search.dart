@@ -1,7 +1,7 @@
 import 'package:benji/frontend/store/product.dart';
+import 'package:benji/src/components/others/empty.dart';
 import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
 import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
-import 'package:benji/src/components/others/empty.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -39,13 +39,16 @@ class _SearchPageState extends State<SearchPage> {
   void initState() {
     _scrollController = ScrollController()
       ..addListener(() {
-        setState(() {
-          if (_scrollController.offset >= 400) {
+        if (_scrollController.offset >= 400 && _showBackToTopButton == false) {
+          setState(() {
             _showBackToTopButton = true;
-          } else {
+          });
+        } else if (!(_scrollController.offset >= 400) &&
+            _showBackToTopButton == true) {
+          setState(() {
             _showBackToTopButton = false;
-          }
-        });
+          });
+        }
       });
     _searchController = TextEditingController();
     super.initState();

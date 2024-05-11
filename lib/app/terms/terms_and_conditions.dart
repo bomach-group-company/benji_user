@@ -22,13 +22,16 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
   void initState() {
     _scrollController = ScrollController()
       ..addListener(() {
-        setState(() {
-          if (_scrollController.offset >= 400) {
+        if (_scrollController.offset >= 400 && _showBackToTopButton == false) {
+          setState(() {
             _showBackToTopButton = true;
-          } else {
+          });
+        } else if (!(_scrollController.offset >= 400) &&
+            _showBackToTopButton == true) {
+          setState(() {
             _showBackToTopButton = false;
-          }
-        });
+          });
+        }
       });
 
     super.initState();
