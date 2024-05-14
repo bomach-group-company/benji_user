@@ -268,6 +268,7 @@ class _HomePageState extends State<HomePage> {
                                     );
                                   }
                                   return GridView.builder(
+                                    physics: const BouncingScrollPhysics(),
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: _crossAxisCount(context),
@@ -351,6 +352,7 @@ class _HomePageState extends State<HomePage> {
                                     );
                                   }
                                   return GridView.builder(
+                                    physics: const BouncingScrollPhysics(),
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: _crossAxisCount(context),
@@ -459,6 +461,7 @@ class _HomePageState extends State<HomePage> {
                                     );
                                   }
                                   return GridView.builder(
+                                    physics: const BouncingScrollPhysics(),
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: _crossAxisCount(context),
