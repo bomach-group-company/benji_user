@@ -82,7 +82,9 @@ class SubCategoryController extends GetxController {
       if (allSubcategoryByVendor.isNotEmpty) {
         activeSubCategory.value = allSubcategoryByVendor[0];
         ProductController.instance.getProductsByVendorAndSubCategory(
-            vendorId, activeSubCategory.value.id);
+          vendorId,
+          activeSubCategory.value.id,
+        );
       }
       update();
     } on SocketException {

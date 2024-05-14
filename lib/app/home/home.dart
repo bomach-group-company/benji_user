@@ -297,16 +297,16 @@ class _HomeState extends State<Home> {
         transition: Transition.rightToLeft,
       );
 
-  void _toProductDetailScreenPage(product) async {
+  void _toProductDetailScreenPage(product, [int milliseconds = 300]) async {
     await Get.to(
       () => ProductDetailScreen(product: product),
       routeName: 'ProductDetailScreen',
-      duration: const Duration(milliseconds: 300),
+      duration: Duration(milliseconds: milliseconds),
       fullscreenDialog: true,
       curve: Curves.easeIn,
       preventDuplicates: true,
       popGesture: true,
-      transition: Transition.rightToLeft,
+      transition: Transition.native,
     );
     setState(() {});
   }
@@ -622,7 +622,7 @@ class _HomeState extends State<Home> {
                           ),
                           child: InkWell(
                             onTap: () => _toProductDetailScreenPage(
-                                controller.topProducts[itemIndex]),
+                                controller.topProducts[itemIndex], 50),
                             child: MyImage(
                               url: controller
                                   .topProducts[itemIndex].productImage,

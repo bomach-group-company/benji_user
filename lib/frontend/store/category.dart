@@ -184,6 +184,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                       margin: const EdgeInsets.symmetric(
                                           horizontal: 15),
                                       child: SingleChildScrollView(
+                                        physics: const BouncingScrollPhysics(),
                                         scrollDirection: Axis.horizontal,
                                         child: Row(
                                           children: [

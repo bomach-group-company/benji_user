@@ -351,6 +351,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                         right: kDefaultPadding,
                         child: Container(
                           padding: const EdgeInsets.all(kDefaultPadding / 2),
+                          alignment: Alignment.center,
                           decoration: ShapeDecoration(
                             shadows: [
                               BoxShadow(
@@ -371,163 +372,162 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                           ),
                           child: Padding(
                             padding: const EdgeInsets.only(
-                                top: kDefaultPadding * 2.6),
-                            child: SizedBox(
-                              width: media.width - 200,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: media.width - 200,
-                                    child: Text(
-                                      widget.business.shopName,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        color: kTextBlackColor,
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                              top: kDefaultPadding * 2.6,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: media.width - 200,
+                                  child: Text(
+                                    widget.business.shopName,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
-                                  kHalfSizedBox,
-                                  Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        FaIcon(
-                                          FontAwesomeIcons.locationDot,
-                                          color: kAccentColor,
-                                          size: 15,
-                                        ),
-                                        kHalfWidthSizedBox,
-                                        SizedBox(
-                                          width: media.width - 150,
-                                          child: Text(
-                                            widget.business.address,
-                                            textAlign: TextAlign.center,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  kHalfSizedBox,
-                                  InkWell(
-                                    onTap: widget.business.address.isEmpty
-                                        ? null
-                                        : _toBusinessLocation,
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(
-                                          kDefaultPadding / 4),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: kAccentColor,
-                                          width: 1,
-                                        ),
+                                ),
+                                kHalfSizedBox,
+                                SizedBox(
+                                  width: media.width - 100,
+                                  child: Wrap(
+                                    runAlignment: WrapAlignment.center,
+                                    alignment: WrapAlignment.center,
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
+                                    children: [
+                                      FaIcon(
+                                        FontAwesomeIcons.locationDot,
+                                        color: kAccentColor,
+                                        size: 15,
                                       ),
-                                      child: Text(
-                                        widget.business.address.isEmpty
-                                            ? "Not Available"
-                                            : "Show on map",
+                                      kHalfWidthSizedBox,
+                                      Text(
+                                        widget.business.address,
                                         textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
-                                          fontSize: 13,
+                                          fontSize: 14,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
+                                    ],
+                                  ),
+                                ),
+                                kHalfSizedBox,
+                                InkWell(
+                                  onTap: widget.business.address.isEmpty
+                                      ? null
+                                      : _toBusinessLocation,
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(
+                                        kDefaultPadding / 4),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: kAccentColor,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      widget.business.address.isEmpty
+                                          ? "Not Available"
+                                          : "Show on map",
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ),
-                                  kHalfSizedBox,
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Container(
-                                        width: media.width * 0.23,
-                                        height: 57,
-                                        decoration: ShapeDecoration(
-                                          color: kPrimaryColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(19),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            FaIcon(
-                                              FontAwesomeIcons.solidStar,
-                                              color: kStarColor,
-                                              size: 17,
-                                            ),
-                                            const SizedBox(width: 5),
-                                            Text(
-                                              '${(widget.business.averageRating).toPrecision(1)}',
-                                              style: const TextStyle(
-                                                color: kBlackColor,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                                letterSpacing: -0.28,
-                                              ),
-                                            ),
-                                          ],
+                                ),
+                                kHalfSizedBox,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      width: media.width * 0.23,
+                                      height: 57,
+                                      decoration: ShapeDecoration(
+                                        color: kPrimaryColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(19),
                                         ),
                                       ),
-                                      Container(
-                                        width: media.width * 0.25,
-                                        height: 57,
-                                        decoration: ShapeDecoration(
-                                          color: kPrimaryColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(19),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          FaIcon(
+                                            FontAwesomeIcons.solidStar,
+                                            color: kStarColor,
+                                            size: 17,
                                           ),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              widget.business.vendorOwner
-                                                      .isOnline
-                                                  ? "Online"
-                                                  : 'Offline',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: widget.business
-                                                        .vendorOwner.isOnline
-                                                    ? kSuccessColor
-                                                    : kAccentColor,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                                letterSpacing: -0.36,
-                                              ),
+                                          const SizedBox(width: 5),
+                                          Text(
+                                            '${(widget.business.averageRating).toPrecision(1)}',
+                                            style: const TextStyle(
+                                              color: kBlackColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              letterSpacing: -0.28,
                                             ),
-                                            const SizedBox(width: 5),
-                                            FaIcon(
-                                              Icons.info,
-                                              color: kAccentColor,
-                                            ),
-                                          ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      width: media.width * 0.25,
+                                      height: 57,
+                                      decoration: ShapeDecoration(
+                                        color: kPrimaryColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(19),
                                         ),
                                       ),
-                                    ],
-                                  )
-                                ],
-                              ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          FaIcon(
+                                            Icons.info,
+                                            color: kAccentColor,
+                                          ),
+                                          const SizedBox(width: 5),
+                                          const Text(
+                                            // widget.business.vendorOwner
+                                            //         .isOnline
+                                            //     ?
+                                            "Online",
+                                            // : 'Offline',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color:
+                                                  // widget.business.vendorOwner
+                                                  //         .isOnline
+                                                  //     ?
+                                                  kSuccessColor,
+                                              // : kAccentColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              letterSpacing: -0.36,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
                             ),
                           ),
                         ),

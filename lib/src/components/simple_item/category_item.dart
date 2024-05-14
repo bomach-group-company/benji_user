@@ -35,10 +35,8 @@ class CategoryItem extends StatelessWidget {
                   decoration: ShapeDecoration(
                     color: kPageSkeletonColor,
                     image: DecorationImage(
-                      image: AssetImage(
-                        isShop
-                            ? "assets/icons/store.png"
-                            : "assets/icons/shopping-bag.png",
+                      image: NetworkImage(
+                        category!.image,
                       ),
                       fit: BoxFit.contain,
                     ),

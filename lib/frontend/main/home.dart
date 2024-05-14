@@ -95,11 +95,15 @@ class _HomePageState extends State<HomePage> {
 
   fetchData() async {
     categoriesData = await fetchCategories();
-
     productsData = await fetchProducts();
-    trendingProduct = productsData;
+
     todayProduct = productsData;
+    trendingProduct = productsData;
     recommendedProduct = productsData;
+
+    trendingProduct.shuffle();
+    recommendedProduct.shuffle();
+
     setState(() {
       isLoading = false;
     });
