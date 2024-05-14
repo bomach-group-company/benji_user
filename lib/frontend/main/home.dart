@@ -1,9 +1,9 @@
 import 'package:benji/frontend/store/categories.dart';
 import 'package:benji/frontend/store/category.dart';
 import 'package:benji/frontend/store/product.dart';
-import 'package:benji/src/frontend/widget/cards/product_card_lg.dart';
 import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:benji/src/frontend/widget/section/hero.dart';
+import 'package:benji/src/frontend/widget/show_modal.dart';
 import 'package:benji/src/frontend/widget/text/fancy_text.dart';
 import 'package:benji/src/repo/models/category/category.dart';
 import 'package:benji/src/repo/models/product/product.dart';
@@ -11,7 +11,6 @@ import 'package:benji/src/repo/utils/url_lunch.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:get/get.dart';
 
 import '../../src/frontend/model/category.dart';
 import '../../src/frontend/model/product.dart';
@@ -36,8 +35,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool showCard = false;
-
   CarouselController buttonCarouselController = CarouselController();
 
   bool _showBackToTopButton = false;
@@ -149,512 +146,470 @@ class _HomePageState extends State<HomePage> {
             physics: const BouncingScrollPhysics(),
             shrinkWrap: true,
             children: [
-              Stack(
+              ListView(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      CarouselSlider(
-                        carouselController: buttonCarouselController,
-                        options: CarouselOptions(
-                          autoPlay: true,
-                          height: media.width > 1000
-                              ? media.height
-                              : media.width > 600
-                                  ? media.width * 0.70
-                                  : media.width * 0.90,
-                          viewportFraction: 1.0,
-                          padEnds: false,
-                        ),
-                        items: [
-                          MyHero(
-                            image: 'assets/frontend/assets/hero/hero1.jpg',
-                            text1: 'Shop smarter and happier',
-                            text2: 'Say goodbye to the hassle of shopping',
-                            buttonCarouselController: buttonCarouselController,
-                          ),
-                          MyHero(
-                            image: 'assets/frontend/assets/hero/hero2.jpg',
-                            text1: 'Seamless Shopping and Delivery',
-                            text2: 'real-time tracking and fast delivery',
-                            buttonCarouselController: buttonCarouselController,
-                          ),
-                          MyHero(
-                            image: 'assets/frontend/assets/hero/hero3.jpg',
-                            text1: 'Our Logistics at Your Service!',
-                            text2: 'Get your packages at your doorstep',
-                            buttonCarouselController: buttonCarouselController,
-                          ),
-                        ],
+                  CarouselSlider(
+                    carouselController: buttonCarouselController,
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      height: media.width > 1000
+                          ? media.height
+                          : media.width > 600
+                              ? media.width * 0.70
+                              : media.width * 0.90,
+                      viewportFraction: 1.0,
+                      padEnds: false,
+                    ),
+                    items: [
+                      MyHero(
+                        image: 'assets/frontend/assets/hero/hero1.jpg',
+                        text1: 'Shop smarter and happier',
+                        text2: 'Say goodbye to the hassle of shopping',
+                        buttonCarouselController: buttonCarouselController,
                       ),
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                            horizontal: breakPoint(media.width, 25, 100, 100),
-                            vertical: 50),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const EndToEndRow(
-                              widget1: MyFancyText(text: 'Categories'),
+                      MyHero(
+                        image: 'assets/frontend/assets/hero/hero2.jpg',
+                        text1: 'Seamless Shopping and Delivery',
+                        text2: 'real-time tracking and fast delivery',
+                        buttonCarouselController: buttonCarouselController,
+                      ),
+                      MyHero(
+                        image: 'assets/frontend/assets/hero/hero3.jpg',
+                        text1: 'Our Logistics at Your Service!',
+                        text2: 'Get your packages at your doorstep',
+                        buttonCarouselController: buttonCarouselController,
+                      ),
+                    ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                        horizontal: breakPoint(media.width, 25, 100, 100),
+                        vertical: 50),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const EndToEndRow(
+                          widget1: MyFancyText(text: 'Categories'),
+                          widget2: MyOutlinedButton(navigate: CategoriesPage()),
+                        ),
+                        kSizedBox,
+                        FutureBuilder(
+                            future: categoriesData,
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                if (snapshot.hasError) {
+                                  return const Center(
+                                    child: Text(
+                                        'Error occured try refresh or contacting admin'),
+                                  );
+                                }
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: kAccentColor,
+                                  ),
+                                );
+                              }
+                              return CarouselSlider(
+                                options: CarouselOptions(
+                                  pageSnapping: false,
+                                  scrollPhysics: const BouncingScrollPhysics(),
+                                  aspectRatio:
+                                      breakPoint(media.width, 16 / 9, 3.5, 5.4),
+                                  viewportFraction: breakPoint(
+                                      media.width, 1 / 2, 1 / 5, 1 / 7),
+                                  padEnds: false,
+                                ),
+                                items: (snapshot.data as List<Category>)
+                                    .map(
+                                      (item) => MyClickable(
+                                        navigate: CategoryPage(
+                                          activeCategory: item,
+                                        ),
+                                        child: MyCicleCard(
+                                          image: item.image,
+                                          text: item.name,
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              );
+                            }),
+                        kSizedBox,
+                        const EndToEndRow(
+                          widget1: MyFancyText(text: 'Trending'),
+                          widget2: MyOutlinedButton(navigate: CategoriesPage()),
+                        ),
+                        kSizedBox,
+                        FutureBuilder(
+                            future: trendingProduct,
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                if (snapshot.hasError) {
+                                  return const Center(
+                                    child: Text(
+                                        'Error occured try refresh or contacting admin'),
+                                  );
+                                }
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: kAccentColor,
+                                  ),
+                                );
+                              }
+                              return GridView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: _crossAxisCount(context),
+                                  crossAxisSpacing: 5.0,
+                                  mainAxisSpacing: 5.0,
+                                  childAspectRatio: _aspectRatio(context),
+                                ),
+                                itemCount:
+                                    (snapshot.data as List<Product>).length,
+                                shrinkWrap: true,
+                                // Specify the number of columns in the grid
+                                itemBuilder: (context, index) => MyCard(
+                                  refresh: () {
+                                    setState(() {});
+                                  },
+                                  product:
+                                      (snapshot.data as List<Product>)[index],
+                                  navigateCategory: CategoryPage(
+                                    activeSubCategory:
+                                        (snapshot.data as List<Product>)[index]
+                                            .subCategoryId,
+                                    activeCategory:
+                                        (snapshot.data as List<Product>)[index]
+                                            .subCategoryId
+                                            .category,
+                                  ),
+                                  navigate: ProductPage(
+                                      product: (snapshot.data
+                                          as List<Product>)[index]),
+                                  action: () {
+                                    showMyDialog(
+                                        context,
+                                        (snapshot.data
+                                            as List<Product>)[index]);
+                                  },
+                                ),
+                              );
+                            })
+                      ],
+                    ),
+                  ),
+                  AspectRatio(
+                    aspectRatio: 5,
+                    child: Image.asset(
+                      'assets/frontend/assets/banner/Benji-banner1.jpg',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  kSizedBox,
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: breakPoint(media.width, 25, 100, 100),
+                    ),
+                    child: Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(15.0),
+                          child: EndToEndRow(
+                            widget1: MyFancyText(text: 'Today\'s Special'),
+                            widget2:
+                                MyOutlinedButton(navigate: CategoriesPage()),
+                          ),
+                        ),
+                        kSizedBox,
+                        FutureBuilder(
+                            future: todayProduct,
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                if (snapshot.hasError) {
+                                  return const Center(
+                                    child: Text(
+                                        'Error occured try refresh or contacting admin'),
+                                  );
+                                }
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: kAccentColor,
+                                  ),
+                                );
+                              }
+                              return GridView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: _crossAxisCount(context),
+                                  crossAxisSpacing: 5.0,
+                                  mainAxisSpacing: 5.0,
+                                  childAspectRatio: _aspectRatio(context),
+                                ),
+                                itemCount:
+                                    (snapshot.data as List<Product>).length,
+                                shrinkWrap: true,
+                                // Specify the number of columns in the grid
+                                itemBuilder: (context, index) => MyCard(
+                                  refresh: () {
+                                    setState(() {});
+                                  },
+                                  product:
+                                      (snapshot.data as List<Product>)[index],
+                                  navigateCategory: CategoryPage(
+                                    activeSubCategory:
+                                        (snapshot.data as List<Product>)[index]
+                                            .subCategoryId,
+                                    activeCategory:
+                                        (snapshot.data as List<Product>)[index]
+                                            .subCategoryId
+                                            .category,
+                                  ),
+                                  navigate: ProductPage(
+                                      product: (snapshot.data
+                                          as List<Product>)[index]),
+                                  action: () {
+                                    showMyDialog(
+                                        context,
+                                        (snapshot.data
+                                            as List<Product>)[index]);
+                                  },
+                                ),
+                              );
+                            }),
+                      ],
+                    ),
+                  ),
+                  kSizedBox,
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                    ),
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        scrollPhysics: const BouncingScrollPhysics(),
+                        // autoPlay: true,
+                        height: MediaQuery.of(context).size.width *
+                            breakPoint(media.width, 0.5, 0.44, 0.24),
+                        viewportFraction:
+                            breakPoint(media.width, 0.5, 0.5, 1 / 4),
+                        padEnds: false,
+                      ),
+                      items: const [
+                        MyImageCard(
+                          image:
+                              'assets/frontend/assets/mid_paragraph/banner1.jpg',
+                        ),
+                        MyImageCard(
+                            image:
+                                'assets/frontend/assets/mid_paragraph/banner2.jpg'),
+                        MyImageCard(
+                            image:
+                                'assets/frontend/assets/mid_paragraph/banner3.jpg'),
+                        MyImageCard(
+                            image:
+                                'assets/frontend/assets/mid_paragraph/banner4.jpg'),
+                      ],
+                    ),
+                  ),
+                  kSizedBox,
+                  kSizedBox,
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: breakPoint(media.width, 25, 100, 100),
+                    ),
+                    child: Column(
+                      children: [
+                        const Padding(
+                            padding: EdgeInsets.all(15.0),
+                            child: EndToEndRow(
+                              widget1: MyFancyText(text: 'Recommended'),
                               widget2:
                                   MyOutlinedButton(navigate: CategoriesPage()),
-                            ),
-                            kSizedBox,
-                            FutureBuilder(
-                                future: categoriesData,
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    if (snapshot.hasError) {
-                                      return const Center(
-                                        child: Text(
-                                            'Error occured try refresh or contacting admin'),
-                                      );
-                                    }
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        color: kAccentColor,
-                                      ),
-                                    );
-                                  }
-                                  return CarouselSlider(
-                                    options: CarouselOptions(
-                                      pageSnapping: false,
-                                      scrollPhysics:
-                                          const BouncingScrollPhysics(),
-                                      aspectRatio: breakPoint(
-                                          media.width, 16 / 9, 3.5, 5.4),
-                                      viewportFraction: breakPoint(
-                                          media.width, 1 / 2, 1 / 5, 1 / 7),
-                                      padEnds: false,
-                                    ),
-                                    items: (snapshot.data as List<Category>)
-                                        .map(
-                                          (item) => MyClickable(
-                                            navigate: CategoryPage(
-                                              activeCategory: item,
-                                            ),
-                                            child: MyCicleCard(
-                                              image: item.image,
-                                              text: item.name,
-                                            ),
-                                          ),
-                                        )
-                                        .toList(),
+                            )),
+                        kSizedBox,
+                        FutureBuilder(
+                            future: recommendedProduct,
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                if (snapshot.hasError) {
+                                  return const Center(
+                                    child: Text(
+                                        'Error occured try refresh or contacting admin'),
                                   );
-                                }),
-                            kSizedBox,
-                            const EndToEndRow(
-                              widget1: MyFancyText(text: 'Trending'),
-                              widget2:
-                                  MyOutlinedButton(navigate: CategoriesPage()),
-                            ),
-                            kSizedBox,
-                            FutureBuilder(
-                                future: trendingProduct,
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    if (snapshot.hasError) {
-                                      return const Center(
-                                        child: Text(
-                                            'Error occured try refresh or contacting admin'),
-                                      );
-                                    }
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        color: kAccentColor,
-                                      ),
-                                    );
-                                  }
-                                  return GridView.builder(
-                                    physics: const BouncingScrollPhysics(),
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: _crossAxisCount(context),
-                                      crossAxisSpacing: 5.0,
-                                      mainAxisSpacing: 5.0,
-                                      childAspectRatio: _aspectRatio(context),
-                                    ),
-                                    itemCount:
-                                        (snapshot.data as List<Product>).length,
-                                    shrinkWrap: true,
-                                    // Specify the number of columns in the grid
-                                    itemBuilder: (context, index) => MyCard(
-                                      refresh: () {
-                                        setState(() {});
-                                      },
-                                      product: (snapshot.data
-                                          as List<Product>)[index],
-                                      navigateCategory: CategoryPage(
-                                        activeSubCategory: (snapshot.data
-                                                as List<Product>)[index]
+                                }
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: kAccentColor,
+                                  ),
+                                );
+                              }
+                              return GridView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: _crossAxisCount(context),
+                                  crossAxisSpacing: 5.0,
+                                  mainAxisSpacing: 5.0,
+                                  childAspectRatio: _aspectRatio(context),
+                                ),
+                                itemCount:
+                                    (snapshot.data as List<Product>).length,
+                                shrinkWrap: true,
+                                // Specify the number of columns in the grid
+                                itemBuilder: (context, index) => MyCard(
+                                  refresh: () {
+                                    setState(() {});
+                                  },
+                                  product:
+                                      (snapshot.data as List<Product>)[index],
+                                  navigateCategory: CategoryPage(
+                                    activeSubCategory:
+                                        (snapshot.data as List<Product>)[index]
                                             .subCategoryId,
-                                        activeCategory: (snapshot.data
-                                                as List<Product>)[index]
+                                    activeCategory:
+                                        (snapshot.data as List<Product>)[index]
                                             .subCategoryId
                                             .category,
-                                      ),
-                                      navigate: ProductPage(
-                                          product: (snapshot.data
-                                              as List<Product>)[index]),
-                                      action: () {
-                                        setState(() {
-                                          showCard = true;
-                                          productPopId = (snapshot.data
-                                                  as List<Product>)[index]
-                                              .id;
-                                        });
-                                      },
-                                    ),
-                                  );
-                                })
-                          ],
-                        ),
-                      ),
-                      AspectRatio(
-                        aspectRatio: 5,
-                        child: Image.asset(
-                          'assets/frontend/assets/banner/Benji-banner1.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      kSizedBox,
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                          horizontal: breakPoint(media.width, 25, 100, 100),
-                        ),
-                        child: Column(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.all(15.0),
-                              child: EndToEndRow(
-                                widget1: MyFancyText(text: 'Today\'s Special'),
-                                widget2: MyOutlinedButton(
-                                    navigate: CategoriesPage()),
-                              ),
-                            ),
-                            kSizedBox,
-                            FutureBuilder(
-                                future: todayProduct,
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    if (snapshot.hasError) {
-                                      return const Center(
-                                        child: Text(
-                                            'Error occured try refresh or contacting admin'),
-                                      );
-                                    }
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        color: kAccentColor,
-                                      ),
-                                    );
-                                  }
-                                  return GridView.builder(
-                                    physics: const BouncingScrollPhysics(),
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: _crossAxisCount(context),
-                                      crossAxisSpacing: 5.0,
-                                      mainAxisSpacing: 5.0,
-                                      childAspectRatio: _aspectRatio(context),
-                                    ),
-                                    itemCount:
-                                        (snapshot.data as List<Product>).length,
-                                    shrinkWrap: true,
-                                    // Specify the number of columns in the grid
-                                    itemBuilder: (context, index) => MyCard(
-                                      refresh: () {
-                                        setState(() {});
-                                      },
+                                  ),
+                                  navigate: ProductPage(
                                       product: (snapshot.data
-                                          as List<Product>)[index],
-                                      navigateCategory: CategoryPage(
-                                        activeSubCategory: (snapshot.data
-                                                as List<Product>)[index]
-                                            .subCategoryId,
-                                        activeCategory: (snapshot.data
-                                                as List<Product>)[index]
-                                            .subCategoryId
-                                            .category,
-                                      ),
-                                      navigate: ProductPage(
-                                          product: (snapshot.data
-                                              as List<Product>)[index]),
-                                      action: () {
-                                        setState(() {
-                                          showCard = true;
-                                          productPopId = (snapshot.data
-                                                  as List<Product>)[index]
-                                              .id;
-                                        });
-                                      },
-                                    ),
-                                  );
-                                }),
-                          ],
-                        ),
+                                          as List<Product>)[index]),
+                                  action: () {
+                                    showMyDialog(
+                                        context,
+                                        (snapshot.data
+                                            as List<Product>)[index]);
+                                  },
+                                ),
+                              );
+                            }),
+                      ],
+                    ),
+                  ),
+                  kSizedBox,
+                  kSizedBox,
+                  AspectRatio(
+                    aspectRatio: 5,
+                    child: Image.asset(
+                      'assets/frontend/assets/banner/Benji-banner2.jpg',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: breakPoint(media.width, 25, 50, 50),
+                      vertical: 60,
+                    ),
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                            'assets/frontend/assets/paragraph_bg/mobile_app_bg.png'),
+                        fit: BoxFit.cover,
                       ),
-                      kSizedBox,
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                        ),
-                        child: CarouselSlider(
-                          options: CarouselOptions(
-                            scrollPhysics: const BouncingScrollPhysics(),
-                            // autoPlay: true,
-                            height: MediaQuery.of(context).size.width *
-                                breakPoint(media.width, 0.5, 0.44, 0.24),
-                            viewportFraction:
-                                breakPoint(media.width, 0.5, 0.5, 1 / 4),
-                            padEnds: false,
-                          ),
-                          items: const [
-                            MyImageCard(
-                              image:
-                                  'assets/frontend/assets/mid_paragraph/banner1.jpg',
-                            ),
-                            MyImageCard(
-                                image:
-                                    'assets/frontend/assets/mid_paragraph/banner2.jpg'),
-                            MyImageCard(
-                                image:
-                                    'assets/frontend/assets/mid_paragraph/banner3.jpg'),
-                            MyImageCard(
-                                image:
-                                    'assets/frontend/assets/mid_paragraph/banner4.jpg'),
-                          ],
-                        ),
-                      ),
-                      kSizedBox,
-                      kSizedBox,
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                          horizontal: breakPoint(media.width, 25, 100, 100),
-                        ),
-                        child: Column(
-                          children: [
-                            const Padding(
-                                padding: EdgeInsets.all(15.0),
-                                child: EndToEndRow(
-                                  widget1: MyFancyText(text: 'Recommended'),
-                                  widget2: MyOutlinedButton(
-                                      navigate: CategoriesPage()),
-                                )),
-                            kSizedBox,
-                            FutureBuilder(
-                                future: recommendedProduct,
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    if (snapshot.hasError) {
-                                      return const Center(
-                                        child: Text(
-                                            'Error occured try refresh or contacting admin'),
-                                      );
-                                    }
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        color: kAccentColor,
-                                      ),
-                                    );
-                                  }
-                                  return GridView.builder(
-                                    physics: const BouncingScrollPhysics(),
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: _crossAxisCount(context),
-                                      crossAxisSpacing: 5.0,
-                                      mainAxisSpacing: 5.0,
-                                      childAspectRatio: _aspectRatio(context),
-                                    ),
-                                    itemCount:
-                                        (snapshot.data as List<Product>).length,
-                                    shrinkWrap: true,
-                                    // Specify the number of columns in the grid
-                                    itemBuilder: (context, index) => MyCard(
-                                      refresh: () {
-                                        setState(() {});
-                                      },
-                                      product: (snapshot.data
-                                          as List<Product>)[index],
-                                      navigateCategory: CategoryPage(
-                                        activeSubCategory: (snapshot.data
-                                                as List<Product>)[index]
-                                            .subCategoryId,
-                                        activeCategory: (snapshot.data
-                                                as List<Product>)[index]
-                                            .subCategoryId
-                                            .category,
-                                      ),
-                                      navigate: ProductPage(
-                                          product: (snapshot.data
-                                              as List<Product>)[index]),
-                                      action: () {
-                                        setState(() {
-                                          showCard = true;
-                                          productPopId = (snapshot.data
-                                                  as List<Product>)[index]
-                                              .id;
-                                        });
-                                      },
-                                    ),
-                                  );
-                                }),
-                          ],
-                        ),
-                      ),
-                      kSizedBox,
-                      kSizedBox,
-                      AspectRatio(
-                        aspectRatio: 5,
-                        child: Image.asset(
-                          'assets/frontend/assets/banner/Benji-banner2.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: breakPoint(media.width, 25, 50, 50),
-                          vertical: 60,
-                        ),
-                        width: double.infinity,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                                'assets/frontend/assets/paragraph_bg/mobile_app_bg.png'),
+                    ),
+                    child: LayoutGrid(
+                      columnSizes: breakPointDynamic(
+                          media.width, [1.fr], [1.fr], [1.fr, 1.fr]),
+                      rowSizes: const [auto, auto],
+                      // rowGap: 40,
+                      // columnGap: 24,
+                      children: [
+                        SizedBox(
+                          child: Image.asset(
+                            'assets/frontend/assets/device/mobile_app_1.jpg',
                             fit: BoxFit.cover,
                           ),
                         ),
-                        child: LayoutGrid(
-                          columnSizes: breakPointDynamic(
-                              media.width, [1.fr], [1.fr], [1.fr, 1.fr]),
-                          rowSizes: const [auto, auto],
-                          // rowGap: 40,
-                          // columnGap: 24,
-                          children: [
-                            SizedBox(
-                              child: Image.asset(
-                                'assets/frontend/assets/device/mobile_app_1.jpg',
-                                fit: BoxFit.cover,
+                        SizedBox(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              deviceType(media.width) > 2
+                                  ? const SizedBox(
+                                      height: kDefaultPadding * 2,
+                                    )
+                                  : kHalfSizedBox,
+                              const MyFancyText(
+                                  text: 'Ecommerce and courier App'),
+                              kSizedBox,
+                              kSizedBox,
+                              const Text(
+                                'Experience the seamless Shopping, Secure and efficient Delivery - Our Logistics at Your Service!.',
+                                style: TextStyle(
+                                    fontSize: 25, color: Colors.black54),
                               ),
-                            ),
-                            SizedBox(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
+                              kSizedBox,
+                              kHalfSizedBox,
+                              Row(
                                 children: [
-                                  deviceType(media.width) > 2
-                                      ? const SizedBox(
-                                          height: kDefaultPadding * 2,
-                                        )
-                                      : kHalfSizedBox,
-                                  const MyFancyText(
-                                      text: 'Ecommerce and courier App'),
-                                  kSizedBox,
-                                  kSizedBox,
-                                  const Text(
-                                    'Experience the seamless Shopping, Secure and efficient Delivery - Our Logistics at Your Service!.',
-                                    style: TextStyle(
-                                        fontSize: 25, color: Colors.black54),
+                                  Container(
+                                    constraints: BoxConstraints.loose(
+                                      const Size(100, 50),
+                                    ),
+                                    child: InkWell(
+                                      onTap: launchDownloadLinkAndroid,
+                                      child: Image.asset(
+                                          'assets/frontend/assets/store/playstore.png'),
+                                    ),
                                   ),
-                                  kSizedBox,
-                                  kHalfSizedBox,
-                                  Row(
-                                    children: [
-                                      Container(
-                                        constraints: BoxConstraints.loose(
-                                          const Size(100, 50),
-                                        ),
-                                        child: InkWell(
-                                          onTap: launchDownloadLinkAndroid,
-                                          child: Image.asset(
-                                              'assets/frontend/assets/store/playstore.png'),
-                                        ),
-                                      ),
-                                      kWidthSizedBox,
-                                      Container(
-                                        constraints: BoxConstraints.loose(
-                                          const Size(100, 30),
-                                        ),
-                                        child: InkWell(
-                                          onTap: () {},
-                                          child: Image.asset(
-                                              'assets/frontend/assets/store/appstore.png'),
-                                        ),
-                                      ),
-                                    ],
+                                  kWidthSizedBox,
+                                  Container(
+                                    constraints: BoxConstraints.loose(
+                                      const Size(100, 30),
+                                    ),
+                                    child: InkWell(
+                                      onTap: () {},
+                                      child: Image.asset(
+                                          'assets/frontend/assets/store/appstore.png'),
+                                    ),
                                   ),
-                                  kSizedBox,
                                 ],
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                          horizontal: breakPoint(media.width, 25, 120, 120),
-                        ),
-                        child: const Wrap(
-                          spacing: 15,
-                          runSpacing: 10,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          alignment: WrapAlignment.center,
-                          children: [
-                            MyBorderCard(
-                              icon: Icons.speed,
-                              title: 'Fast Shopping',
-                              subtitle: 'Shop with easy',
-                            ),
-                            MyBorderCard(
-                              icon: Icons.pin_drop,
-                              title: 'Real-time Order Tracking',
-                              subtitle: 'Know where your package is at',
-                            ),
-                            MyBorderCard(
-                              icon: Icons.car_crash,
-                              title: 'Secure Shipping',
-                              subtitle: 'Your order is safe with us',
-                            ),
-                          ],
-                        ),
-                      ),
-                      kSizedBox,
-                      kSizedBox,
-                      const Footer(),
-                    ],
+                              kSizedBox,
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                  productsData.isEmpty
-                      ? const SizedBox()
-                      : Builder(
-                          builder: (context) {
-                            Product? data = productsData.firstWhereOrNull(
-                              (element) => element.id == productPopId,
-                            );
-                            if (data == null) {
-                              return const SizedBox();
-                            }
-                            return MyCardLg(
-                              refresh: () {
-                                setState(() {});
-                              },
-                              navigateCategory: CategoryPage(
-                                activeSubCategory: data.subCategoryId,
-                                activeCategory: data.subCategoryId.category,
-                              ),
-                              navigate: ProductPage(product: data),
-                              visible: showCard,
-                              close: () {
-                                setState(() {
-                                  showCard = false;
-                                });
-                              },
-                              product: data,
-                            );
-                          },
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: breakPoint(media.width, 25, 120, 120),
+                    ),
+                    child: const Wrap(
+                      spacing: 15,
+                      runSpacing: 10,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      alignment: WrapAlignment.center,
+                      children: [
+                        MyBorderCard(
+                          icon: Icons.speed,
+                          title: 'Fast Shopping',
+                          subtitle: 'Shop with easy',
                         ),
+                        MyBorderCard(
+                          icon: Icons.pin_drop,
+                          title: 'Real-time Order Tracking',
+                          subtitle: 'Know where your package is at',
+                        ),
+                        MyBorderCard(
+                          icon: Icons.car_crash,
+                          title: 'Secure Shipping',
+                          subtitle: 'Your order is safe with us',
+                        ),
+                      ],
+                    ),
+                  ),
+                  kSizedBox,
+                  kSizedBox,
+                  const Footer(),
                 ],
               ),
             ],

@@ -2,14 +2,13 @@ import 'package:benji/frontend/store/product.dart';
 import 'package:benji/src/components/others/empty.dart';
 import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
 import 'package:benji/src/frontend/widget/section/breadcrumb.dart';
+import 'package:benji/src/frontend/widget/show_modal.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
 import '../../src/frontend/model/all_product.dart';
 import '../../src/frontend/utils/constant.dart';
 import '../../src/frontend/widget/cards/product_card.dart';
-import '../../src/frontend/widget/cards/product_card_lg.dart';
 import '../../src/frontend/widget/drawer/drawer.dart';
 import '../../src/frontend/widget/section/footer.dart';
 import '../../src/providers/constants.dart';
@@ -32,8 +31,35 @@ class _SearchPageState extends State<SearchPage> {
 
   late TextEditingController _searchController;
 
-  bool showCard = false;
-  String productPopId = '';
+  int _crossAxisCount(BuildContext context) {
+    if (MediaQuery.of(context).size.width < 600) {
+      return 1; // Small screens, e.g., mobile phones
+    } else if (MediaQuery.of(context).size.width < 900) {
+      return 2; // Medium screens, e.g., tablets
+    } else if (MediaQuery.of(context).size.width < 1200) {
+      return 3; // Large screens, e.g., laptops
+    } else {
+      return 4; // Extra-large screens, e.g., desktops
+    }
+  }
+
+  double calculateAspectRatio(double height, int by, int remove) {
+    return ((MediaQuery.of(context).size.width / by) - remove) / height;
+  }
+
+  double _aspectRatio(BuildContext context) {
+    if (MediaQuery.of(context).size.width < 600) {
+      return calculateAspectRatio(
+          500, 1, 10); // Small screens, e.g., mobile phones
+    } else if (MediaQuery.of(context).size.width < 900) {
+      return calculateAspectRatio(600, 2, 30); // Medium screens, e.g., tablets
+    } else if (MediaQuery.of(context).size.width < 1200) {
+      return calculateAspectRatio(500, 3, 20); // Large screens, e.g., laptops
+    } else {
+      return calculateAspectRatio(
+          500, 4, 20); // Extra-large screens, e.g., desktops
+    }
+  }
 
   @override
   void initState() {
@@ -93,160 +119,130 @@ class _SearchPageState extends State<SearchPage> {
       // ignore: prefer_const_constructors
       appBar: MyAppbar(),
       body: SafeArea(
-        child: Stack(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: ListView(
-                    physics: const BouncingScrollPhysics(),
-                    controller: _scrollController,
-                    children: [
-                      const MyBreadcrumb(
-                        text: 'Search',
-                        current: 'Search',
-                        hasBeadcrumb: true,
-                        back: 'home',
-                      ),
-                      kSizedBox,
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                            horizontal: breakPoint(media.width, 25, 50, 50)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        blurRadius: 10,
-                                        spreadRadius: 5,
-                                        color: Colors.grey.shade300)
-                                  ]),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      breakPoint(media.width, 15, 50, 50),
-                                  vertical: 50),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextFormField(
-                                      controller: _searchController,
-                                      decoration: const InputDecoration(
-                                          hintText: 'Product name',
-                                          border: OutlineInputBorder()),
-                                    ),
-                                  ),
-                                  OutlinedButton.icon(
-                                    label: const Text(''),
-                                    style: OutlinedButton.styleFrom(
-                                        padding: EdgeInsets.zero,
-                                        backgroundColor: Colors.grey[200],
-                                        foregroundColor: Colors.black,
-                                        minimumSize: const Size(60, 60)),
-                                    onPressed: () {
-                                      setState(() {
-                                        isLoading = true;
-                                      });
-                                      _getData(
-                                          _searchController.text.toString());
-                                    },
-                                    icon: const Icon(
-                                      Icons.search,
-                                      size: 30,
-                                    ),
-                                  )
-                                ],
+            Expanded(
+              child: ListView(
+                physics: const BouncingScrollPhysics(),
+                controller: _scrollController,
+                children: [
+                  const MyBreadcrumb(
+                    text: 'Search',
+                    current: 'Search',
+                    hasBeadcrumb: true,
+                    back: 'home',
+                  ),
+                  kSizedBox,
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                        horizontal: breakPoint(media.width, 25, 50, 50)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10),
                               ),
-                            ),
-                            kSizedBox,
-                            kHalfSizedBox,
-                            Builder(builder: (context) {
-                              if (isLoading) {
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    color: kAccentColor,
-                                  ),
-                                );
-                              } else if (_getDataList == null ||
-                                  _getDataList!.isEmpty) {
-                                return const EmptyCard(
-                                  showButton: false,
-                                );
-                              } else {
-                                return LayoutGrid(
-                                  columnSizes: breakPointDynamic(
-                                      media.width,
-                                      [1.fr],
-                                      [1.fr, 1.fr],
-                                      [1.fr, 1.fr, 1.fr, 1.fr]),
-                                  rowSizes:
-                                      List.filled(_getDataList!.length, auto),
-                                  children: (_getDataList!)
-                                      .map((item) => MyCard(
-                                            product: item,
-                                            navigateCategory: CategoryPage(
-                                              activeSubCategory:
-                                                  item.subCategoryId,
-                                              activeCategory:
-                                                  item.subCategoryId.category,
-                                            ),
-                                            navigate:
-                                                ProductPage(product: item),
-                                            action: () {
-                                              setState(() {
-                                                showCard = true;
-                                                productPopId = item.id;
-                                              });
-                                            },
-                                          ))
-                                      .toList(),
-                                );
-                              }
-                            })
-                          ],
+                              boxShadow: [
+                                BoxShadow(
+                                    blurRadius: 10,
+                                    spreadRadius: 5,
+                                    color: Colors.grey.shade300)
+                              ]),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: breakPoint(media.width, 15, 50, 50),
+                              vertical: 50),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _searchController,
+                                  decoration: const InputDecoration(
+                                      hintText: 'Product name',
+                                      border: OutlineInputBorder()),
+                                ),
+                              ),
+                              OutlinedButton.icon(
+                                label: const Text(''),
+                                style: OutlinedButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    backgroundColor: Colors.grey[200],
+                                    foregroundColor: Colors.black,
+                                    minimumSize: const Size(60, 60)),
+                                onPressed: () {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  _getData(_searchController.text.toString());
+                                },
+                                icon: const Icon(
+                                  Icons.search,
+                                  size: 30,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      kSizedBox,
-                      kSizedBox,
-                      kSizedBox,
-                      const Footer(),
-                    ],
+                        kSizedBox,
+                        kHalfSizedBox,
+                        Builder(builder: (context) {
+                          if (isLoading) {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: kAccentColor,
+                              ),
+                            );
+                          } else if (_getDataList == null ||
+                              _getDataList!.isEmpty) {
+                            return const EmptyCard(
+                              showButton: false,
+                            );
+                          } else {
+                            return GridView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: _crossAxisCount(context),
+                                  crossAxisSpacing: 5.0,
+                                  mainAxisSpacing: 5.0,
+                                  childAspectRatio: _aspectRatio(context),
+                                ),
+                                itemCount: (_getDataList!).length,
+                                shrinkWrap: true,
+                                // Specify the number of columns in the grid
+                                itemBuilder: (context, index) => MyCard(
+                                      product: _getDataList![index],
+                                      navigateCategory: CategoryPage(
+                                        activeSubCategory:
+                                            _getDataList![index].subCategoryId,
+                                        activeCategory: _getDataList![index]
+                                            .subCategoryId
+                                            .category,
+                                      ),
+                                      navigate: ProductPage(
+                                          product: _getDataList![index]),
+                                      action: () {
+                                        showMyDialog(
+                                            context, _getDataList![index]);
+                                      },
+                                    ));
+                          }
+                        })
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  kSizedBox,
+                  kSizedBox,
+                  kSizedBox,
+                  const Footer(),
+                ],
+              ),
             ),
-            Builder(builder: (context) {
-              if (_getDataList == null || _getDataList!.isEmpty) {
-                return const Text('');
-              } else {
-                Product data = (_getDataList!).firstWhere(
-                  (element) => element.id == productPopId,
-                  orElse: () => (_getDataList!).first,
-                );
-                return MyCardLg(
-                  navigateCategory: CategoryPage(
-                    activeSubCategory: data.subCategoryId,
-                    activeCategory: data.subCategoryId.category,
-                  ),
-                  navigate: ProductPage(product: data),
-                  visible: showCard,
-                  close: () {
-                    setState(() {
-                      showCard = false;
-                    });
-                  },
-                  product: data,
-                );
-              }
-            }),
           ],
         ),
       ),
