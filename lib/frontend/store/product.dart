@@ -152,7 +152,7 @@ class _ProductPageState extends State<ProductPage> {
                               children: [
                                 Icon(
                                   Icons.spa,
-                                  color: kAccentColor,
+                                  color: kSecondaryColor,
                                 ),
                                 kHalfWidthSizedBox,
                                 Expanded(

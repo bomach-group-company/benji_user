@@ -132,8 +132,9 @@ class _MyCardLgState extends State<MyCardLg> {
                                     SizedBox(
                                       height: 18,
                                       width: 18,
-                                      child: Image.asset(
-                                        'assets/frontend/assets/product_asset/veg.png',
+                                      child: Icon(
+                                        Icons.circle,
+                                        color: kSecondaryColor,
                                       ),
                                     ),
                                     kHalfWidthSizedBox,
