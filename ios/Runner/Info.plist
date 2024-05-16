@@ -31,14 +31,14 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>This app needs needs access to send you personalised notifications</string>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs access to the camera</string>
+	<string>This app needs access to the camera so you can upload an image</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+	<string>This app needs access to location when open to provide better results based on your location.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs access to the photos</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app needs access to location</string>
+	<string>This app needs access to the photos to upload an image</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
