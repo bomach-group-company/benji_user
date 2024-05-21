@@ -172,7 +172,7 @@ class _ProductPageState extends State<ProductPage> {
                                     style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
                                       color: kGreyColor,
-                                      fontSize: 10,
+                                      fontSize: 12,
                                     ),
                                   ),
                                 ),

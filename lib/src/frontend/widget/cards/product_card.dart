@@ -119,121 +119,118 @@ class _MyCardState extends State<MyCard> {
                 ),
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                margin: const EdgeInsets.only(top: 15),
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          height: 18,
-                          width: 18,
-                          child: Image.asset(
-                            'assets/frontend/assets/product_asset/image2.png',
-                          ),
+            Container(
+              margin: const EdgeInsets.only(top: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 18,
+                        width: 18,
+                        child: Image.asset(
+                          'assets/frontend/assets/product_asset/image2.png',
                         ),
-                        kHalfWidthSizedBox,
-                        Expanded(
-                          child: MyClickable(
-                            navigate: widget.navigate,
-                            child: Text(
-                              widget.product.name,
-                              softWrap: false,
-                              maxLines: 1,
-                              style: const TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.2,
-                              ),
+                      ),
+                      kHalfWidthSizedBox,
+                      Expanded(
+                        child: MyClickable(
+                          navigate: widget.navigate,
+                          child: Text(
+                            widget.product.name,
+                            softWrap: false,
+                            maxLines: 1,
+                            style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          widget.product.vendorId.shopName.toUpperCase(),
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              color: kGreyColor2,
+                              fontSize: 12,
+                              height: 2),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: MyClickable(
+                          navigate: widget.navigateCategory,
                           child: Text(
-                            widget.product.vendorId.shopName.toUpperCase(),
+                            widget.product.subCategoryId.name,
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              color: kGreyColor,
-                              fontSize: 10,
-                            ),
+                                overflow: TextOverflow.ellipsis,
+                                color: kAccentColor,
+                                fontSize: 13,
+                                height: 1),
                           ),
                         ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: MyClickable(
-                            navigate: widget.navigateCategory,
-                            child: Text(
-                              widget.product.subCategoryId.name,
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  color: kAccentColor,
-                                  fontSize: 13,
-                                  height: 2),
-                            ),
-                          ),
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        '₦${widget.product.price}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'sen',
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
                         ),
-                      ],
-                    ),
-                    const Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '₦${widget.product.price}',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'sen',
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.2,
-                          ),
-                        ),
-                        FutureBuilder(
-                          future: _cartCount(),
-                          initialData: false,
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            return snapshot.data
-                                ? OutlinedButton(
-                                    style: OutlinedButton.styleFrom(
-                                      foregroundColor: kAccentColor,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 15),
-                                    ),
-                                    onPressed: toLoginPage,
-                                    child: const Text('REMOVE'),
-                                  )
-                                : OutlinedButton(
-                                    style: OutlinedButton.styleFrom(
-                                      foregroundColor: kAccentColor,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 15),
-                                    ),
-                                    onPressed: toLoginPage,
-                                    child: const Text('ADD'),
-                                  );
-                          },
-                        ),
-                      ],
-                    ),
-                    kHalfSizedBox
-                  ],
-                ),
+                      ),
+                      FutureBuilder(
+                        future: _cartCount(),
+                        initialData: false,
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          return snapshot.data
+                              ? OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                    foregroundColor: kAccentColor,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 15),
+                                  ),
+                                  onPressed: toLoginPage,
+                                  child: const Text('REMOVE'),
+                                )
+                              : OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                    foregroundColor: kAccentColor,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 15),
+                                  ),
+                                  onPressed: toLoginPage,
+                                  child: const Text('ADD'),
+                                );
+                        },
+                      ),
+                    ],
+                  ),
+                  kHalfSizedBox
+                ],
               ),
             ),
           ],

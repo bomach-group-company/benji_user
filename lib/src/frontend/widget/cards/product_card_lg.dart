@@ -65,7 +65,7 @@ class _MyCardLgState extends State<MyCardLg> {
                     Container(
                       constraints: BoxConstraints(
                         maxWidth: 800,
-                        maxHeight: breakPoint(media.width, 500, 400, 400),
+                        maxHeight: breakPoint(media.width, 620, 400, 400),
                       ),
                       margin: EdgeInsets.all(margin),
                       padding: EdgeInsets.symmetric(
@@ -166,7 +166,7 @@ class _MyCardLgState extends State<MyCardLg> {
                                         style: TextStyle(
                                           overflow: TextOverflow.ellipsis,
                                           color: kGreyColor,
-                                          fontSize: 10,
+                                          fontSize: 12,
                                         ),
                                       ),
                                     ),
