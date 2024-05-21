@@ -57,10 +57,6 @@ class ProductCard extends StatelessWidget {
                     topRight: Radius.circular(7.20),
                   ),
                 ),
-                //   image: DecorationImage(
-                //     image: AssetImage("assets/images/products/okra-soup.png"),
-                //     fit: BoxFit.fill,
-                //   ),
               ),
               child: Center(
                   child: MyImage(
@@ -89,21 +85,35 @@ class ProductCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  kHalfSizedBox,
+                  // kHalfSizedBox,
                   SizedBox(
                     child: Text(
-                      product.vendorId.shopName,
+                      product.vendorId.shopName.toUpperCase(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: kTextGreyColor,
-                        fontSize: 16,
+                        color: kGreyColor,
+                        fontSize: 10,
                         fontWeight: FontWeight.w400,
                         letterSpacing: -0.43,
                       ),
                     ),
                   ),
-                  kSizedBox,
+                  // kHalfSizedBox,
+                  SizedBox(
+                    child: Text(
+                      product.subCategoryId.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: kAccentColor,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.43,
+                      ),
+                    ),
+                  ),
+                  kHalfSizedBox,
                   SizedBox(
                     child: Text(
                       '₦${formattedText(product.price)}',
