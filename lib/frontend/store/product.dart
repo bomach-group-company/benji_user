@@ -132,11 +132,6 @@ class _ProductPageState extends State<ProductPage> {
                           height: media.height * 0.5,
                           decoration: BoxDecoration(
                               color: kPageSkeletonColor,
-                              // image: const DecorationImage(
-                              //   image: AssetImage(
-                              //       "assets/images/products/okra-soup.png"),
-                              //   fit: BoxFit.contain,
-                              // ),
                               border: Border.all(color: Colors.black12),
                               borderRadius: BorderRadius.circular(10)),
                           child: Center(
@@ -164,6 +159,23 @@ class _ProductPageState extends State<ProductPage> {
                                     ),
                                   ),
                                 )
+                              ],
+                            ),
+                            kHalfSizedBox,
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    widget.product.vendorId.shopName
+                                        .toUpperCase(),
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      color: kGreyColor,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                             kHalfSizedBox,

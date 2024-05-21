@@ -60,16 +60,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   double _aspectRatio(BuildContext context) {
-    if (MediaQuery.of(context).size.width < 600) {
+    if (MediaQuery.of(context).size.width < 560) {
       return calculateAspectRatio(
-          500, 1, 10); // Small screens, e.g., mobile phones
+          560, 1, 10); // Small screens, e.g., mobile phones
+    } else if (MediaQuery.of(context).size.width < 600) {
+      return calculateAspectRatio(
+          700, 1, 30); // Small screens, e.g., bigger mobile phones
     } else if (MediaQuery.of(context).size.width < 900) {
-      return calculateAspectRatio(600, 2, 30); // Medium screens, e.g., tablets
+      return calculateAspectRatio(680, 2, 30); // Medium screens, e.g., tablets
     } else if (MediaQuery.of(context).size.width < 1200) {
-      return calculateAspectRatio(500, 3, 20); // Large screens, e.g., laptops
+      return calculateAspectRatio(600, 3, 20); // Large screens, e.g., laptops
     } else {
       return calculateAspectRatio(
-          500, 4, 20); // Extra-large screens, e.g., desktops
+          600, 4, 20); // Extra-large screens, e.g., desktops
     }
   }
 

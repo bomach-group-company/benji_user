@@ -158,16 +158,33 @@ class _MyCardState extends State<MyCard> {
                     ),
                     Row(
                       children: [
-                        MyClickable(
-                          navigate: widget.navigateCategory,
+                        Expanded(
                           child: Text(
-                            widget.product.subCategoryId.name,
+                            widget.product.vendorId.shopName.toUpperCase(),
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                color: kAccentColor,
-                                fontSize: 13,
-                                height: 2),
+                              overflow: TextOverflow.ellipsis,
+                              color: kGreyColor,
+                              fontSize: 10,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: MyClickable(
+                            navigate: widget.navigateCategory,
+                            child: Text(
+                              widget.product.subCategoryId.name,
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  color: kAccentColor,
+                                  fontSize: 13,
+                                  height: 2),
+                            ),
                           ),
                         ),
                       ],

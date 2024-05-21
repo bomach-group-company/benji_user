@@ -130,11 +130,10 @@ class _MyCardLgState extends State<MyCardLg> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                      height: 18,
-                                      width: 18,
-                                      child: Icon(
-                                        Icons.circle,
-                                        color: kSecondaryColor,
+                                      height: 15,
+                                      width: 15,
+                                      child: Image.asset(
+                                        'assets/frontend/assets/product_asset/image2.png',
                                       ),
                                     ),
                                     kHalfWidthSizedBox,
@@ -154,6 +153,23 @@ class _MyCardLgState extends State<MyCardLg> {
                                         ),
                                       ),
                                     )
+                                  ],
+                                ),
+                                kHalfSizedBox,
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        widget.product.vendorId.shopName
+                                            .toUpperCase(),
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                          overflow: TextOverflow.ellipsis,
+                                          color: kGreyColor,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                                 Row(
