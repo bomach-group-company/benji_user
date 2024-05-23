@@ -18,6 +18,7 @@ class UserController extends GetxController {
   }
 
   var isLoading = false.obs;
+  var isLoadingDelete = false.obs;
   var user = User.fromJson(null).obs;
 
   @override
@@ -64,6 +65,18 @@ class UserController extends GetxController {
     update();
   }
 
+  Future<http.Response> deleteAccount() async {
+    isLoadingDelete.value = true;
+    update();
+    final res = await http.delete(
+        Uri.parse('$baseURL/auth/user/delete/account'),
+        headers: authHeader());
+    isLoadingDelete.value = false;
+    update();
+    print(res.body);
+    return res;
+  }
+
   Future deleteUser() async {
     await prefs.remove('user');
     setUserSync();
@@ -81,8 +94,7 @@ class UserController extends GetxController {
     update();
   }
 
-  
-  Future logoutUser() async{
+  Future logoutUser() async {
     await http.post(Uri.parse('$baseURL/auth/logout'), headers: authHeader());
   }
 }

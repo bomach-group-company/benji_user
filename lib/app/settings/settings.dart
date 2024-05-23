@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:benji/app/settings/change_password.dart';
+import 'package:benji/frontend/main/home.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/providers/responsive_constant.dart';
@@ -310,6 +312,89 @@ class _SettingsState extends State<Settings> {
       transition: Transition.upToDown,
     );
   }
+
+  void _deleteAccount() async {
+    final res = await UserController.instance.deleteAccount();
+    if (res.statusCode == 200) {
+      await UserController.instance.deleteUser();
+      UserController.instance.logoutUser();
+
+      Get.offAll(
+        () => const HomePage(),
+        predicate: (route) => false,
+        routeName: 'HomePage',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: true,
+        transition: Transition.upToDown,
+      );
+      return;
+    }
+    ApiProcessorController.errorSnack(jsonDecode(res.body)['message']);
+  }
+
+  void _deletePopUp() => Get.defaultDialog(
+        title: "What do you want to do?",
+        titleStyle: const TextStyle(
+          fontSize: 20,
+          color: kTextBlackColor,
+          fontWeight: FontWeight.w700,
+        ),
+        content: const SizedBox(height: 0),
+        cancel: ElevatedButton(
+          onPressed: () => _deleteAccount(),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: kPrimaryColor,
+            elevation: 10.0,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: kAccentColor),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            shadowColor: kBlackColor.withOpacity(0.4),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                UserController.instance.isLoadingDelete.value
+                    ? "Deleting..."
+                    : "Delete Account",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: kAccentColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+        ),
+        confirm: ElevatedButton(
+          onPressed: () => Get.back(),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: kAccentColor,
+            elevation: 10.0,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shadowColor: kBlackColor.withOpacity(0.4),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Cancel",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: kPrimaryColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -621,6 +706,48 @@ class _SettingsState extends State<Settings> {
                     ),
                     title: const Text(
                       "About the app",
+                      style: TextStyle(
+                        color: kTextBlackColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    trailing: const Icon(
+                      FontAwesomeIcons.chevronRight,
+                      size: 16,
+                      color: kTextBlackColor,
+                    ),
+                  ),
+                ),
+              ),
+              kHalfSizedBox,
+              InkWell(
+                onTap: _deletePopUp,
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  width: media.width,
+                  decoration: ShapeDecoration(
+                    color: kPrimaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    shadows: const [
+                      BoxShadow(
+                        color: Color(0x0F000000),
+                        blurRadius: 24,
+                        offset: Offset(0, 4),
+                        spreadRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: ListTile(
+                    enableFeedback: true,
+                    leading: FaIcon(
+                      FontAwesomeIcons.rightFromBracket,
+                      color: kAccentColor,
+                    ),
+                    title: const Text(
+                      'Delete Account',
                       style: TextStyle(
                         color: kTextBlackColor,
                         fontSize: 12,

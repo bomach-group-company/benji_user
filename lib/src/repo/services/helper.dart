@@ -48,6 +48,7 @@ Map<String, String> authHeader([String? authToken, String? contentType]) {
   if (contentType != null) {
     res['Content-Type'] = contentType;
   }
+  print(res);
   return res;
 }
 
