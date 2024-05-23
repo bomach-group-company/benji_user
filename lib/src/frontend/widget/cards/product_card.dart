@@ -138,6 +138,7 @@ class _MyCardState extends State<MyCard> {
                       kHalfWidthSizedBox,
                       Expanded(
                         child: MyClickable(
+                          getOff: false,
                           navigate: widget.navigate,
                           child: Text(
                             widget.product.name,
@@ -192,13 +193,17 @@ class _MyCardState extends State<MyCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        '₦${widget.product.price}',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'sen',
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.2,
+                      Expanded(
+                        child: Text(
+                          '₦${doubleFormattedText(widget.product.price)}',
+                          maxLines: 1,
+                          softWrap: true,
+                          style: const TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'sen',
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
+                              overflow: TextOverflow.ellipsis),
                         ),
                       ),
                       FutureBuilder(

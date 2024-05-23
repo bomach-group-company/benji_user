@@ -5,6 +5,7 @@ import 'package:benji/src/frontend/model/product.dart';
 import 'package:benji/src/frontend/utils/navigate.dart';
 import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:benji/src/frontend/widget/responsive/appbar/appbar.dart';
+import 'package:benji/src/frontend/widget/section/breadcrumb_simple.dart';
 import 'package:benji/src/frontend/widget/show_modal.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/utils/user_cart.dart';
@@ -112,6 +113,15 @@ class _ProductPageState extends State<ProductPage> {
                 controller: _scrollController,
                 children: [
                   kSizedBox,
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: breakPoint(media.width, 25, 50, 50),
+                    ),
+                    child: const MyBreadcrumbSimple(
+                      current: 'Product',
+                      back: 'Back',
+                    ),
+                  ),
                   kSizedBox,
                   Container(
                     margin: EdgeInsets.symmetric(
