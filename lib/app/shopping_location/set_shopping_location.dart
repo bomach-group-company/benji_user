@@ -231,8 +231,8 @@ class _SetShoppingLocationState extends State<SetShoppingLocation> {
                   dropdownMenuEntries2: stateEC.text.isEmpty
                       ? [
                           const DropdownMenuEntry(
-                              value: 'Select State',
-                              label: 'Select State',
+                              value: 'Select city',
+                              label: 'Select city',
                               enabled: false),
                         ]
                       : controller.isLoadCity.value && controller.city.isEmpty

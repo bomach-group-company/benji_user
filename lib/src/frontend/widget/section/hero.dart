@@ -52,7 +52,7 @@ class MyHero extends StatelessWidget {
                 SizedBox(
                   width: media.width < 400
                       ? media.width * 0.7
-                      : media.width * 0.80,
+                      : media.width * 0.76,
                   child: Text(
                     text1,
                     textAlign: TextAlign.center,

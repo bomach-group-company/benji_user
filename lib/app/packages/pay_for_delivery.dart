@@ -163,90 +163,80 @@ class _PayForDeliveryState extends State<PayForDelivery> {
         context,
         MaterialPageRoute(builder: (context) {
           if (kIsWeb) {
-                 return MonnifyWidget(
-            apiKey: apiKey,
-            contractCode: contractCode,
-            email: email,
-            phone: phone,
-            firstName: firstName,
-            lastName: lastName,
-            currency: currency,
-            amount: amount,
-            metaData: meta,
-            onTransaction: (response) async{
-              consoleLog('the response from my monnify $response');
-              if (response != null && response['status'] == "SUCCESS") {
-                await NotificationController.showNotification(
-                  title: "Payment Success",
-                  body: "Your payment of NGN$amount was successful",
-                  largeIcon: "asset://assets/icons/success.png",
-                  customSound: "asset://assets/audio/success.wav",
-                );
-                print('in the  package pay oo if');
-                Get.off(
-                () => const Packages(),
-                routeName: 'Packages',
-                duration: const Duration(milliseconds: 300),
-                fullscreenDialog: true,
-                curve: Curves.easeIn,
-                preventDuplicates: true,
-                popGesture: true,
-                transition: Transition.rightToLeft,
-              );
-                print('in the  package pay oo if222');
+            return MonnifyWidget(
+              apiKey: apiKey,
+              contractCode: contractCode,
+              email: email,
+              phone: phone,
+              firstName: firstName,
+              lastName: lastName,
+              currency: currency,
+              amount: amount,
+              metaData: meta,
+              onTransaction: (response) async {
+                consoleLog('the response from my monnify $response');
+                if (response != null && response['status'] == "SUCCESS") {
+                  await NotificationController.showNotification(
+                    title: "Payment Success",
+                    body: "Your payment of NGN$amount was successful",
+                    largeIcon: "asset://assets/icons/success.png",
+                    customSound: "asset://assets/audio/success.wav",
+                  );
 
-              }else{
-                print('in the  package pay oo else');
-              }
-            },
-             onClose: () {
-              Get.back();
-            },
-          );
+                  Get.off(
+                    () => const Packages(),
+                    routeName: 'Packages',
+                    duration: const Duration(milliseconds: 300),
+                    fullscreenDialog: true,
+                    curve: Curves.easeIn,
+                    preventDuplicates: true,
+                    popGesture: true,
+                    transition: Transition.rightToLeft,
+                  );
+                } else {}
+              },
+              onClose: () {
+                Get.back();
+              },
+            );
           } else {
-            
-          return MonnifyWidgetMobile(
-            apiKey: apiKey,
-            contractCode: contractCode,
-            email: email,
-            phone: phone,
-            firstName: firstName,
-            lastName: lastName,
-            currency: currency,
-            amount: amount,
-            metaData: meta,
-            onTransaction: (response) async{
-              consoleLog('the response from my monnify $response');
-              if (response != null && response['status'] == "SUCCESS") {
-                await NotificationController.showNotification(
-                  title: "Payment Success",
-                  body: "Your payment of NGN$amount was successful",
-                  largeIcon: "asset://assets/icons/success.png",
-                  customSound: "asset://assets/audio/success.wav",
-                );
-                print('in the  package pay oo if');
-                Get.off(
-                () => const Packages(),
-                routeName: 'Packages',
-                duration: const Duration(milliseconds: 300),
-                fullscreenDialog: true,
-                curve: Curves.easeIn,
-                preventDuplicates: true,
-                popGesture: true,
-                transition: Transition.rightToLeft,
-              );
-                print('in the  package pay oo if222');
+            return MonnifyWidgetMobile(
+              apiKey: apiKey,
+              contractCode: contractCode,
+              email: email,
+              phone: phone,
+              firstName: firstName,
+              lastName: lastName,
+              currency: currency,
+              amount: amount,
+              metaData: meta,
+              onTransaction: (response) async {
+                consoleLog('the response from my monnify $response');
+                if (response != null && response['status'] == "SUCCESS") {
+                  await NotificationController.showNotification(
+                    title: "Payment Success",
+                    body: "Your payment of NGN$amount was successful",
+                    largeIcon: "asset://assets/icons/success.png",
+                    customSound: "asset://assets/audio/success.wav",
+                  );
 
-              }else{
-                print('in the  package pay oo else');
-              }
-            },
-             onClose: () {
-              Get.back();
-            },
-          );
+                  Get.off(
+                    () => const Packages(),
+                    routeName: 'Packages',
+                    duration: const Duration(milliseconds: 300),
+                    fullscreenDialog: true,
+                    curve: Curves.easeIn,
+                    preventDuplicates: true,
+                    popGesture: true,
+                    transition: Transition.rightToLeft,
+                  );
+                } else {}
+              },
+              onClose: () {
+                Get.back();
+              },
+            );
           }
-
         }),
       );
     } on SocketException {
