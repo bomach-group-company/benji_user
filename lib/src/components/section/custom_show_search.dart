@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:benji/app/product/product_detail_screen.dart';
 import 'package:benji/src/components/product/product_card.dart';
 import 'package:benji/src/providers/constants.dart';
@@ -108,7 +106,7 @@ class CustomSearchDelegate extends SearchDelegate {
   //===================== Get Data ==========================\\
   Future<List<Product>> getData() async {
     List<Product> product = await getProductsBySearching(query);
-    log('product model in search $product, length: ${product.length}');
+    // log('product model in search $product, length: ${product.length}');
     if (query.length >= 2) {
       return product;
     }
@@ -123,24 +121,35 @@ class CustomSearchDelegate extends SearchDelegate {
       future: getData(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: Column(
-              children: [
-                Lottie.asset(
-                  "assets/animations/search/frame_2.json",
-                  height: 300,
-                  fit: BoxFit.contain,
+          return ListView(
+            padding: const EdgeInsets.all(10),
+            children: [
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Lottie.asset(
+                      "assets/animations/search/frame_2.json",
+                      height: 300,
+                      fit: BoxFit.contain,
+                    ),
+                    Text(
+                      "Searching...",
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      softWrap: true,
+                      style: TextStyle(
+                        color: kTextGreyColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
+                  ],
                 ),
-                Text(
-                  "Searching...",
-                  style: TextStyle(
-                    color: kTextGreyColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           );
         }
 
@@ -151,15 +160,16 @@ class CustomSearchDelegate extends SearchDelegate {
                 Lottie.asset(
                   "assets/animations/error/frame_1.json",
                   height: 300,
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                 ),
-                kSizedBox,
-                Text(
-                  "An error occurred.\nERROR: ${snapshot.error}",
-                  style: TextStyle(
-                    color: kTextGreyColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
+                Expanded(
+                  child: Text(
+                    "An error occurred.",
+                    style: TextStyle(
+                      color: kTextGreyColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
               ],

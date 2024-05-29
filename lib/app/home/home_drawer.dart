@@ -58,16 +58,10 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 width: 50,
                 decoration: ShapeDecoration(
                   color: kPageSkeletonColor,
-                  // image: const DecorationImage(
-                  //   image: AssetImage(
-                  //     "assets/images/profile/avatar-image.jpg",
-                  //   ),
-                  //   fit: BoxFit.cover,
-                  // ),
                   shape: const OvalBorder(),
                 ),
                 child: Center(
-                    child:   MyImage(
+                    child: MyImage(
                   url: (data.image as String?),
                   radiusBottom: 24,
                   radiusTop: 24,

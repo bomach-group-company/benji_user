@@ -176,12 +176,15 @@ class _SendPackageState extends State<SendPackage> {
   continueStep() {
     if (currentStep < 2) {
       setState(() {
+        isTyping = false;
+
         nextPage = true;
         currentStep = currentStep + 1;
       });
     }
     if (currentStep == 2) {
       setState(() {
+        isTyping = false;
         nextPage = true;
         continuePage = true;
       });
@@ -191,6 +194,7 @@ class _SendPackageState extends State<SendPackage> {
   cancelStep() {
     if (currentStep < 2) {
       setState(() {
+        isTyping = false;
         nextPage = false;
       });
     }
@@ -199,6 +203,7 @@ class _SendPackageState extends State<SendPackage> {
       setState(() {
         currentStep = currentStep - 1;
         continuePage = false;
+        isTyping = false;
       });
     }
   }
@@ -313,7 +318,8 @@ class _SendPackageState extends State<SendPackage> {
     if (pickupEC.text.isEmpty ||
         latitudePick == null ||
         longitudePick == null) {
-      ApiProcessorController.errorSnack("Please fill in a pickup address");
+      ApiProcessorController.errorSnack("Please select a pickup location");
+
       return;
     }
     if (senderNameEC.text.isEmpty) {

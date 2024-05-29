@@ -7,10 +7,10 @@ PODS:
   - Firebase/Messaging (10.25.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 10.25.0)
-  - firebase_core (2.31.0):
+  - firebase_core (2.31.1):
     - Firebase/CoreOnly (= 10.25.0)
     - Flutter
-  - firebase_messaging (14.9.2):
+  - firebase_messaging (14.9.3):
     - Firebase/Messaging (= 10.25.0)
     - firebase_core
     - Flutter
@@ -187,8 +187,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   awesome_notifications: 66d28ab7174ca2823b04d275cb043e0a4a3eb9cf
   Firebase: 0312a2352584f782ea56f66d91606891d4607f06
-  firebase_core: 0b39f4f424e02eecabb2356ddf331fa07b772af8
-  firebase_messaging: 8999827b6efc9c3ab4b1f9dc246deaa7f13dbf88
+  firebase_core: 22e117a2e0dec3cb318c8f53f2dd01c140375617
+  firebase_messaging: 7c04a2151f0da85796b41e01ad7da870af6a27e2
   FirebaseCore: 7ec4d0484817f12c3373955bc87762d96842d483
   FirebaseCoreInternal: 910a81992c33715fec9263ca7381d59ab3a750b7
   FirebaseInstallations: 91950fe859846fff0fbd296180909dd273103b09
@@ -208,7 +208,7 @@ SPEC CHECKSUMS:
   permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
   phone_number: 567a167933138df1080eb0d8ecb0ea44f1dee1ed
   PhoneNumberKit: 5b1be7ee4955dfeeb855f51eecdd829ab24b3484
-  pointer_interceptor_ios: 9280618c0b2eeb80081a343924aa8ad756c21375
+  pointer_interceptor_ios: 508241697ff0947f853c061945a8b822463947c1
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
@@ -216,6 +216,6 @@ SPEC CHECKSUMS:
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
   webview_flutter_wkwebview: be0f0d33777f1bfd0c9fdcb594786704dbf65f36
 
-PODFILE CHECKSUM: e1a34606abce547570a7fbc365195f6dc4cba8ec
+PODFILE CHECKSUM: 31ba22ea7bb73a87fb7b30a635a441b7ff572e0b
 
 COCOAPODS: 1.15.2
