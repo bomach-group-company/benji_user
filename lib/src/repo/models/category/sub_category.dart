@@ -37,7 +37,7 @@ class SubCategory {
       category: Category.fromJson(json['category']),
       image: json['image'] == null || json['image'] == ""
           ? defaultImage
-          : baseImage + json['image'],
+          : json['image'],
     );
   }
 }

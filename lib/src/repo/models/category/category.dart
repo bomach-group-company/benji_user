@@ -33,7 +33,7 @@ class Category {
       isActive: json['is_active'] ?? false,
       image: json['image'] == null || json['image'] == ""
           ? defaultImage
-          : baseImage + json['image'],
+          : json['image'],
     );
   }
 }

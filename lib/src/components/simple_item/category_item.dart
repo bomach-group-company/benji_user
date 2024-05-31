@@ -38,7 +38,7 @@ class CategoryItem extends StatelessWidget {
                       image: NetworkImage(
                         category!.image,
                       ),
-                      fit: BoxFit.contain,
+                      fit: BoxFit.cover,
                     ),
                     shape: const OvalBorder(),
                   ),
