@@ -12,6 +12,7 @@ class CartController extends GetxController {
   }
 
   var subTotal = <double>[].obs;
+  var countCartAll = 0.obs;
   var countCartVendor = <int>[].obs;
   var isLoad = false.obs;
   var cartProducts = <List<Product>>[].obs;
@@ -23,11 +24,17 @@ class CartController extends GetxController {
     update();
   }
 
+  void cartTotalNumberForAll() {
+    countCartAll.value = cartTotalNumber();
+    update();
+  }
+
   void incrementQuantityForCartPage(Product product, int index) async {
     await addToCart(product);
     // subTotal.value[index] += product.price;
     // update();
     await getCartProduct();
+    cartTotalNumberForAll();
   }
 
   void decrementQuantityForCartPage(Product product, int index) async {
@@ -35,6 +42,7 @@ class CartController extends GetxController {
     // subTotal.value[index] -= product.price;
     // update();
     await getCartProduct();
+    cartTotalNumberForAll();
   }
 
   Future getCartProduct() async {
