@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:benji/app/assign/assign_rider.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/frontend/utils/constant.dart';
@@ -247,6 +248,16 @@ class _ViewPackageState extends State<ViewPackage> {
     }
   }
 
+  void _toAssignRider(DeliveryItem package) => Get.to(
+        () => AssignRiderMap(itemId: package.id, itemType: 'package'),
+        routeName: 'AssignRiderMap',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: false,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -255,7 +266,17 @@ class _ViewPackageState extends State<ViewPackage> {
       appBar: MyAppBar(
         title: "View Package",
         elevation: 0,
-        actions: const [],
+        actions: [
+          IconButton(
+            onPressed: () => _toAssignRider(widget.deliveryItem),
+            icon: FaIcon(
+              FontAwesomeIcons.hand,
+              size: 18,
+              semanticLabel: "Home",
+              color: kAccentColor,
+            ),
+          ),
+        ],
         backgroundColor: kPrimaryColor,
       ),
       extendBody: true,

@@ -40,14 +40,13 @@ class _TrackOrderState extends State<TrackOrder> {
   //========================================================================\\
 
   //=============================== NAVIGATION ======================================\\
-  void _toAssignRider(Order order) => Get.offAll(
+  void _toAssignRider(Order order) => Get.to(
         () => AssignRiderMap(itemId: order.id, itemType: 'order'),
-        routeName: 'Home',
+        routeName: 'AssignRiderMap',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
         popGesture: false,
-        predicate: (routes) => false,
         transition: Transition.rightToLeft,
       );
 
