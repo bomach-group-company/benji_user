@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:benji/src/repo/models/category/sub_category.dart';
 import 'package:benji/src/repo/services/api_url.dart';
@@ -161,7 +162,8 @@ Future<List<Product>> getProductsBySearching(query) async {
         '$baseURL/clients/searchProductsByLocation?query=$query&${getShoppingLocationQuery()}'),
     headers: await authHeader(),
   );
-  // log('$baseURL/clients/searchProductsByLocation?query=$query&${getShoppingLocationQuery()}');
+  log('$baseURL/clients/searchProductsByLocation?query=$query&${getShoppingLocationQuery()}');
+  log("Response body: ${response.body}");
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((item) => Product.fromJson(item))
