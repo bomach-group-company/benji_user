@@ -162,7 +162,7 @@ class Footer extends StatelessWidget {
                                         100),
                                   ),
                                   child: InkWell(
-                                      onTap: () {},
+                                      onTap: launchDownloadLinkIOS,
                                       child: Image.asset(
                                           'assets/frontend/assets/store/appstore.png')),
                                 ),
