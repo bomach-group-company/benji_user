@@ -20,6 +20,20 @@ List<VendorInfo> getAllCartItem() {
   return allCart;
 }
 
+int cartTotalNumber() {
+  String? cartAsString = prefs.getString(cartname);
+  List<Map<String, dynamic>> carts = cartAsString == null
+      ? []
+      : List<Map<String, dynamic>>.from(jsonDecode(cartAsString));
+
+  int total = 0;
+  for (var cart in carts) {
+    final vendorCart = VendorInfo.fromJson(cart);
+    total += vendorCart.vendorData.length;
+  }
+  return total;
+}
+
 Future<void> setAllCartItem(List<VendorInfo> allCart) async {
   List<Map<String, dynamic>> carts = [];
   for (var cart in allCart) {

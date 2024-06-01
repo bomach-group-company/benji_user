@@ -6,6 +6,7 @@ import 'package:benji/src/components/product/product_card.dart';
 import 'package:benji/src/components/textformfield/message_textformfield.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
+import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/models/rating/ratings.dart';
@@ -213,6 +214,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   void incrementQuantity() async {
     await addToCart(widget.product);
+    CartController.instance.cartTotalNumberForAll();
+
     setState(() {
       cartCountAll = countCartItemByProduct(widget.product).toString();
       _isAddedToCart = countCartItemByProduct(widget.product) > 0;
@@ -221,6 +224,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   void decrementQuantity() async {
     await minusFromCart(widget.product, canClose: false);
+    CartController.instance.cartTotalNumberForAll();
+
     setState(() {
       cartCountAll = countCartItemByProduct(widget.product).toString();
       _isAddedToCart = countCartItemByProduct(widget.product) > 0;
@@ -240,6 +245,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   Future<void> _cartAddFunction() async {
     await addToCart(widget.product);
+    CartController.instance.cartTotalNumberForAll();
 
     setState(() {
       cartCountAll = countCartItemByProduct(widget.product).toString();
