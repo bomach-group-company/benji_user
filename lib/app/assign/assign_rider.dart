@@ -5,12 +5,15 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
+import 'package:benji/src/components/button/my_elevatedbutton.dart';
+import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/repo/utils/network_utils.dart';
 import 'package:benji/src/repo/utils/points.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -20,13 +23,20 @@ import '../../src/providers/keys.dart';
 import '../../theme/colors.dart';
 
 class AssignRiderMap extends StatefulWidget {
-  final List<LatLng> latlng;
-  const AssignRiderMap(
-      {super.key,
-      this.latlng = const [
-        LatLng(6.45651722359882, 7.508459257912696),
-        LatLng(6.456080131101715, 7.51028316003324)
-      ]});
+  final List<LatLng> latlngRiders;
+  final String itemId;
+  final String itemType;
+  const AssignRiderMap({
+    super.key,
+    required this.itemId,
+    required this.itemType,
+    this.latlngRiders = const [
+      LatLng(6.456527884386727, 7.507912087276524),
+      LatLng(6.45651722359882, 7.508459257912696),
+      LatLng(6.456080131101715, 7.51028316003324),
+      LatLng(6.457700569685034, 7.5071610687563),
+    ],
+  });
 
   @override
   State<AssignRiderMap> createState() => _AssignRiderMapState();
@@ -38,8 +48,6 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
   void initState() {
     super.initState();
 
-    _markerTitle = <String>["Rider", "Rider"];
-    _markerSnippet = <String>["Rider location", "Rider location"];
     _loadMapData();
   }
 
@@ -47,21 +55,16 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
 
   //====================================== Setting Google Map Consts =========================================\\
 
-  Position? _userPosition;
-  late LatLng _businessLocation;
   final List<LatLng> _polylineCoordinates = [];
-  Uint8List? _markerImage;
   final List<Marker> _markers = <Marker>[];
-  final List<MarkerId> _markerId = <MarkerId>[
-    const MarkerId("Rider"),
-    const MarkerId("Rider")
-  ];
-  List<String>? _markerTitle;
-  List<String>? _markerSnippet;
-  final List<String> _customMarkers = <String>[
-    "assets/icons/person_location.png",
-    "assets/icons/person_location.png",
-  ];
+
+  bool loadingMap = true;
+  int? selectedRider;
+  final String _markerTitle = "Rider";
+  final String _markerSnippet = "Rider location";
+
+  final String _customMarkers = "assets/icons/delivery_bike.png";
+  final String _selectedMarker = "assets/icons/package.png";
   //============================================================= BOOL VALUES ======================================================================\\
 
   //========================================================== GlobalKeys ============================================================\\
@@ -108,32 +111,14 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
         'Location permissions are permanently denied, we cannot request permissions.',
       );
     }
-    await _getUserCurrentLocation();
     await _loadCustomMarkers();
-    getPolyPoints();
+    // getPolyPoints();
+    setState(() {
+      loadingMap = false;
+    });
   }
 
 //============================================== Get Current Location ==================================================\\
-
-  Future<Position> _getUserCurrentLocation() async {
-    Position userLocation = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    ).then(
-      (location) => _userPosition = location,
-    );
-
-    LatLng latLngPosition =
-        LatLng(userLocation.latitude, userLocation.longitude);
-
-    CameraPosition cameraPosition =
-        CameraPosition(target: latLngPosition, zoom: 16);
-
-    _newGoogleMapController?.animateCamera(
-      CameraUpdate.newCameraPosition(cameraPosition),
-    );
-
-    return userLocation;
-  }
 
   //====================================== Get bytes from assets =========================================\\
 
@@ -152,27 +137,25 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
   //====================================== Get Location Markers =========================================\\
 
   _loadCustomMarkers() async {
-    Position userLocation = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    ).then(
-      (location) => _userPosition = location,
-    );
-    List<LatLng> latLng = <LatLng>[
-      LatLng(userLocation.latitude, userLocation.longitude),
-      _businessLocation
-    ];
-    for (int i = 0; i < _customMarkers.length; i++) {
-      final Uint8List markerIcon =
-          await _getBytesFromAssets(_customMarkers[i], 100);
+    List<LatLng> latLng = widget.latlngRiders;
+    for (int i = 0; i < latLng.length; i++) {
+      Uint8List markerIcon = await _getBytesFromAssets(_customMarkers, 100);
+      Uint8List markerIcon2 = await _getBytesFromAssets(_selectedMarker, 100);
 
       _markers.add(
         Marker(
-          markerId: _markerId[i],
-          icon: BitmapDescriptor.fromBytes(markerIcon),
+          onTap: () {
+            setState(() {
+              selectedRider = i;
+            });
+          },
+          markerId: MarkerId("Rider$i"),
+          icon: BitmapDescriptor.fromBytes(
+              selectedRider == i ? markerIcon2 : markerIcon),
           position: latLng[i],
           infoWindow: InfoWindow(
-            title: _markerTitle![i],
-            snippet: _markerSnippet![i],
+            title: _markerTitle,
+            snippet: _markerSnippet,
           ),
         ),
       );
@@ -181,15 +164,10 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
   }
 
   //============================================== Adding polypoints ==================================================\\
-  void getPolyPoints() async {
-    Position userLocation = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    ).then(
-      (location) => _userPosition = location,
-    );
+  void getPolyPoints(LatLng from, LatLng to) async {
     if (kIsWeb) {
       String routeStr =
-          'https://maps.googleapis.com/maps/api/directions/json?origin=${userLocation.latitude},${userLocation.longitude}&destination=${_businessLocation.latitude},${_businessLocation.longitude}&mode=driving&avoidHighways=false&avoidFerries=true&avoidTolls=false&alternatives=false&key=$googleMapsApiKey';
+          'https://maps.googleapis.com/maps/api/directions/json?origin=${from.latitude},${from.longitude}&destination=${to.latitude},${to.longitude}&mode=driving&avoidHighways=false&avoidFerries=true&avoidTolls=false&alternatives=false&key=$googleMapsApiKey';
       String? response = await NetworkUtility.fetchUrl(Uri.parse(routeStr));
       // var resp = await http.get(Uri.parse(routeStr));
       if (response == null) {
@@ -213,8 +191,8 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
     PolylinePoints polyLinePoints = PolylinePoints();
     PolylineResult result = await polyLinePoints.getRouteBetweenCoordinates(
       googleMapsApiKey,
-      PointLatLng(userLocation.latitude, userLocation.longitude),
-      PointLatLng(_businessLocation.latitude, _businessLocation.longitude),
+      PointLatLng(from.latitude, from.longitude),
+      PointLatLng(to.latitude, to.longitude),
     );
 
     if (result.points.isNotEmpty) {
@@ -246,7 +224,7 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
       ),
       body: Stack(
         children: [
-          _userPosition == null
+          loadingMap
               ? Center(
                   child: CircularProgressIndicator(
                     color: kAccentColor,
@@ -256,8 +234,7 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
                   mapType: MapType.normal,
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(
-                    target: LatLng(
-                        _userPosition!.latitude, _userPosition!.longitude),
+                    target: widget.latlngRiders[0],
                     zoom: 18,
                   ),
                   markers: Set.of(_markers),
@@ -269,8 +246,8 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
                       width: 4,
                     ),
                   },
-                  padding: const EdgeInsets.only(
-                    bottom: 20,
+                  padding: EdgeInsets.only(
+                    bottom: selectedRider == null ? 100 : 400,
                   ),
                   compassEnabled: true,
                   mapToolbarEnabled: true,
@@ -279,12 +256,115 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
                   zoomControlsEnabled: false,
                   zoomGesturesEnabled: true,
                   fortyFiveDegreeImageryEnabled: true,
-                  myLocationButtonEnabled: true,
-                  myLocationEnabled: true,
+                  myLocationButtonEnabled: false,
+                  myLocationEnabled: false,
                   cameraTargetBounds: CameraTargetBounds.unbounded,
                   rotateGesturesEnabled: true,
                   scrollGesturesEnabled: true,
                 ),
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeIn,
+            left: 0,
+            right: 0,
+            bottom: selectedRider == null ? -200 : 0,
+            child: Container(
+              // width: 200,
+              padding: const EdgeInsets.symmetric(
+                  horizontal: kDefaultPadding * 2, vertical: kDefaultPadding),
+              decoration: ShapeDecoration(
+                shadows: [
+                  BoxShadow(
+                    color: kBlackColor.withOpacity(0.1),
+                    blurRadius: 5,
+                    spreadRadius: 2,
+                    blurStyle: BlurStyle.normal,
+                  ),
+                ],
+                color: const Color(0xFFFEF8F8),
+                shape: const RoundedRectangleBorder(
+                  side: BorderSide(
+                    width: 0.50,
+                    color: Color(0xFFFDEDED),
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
+                  ),
+                ),
+              ),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          selectedRider = null;
+                        });
+                      },
+                      child: Text(
+                        selectedRider != null ? "Hide" : "",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: kAccentColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    width: media.width,
+                    child: const Text(
+                      'rider name',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: kTextBlackColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  kHalfSizedBox,
+                  Container(
+                    width: media.width,
+                    alignment: Alignment.topLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.locationDot,
+                          color: kAccentColor,
+                          size: 15,
+                        ),
+                        kHalfWidthSizedBox,
+                        SizedBox(
+                          width: media.width - 200,
+                          child: Text(
+                            "rider address ${(selectedRider ?? 0).toString()}",
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  kSizedBox,
+                  MyElevatedButton(
+                    title: "Assign task",
+                    onPressed: () async {},
+                  ),
+                  kHalfSizedBox
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
