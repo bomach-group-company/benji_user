@@ -1,7 +1,8 @@
 import 'package:url_launcher/url_launcher.dart';
 
 Future<void> launchDownloadLinkAndroid() async {
-  final url = Uri.parse('https://bomachgroup.com/');
+  final url = Uri.parse(
+      'https://drive.google.com/file/d/1k8d29KTyISAVru_8mk_zaILPHyhUN7au/view?usp=sharing');
   if (!await launchUrl(
     url,
     mode: LaunchMode.externalApplication,
