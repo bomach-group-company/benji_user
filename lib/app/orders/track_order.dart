@@ -1,3 +1,4 @@
+import 'package:benji/app/assign/assign_rider.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/repo/controller/order_status_change.dart';
@@ -10,7 +11,6 @@ import '../../src/components/appbar/my_appbar.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
-import '../home/home.dart';
 
 class TrackOrder extends StatefulWidget {
   const TrackOrder({super.key});
@@ -40,8 +40,8 @@ class _TrackOrderState extends State<TrackOrder> {
   //========================================================================\\
 
   //=============================== NAVIGATION ======================================\\
-  void _toHomeScreen() => Get.offAll(
-        () => const Home(),
+  void _toAssignRider(Order order) => Get.offAll(
+        () => AssignRiderMap(itemId: order.id, itemType: 'order'),
         routeName: 'Home',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -63,9 +63,9 @@ class _TrackOrderState extends State<TrackOrder> {
           backgroundColor: kPrimaryColor,
           actions: [
             IconButton(
-              onPressed: _toHomeScreen,
+              onPressed: () => _toAssignRider(controller.order.value),
               icon: FaIcon(
-                FontAwesomeIcons.house,
+                FontAwesomeIcons.hand,
                 size: 18,
                 semanticLabel: "Home",
                 color: kAccentColor,
