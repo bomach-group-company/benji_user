@@ -92,9 +92,9 @@ class ProductCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: kGreyColor,
+                        color: kAccentColor,
                         fontSize: 12,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w900,
                         letterSpacing: -0.43,
                       ),
                     ),
@@ -105,8 +105,8 @@ class ProductCard extends StatelessWidget {
                       product.subCategoryId.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: kAccentColor,
+                      style: const TextStyle(
+                        color: kTextBlackColor,
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
                         letterSpacing: -0.43,
