@@ -148,81 +148,80 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         MaterialPageRoute(builder: (context) {
           if (kIsWeb) {
             return MonnifyWidget(
-            apiKey: apiKey,
-            contractCode: contractCode,
-            email: email,
-            phone: phone,
-            firstName: firstName,
-            lastName: lastName,
-            currency: currency,
-            amount: amount,
-            metaData: meta,
-            onClose: () {
-              Get.back();
-            },
-            onTransaction: (response) async {
-              consoleLog('the response from my alatpay $response');
-              if (response != null && response['status'] == "SUCCESS") {
-                await CartController.instance.clearCartProduct(widget.index);
-                await NotificationController.showNotification(
-                  title: "Payment Success",
-                  body: "Your payment of NGN$amount was successful",
-                  largeIcon: "asset://assets/icons/success.png",
-                  customSound: "asset://assets/audio/success.wav",
-                );
-                Get.off(
-                  () => const PaymentSuccessful(),
-                  routeName: 'PaymentSuccessful',
-                  duration: const Duration(milliseconds: 300),
-                  fullscreenDialog: true,
-                  curve: Curves.easeIn,
-                  preventDuplicates: true,
-                  popGesture: true,
-                  transition: Transition.rightToLeft,
-                );
-              }
-            },
-          );
+              apiKey: apiKey,
+              contractCode: contractCode,
+              email: email,
+              phone: phone,
+              firstName: firstName,
+              lastName: lastName,
+              currency: currency,
+              amount: amount,
+              metaData: meta,
+              onClose: () {
+                Get.back();
+              },
+              onTransaction: (response) async {
+                consoleLog('the response from my alatpay $response');
+                if (response != null && response['status'] == "SUCCESS") {
+                  await CartController.instance.clearCartProduct(widget.index);
+                  await NotificationController.showNotification(
+                    title: "Payment Success",
+                    body: "Your payment of NGN$amount was successful",
+                    largeIcon: "asset://assets/icons/success.png",
+                    customSound: "asset://assets/audio/success.wav",
+                  );
+                  CartController.instance.cartTotalNumberForAll();
+                  Get.off(
+                    () => const PaymentSuccessful(),
+                    routeName: 'PaymentSuccessful',
+                    duration: const Duration(milliseconds: 300),
+                    fullscreenDialog: true,
+                    curve: Curves.easeIn,
+                    preventDuplicates: true,
+                    popGesture: true,
+                    transition: Transition.rightToLeft,
+                  );
+                }
+              },
+            );
           } else {
-            
-          return MonnifyWidgetMobile(
-            apiKey: apiKey,
-            contractCode: contractCode,
-            email: email,
-            phone: phone,
-            firstName: firstName,
-            lastName: lastName,
-            currency: currency,
-            amount: amount,
-            metaData: meta,
-            onClose: () {
-              Get.back();
-            },
-            onTransaction: (response) async {
-              consoleLog('the response from my alatpay $response');
-              if (response != null && response['status'] == "SUCCESS") {
-                await CartController.instance.clearCartProduct(widget.index);
-                await NotificationController.showNotification(
-                  title: "Payment Success",
-                  body: "Your payment of NGN$amount was successful",
-                  largeIcon: "asset://assets/icons/success.png",
-                  customSound: "asset://assets/audio/success.wav",
-                );
-                Get.off(
-                  () => const PaymentSuccessful(),
-                  routeName: 'PaymentSuccessful',
-                  duration: const Duration(milliseconds: 300),
-                  fullscreenDialog: true,
-                  curve: Curves.easeIn,
-                  preventDuplicates: true,
-                  popGesture: true,
-                  transition: Transition.rightToLeft,
-                );
-              }
-            },
-          );
+            return MonnifyWidgetMobile(
+              apiKey: apiKey,
+              contractCode: contractCode,
+              email: email,
+              phone: phone,
+              firstName: firstName,
+              lastName: lastName,
+              currency: currency,
+              amount: amount,
+              metaData: meta,
+              onClose: () {
+                Get.back();
+              },
+              onTransaction: (response) async {
+                consoleLog('the response from my alatpay $response');
+                if (response != null && response['status'] == "SUCCESS") {
+                  await CartController.instance.clearCartProduct(widget.index);
+                  await NotificationController.showNotification(
+                    title: "Payment Success",
+                    body: "Your payment of NGN$amount was successful",
+                    largeIcon: "asset://assets/icons/success.png",
+                    customSound: "asset://assets/audio/success.wav",
+                  );
+                  Get.off(
+                    () => const PaymentSuccessful(),
+                    routeName: 'PaymentSuccessful',
+                    duration: const Duration(milliseconds: 300),
+                    fullscreenDialog: true,
+                    curve: Curves.easeIn,
+                    preventDuplicates: true,
+                    popGesture: true,
+                    transition: Transition.rightToLeft,
+                  );
+                }
+              },
+            );
           }
-
         }),
       );
     } on SocketException {
