@@ -1,7 +1,7 @@
 // ignore_for_file: unused_element, unused_local_variable, empty_catches
 
 import 'package:benji/src/repo/services/api_url.dart';
-import 'package:benji/src/repo/services/helper.dart';
+import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,17 +16,20 @@ class RiderController extends GetxController {
       String itemType, String itemId, String driver) async {
     isLoad.value = true;
     update();
-    Map body = {
+    final body = {
       'item_type': itemType,
       'item_id': itemId,
       'driver': driver,
     };
-    final response = await http.post(
-        Uri.parse('$baseURL/tasks/assignTaskToRider'),
-        headers: authHeader(),
-        body: body);
+    final url = Uri.parse('$baseURL/tasks/assignTaskToRider');
+    print(body);
+    print(url);
+    final response =
+        await http.post(url, headers: await authHeader(), body: body);
     isLoad.value = false;
     update();
+    print(response.statusCode);
+    print(response.body);
     return response;
   }
 }

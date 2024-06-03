@@ -61,15 +61,17 @@ class _TrackOrderState extends State<TrackOrder> {
           title: "Track Order",
           backgroundColor: kPrimaryColor,
           actions: [
-            IconButton(
+            TextButton(
               onPressed: () => _toAssignRider(controller.order.value),
-              icon: FaIcon(
-                FontAwesomeIcons.hand,
-                size: 18,
-                semanticLabel: "Home",
-                color: kAccentColor,
+              child: Text(
+                'Assign rider',
+                style: TextStyle(
+                    color: kAccentColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
               ),
             ),
+            kWidthSizedBox,
           ],
         ),
         bottomNavigationBar: Container(
