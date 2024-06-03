@@ -8,7 +8,9 @@ import 'package:benji/src/frontend/model/category.dart';
 import 'package:benji/src/frontend/widget/cart.dart';
 import 'package:benji/src/frontend/widget/clickable.dart';
 import 'package:benji/src/frontend/widget/text/hover_text.dart';
+import 'package:benji/src/providers/responsive_constant.dart';
 import 'package:benji/src/repo/models/category/category.dart';
+import 'package:benji/src/repo/utils/url_lunch.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
@@ -193,6 +195,32 @@ class _MyLaptopAppBarState extends State<MyLaptopAppBar> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              media.width >= 1370
+                  ? Row(
+                      children: [
+                        Container(
+                          constraints: BoxConstraints.loose(
+                            const Size(110, 90),
+                          ),
+                          child: InkWell(
+                              onTap: launchDownloadLinkAndroid,
+                              child: Image.asset(
+                                  'assets/frontend/assets/store/playstore.png')),
+                        ),
+                        kWidthSizedBox,
+                        Container(
+                          constraints: BoxConstraints.loose(
+                            const Size(110, 100),
+                          ),
+                          child: InkWell(
+                              onTap: launchDownloadLinkIOS,
+                              child: Image.asset(
+                                  'assets/frontend/assets/store/appstore.png')),
+                        ),
+                        kWidthSizedBox,
+                      ],
+                    )
+                  : const SizedBox(),
               const MyClickable(
                 navigate: SearchPage(),
                 child: Icon(
