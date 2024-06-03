@@ -3,6 +3,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:benji/app/assign/assign_rider.dart';
 import 'package:benji/app/packages/packages.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
@@ -183,14 +184,14 @@ class _PayForDeliveryState extends State<PayForDelivery> {
                     customSound: "asset://assets/audio/success.wav",
                   );
 
-                  Get.off(
-                    () => const Packages(),
-                    routeName: 'Packages',
+                  Get.to(
+                    () => AssignRiderMap(
+                        itemId: widget.packageId, itemType: 'package'),
+                    routeName: 'AssignRiderMap',
                     duration: const Duration(milliseconds: 300),
                     fullscreenDialog: true,
                     curve: Curves.easeIn,
-                    preventDuplicates: true,
-                    popGesture: true,
+                    popGesture: false,
                     transition: Transition.rightToLeft,
                   );
                 } else {}
