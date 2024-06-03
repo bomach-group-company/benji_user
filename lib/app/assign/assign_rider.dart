@@ -260,7 +260,7 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
                           ),
                         },
                         padding: EdgeInsets.only(
-                          bottom: selectedRider == null ? 100 : 400,
+                          bottom: selectedRider == null ? 50 : 250,
                         ),
                         compassEnabled: true,
                         mapToolbarEnabled: true,
@@ -286,7 +286,7 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
                         child: Container(
                           // width: 200,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: kDefaultPadding * 2,
+                              horizontal: kDefaultPadding,
                               vertical: kDefaultPadding),
                           decoration: ShapeDecoration(
                             shadows: [
@@ -393,7 +393,7 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
                                       return;
                                     }
                                     ApiProcessorController.errorSnack(
-                                        jsonDecode(res.body)['message']);
+                                        jsonDecode(res.body)['detail']);
                                   },
                                 );
                               }),
