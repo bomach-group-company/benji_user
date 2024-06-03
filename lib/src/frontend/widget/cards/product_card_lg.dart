@@ -165,7 +165,8 @@ class _MyCardLgState extends State<MyCardLg> {
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
                                         overflow: TextOverflow.ellipsis,
-                                        color: kGreyColor,
+                                        color: kAccentColor,
+                                        fontWeight: FontWeight.w800,
                                         fontSize: 12,
                                       ),
                                     ),
@@ -179,11 +180,12 @@ class _MyCardLgState extends State<MyCardLg> {
                                     child: Text(
                                       widget.product.subCategoryId.name,
                                       textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          overflow: TextOverflow.ellipsis,
-                                          color: kAccentColor,
-                                          fontSize: 13,
-                                          height: 2),
+                                      style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        color: kTextBlackColor,
+                                        fontSize: 13,
+                                        height: 2,
+                                      ),
                                     ),
                                   ),
                                 ],
