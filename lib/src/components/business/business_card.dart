@@ -56,7 +56,12 @@ class BusinessCard extends StatelessWidget {
                   topRight: Radius.circular(7.20),
                 ),
               ),
-              child: Center(child: MyImage(url: business.shopImage)),
+              child: Center(
+                  child: MyImage(
+                url: business.shopImage,
+                radiusBottom: 0,
+                radiusTop: 5,
+              )),
             ),
             kHalfSizedBox,
             Padding(
