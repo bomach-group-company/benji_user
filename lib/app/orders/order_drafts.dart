@@ -1,9 +1,9 @@
-import 'package:benji/app/orders/order_drafts.dart';
-import 'package:benji/app/orders/track_order.dart';
+import 'package:benji/app/address/add_new_address.dart';
+import 'package:benji/app/checkout/checkout_draft_screen.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
+import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
-import 'package:benji/src/repo/controller/order_status_change.dart';
-import 'package:benji/src/repo/models/order/order.dart';
+import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,14 +16,14 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
 
-class OrdersHistory extends StatefulWidget {
-  const OrdersHistory({super.key});
+class OrdersDrafts extends StatefulWidget {
+  const OrdersDrafts({super.key});
 
   @override
-  State<OrdersHistory> createState() => _OrdersHistoryState();
+  State<OrdersDrafts> createState() => _OrdersDraftsState();
 }
 
-class _OrdersHistoryState extends State<OrdersHistory> {
+class _OrdersDraftsState extends State<OrdersDrafts> {
   //=================================== INITIAL STATE ====================================\\
   @override
   void initState() {
@@ -32,9 +32,15 @@ class _OrdersHistoryState extends State<OrdersHistory> {
     checkIfShoppingLocation(context);
     _scrollController.addListener(_scrollListener);
     _scrollController.addListener(() {
-      OrderController.instance.scrollListener(_scrollController);
+      OrderController.instance.scrollListenerDraft(_scrollController);
+    });
+
+    getCurrentAddress().then((value) {
+      deliverTo = value;
     });
   }
+
+  Address? deliverTo;
 
   //=================================== ALL VARIABLES ====================================\\
   bool _isScrollToTopBtnVisible = false;
@@ -78,30 +84,6 @@ class _OrdersHistoryState extends State<OrdersHistory> {
     OrderController.instance.refreshOrder();
   }
 
-  Future _toOrderDetailsScreen(Order order) async {
-    await OrderStatusChangeController.instance.setOrder(order);
-
-    Get.to(
-      () => const TrackOrder(),
-      routeName: 'TrackOrder',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
-  }
-
-  void _toOrdersDrafts() => Get.to(
-        () => const OrdersDrafts(),
-        routeName: 'OrdersDrafts',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        popGesture: false,
-        transition: Transition.rightToLeft,
-      );
   //========================================================================\\
 
   @override
@@ -115,20 +97,9 @@ class _OrdersHistoryState extends State<OrdersHistory> {
           backgroundColor: kPrimaryColor,
           appBar: MyAppBar(
             elevation: 0.0,
-            title: "My Orders ",
+            title: "My Draft Orders",
             backgroundColor: kPrimaryColor,
-            actions: [
-              TextButton(
-                onPressed: _toOrdersDrafts,
-                child: Text(
-                  'Draft orders',
-                  style: TextStyle(
-                      color: kAccentColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
+            actions: const [],
           ),
           floatingActionButton: _isScrollToTopBtnVisible
               ? FloatingActionButton(
@@ -152,10 +123,10 @@ class _OrdersHistoryState extends State<OrdersHistory> {
               shrinkWrap: true,
               children: [
                 GetBuilder<OrderController>(
-                    initState: (state) => OrderController.instance.getOrders(),
+                    initState: (state) =>
+                        OrderController.instance.getOrdersDraft(),
                     builder: (controller) {
-                      if (controller.isLoad.value &&
-                          controller.orderList.isEmpty) {
+                      if (controller.isLoadDraft.value) {
                         return SizedBox(
                           height: media.height - 100,
                           width: media.width,
@@ -165,10 +136,10 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                           ),
                         );
                       }
-                      return controller.orderList.isEmpty
+                      return controller.orderListDraft.isEmpty
                           ? const EmptyCard()
                           : ListView.separated(
-                              itemCount: controller.orderList.length,
+                              itemCount: controller.orderListDraft.length,
                               padding: const EdgeInsets.all(10),
                               shrinkWrap: true,
                               separatorBuilder: (context, index) =>
@@ -176,10 +147,43 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                               physics: const NeverScrollableScrollPhysics(),
                               scrollDirection: Axis.vertical,
                               itemBuilder: (context, index) => InkWell(
-                                onTap: () async => await _toOrderDetailsScreen(
-                                    controller.orderList[index]),
+                                onTap: () async {
+                                  try {
+                                    deliverTo ??= await getCurrentAddress();
+
+                                    Get.to(
+                                      () => CheckoutDraftScreen(
+                                        order: controller.orderListDraft[index],
+                                        deliverTo: deliverTo!,
+                                      ),
+                                      routeName: 'CheckoutDraftScreen',
+                                      duration:
+                                          const Duration(milliseconds: 300),
+                                      fullscreenDialog: true,
+                                      curve: Curves.easeIn,
+                                      preventDuplicates: true,
+                                      popGesture: true,
+                                      transition: Transition.rightToLeft,
+                                    );
+                                  } catch (e) {
+                                    ApiProcessorController.errorSnack(
+                                        'Please set a default address first');
+
+                                    Get.to(
+                                      () => const AddNewAddress(),
+                                      routeName: 'AddNewAddress',
+                                      duration:
+                                          const Duration(milliseconds: 300),
+                                      fullscreenDialog: true,
+                                      curve: Curves.easeIn,
+                                      preventDuplicates: true,
+                                      popGesture: true,
+                                      transition: Transition.rightToLeft,
+                                    );
+                                  }
+                                },
                                 child: TrackOrderDetailsContainer(
-                                  order: controller.orderList[index],
+                                  order: controller.orderListDraft[index],
                                 ),
                               ),
                             );
@@ -188,7 +192,7 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                   builder: (controller) {
                     return Column(
                       children: [
-                        controller.loadedAll.value
+                        controller.loadedAllDraft.value
                             ? Container(
                                 margin: const EdgeInsets.only(top: 20),
                                 height: 10,
@@ -198,7 +202,7 @@ class _OrdersHistoryState extends State<OrdersHistory> {
                                     color: kPageSkeletonColor),
                               )
                             : const SizedBox(),
-                        controller.isLoadMore.value
+                        controller.isLoadMoreDraft.value
                             ? Center(
                                 child: CircularProgressIndicator(
                                   color: kAccentColor,
