@@ -488,33 +488,25 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       }),
                 ),
                 kSizedBox,
-                _isLoading
-                    ? Center(
-                        child: CircularProgressIndicator(color: kAccentColor),
-                      )
-                    : MyOutlinedElevatedButton(
-                        title: "Set As Default Address",
-                        onPressed: (() async {
-                          if (_formKey.currentState!.validate()) {
-                            setDefaultAddress();
-                          }
-                        }),
-                      ),
+                MyOutlinedElevatedButton(
+                  isLoading: _isLoading,
+                  title: "Set As Default Address",
+                  onPressed: (() async {
+                    if (_formKey.currentState!.validate()) {
+                      setDefaultAddress();
+                    }
+                  }),
+                ),
                 kSizedBox,
-                _isLoading2
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          color: kAccentColor,
-                        ),
-                      )
-                    : MyElevatedButton(
-                        title: "Save New Address",
-                        onPressed: (() async {
-                          if (_formKey.currentState!.validate()) {
-                            saveNewAddress();
-                          }
-                        }),
-                      ),
+                MyElevatedButton(
+                  isLoading: _isLoading2,
+                  title: "Save New Address",
+                  onPressed: (() async {
+                    if (_formKey.currentState!.validate()) {
+                      saveNewAddress();
+                    }
+                  }),
+                ),
                 const SizedBox(height: kDefaultPadding * 2),
               ],
             ),

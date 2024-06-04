@@ -5,11 +5,13 @@ import '../../../theme/colors.dart';
 class MyOutlinedElevatedButton extends StatelessWidget {
   final String title;
   final Function()? onPressed;
+  final bool isLoading;
 
   const MyOutlinedElevatedButton({
     super.key,
     required this.title,
     this.onPressed,
+    this.isLoading = false,
   });
 
   @override
@@ -28,18 +30,18 @@ class MyOutlinedElevatedButton extends StatelessWidget {
         minimumSize: Size(mediaWidth, 60),
         // maximumSize: Size(mediaWidth, 60),
       ),
-      child: SizedBox(
-        child: Text(
-          title.toUpperCase(),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: kAccentColor,
-            fontSize: 18,
-            fontFamily: "Sen",
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
+      child: isLoading
+          ? CircularProgressIndicator(color: kAccentColor)
+          : Text(
+              title.toUpperCase(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: kAccentColor,
+                fontSize: 18,
+                fontFamily: "Sen",
+                fontWeight: FontWeight.w700,
+              ),
+            ),
     );
   }
 }
