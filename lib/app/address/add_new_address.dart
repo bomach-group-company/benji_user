@@ -126,7 +126,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
     }
     final response =
         await http.post(url, body: body, headers: await authHeader());
-
     return response.statusCode == 200;
   }
 
