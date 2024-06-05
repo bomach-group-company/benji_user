@@ -12,20 +12,20 @@ class BusinessModel {
   final VendorOwner vendorOwner;
   final String state;
   final String city;
-  String satOpeningHours;
-  String satClosingHours;
-  String sunWeekOpeningHours;
-  String sunWeekClosingHours;
-  String monOpeningHours;
-  String monClosingHours;
-  String tueOpeningHours;
-  String tueClosingHours;
-  String wedOpeningHours;
-  String wedClosingHours;
-  String thursOpeningHours;
-  String thursClosingHours;
-  String friOpeningHours;
-  String friClosingHours;
+  final String satOpeningHours;
+  final String satClosingHours;
+  final String sunWeekOpeningHours;
+  final String sunWeekClosingHours;
+  final String monOpeningHours;
+  final String monClosingHours;
+  final String tueOpeningHours;
+  final String tueClosingHours;
+  final String wedOpeningHours;
+  final String wedClosingHours;
+  final String thursOpeningHours;
+  final String thursClosingHours;
+  final String friOpeningHours;
+  final String friClosingHours;
   final String address;
   final String shopName;
   final ShopTypeModel shopType;
@@ -41,6 +41,7 @@ class BusinessModel {
   final String accountBank;
   final double averageRating;
   final int numberOfClientsReactions;
+  final bool isOnline;
 
   BusinessModel({
     required this.id,
@@ -76,6 +77,7 @@ class BusinessModel {
     required this.accountBank,
     required this.averageRating,
     required this.numberOfClientsReactions,
+    required this.isOnline,
   });
 
   factory BusinessModel.fromJson(Map<String, dynamic>? json) {
@@ -115,6 +117,7 @@ class BusinessModel {
       accountBank: json['accountBank'] ?? '',
       averageRating: (json['average_rating'] ?? 0).toDouble() ?? 0.0,
       numberOfClientsReactions: json['number_of_clients_reactions'] ?? 0,
+      isOnline: json["is_online"] ?? false,
     );
   }
 }

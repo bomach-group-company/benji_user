@@ -743,7 +743,7 @@ class _SettingsState extends State<Settings> {
                   child: ListTile(
                     enableFeedback: true,
                     leading: FaIcon(
-                      FontAwesomeIcons.rightFromBracket,
+                      FontAwesomeIcons.solidTrashCan,
                       color: kAccentColor,
                     ),
                     title: const Text(
