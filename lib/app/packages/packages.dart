@@ -1,3 +1,4 @@
+import 'package:benji/app/packages/packages_draft.dart';
 import 'package:benji/app/packages/send_package.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/frontend/utils/constant.dart';
@@ -163,6 +164,15 @@ class _PackagesState extends State<Packages>
         transition: Transition.rightToLeft,
       );
 
+  void _toPackagesDraft() => Get.to(
+        () => const PackagesDraft(),
+        routeName: 'PackagesDraft',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: false,
+        transition: Transition.rightToLeft,
+      );
   //========================================================================\\
 
   @override
@@ -174,7 +184,18 @@ class _PackagesState extends State<Packages>
         appBar: MyAppBar(
           title: "My Packages",
           elevation: 0,
-          actions: const [],
+          actions: [
+            TextButton(
+              onPressed: _toPackagesDraft,
+              child: Text(
+                'Draft packages',
+                style: TextStyle(
+                    color: kAccentColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
           backgroundColor: kPrimaryColor,
         ),
         floatingActionButton: isScrollToTopBtnVisible

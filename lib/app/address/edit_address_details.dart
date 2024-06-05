@@ -85,8 +85,8 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
   }
 
   Future<bool> updateAddress({bool is_current = true}) async {
-    final url = Uri.parse(
-        '$baseURL/address/changeAddressDetails/${widget.address.id}/');
+    final url =
+        Uri.parse('$baseURL/address/changeAddressDetails/${widget.address.id}');
 
     if (latitude == null || longitude == null) {
       if (selectedLocation.value == null) {
@@ -482,35 +482,25 @@ class _EditAddressDetailsState extends State<EditAddressDetails> {
                       }),
                 ),
                 const SizedBox(height: kDefaultPadding * 2),
-                _isLoading
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          color: kAccentColor,
-                        ),
-                      )
-                    : MyOutlinedElevatedButton(
-                        title: "Set As Default Address",
-                        onPressed: (() async {
-                          if (_formKey.currentState!.validate()) {
-                            setDefaultAddress();
-                          }
-                        }),
-                      ),
+                MyOutlinedElevatedButton(
+                  isLoading: _isLoading,
+                  title: "Set As Default Address",
+                  onPressed: (() async {
+                    if (_formKey.currentState!.validate()) {
+                      setDefaultAddress();
+                    }
+                  }),
+                ),
                 kSizedBox,
-                _isLoading2
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          color: kAccentColor,
-                        ),
-                      )
-                    : MyElevatedButton(
-                        title: "Save Changes",
-                        onPressed: (() async {
-                          if (_formKey.currentState!.validate()) {
-                            updateUserAddress();
-                          }
-                        }),
-                      ),
+                MyElevatedButton(
+                  isLoading: _isLoading2,
+                  title: "Save Changes",
+                  onPressed: (() async {
+                    if (_formKey.currentState!.validate()) {
+                      updateUserAddress();
+                    }
+                  }),
+                ),
                 const SizedBox(
                   height: kDefaultPadding * 2,
                 ),

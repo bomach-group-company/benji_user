@@ -144,6 +144,8 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
   //====================================== Get Location Markers =========================================\\
 
   _loadCustomMarkers() async {
+    print("selectedRider _loadCustomMarkers");
+    print(selectedRider);
     for (int i = 0; i < riders!.length; i++) {
       Uint8List markerIcon = await _getBytesFromAssets(_customMarkers, 100);
       Uint8List markerIcon2 = await _getBytesFromAssets(_selectedMarker, 100);

@@ -19,19 +19,35 @@ class OrderController extends GetxController {
 
   var isLoad = false.obs;
   var orderList = <Order>[].obs;
-
   var loadedAll = false.obs;
   var isLoadMore = false.obs;
   var loadNum = 10.obs;
+
+  // draft order
+  var isLoadDraft = false.obs;
+  var orderListDraft = <Order>[].obs;
+  var loadedAllDraft = false.obs;
+  var isLoadMoreDraft = false.obs;
+  var loadNumDraft = 10.obs;
+
   var deliveryFee = 0.0.obs;
 
-  refreshOrder() {
+  refreshOrder({paymentStatus = false}) {
     loadedAll = false.obs;
     isLoadMore = false.obs;
     loadNum = 10.obs;
     orderList.value = [];
     update();
     getOrders();
+  }
+
+  refreshOrderDraft({paymentStatus = false}) {
+    loadedAllDraft = false.obs;
+    isLoadMoreDraft = false.obs;
+    loadNum = 10.obs;
+    orderListDraft.value = [];
+    update();
+    getOrdersDraft();
   }
 
   Future<void> scrollListener(scrollController) async {
@@ -45,6 +61,59 @@ class OrderController extends GetxController {
       update();
       await getOrders();
     }
+  }
+
+  Future<void> scrollListenerDraft(
+    scrollController,
+  ) async {
+    if (loadedAllDraft.value || isLoadMoreDraft.value) {
+      return;
+    }
+
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange) {
+      isLoadMoreDraft.value = true;
+      update();
+      await getOrdersDraft();
+    }
+  }
+
+  Future getOrdersDraft() async {
+    if (loadedAllDraft.value) {
+      return;
+    }
+
+    isLoadDraft.value = true;
+
+    String id = UserController.instance.user.value.id.toString();
+    var url =
+        "${Api.baseUrl}${Api.myOrders}$id?start=${loadNumDraft.value - 10}&end=${loadNumDraft.value}&payment_status=false";
+    loadNumDraft.value += 10;
+
+    log('in list history $url');
+
+    String token = UserController.instance.user.value.token;
+    http.Response? response = await HandleData.getApi(url, token);
+
+    var responseData = await ApiProcessorController.errorState(response);
+    if (responseData == null) {
+      isLoadMoreDraft.value = false;
+      isLoadDraft.value = false;
+      update();
+
+      return;
+    }
+    List<Order> data = [];
+    try {
+      data = (jsonDecode(responseData) as List)
+          .map((e) => Order.fromJson(e))
+          .toList();
+      orderListDraft.value += data;
+      loadedAllDraft.value = data.isEmpty;
+    } catch (e) {}
+    isLoadDraft.value = false;
+    isLoadMoreDraft.value = false;
+    update();
   }
 
   Future getOrders() async {

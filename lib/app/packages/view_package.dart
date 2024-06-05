@@ -267,15 +267,17 @@ class _ViewPackageState extends State<ViewPackage> {
         title: "View Package",
         elevation: 0,
         actions: [
-          IconButton(
+          TextButton(
             onPressed: () => _toAssignRider(widget.deliveryItem),
-            icon: FaIcon(
-              FontAwesomeIcons.hand,
-              size: 18,
-              semanticLabel: "Home",
-              color: kAccentColor,
+            child: Text(
+              'Assign rider',
+              style: TextStyle(
+                  color: kAccentColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
             ),
           ),
+          kWidthSizedBox,
         ],
         backgroundColor: kPrimaryColor,
       ),

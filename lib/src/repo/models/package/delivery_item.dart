@@ -87,6 +87,20 @@ Future<List<DeliveryItem>> getDeliveryItemsByClientAndStatus(
   }
 }
 
+Future<List<DeliveryItem>> getDeliveryItemsByClientAndPaymentStatus() async {
+  final response = await http.get(
+      Uri.parse(
+          '$baseURL/sendPackage/getAllItemPackage/?start=0&end=100&payment_status=false'),
+      headers: await authHeader());
+  if (response.statusCode == 200) {
+    return (jsonDecode(response.body)['items'] as List)
+        .map((item) => DeliveryItem.fromJson(item))
+        .toList();
+  } else {
+    return [];
+  }
+}
+
 Future<DeliveryItem> getDeliveryItemById(id) async {
   final response = await http.get(
       Uri.parse('$baseURL/sendPackage/gettemPackageById/$id/'),
