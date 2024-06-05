@@ -10,6 +10,7 @@
 .svn/
 migrate_working_dir/
 android/key.properties
+.firebase/hosting.YnVpbGQvd2Vi.cache
 
 # IntelliJ related
 *.iml
