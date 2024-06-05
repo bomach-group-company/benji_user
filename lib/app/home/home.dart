@@ -100,36 +100,26 @@ class _HomeState extends State<Home> {
   final bool _vendorStatus = true;
   bool _isScrollToTopBtnVisible = false;
 
-  //Online Vendors
-  final String _onlineVendorsName = "Ntachi Osa";
-  final String _onlineVendorsImage = "ntachi-osa";
-  final double _onlineVendorsRating = 4.6;
+  //Online businesses
+  final String _onlineVendorsName = "";
+  final String _onlineVendorsImage = "";
+  final double _onlineVendorsRating = 0.0;
 
   final String _vendorActive = "Online";
   final String _vendorInactive = "Offline";
   final Color _vendorActiveColor = kSuccessColor;
   final Color _vendorInactiveColor = kAccentColor;
 
-  //Offline Vendors
-  final String _offlineVendorsName = "Best Choice Restaurant";
-  final String _offlineVendorsImage = "best-choice-restaurant";
-  final double _offlineVendorsRating = 4.0;
+  //Offline businesses
+  final String _offlineVendorsName = "";
+  final String _offlineVendorsImage = "";
+  final double _offlineVendorsRating = 0.0;
 
   //==================================================== CONTROLLERS ======================================================\\
   final scrollController = ScrollController();
   final CarouselController carouselController = CarouselController();
 
 //===================== Images =======================\\
-
-  final List<String> _carouselImages = <String>[
-    "assets/images/products/best-choice-restaurant.png",
-    "assets/images/products/burgers.png",
-    "assets/images/products/chizzy_food.png",
-    "assets/images/products/golden-toast.png",
-    "assets/images/products/new-food.png",
-    "assets/images/products/okra-soup.png",
-    "assets/images/products/pasta.png"
-  ];
 
   //===================== COPY TO CLIPBOARD =======================\\
   void _copyToClipboard(BuildContext context, String userID) {
@@ -754,7 +744,7 @@ class _HomeState extends State<Home> {
                       );
                     }),
                 SeeAllContainer(
-                  title: "Recommended Vendors",
+                  title: "Recommended businesses",
                   onPressed: _toSeeAllBusinessesNearYou,
                 ),
                 kSizedBox,
@@ -807,12 +797,12 @@ class _HomeState extends State<Home> {
                       return const EmptyCard(
                         showButton: false,
                         emptyCardMessage:
-                            "There are no recommended vendors in your location.",
+                            "There are no recommended businesses in your location.",
                       );
                     }),
                 kSizedBox,
                 SeeAllContainer(
-                  title: "Popular Vendors",
+                  title: "Popular businesses",
                   onPressed: _toSeeAllPopularBusinesses,
                 ),
                 kSizedBox,

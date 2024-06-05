@@ -12,12 +12,20 @@ class BusinessModel {
   final VendorOwner vendorOwner;
   final String state;
   final String city;
-  final String weekOpeningHours;
-  final String weekClosingHours;
   final String satOpeningHours;
   final String satClosingHours;
   final String sunWeekOpeningHours;
   final String sunWeekClosingHours;
+  final String monOpeningHours;
+  final String monClosingHours;
+  final String tueOpeningHours;
+  final String tueClosingHours;
+  final String wedOpeningHours;
+  final String wedClosingHours;
+  final String thursOpeningHours;
+  final String thursClosingHours;
+  final String friOpeningHours;
+  final String friClosingHours;
   final String address;
   final String shopName;
   final ShopTypeModel shopType;
@@ -33,14 +41,23 @@ class BusinessModel {
   final String accountBank;
   final double averageRating;
   final int numberOfClientsReactions;
+  final bool isOnline;
 
   BusinessModel({
     required this.id,
     required this.vendorOwner,
     required this.state,
     required this.city,
-    required this.weekOpeningHours,
-    required this.weekClosingHours,
+    required this.monOpeningHours,
+    required this.monClosingHours,
+    required this.tueOpeningHours,
+    required this.tueClosingHours,
+    required this.wedOpeningHours,
+    required this.wedClosingHours,
+    required this.thursOpeningHours,
+    required this.thursClosingHours,
+    required this.friOpeningHours,
+    required this.friClosingHours,
     required this.satOpeningHours,
     required this.satClosingHours,
     required this.sunWeekOpeningHours,
@@ -60,6 +77,7 @@ class BusinessModel {
     required this.accountBank,
     required this.averageRating,
     required this.numberOfClientsReactions,
+    required this.isOnline,
   });
 
   factory BusinessModel.fromJson(Map<String, dynamic>? json) {
@@ -69,12 +87,20 @@ class BusinessModel {
       vendorOwner: VendorOwner.fromJson(json['vendor_owner']),
       state: json['state'] ?? '',
       city: json['city'] ?? '',
-      weekOpeningHours: json['weekOpeningHours'] ?? '',
-      weekClosingHours: json['weekClosingHours'] ?? '',
-      satOpeningHours: json['satOpeningHours'] ?? '',
-      satClosingHours: json['satClosingHours'] ?? '',
-      sunWeekOpeningHours: json['sunWeekOpeningHours'] ?? '',
-      sunWeekClosingHours: json['sunWeekClosingHours'] ?? '',
+      monOpeningHours: json["monOpeningHours"] ?? notAvailable,
+      monClosingHours: json["monClosingHours"] ?? notAvailable,
+      tueOpeningHours: json["tueOpeningHours"] ?? notAvailable,
+      tueClosingHours: json["tueClosingHours"] ?? notAvailable,
+      wedOpeningHours: json["wedOpeningHours"] ?? notAvailable,
+      wedClosingHours: json["wedClosingHours"] ?? notAvailable,
+      thursOpeningHours: json["thursOpeningHours"] ?? notAvailable,
+      thursClosingHours: json["thursClosingHours"] ?? notAvailable,
+      friOpeningHours: json["friOpeningHours"] ?? notAvailable,
+      friClosingHours: json["friClosingHours"] ?? notAvailable,
+      satOpeningHours: json["satOpeningHours"] ?? notAvailable,
+      satClosingHours: json["satClosingHours"] ?? notAvailable,
+      sunWeekOpeningHours: json["sunWeekOpeningHours"] ?? notAvailable,
+      sunWeekClosingHours: json["sunWeekClosingHours"] ?? notAvailable,
       address: json['address'] ?? '',
       shopName: json['shop_name'] ?? '',
       coverImage: json['coverImage'] ?? '',
@@ -91,6 +117,7 @@ class BusinessModel {
       accountBank: json['accountBank'] ?? '',
       averageRating: (json['average_rating'] ?? 0).toDouble() ?? 0.0,
       numberOfClientsReactions: json['number_of_clients_reactions'] ?? 0,
+      isOnline: json["is_online"] ?? false,
     );
   }
 }

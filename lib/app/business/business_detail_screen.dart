@@ -503,20 +503,15 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                             color: kAccentColor,
                                           ),
                                           const SizedBox(width: 5),
-                                          const Text(
-                                            // widget.business.vendorOwner
-                                            //         .isOnline
-                                            //     ?
-                                            "Online",
-                                            // : 'Offline',
+                                          Text(
+                                            widget.business.isOnline
+                                                ? 'Open'.toUpperCase()
+                                                : "Closed".toUpperCase(),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color:
-                                                  // widget.business.vendorOwner
-                                                  //         .isOnline
-                                                  //     ?
-                                                  kSuccessColor,
-                                              // : kAccentColor,
+                                              color: widget.business.isOnline
+                                                  ? kSuccessColor
+                                                  : kAccentColor,
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                               letterSpacing: -0.36,
