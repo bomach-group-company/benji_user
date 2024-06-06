@@ -1,7 +1,6 @@
 import 'package:benji/app/splash_screens/startup_splash_screen.dart';
 import 'package:benji/firebase_options.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
-import 'package:benji/src/repo/controller/app_version_controller.dart';
 import 'package:benji/src/repo/controller/auth_controller.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/category_controller.dart';
@@ -72,7 +71,6 @@ void main() async {
   Get.put(ShoppingLocationController());
   Get.put(ReviewsController());
   Get.put(RiderController());
-  Get.put(AppVersionController());
 
   if (!kIsWeb) {
     await Firebase.initializeApp(

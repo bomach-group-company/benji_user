@@ -13,7 +13,6 @@ import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/components/others/empty.dart';
 import 'package:benji/src/components/others/my_future_builder.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
-import 'package:benji/src/repo/controller/app_version_controller.dart';
 import 'package:benji/src/repo/controller/category_controller.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
 import 'package:benji/src/repo/controller/sub_category_controller.dart';
@@ -80,7 +79,7 @@ class _HomeState extends State<Home> {
     Timer(
       const Duration(seconds: 2),
       () {
-        AppVersionController.instance.getLatest().then((value) {
+        getAppLatestVersion().then((value) {
           if (value.version == "0" || value.version == appVersion) {
             return;
           }
