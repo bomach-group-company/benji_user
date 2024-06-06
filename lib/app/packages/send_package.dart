@@ -152,6 +152,7 @@ class _SendPackageState extends State<SendPackage> {
 
     setState(() {
       pickupEC.text = newLocation;
+      isTyping = false;
     });
 
     List location = await parseLatLng(newLocation);
@@ -165,6 +166,7 @@ class _SendPackageState extends State<SendPackage> {
 
     setState(() {
       dropOffEC.text = newLocation;
+      isTyping = false;
     });
 
     List location = await parseLatLng(newLocation);
@@ -361,10 +363,10 @@ class _SendPackageState extends State<SendPackage> {
           "Please fill in the quantity of the item");
       return;
     }
-    // if (selectedImage == null) {
-    //   ApiProcessorController.errorSnack("Please select an image");
-    //   return;
-    // }
+    if (itemValueEC.text.isEmpty) {
+      ApiProcessorController.errorSnack("Please enter the item value");
+      return;
+    }
     Map data = {
       'client_id': UserController.instance.user.value.id.toString(),
       'pickUpAddress': pickupEC.text,
