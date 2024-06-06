@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 
 import '../../theme/colors.dart';
 
+const String appVersion = "1.0.0";
+
 const kDefaultPadding = 20.0;
 
 const kSizedBox = SizedBox(height: kDefaultPadding);

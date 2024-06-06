@@ -46,7 +46,6 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
       const Duration(seconds: 2),
       () {
         CartController.instance.cartTotalNumberForAll();
-
         AuthController.instance.checkAuth();
       },
     );
