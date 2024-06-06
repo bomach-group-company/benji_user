@@ -1,5 +1,6 @@
 // ignore_for_file: unused_field, invalid_use_of_protected_member
 
+import 'dart:async';
 import 'dart:math';
 
 import 'package:benji/app/cart/my_cart.dart';
@@ -7,18 +8,22 @@ import 'package:benji/app/favorites/favorites.dart';
 import 'package:benji/app/packages/send_package.dart';
 import 'package:benji/app/support/help_and_support.dart';
 import 'package:benji/src/components/business/business_card.dart';
+import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/components/others/empty.dart';
 import 'package:benji/src/components/others/my_future_builder.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
+import 'package:benji/src/repo/controller/app_version_controller.dart';
 import 'package:benji/src/repo/controller/category_controller.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
 import 'package:benji/src/repo/controller/sub_category_controller.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
+import 'package:benji/src/repo/models/app_version.dart';
 import 'package:benji/src/repo/models/category/category.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
 import 'package:benji/src/repo/utils/shopping_location.dart';
+import 'package:benji/src/repo/utils/url_lunch.dart';
 import 'package:benji/src/skeletons/app/card.dart';
 import 'package:benji/src/skeletons/page_skeleton.dart';
 import 'package:flutter/foundation.dart' as fnd;
@@ -71,6 +76,18 @@ class _HomeState extends State<Home> {
     if (!fnd.kIsWeb) {
       NotificationController.initializeNotification();
     }
+
+    Timer(
+      const Duration(seconds: 2),
+      () {
+        if (AppVersionController.instance.current.value.version == "0" ||
+            AppVersionController.instance.current.value.version == appVersion) {
+          return;
+        }
+        showAppUpdateDialog(
+            context, AppVersionController.instance.current.value);
+      },
+    );
 
     scrollController.addListener(() =>
         ProductController.instance.scrollListenerProduct(scrollController));
@@ -1075,4 +1092,42 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+}
+
+void showAppUpdateDialog(context, AppVersion appVersion) {
+  showDialog(
+    context: context,
+    useSafeArea: true,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(
+          "UPDATE!".toUpperCase(),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: kAccentColor,
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        content: const Text(
+          "Please update your app",
+          textAlign: TextAlign.center,
+          maxLines: 4,
+          style: TextStyle(
+            color: kTextBlackColor,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        actions: [
+          MyElevatedButton(
+            title: "Okay",
+            onPressed: () {
+              launchDownload(appVersion.link);
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
