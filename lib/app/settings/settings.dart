@@ -500,6 +500,7 @@ class _SettingsState extends State<Settings> {
                                               _profilePicBottomSheet(),
                                         );
                                       },
+                                      mouseCursor: SystemMouseCursors.click,
                                       borderRadius: BorderRadius.circular(100),
                                       child: Container(
                                         height: deviceType(media.width) == 1
@@ -598,6 +599,7 @@ class _SettingsState extends State<Settings> {
               kSizedBox,
               InkWell(
                 onTap: _toEditProfile,
+                mouseCursor: SystemMouseCursors.click,
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
                   width: media.width,
@@ -617,6 +619,7 @@ class _SettingsState extends State<Settings> {
                   ),
                   child: ListTile(
                     enableFeedback: true,
+                    mouseCursor: SystemMouseCursors.click,
                     leading: FaIcon(
                       FontAwesomeIcons.userPen,
                       color: kAccentColor,
@@ -640,6 +643,7 @@ class _SettingsState extends State<Settings> {
               kHalfSizedBox,
               InkWell(
                 onTap: _toChangePassword,
+                mouseCursor: SystemMouseCursors.click,
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
                   width: media.width,
@@ -659,6 +663,7 @@ class _SettingsState extends State<Settings> {
                   ),
                   child: ListTile(
                     enableFeedback: true,
+                    mouseCursor: SystemMouseCursors.click,
                     leading: FaIcon(
                       FontAwesomeIcons.solidPenToSquare,
                       color: kAccentColor,
@@ -682,6 +687,7 @@ class _SettingsState extends State<Settings> {
               kHalfSizedBox,
               InkWell(
                 onTap: _toAboutApp,
+                mouseCursor: SystemMouseCursors.click,
                 child: Container(
                   width: media.width,
                   decoration: ShapeDecoration(
@@ -700,6 +706,7 @@ class _SettingsState extends State<Settings> {
                   ),
                   child: ListTile(
                     enableFeedback: true,
+                    mouseCursor: SystemMouseCursors.click,
                     leading: FaIcon(
                       FontAwesomeIcons.circleInfo,
                       color: kAccentColor,
@@ -723,6 +730,7 @@ class _SettingsState extends State<Settings> {
               kHalfSizedBox,
               InkWell(
                 onTap: _deletePopUp,
+                mouseCursor: SystemMouseCursors.click,
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
                   width: media.width,
@@ -742,6 +750,7 @@ class _SettingsState extends State<Settings> {
                   ),
                   child: ListTile(
                     enableFeedback: true,
+                    mouseCursor: SystemMouseCursors.click,
                     leading: FaIcon(
                       FontAwesomeIcons.solidTrashCan,
                       color: kAccentColor,
@@ -765,6 +774,7 @@ class _SettingsState extends State<Settings> {
               kHalfSizedBox,
               InkWell(
                 onTap: _logOut,
+                mouseCursor: SystemMouseCursors.click,
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
                   width: media.width,
@@ -784,6 +794,7 @@ class _SettingsState extends State<Settings> {
                   ),
                   child: ListTile(
                     enableFeedback: true,
+                    mouseCursor: SystemMouseCursors.click,
                     leading: FaIcon(
                       FontAwesomeIcons.rightFromBracket,
                       color: kAccentColor,
@@ -804,6 +815,7 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
               ),
+              kSizedBox,
             ],
           ),
         ),

@@ -46,8 +46,10 @@ class MyImage extends StatelessWidget {
         fit: BoxFit.cover, // Use BoxFit.fill to fill the parent container
         progressIndicatorBuilder: (context, url, downloadProgress) =>
             Center(child: CupertinoActivityIndicator(color: kAccentColor)),
-        errorWidget: (context, url, error) =>
-            Image.asset("assets/images/placeholder_image.png"),
+        errorWidget: (context, url, error) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset("assets/images/placeholder_image.png"),
+        ),
       ),
     );
   }
