@@ -14,9 +14,7 @@ class AppVersionController extends GetxController {
     return Get.find<AppVersionController>();
   }
 
-  var current = AppVersion.fromJson(null).obs;
-
-  Future getLatest() async {
+  Future<AppVersion> getLatest() async {
     String os = "";
     String app = "user";
     if (Platform.isAndroid) {
@@ -24,15 +22,19 @@ class AppVersionController extends GetxController {
     } else if (Platform.isIOS) {
       os = "ios";
     } else {
-      return;
+      return AppVersion.fromJson(null);
     }
 
-    var url = "${Api.baseUrl}//api/v1/app-version/getLatestAppVersion/$os/$app";
-
+    var url = "${Api.baseUrl}/app-version/getLatestAppVersion/$os/$app";
+    print(url);
     try {
       http.Response response =
           await http.get(Uri.parse(url), headers: await authHeader());
-      current.value = AppVersion.fromJson(jsonDecode(response.body));
-    } catch (e) {}
+      print(response.body);
+      return AppVersion.fromJson(jsonDecode(response.body));
+    } catch (e) {
+      print(e);
+    }
+    return AppVersion.fromJson(null);
   }
 }

@@ -2,7 +2,6 @@
 
 import 'dart:async';
 
-import 'package:benji/src/repo/controller/app_version_controller.dart';
 import 'package:benji/src/repo/controller/auth_controller.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +46,6 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
       const Duration(seconds: 2),
       () {
         CartController.instance.cartTotalNumberForAll();
-        AppVersionController.instance.getLatest();
         AuthController.instance.checkAuth();
       },
     );

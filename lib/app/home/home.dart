@@ -80,12 +80,12 @@ class _HomeState extends State<Home> {
     Timer(
       const Duration(seconds: 2),
       () {
-        if (AppVersionController.instance.current.value.version == "0" ||
-            AppVersionController.instance.current.value.version == appVersion) {
-          return;
-        }
-        showAppUpdateDialog(
-            context, AppVersionController.instance.current.value);
+        AppVersionController.instance.getLatest().then((value) {
+          if (value.version == "0" || value.version == appVersion) {
+            return;
+          }
+          showAppUpdateDialog(context, value);
+        });
       },
     );
 
@@ -1098,35 +1098,39 @@ void showAppUpdateDialog(context, AppVersion appVersion) {
   showDialog(
     context: context,
     useSafeArea: true,
+    barrierDismissible: false,
     builder: (context) {
-      return AlertDialog(
-        title: Text(
-          "UPDATE!".toUpperCase(),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: kAccentColor,
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
+      return PopScope(
+        canPop: false,
+        child: AlertDialog(
+          title: Text(
+            "UPDATE!".toUpperCase(),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: kAccentColor,
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+            ),
           ),
+          content: const Text(
+            "Please update your app",
+            textAlign: TextAlign.center,
+            maxLines: 4,
+            style: TextStyle(
+              color: kTextBlackColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          actions: [
+            MyElevatedButton(
+              title: "Okay",
+              onPressed: () {
+                launchDownload(appVersion.link);
+              },
+            ),
+          ],
         ),
-        content: const Text(
-          "Please update your app",
-          textAlign: TextAlign.center,
-          maxLines: 4,
-          style: TextStyle(
-            color: kTextBlackColor,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        actions: [
-          MyElevatedButton(
-            title: "Okay",
-            onPressed: () {
-              launchDownload(appVersion.link);
-            },
-          ),
-        ],
       );
     },
   );
