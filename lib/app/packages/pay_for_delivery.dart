@@ -3,8 +3,8 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:benji/app/assign/assign_rider.dart';
 import 'package:benji/app/packages/packages.dart';
+import 'package:benji/app/rider/assign_rider.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/payment/monnify.dart';

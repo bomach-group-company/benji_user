@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:benji/app/address/get_location_on_map.dart';
 import 'package:benji/app/packages/item_category_dropdown_menu.dart';
 import 'package:benji/app/packages/packages.dart';
+import 'package:benji/app/rider/check_for_available_rider_for_package_delivery.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/others/location_list_tile.dart';
 import 'package:benji/src/components/textformfield/my%20textformfield.dart';
@@ -17,7 +18,6 @@ import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/form_controller.dart';
 import 'package:benji/src/repo/controller/lat_lng_controllers.dart';
 import 'package:benji/src/repo/controller/package_controller.dart';
-import 'package:benji/src/repo/controller/payment_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/googleMaps/autocomplete_prediction.dart';
 import 'package:benji/src/repo/models/googleMaps/places_autocomplete_response.dart';
@@ -34,7 +34,6 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import 'pay_for_delivery.dart';
 
 class SendPackage extends StatefulWidget {
   const SendPackage({super.key});
@@ -399,23 +398,23 @@ class _SendPackageState extends State<SendPackage> {
               ? FormController.instance.responseObject['package_id']
               : null; // or provide a default value if needed
       consoleLog("This is the package ID: $packageId");
-      await PaymentController.instance.getDeliveryFee(packageId);
+      // await PaymentController.instance.getDeliveryFee(packageId);
       Get.to(
-        () => PayForDelivery(
+        () => CheckForAvailableRiderForPackageDelivery(
+          isPackageDelivery: true,
           packageId: packageId,
           senderName: senderNameEC.text,
           senderPhoneNumber: senderPhoneEC.text,
           receiverName: receiverNameEC.text,
           receiverPhoneNumber: receiverPhoneEC.text,
-          receiverLocation: dropOffEC.text,
+          dropOff: dropOffEC.text,
           itemName: itemNameEC.text,
           itemQuantity: itemQuantityEC.text,
           itemWeight: itemWeight,
           itemValue: itemValueEC.text,
           itemCategory: itemCategory,
         ),
-        routeName: 'PayForDelivery',
-        duration: const Duration(milliseconds: 300),
+        routeName: 'check-for-available-rider',
         fullscreenDialog: true,
         curve: Curves.easeIn,
         preventDuplicates: true,

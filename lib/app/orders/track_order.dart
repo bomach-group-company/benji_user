@@ -1,4 +1,4 @@
-import 'package:benji/app/assign/assign_rider.dart';
+import 'package:benji/app/rider/assign_rider.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/repo/controller/order_status_change.dart';

@@ -1,4 +1,3 @@
-import 'package:benji/app/packages/pay_for_delivery.dart';
 import 'package:benji/app/packages/send_package.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/frontend/utils/constant.dart';
@@ -11,6 +10,7 @@ import 'package:get/get.dart';
 
 import '../../src/components/others/empty.dart';
 import '../../src/providers/constants.dart';
+import '../rider/check_for_available_rider_for_package_delivery.dart';
 
 class PackagesDraft extends StatefulWidget {
   const PackagesDraft({super.key});
@@ -95,27 +95,50 @@ class _PackagesDraftState extends State<PackagesDraft>
 
   void toPayment(DeliveryItem deliveryItem) {
     Get.to(
-      () => PayForDelivery(
+      () => CheckForAvailableRiderForPackageDelivery(
+        isPackageDelivery: true,
         packageId: deliveryItem.id,
         senderName: deliveryItem.senderName,
         senderPhoneNumber: deliveryItem.senderPhoneNumber,
         receiverName: deliveryItem.receiverName,
         receiverPhoneNumber: deliveryItem.receiverPhoneNumber,
-        receiverLocation: deliveryItem.dropOffAddress,
+        dropOff: deliveryItem.dropOffAddress,
         itemName: deliveryItem.itemName,
         itemQuantity: deliveryItem.itemQuantity.toString(),
         itemWeight: deliveryItem.itemWeight.toString(),
         itemValue: deliveryItem.itemValue.toString(),
         itemCategory: deliveryItem.itemCategory.id,
       ),
-      routeName: 'PayForDelivery',
-      duration: const Duration(milliseconds: 300),
+      routeName: 'check-for-available-rider',
       fullscreenDialog: true,
       curve: Curves.easeIn,
       preventDuplicates: true,
       popGesture: true,
       transition: Transition.rightToLeft,
     );
+
+    // Get.to(
+    //   () => PayForDelivery(
+    //     packageId: deliveryItem.id,
+    //     senderName: deliveryItem.senderName,
+    //     senderPhoneNumber: deliveryItem.senderPhoneNumber,
+    //     receiverName: deliveryItem.receiverName,
+    //     receiverPhoneNumber: deliveryItem.receiverPhoneNumber,
+    //     receiverLocation: deliveryItem.dropOffAddress,
+    //     itemName: deliveryItem.itemName,
+    //     itemQuantity: deliveryItem.itemQuantity.toString(),
+    //     itemWeight: deliveryItem.itemWeight.toString(),
+    //     itemValue: deliveryItem.itemValue.toString(),
+    //     itemCategory: deliveryItem.itemCategory.id,
+    //   ),
+    //   routeName: 'PayForDelivery',
+    //   duration: const Duration(milliseconds: 300),
+    //   fullscreenDialog: true,
+    //   curve: Curves.easeIn,
+    //   preventDuplicates: true,
+    //   popGesture: true,
+    //   transition: Transition.rightToLeft,
+    // );
   }
 
   void toSendPackageScreen() => Get.off(
