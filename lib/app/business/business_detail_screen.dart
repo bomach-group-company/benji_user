@@ -512,7 +512,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                               color: widget.business.isOnline
                                                   ? kSuccessColor
                                                   : kAccentColor,
-                                              fontSize: 14,
+                                              fontSize: 18,
                                               fontWeight: FontWeight.w400,
                                               letterSpacing: -0.36,
                                             ),
