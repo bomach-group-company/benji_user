@@ -360,7 +360,8 @@ class _SendPackageState extends State<SendPackage> {
     }
     if (itemQuantityEC.text.isEmpty) {
       ApiProcessorController.errorSnack(
-          "Please fill in the quantity of the item");
+        "Please fill in the quantity of the item",
+      );
       return;
     }
     if (itemValueEC.text.isEmpty) {
