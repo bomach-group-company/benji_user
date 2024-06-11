@@ -6,6 +6,7 @@ import 'package:benji/app/packages/packages_draft.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/button/my_outlined_elevatedbutton.dart';
+import 'package:benji/src/repo/models/order/order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -19,10 +20,12 @@ import '../../src/repo/models/address/address_model.dart';
 import '../../src/repo/models/user/rider.dart';
 import '../../src/repo/services/api_url.dart';
 import '../../theme/colors.dart';
+import '../checkout/checkout_draft_screen.dart';
 import '../packages/pay_for_delivery.dart';
 
 class CheckForAvailableRiderForPackageDelivery extends StatefulWidget {
   final bool isPackageDelivery;
+  final bool? isDraftOrder;
   final dynamic packageId;
   final String? senderName,
       senderPhoneNumber,
@@ -38,6 +41,7 @@ class CheckForAvailableRiderForPackageDelivery extends StatefulWidget {
   final Map<String, dynamic>? formatOfOrder;
   final String? orderID;
   final Address? deliverTo;
+  final Order? order;
 
   const CheckForAvailableRiderForPackageDelivery({
     super.key,
@@ -57,6 +61,8 @@ class CheckForAvailableRiderForPackageDelivery extends StatefulWidget {
     this.formatOfOrder,
     this.orderID,
     this.deliverTo,
+    this.isDraftOrder = false,
+    this.order,
   });
 
   @override
@@ -112,6 +118,22 @@ class _CheckForAvailableRiderForPackageDeliveryState
       isLoading = false;
     });
     return data;
+  }
+
+  goToDraftOrderPaymentScreen() async {
+    await Get.to(
+      () => CheckoutDraftScreen(
+        order: widget.order ?? Order.fromJson(null),
+        deliverTo: widget.deliverTo ?? Address.fromJson(null),
+      ),
+      routeName: 'CheckoutDraftScreen',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
   }
 
   goToOrderPaymentScreen() async {
@@ -301,7 +323,9 @@ class _CheckForAvailableRiderForPackageDeliveryState
                                 title: "Proceed",
                                 onPressed: widget.isPackageDelivery == true
                                     ? gotToPackagePaymentScreen
-                                    : goToOrderPaymentScreen,
+                                    : widget.isDraftOrder == true
+                                        ? goToDraftOrderPaymentScreen
+                                        : goToOrderPaymentScreen,
                               ),
                             ],
                           ),
