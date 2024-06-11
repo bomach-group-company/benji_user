@@ -209,7 +209,8 @@ class _CheckForAvailableRiderForPackageDeliveryState
                                 decoration: const BoxDecoration(
                                   image: DecorationImage(
                                     image: AssetImage(
-                                        "assets/images/rider/rider.png"),
+                                      "assets/images/rider/rider.png",
+                                    ),
                                   ),
                                 ),
                               ),
