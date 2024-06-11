@@ -167,7 +167,8 @@ class _OrdersDraftsState extends State<OrdersDrafts> {
                                     );
                                   } catch (e) {
                                     ApiProcessorController.errorSnack(
-                                        'Please set a default address first');
+                                      'Please set a default address first',
+                                    );
 
                                     Get.to(
                                       () => const AddNewAddress(),

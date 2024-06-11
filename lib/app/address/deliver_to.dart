@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:benji/app/checkout/checkout_screen.dart';
+import 'package:benji/app/rider/check_for_available_rider_for_package_delivery.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
@@ -120,19 +120,35 @@ class _DeliverToState extends State<DeliverTo> {
       // need to check if the order was created and get the delivery fee
 
       Get.to(
-        () => CheckoutScreen(
+        () => CheckForAvailableRiderForPackageDelivery(
+          isPackageDelivery: false,
           formatOfOrder: formatOfOrder,
           orderID: orderID,
           index: widget.index,
           deliverTo: address,
         ),
-        routeName: 'CheckoutScreen',
-        duration: const Duration(milliseconds: 300),
+        routeName: 'check-for-available-rider',
         fullscreenDialog: true,
         curve: Curves.easeIn,
+        preventDuplicates: true,
         popGesture: true,
         transition: Transition.rightToLeft,
       );
+
+      // Get.to(
+      //   () => CheckoutScreen(
+      //     formatOfOrder: formatOfOrder,
+      //     orderID: orderID,
+      //     index: widget.index,
+      //     deliverTo: address,
+      //   ),
+      //   routeName: 'CheckoutScreen',
+      //   duration: const Duration(milliseconds: 300),
+      //   fullscreenDialog: true,
+      //   curve: Curves.easeIn,
+      //   popGesture: true,
+      //   transition: Transition.rightToLeft,
+      // );
     } catch (e) {
       mySnackBar(
         context,
@@ -152,7 +168,6 @@ class _DeliverToState extends State<DeliverTo> {
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
     return MyLiquidRefresh(
       handleRefresh: _handleRefresh,
       child: Scaffold(
@@ -226,7 +241,7 @@ class _DeliverToState extends State<DeliverTo> {
                                         children: [
                                           SizedBox(
                                             // width: min(
-                                            //     mediaWidth - 150,
+                                            //     media.width - 150,
                                             //     20.0 *
                                             //         controller.addresses[index]
                                             //             .title.length),
