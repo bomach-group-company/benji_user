@@ -3,14 +3,12 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:benji/app/address/addresses.dart';
 import 'package:benji/app/home/home.dart';
 import 'package:benji/app/splash_screens/payment_successful_screen.dart';
 import 'package:benji/src/components/payment/monnify.dart';
 import 'package:benji/src/components/payment/monnify_mobile.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/notifications_controller.dart';
-import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/order/order.dart';
@@ -51,6 +49,9 @@ class _CheckoutDraftScreenState extends State<CheckoutDraftScreen> {
   @override
   void initState() {
     super.initState();
+    _subTotal = widget.order.preTotal;
+    _totalPrice = widget.order.totalPrice;
+    deliveryFee = widget.order.deliveryFee;
     checkAuth(context);
     checkIfShoppingLocation(context);
     deliverTo = widget.deliverTo;
@@ -63,9 +64,9 @@ class _CheckoutDraftScreenState extends State<CheckoutDraftScreen> {
 
   //=================================== ALL VARIABLES ==========================================\\
   User? user;
-  final double _subTotal = 0;
-  final double _totalPrice = 0;
-  double deliveryFee = OrderController.instance.deliveryFee.value;
+  double _subTotal = 0;
+  double _totalPrice = 0;
+  double deliveryFee = 0;
   // final String _paymentDescription = "Benji app product purchase";
   final String currency = "NGN";
 
@@ -214,23 +215,8 @@ class _CheckoutDraftScreenState extends State<CheckoutDraftScreen> {
 
   Address? deliverTo;
   void _toDeliverTo() async {
-    Get.to(
-      () => const Addresses(),
-      routeName: 'Addresses',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
-    try {
-      deliverTo = await getCurrentAddress();
-    } catch (e) {
-      deliverTo = null;
-    }
-    setState(() {});
-    // await _getData();
+    ApiProcessorController.errorSnack(
+        "Can't change your location for draft order");
   }
 
   @override
