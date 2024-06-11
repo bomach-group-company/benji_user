@@ -304,6 +304,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
+            controller: scrollController,
             child: ListView(
               controller: scrollController,
               physics: const ScrollPhysics(),
