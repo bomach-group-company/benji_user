@@ -598,8 +598,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 ),
                               )
                             : MyElevatedButton(
-                                title:
-                                    "Place Order - ₦${formattedText(_totalPrice)}",
+                                title: "Place Order",
                                 onPressed: _placeOrder,
                               ),
                         kSizedBox,

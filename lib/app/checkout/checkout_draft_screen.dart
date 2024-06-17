@@ -539,7 +539,7 @@ class _CheckoutDraftScreenState extends State<CheckoutDraftScreen> {
                           ),
                         )
                       : MyElevatedButton(
-                          title: "Place Order - ₦${formattedText(_totalPrice)}",
+                          title: "Place Order",
                           onPressed: _placeOrder,
                         ),
                   kSizedBox,

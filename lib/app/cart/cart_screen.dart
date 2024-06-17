@@ -58,7 +58,7 @@ class _CartScreenState extends State<CartScreen> {
         transition: Transition.rightToLeft,
       );
 
-  void _toCheckoutScreen(Map<String, dynamic> formatOfOrder) => Get.to(
+  void checkout(Map<String, dynamic> formatOfOrder) => Get.to(
         () => DeliverTo(formatOfOrder: formatOfOrder, index: widget.index),
         routeName: 'DeliverTo',
         duration: const Duration(milliseconds: 300),
@@ -93,10 +93,12 @@ class _CartScreenState extends State<CartScreen> {
                     padding: const EdgeInsets.all(10),
                     child: MyElevatedButton(
                       isLoading: controller.isLoad.value,
-                      onPressed: () => _toCheckoutScreen(
-                          controller.formatOfOrder[widget.index]),
+                      onPressed: () => checkout(
+                        controller.formatOfOrder[widget.index],
+                      ),
                       title:
-                          "Checkout (₦ ${formattedText(controller.subTotal.value[widget.index])})",
+                          // "Checkout (₦ ${formattedText(controller.subTotal.value[widget.index])})",
+                          "Checkout",
                     ),
                   ),
           ),
