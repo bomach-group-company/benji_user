@@ -101,10 +101,11 @@ class ProductController extends GetxController {
           .map((e) => Product.fromJson(e))
           .toList();
       products.value += data;
+      loadedAllProduct.value = data.isEmpty;
     } catch (e) {
+      loadNumProduct.value -= 10;
       log(e.toString());
     }
-    loadedAllProduct.value = data.isEmpty;
     isLoad.value = false;
     isLoadMoreProduct.value = false;
     update();

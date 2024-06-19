@@ -57,7 +57,7 @@ class TrackOrderDetailsContainer extends StatelessWidget {
     'canc': 'CANCELLED',
     'dispatched': 'DISPATCHED',
     'received': 'INCOMING',
-    'delivered': 'PLEASE CONFIRM',
+    'delivered': 'RECEIVED',
   };
 
   @override

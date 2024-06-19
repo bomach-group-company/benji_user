@@ -1,20 +1,31 @@
 // ignore_for_file: empty_catches
 
+import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
 
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/form_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/order/order.dart';
+import 'package:benji/src/repo/models/task_item_status_update.dart';
 import 'package:benji/src/repo/services/api_url.dart';
+import 'package:benji/src/repo/services/helper.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class OrderStatusChangeController extends GetxController {
   static OrderStatusChangeController get instance {
     return Get.find<OrderStatusChangeController>();
   }
+
+  var isLoadUpdateStatus = false.obs;
+  var hasFetched = false.obs;
+  late WebSocketChannel channelTask;
+  var taskItemStatusUpdate = TaskItemStatusUpdate.fromJson(null).obs;
 
   var isLoad = false.obs;
 
@@ -56,26 +67,64 @@ class OrderStatusChangeController extends GetxController {
     update();
   }
 
-  orderReceived() async {
-    isLoad.value = true;
-    update();
+  getTaskItemSocket() {
+    final wsUrlTask = Uri.parse('$websocketBaseUrl/orderStatus/');
+    channelTask = WebSocketChannel.connect(wsUrlTask);
+    channelTask.sink.add(jsonEncode({
+      'user_id': UserController.instance.user.value.id,
+      'order_id': order.value.id,
+      'user_type': 'client'
+    }));
 
-    var url =
-        "${Api.baseUrl}/orders/userToRiderChangeStatus?order_id=${order.value.id}";
-    await FormController.instance.getAuth(url, 'orderReceived');
+    Timer.periodic(const Duration(seconds: 10), (timer) {
+      channelTask.sink.add(jsonEncode({
+        'user_id': UserController.instance.user.value.id,
+        'order_id': order.value.id,
+        'user_type': 'client'
+      }));
+    });
 
-    if (FormController.instance.status.toString().startsWith('2')) {}
-    await refreshOrder();
+    channelTask.stream.listen((message) {
+      log(message);
+      taskItemStatusUpdate.value =
+          TaskItemStatusUpdate.fromJson(jsonDecode(message));
+      refreshOrder();
+      if (hasFetched.value != true) {
+        hasFetched.value = true;
+      }
+      update();
+    });
   }
 
-  orderDelivered() async {
-    isLoad.value = true;
+  updateTaskItemStatus({String query = ""}) async {
+    try {
+      isLoadUpdateStatus.value = true;
+      update();
 
+      var url = "${Api.baseUrl}${taskItemStatusUpdate.value.url}$query";
+      final response = await http.get(
+        Uri.parse(url),
+        headers: authHeader(),
+      );
+
+      dynamic data = jsonDecode(response.body);
+
+      if (response.statusCode.toString().startsWith('2')) {
+        channelTask.sink.add(jsonEncode({
+          'user_id': UserController.instance.user.value.id,
+          'order_id': order.value.id,
+          'user_type': 'client'
+        }));
+        order.value = Order.fromJson(data);
+        ApiProcessorController.successSnack("Updated successfully");
+      } else {
+        ApiProcessorController.errorSnack(data['detail']);
+      }
+    } on SocketException {
+      ApiProcessorController.errorSnack(
+          "No internet connection. Please check your network settings.");
+    }
+    isLoadUpdateStatus.value = false;
     update();
-    var url =
-        "${Api.baseUrl}/orders/userToRiderChangeStatus?order_id=${order.value.id}";
-    await FormController.instance.getAuth(url, 'deliveredOrder');
-    if (FormController.instance.status.toString().startsWith('2')) {}
-    await refreshOrder();
   }
 }

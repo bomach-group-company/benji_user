@@ -68,8 +68,9 @@ class UserController extends GetxController {
   Future<http.Response> deleteAccount() async {
     isLoadingDelete.value = true;
     update();
+    final userId = UserController.instance.user.value.id;
     final res = await http.delete(
-        Uri.parse('$baseURL/auth/user/delete/account'),
+        Uri.parse('$baseURL/auth/user/delete/account/$userId'),
         headers: authHeader());
     isLoadingDelete.value = false;
     update();

@@ -122,10 +122,12 @@ class VendorController extends GetxController {
           .map((e) => BusinessModel.fromJson(e))
           .toList();
       vendorList.value += data;
-    } catch (e) {}
+      loadedAllVendor.value = data.isEmpty;
+    } catch (e) {
+      loadNumPopularVendor.value -= 10;
+    }
     isLoad.value = false;
     isLoadMoreVendor.value = false;
-    loadedAllVendor.value = data.isEmpty;
 
     update();
   }
