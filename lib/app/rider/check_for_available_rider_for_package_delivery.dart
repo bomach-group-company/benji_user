@@ -6,6 +6,7 @@ import 'package:benji/app/packages/packages_draft.dart';
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/button/my_outlined_elevatedbutton.dart';
+import 'package:benji/src/repo/models/order/order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -15,15 +16,18 @@ import '../../src/providers/constants.dart';
 import '../../src/repo/controller/error_controller.dart';
 import '../../src/repo/controller/payment_controller.dart';
 import '../../src/repo/controller/user_controller.dart';
+import '../../src/repo/models/address/address_model.dart';
 import '../../src/repo/models/user/rider.dart';
 import '../../src/repo/services/api_url.dart';
 import '../../theme/colors.dart';
+import '../checkout/checkout_draft_screen.dart';
 import '../packages/pay_for_delivery.dart';
 
 class CheckForAvailableRiderForPackageDelivery extends StatefulWidget {
   final bool isPackageDelivery;
+  final bool? isDraftOrder;
   final dynamic packageId;
-  final String senderName,
+  final String? senderName,
       senderPhoneNumber,
       receiverName,
       receiverPhoneNumber,
@@ -33,21 +37,32 @@ class CheckForAvailableRiderForPackageDelivery extends StatefulWidget {
       itemWeight,
       itemValue,
       itemCategory;
+  final int? index;
+  final Map<String, dynamic>? formatOfOrder;
+  final String? orderID;
+  final Address? deliverTo;
+  final Order? order;
 
   const CheckForAvailableRiderForPackageDelivery({
     super.key,
     this.packageId,
-    required this.senderName,
-    required this.senderPhoneNumber,
-    required this.receiverName,
-    required this.receiverPhoneNumber,
-    required this.dropOff,
-    required this.itemName,
-    required this.itemQuantity,
-    required this.itemWeight,
-    required this.itemValue,
-    required this.itemCategory,
+    this.senderName,
+    this.senderPhoneNumber,
+    this.receiverName,
+    this.receiverPhoneNumber,
+    this.dropOff,
+    this.itemName,
+    this.itemQuantity,
+    this.itemWeight,
+    this.itemValue,
+    this.itemCategory,
     required this.isPackageDelivery,
+    this.index,
+    this.formatOfOrder,
+    this.orderID,
+    this.deliverTo,
+    this.isDraftOrder = false,
+    this.order,
   });
 
   @override
@@ -105,19 +120,29 @@ class _CheckForAvailableRiderForPackageDeliveryState
     return data;
   }
 
-  goToOrderPaymentScreen({
-    formatOfOrder,
-    orderID,
-    index,
-    deliverTo,
-  }) async {
-    await PaymentController.instance.getDeliveryFee(orderID);
+  goToDraftOrderPaymentScreen() async {
+    await Get.to(
+      () => CheckoutDraftScreen(
+        order: widget.order ?? Order.fromJson(null),
+        deliverTo: widget.deliverTo ?? Address.fromJson(null),
+      ),
+      routeName: 'CheckoutDraftScreen',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
+
+  goToOrderPaymentScreen() async {
     await Get.to(
       () => CheckoutScreen(
-        formatOfOrder: formatOfOrder,
-        orderID: orderID,
-        index: index,
-        deliverTo: deliverTo,
+        formatOfOrder: widget.formatOfOrder ?? {},
+        orderID: widget.orderID ?? "",
+        index: widget.index ?? 0,
+        deliverTo: widget.deliverTo ?? Address.fromJson(null),
       ),
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
@@ -133,16 +158,16 @@ class _CheckForAvailableRiderForPackageDeliveryState
     await Get.to(
       () => PayForDelivery(
         packageId: widget.packageId,
-        senderName: widget.senderName,
-        senderPhoneNumber: widget.senderPhoneNumber,
-        receiverName: widget.receiverName,
-        receiverPhoneNumber: widget.receiverPhoneNumber,
-        receiverLocation: widget.dropOff,
-        itemName: widget.itemName,
-        itemQuantity: widget.itemQuantity,
-        itemWeight: widget.itemWeight,
-        itemValue: widget.itemValue,
-        itemCategory: widget.itemCategory,
+        senderName: widget.senderName ?? "",
+        senderPhoneNumber: widget.senderPhoneNumber ?? "",
+        receiverName: widget.receiverName ?? "",
+        receiverPhoneNumber: widget.receiverPhoneNumber ?? "",
+        receiverLocation: widget.dropOff ?? "",
+        itemName: widget.itemName ?? "",
+        itemQuantity: widget.itemQuantity ?? "",
+        itemWeight: widget.itemWeight ?? "",
+        itemValue: widget.itemValue ?? "",
+        itemCategory: widget.itemCategory ?? "",
       ),
       routeName: 'PayForDelivery',
       duration: const Duration(milliseconds: 300),
@@ -159,6 +184,7 @@ class _CheckForAvailableRiderForPackageDeliveryState
     var media = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
         title: "",
         elevation: 0,
@@ -209,7 +235,8 @@ class _CheckForAvailableRiderForPackageDeliveryState
                                 decoration: const BoxDecoration(
                                   image: DecorationImage(
                                     image: AssetImage(
-                                        "assets/images/rider/rider.png"),
+                                      "assets/images/rider/rider.png",
+                                    ),
                                   ),
                                 ),
                               ),
@@ -296,9 +323,9 @@ class _CheckForAvailableRiderForPackageDeliveryState
                                 title: "Proceed",
                                 onPressed: widget.isPackageDelivery == true
                                     ? gotToPackagePaymentScreen
-                                    : () {
-                                        goToOrderPaymentScreen();
-                                      },
+                                    : widget.isDraftOrder == true
+                                        ? goToDraftOrderPaymentScreen
+                                        : goToOrderPaymentScreen,
                               ),
                             ],
                           ),

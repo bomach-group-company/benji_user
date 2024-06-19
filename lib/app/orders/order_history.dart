@@ -15,9 +15,11 @@ import '../../src/components/section/track_order_details_container.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/responsive_constant.dart';
 import '../../theme/colors.dart';
+import '../home/home.dart';
 
 class OrdersHistory extends StatefulWidget {
-  const OrdersHistory({super.key});
+  final bool? showHomeButton;
+  const OrdersHistory({super.key, this.showHomeButton = false});
 
   @override
   State<OrdersHistory> createState() => _OrdersHistoryState();
@@ -102,6 +104,17 @@ class _OrdersHistoryState extends State<OrdersHistory> {
         popGesture: false,
         transition: Transition.rightToLeft,
       );
+
+  void _toHomeScreen() => Get.offAll(
+        () => const Home(),
+        routeName: 'Home',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: false,
+        predicate: (routes) => false,
+        transition: Transition.rightToLeft,
+      );
   //========================================================================\\
 
   @override
@@ -118,16 +131,26 @@ class _OrdersHistoryState extends State<OrdersHistory> {
             title: "My Orders ",
             backgroundColor: kPrimaryColor,
             actions: [
-              TextButton(
-                onPressed: _toOrdersDrafts,
-                child: Text(
-                  'Draft orders',
-                  style: TextStyle(
-                      color: kAccentColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
+              widget.showHomeButton == true
+                  ? IconButton(
+                      onPressed: _toHomeScreen,
+                      icon: FaIcon(
+                        FontAwesomeIcons.house,
+                        size: 18,
+                        semanticLabel: "Home",
+                        color: kAccentColor,
+                      ),
+                    )
+                  : TextButton(
+                      onPressed: _toOrdersDrafts,
+                      child: Text(
+                        'Draft orders',
+                        style: TextStyle(
+                            color: kAccentColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
             ],
           ),
           floatingActionButton: _isScrollToTopBtnVisible
