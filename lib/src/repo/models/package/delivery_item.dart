@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 
 class DeliveryItem {
   final String id;
+  final String code;
   final User clientId;
   final String pickUpAddress;
   final String senderName;
@@ -29,6 +30,7 @@ class DeliveryItem {
 
   DeliveryItem({
     required this.id,
+    required this.code,
     required this.clientId,
     required this.pickUpAddress,
     required this.senderName,
@@ -51,6 +53,7 @@ class DeliveryItem {
     json ??= {};
     return DeliveryItem(
       id: json['id'] ?? notAvailable,
+      code: json['code'] ?? notAvailable,
       clientId: User.fromJson(json['client']),
       pickUpAddress: json['pickUpAddress'] ?? notAvailable,
       senderName: json['senderName'] ?? notAvailable,

@@ -470,6 +470,31 @@ class _ViewPackageState extends State<ViewPackage> {
                 ),
               ),
               kSizedBox,
+              Center(
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      const TextSpan(
+                        text: 'secret code to confirm package: ',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextSpan(
+                        text: widget.deliveryItem.code,
+                        style: TextStyle(
+                          color: kAccentColor,
+                          fontSize: 18,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              kSizedBox,
               GetBuilder<MyPackageController>(
                 initState: (state) => MyPackageController.instance
                     .getTaskItemSocket(widget.deliveryItem.id),
