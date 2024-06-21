@@ -57,6 +57,8 @@ class _ViewPackageState extends State<ViewPackage> {
 
   @override
   void dispose() {
+    MyPackageController.instance.closeTaskSocket();
+
     super.dispose();
   }
 

@@ -20,6 +20,12 @@ class TrackOrder extends StatefulWidget {
 }
 
 class _TrackOrderState extends State<TrackOrder> {
+  @override
+  void dispose() {
+    OrderStatusChangeController.instance.closeTaskSocket();
+    super.dispose();
+  }
+
   //================================================= ALL VARIABLES ========================================================\\
 
   //==================================================== CONTROLLERS ======================================================\\
