@@ -11,6 +11,7 @@ import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/rider_controller.dart';
 import 'package:benji/src/repo/models/user/rider.dart';
+import 'package:benji/src/repo/utils/map_stuff.dart';
 import 'package:benji/src/repo/utils/network_utils.dart';
 import 'package:benji/src/repo/utils/points.dart';
 import 'package:flutter/foundation.dart';
@@ -279,131 +280,220 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
                       ),
                 loadingMap
                     ? const SizedBox()
-                    : AnimatedPositioned(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeIn,
-                        left: 0,
-                        right: 0,
-                        bottom: selectedRider == null ? -200 : 0,
-                        child: Container(
-                          // width: 200,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: kDefaultPadding,
-                              vertical: kDefaultPadding),
-                          decoration: ShapeDecoration(
-                            shadows: [
-                              BoxShadow(
-                                color: kBlackColor.withOpacity(0.1),
-                                blurRadius: 5,
-                                spreadRadius: 2,
-                                blurStyle: BlurStyle.normal,
+                    : selectedRider == null
+                        ? AnimatedPositioned(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeIn,
+                            height: 300,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: kDefaultPadding,
+                                  vertical: kDefaultPadding),
+                              decoration: ShapeDecoration(
+                                shadows: [
+                                  BoxShadow(
+                                    color: kBlackColor.withOpacity(0.1),
+                                    blurRadius: 5,
+                                    spreadRadius: 2,
+                                    blurStyle: BlurStyle.normal,
+                                  ),
+                                ],
+                                color: const Color(0xFFFEF8F8),
+                                shape: const RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    width: 0.50,
+                                    color: Color(0xFFFDEDED),
+                                  ),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(25),
+                                    topRight: Radius.circular(25),
+                                  ),
+                                ),
                               ),
-                            ],
-                            color: const Color(0xFFFEF8F8),
-                            shape: const RoundedRectangleBorder(
-                              side: BorderSide(
-                                width: 0.50,
-                                color: Color(0xFFFDEDED),
-                              ),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(25),
-                                topRight: Radius.circular(25),
-                              ),
+                              child: ListView.builder(
+                                  itemCount: riders?.length ?? 0,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedRider = index;
+                                          });
+                                        },
+                                        title: Text(
+                                          "${riders![index].firstName} ${riders![index].lastName}",
+                                          style: const TextStyle(
+                                              color: kTextBlackColor,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        subtitle: Text(riders![index].phone),
+                                        trailing: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 5),
+                                          decoration: ShapeDecoration(
+                                            shape: RoundedRectangleBorder(
+                                              side: const BorderSide(
+                                                width: 0.50,
+                                                color: Color(0xFFFDEDED),
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                25,
+                                              ),
+                                            ),
+                                            color: kAccentColor,
+                                          ),
+                                          child: const Text(
+                                            'Assign',
+                                            style: TextStyle(
+                                                color: kTextWhiteColor,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ));
+                                  }),
                             ),
-                          ),
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      selectedRider = null;
-                                    });
-                                  },
-                                  child: Text(
-                                    selectedRider != null ? "Hide" : "",
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                      color: kAccentColor,
-                                    ),
+                          )
+                        : AnimatedPositioned(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeIn,
+                            left: 0,
+                            right: 0,
+                            bottom: selectedRider == null ? -200 : 0,
+                            child: Container(
+                              // width: 200,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: kDefaultPadding,
+                                  vertical: kDefaultPadding),
+                              decoration: ShapeDecoration(
+                                shadows: [
+                                  BoxShadow(
+                                    color: kBlackColor.withOpacity(0.1),
+                                    blurRadius: 5,
+                                    spreadRadius: 2,
+                                    blurStyle: BlurStyle.normal,
+                                  ),
+                                ],
+                                color: const Color(0xFFFEF8F8),
+                                shape: const RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    width: 0.50,
+                                    color: Color(0xFFFDEDED),
+                                  ),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(25),
+                                    topRight: Radius.circular(25),
                                   ),
                                 ),
                               ),
-                              Container(
-                                alignment: Alignment.topLeft,
-                                width: media.width,
-                                child: Text(
-                                  "${riders![selectedRider ?? 0].firstName} ${riders![selectedRider ?? 0].lastName}",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  textAlign: TextAlign.left,
-                                  style: const TextStyle(
-                                    color: kTextBlackColor,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                              kHalfSizedBox,
-                              Container(
-                                width: media.width,
-                                alignment: Alignment.topLeft,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    FaIcon(
-                                      FontAwesomeIcons.locationDot,
-                                      color: kAccentColor,
-                                      size: 15,
-                                    ),
-                                    kHalfWidthSizedBox,
-                                    SizedBox(
-                                      width: media.width - 200,
+                              child: Column(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          selectedRider = null;
+                                        });
+                                      },
                                       child: Text(
-                                        riders![selectedRider ?? 0].address,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                        selectedRider != null ? "Hide" : "",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                          color: kAccentColor,
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    width: media.width,
+                                    child: Text(
+                                      "${riders![selectedRider ?? 0].firstName} ${riders![selectedRider ?? 0].lastName}",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(
+                                        color: kTextBlackColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  kHalfSizedBox,
+                                  Container(
+                                    width: media.width,
+                                    alignment: Alignment.topLeft,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        FaIcon(
+                                          FontAwesomeIcons.locationDot,
+                                          color: kAccentColor,
+                                          size: 15,
+                                        ),
+                                        kHalfWidthSizedBox,
+                                        SizedBox(
+                                          width: media.width - 150,
+                                          child: FutureBuilder(
+                                              initialData: "Loading...",
+                                              future: getAddressFromCoordinates(
+                                                  riders![selectedRider ?? 0]
+                                                      .latitude,
+                                                  riders![selectedRider ?? 0]
+                                                      .longitude),
+                                              builder: (context, snapshot) {
+                                                return Text(
+                                                  snapshot.data!,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                );
+                                              }),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  kSizedBox,
+                                  GetBuilder<RiderController>(
+                                      builder: (controller) {
+                                    return MyElevatedButton(
+                                      isLoading: controller.isLoad.value,
+                                      title: "Assign task",
+                                      onPressed: () async {
+                                        final res =
+                                            await controller.assignTaskToRider(
+                                                widget.itemType,
+                                                widget.itemId,
+                                                riders![selectedRider ?? 0]
+                                                    .id
+                                                    .toString());
+                                        if (res.statusCode == 200) {
+                                          // nav to new page
+                                          ApiProcessorController.successSnack(
+                                              "Task assigned to rider");
+                                          Get.close(1);
+                                          return;
+                                        }
+                                        ApiProcessorController.errorSnack(
+                                            jsonDecode(res.body)['detail']);
+                                      },
+                                    );
+                                  }),
+                                  kHalfSizedBox
+                                ],
                               ),
-                              kSizedBox,
-                              GetBuilder<RiderController>(
-                                  builder: (controller) {
-                                return MyElevatedButton(
-                                  isLoading: controller.isLoad.value,
-                                  title: "Assign task",
-                                  onPressed: () async {
-                                    final res =
-                                        await controller.assignTaskToRider(
-                                            widget.itemType,
-                                            widget.itemId,
-                                            riders![selectedRider ?? 0]
-                                                .id
-                                                .toString());
-                                    if (res.statusCode == 200) {
-                                      // nav to new page
-                                      ApiProcessorController.successSnack(
-                                          "Task assigned to rider");
-                                      Get.close(1);
-                                      return;
-                                    }
-                                    ApiProcessorController.errorSnack(
-                                        jsonDecode(res.body)['detail']);
-                                  },
-                                );
-                              }),
-                              kHalfSizedBox
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
               ],
             ),
     );
