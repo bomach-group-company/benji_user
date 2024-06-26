@@ -95,7 +95,10 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
     if (!serviceEnabled) {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
-      // App to enable the location services.
+      ApiProcessorController.errorSnack(
+          "Enable and allow location then try again"); // App to enable the location services.
+
+      Get.close(1);
       return Future.error('Location services are disabled.');
     }
 
@@ -108,13 +111,19 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
         // Android's shouldShowRequestPermissionRationale
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
-        Get.back();
+        ApiProcessorController.errorSnack(
+            "Enable and allow location then try again"); // App to enable the location services.
+        Get.close(1);
+
         return Future.error('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
+      ApiProcessorController.errorSnack(
+          "Enable and allow location then try again"); // App to enable the location services.
+      Get.close(1);
       return Future.error(
         'Location permissions are permanently denied, we cannot request permissions.',
       );

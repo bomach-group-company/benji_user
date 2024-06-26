@@ -70,11 +70,15 @@ class _TrackOrderState extends State<TrackOrder> {
               backgroundColor: kPrimaryColor,
               actions: [
                 TextButton(
-                  onPressed: () => _toAssignRider(controller.order.value),
+                  onPressed: controller.taskItemStatusUpdate.value.assigned
+                      ? null
+                      : () => _toAssignRider(controller.order.value),
                   child: Text(
                     'Assign rider',
                     style: TextStyle(
-                        color: kAccentColor,
+                        color: controller.taskItemStatusUpdate.value.assigned
+                            ? kAccentColor.withOpacity(0.5)
+                            : kAccentColor,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
