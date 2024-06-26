@@ -140,7 +140,7 @@ class _CheckForAvailableRiderForPackageDeliveryState
     await Get.to(
       () => CheckoutScreen(
         formatOfOrder: widget.formatOfOrder ?? {},
-        orderID: widget.orderID ?? "",
+        order: widget.order!,
         index: widget.index ?? 0,
         deliverTo: widget.deliverTo ?? Address.fromJson(null),
       ),

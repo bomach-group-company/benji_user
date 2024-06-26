@@ -12,6 +12,7 @@ import 'package:benji/src/repo/controller/notifications_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
+import 'package:benji/src/repo/models/order/order.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/utils/constants.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
@@ -35,13 +36,13 @@ import '../../theme/colors.dart';
 class CheckoutScreen extends StatefulWidget {
   final int index;
   final Map<String, dynamic> formatOfOrder;
-  final String orderID;
+  final Order order;
   final Address deliverTo;
 
   const CheckoutScreen({
     super.key,
     required this.formatOfOrder,
-    required this.orderID,
+    required this.order,
     required this.index,
     required this.deliverTo,
   });
@@ -138,7 +139,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     String currency = 'NGN';
     String amount = (_subTotal + deliveryFee).ceil().toString();
     Map meta = {
-      "the_item_id": widget.orderID,
+      "the_item_id": widget.order.id,
       'the_item_type': 'order',
       'client_id': UserController.instance.user.value.id
     };
@@ -172,7 +173,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   );
                   CartController.instance.cartTotalNumberForAll();
                   Get.off(
-                    () => const PaymentSuccessful(),
+                    () => PaymentSuccessful(
+                      order: widget.order,
+                    ),
                     routeName: 'PaymentSuccessful',
                     duration: const Duration(milliseconds: 300),
                     fullscreenDialog: true,
@@ -209,7 +212,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     customSound: "asset://assets/audio/success.wav",
                   );
                   Get.off(
-                    () => const PaymentSuccessful(),
+                    () => PaymentSuccessful(
+                      order: widget.order,
+                    ),
                     routeName: 'PaymentSuccessful',
                     duration: const Duration(milliseconds: 300),
                     fullscreenDialog: true,

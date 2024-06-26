@@ -5,6 +5,7 @@ import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
+import 'package:benji/src/repo/models/order/order.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -117,8 +118,11 @@ class _DeliverToState extends State<DeliverTo> {
       //not after adding the address now post it to the endpoint
       String orderID =
           await OrderController.instance.createOrder([formatOfOrder]);
-      // need to check if the order was created and get the delivery fee
 
+      Order? orderOrNull = await OrderController.instance.getOrderByid(orderID);
+      if (orderOrNull == null) {
+        throw Exception("Error while creating order draft");
+      }
       Get.to(
         () => CheckForAvailableRiderForPackageDelivery(
           isPackageDelivery: false,
@@ -126,6 +130,7 @@ class _DeliverToState extends State<DeliverTo> {
           orderID: orderID,
           index: widget.index,
           deliverTo: address,
+          order: orderOrNull,
         ),
         routeName: 'check-for-available-rider',
         fullscreenDialog: true,
@@ -134,21 +139,6 @@ class _DeliverToState extends State<DeliverTo> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
-
-      // Get.to(
-      //   () => CheckoutScreen(
-      //     formatOfOrder: formatOfOrder,
-      //     orderID: orderID,
-      //     index: widget.index,
-      //     deliverTo: address,
-      //   ),
-      //   routeName: 'CheckoutScreen',
-      //   duration: const Duration(milliseconds: 300),
-      //   fullscreenDialog: true,
-      //   curve: Curves.easeIn,
-      //   popGesture: true,
-      //   transition: Transition.rightToLeft,
-      // );
     } catch (e) {
       mySnackBar(
         context,

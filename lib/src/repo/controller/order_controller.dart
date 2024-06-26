@@ -174,6 +174,17 @@ class OrderController extends GetxController {
     throw Exception('Failed to create order');
   }
 
+  Future<Order?> getOrderByid(id) async {
+    final response = await http.get(
+      Uri.parse('$baseURL/orders/order/$id'),
+      headers: await authHeader(),
+    );
+    if (response.statusCode == 200) {
+      return Order.fromJson(jsonDecode(response.body));
+    }
+    return null;
+  }
+
   Future getDeliveryFee(String orderId) async {
     final response = await http.get(
       Uri.parse('$baseURL/payments/getdeliveryfee/$orderId/order'),

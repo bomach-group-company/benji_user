@@ -132,7 +132,9 @@ class _CheckoutDraftScreenState extends State<CheckoutDraftScreen> {
                   );
                   CartController.instance.cartTotalNumberForAll();
                   Get.off(
-                    () => const PaymentSuccessful(),
+                    () => PaymentSuccessful(
+                      order: widget.order,
+                    ),
                     routeName: 'PaymentSuccessful',
                     duration: const Duration(milliseconds: 300),
                     fullscreenDialog: true,
@@ -168,7 +170,7 @@ class _CheckoutDraftScreenState extends State<CheckoutDraftScreen> {
                     customSound: "asset://assets/audio/success.wav",
                   );
                   Get.off(
-                    () => const PaymentSuccessful(),
+                    () => PaymentSuccessful(order: widget.order),
                     routeName: 'PaymentSuccessful',
                     duration: const Duration(milliseconds: 300),
                     fullscreenDialog: true,
