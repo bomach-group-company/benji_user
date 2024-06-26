@@ -510,13 +510,22 @@ class _ViewPackageState extends State<ViewPackage> {
                   kSizedBox,
                   controller.taskItemStatusUpdate.value.action
                       ? MyElevatedButton(
-                          disable:
-                              !controller.taskItemStatusUpdate.value.action,
+                          disable: !controller.hasFetched.value
+                              ? true
+                              : !controller.taskItemStatusUpdate.value.assigned
+                                  ? false
+                                  : !controller
+                                      .taskItemStatusUpdate.value.action,
                           title: controller.hasFetched.value
                               ? controller.taskItemStatusUpdate.value.buttonText
                               : "Loading...",
                           onPressed: controller.hasFetched.value
                               ? () {
+                                  if (!controller
+                                      .taskItemStatusUpdate.value.assigned) {
+                                    _toAssignRider(widget.deliveryItem);
+                                    return;
+                                  }
                                   controller.updateTaskItemStatus(
                                       widget.deliveryItem.id);
                                 }

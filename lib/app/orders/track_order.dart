@@ -89,12 +89,22 @@ class _TrackOrderState extends State<TrackOrder> {
             bottomNavigationBar: Container(
               padding: const EdgeInsets.all(kDefaultPadding),
               child: MyElevatedButton(
-                disable: !controller.taskItemStatusUpdate.value.action,
+                disable: !controller.hasFetched.value
+                    ? true
+                    : !controller.taskItemStatusUpdate.value.assigned
+                        ? false
+                        : !controller.taskItemStatusUpdate.value.action,
                 title: controller.hasFetched.value
                     ? controller.taskItemStatusUpdate.value.buttonText
                     : "Loading...",
                 onPressed: controller.hasFetched.value
-                    ? controller.updateTaskItemStatus
+                    ? () {
+                        if (!controller.taskItemStatusUpdate.value.assigned) {
+                          _toAssignRider(controller.order.value);
+                          return;
+                        }
+                        controller.updateTaskItemStatus();
+                      }
                     : () {},
                 isLoading: controller.isLoadUpdateStatus.value,
               ),
