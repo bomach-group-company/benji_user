@@ -14,6 +14,7 @@ import 'package:benji/src/components/others/empty.dart';
 import 'package:benji/src/components/others/my_future_builder.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/category_controller.dart';
+import 'package:benji/src/repo/controller/fcm_messaging_controller.dart';
 import 'package:benji/src/repo/controller/product_controller.dart';
 import 'package:benji/src/repo/controller/sub_category_controller.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
@@ -72,6 +73,7 @@ class _HomeState extends State<Home> {
     super.initState();
     checkAuth(context);
     checkIfShoppingLocation(context);
+    FcmMessagingController.instance.handleFCM();
     if (!fnd.kIsWeb) {
       NotificationController.initializeNotification();
     }

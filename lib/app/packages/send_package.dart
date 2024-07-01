@@ -47,6 +47,7 @@ class _SendPackageState extends State<SendPackage> {
   void initState() {
     super.initState();
     scrollController.addListener(_scrollListener);
+    Get.put(MyPackageController());
   }
 
   @override

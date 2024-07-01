@@ -9,6 +9,7 @@ import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/others/empty.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
+import 'package:benji/src/repo/controller/order_status_change.dart';
 import 'package:benji/src/repo/controller/rider_controller.dart';
 import 'package:benji/src/repo/models/user/rider.dart';
 import 'package:benji/src/repo/utils/map_stuff.dart';
@@ -487,6 +488,8 @@ class _AssignRiderMapState extends State<AssignRiderMap> {
                                                     .id
                                                     .toString());
                                         if (res.statusCode == 200) {
+                                          OrderStatusChangeController.instance
+                                              .getTaskItemSocket();
                                           // nav to new page
                                           ApiProcessorController.successSnack(
                                               "Task assigned to rider");

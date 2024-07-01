@@ -38,6 +38,16 @@ class MyPackageController extends GetxController {
   var dispatchedPackages = <DeliveryItem>[].obs;
   var deliveredPackages = <DeliveryItem>[].obs;
 
+  @override
+  void onClose() {
+    closeWebSocket();
+    super.onClose();
+  }
+
+  void closeWebSocket() {
+    channelTask.sink.close();
+  }
+
   Future getDeliveryItemsByPending() async {
     isLoadPending.value = true;
     User? user = UserController.instance.user.value;
@@ -233,9 +243,5 @@ class MyPackageController extends GetxController {
     }
     isLoadUpdateStatus.value = false;
     update();
-  }
-
-  closeTaskSocket() {
-    channelTask.sink.close(1000);
   }
 }

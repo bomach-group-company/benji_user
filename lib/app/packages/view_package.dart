@@ -38,6 +38,8 @@ class _ViewPackageState extends State<ViewPackage> {
   @override
   void initState() {
     super.initState();
+    Get.put(MyPackageController());
+
     packageData = <String>[
       widget.deliveryItem.status[0].toUpperCase() +
           widget.deliveryItem.status.substring(1).toLowerCase(),
@@ -57,8 +59,7 @@ class _ViewPackageState extends State<ViewPackage> {
 
   @override
   void dispose() {
-    MyPackageController.instance.closeTaskSocket();
-
+    MyPackageController.instance.closeWebSocket();
     super.dispose();
   }
 
@@ -265,6 +266,9 @@ class _ViewPackageState extends State<ViewPackage> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return GetBuilder<MyPackageController>(
+      dispose: (state) {
+        MyPackageController.instance.closeWebSocket();
+      },
       initState: (state) => MyPackageController.instance
           .getTaskItemSocket(widget.deliveryItem.id),
       builder: (controller) {

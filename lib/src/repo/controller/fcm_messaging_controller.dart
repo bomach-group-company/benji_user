@@ -16,7 +16,9 @@ class FcmMessagingController extends GetxController {
   }
 
   Future<void> handleFCM() async {
+    print('FcmMessagingController in the handleFCM');
     final fcmToken = await FirebaseMessaging.instance.getToken();
+    print('FcmMessagingController in the handleFCM 2');
 
     if (Platform.isIOS) {
       final apnToken = await FirebaseMessaging.instance.getAPNSToken();
@@ -29,25 +31,17 @@ class FcmMessagingController extends GetxController {
       final user = UserController.instance.user.value;
       var url = Api.baseUrl + Api.createPushNotification;
 
-      if (user.token.isEmpty || user.token == "N/A") {
-        return;
-      } else {
-        Map data = {"user_id": user.id, "token": fcmToken};
+      Map data = {"user_id": user.id, "token": fcmToken};
 
-        log("Data: $data");
-        log("Url: $url");
-        log("User Id: ${user.id} and User token: ${user.token}");
+      log("Data: $data");
+      log("Url: $url");
+      log("User Id: ${user.id} and User token: ${user.token}");
 
-        http.Response? response =
-            await HandleData.postApi(url, user.token, data);
+      http.Response? response = await HandleData.postApi(url, user.token, data);
 
-        log("Response status code: ${response!.statusCode}");
-        if (response.statusCode == 200) {
-          log("Response body: ${response.body}");
-        } else {
-          log("Response body: ${response.body}");
-        }
-      }
+      log("Response status code: ${response!.statusCode}");
+
+      log("Response body: ${response.body}");
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
