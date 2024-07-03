@@ -16,9 +16,9 @@ class FcmMessagingController extends GetxController {
   }
 
   Future<void> handleFCM() async {
-    print('FcmMessagingController in the handleFCM');
+    print('before fcm');
     final fcmToken = await FirebaseMessaging.instance.getToken();
-    print('FcmMessagingController in the handleFCM 2');
+    print('after fcm');
 
     if (Platform.isIOS) {
       final apnToken = await FirebaseMessaging.instance.getAPNSToken();
@@ -39,9 +39,12 @@ class FcmMessagingController extends GetxController {
 
       http.Response? response = await HandleData.postApi(url, user.token, data);
 
-      log("Response status code: ${response!.statusCode}");
-
-      log("Response body: ${response.body}");
+      log("Response status code: ${response?.statusCode}");
+      if (response?.statusCode == 200) {
+        log("Response body: ${response?.body}");
+      } else {
+        log("Response body: ${response?.body}");
+      }
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {

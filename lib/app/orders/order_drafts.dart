@@ -126,7 +126,8 @@ class _OrdersDraftsState extends State<OrdersDrafts> {
                     initState: (state) =>
                         OrderController.instance.getOrdersDraft(),
                     builder: (controller) {
-                      if (controller.isLoadDraft.value) {
+                      if (controller.isLoadDraft.value &&
+                          controller.orderListDraft.isEmpty) {
                         return SizedBox(
                           height: media.height - 100,
                           width: media.width,
