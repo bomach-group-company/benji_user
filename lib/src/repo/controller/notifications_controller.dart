@@ -37,7 +37,7 @@ class NotificationController extends GetxController {
           onlyAlertOnce: true,
           playSound: true,
           criticalAlerts: true,
-          soundSource: 'resource://raw/success',
+          soundSource: 'resource://raw/res_error',
         ),
       ],
       channelGroups: [
