@@ -3,8 +3,10 @@
 import 'dart:convert';
 
 import 'package:benji/src/components/appbar/my_appbar.dart';
+import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 // #docregion platform_imports
 // Import for Android features.
@@ -63,8 +65,10 @@ class MonnifyWidgetMobileState extends State<MonnifyWidgetMobile> {
     super.initState();
 
     Future.delayed(
-      const Duration(seconds: 1),
-      () => _controller.runJavaScript('''
+      const Duration(seconds: 2),
+      () {
+        try {
+          _controller.runJavaScript('''
 MonnifySDK.initialize({
                 amount: $amount,
                 currency: $currency,
@@ -93,7 +97,14 @@ MonnifySDK.initialize({
                     paymentcancel.postMessage("payment cancel");
                 }
             });
-'''),
+''');
+        } catch (e) {
+          ApiProcessorController.errorSnack("Yet to load please try again");
+          Get.close(1);
+          print(e);
+          print('error in loading payment modal');
+        }
+      },
     );
 
     metaData = widget.metaData == null ? 'null' : jsonEncode(widget.metaData);
