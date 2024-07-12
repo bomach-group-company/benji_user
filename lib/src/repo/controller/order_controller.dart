@@ -167,7 +167,7 @@ class OrderController extends GetxController {
 
     if (response.statusCode.toString().startsWith('2')) {
       String res =
-          jsonDecode(response.body)['message'].toString().split(' ').last;
+          jsonDecode(response.body)['detail'].toString().split(' ').last;
       await getDeliveryFee(res);
       return res;
     }

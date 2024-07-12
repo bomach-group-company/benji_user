@@ -9,6 +9,7 @@ import 'package:benji/src/components/payment/monnify.dart';
 import 'package:benji/src/components/payment/monnify_mobile.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/notifications_controller.dart';
+import 'package:benji/src/repo/controller/order_confirm_status.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/order/order.dart';
@@ -49,6 +50,10 @@ class _CheckoutDraftScreenState extends State<CheckoutDraftScreen> {
   @override
   void initState() {
     super.initState();
+
+    Get.put(OrderConfirmStatusController());
+    OrderConfirmStatusController.instance.getOrderConfirmStatus(widget.order);
+
     _subTotal = widget.order.preTotal;
     _totalPrice = widget.order.totalPrice;
     deliveryFee = widget.order.deliveryFee;
@@ -540,10 +545,17 @@ class _CheckoutDraftScreenState extends State<CheckoutDraftScreen> {
                             color: kAccentColor,
                           ),
                         )
-                      : MyElevatedButton(
-                          title: "Place Order",
-                          onPressed: _placeOrder,
-                        ),
+                      : GetBuilder<OrderConfirmStatusController>(
+                          builder: (controller) {
+                          return MyElevatedButton(
+                            disable: !controller.confirmed.value,
+                            title: !controller.confirmed.value
+                                ? "Waiting for vendor confirmation"
+                                : "Place Order",
+                            onPressed:
+                                controller.confirmed.value ? _placeOrder : null,
+                          );
+                        }),
                   kSizedBox,
                 ],
               ),

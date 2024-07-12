@@ -9,6 +9,7 @@ import 'package:benji/src/components/payment/monnify.dart';
 import 'package:benji/src/components/payment/monnify_mobile.dart';
 import 'package:benji/src/repo/controller/cart_controller.dart';
 import 'package:benji/src/repo/controller/notifications_controller.dart';
+import 'package:benji/src/repo/controller/order_confirm_status.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/address/address_model.dart';
@@ -56,6 +57,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   void initState() {
     super.initState();
+    Get.put(OrderConfirmStatusController());
+    OrderConfirmStatusController.instance.getOrderConfirmStatus(widget.order);
+
     _getData();
     checkAuth(context);
     checkIfShoppingLocation(context);
@@ -602,10 +606,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   color: kAccentColor,
                                 ),
                               )
-                            : MyElevatedButton(
-                                title: "Place Order",
-                                onPressed: _placeOrder,
-                              ),
+                            : GetBuilder<OrderConfirmStatusController>(
+                                builder: (controller) {
+                                return MyElevatedButton(
+                                  disable: !controller.confirmed.value,
+                                  title: !controller.confirmed.value
+                                      ? "Waiting for vendor confirmation"
+                                      : "Place Order",
+                                  onPressed: controller.confirmed.value
+                                      ? _placeOrder
+                                      : null,
+                                );
+                              }),
                         kSizedBox,
                       ],
                     ),
