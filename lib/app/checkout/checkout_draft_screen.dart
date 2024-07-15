@@ -548,12 +548,13 @@ class _CheckoutDraftScreenState extends State<CheckoutDraftScreen> {
                       : GetBuilder<OrderConfirmStatusController>(
                           builder: (controller) {
                           return MyElevatedButton(
-                            disable: !controller.confirmed.value,
-                            title: !controller.confirmed.value
+                            disable: !(controller.confirmed.value ?? false),
+                            title: !(controller.confirmed.value ?? false)
                                 ? "Waiting for vendor confirmation"
                                 : "Place Order",
-                            onPressed:
-                                controller.confirmed.value ? _placeOrder : null,
+                            onPressed: (controller.confirmed.value ?? false)
+                                ? _placeOrder
+                                : null,
                           );
                         }),
                   kSizedBox,

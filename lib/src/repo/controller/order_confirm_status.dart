@@ -14,7 +14,8 @@ class OrderConfirmStatusController extends GetxController {
     return Get.find<OrderConfirmStatusController>();
   }
 
-  var confirmed = false.obs;
+  // var confirmed = false.obs;
+  var confirmed = Rx<bool?>(null);
   late WebSocketChannel channelTask;
 
   var isLoad = false.obs;
@@ -40,6 +41,7 @@ class OrderConfirmStatusController extends GetxController {
     });
 
     channelTask.stream.listen((message) {
+      print('the cancel error');
       log(message);
       confirmed.value = jsonDecode(message)['confirmed'];
       update();
