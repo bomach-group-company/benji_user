@@ -507,7 +507,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                           Text(
                                             widget.business.isOnline
                                                 ? 'Open'.toUpperCase()
-                                                : "Closed".toUpperCase(),
+                                                : "Close".toUpperCase(),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: widget.business.isOnline
