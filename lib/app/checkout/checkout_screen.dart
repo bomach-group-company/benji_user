@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
@@ -53,6 +54,21 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
+  int _secondsRemaining = 5;
+  bool secondClick = false;
+
+  late Timer _timer;
+
+  void startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_secondsRemaining > 0) {
+        setState(() {
+          _secondsRemaining--;
+        });
+      }
+    });
+  }
+
   //=================================== INITIAL STATE ==========================================\\
   @override
   void initState() {
@@ -68,6 +84,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         user = value;
       });
     });
+    startTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   //=================================== ALL VARIABLES ==========================================\\
@@ -608,16 +631,115 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               )
                             : GetBuilder<OrderConfirmStatusController>(
                                 builder: (controller) {
-                                return MyElevatedButton(
-                                  disable:
-                                      !(controller.confirmed.value ?? false),
-                                  title: !(controller.confirmed.value ?? false)
-                                      ? "Waiting for vendor confirmation"
-                                      : "Place Order",
-                                  onPressed:
-                                      (controller.confirmed.value ?? false)
-                                          ? _placeOrder
-                                          : null,
+                                return Column(
+                                  children: [
+                                    (controller.confirmed.value ?? false)
+                                        ? const Text(
+                                            'The vendor has confirmed your order, please click proceed',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400),
+                                          )
+                                        : _secondsRemaining <= 0
+                                            ? !secondClick
+                                                ? Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      const Text(
+                                                        'Seems the vendor is unavailable: ',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                      ),
+                                                      InkWell(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              _secondsRemaining =
+                                                                  5;
+                                                              secondClick =
+                                                                  true;
+                                                            });
+                                                          },
+                                                          child: Text(
+                                                            'Try again',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                color:
+                                                                    kAccentColor,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                          ))
+                                                    ],
+                                                  )
+                                                : Wrap(
+                                                    alignment:
+                                                        WrapAlignment.center,
+                                                    children: [
+                                                      const Text(
+                                                        'Order saved on draft. you can',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                      ),
+                                                      InkWell(
+                                                          onTap: _toHomeScreen,
+                                                          child: Text(
+                                                            ' continue ',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                color:
+                                                                    kAccentColor,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                          )),
+                                                      const Text(
+                                                        'with your shopping while we wait for the vendor.',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                      ),
+                                                    ],
+                                                  )
+                                            : Text(
+                                                'Waiting for vendor confirmation: ${_secondsRemaining}sec',
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                    kSizedBox,
+                                    MyElevatedButton(
+                                      disable: !(controller.confirmed.value ??
+                                          false),
+                                      title: "Proceed",
+                                      onPressed:
+                                          (controller.confirmed.value ?? false)
+                                              ? _placeOrder
+                                              : null,
+                                    ),
+                                  ],
                                 );
                               }),
                         kSizedBox,
