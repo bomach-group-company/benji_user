@@ -54,7 +54,7 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  int _secondsRemaining = 5;
+  int _secondsRemaining = 60;
   bool secondClick = false;
 
   late Timer _timer;
@@ -73,6 +73,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   void initState() {
     super.initState();
+    // remove from cart on this page
+    CartController.instance.clearCartProduct(widget.index);
     Get.put(OrderConfirmStatusController());
     OrderConfirmStatusController.instance.getOrderConfirmStatus(widget.order);
 
@@ -662,7 +664,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                           onTap: () {
                                                             setState(() {
                                                               _secondsRemaining =
-                                                                  5;
+                                                                  60;
                                                               secondClick =
                                                                   true;
                                                             });

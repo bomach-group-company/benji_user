@@ -324,17 +324,13 @@ class _DeliverToState extends State<DeliverTo> {
                     const SizedBox(height: kDefaultPadding),
                     controller.addresses.isEmpty
                         ? const SizedBox()
-                        : _isLoading
-                            ? Center(
-                                child: CircularProgressIndicator(
-                                    color: kAccentColor),
-                              )
-                            : MyElevatedButton(
-                                title: "Apply",
-                                onPressed: () {
-                                  applyDeliveryAddress(_currentOption);
-                                },
-                              ),
+                        : MyElevatedButton(
+                            isLoading: _isLoading,
+                            title: "Apply",
+                            onPressed: () {
+                              applyDeliveryAddress(_currentOption);
+                            },
+                          ),
                     const SizedBox(height: kDefaultPadding * 2),
                   ],
                 ),
