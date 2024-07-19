@@ -74,7 +74,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   void initState() {
     super.initState();
     // remove from cart on this page
-    CartController.instance.clearCartProduct(widget.index);
+    // CartController.instance.clearCartProduct(widget.index);
     Get.put(OrderConfirmStatusController());
     OrderConfirmStatusController.instance.getOrderConfirmStatus(widget.order);
 

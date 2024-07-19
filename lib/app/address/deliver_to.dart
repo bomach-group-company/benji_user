@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:benji/app/rider/check_for_available_rider_for_package_delivery.dart';
+import 'package:benji/app/checkout/checkout_screen.dart';
 import 'package:benji/src/components/snackbar/my_floating_snackbar.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
@@ -123,16 +123,15 @@ class _DeliverToState extends State<DeliverTo> {
       if (orderOrNull == null) {
         throw Exception("Error while creating order draft");
       }
-      Get.to(
-        () => CheckForAvailableRiderForPackageDelivery(
-          isPackageDelivery: false,
-          formatOfOrder: formatOfOrder,
-          orderID: orderID,
+
+      await Get.to(
+        () => CheckoutScreen(
+          formatOfOrder: widget.formatOfOrder,
+          order: orderOrNull,
           index: widget.index,
           deliverTo: address,
-          order: orderOrNull,
         ),
-        routeName: 'check-for-available-rider',
+        duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
         preventDuplicates: true,

@@ -1,5 +1,5 @@
 import 'package:benji/app/address/add_new_address.dart';
-import 'package:benji/app/rider/check_for_available_rider_for_package_delivery.dart';
+import 'package:benji/app/checkout/checkout_draft_screen.dart';
 import 'package:benji/src/providers/my_liquid_refresh.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
@@ -152,15 +152,14 @@ class _OrdersDraftsState extends State<OrdersDrafts> {
                                   try {
                                     deliverTo ??= await getCurrentAddress();
 
-                                    Get.to(
-                                      () =>
-                                          CheckForAvailableRiderForPackageDelivery(
-                                        isPackageDelivery: false,
-                                        isDraftOrder: true,
+                                    await Get.to(
+                                      () => CheckoutDraftScreen(
                                         order: controller.orderListDraft[index],
                                         deliverTo: deliverTo!,
                                       ),
-                                      routeName: 'check-for-available-rider',
+                                      routeName: 'CheckoutDraftScreen',
+                                      duration:
+                                          const Duration(milliseconds: 300),
                                       fullscreenDialog: true,
                                       curve: Curves.easeIn,
                                       preventDuplicates: true,

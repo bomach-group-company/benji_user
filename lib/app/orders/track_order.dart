@@ -443,89 +443,89 @@ class _TrackOrderState extends State<TrackOrder> {
                       ),
                     ),
                     kSizedBox,
-                    Container(
-                      decoration: ShapeDecoration(
-                        color: kPrimaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        shadows: const [
-                          BoxShadow(
-                            color: Color(0x0F000000),
-                            blurRadius: 24,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0,
-                          ),
-                        ],
-                      ),
-                      child: ListTile(
-                        leading: Container(
-                          width: 47,
-                          height: 47,
-                          margin: const EdgeInsets.only(right: 10),
-                          decoration: ShapeDecoration(
-                            color: const Color(0xFF979797),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            shadows: const [
-                              BoxShadow(
-                                color: Color(0x16000000),
-                                blurRadius: 8,
-                                offset: Offset(0, 4),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                        ),
-                        trailing: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: ShapeDecoration(
-                            color: const Color(0xFFF00300),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                          child: const Icon(
-                            Icons.phone,
-                            color: kTextWhiteColor,
-                          ),
-                        ),
-                        title: Container(
-                          margin: const EdgeInsets.only(bottom: 10),
-                          child: const Text(
-                            'Jay wills',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 17,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                              height: 0,
-                            ),
-                          ),
-                        ),
-                        subtitle: const Row(
-                          children: [
-                            Icon(
-                              Icons.location_on_outlined,
-                            ),
-                            kHalfWidthSizedBox,
-                            Text(
-                              '3.2km away',
-                              style: TextStyle(
-                                color: Color(0xFF575757),
-                                fontSize: 14,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w400,
-                                height: 0,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    kSizedBox,
+                    // Container(
+                    //   decoration: ShapeDecoration(
+                    //     color: kPrimaryColor,
+                    //     shape: RoundedRectangleBorder(
+                    //       borderRadius: BorderRadius.circular(12),
+                    //     ),
+                    //     shadows: const [
+                    //       BoxShadow(
+                    //         color: Color(0x0F000000),
+                    //         blurRadius: 24,
+                    //         offset: Offset(0, 4),
+                    //         spreadRadius: 0,
+                    //       ),
+                    //     ],
+                    //   ),
+                    //   child: ListTile(
+                    //     leading: Container(
+                    //       width: 47,
+                    //       height: 47,
+                    //       margin: const EdgeInsets.only(right: 10),
+                    //       decoration: ShapeDecoration(
+                    //         color: const Color(0xFF979797),
+                    //         shape: RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(12),
+                    //         ),
+                    //         shadows: const [
+                    //           BoxShadow(
+                    //             color: Color(0x16000000),
+                    //             blurRadius: 8,
+                    //             offset: Offset(0, 4),
+                    //             spreadRadius: 0,
+                    //           )
+                    //         ],
+                    //       ),
+                    //     ),
+                    //     trailing: Container(
+                    //       width: 40,
+                    //       height: 40,
+                    //       decoration: ShapeDecoration(
+                    //         color: const Color(0xFFF00300),
+                    //         shape: RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(16),
+                    //         ),
+                    //       ),
+                    //       child: const Icon(
+                    //         Icons.phone,
+                    //         color: kTextWhiteColor,
+                    //       ),
+                    //     ),
+                    //     title: Container(
+                    //       margin: const EdgeInsets.only(bottom: 10),
+                    //       child: const Text(
+                    //         'Jay wills',
+                    //         style: TextStyle(
+                    //           color: Colors.black,
+                    //           fontSize: 17,
+                    //           fontFamily: 'Poppins',
+                    //           fontWeight: FontWeight.w600,
+                    //           height: 0,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     subtitle: const Row(
+                    //       children: [
+                    //         Icon(
+                    //           Icons.location_on_outlined,
+                    //         ),
+                    //         kHalfWidthSizedBox,
+                    //         Text(
+                    //           '3.2km away',
+                    //           style: TextStyle(
+                    //             color: Color(0xFF575757),
+                    //             fontSize: 14,
+                    //             fontFamily: 'Poppins',
+                    //             fontWeight: FontWeight.w400,
+                    //             height: 0,
+                    //           ),
+                    //         )
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    // kSizedBox,
                     const SizedBox(
                       height: kDefaultPadding * 2,
                     ),

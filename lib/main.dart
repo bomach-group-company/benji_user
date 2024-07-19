@@ -1,4 +1,4 @@
-import 'package:benji/app/splash_screens/startup_splash_screen.dart';
+import 'package:benji/app/map/map_direction.dart';
 import 'package:benji/firebase_options.dart';
 import 'package:benji/src/repo/controller/address_controller.dart';
 import 'package:benji/src/repo/controller/auth_controller.dart';
@@ -97,7 +97,11 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       //This is the home route
-      home: const StartupSplashscreen(),
+      home: const MapDirection(
+          pickLat: 6.500837486485422,
+          pickLng: 7.4982988852208825,
+          dropLat: 6.498882047124342,
+          dropLng: 7.49562185955729),
     );
   }
 }
