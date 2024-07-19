@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
 import 'package:benji/src/components/appbar/my_appbar.dart';
+import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/providers/keys.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/theme/colors.dart';
@@ -272,6 +273,76 @@ class _MapDirectionState extends State<MapDirection> {
                 cameraTargetBounds: CameraTargetBounds.unbounded,
                 rotateGesturesEnabled: true,
                 scrollGesturesEnabled: true,
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(kDefaultPadding / 2),
+              child: ListTile(
+                leading: Container(
+                  width: 47,
+                  height: 47,
+                  margin: const EdgeInsets.only(right: 10),
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFF979797),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    shadows: const [
+                      BoxShadow(
+                        color: Color(0x16000000),
+                        blurRadius: 8,
+                        offset: Offset(0, 4),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                ),
+                trailing: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFFF00300),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: const Icon(
+                    Icons.phone,
+                    color: kTextWhiteColor,
+                  ),
+                ),
+                title: Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: const Text(
+                    ' Jay wills',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 17,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      height: 0,
+                    ),
+                  ),
+                ),
+                subtitle: const Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.location_on_outlined,
+                    ),
+                    kHalfWidthSizedBox,
+                    Text(
+                      '3.2km away',
+                      style: TextStyle(
+                        color: Color(0xFF575757),
+                        fontSize: 14,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                        height: 0,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ],

@@ -1,3 +1,4 @@
+import 'package:benji/app/map/map_direction.dart';
 import 'package:benji/app/rider/assign_rider.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/image/my_image.dart';
@@ -56,6 +57,22 @@ class _TrackOrderState extends State<TrackOrder> {
         transition: Transition.rightToLeft,
       );
 
+  void _toTrackOrder(Order order) {
+    Get.to(
+      () => const MapDirection(
+          pickLat: 6.500837486485422,
+          pickLng: 7.4982988852208825,
+          dropLat: 6.498882047124342,
+          dropLng: 7.49562185955729),
+      routeName: 'MapDirection',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      popGesture: false,
+      transition: Transition.rightToLeft,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -71,14 +88,14 @@ class _TrackOrderState extends State<TrackOrder> {
               actions: [
                 TextButton(
                   onPressed: controller.taskItemStatusUpdate.value.assigned
-                      ? null
+                      ? () => _toTrackOrder(controller.order.value)
                       : () => _toAssignRider(controller.order.value),
                   child: Text(
-                    'Assign rider',
+                    controller.taskItemStatusUpdate.value.assigned
+                        ? 'Track order'
+                        : 'Assign rider',
                     style: TextStyle(
-                        color: controller.taskItemStatusUpdate.value.assigned
-                            ? kAccentColor.withOpacity(0.5)
-                            : kAccentColor,
+                        color: kAccentColor,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
