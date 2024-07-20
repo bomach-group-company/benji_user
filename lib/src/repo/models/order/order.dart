@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:benji/src/repo/models/address/address_model.dart';
 import 'package:benji/src/repo/models/product/product.dart';
 import 'package:benji/src/repo/models/user/user_model.dart';
+import 'package:benji/src/repo/models/vendor/vendor.dart';
 import 'package:benji/src/repo/services/api_url.dart';
 import 'package:benji/src/repo/utils/constants.dart';
 import 'package:benji/src/repo/utils/helpers.dart';
@@ -20,6 +21,8 @@ class Order {
   User client;
   List<OrderItem> orderitems;
   String created;
+  BusinessModel business;
+  Address deliveryAddress;
 
   Order({
     required this.id,
@@ -31,9 +34,12 @@ class Order {
     required this.client,
     required this.orderitems,
     required this.created,
+    required this.business,
+    required this.deliveryAddress,
   });
 
   factory Order.fromJson(Map<String, dynamic>? json) {
+    print(json);
     json ??= {};
     return Order(
       id: json["id"] ?? notAvailable,
@@ -55,6 +61,8 @@ class Order {
               .map((item) => OrderItem.fromJson(item))
               .toList(),
       created: json["created"] ?? notAvailable,
+      business: BusinessModel.fromJson(json["business"]),
+      deliveryAddress: Address.fromJson(json["delivery_address"]),
     );
   }
 }

@@ -58,12 +58,22 @@ class _TrackOrderState extends State<TrackOrder> {
       );
 
   void _toTrackOrder(Order order) {
+    // const MapDirection(
+    //       pickLat: 6.500837486485422,
+    //       pickLng: 7.4982988852208825,
+    //       dropLat: 6.498882047124342,
+    //       dropLng: 7.49562185955729),
+    print(order.business.latitude);
+    print(order.business.longitude);
+    print(order.deliveryAddress.latitude);
+    print(order.deliveryAddress.longitude);
     Get.to(
-      () => const MapDirection(
-          pickLat: 6.500837486485422,
-          pickLng: 7.4982988852208825,
-          dropLat: 6.498882047124342,
-          dropLng: 7.49562185955729),
+      () => MapDirection(
+        pickLat: double.parse(order.business.latitude),
+        pickLng: double.parse(order.business.longitude),
+        dropLat: double.parse(order.deliveryAddress.latitude),
+        dropLng: double.parse(order.deliveryAddress.longitude),
+      ),
       routeName: 'MapDirection',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
