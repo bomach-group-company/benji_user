@@ -18,6 +18,7 @@ class OrderConfirmStatusController extends GetxController {
 
   // var confirmed = false.obs;
   var confirmed = Rx<bool?>(null);
+  var reason = Rx<String?>(null);
   late WebSocketChannel channelTask;
 
   var isLoad = false.obs;
@@ -46,6 +47,7 @@ class OrderConfirmStatusController extends GetxController {
       print('the cancel error');
       log(message);
       confirmed.value = jsonDecode(message)['confirmed'];
+      reason.value = jsonDecode(message)['detail'];
       update();
     });
   }

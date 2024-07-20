@@ -572,87 +572,104 @@ class _CheckoutDraftScreenState extends State<CheckoutDraftScreen> {
                           builder: (controller) {
                           return Column(
                             children: [
-                              (controller.confirmed.value ?? false)
-                                  ? const Text(
-                                      'The vendor has confirmed your order, please click proceed',
+                              controller.confirmed.value == false
+                                  ? Text(
+                                      "Vendor cancelled reason: ${controller.reason.value ?? 'Unknown reason'}",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400),
                                     )
-                                  : _secondsRemaining <= 0
-                                      ? !secondClick
-                                          ? Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                const Text(
-                                                  'Seems the vendor is unavailable: ',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                ),
-                                                InkWell(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        _secondsRemaining = 60;
-                                                        secondClick = true;
-                                                      });
-                                                    },
-                                                    child: Text(
-                                                      'Try again',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: kAccentColor,
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w400),
-                                                    ))
-                                              ],
-                                            )
-                                          : Wrap(
-                                              alignment: WrapAlignment.center,
-                                              children: [
-                                                const Text(
-                                                  'Order saved on draft. you can',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                ),
-                                                InkWell(
-                                                    onTap: _toHomeScreen,
-                                                    child: Text(
-                                                      ' continue ',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: kAccentColor,
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w400),
-                                                    )),
-                                                const Text(
-                                                  'with your shopping while we wait for the vendor.',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                ),
-                                              ],
-                                            )
-                                      : Text(
-                                          'Waiting for vendor confirmation: ${_secondsRemaining}sec',
+                                  : (controller.confirmed.value ?? false)
+                                      ? const Text(
+                                          'The vendor has confirmed your order, please click proceed',
                                           textAlign: TextAlign.center,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400),
-                                        ),
+                                        )
+                                      : _secondsRemaining <= 0
+                                          ? !secondClick
+                                              ? Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    const Text(
+                                                      'Seems the vendor is unavailable: ',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                    InkWell(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            _secondsRemaining =
+                                                                60;
+                                                            secondClick = true;
+                                                          });
+                                                        },
+                                                        child: Text(
+                                                          'Try again',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  kAccentColor,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ))
+                                                  ],
+                                                )
+                                              : Wrap(
+                                                  alignment:
+                                                      WrapAlignment.center,
+                                                  children: [
+                                                    const Text(
+                                                      'Order saved on draft. you can',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                    InkWell(
+                                                        onTap: _toHomeScreen,
+                                                        child: Text(
+                                                          ' continue ',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  kAccentColor,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        )),
+                                                    const Text(
+                                                      'with your shopping while we wait for the vendor.',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                )
+                                          : Text(
+                                              'Waiting for vendor confirmation: ${_secondsRemaining}sec',
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
                               kSizedBox,
                               MyElevatedButton(
                                 disable: !(controller.confirmed.value ?? false),
