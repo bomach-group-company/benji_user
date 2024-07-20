@@ -6,7 +6,6 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:benji/src/repo/controller/error_controller.dart';
-import 'package:benji/src/repo/controller/form_controller.dart';
 import 'package:benji/src/repo/controller/order_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/models/order/order.dart';
@@ -21,6 +20,8 @@ class OrderStatusChangeController extends GetxController {
   static OrderStatusChangeController get instance {
     return Get.find<OrderStatusChangeController>();
   }
+
+  Timer? timer;
 
   var isLoadUpdateStatus = false.obs;
   var hasFetched = false.obs;
@@ -76,7 +77,7 @@ class OrderStatusChangeController extends GetxController {
       'user_type': 'client'
     }));
 
-    Timer.periodic(const Duration(seconds: 10), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 10), (val) {
       channelTask.sink.add(jsonEncode({
         'user_id': UserController.instance.user.value.id,
         'order_id': order.value.id,
@@ -130,5 +131,6 @@ class OrderStatusChangeController extends GetxController {
 
   closeTaskSocket() {
     channelTask.sink.close(1000);
+    timer?.cancel();
   }
 }

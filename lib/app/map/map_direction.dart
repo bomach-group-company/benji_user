@@ -1,26 +1,33 @@
 // ignore_for_file: unused_field
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
 import 'package:benji/src/components/appbar/my_appbar.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/providers/keys.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
+import 'package:benji/src/repo/models/read_rider_coord.dart';
+import 'package:benji/src/repo/services/api_url.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class MapDirection extends StatefulWidget {
+  final String id;
   final double pickLat;
   final double pickLng;
   final double dropLat;
   final double dropLng;
   const MapDirection({
     super.key,
+    required this.id,
     required this.pickLat,
     required this.pickLng,
     required this.dropLat,
@@ -32,17 +39,71 @@ class MapDirection extends StatefulWidget {
 }
 
 class _MapDirectionState extends State<MapDirection> {
+  late WebSocketChannel channelTask;
+
+  var isLoad = false.obs;
+  late Timer _timer;
+
+  getCoordinateSocket(String id) async {
+    await _loadMapData();
+
+    final wsUrlTask = Uri.parse('$websocketBaseUrl/riderOntaskCoordinates/');
+    channelTask = WebSocketChannel.connect(wsUrlTask);
+    channelTask.sink.add(jsonEncode({
+      'order_id': id,
+    }));
+
+    _timer = Timer.periodic(const Duration(seconds: 10), (val) {
+      channelTask.sink.add(jsonEncode({
+        'order_id': id,
+      }));
+    });
+
+    channelTask.stream.listen((message) {
+      print(message);
+      // riderLocation = const LatLng(6.494750367991621, 7.495600697299079);
+      // _loadCustomMarkers().then((value) {
+      //   getPolyPoints();
+      // });
+      // return;
+
+      ReadRiderCoord readRider = ReadRiderCoord.fromJson(jsonDecode(message));
+      if (readRider.error) {
+        Get.close(1);
+        ApiProcessorController.errorSnack(readRider.detail);
+        return;
+      }
+      try {
+        double lat = double.parse(readRider.latitude);
+        double lng = double.parse(readRider.longitude);
+        setState(() {
+          riderLocation = LatLng(lat, lng);
+        });
+        _loadCustomMarkers().then((value) {
+          getPolyPoints();
+        });
+      } catch (e) {
+        Get.close(1);
+        ApiProcessorController.errorSnack('Error getting rider location');
+      }
+    });
+  }
+
+  closeTaskSocket() {
+    channelTask.sink.close(1000);
+  }
+
   //============================================================== INITIAL STATE ====================================================================\\
   @override
   void initState() {
     super.initState();
+    getCoordinateSocket(widget.id);
     _markerTitle = <String>["Rider", "Pickup", 'Dropoff'];
     _markerSnippet = <String>["Rider", "Pickup", "Your address"];
 
     pickLocation = LatLng(widget.pickLat, widget.pickLng);
     dropLocation = LatLng(widget.dropLat, widget.dropLng);
-    riderLocation = const LatLng(6.494750367991621, 7.495600697299079);
-    _loadMapData();
+    // riderLocation = const LatLng(6.494750367991621, 7.495600697299079);
 
     // Timer(const Duration(seconds: 10), () {
     //   setState(() {
@@ -56,15 +117,17 @@ class _MapDirectionState extends State<MapDirection> {
 
   @override
   void dispose() {
+    closeTaskSocket();
+    _timer.cancel();
     super.dispose();
   }
   //============================================================= ALL VARIABLES ======================================================================\\
 
   late LatLng pickLocation;
   late LatLng dropLocation;
-  late LatLng riderLocation;
+  LatLng? riderLocation;
 
-  final List<LatLng> _polylineCoordinates = [];
+  List<LatLng> _polylineCoordinates = [];
 
   Uint8List? _markerImage;
   final List<Marker> _markers = <Marker>[];
@@ -122,8 +185,8 @@ class _MapDirectionState extends State<MapDirection> {
       return;
     }
     print('part 1');
-    await _loadCustomMarkers();
-    getPolyPoints();
+    // await _loadCustomMarkers();
+    // getPolyPoints();
   }
 
   //====================================== Get bytes from assets =========================================\\
@@ -145,7 +208,7 @@ class _MapDirectionState extends State<MapDirection> {
   Future _loadCustomMarkers() async {
     print('part 3 -1');
 
-    List<LatLng> latLng = <LatLng>[riderLocation, pickLocation, dropLocation];
+    List<LatLng> latLng = <LatLng>[riderLocation!, pickLocation, dropLocation];
     for (int i = 0; i < latLng.length; i++) {
       print('load marker $i');
       final Uint8List markerIcon =
@@ -170,6 +233,7 @@ class _MapDirectionState extends State<MapDirection> {
   //==============================================  Polypoints ==================================================\\
 
   void getPolyPoints() async {
+    List<LatLng> polylineCoordinates = [];
     // if (kIsWeb) {
     //   String routeStr =
     //       'https://maps.googleapis.com/maps/api/directions/json?origin=${from.latitude},${from.longitude}&destination=${to.latitude},${to.longitude}&mode=driving&avoidHighways=false&avoidFerries=true&avoidTolls=false&alternatives=false&key=$googleMapsApiKey';
@@ -198,7 +262,7 @@ class _MapDirectionState extends State<MapDirection> {
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       googleMapsApiKey,
-      PointLatLng(riderLocation.latitude, riderLocation.longitude),
+      PointLatLng(riderLocation!.latitude, riderLocation!.longitude),
       PointLatLng(pickLocation.latitude, pickLocation.longitude),
     );
 
@@ -206,7 +270,7 @@ class _MapDirectionState extends State<MapDirection> {
 
     if (result.points.isNotEmpty) {
       for (var point in result.points) {
-        _polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       }
       setState(() {});
     }
@@ -221,8 +285,10 @@ class _MapDirectionState extends State<MapDirection> {
 
     if (result.points.isNotEmpty) {
       for (var point in result.points) {
-        _polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       }
+
+      _polylineCoordinates = polylineCoordinates;
       setState(() {});
     }
   }
@@ -242,39 +308,51 @@ class _MapDirectionState extends State<MapDirection> {
         maintainBottomViewPadding: true,
         child: Column(
           children: [
-            Expanded(
-              child: GoogleMap(
-                mapType: MapType.normal,
-                // onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: riderLocation,
-                  zoom: 14,
-                ),
-                markers: Set.of(_markers),
-                polylines: {
-                  Polyline(
-                    polylineId: const PolylineId("Delivery route"),
-                    points: _polylineCoordinates,
-                    color: kAccentColor,
-                    consumeTapEvents: true,
-                    geodesic: true,
-                    width: 5,
-                    visible: true,
+            riderLocation == null
+                ? Column(
+                    children: [
+                      kSizedBox,
+                      Center(
+                        child: CircularProgressIndicator(
+                          color: kAccentColor,
+                        ),
+                      ),
+                      kSizedBox
+                    ],
+                  )
+                : Expanded(
+                    child: GoogleMap(
+                      mapType: MapType.normal,
+                      // onMapCreated: _onMapCreated,
+                      initialCameraPosition: CameraPosition(
+                        target: riderLocation!,
+                        zoom: 14,
+                      ),
+                      markers: Set.of(_markers),
+                      polylines: {
+                        Polyline(
+                          polylineId: const PolylineId("Delivery route"),
+                          points: _polylineCoordinates,
+                          color: kAccentColor,
+                          consumeTapEvents: true,
+                          geodesic: true,
+                          width: 5,
+                          visible: true,
+                        ),
+                      },
+                      compassEnabled: true,
+                      mapToolbarEnabled: true,
+                      minMaxZoomPreference: MinMaxZoomPreference.unbounded,
+                      tiltGesturesEnabled: true,
+                      zoomGesturesEnabled: false,
+                      fortyFiveDegreeImageryEnabled: true,
+                      myLocationButtonEnabled: true,
+                      myLocationEnabled: true,
+                      cameraTargetBounds: CameraTargetBounds.unbounded,
+                      rotateGesturesEnabled: true,
+                      scrollGesturesEnabled: true,
+                    ),
                   ),
-                },
-                compassEnabled: true,
-                mapToolbarEnabled: true,
-                minMaxZoomPreference: MinMaxZoomPreference.unbounded,
-                tiltGesturesEnabled: true,
-                zoomGesturesEnabled: false,
-                fortyFiveDegreeImageryEnabled: true,
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-                cameraTargetBounds: CameraTargetBounds.unbounded,
-                rotateGesturesEnabled: true,
-                scrollGesturesEnabled: true,
-              ),
-            ),
             Container(
               padding: const EdgeInsets.all(kDefaultPadding / 2),
               child: ListTile(

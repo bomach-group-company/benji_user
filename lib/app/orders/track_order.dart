@@ -2,6 +2,7 @@ import 'package:benji/app/map/map_direction.dart';
 import 'package:benji/app/rider/assign_rider.dart';
 import 'package:benji/src/components/button/my_elevatedbutton.dart';
 import 'package:benji/src/components/image/my_image.dart';
+import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/controller/order_status_change.dart';
 import 'package:benji/src/repo/models/order/order.dart';
 import 'package:flutter/material.dart';
@@ -58,21 +59,26 @@ class _TrackOrderState extends State<TrackOrder> {
       );
 
   void _toTrackOrder(Order order) {
-    // const MapDirection(
-    //       pickLat: 6.500837486485422,
-    //       pickLng: 7.4982988852208825,
-    //       dropLat: 6.498882047124342,
-    //       dropLng: 7.49562185955729),
-    print(order.business.latitude);
-    print(order.business.longitude);
-    print(order.deliveryAddress.latitude);
-    print(order.deliveryAddress.longitude);
+    double pickLat;
+    double pickLng;
+    double dropLat;
+    double dropLng;
+    try {
+      pickLat = double.parse(order.business.latitude);
+      pickLng = double.parse(order.business.longitude);
+      dropLat = double.parse(order.deliveryAddress.latitude);
+      dropLng = double.parse(order.deliveryAddress.longitude);
+    } catch (e) {
+      ApiProcessorController.errorSnack('Can\'t track this order');
+      return;
+    }
     Get.to(
       () => MapDirection(
-        pickLat: double.parse(order.business.latitude),
-        pickLng: double.parse(order.business.longitude),
-        dropLat: double.parse(order.deliveryAddress.latitude),
-        dropLng: double.parse(order.deliveryAddress.longitude),
+        id: order.id,
+        pickLat: pickLat,
+        pickLng: pickLng,
+        dropLat: dropLat,
+        dropLng: dropLng,
       ),
       routeName: 'MapDirection',
       duration: const Duration(milliseconds: 300),

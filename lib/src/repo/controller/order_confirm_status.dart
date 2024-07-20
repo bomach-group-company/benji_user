@@ -14,6 +14,8 @@ class OrderConfirmStatusController extends GetxController {
     return Get.find<OrderConfirmStatusController>();
   }
 
+  Timer? timer;
+
   // var confirmed = false.obs;
   var confirmed = Rx<bool?>(null);
   late WebSocketChannel channelTask;
@@ -34,7 +36,7 @@ class OrderConfirmStatusController extends GetxController {
       'order_id': order.id,
     }));
 
-    Timer.periodic(const Duration(seconds: 10), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 10), (val) {
       channelTask.sink.add(jsonEncode({
         'order_id': order.id,
       }));
@@ -50,6 +52,7 @@ class OrderConfirmStatusController extends GetxController {
 
   closeTaskSocket() {
     channelTask.sink.close();
+    timer?.cancel();
     print('ItemController closed');
   }
 }
