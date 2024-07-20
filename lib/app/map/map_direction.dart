@@ -5,12 +5,17 @@ import 'dart:convert';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
 import 'package:benji/src/components/appbar/my_appbar.dart';
+import 'package:benji/src/components/image/my_image.dart';
 import 'package:benji/src/providers/constants.dart';
 import 'package:benji/src/providers/keys.dart';
 import 'package:benji/src/repo/controller/error_controller.dart';
 import 'package:benji/src/repo/models/read_rider_coord.dart';
 import 'package:benji/src/repo/services/api_url.dart';
+import 'package:benji/src/repo/utils/distance_from_coord.dart';
+import 'package:benji/src/repo/utils/network_utils.dart';
+import 'package:benji/src/repo/utils/points.dart';
 import 'package:benji/theme/colors.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -43,6 +48,8 @@ class _MapDirectionState extends State<MapDirection> {
 
   var isLoad = false.obs;
   late Timer _timer;
+  ReadRiderCoord? readRider;
+  String distance = "Loading...";
 
   getCoordinateSocket(String id) async {
     await _loadMapData();
@@ -61,21 +68,18 @@ class _MapDirectionState extends State<MapDirection> {
 
     channelTask.stream.listen((message) {
       print(message);
-      // riderLocation = const LatLng(6.494750367991621, 7.495600697299079);
-      // _loadCustomMarkers().then((value) {
-      //   getPolyPoints();
-      // });
-      // return;
 
-      ReadRiderCoord readRider = ReadRiderCoord.fromJson(jsonDecode(message));
-      if (readRider.error) {
+      readRider = ReadRiderCoord.fromJson(jsonDecode(message));
+      if (readRider!.error) {
         Get.close(1);
-        ApiProcessorController.errorSnack(readRider.detail);
+        ApiProcessorController.errorSnack(readRider!.detail);
         return;
       }
       try {
-        double lat = double.parse(readRider.latitude);
-        double lng = double.parse(readRider.longitude);
+        double lat = double.parse(readRider!.latitude);
+        double lng = double.parse(readRider!.longitude);
+        distance =
+            "${DistanceCalculator.calculateDistance(lat, lng, widget.dropLat, widget.dropLng).toStringAsFixed(1)}km away";
         setState(() {
           riderLocation = LatLng(lat, lng);
         });
@@ -104,15 +108,6 @@ class _MapDirectionState extends State<MapDirection> {
     pickLocation = LatLng(widget.pickLat, widget.pickLng);
     dropLocation = LatLng(widget.dropLat, widget.dropLng);
     // riderLocation = const LatLng(6.494750367991621, 7.495600697299079);
-
-    // Timer(const Duration(seconds: 10), () {
-    //   setState(() {
-    //     riderLocation = const LatLng(6.501836136133997, 7.488233062201004);
-    //   });
-    //   _loadCustomMarkers().then((value) {
-    //     getPolyPoints();
-    //   });
-    // });
   }
 
   @override
@@ -143,10 +138,6 @@ class _MapDirectionState extends State<MapDirection> {
     "assets/icons/store.png",
     "assets/icons/person_location.png",
   ];
-
-  //============================================================= BOOL VALUES ======================================================================\\
-
-  //========================================================== GlobalKeys ============================================================\\
 
   //=================================== CONTROLLERS ======================================================\\
   final Completer<GoogleMapController> _googleMapController = Completer();
@@ -234,30 +225,53 @@ class _MapDirectionState extends State<MapDirection> {
 
   void getPolyPoints() async {
     List<LatLng> polylineCoordinates = [];
-    // if (kIsWeb) {
-    //   String routeStr =
-    //       'https://maps.googleapis.com/maps/api/directions/json?origin=${from.latitude},${from.longitude}&destination=${to.latitude},${to.longitude}&mode=driving&avoidHighways=false&avoidFerries=true&avoidTolls=false&alternatives=false&key=$googleMapsApiKey';
-    //   String? response = await NetworkUtility.fetchUrl(Uri.parse(routeStr));
+    if (kIsWeb) {
+      String routeStr =
+          'https://maps.googleapis.com/maps/api/directions/json?origin=${riderLocation!.latitude},${riderLocation!.longitude}&destination=${pickLocation.latitude},${pickLocation.longitude}&mode=driving&avoidHighways=false&avoidFerries=true&avoidTolls=false&alternatives=false&key=$googleMapsApiKey';
+      String? response = await NetworkUtility.fetchUrl(Uri.parse(routeStr));
 
-    //   if (response == null) {
-    //     return;
-    //   }
-    //   Map data = jsonDecode(response);
-    //   if (data['routes'].isEmpty) {
-    //     return;
-    //   }
+      if (response == null) {
+        return;
+      }
+      Map data = jsonDecode(response);
+      if (data['routes'].isEmpty) {
+        return;
+      }
 
-    //   var overviewPolyline = MyNetworkUtil().decodeEncodedPolyline(
-    //       data['routes'][0]['overview_polyline']['points']);
-    //   if (overviewPolyline.isNotEmpty) {
-    //     for (var point in overviewPolyline) {
-    //       _polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-    //     }
-    //     setState(() {});
-    //   }
-    //   return;
-    // }
-    print('getRouteBetweenCoordinates 1');
+      var overviewPolyline = MyNetworkUtil().decodeEncodedPolyline(
+          data['routes'][0]['overview_polyline']['points']);
+      if (overviewPolyline.isNotEmpty) {
+        for (var point in overviewPolyline) {
+          polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+        }
+      }
+
+      // second
+
+      routeStr =
+          'https://maps.googleapis.com/maps/api/directions/json?origin=${pickLocation.latitude},${pickLocation.longitude}&destination=${dropLocation.latitude},${dropLocation.longitude}&mode=driving&avoidHighways=false&avoidFerries=true&avoidTolls=false&alternatives=false&key=$googleMapsApiKey';
+      response = await NetworkUtility.fetchUrl(Uri.parse(routeStr));
+
+      if (response == null) {
+        return;
+      }
+      data = jsonDecode(response);
+      if (data['routes'].isEmpty) {
+        return;
+      }
+
+      overviewPolyline = MyNetworkUtil().decodeEncodedPolyline(
+          data['routes'][0]['overview_polyline']['points']);
+      if (overviewPolyline.isNotEmpty) {
+        for (var point in overviewPolyline) {
+          polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+        }
+      }
+      _polylineCoordinates = polylineCoordinates;
+      setState(() {});
+
+      return;
+    }
 
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
@@ -266,22 +280,18 @@ class _MapDirectionState extends State<MapDirection> {
       PointLatLng(pickLocation.latitude, pickLocation.longitude),
     );
 
-    print('getRouteBetweenCoordinates 2');
-
     if (result.points.isNotEmpty) {
       for (var point in result.points) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       }
       setState(() {});
     }
-    print('getRouteBetweenCoordinates 3');
 
     result = await polylinePoints.getRouteBetweenCoordinates(
       googleMapsApiKey,
       PointLatLng(pickLocation.latitude, pickLocation.longitude),
       PointLatLng(dropLocation.latitude, dropLocation.longitude),
     );
-    print('getRouteBetweenCoordinates 4');
 
     if (result.points.isNotEmpty) {
       for (var point in result.points) {
@@ -374,6 +384,11 @@ class _MapDirectionState extends State<MapDirection> {
                       )
                     ],
                   ),
+                  child: MyImage(
+                    url: readRider?.image,
+                    radiusBottom: 12,
+                    radiusTop: 12,
+                  ),
                 ),
                 trailing: Container(
                   width: 40,
@@ -391,9 +406,9 @@ class _MapDirectionState extends State<MapDirection> {
                 ),
                 title: Container(
                   margin: const EdgeInsets.only(bottom: 10),
-                  child: const Text(
-                    ' Jay wills',
-                    style: TextStyle(
+                  child: Text(
+                    ' ${readRider?.firstName} ${readRider?.lastName}',
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 17,
                       fontFamily: 'Poppins',
@@ -402,16 +417,16 @@ class _MapDirectionState extends State<MapDirection> {
                     ),
                   ),
                 ),
-                subtitle: const Row(
+                subtitle: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.location_on_outlined,
                     ),
                     kHalfWidthSizedBox,
                     Text(
-                      '3.2km away',
-                      style: TextStyle(
+                      distance,
+                      style: const TextStyle(
                         color: Color(0xFF575757),
                         fontSize: 14,
                         fontFamily: 'Poppins',
