@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../theme/colors.dart';
 
-const String appVersion = "5.0.0";
+const String appVersion = "6.0.0";
 
 const kDefaultPadding = 20.0;
 
