@@ -105,9 +105,10 @@ class _PackagesDraftState extends State<PackagesDraft>
         dropOff: deliveryItem.dropOffAddress,
         itemName: deliveryItem.itemName,
         itemQuantity: deliveryItem.itemQuantity.toString(),
-        itemWeight: deliveryItem.itemWeight.toString(),
         itemValue: deliveryItem.itemValue.toString(),
-        itemCategory: deliveryItem.itemCategory.id,
+        itemWeight:
+            "${deliveryItem.itemWeight.start} KG - ${deliveryItem.itemWeight.end} KG",
+        itemCategory: deliveryItem.itemCategory.name,
       ),
       routeName: 'check-for-available-rider',
       fullscreenDialog: true,
