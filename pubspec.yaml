@@ -55,7 +55,7 @@ dependencies:
   webview_flutter_platform_interface:
   webview_flutter_wkwebview:
   web_socket_channel:
-
+  face_camera: ^0.1.2
 
 dev_dependencies:
   flutter_test:

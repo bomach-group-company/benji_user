@@ -20,6 +20,7 @@ import 'package:benji/src/repo/controller/sub_category_controller.dart';
 import 'package:benji/src/repo/controller/url_launch_controller.dart';
 import 'package:benji/src/repo/controller/user_controller.dart';
 import 'package:benji/src/repo/controller/vendor_controller.dart';
+import 'package:face_camera/face_camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -42,6 +43,8 @@ void main() async {
     const SystemUiOverlayStyle(statusBarColor: kTransparentColor),
   );
   WidgetsFlutterBinding.ensureInitialized();
+
+  await FaceCamera.initialize();
 
   prefs = await SharedPreferences.getInstance();
 
