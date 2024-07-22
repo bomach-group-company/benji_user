@@ -660,7 +660,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                                 .center,
                                                         children: [
                                                           const Text(
-                                                            'Seems the vendor is unavailable: ',
+                                                            'Vendor is yet to accept your order: ',
                                                             textAlign: TextAlign
                                                                 .center,
                                                             style: TextStyle(
@@ -737,13 +737,32 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                           ),
                                                         ],
                                                       )
-                                                : Text(
-                                                    'Waiting for vendor confirmation: ${_secondsRemaining}sec',
-                                                    textAlign: TextAlign.center,
-                                                    style: const TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w400),
+                                                : Wrap(
+                                                    alignment:
+                                                        WrapAlignment.center,
+                                                    children: [
+                                                      const Text(
+                                                        'Waiting for the vendor to confirm your order before you make payment: ',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                      ),
+                                                      Text(
+                                                        '${_secondsRemaining}sec',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            color: kAccentColor,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                      ),
+                                                    ],
                                                   ),
                                     kSizedBox,
                                     MyElevatedButton(

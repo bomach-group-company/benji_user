@@ -570,6 +570,8 @@ class _CheckoutDraftScreenState extends State<CheckoutDraftScreen> {
                         )
                       : GetBuilder<OrderConfirmStatusController>(
                           builder: (controller) {
+                          print(controller.confirmed.value);
+                          print(controller.reason.value);
                           return Column(
                             children: [
                               controller.confirmed.value == false
@@ -663,12 +665,27 @@ class _CheckoutDraftScreenState extends State<CheckoutDraftScreen> {
                                                     ),
                                                   ],
                                                 )
-                                          : Text(
-                                              'Waiting for vendor confirmation: ${_secondsRemaining}sec',
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400),
+                                          : Wrap(
+                                              alignment: WrapAlignment.center,
+                                              children: [
+                                                const Text(
+                                                  'Waiting for the vendor to confirm your order before you make payment: ',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                                Text(
+                                                  '${_secondsRemaining}sec',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: kAccentColor,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                              ],
                                             ),
                               kSizedBox,
                               MyElevatedButton(

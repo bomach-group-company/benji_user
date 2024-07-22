@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_import
-
 import 'dart:convert';
 
 import 'package:benji/src/components/appbar/my_appbar.dart';
@@ -8,11 +6,7 @@ import 'package:benji/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-// #docregion platform_imports
-// Import for Android features.
 import 'package:webview_flutter_android/webview_flutter_android.dart';
-import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
-// Import for iOS features.
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 class MonnifyWidgetMobile extends StatefulWidget {
@@ -60,52 +54,49 @@ class MonnifyWidgetMobileState extends State<MonnifyWidgetMobile> {
   late String currency;
   late String amount;
 
+  callit() {
+    try {
+      _controller.runJavaScript('''
+MonnifySDK.initialize({
+              amount: $amount,
+              currency: $currency,
+              reference: new String((new Date()).getTime()),
+              customerFullName: $fullname,
+              customerEmail: $email,
+              apiKey: $apiKey,
+              contractCode: $contractCode,
+              paymentDescription: "Order Payment",
+              metadata: $metaData,
+              incomeSplitConfig: [],
+              onLoadStart: () => {
+                  console.log("loading has started");
+              },
+              onLoadComplete: () => {
+                  console.log("SDK is UP");
+              },
+              onComplete: function(response) {
+                  //Implement what happens when the transaction is completed.
+                  console.log(response);
+                  paymentsuccess.postMessage(JSON.stringify(response));
+              },
+              onClose: function(data) {
+                  //Implement what should happen when the modal is closed here
+                  console.log(data);
+                  paymentcancel.postMessage("payment cancel");
+              }
+          });
+''');
+    } catch (e) {
+      ApiProcessorController.errorSnack("Yet to load please try again");
+      Get.close(1);
+      print(e);
+      print('error in loading payment modal');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(
-      const Duration(seconds: 2),
-      () {
-        try {
-          _controller.runJavaScript('''
-MonnifySDK.initialize({
-                amount: $amount,
-                currency: $currency,
-                reference: new String((new Date()).getTime()),
-                customerFullName: $fullname,
-                customerEmail: $email,
-                apiKey: $apiKey,
-                contractCode: $contractCode,
-                paymentDescription: "Order Payment",
-                metadata: $metaData,
-                incomeSplitConfig: [],
-                onLoadStart: () => {
-                    console.log("loading has started");
-                },
-                onLoadComplete: () => {
-                    console.log("SDK is UP");
-                },
-                onComplete: function(response) {
-                    //Implement what happens when the transaction is completed.
-                    console.log(response);
-                    paymentsuccess.postMessage(JSON.stringify(response));
-                },
-                onClose: function(data) {
-                    //Implement what should happen when the modal is closed here
-                    console.log(data);
-                    paymentcancel.postMessage("payment cancel");
-                }
-            });
-''');
-        } catch (e) {
-          ApiProcessorController.errorSnack("Yet to load please try again");
-          Get.close(1);
-          print(e);
-          print('error in loading payment modal');
-        }
-      },
-    );
 
     metaData = widget.metaData == null ? 'null' : jsonEncode(widget.metaData);
     apiKey = '"${widget.apiKey}"';
@@ -129,7 +120,6 @@ MonnifySDK.initialize({
 </html>
 """;
 
-    // #docregion platform_features
     late final PlatformWebViewControllerCreationParams params;
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
       params = WebKitWebViewControllerCreationParams(
@@ -142,7 +132,6 @@ MonnifySDK.initialize({
 
     final WebViewController controller =
         WebViewController.fromPlatformCreationParams(params);
-    // #enddocregion platform_features
 
     controller
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -163,15 +152,20 @@ MonnifySDK.initialize({
           }
         },
       )
-      ..loadHtmlString(html);
+      ..loadHtmlString(html)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageFinished: (String url) {
+            callit();
+          },
+        ),
+      );
 
-    // #docregion platform_features
     if (controller.platform is AndroidWebViewController) {
       AndroidWebViewController.enableDebugging(true);
       (controller.platform as AndroidWebViewController)
           .setMediaPlaybackRequiresUserGesture(false);
     }
-    // #enddocregion platform_features
 
     _controller = controller;
   }
@@ -179,15 +173,15 @@ MonnifySDK.initialize({
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MyAppBar(
-          elevation: 0.0,
-          backgroundColor: kPrimaryColor,
-          title: "Pay with Monnify",
-          actions: const [],
-        ),
-        body: Center(
-          // Look here!
-          child: WebViewWidget(controller: _controller),
-        ));
+      appBar: MyAppBar(
+        elevation: 0.0,
+        backgroundColor: kPrimaryColor,
+        title: "Pay with Monnify",
+        actions: const [],
+      ),
+      body: Center(
+        child: WebViewWidget(controller: _controller),
+      ),
+    );
   }
 }
