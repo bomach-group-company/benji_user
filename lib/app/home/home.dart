@@ -71,6 +71,12 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    NotificationController.showNotification(
+      title: "Welcome",
+      body: "Nice to have you",
+      largeIcon: "asset://assets/icons/success.png",
+      customSound: "asset://assets/audio/benji.wav",
+    );
     checkAuth(context);
     checkIfShoppingLocation(context);
     FcmMessagingController.instance.handleFCM();

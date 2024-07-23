@@ -79,7 +79,9 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
+    print('HOLAAA');
     await PushNotificationController.initializeNotification();
+    print('HOLAAA after oo');
   }
 
   runApp(const MyApp());

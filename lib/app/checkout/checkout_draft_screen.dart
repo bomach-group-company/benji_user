@@ -156,7 +156,7 @@ class _CheckoutDraftScreenState extends State<CheckoutDraftScreen> {
                     title: "Payment Success",
                     body: "Your payment of NGN$amount was successful",
                     largeIcon: "asset://assets/icons/success.png",
-                    customSound: "asset://assets/audio/success.wav",
+                    customSound: "asset://assets/audio/benji.wav",
                   );
                   CartController.instance.cartTotalNumberForAll();
                   Get.off(
@@ -195,7 +195,7 @@ class _CheckoutDraftScreenState extends State<CheckoutDraftScreen> {
                     title: "Payment Success",
                     body: "Your payment of NGN$amount was successful",
                     largeIcon: "asset://assets/icons/success.png",
-                    customSound: "asset://assets/audio/success.wav",
+                    customSound: "asset://assets/audio/benji.wav",
                   );
                   Get.off(
                     () => PaymentSuccessful(order: widget.order),
