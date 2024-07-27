@@ -71,12 +71,12 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    NotificationController.showNotification(
-      title: "Welcome",
-      body: "Nice to have you",
-      largeIcon: "asset://assets/icons/success.png",
-      customSound: "asset://assets/audio/benji.wav",
-    );
+    // NotificationController.showNotification(
+    //   title: "Welcome",
+    //   body: "Nice to have you",
+    //   largeIcon: "asset://assets/icons/success.png",
+    //   customSound: "asset://assets/audio/benji.wav",
+    // );
     checkAuth(context);
     checkIfShoppingLocation(context);
     FcmMessagingController.instance.handleFCM();
@@ -520,7 +520,7 @@ class _HomeState extends State<Home> {
                 decoration: BoxDecoration(
                     color: Colors.black12,
                     borderRadius: BorderRadius.circular(20)),
-                width: media.width - 270,
+                width: media.width - (deviceType(media.width) > 1 ? 300 : 270),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

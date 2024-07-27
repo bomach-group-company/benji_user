@@ -323,23 +323,25 @@ class _TrackOrderState extends State<TrackOrder> {
                             ),
                             Row(
                               children: [
-                                Text(
-                                  dispatched(controller.order.value) ||
-                                          delivered(controller.order.value)
-                                      ? delivered(controller.order.value)
-                                          ? 'Your order has been delivered'
-                                          : 'Your order is on it\'s way'
-                                      : controller.taskItemStatusUpdate.value
-                                              .assigned
-                                          ? 'Order received by the vendor'
-                                          : controller.taskItemStatusUpdate
-                                              .value.detail,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: const TextStyle(
-                                    color: kTextBlackColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
+                                Expanded(
+                                  child: Text(
+                                    dispatched(controller.order.value) ||
+                                            delivered(controller.order.value)
+                                        ? delivered(controller.order.value)
+                                            ? 'Your order has been delivered'
+                                            : 'Your order is on it\'s way'
+                                        : controller.taskItemStatusUpdate.value
+                                                .assigned
+                                            ? 'Order received by the vendor'
+                                            : controller.taskItemStatusUpdate
+                                                .value.detail,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
                                 ),
                                 kWidthSizedBox,

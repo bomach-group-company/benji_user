@@ -36,7 +36,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs access to the camera so you can upload an image</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open to provide better results based on your location.</string>
+	<string>This app needs access to location to knowing your delivery location and offering realtime order tracking.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs access to the photos to upload an image</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -69,5 +69,7 @@
 	<string>For user verification</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>For user verification</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>
