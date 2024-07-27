@@ -79,22 +79,22 @@ class _HomeState extends State<Home> {
     // );
     checkAuth(context);
     checkIfShoppingLocation(context);
-    FcmMessagingController.instance.handleFCM();
     if (!fnd.kIsWeb) {
+      FcmMessagingController.instance.handleFCM();
       NotificationController.initializeNotification();
-    }
 
-    Timer(
-      const Duration(seconds: 2),
-      () {
-        getAppLatestVersion().then((value) {
-          if (value.version == "0" || value.version == appVersion) {
-            return;
-          }
-          showAppUpdateDialog(context, value);
-        });
-      },
-    );
+      Timer(
+        const Duration(seconds: 2),
+        () {
+          getAppLatestVersion().then((value) {
+            if (value.version == "0" || value.version == appVersion) {
+              return;
+            }
+            showAppUpdateDialog(context, value);
+          });
+        },
+      );
+    }
 
     scrollController.addListener(() =>
         ProductController.instance.scrollListenerProduct(scrollController));
