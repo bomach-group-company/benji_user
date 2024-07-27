@@ -37,6 +37,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   title: "Title of the notification",
                   body: "Body of the notification",
                   largeIcon: "asset://assets/icons/app_icon.png",
+                  customSound: "asset://assets/audio/benji.wav",
                 );
               },
             ),
@@ -49,6 +50,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   body: "Body of the notification",
                   summary: "Small summary",
                   notificationLayout: NotificationLayout.Inbox,
+                  customSound: "asset://assets/audio/benji.wav",
                 );
               },
             ),
@@ -61,6 +63,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   body: "Body of the notification",
                   summary: "Small summary",
                   notificationLayout: NotificationLayout.ProgressBar,
+                  customSound: "asset://assets/audio/benji.wav",
                 );
               },
             ),
@@ -73,6 +76,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   body: "Body of the notification",
                   summary: "Small summary",
                   notificationLayout: NotificationLayout.Messaging,
+                  customSound: "asset://assets/audio/benji.wav",
                 );
               },
             ),
@@ -87,6 +91,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   notificationLayout: NotificationLayout.BigPicture,
                   bigPicture:
                       "https://files.tecnoblog.net/wp-content/uploads/2019/09/emoji.jpg",
+                  customSound: "asset://assets/audio/benji.wav",
                 );
               },
             ),
@@ -100,6 +105,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   payload: {
                     "navigate": "true",
                   },
+                  customSound: "asset://assets/audio/benji.wav",
                   actionButtons: [
                     NotificationActionButton(
                       key: "check",
@@ -120,6 +126,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   body: "Body of the notification",
                   scheduled: true,
                   interval: 5,
+                  customSound: "asset://assets/audio/benji.wav",
                 );
               },
             ),
@@ -141,6 +148,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       requireInputText: true,
                     ),
                   ],
+                  customSound: "asset://assets/audio/benji.wav",
                 );
               },
             ),

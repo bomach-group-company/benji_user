@@ -119,29 +119,6 @@ class _TrackOrderState extends State<TrackOrder> {
                 kWidthSizedBox,
               ],
             ),
-            bottomNavigationBar: Container(
-              padding: const EdgeInsets.all(kDefaultPadding),
-              child: MyElevatedButton(
-                disable: !controller.hasFetched.value
-                    ? true
-                    : !controller.taskItemStatusUpdate.value.assigned
-                        ? false
-                        : !controller.taskItemStatusUpdate.value.action,
-                title: controller.hasFetched.value
-                    ? controller.taskItemStatusUpdate.value.buttonText
-                    : "Loading...",
-                onPressed: controller.hasFetched.value
-                    ? () {
-                        if (!controller.taskItemStatusUpdate.value.assigned) {
-                          _toAssignRider(controller.order.value);
-                          return;
-                        }
-                        controller.updateTaskItemStatus();
-                      }
-                    : () {},
-                isLoading: controller.isLoadUpdateStatus.value,
-              ),
-            ),
             body: RefreshIndicator(
               onRefresh: _handleRefresh,
               color: kAccentColor,
@@ -346,23 +323,25 @@ class _TrackOrderState extends State<TrackOrder> {
                             ),
                             Row(
                               children: [
-                                Text(
-                                  dispatched(controller.order.value) ||
-                                          delivered(controller.order.value)
-                                      ? delivered(controller.order.value)
-                                          ? 'Your order has been delivered'
-                                          : 'Your order is on it\'s way'
-                                      : controller.taskItemStatusUpdate.value
-                                              .assigned
-                                          ? 'Order received by the vendor'
-                                          : controller.taskItemStatusUpdate
-                                              .value.detail,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: const TextStyle(
-                                    color: kTextBlackColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
+                                Expanded(
+                                  child: Text(
+                                    dispatched(controller.order.value) ||
+                                            delivered(controller.order.value)
+                                        ? delivered(controller.order.value)
+                                            ? 'Your order has been delivered'
+                                            : 'Your order is on it\'s way'
+                                        : controller.taskItemStatusUpdate.value
+                                                .assigned
+                                            ? 'Order received by the vendor'
+                                            : controller.taskItemStatusUpdate
+                                                .value.detail,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
                                 ),
                                 kWidthSizedBox,
@@ -476,91 +455,43 @@ class _TrackOrderState extends State<TrackOrder> {
                       ),
                     ),
                     kSizedBox,
-                    // Container(
-                    //   decoration: ShapeDecoration(
-                    //     color: kPrimaryColor,
-                    //     shape: RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.circular(12),
-                    //     ),
-                    //     shadows: const [
-                    //       BoxShadow(
-                    //         color: Color(0x0F000000),
-                    //         blurRadius: 24,
-                    //         offset: Offset(0, 4),
-                    //         spreadRadius: 0,
-                    //       ),
-                    //     ],
-                    //   ),
-                    //   child: ListTile(
-                    //     leading: Container(
-                    //       width: 47,
-                    //       height: 47,
-                    //       margin: const EdgeInsets.only(right: 10),
-                    //       decoration: ShapeDecoration(
-                    //         color: const Color(0xFF979797),
-                    //         shape: RoundedRectangleBorder(
-                    //           borderRadius: BorderRadius.circular(12),
-                    //         ),
-                    //         shadows: const [
-                    //           BoxShadow(
-                    //             color: Color(0x16000000),
-                    //             blurRadius: 8,
-                    //             offset: Offset(0, 4),
-                    //             spreadRadius: 0,
-                    //           )
-                    //         ],
-                    //       ),
-                    //     ),
-                    //     trailing: Container(
-                    //       width: 40,
-                    //       height: 40,
-                    //       decoration: ShapeDecoration(
-                    //         color: const Color(0xFFF00300),
-                    //         shape: RoundedRectangleBorder(
-                    //           borderRadius: BorderRadius.circular(16),
-                    //         ),
-                    //       ),
-                    //       child: const Icon(
-                    //         Icons.phone,
-                    //         color: kTextWhiteColor,
-                    //       ),
-                    //     ),
-                    //     title: Container(
-                    //       margin: const EdgeInsets.only(bottom: 10),
-                    //       child: const Text(
-                    //         'Jay wills',
-                    //         style: TextStyle(
-                    //           color: Colors.black,
-                    //           fontSize: 17,
-                    //           fontFamily: 'Poppins',
-                    //           fontWeight: FontWeight.w600,
-                    //           height: 0,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     subtitle: const Row(
-                    //       children: [
-                    //         Icon(
-                    //           Icons.location_on_outlined,
-                    //         ),
-                    //         kHalfWidthSizedBox,
-                    //         Text(
-                    //           '3.2km away',
-                    //           style: TextStyle(
-                    //             color: Color(0xFF575757),
-                    //             fontSize: 14,
-                    //             fontFamily: 'Poppins',
-                    //             fontWeight: FontWeight.w400,
-                    //             height: 0,
-                    //           ),
-                    //         )
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-                    // kSizedBox,
-                    const SizedBox(
-                      height: kDefaultPadding * 2,
+                    kSizedBox,
+                    Column(
+                      children: [
+                        Text(
+                          !controller.hasFetched.value
+                              ? ""
+                              : !controller.taskItemStatusUpdate.value.assigned
+                                  ? controller.taskItemStatusUpdate.value.detail
+                                  : '',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w400),
+                        ),
+                        kSizedBox,
+                        MyElevatedButton(
+                          disable: !controller.hasFetched.value
+                              ? true
+                              : !controller.taskItemStatusUpdate.value.assigned
+                                  ? false
+                                  : !controller
+                                      .taskItemStatusUpdate.value.action,
+                          title: controller.hasFetched.value
+                              ? controller.taskItemStatusUpdate.value.buttonText
+                              : "Loading...",
+                          onPressed: controller.hasFetched.value
+                              ? () {
+                                  if (!controller
+                                      .taskItemStatusUpdate.value.assigned) {
+                                    _toAssignRider(controller.order.value);
+                                    return;
+                                  }
+                                  controller.updateTaskItemStatus();
+                                }
+                              : () {},
+                          isLoading: controller.isLoadUpdateStatus.value,
+                        ),
+                      ],
                     ),
                   ],
                 ),

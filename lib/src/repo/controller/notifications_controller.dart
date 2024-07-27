@@ -37,7 +37,7 @@ class NotificationController extends GetxController {
           onlyAlertOnce: true,
           playSound: true,
           criticalAlerts: true,
-          soundSource: 'resource://raw/res_error',
+          soundSource: 'resource://raw/benji',
         ),
       ],
       channelGroups: [
@@ -150,7 +150,6 @@ class NotificationController extends GetxController {
 
     await AwesomeNotifications().createNotification(
         content: NotificationContent(
-          // customSound:,
           id: createUniqueId(),
           channelKey: "basic_channel",
           title: title,

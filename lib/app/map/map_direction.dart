@@ -14,6 +14,7 @@ import 'package:benji/src/repo/services/api_url.dart';
 import 'package:benji/src/repo/utils/distance_from_coord.dart';
 import 'package:benji/src/repo/utils/network_utils.dart';
 import 'package:benji/src/repo/utils/points.dart';
+import 'package:benji/src/repo/utils/url_lunch.dart';
 import 'package:benji/theme/colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -363,81 +364,88 @@ class _MapDirectionState extends State<MapDirection> {
                       scrollGesturesEnabled: true,
                     ),
                   ),
-            Container(
-              padding: const EdgeInsets.all(kDefaultPadding / 2),
-              child: ListTile(
-                leading: Container(
-                  width: 47,
-                  height: 47,
-                  margin: const EdgeInsets.only(right: 10),
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFF979797),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x16000000),
-                        blurRadius: 8,
-                        offset: Offset(0, 4),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                  child: MyImage(
-                    url: readRider?.image,
-                    radiusBottom: 12,
-                    radiusTop: 12,
-                  ),
-                ),
-                trailing: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFF00300),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: const Icon(
-                    Icons.phone,
-                    color: kTextWhiteColor,
-                  ),
-                ),
-                title: Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    ' ${readRider?.firstName} ${readRider?.lastName}',
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 17,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                      height: 0,
-                    ),
-                  ),
-                ),
-                subtitle: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      Icons.location_on_outlined,
-                    ),
-                    kHalfWidthSizedBox,
-                    Text(
-                      distance,
-                      style: const TextStyle(
-                        color: Color(0xFF575757),
-                        fontSize: 14,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
-                        height: 0,
+            readRider == null
+                ? const SizedBox()
+                : Container(
+                    padding: const EdgeInsets.all(kDefaultPadding / 2),
+                    child: ListTile(
+                      leading: Container(
+                        width: 47,
+                        height: 47,
+                        margin: const EdgeInsets.only(right: 10),
+                        decoration: ShapeDecoration(
+                          color: const Color(0xFF979797),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          shadows: const [
+                            BoxShadow(
+                              color: Color(0x16000000),
+                              blurRadius: 8,
+                              offset: Offset(0, 4),
+                              spreadRadius: 0,
+                            )
+                          ],
+                        ),
+                        child: MyImage(
+                          url: readRider?.image,
+                          radiusBottom: 12,
+                          radiusTop: 12,
+                        ),
                       ),
-                    )
-                  ],
-                ),
-              ),
-            ),
+                      trailing: InkWell(
+                        onTap: () {
+                          launchPhoneDialer(readRider?.phone ?? "");
+                        },
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: ShapeDecoration(
+                            color: const Color(0xFFF00300),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.phone,
+                            color: kTextWhiteColor,
+                          ),
+                        ),
+                      ),
+                      title: Container(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          ' ${readRider?.firstName} ${readRider?.lastName}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 17,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            height: 0,
+                          ),
+                        ),
+                      ),
+                      subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.location_on_outlined,
+                          ),
+                          kHalfWidthSizedBox,
+                          Text(
+                            distance,
+                            style: const TextStyle(
+                              color: Color(0xFF575757),
+                              fontSize: 14,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),
